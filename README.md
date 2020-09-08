@@ -2,7 +2,7 @@
 
 Game engine based on Graphics API in domain platform:
 
-#Platforms
+# Platforms
 
 ## Microsoft
 ### Windows 
