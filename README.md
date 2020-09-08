@@ -1,6 +1,6 @@
 # Concept Engine
 
-Game engine based on Graphics API in domain platform:
+Game engine project, focused on develop cross-platform games and implements many types of AI used in game development.  
 
 # Platforms
 
