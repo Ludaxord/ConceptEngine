@@ -1,0 +1,593 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733B12507A6DD00F6771D /* AppDelegate.swift */; };
+		774733B42507A6DD00F6771D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733B32507A6DD00F6771D /* ViewController.swift */; };
+		774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */; };
+		774733B92507A6DE00F6771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774733B82507A6DE00F6771D /* Assets.xcassets */; };
+		774733BC2507A6DE00F6771D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774733BA2507A6DE00F6771D /* Main.storyboard */; };
+		774733C82507A6DE00F6771D /* ConceptEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733C72507A6DE00F6771D /* ConceptEngineTests.swift */; };
+		774733D32507A6DE00F6771D /* ConceptEngineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733D22507A6DE00F6771D /* ConceptEngineUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		774733C42507A6DE00F6771D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 774733A62507A6DD00F6771D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 774733AD2507A6DD00F6771D;
+			remoteInfo = ConceptEngine;
+		};
+		774733CF2507A6DE00F6771D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 774733A62507A6DD00F6771D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 774733AD2507A6DD00F6771D;
+			remoteInfo = ConceptEngine;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		774733AE2507A6DD00F6771D /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		774733B12507A6DD00F6771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		774733B32507A6DD00F6771D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		774733B62507A6DD00F6771D /* ConceptEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConceptEngine.xcdatamodel; sourceTree = "<group>"; };
+		774733B82507A6DE00F6771D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		774733BB2507A6DE00F6771D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		774733BD2507A6DE00F6771D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		774733BE2507A6DE00F6771D /* ConceptEngine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConceptEngine.entitlements; sourceTree = "<group>"; };
+		774733C32507A6DE00F6771D /* ConceptEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConceptEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		774733C72507A6DE00F6771D /* ConceptEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptEngineTests.swift; sourceTree = "<group>"; };
+		774733C92507A6DE00F6771D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		774733CE2507A6DE00F6771D /* ConceptEngineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConceptEngineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		774733D22507A6DE00F6771D /* ConceptEngineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptEngineUITests.swift; sourceTree = "<group>"; };
+		774733D42507A6DE00F6771D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		774733AB2507A6DD00F6771D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		774733C02507A6DE00F6771D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		774733CB2507A6DE00F6771D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		774733A52507A6DD00F6771D = {
+			isa = PBXGroup;
+			children = (
+				774733B02507A6DD00F6771D /* ConceptEngine */,
+				774733C62507A6DE00F6771D /* ConceptEngineTests */,
+				774733D12507A6DE00F6771D /* ConceptEngineUITests */,
+				774733AF2507A6DD00F6771D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		774733AF2507A6DD00F6771D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				774733AE2507A6DD00F6771D /* ConceptEngine.app */,
+				774733C32507A6DE00F6771D /* ConceptEngineTests.xctest */,
+				774733CE2507A6DE00F6771D /* ConceptEngineUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		774733B02507A6DD00F6771D /* ConceptEngine */ = {
+			isa = PBXGroup;
+			children = (
+				774733B12507A6DD00F6771D /* AppDelegate.swift */,
+				774733B32507A6DD00F6771D /* ViewController.swift */,
+				774733B82507A6DE00F6771D /* Assets.xcassets */,
+				774733BA2507A6DE00F6771D /* Main.storyboard */,
+				774733BD2507A6DE00F6771D /* Info.plist */,
+				774733BE2507A6DE00F6771D /* ConceptEngine.entitlements */,
+				774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */,
+			);
+			path = ConceptEngine;
+			sourceTree = "<group>";
+		};
+		774733C62507A6DE00F6771D /* ConceptEngineTests */ = {
+			isa = PBXGroup;
+			children = (
+				774733C72507A6DE00F6771D /* ConceptEngineTests.swift */,
+				774733C92507A6DE00F6771D /* Info.plist */,
+			);
+			path = ConceptEngineTests;
+			sourceTree = "<group>";
+		};
+		774733D12507A6DE00F6771D /* ConceptEngineUITests */ = {
+			isa = PBXGroup;
+			children = (
+				774733D22507A6DE00F6771D /* ConceptEngineUITests.swift */,
+				774733D42507A6DE00F6771D /* Info.plist */,
+			);
+			path = ConceptEngineUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		774733AD2507A6DD00F6771D /* ConceptEngine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 774733D72507A6DE00F6771D /* Build configuration list for PBXNativeTarget "ConceptEngine" */;
+			buildPhases = (
+				774733AA2507A6DD00F6771D /* Sources */,
+				774733AB2507A6DD00F6771D /* Frameworks */,
+				774733AC2507A6DD00F6771D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ConceptEngine;
+			productName = ConceptEngine;
+			productReference = 774733AE2507A6DD00F6771D /* ConceptEngine.app */;
+			productType = "com.apple.product-type.application";
+		};
+		774733C22507A6DE00F6771D /* ConceptEngineTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 774733DA2507A6DE00F6771D /* Build configuration list for PBXNativeTarget "ConceptEngineTests" */;
+			buildPhases = (
+				774733BF2507A6DE00F6771D /* Sources */,
+				774733C02507A6DE00F6771D /* Frameworks */,
+				774733C12507A6DE00F6771D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				774733C52507A6DE00F6771D /* PBXTargetDependency */,
+			);
+			name = ConceptEngineTests;
+			productName = ConceptEngineTests;
+			productReference = 774733C32507A6DE00F6771D /* ConceptEngineTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		774733CD2507A6DE00F6771D /* ConceptEngineUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 774733DD2507A6DE00F6771D /* Build configuration list for PBXNativeTarget "ConceptEngineUITests" */;
+			buildPhases = (
+				774733CA2507A6DE00F6771D /* Sources */,
+				774733CB2507A6DE00F6771D /* Frameworks */,
+				774733CC2507A6DE00F6771D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				774733D02507A6DE00F6771D /* PBXTargetDependency */,
+			);
+			name = ConceptEngineUITests;
+			productName = ConceptEngineUITests;
+			productReference = 774733CE2507A6DE00F6771D /* ConceptEngineUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		774733A62507A6DD00F6771D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1170;
+				LastUpgradeCheck = 1170;
+				ORGANIZATIONNAME = "Ldx Studio";
+				TargetAttributes = {
+					774733AD2507A6DD00F6771D = {
+						CreatedOnToolsVersion = 11.7;
+					};
+					774733C22507A6DE00F6771D = {
+						CreatedOnToolsVersion = 11.7;
+						TestTargetID = 774733AD2507A6DD00F6771D;
+					};
+					774733CD2507A6DE00F6771D = {
+						CreatedOnToolsVersion = 11.7;
+						TestTargetID = 774733AD2507A6DD00F6771D;
+					};
+				};
+			};
+			buildConfigurationList = 774733A92507A6DD00F6771D /* Build configuration list for PBXProject "ConceptEngine" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 774733A52507A6DD00F6771D;
+			productRefGroup = 774733AF2507A6DD00F6771D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				774733AD2507A6DD00F6771D /* ConceptEngine */,
+				774733C22507A6DE00F6771D /* ConceptEngineTests */,
+				774733CD2507A6DE00F6771D /* ConceptEngineUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		774733AC2507A6DD00F6771D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				774733B92507A6DE00F6771D /* Assets.xcassets in Resources */,
+				774733BC2507A6DE00F6771D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		774733C12507A6DE00F6771D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		774733CC2507A6DE00F6771D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		774733AA2507A6DD00F6771D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				774733B42507A6DD00F6771D /* ViewController.swift in Sources */,
+				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
+				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		774733BF2507A6DE00F6771D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				774733C82507A6DE00F6771D /* ConceptEngineTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		774733CA2507A6DE00F6771D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				774733D32507A6DE00F6771D /* ConceptEngineUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		774733C52507A6DE00F6771D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 774733AD2507A6DD00F6771D /* ConceptEngine */;
+			targetProxy = 774733C42507A6DE00F6771D /* PBXContainerItemProxy */;
+		};
+		774733D02507A6DE00F6771D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 774733AD2507A6DD00F6771D /* ConceptEngine */;
+			targetProxy = 774733CF2507A6DE00F6771D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		774733BA2507A6DE00F6771D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				774733BB2507A6DE00F6771D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		774733D52507A6DE00F6771D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		774733D62507A6DE00F6771D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		774733D82507A6DE00F6771D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ConceptEngine/ConceptEngine.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ConceptEngine/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		774733D92507A6DE00F6771D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ConceptEngine/ConceptEngine.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ConceptEngine/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngine;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		774733DB2507A6DE00F6771D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ConceptEngineTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConceptEngine.app/Contents/MacOS/ConceptEngine";
+			};
+			name = Debug;
+		};
+		774733DC2507A6DE00F6771D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ConceptEngineTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngineTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConceptEngine.app/Contents/MacOS/ConceptEngine";
+			};
+			name = Release;
+		};
+		774733DE2507A6DE00F6771D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ConceptEngineUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngineUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ConceptEngine;
+			};
+			name = Debug;
+		};
+		774733DF2507A6DE00F6771D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ConceptEngineUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngineUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = ConceptEngine;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		774733A92507A6DD00F6771D /* Build configuration list for PBXProject "ConceptEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				774733D52507A6DE00F6771D /* Debug */,
+				774733D62507A6DE00F6771D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		774733D72507A6DE00F6771D /* Build configuration list for PBXNativeTarget "ConceptEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				774733D82507A6DE00F6771D /* Debug */,
+				774733D92507A6DE00F6771D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		774733DA2507A6DE00F6771D /* Build configuration list for PBXNativeTarget "ConceptEngineTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				774733DB2507A6DE00F6771D /* Debug */,
+				774733DC2507A6DE00F6771D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		774733DD2507A6DE00F6771D /* Build configuration list for PBXNativeTarget "ConceptEngineUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				774733DE2507A6DE00F6771D /* Debug */,
+				774733DF2507A6DE00F6771D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				774733B62507A6DD00F6771D /* ConceptEngine.xcdatamodel */,
+			);
+			currentVersion = 774733B62507A6DD00F6771D /* ConceptEngine.xcdatamodel */;
+			path = ConceptEngine.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 774733A62507A6DD00F6771D /* Project object */;
+}
