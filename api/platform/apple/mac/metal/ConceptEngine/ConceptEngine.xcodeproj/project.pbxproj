@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733B12507A6DD00F6771D /* AppDelegate.swift */; };
-		774733B42507A6DD00F6771D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733B32507A6DD00F6771D /* ViewController.swift */; };
 		774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */; };
 		774733B92507A6DE00F6771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774733B82507A6DE00F6771D /* Assets.xcassets */; };
 		774733BC2507A6DE00F6771D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774733BA2507A6DE00F6771D /* Main.storyboard */; };
 		774733C82507A6DE00F6771D /* ConceptEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733C72507A6DE00F6771D /* ConceptEngineTests.swift */; };
 		774733D32507A6DE00F6771D /* ConceptEngineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733D22507A6DE00F6771D /* ConceptEngineUITests.swift */; };
+		774733E32507AD6100F6771D /* ConceptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733E22507AD6100F6771D /* ConceptView.swift */; };
+		774733E62507B3E500F6771D /* BaseShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 774733E52507B3E500F6771D /* BaseShader.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +37,6 @@
 /* Begin PBXFileReference section */
 		774733AE2507A6DD00F6771D /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774733B12507A6DD00F6771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		774733B32507A6DD00F6771D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		774733B62507A6DD00F6771D /* ConceptEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConceptEngine.xcdatamodel; sourceTree = "<group>"; };
 		774733B82507A6DE00F6771D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		774733BB2507A6DE00F6771D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -48,6 +48,8 @@
 		774733CE2507A6DE00F6771D /* ConceptEngineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConceptEngineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		774733D22507A6DE00F6771D /* ConceptEngineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptEngineUITests.swift; sourceTree = "<group>"; };
 		774733D42507A6DE00F6771D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		774733E22507AD6100F6771D /* ConceptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptView.swift; sourceTree = "<group>"; };
+		774733E52507B3E500F6771D /* BaseShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = BaseShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,13 +100,10 @@
 		774733B02507A6DD00F6771D /* ConceptEngine */ = {
 			isa = PBXGroup;
 			children = (
-				774733B12507A6DD00F6771D /* AppDelegate.swift */,
-				774733B32507A6DD00F6771D /* ViewController.swift */,
-				774733B82507A6DE00F6771D /* Assets.xcassets */,
+				774733E42507B3D100F6771D /* Shaders */,
+				774733E12507AD1700F6771D /* Views */,
 				774733BA2507A6DE00F6771D /* Main.storyboard */,
-				774733BD2507A6DE00F6771D /* Info.plist */,
-				774733BE2507A6DE00F6771D /* ConceptEngine.entitlements */,
-				774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */,
+				774733E02507AA0C00F6771D /* Utils */,
 			);
 			path = ConceptEngine;
 			sourceTree = "<group>";
@@ -125,6 +124,34 @@
 				774733D42507A6DE00F6771D /* Info.plist */,
 			);
 			path = ConceptEngineUITests;
+			sourceTree = "<group>";
+		};
+		774733E02507AA0C00F6771D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				774733B12507A6DD00F6771D /* AppDelegate.swift */,
+				774733B82507A6DE00F6771D /* Assets.xcassets */,
+				774733BD2507A6DE00F6771D /* Info.plist */,
+				774733BE2507A6DE00F6771D /* ConceptEngine.entitlements */,
+				774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		774733E12507AD1700F6771D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				774733E22507AD6100F6771D /* ConceptView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		774733E42507B3D100F6771D /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				774733E52507B3E500F6771D /* BaseShader.metal */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,9 +284,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				774733B42507A6DD00F6771D /* ViewController.swift in Sources */,
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
+				774733E32507AD6100F6771D /* ConceptView.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
+				774733E62507B3E500F6771D /* BaseShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,10 +451,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ConceptEngine/ConceptEngine.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ConceptEngine/Utils/ConceptEngine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ConceptEngine/Info.plist;
+				DEVELOPMENT_ASSET_PATHS = "";
+				INFOPLIST_FILE = ConceptEngine/Utils/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -441,10 +470,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ConceptEngine/ConceptEngine.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ConceptEngine/Utils/ConceptEngine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = ConceptEngine/Info.plist;
+				DEVELOPMENT_ASSET_PATHS = "";
+				INFOPLIST_FILE = ConceptEngine/Utils/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
