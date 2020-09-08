@@ -1,6 +1,6 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::cout << "Welcome to Concept Engine..." << std::endl;
     return 0;
 }
