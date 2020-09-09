@@ -7,7 +7,9 @@
 //
 
 import MetalKit
+import Foundation
 
+@objc(ConceptView)
 class ConceptView: MTKView {
     
     var commandQueue: MTLCommandQueue!

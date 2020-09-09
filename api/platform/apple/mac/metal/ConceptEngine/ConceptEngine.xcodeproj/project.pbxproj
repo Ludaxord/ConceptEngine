@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		77039D792509779A00078F31 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* Types.swift */; };
+		77039D7C2509802300078F31 /* ConceptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptBridge.m */; };
 		774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733B12507A6DD00F6771D /* AppDelegate.swift */; };
 		774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */; };
 		774733B92507A6DE00F6771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774733B82507A6DE00F6771D /* Assets.xcassets */; };
@@ -37,6 +38,9 @@
 
 /* Begin PBXFileReference section */
 		77039D782509779A00078F31 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ConceptEngine-Bridging-Header.h"; sourceTree = "<group>"; };
+		77039D7B2509802300078F31 /* ConceptBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptBridge.m; sourceTree = "<group>"; };
+		77039D7D2509805200078F31 /* ConceptBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptBridge.h; sourceTree = "<group>"; };
 		774733AE2507A6DD00F6771D /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774733B12507A6DD00F6771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		774733B62507A6DD00F6771D /* ConceptEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConceptEngine.xcdatamodel; sourceTree = "<group>"; };
@@ -115,6 +119,9 @@
 				774733E12507AD1700F6771D /* Views */,
 				774733BA2507A6DE00F6771D /* Main.storyboard */,
 				774733E02507AA0C00F6771D /* Utils */,
+				77039D7B2509802300078F31 /* ConceptBridge.m */,
+				77039D7D2509805200078F31 /* ConceptBridge.h */,
+				77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */,
 			);
 			path = ConceptEngine;
 			sourceTree = "<group>";
@@ -233,6 +240,7 @@
 				TargetAttributes = {
 					774733AD2507A6DD00F6771D = {
 						CreatedOnToolsVersion = 11.7;
+						LastSwiftMigration = 1170;
 					};
 					774733C22507A6DE00F6771D = {
 						CreatedOnToolsVersion = 11.7;
@@ -295,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77039D7C2509802300078F31 /* ConceptBridge.m in Sources */,
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
 				774733E32507AD6100F6771D /* ConceptView.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
@@ -463,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ConceptEngine/Utils/ConceptEngine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -474,6 +484,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ConceptEngine/ConceptEngine-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -482,6 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ConceptEngine/Utils/ConceptEngine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -493,6 +506,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ludaxord.ConceptEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ConceptEngine/ConceptEngine-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
