@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77039D792509779A00078F31 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* Types.swift */; };
 		774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774733B12507A6DD00F6771D /* AppDelegate.swift */; };
 		774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */; };
 		774733B92507A6DE00F6771D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774733B82507A6DE00F6771D /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		77039D782509779A00078F31 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		774733AE2507A6DD00F6771D /* ConceptEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConceptEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774733B12507A6DD00F6771D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		774733B62507A6DD00F6771D /* ConceptEngine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConceptEngine.xcdatamodel; sourceTree = "<group>"; };
@@ -77,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77039D772509778400078F31 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				77039D782509779A00078F31 /* Types.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
 		774733A52507A6DD00F6771D = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +110,7 @@
 		774733B02507A6DD00F6771D /* ConceptEngine */ = {
 			isa = PBXGroup;
 			children = (
+				77039D772509778400078F31 /* Tools */,
 				774733E42507B3D100F6771D /* Shaders */,
 				774733E12507AD1700F6771D /* Views */,
 				774733BA2507A6DE00F6771D /* Main.storyboard */,
@@ -287,6 +298,7 @@
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
 				774733E32507AD6100F6771D /* ConceptView.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
+				77039D792509779A00078F31 /* Types.swift in Sources */,
 				774733E62507B3E500F6771D /* BaseShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
