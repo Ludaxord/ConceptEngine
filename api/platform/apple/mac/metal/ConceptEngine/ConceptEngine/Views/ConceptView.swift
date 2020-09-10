@@ -11,25 +11,17 @@ import Foundation
 
 @objc(ConceptView)
 class ConceptView: MTKView {
-    
-    var utilities: Utilities!
-    
-    var engine: ConceptEngine!
-    
-    var renderPipelineState: MTLRenderPipelineState!
-    
+        
+    var Engine: ConceptEngine!
     var vertices: [Vertex]!
-    
     var vertexBuffer: MTLBuffer!
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
-        self.utilities = Utilities()
         self.device = MTLCreateSystemDefaultDevice()
-        self.engine = ConceptEngine.Initialize(device: self.device!)
-        self.clearColor = utilities.ClearColor
-        self.colorPixelFormat = utilities.PixelFormat
-        createRenderPipelineState()
+        self.Engine = ConceptEngine.Initialize(device: self.device!)
+        self.clearColor = Utilities.ClearColor
+        self.colorPixelFormat = Utilities.PixelFormat
         createVertices()
         createBuffers()
     }
@@ -42,32 +34,16 @@ class ConceptView: MTKView {
         ]
     }
     
-    func createRenderPipelineState() {
-
-        
-        let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = utilities.PixelFormat
-        renderPipelineStateDescriptor.vertexFunction = engine.ShaderLibrary.Vertex(.Basic)
-        renderPipelineStateDescriptor.fragmentFunction = engine.ShaderLibrary.Fragment(.Basic)
-        renderPipelineStateDescriptor.vertexDescriptor = vertexDescriptor
-        do {
-            renderPipelineState = try self.engine.Device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
-        } catch let error as NSError {
-            print(error)
-        }
-        
-    }
-    
     func createBuffers() {
         print("Vertex stride: \(Vertex.stride) Vertex stride * vertices.count \(Vertex.stride(vertices.count))")
-        vertexBuffer = self.engine.Device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
+        vertexBuffer = self.Engine.Device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
     }
     
     override func draw(_ dirtyRect: NSRect) {
         guard let drawable = self.currentDrawable, let renderPassDescriptor = self.currentRenderPassDescriptor else { return }
-        let commandBuffer = self.engine.CommandQueue.makeCommandBuffer()
+        let commandBuffer = self.Engine.CommandQueue.makeCommandBuffer()
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
-        renderCommandEncoder?.setRenderPipelineState(renderPipelineState)
+        renderCommandEncoder?.setRenderPipelineState(self.Engine.RenderPipelineStateLibrary.PipelineState(.Basic))
         
         renderCommandEncoder?.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder?.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)

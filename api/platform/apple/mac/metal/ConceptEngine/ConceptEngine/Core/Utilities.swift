@@ -16,15 +16,15 @@ public enum ClearColors {
     static let Orange: MTLClearColor = MTLClearColor(red: 0.89, green: 0.29, blue: 0.10, alpha: 1.0)
 }
 
-class Utilities {
+public class Utilities {
     
-    public var ClearColor: MTLClearColor!
+    public static var ClearColor: MTLClearColor!
     
-    public var PixelFormat: MTLPixelFormat!
+    public static var PixelFormat: MTLPixelFormat!
     
     required init() {
-        self.ClearColor = ClearColors.Green
-        self.PixelFormat = MTLPixelFormat.bgra8Unorm
+        Utilities.ClearColor = ClearColors.Green
+        Utilities.PixelFormat = MTLPixelFormat.bgra8Unorm
     }
     
 }

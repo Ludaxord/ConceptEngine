@@ -21,6 +21,8 @@
 		77D3D606250A1B80001035B6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D605250A1B80001035B6 /* Utilities.swift */; };
 		77D3D608250A1EE6001035B6 /* ConceptShaderLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D607250A1EE6001035B6 /* ConceptShaderLibrary.swift */; };
 		77D3D60A250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D609250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift */; };
+		77D3D60C250A58E1001035B6 /* ConceptRenderPipelineDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D60B250A58E1001035B6 /* ConceptRenderPipelineDescriptorLibrary.swift */; };
+		77D3D60E250A62EC001035B6 /* ConceptRenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D60D250A62EC001035B6 /* ConceptRenderPipelineStateLibrary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		77D3D605250A1B80001035B6 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		77D3D607250A1EE6001035B6 /* ConceptShaderLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptShaderLibrary.swift; sourceTree = "<group>"; };
 		77D3D609250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptVertexDescriptorLibrary.swift; sourceTree = "<group>"; };
+		77D3D60B250A58E1001035B6 /* ConceptRenderPipelineDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptRenderPipelineDescriptorLibrary.swift; sourceTree = "<group>"; };
+		77D3D60D250A62EC001035B6 /* ConceptRenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptRenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +192,8 @@
 			children = (
 				77D3D607250A1EE6001035B6 /* ConceptShaderLibrary.swift */,
 				77D3D609250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift */,
+				77D3D60B250A58E1001035B6 /* ConceptRenderPipelineDescriptorLibrary.swift */,
+				77D3D60D250A62EC001035B6 /* ConceptRenderPipelineStateLibrary.swift */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -325,9 +331,11 @@
 			files = (
 				77039D7C2509802300078F31 /* ConceptBridge.m in Sources */,
 				77D3D608250A1EE6001035B6 /* ConceptShaderLibrary.swift in Sources */,
+				77D3D60C250A58E1001035B6 /* ConceptRenderPipelineDescriptorLibrary.swift in Sources */,
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
 				77D3D60A250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift in Sources */,
 				774733E32507AD6100F6771D /* ConceptView.swift in Sources */,
+				77D3D60E250A62EC001035B6 /* ConceptRenderPipelineStateLibrary.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
 				77039D792509779A00078F31 /* Types.swift in Sources */,
 				774733E62507B3E500F6771D /* BaseShader.metal in Sources */,

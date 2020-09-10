@@ -36,8 +36,7 @@ public struct BasicVertexDescriptor: ConceptVertexDescriptor {
     }
 }
 
-class ConceptVertexDescriptorLibrary {
-    
+public class ConceptVertexDescriptorLibrary {
     private var vertexDescriptors: [VertexDescriptorTypes: ConceptVertexDescriptor] = [:]
     
     required init() {
