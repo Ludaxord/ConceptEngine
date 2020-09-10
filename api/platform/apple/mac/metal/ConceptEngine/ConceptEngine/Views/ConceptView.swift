@@ -43,22 +43,12 @@ class ConceptView: MTKView {
     }
     
     func createRenderPipelineState() {
-        
-        let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .float3
-        vertexDescriptor.attributes[0].bufferIndex = 0
-        vertexDescriptor.attributes[0].offset = 0
-        
-        vertexDescriptor.attributes[1].format = .float4
-        vertexDescriptor.attributes[1].bufferIndex = 0
-        vertexDescriptor.attributes[1].offset = float3.size
-        
-        vertexDescriptor.layouts[0].stride = Vertex.stride
+
         
         let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = utilities.PixelFormat
-        renderPipelineStateDescriptor.vertexFunction = ConceptShaderLibrary.Vertex(.Basic)
-        renderPipelineStateDescriptor.fragmentFunction = ConceptShaderLibrary.Fragment(.Basic)
+        renderPipelineStateDescriptor.vertexFunction = engine.ShaderLibrary.Vertex(.Basic)
+        renderPipelineStateDescriptor.fragmentFunction = engine.ShaderLibrary.Fragment(.Basic)
         renderPipelineStateDescriptor.vertexDescriptor = vertexDescriptor
         do {
             renderPipelineState = try self.engine.Device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)

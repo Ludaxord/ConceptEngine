@@ -39,10 +39,16 @@ public struct BasicFragmentShader: ConceptShader {
 }
 
 public class ConceptShaderLibrary {
+    
     public static var DefeultLibrary: MTLLibrary!
     
-    private static var vertexShaders: [VertexShaderTypes: ConceptShader] = [:]
-    private static var fragmentShaders: [FragmentShaderTypes: ConceptShader] = [:]
+    private var vertexShaders: [VertexShaderTypes: ConceptShader] = [:]
+    private var fragmentShaders: [FragmentShaderTypes: ConceptShader] = [:]
+    
+    required init(device: MTLDevice) {
+        ConceptShaderLibrary.DefeultLibrary = device.makeDefaultLibrary()!
+        createDefaultShaders()
+    }
     
     public static func createShaderFunction(functionName: String, shaderName: String) -> MTLFunction {
         let function = ConceptShaderLibrary.DefeultLibrary.makeFunction(name: functionName)
@@ -50,23 +56,17 @@ public class ConceptShaderLibrary {
         return function!
     }
     
-    public static func Vertex(_ vertexShaderType: VertexShaderTypes) -> MTLFunction {
+    public func Vertex(_ vertexShaderType: VertexShaderTypes) -> MTLFunction {
         return vertexShaders[vertexShaderType]!.function
     }
     
-    
-    public static func Fragment(_ fragmentShaderType: FragmentShaderTypes) -> MTLFunction {
+    public func Fragment(_ fragmentShaderType: FragmentShaderTypes) -> MTLFunction {
         return fragmentShaders[fragmentShaderType]!.function
     }
     
-    required init(device: MTLDevice) {
-        ConceptShaderLibrary.DefeultLibrary = device.makeDefaultLibrary()!
-        createDefaultShaders()
-    }
-    
-    public func createDefaultShaders() {
-        ConceptShaderLibrary.vertexShaders.updateValue(BasicVertexShader(), forKey: .Basic)
-        ConceptShaderLibrary.fragmentShaders.updateValue(BasicFragmentShader(), forKey: .Basic)
+    private func createDefaultShaders() {
+        vertexShaders.updateValue(BasicVertexShader(), forKey: .Basic)
+        fragmentShaders.updateValue(BasicFragmentShader(), forKey: .Basic)
     }
 
 }
