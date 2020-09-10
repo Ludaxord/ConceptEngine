@@ -14,6 +14,8 @@ class ConceptView: MTKView {
     
     var utilities: Utilities!
     
+    var engine: ConceptEngine!
+    
     var renderPipelineState: MTLRenderPipelineState!
     
     var vertices: [Vertex]!
@@ -24,7 +26,7 @@ class ConceptView: MTKView {
         super.init(coder: coder)
         self.utilities = Utilities()
         self.device = MTLCreateSystemDefaultDevice()
-        Engine.Ignite(device: device!)
+        self.engine = ConceptEngine(device: self.device!)
         self.clearColor = utilities.ClearColor
         self.colorPixelFormat = utilities.PixelFormat
         createRenderPipelineState()
@@ -41,7 +43,7 @@ class ConceptView: MTKView {
     }
     
     func createRenderPipelineState() {
-        let library = Engine.Device.makeDefaultLibrary()
+        let library = self.engine.Device.makeDefaultLibrary()
         let vertexFunction = library?.makeFunction(name: "basic_vertex_shader")
         let fragmentFunction = library?.makeFunction(name: "basic_fragment_shader")
         
@@ -62,7 +64,7 @@ class ConceptView: MTKView {
         renderPipelineStateDescriptor.fragmentFunction = fragmentFunction
         renderPipelineStateDescriptor.vertexDescriptor = vertexDescriptor
         do {
-            renderPipelineState = try Engine.Device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
+            renderPipelineState = try self.engine.Device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
         } catch let error as NSError {
             print(error)
         }
@@ -71,12 +73,12 @@ class ConceptView: MTKView {
     
     func createBuffers() {
         print("Vertex stride: \(Vertex.stride) Vertex stride * vertices.count \(Vertex.stride(vertices.count))")
-        vertexBuffer = Engine.Device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
+        vertexBuffer = self.engine.Device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
     }
     
     override func draw(_ dirtyRect: NSRect) {
         guard let drawable = self.currentDrawable, let renderPassDescriptor = self.currentRenderPassDescriptor else { return }
-        let commandBuffer = Engine.CommandQueue.makeCommandBuffer()
+        let commandBuffer = self.engine.CommandQueue.makeCommandBuffer()
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
         renderCommandEncoder?.setRenderPipelineState(renderPipelineState)
         
