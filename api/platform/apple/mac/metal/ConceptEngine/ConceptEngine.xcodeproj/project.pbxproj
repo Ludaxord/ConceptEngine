@@ -20,6 +20,7 @@
 		77D3D604250A19E2001035B6 /* ConceptEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D603250A19E2001035B6 /* ConceptEngine.swift */; };
 		77D3D606250A1B80001035B6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D605250A1B80001035B6 /* Utilities.swift */; };
 		77D3D608250A1EE6001035B6 /* ConceptShaderLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D607250A1EE6001035B6 /* ConceptShaderLibrary.swift */; };
+		77D3D60A250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D609250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		77D3D603250A19E2001035B6 /* ConceptEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptEngine.swift; sourceTree = "<group>"; };
 		77D3D605250A1B80001035B6 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		77D3D607250A1EE6001035B6 /* ConceptShaderLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptShaderLibrary.swift; sourceTree = "<group>"; };
+		77D3D609250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptVertexDescriptorLibrary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				77D3D607250A1EE6001035B6 /* ConceptShaderLibrary.swift */,
+				77D3D609250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				77039D7C2509802300078F31 /* ConceptBridge.m in Sources */,
 				77D3D608250A1EE6001035B6 /* ConceptShaderLibrary.swift in Sources */,
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
+				77D3D60A250A5039001035B6 /* ConceptVertexDescriptorLibrary.swift in Sources */,
 				774733E32507AD6100F6771D /* ConceptView.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
 				77039D792509779A00078F31 /* Types.swift in Sources */,

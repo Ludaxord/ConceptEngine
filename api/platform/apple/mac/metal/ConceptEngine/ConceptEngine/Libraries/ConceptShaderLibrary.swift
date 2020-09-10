@@ -8,11 +8,11 @@
 
 import MetalKit
 
-enum VertexShaderTypes {
+public enum VertexShaderTypes {
     case Basic
 }
 
-enum FragmentShaderTypes {
+public enum FragmentShaderTypes {
     case Basic
 }
 
@@ -48,6 +48,15 @@ public class ConceptShaderLibrary {
         let function = ConceptShaderLibrary.DefeultLibrary.makeFunction(name: functionName)
         function?.label = shaderName
         return function!
+    }
+    
+    public static func Vertex(_ vertexShaderType: VertexShaderTypes) -> MTLFunction {
+        return vertexShaders[vertexShaderType]!.function
+    }
+    
+    
+    public static func Fragment(_ fragmentShaderType: FragmentShaderTypes) -> MTLFunction {
+        return fragmentShaders[fragmentShaderType]!.function
     }
     
     required init(device: MTLDevice) {

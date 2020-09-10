@@ -26,7 +26,7 @@ class ConceptView: MTKView {
         super.init(coder: coder)
         self.utilities = Utilities()
         self.device = MTLCreateSystemDefaultDevice()
-        self.engine = ConceptEngine(device: self.device!)
+        self.engine = ConceptEngine.Initialize(device: self.device!)
         self.clearColor = utilities.ClearColor
         self.colorPixelFormat = utilities.PixelFormat
         createRenderPipelineState()
@@ -43,9 +43,6 @@ class ConceptView: MTKView {
     }
     
     func createRenderPipelineState() {
-        let library = self.engine.Device.makeDefaultLibrary()
-        let vertexFunction = library?.makeFunction(name: "basic_vertex_shader")
-        let fragmentFunction = library?.makeFunction(name: "basic_fragment_shader")
         
         let vertexDescriptor = MTLVertexDescriptor()
         vertexDescriptor.attributes[0].format = .float3
@@ -60,8 +57,8 @@ class ConceptView: MTKView {
         
         let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = utilities.PixelFormat
-        renderPipelineStateDescriptor.vertexFunction = vertexFunction
-        renderPipelineStateDescriptor.fragmentFunction = fragmentFunction
+        renderPipelineStateDescriptor.vertexFunction = ConceptShaderLibrary.Vertex(.Basic)
+        renderPipelineStateDescriptor.fragmentFunction = ConceptShaderLibrary.Fragment(.Basic)
         renderPipelineStateDescriptor.vertexDescriptor = vertexDescriptor
         do {
             renderPipelineState = try self.engine.Device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
