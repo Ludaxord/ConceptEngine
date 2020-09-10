@@ -12,7 +12,8 @@ import Foundation
 @objc(ConceptView)
 class ConceptView: MTKView {
     
-    var commandQueue: MTLCommandQueue!
+    var utilities: Utilities!
+    
     var renderPipelineState: MTLRenderPipelineState!
     
     var vertices: [Vertex]!
@@ -21,10 +22,11 @@ class ConceptView: MTKView {
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
+        self.utilities = Utilities()
         self.device = MTLCreateSystemDefaultDevice()
-        self.clearColor = MTLClearColor(red: 0.89, green: 0.29, blue: 0.10, alpha: 1.0)
-        self.colorPixelFormat = .bgra8Unorm
-        self.commandQueue = device?.makeCommandQueue()
+        Engine.Ignite(device: device!)
+        self.clearColor = utilities.ClearColor
+        self.colorPixelFormat = utilities.PixelFormat
         createRenderPipelineState()
         createVertices()
         createBuffers()
@@ -39,7 +41,7 @@ class ConceptView: MTKView {
     }
     
     func createRenderPipelineState() {
-        let library = device?.makeDefaultLibrary()
+        let library = Engine.Device.makeDefaultLibrary()
         let vertexFunction = library?.makeFunction(name: "basic_vertex_shader")
         let fragmentFunction = library?.makeFunction(name: "basic_fragment_shader")
         
@@ -50,17 +52,17 @@ class ConceptView: MTKView {
         
         vertexDescriptor.attributes[1].format = .float4
         vertexDescriptor.attributes[1].bufferIndex = 0
-        vertexDescriptor.attributes[1].offset = float3.size()
+        vertexDescriptor.attributes[1].offset = float3.size
         
-        vertexDescriptor.layouts[0].stride = Vertex.stride()
+        vertexDescriptor.layouts[0].stride = Vertex.stride
         
         let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = utilities.PixelFormat
         renderPipelineStateDescriptor.vertexFunction = vertexFunction
         renderPipelineStateDescriptor.fragmentFunction = fragmentFunction
         renderPipelineStateDescriptor.vertexDescriptor = vertexDescriptor
         do {
-            renderPipelineState = try device?.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
+            renderPipelineState = try Engine.Device.makeRenderPipelineState(descriptor: renderPipelineStateDescriptor)
         } catch let error as NSError {
             print(error)
         }
@@ -68,13 +70,13 @@ class ConceptView: MTKView {
     }
     
     func createBuffers() {
-        print("Vertex stride: \(Vertex.stride()) Vertex stride * vertices.count \(Vertex.stride(vertices.count))")
-        vertexBuffer = device?.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
+        print("Vertex stride: \(Vertex.stride) Vertex stride * vertices.count \(Vertex.stride(vertices.count))")
+        vertexBuffer = Engine.Device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
     }
     
     override func draw(_ dirtyRect: NSRect) {
         guard let drawable = self.currentDrawable, let renderPassDescriptor = self.currentRenderPassDescriptor else { return }
-        let commandBuffer = commandQueue.makeCommandBuffer()
+        let commandBuffer = Engine.CommandQueue.makeCommandBuffer()
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
         renderCommandEncoder?.setRenderPipelineState(renderPipelineState)
         
