@@ -16,42 +16,42 @@ public enum FragmentShaderTypes {
     case Basic
 }
 
-protocol ConceptShader {
+protocol CEShader {
     var shaderName: String { get }
     var functionName: String { get }
     var function: MTLFunction { get }
 }
 
-public struct BasicVertexShader: ConceptShader {
+public struct BasicVertexShader: CEShader {
     public var shaderName: String = "Basic Vertex Shader"
     public var functionName: String = "basic_vertex_shader"
     public var function: MTLFunction {
-        return ConceptShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
+        return CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
     }
 }
 
-public struct BasicFragmentShader: ConceptShader {
+public struct BasicFragmentShader: CEShader {
     public var shaderName: String = "Basic Fragment Shader"
     public var functionName: String = "basic_fragment_shader"
     public var function: MTLFunction {
-        return ConceptShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
+        return CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
     }
 }
 
-public class ConceptShaderLibrary {
+public final class CEShaderLibrary: CEStandardLibrary {
     
     public static var DefeultLibrary: MTLLibrary!
     
-    private var vertexShaders: [VertexShaderTypes: ConceptShader] = [:]
-    private var fragmentShaders: [FragmentShaderTypes: ConceptShader] = [:]
+    private var vertexShaders: [VertexShaderTypes: CEShader] = [:]
+    private var fragmentShaders: [FragmentShaderTypes: CEShader] = [:]
     
     required init(device: MTLDevice) {
-        ConceptShaderLibrary.DefeultLibrary = device.makeDefaultLibrary()!
+        CEShaderLibrary.DefeultLibrary = device.makeDefaultLibrary()!
         createDefaultShaders()
     }
     
     public static func createShaderFunction(functionName: String, shaderName: String) -> MTLFunction {
-        let function = ConceptShaderLibrary.DefeultLibrary.makeFunction(name: functionName)
+        let function = CEShaderLibrary.DefeultLibrary.makeFunction(name: functionName)
         function?.label = shaderName
         return function!
     }

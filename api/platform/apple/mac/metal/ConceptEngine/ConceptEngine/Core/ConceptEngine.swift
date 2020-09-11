@@ -8,27 +8,73 @@
 
 import MetalKit
 
-public class ConceptEngine {
+
+public enum LibraryTypes {
+    case Shader
+    case VertexDescriptor
+    case RenderPipelineDescriptor
+    case RenderPipelineState
+    case Utilities
+}
+
+public final class ConceptEngine {
     
-    public var Device: MTLDevice!
-    public var CommandQueue: MTLCommandQueue!
-    public var ShaderLibrary: ConceptShaderLibrary!
-    public var VertexDescriptorLibrary: ConceptVertexDescriptorLibrary!
-    public var RenderPipelineDescriptorLibrary: ConceptRenderPipelineDescriptorLibrary!
-    public var RenderPipelineStateLibrary: ConceptRenderPipelineStateLibrary!
-    public var Utils: Utilities!
+    public static var GPUDevice: MTLDevice!
+    public static var CommandQueue: MTLCommandQueue!
+    
+    private var ShaderLibrary: CEShaderLibrary!
+    private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
+    private var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
+    private var RenderPipelineStateLibrary: CERenderPipelineStateLibrary!
+    private var UtilitiesLibrary: CEUtilitiesLibrary!
+    
+    private static var Libraries: [LibraryTypes: CEStandardLibrary] = [:]
     
     required init(device: MTLDevice) {
-        self.Utils = Utilities()
-        self.Device = device
-        self.CommandQueue = device.makeCommandQueue()
-        self.ShaderLibrary = ConceptShaderLibrary(device: device)
-        self.VertexDescriptorLibrary = ConceptVertexDescriptorLibrary()
-        self.RenderPipelineDescriptorLibrary = ConceptRenderPipelineDescriptorLibrary(shaderLibrary: ShaderLibrary, vertexDescriptorLibrary: VertexDescriptorLibrary)
-        self.RenderPipelineStateLibrary = ConceptRenderPipelineStateLibrary(device: device, renderPipelineDescriptorLibrary: RenderPipelineDescriptorLibrary)
+        ConceptEngine.GPUDevice = device
+        ConceptEngine.CommandQueue = device.makeCommandQueue()
+        instanceLibraries(device: ConceptEngine.GPUDevice)
+        
     }
     
-    public static func Initialize(device: MTLDevice) -> ConceptEngine {
-        return ConceptEngine(device: device)
+    private func instanceLibraries(device: MTLDevice) {
+        self.UtilitiesLibrary = CEUtilitiesLibrary()
+        ConceptEngine.Libraries.updateValue(UtilitiesLibrary, forKey: .Utilities)
+        self.ShaderLibrary = CEShaderLibrary(device: device)
+        ConceptEngine.Libraries.updateValue(ShaderLibrary, forKey: .Shader)
+        self.VertexDescriptorLibrary = CEVertexDescriptorLibrary()
+        ConceptEngine.Libraries.updateValue(VertexDescriptorLibrary, forKey: .VertexDescriptor)
+        self.RenderPipelineDescriptorLibrary = CERenderPipelineDescriptorLibrary(shaderLibrary: self.ShaderLibrary, vertexDescriptorLibrary: self.VertexDescriptorLibrary)
+        ConceptEngine.Libraries.updateValue(RenderPipelineDescriptorLibrary, forKey: .RenderPipelineDescriptor)
+        self.RenderPipelineStateLibrary = CERenderPipelineStateLibrary(device: device, renderPipelineDescriptorLibrary: self.RenderPipelineDescriptorLibrary)
+        ConceptEngine.Libraries.updateValue(RenderPipelineStateLibrary, forKey: .RenderPipelineState)
+    }
+    
+    public static func Initialize(device: MTLDevice? = nil) -> ConceptEngine {
+        var gpuDevice = device
+        if gpuDevice == nil {
+            gpuDevice = MTLCreateSystemDefaultDevice()
+        }
+        return ConceptEngine(device: gpuDevice!)
+    }
+}
+
+
+extension ConceptEngine {
+    static func getLibrary(_ libraryType: LibraryTypes) -> CEStandardLibrary? {
+        return ConceptEngine.Libraries[libraryType]
+    }
+    
+    func getGPUDevice() -> MTLDevice {
+        return ConceptEngine.GPUDevice
+    }
+    
+    func injectDefaultColorsToView(view: MTKView) {
+        view.clearColor = CEUtilitiesLibrary.ClearColor
+        view.colorPixelFormat = CEUtilitiesLibrary.PixelFormat
+    }
+    
+    func injectGpuToView(view: MTKView) {
+        view.device = self.getGPUDevice()
     }
 }

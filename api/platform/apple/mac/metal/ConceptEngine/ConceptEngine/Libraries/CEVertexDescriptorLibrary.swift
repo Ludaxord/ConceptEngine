@@ -12,12 +12,12 @@ public enum VertexDescriptorTypes {
     case Basic
 }
 
-protocol ConceptVertexDescriptor {
+protocol CEVertexDescriptor {
     var vertexName: String { get }
     var vertexDescriptor: MTLVertexDescriptor { get }
 }
 
-public struct BasicVertexDescriptor: ConceptVertexDescriptor {
+public struct BasicVertexDescriptor: CEVertexDescriptor {
     var vertexName: String = "Basic Vertex Descriptor"
     
     var vertexDescriptor: MTLVertexDescriptor {
@@ -36,8 +36,8 @@ public struct BasicVertexDescriptor: ConceptVertexDescriptor {
     }
 }
 
-public class ConceptVertexDescriptorLibrary {
-    private var vertexDescriptors: [VertexDescriptorTypes: ConceptVertexDescriptor] = [:]
+public final class CEVertexDescriptorLibrary: CEStandardLibrary {
+    private var vertexDescriptors: [VertexDescriptorTypes: CEVertexDescriptor] = [:]
     
     required init() {
         createDefaultVertexDescriptors()

@@ -12,19 +12,19 @@ public enum RenderPipelineStateTypes {
     case Basic
 }
 
-protocol ConceptRenderPipelineState {
+protocol CERenderPipelineState {
     var stateName: String { get }
     var renderPipelineState: MTLRenderPipelineState { get }
 }
 
-public struct BasicRenderPipelineState: ConceptRenderPipelineState {
+public struct BasicRenderPipelineState: CERenderPipelineState {
     var stateName: String = "Basic Render Pipeline State"
     
     var renderPipelineState: MTLRenderPipelineState {
         var renderPipelineState: MTLRenderPipelineState!
         do {
-            renderPipelineState = try ConceptRenderPipelineStateLibrary.DefeultDevice.makeRenderPipelineState(descriptor:
-                ConceptRenderPipelineStateLibrary.RenderPipelineDescriptorLibrary.RenderDescriptor(.Basic)
+            renderPipelineState = try CERenderPipelineStateLibrary.DefeultDevice.makeRenderPipelineState(descriptor:
+                CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary.RenderDescriptor(.Basic)
             )
         } catch let error as NSError {
             print("ERROR::CREATE::RENDER_PIPELINE_STATE::__\(stateName)__::\(error)")
@@ -34,19 +34,19 @@ public struct BasicRenderPipelineState: ConceptRenderPipelineState {
 }
 
 
-public class ConceptRenderPipelineStateLibrary {
+public final class CERenderPipelineStateLibrary: CEStandardLibrary {
     
-    private var renderPipelineStates: [RenderPipelineStateTypes: ConceptRenderPipelineState] = [:]
+    private var renderPipelineStates: [RenderPipelineStateTypes: CERenderPipelineState] = [:]
     
     public static var DefeultDevice: MTLDevice!
-    public static var RenderPipelineDescriptorLibrary: ConceptRenderPipelineDescriptorLibrary!
+    public static var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
     
-    private var vertexShaders: [VertexShaderTypes: ConceptShader] = [:]
-    private var fragmentShaders: [FragmentShaderTypes: ConceptShader] = [:]
+    private var vertexShaders: [VertexShaderTypes: CEShader] = [:]
+    private var fragmentShaders: [FragmentShaderTypes: CEShader] = [:]
     
-    required init(device: MTLDevice, renderPipelineDescriptorLibrary: ConceptRenderPipelineDescriptorLibrary) {
-        ConceptRenderPipelineStateLibrary.DefeultDevice = device
-        ConceptRenderPipelineStateLibrary.RenderPipelineDescriptorLibrary = renderPipelineDescriptorLibrary
+    required init(device: MTLDevice, renderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary) {
+        CERenderPipelineStateLibrary.DefeultDevice = device
+        CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary = renderPipelineDescriptorLibrary
         createDefaultRenderPipelineState()
     }
     
