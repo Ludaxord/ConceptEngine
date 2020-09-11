@@ -1,5 +1,5 @@
 //
-//  CCharacter.swift
+//  Renderable.swift
 //  ConceptEngine
 //
 //  Created by Konrad Uciechowski on 11/09/2020.
@@ -8,6 +8,6 @@
 
 import MetalKit
 
-class CEGameCharacter: CEGameObject {
-    
+protocol CERenderable {
+    func render()
 }

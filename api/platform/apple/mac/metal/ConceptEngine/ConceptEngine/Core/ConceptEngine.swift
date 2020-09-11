@@ -14,6 +14,7 @@ public enum LibraryTypes {
     case VertexDescriptor
     case RenderPipelineDescriptor
     case RenderPipelineState
+    case Mesh
     case Utilities
 }
 
@@ -26,6 +27,7 @@ public final class ConceptEngine {
     private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     private var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
     private var RenderPipelineStateLibrary: CERenderPipelineStateLibrary!
+    private var MeshLibrary: CEMeshLibrary!
     private var UtilitiesLibrary: CEUtilitiesLibrary!
     
     private static var Libraries: [LibraryTypes: CEStandardLibrary] = [:]
@@ -48,6 +50,8 @@ public final class ConceptEngine {
         ConceptEngine.Libraries.updateValue(RenderPipelineDescriptorLibrary, forKey: .RenderPipelineDescriptor)
         self.RenderPipelineStateLibrary = CERenderPipelineStateLibrary(device: device, renderPipelineDescriptorLibrary: self.RenderPipelineDescriptorLibrary)
         ConceptEngine.Libraries.updateValue(RenderPipelineStateLibrary, forKey: .RenderPipelineState)
+        self.MeshLibrary = CEMeshLibrary()
+        ConceptEngine.Libraries.updateValue(MeshLibrary, forKey: .Mesh)
     }
     
     public static func Initialize(device: MTLDevice? = nil) -> ConceptEngine {

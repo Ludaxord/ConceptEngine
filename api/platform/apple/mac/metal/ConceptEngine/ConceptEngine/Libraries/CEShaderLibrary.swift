@@ -16,7 +16,7 @@ public enum FragmentShaderTypes {
     case Basic
 }
 
-protocol CEShader {
+public protocol CEShader {
     var shaderName: String { get }
     var functionName: String { get }
     var function: MTLFunction { get }

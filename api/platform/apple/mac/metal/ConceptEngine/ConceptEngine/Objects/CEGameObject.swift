@@ -8,46 +8,27 @@
 
 import MetalKit
 
-protocol CEMesh {
-    var vertexBuffer: MTLBuffer! { get }
-    var vertexCount: Int! { get }
-}
 
-class CEGameMesh: CEMesh {
-    
-    var vertices: [Vertex]!
-    var vertexBuffer: MTLBuffer!
-    var vertexCount: Int! {
-        return vertices.count
-    }
-    
-    init() {
-        createVertices()
-        createBuffers(device: ConceptEngine.GPUDevice)
-    }
-    
-    func createVertices() {
-        vertices = [
-            Vertex(position: float3( 0, 1, 0), color: float4(1, 0, 0, 1)),
-            Vertex(position: float3(-1,-1, 0), color: float4(1, 1, 0, 1)),
-            Vertex(position: float3( 1,-1, 0), color: float4(0, 0, 1, 1)),
-        ]
-    }
-    
-    func createBuffers(device: MTLDevice) {
-        vertexBuffer = device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
-    }
-}
-
-public class CEGameObject {
+public class CEGameObject: CENode {
+    var meshFillMode: MTLTriangleFillMode!
     var mesh: CEMesh!
     
-    init() {
-        mesh = CEGameMesh()
+    init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill) {
+        self.meshFillMode = meshFillMode
+        mesh = (ConceptEngine.getLibrary(.Mesh) as! CEMeshLibrary).Mesh(meshType)
     }
+}
 
-    
-    func render(renderCommandEncoder: MTLRenderCommandEncoder) {
+
+extension CEGameObject {
+    func changeMeshFillMode(fillMode: MTLTriangleFillMode) {
+        self.meshFillMode = fillMode
+    }
+}
+
+extension CEGameObject: CERenderable {
+    func doRender(_ renderCommandEncoder: MTLRenderCommandEncoder) {
+        renderCommandEncoder.setTriangleFillMode(meshFillMode)
         renderCommandEncoder.setRenderPipelineState((ConceptEngine.getLibrary(.RenderPipelineState) as! CERenderPipelineStateLibrary).PipelineState(.Basic))
         renderCommandEncoder.setVertexBuffer(mesh.vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)

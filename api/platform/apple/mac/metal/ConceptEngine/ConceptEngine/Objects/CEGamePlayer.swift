@@ -1,5 +1,5 @@
 //
-//  CCharacter.swift
+//  CEGamePlayer.swift
 //  ConceptEngine
 //
 //  Created by Konrad Uciechowski on 11/09/2020.
@@ -8,6 +8,11 @@
 
 import MetalKit
 
-class CEGameCharacter: CEGameObject {
+class CEGamePlayer: CEGameCharacter {
+    
+    init() {
+        super.init(meshType: .Quad)
+    }
+    
     
 }

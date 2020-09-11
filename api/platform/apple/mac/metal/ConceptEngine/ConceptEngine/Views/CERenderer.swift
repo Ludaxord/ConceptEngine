@@ -10,10 +10,11 @@ import MetalKit
 
 public class CERenderer: NSObject {
     
-    public var GameObject: CEGameObject!
+    var GameObjects: [CENode] = []
 
     override init() {
-        self.GameObject = CEGameObject()
+        GameObjects.append(CEGamePlayer())
+        GameObjects.append(CEGameNPC())
     }
 }
 
@@ -28,7 +29,9 @@ extension CERenderer: MTKViewDelegate {
         guard let drawable = view.currentDrawable, let renderPassDescriptor = view.currentRenderPassDescriptor else { return }
         let commandBuffer = ConceptEngine.CommandQueue.makeCommandBuffer()
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
-        self.GameObject.render(renderCommandEncoder: renderCommandEncoder!)
+        for object in GameObjects {
+            object.render(renderCommandEncoder: renderCommandEncoder!)
+        }
         
         renderCommandEncoder?.endEncoding()
         commandBuffer?.present(drawable)
