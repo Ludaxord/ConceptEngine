@@ -30,7 +30,7 @@ public struct BasicVertexDescriptor: CEVertexDescriptor {
         vertexDescriptor.attributes[1].bufferIndex = 0
         vertexDescriptor.attributes[1].offset = float3.size
         
-        vertexDescriptor.layouts[0].stride = Vertex.stride
+        vertexDescriptor.layouts[0].stride = CEVertex.stride
         
         return vertexDescriptor
     }

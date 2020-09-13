@@ -10,12 +10,32 @@ import MetalKit
 
 
 public class CEGameObject: CENode {
+    
+    var model: CEModel = CEModel()
+    
     var meshFillMode: MTLTriangleFillMode!
     var mesh: CEMesh!
+    
+    var time: Float = 0
+    
+    var deltaPosition: Float = 0
     
     init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill) {
         self.meshFillMode = meshFillMode
         mesh = (ConceptEngine.getLibrary(.Mesh) as! CEMeshLibrary).Mesh(meshType)
+    }
+    
+    func update(deltaTime: Float) {
+        time += deltaTime
+        self.scale = float3(repeating: cos(time))
+        
+        self.deltaPosition = cos(time)
+        
+        updateModel()
+    }
+    
+    private func updateModel() {
+        model.modelMatrix = self.modelMatrix
     }
 }
 
@@ -28,6 +48,7 @@ extension CEGameObject {
 
 extension CEGameObject: CERenderable {
     func doRender(_ renderCommandEncoder: MTLRenderCommandEncoder) {
+        renderCommandEncoder.setVertexBytes(&model, length: CEModel.stride, index: 1)
         renderCommandEncoder.setTriangleFillMode(meshFillMode)
         renderCommandEncoder.setRenderPipelineState((ConceptEngine.getLibrary(.RenderPipelineState) as! CERenderPipelineStateLibrary).PipelineState(.Basic))
         renderCommandEncoder.setVertexBuffer(mesh.vertexBuffer, offset: 0, index: 0)

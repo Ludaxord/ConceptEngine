@@ -23,7 +23,7 @@ public final class CEUtilitiesLibrary: CEStandardLibrary {
     public static var PixelFormat: MTLPixelFormat!
     
     required init() {
-        CEUtilitiesLibrary.ClearColor = ClearColors.White
+        CEUtilitiesLibrary.ClearColor = ClearColors.Grey
         CEUtilitiesLibrary.PixelFormat = MTLPixelFormat.bgra8Unorm
     }
     

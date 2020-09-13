@@ -19,10 +19,16 @@ struct RasterizerInput {
     float4 color;
 };
 
-vertex RasterizerInput basic_vertex_shader(const VertexInput vInput [[ stage_in ]]) {
+struct CEModel{
+    float4x4 modelMatrix;
+};
+
+vertex RasterizerInput basic_vertex_shader(const VertexInput vInput [[ stage_in ]], constant CEModel &model [[ buffer(1) ]]) {
     RasterizerInput rasterizer_input;
-    rasterizer_input.position = float4(vInput.position, 1);
+    
+    rasterizer_input.position = model.modelMatrix * float4(vInput.position, 1);
     rasterizer_input.color = vInput.color;
+    
     return rasterizer_input;
 }
 

@@ -17,7 +17,8 @@ class CEGameView: MTKView {
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
-        self.Engine = ConceptEngine.Initialize()
+        self.device = MTLCreateSystemDefaultDevice()
+        self.Engine = ConceptEngine.Initialize(device: self.device!)
         self.Engine.injectGpuToView(view: self)
         self.Engine.injectDefaultColorsToView(view: self)
         self.Renderer = CERenderer()

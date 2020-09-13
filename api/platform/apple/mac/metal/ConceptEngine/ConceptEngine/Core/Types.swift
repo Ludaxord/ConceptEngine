@@ -8,8 +8,7 @@
 
 import simd
 
-protocol sizeable {
-}
+protocol sizeable {}
 
 extension sizeable {
     static var size: Int {
@@ -29,12 +28,14 @@ extension sizeable {
     }
 }
 
-extension float3: sizeable {
-    
-}
+extension float3: sizeable {}
+extension Float: sizeable {}
 
-struct Vertex: sizeable {
+struct CEVertex: sizeable {
     var position: float3
     var color: float4
 }
 
+struct CEModel: sizeable {
+    var modelMatrix = matrix_identity_float4x4
+}

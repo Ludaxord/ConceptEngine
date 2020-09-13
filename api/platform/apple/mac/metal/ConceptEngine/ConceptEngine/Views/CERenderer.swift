@@ -22,7 +22,6 @@ public class CERenderer: NSObject {
 extension CERenderer: MTKViewDelegate {
     
     public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
-        print("init mtkView")
     }
     
     public func draw(in view: MTKView) {
@@ -30,9 +29,11 @@ extension CERenderer: MTKViewDelegate {
         let commandBuffer = ConceptEngine.CommandQueue.makeCommandBuffer()
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
         for object in GameObjects {
+            if let gameObject = object as? CEGameObject {
+                gameObject.update(deltaTime: 1 / Float(view.preferredFramesPerSecond))
+            }
             object.render(renderCommandEncoder: renderCommandEncoder!)
         }
-        
         renderCommandEncoder?.endEncoding()
         commandBuffer?.present(drawable)
         commandBuffer?.commit()

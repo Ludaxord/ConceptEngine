@@ -40,6 +40,7 @@ public final class ConceptEngine {
     }
     
     private func instanceLibraries(device: MTLDevice) {
+        print("gpu \(device)")
         self.UtilitiesLibrary = CEUtilitiesLibrary()
         ConceptEngine.Libraries.updateValue(UtilitiesLibrary, forKey: .Utilities)
         self.ShaderLibrary = CEShaderLibrary(device: device)

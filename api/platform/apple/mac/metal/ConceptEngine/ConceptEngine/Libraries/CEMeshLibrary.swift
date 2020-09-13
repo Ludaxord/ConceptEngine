@@ -20,7 +20,7 @@ public protocol CEMesh {
 
 class CEGameMesh: CEMesh {
     
-    var vertices: [Vertex]!
+    var vertices: [CEVertex]!
     var vertexBuffer: MTLBuffer!
     var vertexCount: Int! {
         return vertices.count
@@ -34,16 +34,16 @@ class CEGameMesh: CEMesh {
     func createVertices() {}
     
     func createBuffers(device: MTLDevice) {
-        vertexBuffer = device.makeBuffer(bytes: vertices, length: Vertex.stride(vertices.count), options: [])
+        vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertices.count), options: [])
     }
 }
 
 final class CETriangleGameMesh: CEGameMesh {
     override func createVertices() {
         vertices = [
-            Vertex(position: float3( 0, 1, 0), color: float4(1, 0, 0, 1)),
-            Vertex(position: float3(-1,-1, 0), color: float4(1, 1, 0, 1)),
-            Vertex(position: float3( 1,-1, 0), color: float4(0, 0, 1, 1)),
+            CEVertex(position: float3( 0, 1, 0), color: float4(1, 0, 0, 1)),
+            CEVertex(position: float3(-1,-1, 0), color: float4(1, 1, 0, 1)),
+            CEVertex(position: float3( 1,-1, 0), color: float4(0, 0, 1, 1)),
         ]
     }
 }
@@ -51,13 +51,13 @@ final class CETriangleGameMesh: CEGameMesh {
 final class CEQuadGameMesh: CEGameMesh {
     override func createVertices() {
         vertices = [
-            Vertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
-            Vertex(position: float3(-0.5, 0.5, 0), color: float4(0, 1, 0, 1)),
-            Vertex(position: float3(-0.5,-0.5, 0), color: float4(0, 0, 1, 1)),
+            CEVertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
+            CEVertex(position: float3(-0.5, 0.5, 0), color: float4(0, 1, 0, 1)),
+            CEVertex(position: float3(-0.5,-0.5, 0), color: float4(0, 0, 1, 1)),
             
-            Vertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
-            Vertex(position: float3(-0.5,-0.5, 0), color: float4(0, 0, 1, 1)),
-            Vertex(position: float3( 0.5,-0.5, 0), color: float4(1, 0, 1, 1)),
+            CEVertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
+            CEVertex(position: float3(-0.5,-0.5, 0), color: float4(0, 0, 1, 1)),
+            CEVertex(position: float3( 0.5,-0.5, 0), color: float4(1, 0, 1, 1)),
         ]
     }
 }
