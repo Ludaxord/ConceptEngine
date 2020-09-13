@@ -49,3 +49,7 @@ Game engine project, focused on develop cross-platform games and implements many
 
 ## Playground
 * [ ] Level Editor
+
+## Graphics
+* [ ] Import ```*.OBJ``` models
+* [ ] Ray Tracing for main Graphics API (Metal, DirectX12, NVidia, etc)
