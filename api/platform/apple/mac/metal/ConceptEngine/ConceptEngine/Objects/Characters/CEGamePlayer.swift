@@ -12,7 +12,5 @@ class CEGamePlayer: CEGameCharacter {
     
     init() {
         super.init(meshType: .Quad)
-    }
-    
-    
+    }    
 }

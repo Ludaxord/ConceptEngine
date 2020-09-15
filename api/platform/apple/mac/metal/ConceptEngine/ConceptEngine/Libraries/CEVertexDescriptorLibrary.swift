@@ -14,13 +14,26 @@ public enum VertexDescriptorTypes {
 
 protocol CEVertexDescriptor {
     var vertexName: String { get }
-    var vertexDescriptor: MTLVertexDescriptor { get }
+    var vertexDescriptor: MTLVertexDescriptor! { get }
 }
 
 public struct BasicVertexDescriptor: CEVertexDescriptor {
     var vertexName: String = "Basic Vertex Descriptor"
     
-    var vertexDescriptor: MTLVertexDescriptor {
+    var vertexDescriptor: MTLVertexDescriptor!
+    init(){
+        vertexDescriptor = CEVertexDescriptorLibrary.createVertexDescriptor()
+    }
+}
+
+public final class CEVertexDescriptorLibrary: CEStandardLibrary {
+    private var vertexDescriptors: [VertexDescriptorTypes: CEVertexDescriptor] = [:]
+    
+    required init() {
+        createDefaultVertexDescriptors()
+    }
+    
+    public static func createVertexDescriptor() -> MTLVertexDescriptor {
         let vertexDescriptor = MTLVertexDescriptor()
         vertexDescriptor.attributes[0].format = .float3
         vertexDescriptor.attributes[0].bufferIndex = 0
@@ -31,16 +44,7 @@ public struct BasicVertexDescriptor: CEVertexDescriptor {
         vertexDescriptor.attributes[1].offset = float3.size
         
         vertexDescriptor.layouts[0].stride = CEVertex.stride
-        
         return vertexDescriptor
-    }
-}
-
-public final class CEVertexDescriptorLibrary: CEStandardLibrary {
-    private var vertexDescriptors: [VertexDescriptorTypes: CEVertexDescriptor] = [:]
-    
-    required init() {
-        createDefaultVertexDescriptors()
     }
     
     public func Descriptor(_ vertexDescriptorType: VertexDescriptorTypes) -> MTLVertexDescriptor {

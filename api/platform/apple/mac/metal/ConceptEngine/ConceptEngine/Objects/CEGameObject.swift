@@ -16,20 +16,18 @@ public class CEGameObject: CENode {
     var meshFillMode: MTLTriangleFillMode!
     var mesh: CEMesh!
     
-    var time: Float = 0
-    
-    var deltaPosition: Float = 0
+//    var time: Float = 0
+//    var deltaPosition: Float = 0
     
     init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill) {
         self.meshFillMode = meshFillMode
         mesh = (ConceptEngine.getLibrary(.Mesh) as! CEMeshLibrary).Mesh(meshType)
     }
     
-    func update(deltaTime: Float) {
-        time += deltaTime
-        self.scale = float3(repeating: cos(time))
-        
-        self.deltaPosition = cos(time)
+    public override func update(deltaTime: Float) {
+//        time += deltaTime
+//        self.scale = float3(repeating: cos(time))
+//        self.deltaPosition = cos(time)
         
         updateModel()
     }

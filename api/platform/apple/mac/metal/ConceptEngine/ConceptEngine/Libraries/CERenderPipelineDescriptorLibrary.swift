@@ -14,7 +14,7 @@ public enum RenderPipelineDescriptorTypes {
 
 protocol CEPipelineDescriptor {
     var renderName: String { get }
-    var renderPipelineDescriptor: MTLRenderPipelineDescriptor { get }
+    var renderPipelineDescriptor: MTLRenderPipelineDescriptor! { get }
 }
 
 public struct BasicRenderPipelineDescriptor: CEPipelineDescriptor {
@@ -25,13 +25,12 @@ public struct BasicRenderPipelineDescriptor: CEPipelineDescriptor {
     init(shaderLibrary: CEShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
         self.ShaderLibrary = shaderLibrary
         self.VertexDescriptorLibrary = vertexDescriptorLibrary
+        renderPipelineDescriptor = CERenderPipelineDescriptorLibrary.createRenderDescriptor(.Basic, .Basic, .Basic)
     }
     
     var renderName: String = "Basic Render Pipeline Descriptor"
     
-    var renderPipelineDescriptor: MTLRenderPipelineDescriptor {
-        return CERenderPipelineDescriptorLibrary.createRenderDescriptor(.Basic, .Basic, .Basic)
-    }
+    var renderPipelineDescriptor: MTLRenderPipelineDescriptor!
     
     
 }

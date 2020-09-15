@@ -13,4 +13,10 @@ class CEGameNPC: CEGameCharacter {
     init() {
         super.init(meshType: .Triangle)
     }
+    
+    
+    override func update(deltaTime: Float) {
+        defaultCharacterAI()
+        super.update(deltaTime: deltaTime)
+    }
 }

@@ -19,22 +19,24 @@ public enum FragmentShaderTypes {
 public protocol CEShader {
     var shaderName: String { get }
     var functionName: String { get }
-    var function: MTLFunction { get }
+    var function: MTLFunction! { get }
 }
 
 public struct BasicVertexShader: CEShader {
     public var shaderName: String = "Basic Vertex Shader"
     public var functionName: String = "basic_vertex_shader"
-    public var function: MTLFunction {
-        return CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
+    public var function: MTLFunction!
+    init(){
+        function = CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
     }
 }
 
 public struct BasicFragmentShader: CEShader {
     public var shaderName: String = "Basic Fragment Shader"
     public var functionName: String = "basic_fragment_shader"
-    public var function: MTLFunction {
-        return CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
+    public var function: MTLFunction!
+    init(){
+        function = CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
     }
 }
 

@@ -7,7 +7,7 @@
 //
 
 
-#import "ConceptBridge.h"
+#import "ConceptEngineBridge.h"
 #import "ConceptEngine-Swift.h"
 
 

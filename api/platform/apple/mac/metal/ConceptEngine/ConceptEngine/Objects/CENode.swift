@@ -14,6 +14,8 @@ public class CENode {
     var scale: float3 = float3(1, 1, 1)
     var rotation: float3 = float3(0, 0, 0)
     
+    var nodeChildren: [CENode] = []
+    
     var modelMatrix: matrix_float4x4 {
         var modelMatrix = matrix_identity_float4x4
         modelMatrix.translate(direction: position)
@@ -24,7 +26,20 @@ public class CENode {
         return modelMatrix
     }
     
+    public func addNodeChild(_ nodeChild: CENode) {
+        nodeChildren.append(nodeChild)
+    }
+    
+    public func update(deltaTime: Float) {
+        for child in nodeChildren {
+            child.update(deltaTime: deltaTime)
+        }
+    }
+    
     public func render(renderCommandEncoder: MTLRenderCommandEncoder) {
+        for nodeChild in nodeChildren {
+            nodeChild.render(renderCommandEncoder: renderCommandEncoder)
+        }
         if let renderable = self as? CERenderable {
             renderable.doRender(renderCommandEncoder)
         }

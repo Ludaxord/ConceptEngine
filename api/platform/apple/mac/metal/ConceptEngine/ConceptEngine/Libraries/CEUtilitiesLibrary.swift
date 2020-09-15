@@ -22,9 +22,12 @@ public final class CEUtilitiesLibrary: CEStandardLibrary {
     
     public static var PixelFormat: MTLPixelFormat!
     
+    public static var DefaultSceneType: SceneTypes!
+    
     required init() {
-        CEUtilitiesLibrary.ClearColor = ClearColors.Grey
+        CEUtilitiesLibrary.ClearColor = ClearColors.White
         CEUtilitiesLibrary.PixelFormat = MTLPixelFormat.bgra8Unorm
+        CEUtilitiesLibrary.DefaultSceneType = .Sandbox
     }
     
 }

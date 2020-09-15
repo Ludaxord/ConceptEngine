@@ -9,31 +9,29 @@
 import MetalKit
 
 public class CERenderer: NSObject {
-    
-    var GameObjects: [CENode] = []
-
-    override init() {
-        GameObjects.append(CEGamePlayer())
-        GameObjects.append(CEGameNPC())
+    public static var ScreenSize = float2(0,0)
+    init(_ mtkView: MTKView) {
+        super.init()
+        updateScreenSize(view: mtkView)
     }
 }
 
 
 extension CERenderer: MTKViewDelegate {
     
+    public func updateScreenSize(view: MTKView){
+        CERenderer.ScreenSize = float2(Float(view.bounds.width), Float(view.bounds.height))
+    }
+    
     public func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
+        updateScreenSize(view: view)
     }
     
     public func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable, let renderPassDescriptor = view.currentRenderPassDescriptor else { return }
         let commandBuffer = ConceptEngine.CommandQueue.makeCommandBuffer()
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
-        for object in GameObjects {
-            if let gameObject = object as? CEGameObject {
-                gameObject.update(deltaTime: 1 / Float(view.preferredFramesPerSecond))
-            }
-            object.render(renderCommandEncoder: renderCommandEncoder!)
-        }
+        (ConceptEngine.getManager(.SceneManager) as! CESceneManager).GenerateScene(renderCommandEncoder: renderCommandEncoder!, deltaTime: 1 / Float(view.preferredFramesPerSecond))
         renderCommandEncoder?.endEncoding()
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
@@ -42,8 +40,3 @@ extension CERenderer: MTKViewDelegate {
     
 }
 
-extension CERenderer {
-//    func getEngine() -> ConceptEngine {
-//        return self.Engine
-//    }
-}

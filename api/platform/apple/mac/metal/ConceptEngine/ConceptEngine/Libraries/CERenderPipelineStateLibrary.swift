@@ -14,22 +14,15 @@ public enum RenderPipelineStateTypes {
 
 protocol CERenderPipelineState {
     var stateName: String { get }
-    var renderPipelineState: MTLRenderPipelineState { get }
+    var renderPipelineState: MTLRenderPipelineState! { get }
 }
 
 public struct BasicRenderPipelineState: CERenderPipelineState {
     var stateName: String = "Basic Render Pipeline State"
     
-    var renderPipelineState: MTLRenderPipelineState {
-        var renderPipelineState: MTLRenderPipelineState!
-        do {
-            renderPipelineState = try CERenderPipelineStateLibrary.DefeultDevice.makeRenderPipelineState(descriptor:
-                CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary.RenderDescriptor(.Basic)
-            )
-        } catch let error as NSError {
-            print("ERROR::CREATE::RENDER_PIPELINE_STATE::__\(stateName)__::\(error)")
-        }
-        return renderPipelineState
+    var renderPipelineState: MTLRenderPipelineState!
+    init() {
+        renderPipelineState = CERenderPipelineStateLibrary.createRenderPipelineState(stateName: stateName)
     }
 }
 
@@ -48,6 +41,18 @@ public final class CERenderPipelineStateLibrary: CEStandardLibrary {
         CERenderPipelineStateLibrary.DefeultDevice = device
         CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary = renderPipelineDescriptorLibrary
         createDefaultRenderPipelineState()
+    }
+    
+    public static func createRenderPipelineState(stateName: String) -> MTLRenderPipelineState {
+        var renderPipelineState: MTLRenderPipelineState!
+        do {
+            renderPipelineState = try CERenderPipelineStateLibrary.DefeultDevice.makeRenderPipelineState(descriptor:
+                CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary.RenderDescriptor(.Basic)
+            )
+        } catch let error as NSError {
+            print("ERROR::CREATE::RENDER_PIPELINE_STATE::__\(stateName)__::\(error)")
+        }
+        return renderPipelineState
     }
     
     public func PipelineState(_ renderPipelineStateType: RenderPipelineStateTypes) -> MTLRenderPipelineState {
