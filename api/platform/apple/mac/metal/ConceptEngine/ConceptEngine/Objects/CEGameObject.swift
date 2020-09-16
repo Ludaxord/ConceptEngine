@@ -11,7 +11,7 @@ import MetalKit
 
 public class CEGameObject: CENode {
     
-    var model: CEModel = CEModel()
+    var model: CEModelDefaults = CEModelDefaults()
     
     var meshFillMode: MTLTriangleFillMode!
     var mesh: CEMesh!
@@ -46,7 +46,7 @@ extension CEGameObject {
 
 extension CEGameObject: CERenderable {
     func doRender(_ renderCommandEncoder: MTLRenderCommandEncoder) {
-        renderCommandEncoder.setVertexBytes(&model, length: CEModel.stride, index: 1)
+        renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
         renderCommandEncoder.setTriangleFillMode(meshFillMode)
         renderCommandEncoder.setRenderPipelineState((ConceptEngine.getLibrary(.RenderPipelineState) as! CERenderPipelineStateLibrary).PipelineState(.Basic))
         renderCommandEncoder.setVertexBuffer(mesh.vertexBuffer, offset: 0, index: 0)

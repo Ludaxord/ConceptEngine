@@ -26,6 +26,10 @@
 		7759F25A250C081D0041E589 /* CEGameNPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7759F259250C081D0041E589 /* CEGameNPC.swift */; };
 		7759F25C250C0A9C0041E589 /* CENode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7759F25B250C0A9C0041E589 /* CENode.swift */; };
 		7759F25E250C0C130041E589 /* CERenderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7759F25D250C0C130041E589 /* CERenderable.swift */; };
+		776072982512372900EC260A /* CECamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 776072972512372900EC260A /* CECamera.swift */; };
+		7760729A251238E800EC260A /* CEDebugCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77607299251238E800EC260A /* CEDebugCamera.swift */; };
+		7760729C251238F600EC260A /* CETPSCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7760729B251238F600EC260A /* CETPSCamera.swift */; };
+		7760729E2512390100EC260A /* CEFPSCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7760729D2512390100EC260A /* CEFPSCamera.swift */; };
 		7788FACB2510E37700AF1B0C /* CEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788FACA2510E37700AF1B0C /* CEManager.swift */; };
 		7788FACE2510F36200AF1B0C /* CEKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788FACD2510F36200AF1B0C /* CEKeyboard.swift */; };
 		7788FAD02510F5E200AF1B0C /* CEKeyCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788FACF2510F5E200AF1B0C /* CEKeyCodes.swift */; };
@@ -90,6 +94,10 @@
 		7759F259250C081D0041E589 /* CEGameNPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameNPC.swift; sourceTree = "<group>"; };
 		7759F25B250C0A9C0041E589 /* CENode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CENode.swift; sourceTree = "<group>"; };
 		7759F25D250C0C130041E589 /* CERenderable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CERenderable.swift; sourceTree = "<group>"; };
+		776072972512372900EC260A /* CECamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECamera.swift; sourceTree = "<group>"; };
+		77607299251238E800EC260A /* CEDebugCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEDebugCamera.swift; sourceTree = "<group>"; };
+		7760729B251238F600EC260A /* CETPSCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CETPSCamera.swift; sourceTree = "<group>"; };
+		7760729D2512390100EC260A /* CEFPSCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEFPSCamera.swift; sourceTree = "<group>"; };
 		7788FACA2510E37700AF1B0C /* CEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEManager.swift; sourceTree = "<group>"; };
 		7788FACD2510F36200AF1B0C /* CEKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEKeyboard.swift; sourceTree = "<group>"; };
 		7788FACF2510F5E200AF1B0C /* CEKeyCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEKeyCodes.swift; sourceTree = "<group>"; };
@@ -233,6 +241,7 @@
 		7759F24C250BD0820041E589 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				776072962512371A00EC260A /* Cameras */,
 				7759F24F250BD0C80041E589 /* CEGameObject.swift */,
 				7759F25B250C0A9C0041E589 /* CENode.swift */,
 				7759F25D250C0C130041E589 /* CERenderable.swift */,
@@ -240,6 +249,17 @@
 				779E47312510DBC200DC88A1 /* Scenes */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		776072962512371A00EC260A /* Cameras */ = {
+			isa = PBXGroup;
+			children = (
+				776072972512372900EC260A /* CECamera.swift */,
+				77607299251238E800EC260A /* CEDebugCamera.swift */,
+				7760729B251238F600EC260A /* CETPSCamera.swift */,
+				7760729D2512390100EC260A /* CEFPSCamera.swift */,
+			);
+			path = Cameras;
 			sourceTree = "<group>";
 		};
 		7788FACC2510F35800AF1B0C /* Inputs */ = {
@@ -443,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7788FAD7251103CC00AF1B0C /* CEBasicAI.swift in Sources */,
+				7760729E2512390100EC260A /* CEFPSCamera.swift in Sources */,
 				7759F25A250C081D0041E589 /* CEGameNPC.swift in Sources */,
 				7759F254250BDECD0041E589 /* CERenderer.swift in Sources */,
 				7788FAD02510F5E200AF1B0C /* CEKeyCodes.swift in Sources */,
@@ -458,6 +479,7 @@
 				779E47342510DD9300DC88A1 /* CESandbox.swift in Sources */,
 				7759F25E250C0C130041E589 /* CERenderable.swift in Sources */,
 				7759F25C250C0A9C0041E589 /* CENode.swift in Sources */,
+				7760729A251238E800EC260A /* CEDebugCamera.swift in Sources */,
 				7788FACE2510F36200AF1B0C /* CEKeyboard.swift in Sources */,
 				774733E32507AD6100F6771D /* CEGameView.swift in Sources */,
 				77D3D60E250A62EC001035B6 /* CERenderPipelineStateLibrary.swift in Sources */,
@@ -468,10 +490,12 @@
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
 				77039D792509779A00078F31 /* Types.swift in Sources */,
 				774733E62507B3E500F6771D /* BaseShader.metal in Sources */,
+				776072982512372900EC260A /* CECamera.swift in Sources */,
 				77D3D606250A1B80001035B6 /* CEUtilitiesLibrary.swift in Sources */,
 				77D3D604250A19E2001035B6 /* ConceptEngine.swift in Sources */,
 				7788FAD22510FA5B00AF1B0C /* CEMouse.swift in Sources */,
 				7759F252250BD9F20041E589 /* CEStandardLibrary.swift in Sources */,
+				7760729C251238F600EC260A /* CETPSCamera.swift in Sources */,
 				779E47302510DB5900DC88A1 /* CEScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

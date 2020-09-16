@@ -36,6 +36,10 @@ struct CEVertex: sizeable {
     var color: float4
 }
 
-struct CEModel: sizeable {
+struct CEModelDefaults: sizeable {
     var modelMatrix = matrix_identity_float4x4
+}
+
+struct CESceneDefaults: sizeable {
+    var viewMatrix = matrix_identity_float4x4
 }
