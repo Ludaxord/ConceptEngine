@@ -1,0 +1,32 @@
+{
+  "kaggle": {
+    "username": "jdsz5paulina",
+    "key": "5277445bf2e6cef9aac564d8f7c5b87d"
+  },
+  "kaggle_dataset_names": [
+    "kmader/aerial-change-detection-in-video-games",
+    "alexattia/the-simpsons-characters-dataset",
+    "iiplutocrat45ii/painting-vs-photograph-classification-dataset",
+    "mbkinaci/trump-photos",
+    "vishalsubbiah/pokemon-images-and-types",
+    "hsankesara/flickr-image-dataset",
+    "paultimothymooney/chest-xray-pneumonia",
+    "dansbecker/cityscapes-image-pairs",
+    "prasunroy/natural-images",
+    "kvpratama/pokemon-images-dataset",
+    "joosthazelzet/lego-brick-images",
+    "fournierp/captcha-version-2-images",
+    "apoorvwatsky/miraclvc1",
+    "bigquery/open-images",
+    "olgabelitskaya/flower-color-images",
+    "chetankv/dogs-cats-images",
+    "duttadebadri/image-classification",
+    "andrewmvd/doom-crossing",
+    "drgfreeman/rockpaperscissors",
+    "paramaggarwal/fashion-product-images-dataset",
+    "jessicali9530/stl10",
+    "sachinpatel21/pothole-image-dataset",
+    "prondeau/the-car-connection-picture-dataset",
+    "evgeniumakov/images4k"
+  ]
+}

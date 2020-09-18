@@ -5,6 +5,11 @@ DS_Store
 cmake-build-debug
 */cmake-build-debug/
 
+*/data/
+data/
+*/settings.json
+*/bin/
+
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
 #
