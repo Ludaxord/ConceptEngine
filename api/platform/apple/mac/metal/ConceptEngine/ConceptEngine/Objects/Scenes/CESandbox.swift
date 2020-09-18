@@ -13,14 +13,34 @@ public final class CESandbox: CEScene {
     var camera: CECamera!
     
     override func buildScene() {
-        buildDefaultSandbox()
+//        2D
+//        buildDefault2DSandbox()
+        
+//        3D
+        buildDefault3DSandbox()
     }
     
     public override func update(deltaTime: Float) {
+//        2D
+//        buildDefault2DUpdate(deltaTime: deltaTime)
+//        3D
+        buildDefault3DUpdate(deltaTime: deltaTime)
+        super.update(deltaTime: deltaTime)
+    }
+    
+    private func buildDefault3DUpdate(deltaTime: Float) {
+        for node in nodeChildren {
+            if let cube = node as? CEGame3DCube {
+                cube.rotation.x += deltaTime
+                cube.rotation.y += deltaTime
+            }
+        }
+    }
+    
+    private func buildDefault2DUpdate(deltaTime: Float) {
         buildDefaultRotation()
         buildDefaultKeyboardClick(deltaTime: deltaTime)
         buildDefaultMouseClick(deltaTime: deltaTime)
-        super.update(deltaTime: deltaTime)
     }
     
     private func buildDefaultRotation() {
@@ -63,7 +83,15 @@ public final class CESandbox: CEScene {
         addCamera(camera)
     }
     
-    private func buildDefaultSandbox() {
+    private func buildDefault3DSandbox() {
+        camera = CEDebugCamera()
+        buildWithDefaultCamera()
+        let cube = CEGame3DCube(camera: cameraManager.currentCamera)
+        camera.position.z = 5
+        addNodeChild(cube)
+    }
+    
+    private func buildDefault2DSandbox() {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
         let elementsCount = 5
@@ -71,9 +99,9 @@ public final class CESandbox: CEScene {
             for x in -elementsCount..<elementsCount {
                 let gameObject: CEGameObject!
                 if (y + x) % 2 == 0 {
-                    gameObject = CEGamePlayer(camera: cameraManager.currentCamera)
+                    gameObject = CEGame2DQuad(camera: cameraManager.currentCamera)
                 }else {
-                    gameObject = CEGameNPC(camera: cameraManager.currentCamera)
+                    gameObject = CEGame2DTriangle(camera: cameraManager.currentCamera)
                 }
                 gameObject.position.x = Float(Float(x) + 0.5) / Float(elementsCount)
                 gameObject.position.y = Float(Float(y) + 0.5) / Float(elementsCount)

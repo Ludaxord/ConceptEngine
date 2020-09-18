@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class CEGamePlayer: CEGameCharacter {
+class CEGame2DQuad: CEGame2DObject {
     
     init(camera: CECamera) {
         super.init(meshType: .Quad, camera: camera)

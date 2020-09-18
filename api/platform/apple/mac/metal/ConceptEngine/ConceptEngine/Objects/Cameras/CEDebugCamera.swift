@@ -10,6 +10,11 @@ import Foundation
 import simd
 
 public class CEDebugCamera: CECamera {
+    
+    public var projectionMatrix: matrix_float4x4 {
+        return matrix_float4x4.perspective(degreesFieldOfView: 45, aspectRatio: CERenderer.AspectRatio, near: 0.1, far: 1000)
+    }
+    
     public var cameraType: CameraTypes = CameraTypes.Debug
     
     public var position: float3 = float3(0)

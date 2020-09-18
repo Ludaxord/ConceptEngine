@@ -50,6 +50,7 @@ public final class CERenderPipelineDescriptorLibrary: CEStandardLibrary {
     public static func createRenderDescriptor(_ vertexType: VertexShaderTypes, _ fragmentType: FragmentShaderTypes, _ descriptorType: VertexDescriptorTypes) -> MTLRenderPipelineDescriptor {
         let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = CEUtilitiesLibrary.PixelFormat
+        renderPipelineStateDescriptor.depthAttachmentPixelFormat = CEUtilitiesLibrary.DepthPixelFormat
         renderPipelineStateDescriptor.vertexFunction = ShaderLibrary.Vertex(vertexType)
         renderPipelineStateDescriptor.fragmentFunction = ShaderLibrary.Fragment(fragmentType)
         renderPipelineStateDescriptor.vertexDescriptor = VertexDescriptorLibrary.Descriptor(descriptorType)

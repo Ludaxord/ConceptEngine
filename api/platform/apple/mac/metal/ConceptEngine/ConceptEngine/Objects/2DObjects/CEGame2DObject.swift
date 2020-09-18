@@ -8,7 +8,7 @@
 
 import MetalKit
 
-public class CEGameCharacter: CEGameObject {
+public class CEGame2DObject: CEGameObject {
     
     public var CharacterAI: CEAI!
     
@@ -24,6 +24,6 @@ public class CEGameCharacter: CEGameObject {
 }
 
 
-extension CEGameCharacter {
+extension CEGame2DObject {
     var followCharacterMouse2D: Float { return CharacterAI.followMouseFormula2D(character: self, camera: self.camera) }
 }

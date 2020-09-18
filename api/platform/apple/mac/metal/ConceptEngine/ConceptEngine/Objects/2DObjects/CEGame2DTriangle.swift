@@ -8,7 +8,7 @@
 
 import MetalKit
 
-class CEGameNPC: CEGameCharacter {
+class CEGame2DTriangle: CEGame2DObject {
     
     init(camera: CECamera) {
         super.init(meshType: .Triangle, camera: camera)

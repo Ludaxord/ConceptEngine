@@ -10,5 +10,5 @@ import Foundation
 
 
 public protocol CEAI {
-    func followMouseFormula2D(character: CEGameCharacter, camera: CECamera?) -> Float
+    func followMouseFormula2D(character: CEGame2DObject, camera: CECamera?) -> Float
 }

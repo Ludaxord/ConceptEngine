@@ -19,6 +19,16 @@ public var Z_AXIS: float3{
     return float3(0,0,1)
 }
 
+extension Float {
+    var toRadians: Float {
+        return (self / 180.0) * Float.pi
+    }
+    
+    var toDegrees: Float {
+        return self * (180.0 / Float.pi)
+    }
+}
+
 extension matrix_float4x4{
     
     mutating func translate(direction: float3){
@@ -96,6 +106,28 @@ extension matrix_float4x4{
         )
         
         self = matrix_multiply(self, result)
+    }
+    
+    //source: https://gamedev.stackexchange.com/questions/120338/what-does-a-perspective-projection-matrix-look-like-in-opengl
+    static func perspective(degreesFieldOfView: Float, aspectRatio: Float, near: Float, far: Float) -> matrix_float4x4 {
+        let fieldOfView = degreesFieldOfView.toRadians
+        
+        let tang: Float = tan(fieldOfView / 2)
+        
+        let x: Float = 1 / (aspectRatio * tang)
+        let y: Float = 1 / tang
+        let z: Float = -((far + near) / (far - near))
+        let w: Float = -((2 * far * near) / (far - near))
+        
+        var result = matrix_identity_float4x4
+        result.columns = (
+            float4(x, 0, 0,  0),
+            float4(0, y, 0,  0),
+            float4(0, 0, z, -1),
+            float4(0, 0, w,  0)
+        )
+        
+        return result
     }
     
 }

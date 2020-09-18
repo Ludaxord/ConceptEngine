@@ -33,6 +33,7 @@ public class CEScene: CENode {
     
     func updateSceneDefaults() {
         sceneDefaults.viewMatrix = cameraManager.currentCamera.cameraMatrix
+        sceneDefaults.projectionMatrix = cameraManager.currentCamera.projectionMatrix
     }
     
     public override func update(deltaTime: Float) {

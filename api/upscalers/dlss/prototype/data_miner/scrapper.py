@@ -53,31 +53,40 @@ class WebScrapper(Scrapper):
             self._get_driver(self.driver_path, url)
             images_path_count = 0
             images_from_view = 0
+            last_images_count = 0
+            to_break_counter = 0
             try:
                 images_from_view = self.find_element_count()
             except Exception as e:
                 print(e)
             images = []
             while images_from_view > images_path_count:
-                print(f"scrapping {images_path_count} of {images_from_view}")
+                print(
+                    f"scrapping {images_path_count} of {images_from_view} || last count: {last_images_count} || break count: {to_break_counter}")
                 self.scroll_to_bottom()
-                time.sleep(4)
-                self.page_to_html()
                 time.sleep(2)
+                self.page_to_html()
                 try:
                     srcs = self.tree_html.findall(
                         "//a[@class='js-photo-link photo-item__link']/img")
                     img_paths = [src.attrib.get("data-big-src", None) for src in srcs]
-                    img_paths = [img[:img.rfind("?")] for img in img_paths if img.rfind("?") > 0]
-                    images_path_count += len(img_paths)
-                    images = images + img_paths
+                    images = [img[:img.rfind("?")] for img in img_paths if img.rfind("?") > 0]
+                    images_path_count = len(img_paths)
                     del img_paths
                 except Exception as e:
                     print(colored(e, "red"))
+                if last_images_count == images_path_count:
+                    to_break_counter += 1
+                    if to_break_counter > 10:
+                        break
+                else:
+                    last_images_count = images_path_count
+                    to_break_counter = 0
 
             self.dr.quit()
             time.sleep(2)
             for indx, im in enumerate(images):
+                print(colored(f"download {indx + 1} of {len(images)}", "yellow"))
                 print(colored(f"downloading {im}", "cyan"))
                 if ".jpg" in im:
                     extension = "jpg"
@@ -156,5 +165,13 @@ class KaggleScrapper(Scrapper):
         else:
             df_names = data.get("kaggle_dataset_names", "")
             for df in df_names:
-                print(colored(f"downloading {df}...", "magenta"))
-                k.dataset_download_cli(df, unzip=True, path=f"{ROOT_DIR}/data/kaggle_downloads")
+                try:
+                    df_indx = df.rfind("/")
+                    if df_indx > 0:
+                        df_name = df[df_indx:]
+                    else:
+                        df_name = df
+                    print(colored(f"downloading {df}...", "magenta"))
+                    k.dataset_download_cli(df, unzip=True, path=f"{ROOT_DIR}/data/kaggle_downloads/{df_name}")
+                except Exception as e:
+                    print(colored(e, "red"))

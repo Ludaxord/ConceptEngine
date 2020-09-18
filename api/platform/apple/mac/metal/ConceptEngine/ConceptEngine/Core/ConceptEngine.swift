@@ -15,6 +15,7 @@ public enum LibraryTypes {
     case RenderPipelineDescriptor
     case RenderPipelineState
     case Mesh
+    case DepthStencilState
     case Utilities
 }
 
@@ -29,6 +30,7 @@ public final class ConceptEngine {
     
     private var ShaderLibrary: CEShaderLibrary!
     private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
+    private var DepthStencilStateLibrary: CEDepthStencilStateLibrary!
     private var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
     private var RenderPipelineStateLibrary: CERenderPipelineStateLibrary!
     private var MeshLibrary: CEMeshLibrary!
@@ -51,14 +53,22 @@ public final class ConceptEngine {
         print("gpu: \(device)")
         self.UtilitiesLibrary = CEUtilitiesLibrary()
         ConceptEngine.Libraries.updateValue(UtilitiesLibrary, forKey: .Utilities)
+        
         self.ShaderLibrary = CEShaderLibrary(device: device)
         ConceptEngine.Libraries.updateValue(ShaderLibrary, forKey: .Shader)
+        
         self.VertexDescriptorLibrary = CEVertexDescriptorLibrary()
         ConceptEngine.Libraries.updateValue(VertexDescriptorLibrary, forKey: .VertexDescriptor)
+        
+        self.DepthStencilStateLibrary = CEDepthStencilStateLibrary(device: device)
+        ConceptEngine.Libraries.updateValue(DepthStencilStateLibrary, forKey: .DepthStencilState)
+        
         self.RenderPipelineDescriptorLibrary = CERenderPipelineDescriptorLibrary(shaderLibrary: self.ShaderLibrary, vertexDescriptorLibrary: self.VertexDescriptorLibrary)
         ConceptEngine.Libraries.updateValue(RenderPipelineDescriptorLibrary, forKey: .RenderPipelineDescriptor)
+        
         self.RenderPipelineStateLibrary = CERenderPipelineStateLibrary(device: device, renderPipelineDescriptorLibrary: self.RenderPipelineDescriptorLibrary)
         ConceptEngine.Libraries.updateValue(RenderPipelineStateLibrary, forKey: .RenderPipelineState)
+        
         self.MeshLibrary = CEMeshLibrary()
         ConceptEngine.Libraries.updateValue(MeshLibrary, forKey: .Mesh)
     }
@@ -94,6 +104,7 @@ extension ConceptEngine {
     func injectDefaultColorsToView(view: MTKView) {
         view.clearColor = CEUtilitiesLibrary.ClearColor
         view.colorPixelFormat = CEUtilitiesLibrary.PixelFormat
+        view.depthStencilPixelFormat = CEUtilitiesLibrary.DepthPixelFormat
     }
     
     func injectGpuToView(view: MTKView) {

@@ -25,12 +25,13 @@ struct CEModelDefaults{
 
 struct CESceneDefaults{
     float4x4 viewMatrix;
+    float4x4 projectionMatrix;
 };
 
 vertex RasterizerInput basic_vertex_shader(const VertexInput vInput [[ stage_in ]], constant CESceneDefaults &scene [[ buffer(1) ]], constant CEModelDefaults &model [[ buffer(2) ]]) {
     RasterizerInput rasterizer_input;
     
-    rasterizer_input.position = scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
+    rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
     rasterizer_input.color = vInput.color;
     
     return rasterizer_input;
