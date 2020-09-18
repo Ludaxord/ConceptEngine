@@ -50,40 +50,7 @@ class WebScrapper(Scrapper):
         urls = data.get("web_pages", "")
         for url in urls:
             print(f"downloading files from {url}...")
-            self._get_driver(self.driver_path, url)
-            images_path_count = 0
-            images_from_view = 0
-            last_images_count = 0
-            to_break_counter = 0
-            try:
-                images_from_view = self.find_element_count()
-            except Exception as e:
-                print(e)
-            images = []
-            while images_from_view > images_path_count:
-                print(
-                    f"scrapping {images_path_count} of {images_from_view} || last count: {last_images_count} || break count: {to_break_counter}")
-                self.scroll_to_bottom()
-                time.sleep(2)
-                self.page_to_html()
-                try:
-                    srcs = self.tree_html.findall(
-                        "//a[@class='js-photo-link photo-item__link']/img")
-                    img_paths = [src.attrib.get("data-big-src", None) for src in srcs]
-                    images = [img[:img.rfind("?")] for img in img_paths if img.rfind("?") > 0]
-                    images_path_count = len(img_paths)
-                    del img_paths
-                except Exception as e:
-                    print(colored(e, "red"))
-                if last_images_count == images_path_count:
-                    to_break_counter += 1
-                    if to_break_counter > 10:
-                        break
-                else:
-                    last_images_count = images_path_count
-                    to_break_counter = 0
-
-            self.dr.quit()
+            images, dirname = self.get_images(url)
             time.sleep(2)
             for indx, im in enumerate(images):
                 print(colored(f"download {indx + 1} of {len(images)}", "yellow"))
@@ -94,19 +61,116 @@ class WebScrapper(Scrapper):
                     extension = "jpeg"
                 else:
                     extension = "png"
-                self.download_image(im, f"{ROOT_DIR}/data/web_downloads/{datetime.now()}_{indx}.{extension}")
+                try:
+                    self.download_image(im, f"{ROOT_DIR}/data/web_downloads/{dirname}", f"{datetime.now()}_{indx}.{extension}")
+                except Exception as e:
+                    print(colored(e, "red"))
                 time.sleep(1)
 
-    def download_image(self, url, filepath):
+    def get_images(self, url):
+        name = ""
+        if "pexels.com" in url:
+            name = "pexels.com"
+            return self.get_pexels_images(url), name
+        elif "unsplash.com" in url:
+            name = "unsplash.com"
+            return self.get_unsplash_images(url), name
+        else:
+            return [], name
+
+    def get_unsplash_images(self, url):
+        self._get_driver(self.driver_path, url)
+        images_path_count = 0
+        images_from_view = 0
+        last_images_count = 0
+        to_break_counter = 0
+        try:
+            images_from_view = self.find_element_count(url)
+        except Exception as e:
+            print(e)
+        images = []
+        while images_from_view > images_path_count:
+            print(
+                f"scrapping {images_path_count} of {images_from_view} || last count: {last_images_count} || break count: {to_break_counter}")
+            self.scroll_to_bottom()
+            time.sleep(2)
+            self.page_to_html()
+            try:
+                srcs = self.tree_html.findall(
+                    "//img[@class='_2VWD4 _2zEKz']")
+                img_paths = [src.attrib.get("src", None) for src in srcs]
+                images = [img[:img.rfind("?")] for img in img_paths if img.rfind("?") > 0]
+                images_path_count = len(img_paths)
+                del img_paths
+            except Exception as e:
+                print(colored(e, "red"))
+            if last_images_count == images_path_count:
+                to_break_counter += 1
+                if to_break_counter > 10:
+                    break
+            else:
+                last_images_count = images_path_count
+                to_break_counter = 0
+
+        self.dr.quit()
+        return images
+
+    def get_pexels_images(self, url):
+        self._get_driver(self.driver_path, url)
+        images_path_count = 0
+        images_from_view = 0
+        last_images_count = 0
+        to_break_counter = 0
+        try:
+            images_from_view = self.find_element_count(url)
+        except Exception as e:
+            print(e)
+        images = []
+        while images_from_view > images_path_count:
+            print(
+                f"scrapping {images_path_count} of {images_from_view} || last count: {last_images_count} || break count: {to_break_counter}")
+            self.scroll_to_bottom()
+            time.sleep(2)
+            self.page_to_html()
+            try:
+                srcs = self.tree_html.findall(
+                    "//a[@class='js-photo-link photo-item__link']/img")
+                img_paths = [src.attrib.get("data-big-src", None) for src in srcs]
+                images = [img[:img.rfind("?")] for img in img_paths if img.rfind("?") > 0]
+                images_path_count = len(img_paths)
+                del img_paths
+            except Exception as e:
+                print(colored(e, "red"))
+            if last_images_count == images_path_count:
+                to_break_counter += 1
+                if to_break_counter > 10:
+                    break
+            else:
+                last_images_count = images_path_count
+                to_break_counter = 0
+
+        self.dr.quit()
+        return images
+
+    def download_image(self, url, filepath, file_name):
+        from pathlib import Path
+        Path(filepath).mkdir(parents=True, exist_ok=True)
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         resource = urlopen(req)
-        output = open(filepath, "wb")
+        output = open(f"{filepath}/{file_name}", "wb")
         output.write(resource.read())
         output.close()
 
-    def find_element_count(self):
-        return [int(digits_only(e) + "0") for e in self.find_elements_inner_text_by_xpath(
-            "//ul[@class='search__tabs__list search__tabs__list--rectangle']/li/a/small") if "." in e and "K" in e][0]
+    def find_element_count(self, url):
+        if "pexels.com" in url:
+            xpath = "//ul[@class='search__tabs__list search__tabs__list--rectangle']/li/a/small"
+        elif "unsplash.com" in url:
+            xpath = "//ul[@class='_2d0kJ _2Y-QM _1eXFm']/li/a/span/span"
+        else:
+            xpath = ""
+        return \
+            [int(digits_only(e) + "0") for e in self.find_elements_inner_text_by_xpath(xpath) if "." in e and "K" in e][
+                0]
 
     def find_elements_inner_text_by_xpath(self, xpath):
         return [''.join(p.itertext()).strip() for p in self.tree_html.findall(xpath)]
@@ -168,7 +232,7 @@ class KaggleScrapper(Scrapper):
                 try:
                     df_indx = df.rfind("/")
                     if df_indx > 0:
-                        df_name = df[df_indx:]
+                        df_name = df[df_indx + 1:]
                     else:
                         df_name = df
                     print(colored(f"downloading {df}...", "magenta"))

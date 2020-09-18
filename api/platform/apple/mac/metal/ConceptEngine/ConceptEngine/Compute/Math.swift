@@ -27,6 +27,10 @@ extension Float {
     var toDegrees: Float {
         return self * (180.0 / Float.pi)
     }
+    
+    static var randomFromZeroToOne: Float {
+        return Float(arc4random()) / Float(UINT32_MAX)
+    }
 }
 
 extension matrix_float4x4{

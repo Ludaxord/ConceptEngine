@@ -12,6 +12,7 @@ import MetalKit
 public class CEGameObject: CENode {
     
     internal var camera: CECamera!
+    private var material = CEMaterial()
     
     var model: CEModelDefaults = CEModelDefaults()
     
@@ -39,6 +40,11 @@ extension CEGameObject {
     func changeMeshFillMode(fillMode: MTLTriangleFillMode) {
         self.meshFillMode = fillMode
     }
+    
+    public func setColor(_ color: float4) {
+        self.material.color = color
+        self.material.useMaterialColor = true
+    }
 }
 
 extension CEGameObject: CERenderable {
@@ -48,6 +54,8 @@ extension CEGameObject: CERenderable {
         renderCommandEncoder.setVertexBuffer(mesh.vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
         renderCommandEncoder.setTriangleFillMode(meshFillMode)
+        renderCommandEncoder.setFragmentBytes(&material, length: CEMaterial.stride, index: 1)
         renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: mesh.vertexCount)
     }
 }
+

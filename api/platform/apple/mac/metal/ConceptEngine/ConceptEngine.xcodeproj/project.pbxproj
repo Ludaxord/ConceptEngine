@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		77039D792509779A00078F31 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* Types.swift */; };
 		77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptEngineBridge.m */; };
+		7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725BB0725150DF200411499 /* CEColorUtils.swift */; };
 		77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E272514BC6C009EFBFB /* CECameraManager.swift */; };
 		77367E2B2514DCCF009EFBFB /* CEGame3DObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */; };
 		77367E2D2514DD23009EFBFB /* CEGame3DCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */; };
@@ -74,6 +75,7 @@
 		77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ConceptEngine-Bridging-Header.h"; sourceTree = "<group>"; };
 		77039D7B2509802300078F31 /* ConceptEngineBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptEngineBridge.m; sourceTree = "<group>"; };
 		77039D7D2509805200078F31 /* ConceptEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptEngineBridge.h; sourceTree = "<group>"; };
+		7725BB0725150DF200411499 /* CEColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEColorUtils.swift; sourceTree = "<group>"; };
 		77367E272514BC6C009EFBFB /* CECameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECameraManager.swift; sourceTree = "<group>"; };
 		77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DObject.swift; sourceTree = "<group>"; };
 		77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DCube.swift; sourceTree = "<group>"; };
@@ -159,6 +161,14 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		7725BB0625150DC600411499 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7725BB0725150DF200411499 /* CEColorUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		77367E292514DCB9009EFBFB /* 3DObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +201,7 @@
 		774733B02507A6DD00F6771D /* ConceptEngine */ = {
 			isa = PBXGroup;
 			children = (
+				7725BB0625150DC600411499 /* Utils */,
 				7788FAD3251103A200AF1B0C /* AI */,
 				77B69AF7250E8E7400199907 /* Compute */,
 				7759F24C250BD0820041E589 /* Objects */,
@@ -199,7 +210,7 @@
 				77039D772509778400078F31 /* Core */,
 				774733E42507B3D100F6771D /* Shaders */,
 				774733E12507AD1700F6771D /* Views */,
-				774733E02507AA0C00F6771D /* Utils */,
+				774733E02507AA0C00F6771D /* Bootstrap */,
 				77039D7B2509802300078F31 /* ConceptEngineBridge.m */,
 				77039D7D2509805200078F31 /* ConceptEngineBridge.h */,
 				77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */,
@@ -225,7 +236,7 @@
 			path = ConceptEngineUITests;
 			sourceTree = "<group>";
 		};
-		774733E02507AA0C00F6771D /* Utils */ = {
+		774733E02507AA0C00F6771D /* Bootstrap */ = {
 			isa = PBXGroup;
 			children = (
 				774733B12507A6DD00F6771D /* AppDelegate.swift */,
@@ -234,7 +245,7 @@
 				774733BE2507A6DE00F6771D /* ConceptEngine.entitlements */,
 				774733B52507A6DD00F6771D /* ConceptEngine.xcdatamodeld */,
 			);
-			path = Utils;
+			path = Bootstrap;
 			sourceTree = "<group>";
 		};
 		774733E12507AD1700F6771D /* Views */ = {
@@ -493,6 +504,7 @@
 				77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */,
 				77D3D608250A1EE6001035B6 /* CEShaderLibrary.swift in Sources */,
 				77D3D60C250A58E1001035B6 /* CERenderPipelineDescriptorLibrary.swift in Sources */,
+				7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */,
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
 				77D3D60A250A5039001035B6 /* CEVertexDescriptorLibrary.swift in Sources */,
 				7788FACB2510E37700AF1B0C /* CEManager.swift in Sources */,
@@ -689,7 +701,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				INFOPLIST_FILE = ConceptEngine/Utils/Info.plist;
+				INFOPLIST_FILE = ConceptEngine/Bootstrap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -711,7 +723,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
-				INFOPLIST_FILE = ConceptEngine/Utils/Info.plist;
+				INFOPLIST_FILE = ConceptEngine/Bootstrap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

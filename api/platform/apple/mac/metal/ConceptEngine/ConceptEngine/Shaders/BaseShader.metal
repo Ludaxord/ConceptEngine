@@ -28,7 +28,16 @@ struct CESceneDefaults{
     float4x4 projectionMatrix;
 };
 
-vertex RasterizerInput basic_vertex_shader(const VertexInput vInput [[ stage_in ]], constant CESceneDefaults &scene [[ buffer(1) ]], constant CEModelDefaults &model [[ buffer(2) ]]) {
+struct CEMaterial {
+    float4 color;
+    bool userMaterialColor;
+};
+
+vertex RasterizerInput basic_vertex_shader(
+                                           const VertexInput vInput [[ stage_in ]],
+                                           constant CESceneDefaults &scene [[ buffer(1) ]],
+                                           constant CEModelDefaults &model [[ buffer(2) ]]
+                                           ) {
     RasterizerInput rasterizer_input;
     
     rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
@@ -37,7 +46,10 @@ vertex RasterizerInput basic_vertex_shader(const VertexInput vInput [[ stage_in 
     return rasterizer_input;
 }
 
-fragment half4 basic_fragment_shader(RasterizerInput rasterizer_input [[ stage_in ]]) {
-    float4 color = rasterizer_input.color;
+fragment half4 basic_fragment_shader(
+                                     RasterizerInput rasterizer_input [[ stage_in ]],
+                                     constant CEMaterial &material [[ buffer(1) ]]
+                                     ) {
+    float4 color = material.userMaterialColor ? material.color : rasterizer_input.color;
     return half4(color.r, color.g, color.b, color.a);
 }

@@ -31,8 +31,8 @@ public final class CESandbox: CEScene {
     private func buildDefault3DUpdate(deltaTime: Float) {
         for node in nodeChildren {
             if let cube = node as? CEGame3DCube {
-                cube.rotation.x += deltaTime
-                cube.rotation.y += deltaTime
+                cube.rotation.x += (Float.randomFromZeroToOne * deltaTime)
+                cube.rotation.y += (Float.randomFromZeroToOne * deltaTime)
             }
         }
     }
@@ -86,15 +86,33 @@ public final class CESandbox: CEScene {
     private func buildDefault3DSandbox() {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
-        let cube = CEGame3DCube(camera: cameraManager.currentCamera)
-        camera.position.z = 5
-        addNodeChild(cube)
+        camera.position.z = 13
+        build3DCubeGrid(xElementCount: 8, yElementCount: 5)
     }
     
     private func buildDefault2DSandbox() {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
-        let elementsCount = 5
+        build2DTriangeQuadGrid(elementsCount: 5)
+    }
+    
+    private func build3DCubeGrid(xElementCount: Int, yElementCount: Int, elementsSpace: Float = 0.5, scale: Float = 0.3) {
+        for y in -yElementCount..<yElementCount {
+            let yPosition = Float(y) + elementsSpace
+            for x in -xElementCount..<xElementCount {
+                let xPosition = Float(x) + elementsSpace
+                let cube = CEGame3DCube(camera: cameraManager.currentCamera)
+                cube.position.y = yPosition
+                cube.position.x = xPosition
+                cube.scale = float3(scale)
+                cube.setColor(CEColorUtils.randomColor)
+                addNodeChild(cube)
+            }
+        }
+
+    }
+    
+    private func build2DTriangeQuadGrid(elementsCount: Int, elementsSpace: Float = 0.5, scale: Float = 0.1) {
         for y in -elementsCount..<elementsCount {
             for x in -elementsCount..<elementsCount {
                 let gameObject: CEGameObject!
@@ -103,9 +121,9 @@ public final class CESandbox: CEScene {
                 }else {
                     gameObject = CEGame2DTriangle(camera: cameraManager.currentCamera)
                 }
-                gameObject.position.x = Float(Float(x) + 0.5) / Float(elementsCount)
-                gameObject.position.y = Float(Float(y) + 0.5) / Float(elementsCount)
-                gameObject.scale = float3(0.1)
+                gameObject.position.x = Float(Float(x) + elementsSpace) / Float(elementsCount)
+                gameObject.position.y = Float(Float(y) + elementsSpace) / Float(elementsCount)
+                gameObject.scale = float3(scale)
                 addNodeChild(gameObject)
             }
         }
