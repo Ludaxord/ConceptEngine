@@ -9,6 +9,8 @@ cmake-build-debug
 data/
 */settings.json
 */bin/
+*/geckodriver.log
+geckodriver.log
 
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects

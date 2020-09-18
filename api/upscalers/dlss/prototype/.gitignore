@@ -1,3 +1,5 @@
 
 settings.json
 bin
+geckodriver.log
+../geckodriver.log
