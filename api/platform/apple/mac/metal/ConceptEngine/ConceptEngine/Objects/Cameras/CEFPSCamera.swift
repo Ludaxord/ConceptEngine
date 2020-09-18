@@ -10,11 +10,11 @@ import Foundation
 import simd
 
 public class CEFPSCamera: CECamera {
-    var cameraType: CameraTypes = CameraTypes.FPS
+    public var cameraType: CameraTypes = CameraTypes.FPS
     
-    var position: float3 = float3(0)
+    public var position: float3 = float3(0)
     
-    func defaultCameraBehavior(deltaTime: Float) {
+    public func defaultCameraBehavior(deltaTime: Float) {
         
     }
 }

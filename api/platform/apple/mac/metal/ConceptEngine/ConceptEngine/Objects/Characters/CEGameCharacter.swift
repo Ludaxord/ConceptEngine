@@ -12,8 +12,8 @@ public class CEGameCharacter: CEGameObject {
     
     public var CharacterAI: CEAI!
     
-    override init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill) {
-        super.init(meshType: meshType, meshFillMode: meshFillMode)
+    override init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill, camera: CECamera) {
+        super.init(meshType: meshType, meshFillMode: meshFillMode, camera: camera)
         CharacterAI = CEBasicAI()
     }
     
@@ -25,5 +25,5 @@ public class CEGameCharacter: CEGameObject {
 
 
 extension CEGameCharacter {
-    var followCharacterMouse2D: Float { return CharacterAI.followMouseFormula2D(character: self) }
+    var followCharacterMouse2D: Float { return CharacterAI.followMouseFormula2D(character: self, camera: self.camera) }
 }

@@ -10,6 +10,8 @@ import MetalKit
 
 public final class CESandbox: CEScene {
     
+    var camera: CECamera!
+    
     override func buildScene() {
         buildDefaultSandbox()
     }
@@ -56,16 +58,22 @@ public final class CESandbox: CEScene {
             c.position.y -= deltaTime
         }
     }
+
+    private func buildWithDefaultCamera() {
+        addCamera(camera)
+    }
     
     private func buildDefaultSandbox() {
+        camera = CEDebugCamera()
+        buildWithDefaultCamera()
         let elementsCount = 5
         for y in -elementsCount..<elementsCount {
             for x in -elementsCount..<elementsCount {
                 let gameObject: CEGameObject!
                 if (y + x) % 2 == 0 {
-                    gameObject = CEGamePlayer()
+                    gameObject = CEGamePlayer(camera: cameraManager.currentCamera)
                 }else {
-                    gameObject = CEGameNPC()
+                    gameObject = CEGameNPC(camera: cameraManager.currentCamera)
                 }
                 gameObject.position.x = Float(Float(x) + 0.5) / Float(elementsCount)
                 gameObject.position.y = Float(Float(y) + 0.5) / Float(elementsCount)

@@ -4,6 +4,17 @@ from tensorflow.python.keras.losses import binary_crossentropy
 from keras import backend as K
 
 
+def digits_only(digit):
+    try:
+        replaced = re.findall('[0-9]+', digit)
+        # replaced = re.sub("(?<=^|)\d+(\.\d+)?(?=$| )|(?<=^|)\.\d+(?=$| )", '', digit)
+        # return replaced
+        return ''.join(replaced)
+    except Exception as e:
+        print("digits only error", e)
+        return digit
+
+
 def clean_html(raw_html):
     cleanr = re.compile('<.*?>')
     cleantext = re.sub(cleanr, ' ', raw_html)

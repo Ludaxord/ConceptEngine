@@ -9,7 +9,13 @@
 import Foundation
 
 public class CEBasicAI: CEAI {
-    public func followMouseFormula2D(character: CEGameCharacter) -> Float {
-        return -atan2f(CEMouse.GetMouseViewportPosition().x - character.position.x, CEMouse.GetMouseViewportPosition().y - character.position.y)
+    public func followMouseFormula2D(character: CEGameCharacter, camera: CECamera?) -> Float {
+        var xPosition: Float = CEMouse.GetMouseViewportPosition().x - character.position.x
+        var yPosition: Float = CEMouse.GetMouseViewportPosition().y - character.position.y
+        if camera != nil {
+            xPosition += camera!.position.x
+            yPosition += camera!.position.y
+        }
+        return -atan2f(xPosition, yPosition)
     }
 }

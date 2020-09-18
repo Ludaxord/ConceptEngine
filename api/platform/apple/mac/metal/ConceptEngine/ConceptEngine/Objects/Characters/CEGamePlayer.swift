@@ -10,7 +10,7 @@ import MetalKit
 
 class CEGamePlayer: CEGameCharacter {
     
-    init() {
-        super.init(meshType: .Quad)
+    init(camera: CECamera) {
+        super.init(meshType: .Quad, camera: camera)
     }    
 }

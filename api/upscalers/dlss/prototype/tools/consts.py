@@ -5,7 +5,7 @@ home = str(Path.home())
 
 ROOT_DIR = str(Path(os.path.dirname(os.path.abspath(__file__))).parent)
 
-driver_path = f"{ROOT_DIR}/bin/chromedriver"
+driver_path = f"{ROOT_DIR}/bin/geckodriver"
 
 selenium_params = [
     "--no-sandbox",

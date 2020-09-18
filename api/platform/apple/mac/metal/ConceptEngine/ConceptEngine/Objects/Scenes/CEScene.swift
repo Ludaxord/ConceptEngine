@@ -11,7 +11,7 @@ import MetalKit
 public class CEScene: CENode {
     
     var sceneDefaults = CESceneDefaults()
-    var camera = CEDebugCamera()
+    var cameraManager = CECameraManager()
     
     override init() {
         super.init()
@@ -20,12 +20,22 @@ public class CEScene: CENode {
     
     func buildScene() {}
     
+    func addCamera(_ camera: CECamera, _ currentCamera: Bool = true) {
+        cameraManager.registerCamera(camera: camera)
+        if currentCamera {
+            cameraManager.setCamera(camera.cameraType)
+        }
+    }
+    
+    func updateCameras(deltaTime: Float) {
+        cameraManager.update(deltaTime: deltaTime)
+    }
+    
     func updateSceneDefaults() {
-        sceneDefaults.viewMatrix = camera.cameraMatrix
+        sceneDefaults.viewMatrix = cameraManager.currentCamera.cameraMatrix
     }
     
     public override func update(deltaTime: Float) {
-        camera.update(deltaTime: deltaTime)
         updateSceneDefaults()
         super.update(deltaTime: deltaTime)
     }

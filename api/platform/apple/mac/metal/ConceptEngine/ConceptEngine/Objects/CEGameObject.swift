@@ -11,24 +11,21 @@ import MetalKit
 
 public class CEGameObject: CENode {
     
+    internal var camera: CECamera!
+    
     var model: CEModelDefaults = CEModelDefaults()
     
     var meshFillMode: MTLTriangleFillMode!
     var mesh: CEMesh!
     
-//    var time: Float = 0
-//    var deltaPosition: Float = 0
     
-    init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill) {
+    init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill, camera: CECamera) {
         self.meshFillMode = meshFillMode
         mesh = (ConceptEngine.getLibrary(.Mesh) as! CEMeshLibrary).Mesh(meshType)
+        self.camera = camera
     }
     
     public override func update(deltaTime: Float) {
-//        time += deltaTime
-//        self.scale = float3(repeating: cos(time))
-//        self.deltaPosition = cos(time)
-        
         updateModel()
     }
     

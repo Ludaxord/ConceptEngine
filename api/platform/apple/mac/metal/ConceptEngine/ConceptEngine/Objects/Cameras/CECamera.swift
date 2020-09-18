@@ -14,7 +14,7 @@ public enum CameraTypes {
     case TPS
 }
 
-protocol CECamera {
+public protocol CECamera {
     var cameraType: CameraTypes { get }
     var position: float3 { get set }
     func defaultCameraBehavior(deltaTime: Float)
@@ -24,7 +24,7 @@ protocol CECamera {
 
 extension CECamera {
     
-    func update(deltaTime: Float) {
+    public func update(deltaTime: Float) {
         defaultCameraBehavior(deltaTime: deltaTime)
     }
     
