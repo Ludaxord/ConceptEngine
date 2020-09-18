@@ -8,6 +8,6 @@ add_executable(ConceptEngine main.cpp
 #        api/platform/apple/mac/opengl/ConceptEngine/MacConceptEngineOpenGL/MacConceptEngineOpenGL/CEMacOpenGL.h
         api/platform/CEPlatformInit.cpp
         api/platform/CEPlatformInit.h
-        )
+        api/upscalers/dlss/api/DLSS.cpp api/upscalers/dlss/api/DLSS.h)
 
 add_definitions(-DBOOST_ALL_NO_LIB) # disabling of auto filling boost libs names to versioned
