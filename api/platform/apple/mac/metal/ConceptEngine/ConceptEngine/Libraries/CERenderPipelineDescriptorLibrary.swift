@@ -10,6 +10,7 @@ import MetalKit
 
 public enum RenderPipelineDescriptorTypes {
     case Basic
+    case Instanced
 }
 
 protocol CEPipelineDescriptor {
@@ -32,6 +33,22 @@ public struct BasicRenderPipelineDescriptor: CEPipelineDescriptor {
     
     var renderPipelineDescriptor: MTLRenderPipelineDescriptor!
     
+}
+
+public struct InstancedRenderPipelineDescriptor: CEPipelineDescriptor {
+    
+    private var ShaderLibrary: CEShaderLibrary!
+    private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
+    
+    init(shaderLibrary: CEShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
+        self.ShaderLibrary = shaderLibrary
+        self.VertexDescriptorLibrary = vertexDescriptorLibrary
+        renderPipelineDescriptor = CERenderPipelineDescriptorLibrary.createRenderDescriptor(.Instanced, .Basic, .Basic)
+    }
+    
+    var renderName: String = "Instanced Render Pipeline Descriptor"
+    
+    var renderPipelineDescriptor: MTLRenderPipelineDescriptor!
     
 }
 
@@ -63,5 +80,7 @@ public final class CERenderPipelineDescriptorLibrary: CEStandardLibrary {
     
     private func createDefaultRenderPipelineDescriptor(shaderLibrary: CEShaderLibrary? = nil, vertexDescriptorLibrary: CEVertexDescriptorLibrary? = nil) {
         renderPipelineDescriptors.updateValue(BasicRenderPipelineDescriptor(shaderLibrary: shaderLibrary ?? CERenderPipelineDescriptorLibrary.ShaderLibrary, vertexDescriptorLibrary: vertexDescriptorLibrary ?? CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary), forKey: .Basic)
+        
+        renderPipelineDescriptors.updateValue(InstancedRenderPipelineDescriptor(shaderLibrary: shaderLibrary ?? CERenderPipelineDescriptorLibrary.ShaderLibrary, vertexDescriptorLibrary: vertexDescriptorLibrary ?? CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary), forKey: .Instanced)
     }
 }

@@ -46,6 +46,22 @@ vertex RasterizerInput basic_vertex_shader(
     return rasterizer_input;
 }
 
+vertex RasterizerInput instanced_vertex_shader(
+                                           const VertexInput vInput [[ stage_in ]],
+                                           constant CESceneDefaults &scene [[ buffer(1) ]],
+                                           constant CEModelDefaults *models [[ buffer(2) ]],
+                                           uint instanceId [[ instance_id ]]
+                                           ) {
+    RasterizerInput rasterizer_input;
+    
+    CEModelDefaults model = models[instanceId];
+    
+    rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
+    rasterizer_input.color = vInput.color;
+    
+    return rasterizer_input;
+}
+
 fragment half4 basic_fragment_shader(
                                      RasterizerInput rasterizer_input [[ stage_in ]],
                                      constant CEMaterial &material [[ buffer(1) ]]

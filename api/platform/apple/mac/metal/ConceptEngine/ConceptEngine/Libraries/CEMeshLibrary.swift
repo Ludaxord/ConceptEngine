@@ -17,12 +17,15 @@ public enum MeshTypes {
 public protocol CEMesh {
     var vertexBuffer: MTLBuffer! { get }
     var vertexCount: Int! { get }
+    func setInstanceCount(_ count: Int)
+    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder)
 }
 
 class CEGameMesh: CEMesh {
     
     var vertices: [CEVertex]!
     var vertexBuffer: MTLBuffer!
+    var instanceCount: Int = 1
     var vertexCount: Int! {
         return vertices.count
     }
@@ -36,6 +39,15 @@ class CEGameMesh: CEMesh {
     
     func createBuffers(device: MTLDevice) {
         vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertices.count), options: [])
+    }
+    
+    func setInstanceCount(_ count: Int) {
+        self.instanceCount = count
+    }
+    
+    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) {
+        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: instanceCount)
     }
 }
 

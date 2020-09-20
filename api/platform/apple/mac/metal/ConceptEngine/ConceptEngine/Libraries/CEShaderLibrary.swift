@@ -10,6 +10,7 @@ import MetalKit
 
 public enum VertexShaderTypes {
     case Basic
+    case Instanced
 }
 
 public enum FragmentShaderTypes {
@@ -34,6 +35,15 @@ public struct BasicVertexShader: CEShader {
 public struct BasicFragmentShader: CEShader {
     public var shaderName: String = "Basic Fragment Shader"
     public var functionName: String = "basic_fragment_shader"
+    public var function: MTLFunction!
+    init(){
+        function = CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
+    }
+}
+
+public struct InstancedVertexShader: CEShader {
+    public var shaderName: String = "Instanced Vertex Shader"
+    public var functionName: String = "instanced_vertex_shader"
     public var function: MTLFunction!
     init(){
         function = CEShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
@@ -68,6 +78,8 @@ public final class CEShaderLibrary: CEStandardLibrary {
     
     private func createDefaultShaders() {
         vertexShaders.updateValue(BasicVertexShader(), forKey: .Basic)
+        vertexShaders.updateValue(InstancedVertexShader(), forKey: .Instanced)
+        
         fragmentShaders.updateValue(BasicFragmentShader(), forKey: .Basic)
     }
 

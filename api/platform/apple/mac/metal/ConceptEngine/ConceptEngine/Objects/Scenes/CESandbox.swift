@@ -23,8 +23,10 @@ public final class CESandbox: CEScene {
     public override func update(deltaTime: Float) {
 //        2D
 //        buildDefault2DUpdate(deltaTime: deltaTime)
-//        3D
-        buildDefault3DUpdate(deltaTime: deltaTime)
+//        3D Cubes
+//        buildDefault3DUpdate(deltaTime: deltaTime)
+//        3D CubeCollection
+        buildDefault3DUpdateCubeCollection(deltaTime: deltaTime)
         super.update(deltaTime: deltaTime)
     }
     
@@ -33,6 +35,14 @@ public final class CESandbox: CEScene {
             if let cube = node as? CEGame3DCube {
                 cube.rotation.x += (Float.randomFromZeroToOne * deltaTime)
                 cube.rotation.y += (Float.randomFromZeroToOne * deltaTime)
+            }
+        }
+    }
+    
+    private func buildDefault3DUpdateCubeCollection(deltaTime: Float) {
+        for node in nodeChildren {
+            if let cubes = node as? CECubeCollection {
+                cubes.rotation.z += deltaTime
             }
         }
     }
@@ -86,8 +96,9 @@ public final class CESandbox: CEScene {
     private func buildDefault3DSandbox() {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
-        camera.position.z = 13
-        build3DCubeGrid(xElementCount: 8, yElementCount: 5)
+        camera.position.z = 100
+//        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
+        build3DCubeCollection()
     }
     
     private func buildDefault2DSandbox() {
@@ -96,20 +107,28 @@ public final class CESandbox: CEScene {
         build2DTriangeQuadGrid(elementsCount: 5)
     }
     
-    private func build3DCubeGrid(xElementCount: Int, yElementCount: Int, elementsSpace: Float = 0.5, scale: Float = 0.3) {
+    private func build3DCubeCollection(cubeWidth: Int = 20, cubeHeight: Int = 20, cubeBack: Int = 20) {
+        let cubeCollection = CECubeCollection(cubeWidth: cubeWidth, cubeHeight: cubeHeight, cubeBack: cubeBack)
+        addNodeChild(cubeCollection)
+    }
+    
+    private func build3DCubeGrid(xElementCount: Int, yElementCount: Int, zElementCount: Int, elementsSpace: Float = 0.5, scale: Float = 0.3) {
         for y in -yElementCount..<yElementCount {
             let yPosition = Float(y) + elementsSpace
             for x in -xElementCount..<xElementCount {
                 let xPosition = Float(x) + elementsSpace
-                let cube = CEGame3DCube(camera: cameraManager.currentCamera)
-                cube.position.y = yPosition
-                cube.position.x = xPosition
-                cube.scale = float3(scale)
-                cube.setColor(CEColorUtils.randomColor)
-                addNodeChild(cube)
+                for z in -zElementCount..<zElementCount {
+                    let zPosition = Float(z) + elementsSpace
+                    let cube = CEGame3DCube(camera: cameraManager.currentCamera)
+                    cube.position.y = yPosition
+                    cube.position.x = xPosition
+                    cube.position.z = zPosition
+                    cube.scale = float3(scale)
+                    cube.setColor(CEColorUtils.randomColor)
+                    addNodeChild(cube)
+                }
             }
         }
-
     }
     
     private func build2DTriangeQuadGrid(elementsCount: Int, elementsSpace: Float = 0.5, scale: Float = 0.1) {

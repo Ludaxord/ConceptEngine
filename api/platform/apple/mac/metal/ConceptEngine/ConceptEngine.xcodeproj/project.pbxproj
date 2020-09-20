@@ -51,6 +51,8 @@
 		77D3D60A250A5039001035B6 /* CEVertexDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D609250A5039001035B6 /* CEVertexDescriptorLibrary.swift */; };
 		77D3D60C250A58E1001035B6 /* CERenderPipelineDescriptorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D60B250A58E1001035B6 /* CERenderPipelineDescriptorLibrary.swift */; };
 		77D3D60E250A62EC001035B6 /* CERenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D60D250A62EC001035B6 /* CERenderPipelineStateLibrary.swift */; };
+		77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */; };
+		77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D908402517E227002BDDAC /* CECubeCollection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +126,8 @@
 		77D3D609250A5039001035B6 /* CEVertexDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEVertexDescriptorLibrary.swift; sourceTree = "<group>"; };
 		77D3D60B250A58E1001035B6 /* CERenderPipelineDescriptorLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CERenderPipelineDescriptorLibrary.swift; sourceTree = "<group>"; };
 		77D3D60D250A62EC001035B6 /* CERenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CERenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
+		77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjectInstances.swift; sourceTree = "<group>"; };
+		77D908402517E227002BDDAC /* CECubeCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECubeCollection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +178,7 @@
 			children = (
 				77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */,
 				77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */,
+				77D908402517E227002BDDAC /* CECubeCollection.swift */,
 			);
 			path = 3DObjects;
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 				7759F25B250C0A9C0041E589 /* CENode.swift */,
 				7759F25D250C0C130041E589 /* CERenderable.swift */,
 				7759F24F250BD0C80041E589 /* CEGameObject.swift */,
+				77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */,
 				776072962512371A00EC260A /* Cameras */,
 				77367E292514DCB9009EFBFB /* 3DObjects */,
 				779E47322510DBDD00DC88A1 /* 2DObjects */,
@@ -500,6 +506,7 @@
 				7788FAD02510F5E200AF1B0C /* CEKeyCodes.swift in Sources */,
 				7788FAD5251103B200AF1B0C /* CEAI.swift in Sources */,
 				7759F250250BD0C80041E589 /* CEGameObject.swift in Sources */,
+				77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */,
 				7759F258250C07E20041E589 /* CEGame2DQuad.swift in Sources */,
 				77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */,
 				77D3D608250A1EE6001035B6 /* CEShaderLibrary.swift in Sources */,
@@ -508,6 +515,7 @@
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
 				77D3D60A250A5039001035B6 /* CEVertexDescriptorLibrary.swift in Sources */,
 				7788FACB2510E37700AF1B0C /* CEManager.swift in Sources */,
+				77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */,
 				779E47342510DD9300DC88A1 /* CESandbox.swift in Sources */,
 				7759F25E250C0C130041E589 /* CERenderable.swift in Sources */,
 				7759F25C250C0A9C0041E589 /* CENode.swift in Sources */,

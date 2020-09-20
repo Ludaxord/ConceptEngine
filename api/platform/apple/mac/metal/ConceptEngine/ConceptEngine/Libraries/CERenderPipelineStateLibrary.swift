@@ -10,6 +10,7 @@ import MetalKit
 
 public enum RenderPipelineStateTypes {
     case Basic
+    case Instanced
 }
 
 protocol CERenderPipelineState {
@@ -22,7 +23,16 @@ public struct BasicRenderPipelineState: CERenderPipelineState {
     
     var renderPipelineState: MTLRenderPipelineState!
     init() {
-        renderPipelineState = CERenderPipelineStateLibrary.createRenderPipelineState(stateName: stateName)
+        renderPipelineState = CERenderPipelineStateLibrary.createRenderPipelineState(stateName: stateName, .Basic)
+    }
+}
+
+public struct InstancedRenderPipelineState: CERenderPipelineState {
+    var stateName: String = "Instanced Render Pipeline State"
+    
+    var renderPipelineState: MTLRenderPipelineState!
+    init() {
+        renderPipelineState = CERenderPipelineStateLibrary.createRenderPipelineState(stateName: stateName, .Instanced)
     }
 }
 
@@ -43,11 +53,11 @@ public final class CERenderPipelineStateLibrary: CEStandardLibrary {
         createDefaultRenderPipelineState()
     }
     
-    public static func createRenderPipelineState(stateName: String) -> MTLRenderPipelineState {
+    public static func createRenderPipelineState(stateName: String, _ renderPipelineDescriptorType :RenderPipelineDescriptorTypes) -> MTLRenderPipelineState {
         var renderPipelineState: MTLRenderPipelineState!
         do {
             renderPipelineState = try CERenderPipelineStateLibrary.DefeultDevice.makeRenderPipelineState(descriptor:
-                CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary.RenderDescriptor(.Basic)
+                CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary.RenderDescriptor(renderPipelineDescriptorType)
             )
         } catch let error as NSError {
             print("ERROR::CREATE::RENDER_PIPELINE_STATE::__\(stateName)__::\(error)")
@@ -61,5 +71,6 @@ public final class CERenderPipelineStateLibrary: CEStandardLibrary {
     
     private func createDefaultRenderPipelineState() {
         renderPipelineStates.updateValue(BasicRenderPipelineState(), forKey: .Basic)
+        renderPipelineStates.updateValue(InstancedRenderPipelineState(), forKey: .Instanced)
     }
 }
