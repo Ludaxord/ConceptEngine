@@ -14,12 +14,14 @@ class CECubeCollection: CEGameObjectInstances {
     var cubeBack: Int = 0
     
     var time: Float = 0.0
+    var cubeScale: Float = 0.3
     
-    init(cubeWidth: Int, cubeHeight: Int, cubeBack: Int) {
+    init(cubeWidth: Int, cubeHeight: Int, cubeBack: Int, scale: Float = 0.3) {
         super.init(meshType: .Cube, instanceCount: cubeWidth * cubeHeight * cubeBack)
         self.cubeWidth = cubeWidth
         self.cubeHeight = cubeHeight
         self.cubeBack = cubeBack
+        self.cubeScale = scale
         print("CUBE COUNT: \(cubeWidth * cubeHeight * cubeBack)")
         setColor(CEColorUtils.randomColor)
     }
@@ -52,7 +54,7 @@ class CECubeCollection: CEGameObjectInstances {
     
     override func update(deltaTime: Float) {
         time += deltaTime
-        build3DCubeGridCollection(deltaTime: deltaTime)
+        build3DCubeGridCollection(deltaTime: deltaTime, scale: cubeScale)
         super.update(deltaTime: deltaTime)
     }
 }

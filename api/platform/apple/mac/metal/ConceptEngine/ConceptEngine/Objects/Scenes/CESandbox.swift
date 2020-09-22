@@ -96,9 +96,10 @@ public final class CESandbox: CEScene {
     private func buildDefault3DSandbox() {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
-        camera.position.z = 100
+        camera.position.z = 50
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
-        build3DCubeCollection()
+//        build3DCubeCollection()
+        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
     }
     
     private func buildDefault2DSandbox() {
@@ -107,8 +108,8 @@ public final class CESandbox: CEScene {
         build2DTriangeQuadGrid(elementsCount: 5)
     }
     
-    private func build3DCubeCollection(cubeWidth: Int = 20, cubeHeight: Int = 20, cubeBack: Int = 20) {
-        let cubeCollection = CECubeCollection(cubeWidth: cubeWidth, cubeHeight: cubeHeight, cubeBack: cubeBack)
+    private func build3DCubeCollection(cubeWidth: Int = 20, cubeHeight: Int = 20, cubeBack: Int = 20, scale: Float = 0.3) {
+        let cubeCollection = CECubeCollection(cubeWidth: cubeWidth, cubeHeight: cubeHeight, cubeBack: cubeBack, scale: scale)
         addNodeChild(cubeCollection)
     }
     
