@@ -33,7 +33,9 @@ extension CERenderer: MTKViewDelegate {
     public func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable, let renderPassDescriptor = view.currentRenderPassDescriptor else { return }
         let commandBuffer = ConceptEngine.CommandQueue.makeCommandBuffer()
+        commandBuffer?.label = "CE Command Buffer"
         let renderCommandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: renderPassDescriptor)
+        renderCommandEncoder?.label = "CE Render Command Encoder"
         (ConceptEngine.getManager(.SceneManager) as! CESceneManager).GenerateScene(renderCommandEncoder: renderCommandEncoder!, deltaTime: 1 / Float(view.preferredFramesPerSecond))
         renderCommandEncoder?.endEncoding()
         commandBuffer?.present(drawable)

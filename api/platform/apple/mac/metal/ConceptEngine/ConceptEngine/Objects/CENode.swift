@@ -8,11 +8,17 @@
 
 import MetalKit
 
-public class CENode {
+public protocol PCENode {
+    func getDefaultNodeName() -> String
+}
+
+public class CENode: PCENode {
     
     var position: float3 = float3(0, 0, 0)
     var scale: float3 = float3(1, 1, 1)
     var rotation: float3 = float3(0, 0, 0)
+    
+    public var nodeName: String = ""
     
     var nodeChildren: [CENode] = []
     
@@ -26,6 +32,14 @@ public class CENode {
         return modelMatrix
     }
     
+    init(name: String? = nil) {
+        self.nodeName = name ?? getDefaultNodeName()
+    }
+    
+    public func getDefaultNodeName() -> String {
+        return String(describing: self)
+    }
+    
     public func addNodeChild(_ nodeChild: CENode) {
         nodeChildren.append(nodeChild)
     }
@@ -37,6 +51,7 @@ public class CENode {
     }
     
     public func render(renderCommandEncoder: MTLRenderCommandEncoder) {
+        renderCommandEncoder.pushDebugGroup("Rendering \(self.nodeName)")
         for nodeChild in nodeChildren {
             nodeChild.render(renderCommandEncoder: renderCommandEncoder)
         }

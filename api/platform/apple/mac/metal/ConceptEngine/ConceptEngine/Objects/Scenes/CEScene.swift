@@ -13,8 +13,8 @@ public class CEScene: CENode {
     var sceneDefaults = CESceneDefaults()
     var cameraManager = CECameraManager()
     
-    override init() {
-        super.init()
+    override init(name: String? = nil) {
+        super.init(name: name)
         buildScene()
     }
     
