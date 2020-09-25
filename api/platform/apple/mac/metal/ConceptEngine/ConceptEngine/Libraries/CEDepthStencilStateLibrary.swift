@@ -23,23 +23,26 @@ public struct LessDepthStencilState: CEDepthStencilState {
         let depthStencilDescriptor = MTLDepthStencilDescriptor()
         depthStencilDescriptor.isDepthWriteEnabled = true
         depthStencilDescriptor.depthCompareFunction = .less
-        depthStencilState = CEDepthStencilStateLibrary.DefeultDevice.makeDepthStencilState(descriptor: depthStencilDescriptor)
+        depthStencilState = ConceptEngine.GPUDevice.makeDepthStencilState(descriptor: depthStencilDescriptor)
     }
 }
 
 
-public final class CEDepthStencilStateLibrary: CEStandardLibrary {
+public final class CEDepthStencilStateLibrary: CELibrary<DepthStencilStateTypes, MTLDepthStencilState>, CEStandardLibrary {
     
     public static var DefeultDevice: MTLDevice!
     
     private var depthStencilStates: [DepthStencilStateTypes: CEDepthStencilState] = [:]
     
-    private static var ShaderLibrary: CEShaderLibrary!
+    private static var ShaderLibrary: CEFragmentShaderLibrary!
     private static var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     
-    required init(device: MTLDevice) {
-        CEDepthStencilStateLibrary.DefeultDevice = device
+    override func useLibrary() {
         createDefaultDepthStencilStates()
+    }
+    
+    override subscript(type: DepthStencilStateTypes) -> MTLDepthStencilState? {
+        return DepthStencilState(type)
     }
         
     public func DepthStencilState(_ depthStencilStateType: DepthStencilStateTypes) -> MTLDepthStencilState {

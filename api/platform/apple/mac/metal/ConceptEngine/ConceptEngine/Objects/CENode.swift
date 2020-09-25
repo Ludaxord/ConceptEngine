@@ -19,8 +19,11 @@ public class CENode: PCENode {
     var rotation: float3 = float3(0, 0, 0)
     
     public var nodeName: String = ""
+    var id: String!
     
     var nodeChildren: [CENode] = []
+    
+    var parentModelMatrix = matrix_identity_float4x4
     
     var modelMatrix: matrix_float4x4 {
         var modelMatrix = matrix_identity_float4x4
@@ -29,11 +32,12 @@ public class CENode: PCENode {
         modelMatrix.rotate(angle: rotation.y, axis: Y_AXIS)
         modelMatrix.rotate(angle: rotation.z, axis: Z_AXIS)
         modelMatrix.scale(axis: scale)
-        return modelMatrix
+        return matrix_multiply(parentModelMatrix, modelMatrix)
     }
     
     init(name: String? = nil) {
         self.nodeName = name ?? getDefaultNodeName()
+        self.id = UUID().uuidString
     }
     
     public func getDefaultNodeName() -> String {
@@ -59,5 +63,53 @@ public class CENode: PCENode {
             renderable.doRender(renderCommandEncoder)
         }
     }
+}
+
+extension CENode {
+    //Naming
+    func setName(_ name: String){ self.nodeName = name }
+    func getName()->String{ return nodeName }
+    func getID()->String { return id }
     
+    //Positioning and Movement
+    func setPosition(_ position: float3){ self.position = position }
+    func setPositionX(_ xPosition: Float) { self.position.x = xPosition }
+    func setPositionY(_ yPosition: Float) { self.position.y = yPosition }
+    func setPositionZ(_ zPosition: Float) { self.position.z = zPosition }
+    func getPosition()->float3 { return self.position }
+    func getPositionX()->Float { return self.position.x }
+    func getPositionY()->Float { return self.position.y }
+    func getPositionZ()->Float { return self.position.z }
+    func move(_ x: Float, _ y: Float, _ z: Float){ self.position += float3(x,y,z) }
+    func moveX(_ delta: Float){ self.position.x += delta }
+    func moveY(_ delta: Float){ self.position.y += delta }
+    func moveZ(_ delta: Float){ self.position.z += delta }
+    
+    //Rotating
+    func setRotation(_ rotation: float3) { self.position = rotation }
+    func setRotationX(_ xRotation: Float) { self.position.x = xRotation }
+    func setRotationY(_ yRotation: Float) { self.position.y = yRotation }
+    func setRotationZ(_ zRotation: Float) { self.position.z = zRotation }
+    func getRotation()->float3 { return self.position }
+    func getRotationX()->Float { return self.position.x }
+    func getRotationY()->Float { return self.position.y }
+    func getRotationZ()->Float { return self.position.z }
+    func rotate(_ x: Float, _ y: Float, _ z: Float){ self.position += float3(x,y,z) }
+    func rotateX(_ delta: Float){ self.position.x += delta }
+    func rotateY(_ delta: Float){ self.position.y += delta }
+    func rotateZ(_ delta: Float){ self.position.z += delta }
+    
+    //Scaling
+    func setScale(_ scale: float3){ self.scale = scale }
+    func setScale(_ scale: Float){setScale(float3(scale, scale, scale))}
+    func setScaleX(_ scaleX: Float){ self.scale.x = scaleX }
+    func setScaleY(_ scaleY: Float){ self.scale.y = scaleY }
+    func setScaleZ(_ scaleZ: Float){ self.scale.z = scaleZ }
+    func getScale()->float3 { return self.scale }
+    func getScaleX()->Float { return self.scale.x }
+    func getScaleY()->Float { return self.scale.y }
+    func getScaleZ()->Float { return self.scale.z }
+    func scaleX(_ delta: Float){ self.scale.x += delta }
+    func scaleY(_ delta: Float){ self.scale.y += delta }
+    func scaleZ(_ delta: Float){ self.scale.z += delta }
 }

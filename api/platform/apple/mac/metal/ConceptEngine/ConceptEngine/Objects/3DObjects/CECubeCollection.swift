@@ -16,6 +16,8 @@ class CECubeCollection: CEGameObjectInstances {
     var time: Float = 0.0
     var cubeScale: Float = 0.3
     
+    private var additionalUpdate = 0
+    
     init(cubeWidth: Int, cubeHeight: Int, cubeBack: Int, scale: Float = 0.3) {
         super.init(meshType: .Cube, instanceCount: cubeWidth * cubeHeight * cubeBack)
         self.cubeWidth = cubeWidth
@@ -52,9 +54,19 @@ class CECubeCollection: CEGameObjectInstances {
         }
     }
     
+    private func updateCubes(deltaTime: Float) {
+        for node in _nodes {
+            if additionalUpdate % 100 == 0 {
+                setColor(CEColorUtils.randomColor)
+            }
+        }
+    }
+    
     override func update(deltaTime: Float) {
         time += deltaTime
+        additionalUpdate += 1
         build3DCubeGridCollection(deltaTime: deltaTime, scale: cubeScale)
+        updateCubes(deltaTime: deltaTime)
         super.update(deltaTime: deltaTime)
     }
 }

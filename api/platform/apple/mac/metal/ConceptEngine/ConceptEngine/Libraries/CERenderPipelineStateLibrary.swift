@@ -37,7 +37,7 @@ public struct InstancedRenderPipelineState: CERenderPipelineState {
 }
 
 
-public final class CERenderPipelineStateLibrary: CEStandardLibrary {
+public final class CERenderPipelineStateLibrary: CELibrary<RenderPipelineStateTypes, MTLRenderPipelineState>, CEStandardLibrary {
     
     private var renderPipelineStates: [RenderPipelineStateTypes: CERenderPipelineState] = [:]
     
@@ -47,10 +47,18 @@ public final class CERenderPipelineStateLibrary: CEStandardLibrary {
     private var vertexShaders: [VertexShaderTypes: CEShader] = [:]
     private var fragmentShaders: [FragmentShaderTypes: CEShader] = [:]
     
+    override func useLibrary() {
+        createDefaultRenderPipelineState()
+    }
+    
+    override subscript(type: RenderPipelineStateTypes) -> MTLRenderPipelineState? {
+        return PipelineState(type)
+    }
+    
     required init(device: MTLDevice, renderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary) {
         CERenderPipelineStateLibrary.DefeultDevice = device
         CERenderPipelineStateLibrary.RenderPipelineDescriptorLibrary = renderPipelineDescriptorLibrary
-        createDefaultRenderPipelineState()
+        super.init()
     }
     
     public static func createRenderPipelineState(stateName: String, _ renderPipelineDescriptorType :RenderPipelineDescriptorTypes) -> MTLRenderPipelineState {

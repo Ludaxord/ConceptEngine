@@ -10,7 +10,8 @@ import MetalKit
 
 
 public enum LibraryTypes {
-    case Shader
+    case FragmentShader
+    case VertexShader
     case VertexDescriptor
     case RenderPipelineDescriptor
     case RenderPipelineState
@@ -27,50 +28,21 @@ public final class ConceptEngine {
     
     public static var GPUDevice: MTLDevice!
     public static var CommandQueue: MTLCommandQueue!
+    public static var DefaultLibrary: MTLLibrary!
     
-    private var ShaderLibrary: CEShaderLibrary!
-    private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
-    private var DepthStencilStateLibrary: CEDepthStencilStateLibrary!
-    private var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
-    private var RenderPipelineStateLibrary: CERenderPipelineStateLibrary!
-    private var MeshLibrary: CEMeshLibrary!
-    private var UtilitiesLibrary: CEUtilitiesLibrary!
-    
+    private static var Graphics: CEGraphics!
+
     private var SceneManager: CESceneManager!
     
-    private static var Libraries: [LibraryTypes: CEStandardLibrary] = [:]
     private static var Managers: [ManagerTypes: CEManager] = [:]
     
     required init(device: MTLDevice) {
         ConceptEngine.GPUDevice = device
         ConceptEngine.CommandQueue = device.makeCommandQueue()
-        instanceLibraries(device: ConceptEngine.GPUDevice)
+        ConceptEngine.DefaultLibrary = device.makeDefaultLibrary()
+        ConceptEngine.Graphics = CEGraphics(device: device)
         instanceManagers()
         
-    }
-    
-    private func instanceLibraries(device: MTLDevice) {
-        print("gpu: \(device)")
-        self.UtilitiesLibrary = CEUtilitiesLibrary()
-        ConceptEngine.Libraries.updateValue(UtilitiesLibrary, forKey: .Utilities)
-        
-        self.ShaderLibrary = CEShaderLibrary(device: device)
-        ConceptEngine.Libraries.updateValue(ShaderLibrary, forKey: .Shader)
-        
-        self.VertexDescriptorLibrary = CEVertexDescriptorLibrary()
-        ConceptEngine.Libraries.updateValue(VertexDescriptorLibrary, forKey: .VertexDescriptor)
-        
-        self.DepthStencilStateLibrary = CEDepthStencilStateLibrary(device: device)
-        ConceptEngine.Libraries.updateValue(DepthStencilStateLibrary, forKey: .DepthStencilState)
-        
-        self.RenderPipelineDescriptorLibrary = CERenderPipelineDescriptorLibrary(shaderLibrary: self.ShaderLibrary, vertexDescriptorLibrary: self.VertexDescriptorLibrary)
-        ConceptEngine.Libraries.updateValue(RenderPipelineDescriptorLibrary, forKey: .RenderPipelineDescriptor)
-        
-        self.RenderPipelineStateLibrary = CERenderPipelineStateLibrary(device: device, renderPipelineDescriptorLibrary: self.RenderPipelineDescriptorLibrary)
-        ConceptEngine.Libraries.updateValue(RenderPipelineStateLibrary, forKey: .RenderPipelineState)
-        
-        self.MeshLibrary = CEMeshLibrary()
-        ConceptEngine.Libraries.updateValue(MeshLibrary, forKey: .Mesh)
     }
     
     private func instanceManagers() {
@@ -90,7 +62,7 @@ public final class ConceptEngine {
 
 extension ConceptEngine {
     static func getLibrary(_ libraryType: LibraryTypes) -> CEStandardLibrary? {
-        return ConceptEngine.Libraries[libraryType]
+        return Graphics.Libraries[libraryType]
     }
     
     static func getManager(_ managerType: ManagerTypes) -> CEManager? {

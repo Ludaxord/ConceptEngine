@@ -10,8 +10,8 @@ import Foundation
 
 public class CEBasicAI: CEAI {
     public func followMouseFormula2D(character: CEGame2DObject, camera: CECamera?) -> Float {
-        var xPosition: Float = CEMouse.GetMouseViewportPosition().x - character.position.x
-        var yPosition: Float = CEMouse.GetMouseViewportPosition().y - character.position.y
+        var xPosition: Float = CEMouse.GetMouseViewportPosition().x - character.getPositionX()
+        var yPosition: Float = CEMouse.GetMouseViewportPosition().y - character.getPositionY()
         if camera != nil {
             xPosition += camera!.position.x
             yPosition += camera!.position.y

@@ -20,10 +20,10 @@ protocol CEPipelineDescriptor {
 
 public struct BasicRenderPipelineDescriptor: CEPipelineDescriptor {
     
-    private var ShaderLibrary: CEShaderLibrary!
+    private var ShaderLibrary: CEFragmentShaderLibrary!
     private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     
-    init(shaderLibrary: CEShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
+    init(shaderLibrary: CEFragmentShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
         self.ShaderLibrary = shaderLibrary
         self.VertexDescriptorLibrary = vertexDescriptorLibrary
         renderPipelineDescriptor = CERenderPipelineDescriptorLibrary.createRenderDescriptor(.Basic, .Basic, .Basic)
@@ -37,10 +37,10 @@ public struct BasicRenderPipelineDescriptor: CEPipelineDescriptor {
 
 public struct InstancedRenderPipelineDescriptor: CEPipelineDescriptor {
     
-    private var ShaderLibrary: CEShaderLibrary!
+    private var ShaderLibrary: CEFragmentShaderLibrary!
     private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     
-    init(shaderLibrary: CEShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
+    init(shaderLibrary: CEFragmentShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
         self.ShaderLibrary = shaderLibrary
         self.VertexDescriptorLibrary = vertexDescriptorLibrary
         renderPipelineDescriptor = CERenderPipelineDescriptorLibrary.createRenderDescriptor(.Instanced, .Basic, .Basic)
@@ -52,24 +52,34 @@ public struct InstancedRenderPipelineDescriptor: CEPipelineDescriptor {
     
 }
 
-public final class CERenderPipelineDescriptorLibrary: CEStandardLibrary {
+public final class CERenderPipelineDescriptorLibrary: CELibrary<RenderPipelineDescriptorTypes, MTLRenderPipelineDescriptor>, CEStandardLibrary {
     private var renderPipelineDescriptors: [RenderPipelineDescriptorTypes: CEPipelineDescriptor] = [:]
     
-    private static var ShaderLibrary: CEShaderLibrary!
+    private static var FragmentShaderLibrary: CEFragmentShaderLibrary!
+    private static var VertexShaderLibrary: CEVertexShaderLibrary!
     private static var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     
-    required init(shaderLibrary: CEShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
-        CERenderPipelineDescriptorLibrary.ShaderLibrary = shaderLibrary
-        CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary = vertexDescriptorLibrary
+    override func useLibrary() {
         createDefaultRenderPipelineDescriptor()
+    }
+    
+    override subscript(type: RenderPipelineDescriptorTypes) -> MTLRenderPipelineDescriptor? {
+        return RenderDescriptor(type)
+    }
+    
+    required init(fragmentShaderLibrary: CEFragmentShaderLibrary, vertexShaderLibrary: CEVertexShaderLibrary, vertexDescriptorLibrary: CEVertexDescriptorLibrary) {
+        CERenderPipelineDescriptorLibrary.FragmentShaderLibrary = fragmentShaderLibrary
+        CERenderPipelineDescriptorLibrary.VertexShaderLibrary = vertexShaderLibrary
+        CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary = vertexDescriptorLibrary
+        super.init()
     }
     
     public static func createRenderDescriptor(_ vertexType: VertexShaderTypes, _ fragmentType: FragmentShaderTypes, _ descriptorType: VertexDescriptorTypes) -> MTLRenderPipelineDescriptor {
         let renderPipelineStateDescriptor = MTLRenderPipelineDescriptor()
         renderPipelineStateDescriptor.colorAttachments[0].pixelFormat = CEUtilitiesLibrary.PixelFormat
         renderPipelineStateDescriptor.depthAttachmentPixelFormat = CEUtilitiesLibrary.DepthPixelFormat
-        renderPipelineStateDescriptor.vertexFunction = ShaderLibrary.Vertex(vertexType)
-        renderPipelineStateDescriptor.fragmentFunction = ShaderLibrary.Fragment(fragmentType)
+        renderPipelineStateDescriptor.vertexFunction = VertexShaderLibrary.Vertex(vertexType)
+        renderPipelineStateDescriptor.fragmentFunction = FragmentShaderLibrary.Fragment(fragmentType)
         renderPipelineStateDescriptor.vertexDescriptor = VertexDescriptorLibrary.Descriptor(descriptorType)
         return renderPipelineStateDescriptor
     }
@@ -78,9 +88,9 @@ public final class CERenderPipelineDescriptorLibrary: CEStandardLibrary {
         return renderPipelineDescriptors[renderPipelineDescriptorType]!.renderPipelineDescriptor
     }
     
-    private func createDefaultRenderPipelineDescriptor(shaderLibrary: CEShaderLibrary? = nil, vertexDescriptorLibrary: CEVertexDescriptorLibrary? = nil) {
-        renderPipelineDescriptors.updateValue(BasicRenderPipelineDescriptor(shaderLibrary: shaderLibrary ?? CERenderPipelineDescriptorLibrary.ShaderLibrary, vertexDescriptorLibrary: vertexDescriptorLibrary ?? CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary), forKey: .Basic)
+    private func createDefaultRenderPipelineDescriptor(shaderLibrary: CEFragmentShaderLibrary? = nil, vertexDescriptorLibrary: CEVertexDescriptorLibrary? = nil) {
+        renderPipelineDescriptors.updateValue(BasicRenderPipelineDescriptor(shaderLibrary: shaderLibrary ?? CERenderPipelineDescriptorLibrary.FragmentShaderLibrary, vertexDescriptorLibrary: vertexDescriptorLibrary ?? CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary), forKey: .Basic)
         
-        renderPipelineDescriptors.updateValue(InstancedRenderPipelineDescriptor(shaderLibrary: shaderLibrary ?? CERenderPipelineDescriptorLibrary.ShaderLibrary, vertexDescriptorLibrary: vertexDescriptorLibrary ?? CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary), forKey: .Instanced)
+        renderPipelineDescriptors.updateValue(InstancedRenderPipelineDescriptor(shaderLibrary: shaderLibrary ?? CERenderPipelineDescriptorLibrary.FragmentShaderLibrary, vertexDescriptorLibrary: vertexDescriptorLibrary ?? CERenderPipelineDescriptorLibrary.VertexDescriptorLibrary), forKey: .Instanced)
     }
 }

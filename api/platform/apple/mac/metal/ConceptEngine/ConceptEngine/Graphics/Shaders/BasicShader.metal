@@ -7,31 +7,9 @@
 //
 
 #include <metal_stdlib>
+#include "SharedShader.metal"
 using namespace metal;
 
-struct VertexInput {
-    float3 position [[ attribute(0) ]];
-    float4 color [[ attribute(1) ]];
-};
-
-struct RasterizerInput {
-    float4 position [[ position ]];
-    float4 color;
-};
-
-struct CEModelDefaults{
-    float4x4 modelMatrix;
-};
-
-struct CESceneDefaults{
-    float4x4 viewMatrix;
-    float4x4 projectionMatrix;
-};
-
-struct CEMaterial {
-    float4 color;
-    bool userMaterialColor;
-};
 
 vertex RasterizerInput basic_vertex_shader(
                                            const VertexInput vInput [[ stage_in ]],
@@ -39,22 +17,6 @@ vertex RasterizerInput basic_vertex_shader(
                                            constant CEModelDefaults &model [[ buffer(2) ]]
                                            ) {
     RasterizerInput rasterizer_input;
-    
-    rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
-    rasterizer_input.color = vInput.color;
-    
-    return rasterizer_input;
-}
-
-vertex RasterizerInput instanced_vertex_shader(
-                                           const VertexInput vInput [[ stage_in ]],
-                                           constant CESceneDefaults &scene [[ buffer(1) ]],
-                                           constant CEModelDefaults *models [[ buffer(2) ]],
-                                           uint instanceId [[ instance_id ]]
-                                           ) {
-    RasterizerInput rasterizer_input;
-    
-    CEModelDefaults model = models[instanceId];
     
     rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
     rasterizer_input.color = vInput.color;
