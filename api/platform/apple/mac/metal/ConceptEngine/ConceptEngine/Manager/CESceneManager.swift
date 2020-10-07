@@ -29,8 +29,8 @@ public class CESceneManager: CEManager {
     
     public func GenerateScene(renderCommandEncoder: MTLRenderCommandEncoder, deltaTime: Float) {
         CEGameTime.UpdateTime(deltaTime)
-        _currentScene.updateCameras(deltaTime: deltaTime)
-        _currentScene.update(deltaTime: deltaTime)
+        _currentScene.updateCameras()
+        _currentScene.update()
         _currentScene.render(renderCommandEncoder: renderCommandEncoder)
     }
 }

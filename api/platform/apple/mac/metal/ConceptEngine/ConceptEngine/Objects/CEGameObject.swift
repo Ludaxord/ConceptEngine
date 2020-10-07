@@ -26,7 +26,7 @@ public class CEGameObject: CENode {
         self.camera = camera
     }
     
-    public override func update(deltaTime: Float) {
+    public override func update() {
         updateModel()
     }
     

@@ -48,9 +48,9 @@ public class CENode: PCENode {
         nodeChildren.append(nodeChild)
     }
     
-    public func update(deltaTime: Float) {
+    public func update() {
         for child in nodeChildren {
-            child.update(deltaTime: deltaTime)
+            child.update()
         }
     }
     
@@ -86,18 +86,18 @@ extension CENode {
     func moveZ(_ delta: Float){ self.position.z += delta }
     
     //Rotating
-    func setRotation(_ rotation: float3) { self.position = rotation }
-    func setRotationX(_ xRotation: Float) { self.position.x = xRotation }
-    func setRotationY(_ yRotation: Float) { self.position.y = yRotation }
-    func setRotationZ(_ zRotation: Float) { self.position.z = zRotation }
-    func getRotation()->float3 { return self.position }
-    func getRotationX()->Float { return self.position.x }
-    func getRotationY()->Float { return self.position.y }
-    func getRotationZ()->Float { return self.position.z }
-    func rotate(_ x: Float, _ y: Float, _ z: Float){ self.position += float3(x,y,z) }
-    func rotateX(_ delta: Float){ self.position.x += delta }
-    func rotateY(_ delta: Float){ self.position.y += delta }
-    func rotateZ(_ delta: Float){ self.position.z += delta }
+    func setRotation(_ rotation: float3) { self.rotation = rotation }
+    func setRotationX(_ xRotation: Float) { self.rotation.x = xRotation }
+    func setRotationY(_ yRotation: Float) { self.rotation.y = yRotation }
+    func setRotationZ(_ zRotation: Float) { self.rotation.z = zRotation }
+    func getRotation()->float3 { return self.rotation }
+    func getRotationX()->Float { return self.rotation.x }
+    func getRotationY()->Float { return self.rotation.y }
+    func getRotationZ()->Float { return self.rotation.z }
+    func rotate(_ x: Float, _ y: Float, _ z: Float){ self.rotation += float3(x,y,z) }
+    func rotateX(_ delta: Float){ self.rotation.x += delta }
+    func rotateY(_ delta: Float){ self.rotation.y += delta }
+    func rotateZ(_ delta: Float){ self.rotation.z += delta }
     
     //Scaling
     func setScale(_ scale: float3){ self.scale = scale }

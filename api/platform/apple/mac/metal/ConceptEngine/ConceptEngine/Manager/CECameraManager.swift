@@ -22,9 +22,9 @@ public class CECameraManager: CEManager {
         self.currentCamera = _cameras[cameraType]
     }
     
-    internal func update(deltaTime: Float) {
+    internal func update() {
         for camera in _cameras.values {
-            camera.update(deltaTime: deltaTime)
+            camera.update()
         }
     }
     

@@ -60,6 +60,7 @@
 		77D3D60E250A62EC001035B6 /* CERenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D60D250A62EC001035B6 /* CERenderPipelineStateLibrary.swift */; };
 		77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */; };
 		77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D908402517E227002BDDAC /* CECubeCollection.swift */; };
+		77F8D2D3252E4EB30073684D /* CEGame3DQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D2D2252E4EB30073684D /* CEGame3DQuad.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,7 @@
 		77D3D60D250A62EC001035B6 /* CERenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CERenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
 		77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjectInstances.swift; sourceTree = "<group>"; };
 		77D908402517E227002BDDAC /* CECubeCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECubeCollection.swift; sourceTree = "<group>"; };
+		77F8D2D2252E4EB30073684D /* CEGame3DQuad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DQuad.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */,
 				77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */,
 				77D908402517E227002BDDAC /* CECubeCollection.swift */,
+				77F8D2D2252E4EB30073684D /* CEGame3DQuad.swift */,
 			);
 			path = 3DObjects;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				7788FAD22510FA5B00AF1B0C /* CEMouse.swift in Sources */,
 				7759F252250BD9F20041E589 /* CEStandardLibrary.swift in Sources */,
 				77367E2D2514DD23009EFBFB /* CEGame3DCube.swift in Sources */,
+				77F8D2D3252E4EB30073684D /* CEGame3DQuad.swift in Sources */,
 				7760729C251238F600EC260A /* CETPSCamera.swift in Sources */,
 				779E47302510DB5900DC88A1 /* CEScene.swift in Sources */,
 			);

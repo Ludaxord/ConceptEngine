@@ -28,7 +28,7 @@ class CECubeCollection: CEGameObjectInstances {
         setColor(CEColorUtils.randomColor)
     }
     
-    private func build3DCubeGridCollection(deltaTime: Float, elementsSpace: Float = 1.0, scale: Float = 0.3) {
+    private func build3DCubeGridCollection(elementsSpace: Float = 1.0, scale: Float = 0.3) {
         let halfWidth: Float = Float(cubeWidth / 2)
         let halfHeight: Float = Float(cubeHeight / 2)
         let halfBack: Float = Float(cubeBack / 2)
@@ -45,8 +45,8 @@ class CECubeCollection: CEGameObjectInstances {
                     _nodes[index].position.x = xPosition
                     _nodes[index].position.z = zPosition
                     
-                    _nodes[index].rotation.z -= deltaTime * 2
-                    _nodes[index].rotation.y -= deltaTime * 2
+                    _nodes[index].rotation.z -= CEGameTime.DeltaTime * 2
+                    _nodes[index].rotation.y -= CEGameTime.DeltaTime * 2
                     _nodes[index].scale = float3(scale, scale, scale)
                     index += 1
                 }
@@ -54,7 +54,7 @@ class CECubeCollection: CEGameObjectInstances {
         }
     }
     
-    private func updateCubes(deltaTime: Float) {
+    private func updateCubes() {
         for node in _nodes {
             if additionalUpdate % 100 == 0 {
                 setColor(CEColorUtils.randomColor)
@@ -62,11 +62,10 @@ class CECubeCollection: CEGameObjectInstances {
         }
     }
     
-    override func update(deltaTime: Float) {
-        time += deltaTime
+    override func update() {
         additionalUpdate += 1
-        build3DCubeGridCollection(deltaTime: deltaTime, scale: cubeScale)
-        updateCubes(deltaTime: deltaTime)
-        super.update(deltaTime: deltaTime)
+        build3DCubeGridCollection(scale: cubeScale)
+        updateCubes()
+        super.update()
     }
 }

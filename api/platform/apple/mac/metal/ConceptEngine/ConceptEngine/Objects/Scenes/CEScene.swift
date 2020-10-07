@@ -27,8 +27,8 @@ public class CEScene: CENode {
         }
     }
     
-    func updateCameras(deltaTime: Float) {
-        cameraManager.update(deltaTime: deltaTime)
+    func updateCameras() {
+        cameraManager.update()
     }
     
     func updateSceneDefaults() {
@@ -36,9 +36,9 @@ public class CEScene: CENode {
         sceneDefaults.projectionMatrix = cameraManager.currentCamera.projectionMatrix
     }
     
-    public override func update(deltaTime: Float) {
+    public override func update() {
         updateSceneDefaults()
-        super.update(deltaTime: deltaTime)
+        super.update()
     }
     
     public override func render(renderCommandEncoder: MTLRenderCommandEncoder) {

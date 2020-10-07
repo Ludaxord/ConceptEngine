@@ -14,20 +14,36 @@ public enum CameraTypes {
     case TPS
 }
 
-public protocol CECamera {
-    var cameraType: CameraTypes { get }
-    var position: float3 { get set }
-    var projectionMatrix: matrix_float4x4 { get }
-    func defaultCameraBehavior(deltaTime: Float)
-    func update(deltaTime: Float)
+public class CECamera: CENode {
+    var cameraType: CameraTypes!
+    
+    var viewMatrix: matrix_float4x4 {
+        var viewMatrix = matrix_identity_float4x4
+        viewMatrix.translate(direction: -getPosition())
+        return viewMatrix
+    }
+    
+    var projectionMatrix: matrix_float4x4 {
+        return matrix_identity_float4x4
+    }
+    
+    public func defaultCameraBehavior() {
+        preconditionFailure("This method must be overridden")
+    }
+    
+    public override func update() {
+        defaultCameraBehavior()
+    }
+
+    
+    init(cameraType: CameraTypes){
+        super.init(name: "Camera")
+        self.cameraType = cameraType
+    }
 }
 
 
 extension CECamera {
-    
-    public func update(deltaTime: Float) {
-        defaultCameraBehavior(deltaTime: deltaTime)
-    }
     
     var cameraMatrix: matrix_float4x4 {
         var cameraMatrix = matrix_identity_float4x4

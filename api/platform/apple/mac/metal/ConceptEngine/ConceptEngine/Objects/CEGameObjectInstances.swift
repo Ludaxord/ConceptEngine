@@ -46,9 +46,9 @@ class CEGameObjectInstances : CENode {
         }
     }
     
-    override func update(deltaTime: Float) {
+    override func update() {
         updateModelConstantsBuffer()
-        super.update(deltaTime: deltaTime)
+        super.update()
     }
 }
 

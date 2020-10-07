@@ -12,39 +12,6 @@ public enum FragmentShaderTypes {
     case Basic
 }
 
-//public protocol CEShader {
-//    var shaderName: String { get }
-//    var functionName: String { get }
-//    var function: MTLFunction! { get }
-//}
-
-//public struct BasicVertexShader: CEShader {
-//    public var shaderName: String = "Basic Vertex Shader"
-//    public var functionName: String = "basic_vertex_shader"
-//    public var function: MTLFunction!
-//    init(){
-//        function = CEFragmentShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
-//    }
-//}
-
-//public struct BasicFragmentShader: CEShader {
-//    public var shaderName: String = "Basic Fragment Shader"
-//    public var functionName: String = "basic_fragment_shader"
-//    public var function: MTLFunction!
-//    init(){
-//        function = CEFragmentShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
-//    }
-//}
-
-//public struct InstancedVertexShader: CEShader {
-//    public var shaderName: String = "Instanced Vertex Shader"
-//    public var functionName: String = "instanced_vertex_shader"
-//    public var function: MTLFunction!
-//    init(){
-//        function = CEFragmentShaderLibrary.createShaderFunction(functionName: functionName, shaderName: shaderName)
-//    }
-//}
-
 public final class CEFragmentShaderLibrary: CELibrary<FragmentShaderTypes, MTLFunction>, CEStandardLibrary {
         
     private var vertexShaders: [VertexShaderTypes: CEShader] = [:]

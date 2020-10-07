@@ -15,8 +15,8 @@ class CEGame2DTriangle: CEGame2DObject {
     }
     
     
-    override func update(deltaTime: Float) {
+    override func update() {
         defaultCharacterAI()
-        super.update(deltaTime: deltaTime)
+        super.update()
     }
 }
