@@ -20,6 +20,7 @@ vertex RasterizerInput basic_vertex_shader(
     
     rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
     rasterizer_input.color = vInput.color;
+//    rasterizer_input.textureCoordinate = vInput.textureCoordinate;
     
     return rasterizer_input;
 }

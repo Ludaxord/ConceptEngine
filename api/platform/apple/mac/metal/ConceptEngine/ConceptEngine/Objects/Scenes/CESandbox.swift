@@ -23,6 +23,7 @@ public final class CESandbox: CEScene {
     }
     
     public override func update() {
+        
 //        2D
 //        buildDefault2DUpdate()
 //        3D Cubes
@@ -30,8 +31,17 @@ public final class CESandbox: CEScene {
 //        3D CubeCollection
 //        buildDefault3DUpdateCubeCollection()
 //        3D Moving Cube
-        build3DMovingCubeActions()
+//        build3DMovingCubeActions()
+//        3d Quad With Textures
+        build3DQuadWithTextures()
         super.update()
+    }
+    
+    private func build3DQuadWithTextures() {
+        let quad = CEGame3DQuad(camera: cameraManager.currentCamera)
+        quad.setScale(1.3)
+        quad.setRotationY(4.2)
+        addNodeChild(quad)
     }
     
     private func buildDefault3DUpdate() {
@@ -101,10 +111,11 @@ public final class CESandbox: CEScene {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
         camera.position.z = 3
+        
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
 //        build3DCubeCollection()
 //        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
-        build3DMovingQuad()
+//        build3DMovingQuad()
     }
     
     private func build3DMovingCubeActions() {

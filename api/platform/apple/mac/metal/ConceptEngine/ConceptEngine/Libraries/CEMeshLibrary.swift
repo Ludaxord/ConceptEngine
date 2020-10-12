@@ -17,12 +17,13 @@ public enum MeshTypes {
 public protocol CEMesh {
     var vertexBuffer: MTLBuffer! { get }
     var vertexCount: Int! { get }
+    var vertexOptions: CEVertexOptions! { get set }
     func setInstanceCount(_ count: Int)
     func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder)
 }
 
 class CEGameMesh: CEMesh {
-    
+    var vertexOptions: CEVertexOptions!
     var vertices: [CEVertex]!
     var vertexBuffer: MTLBuffer!
     var instanceCount: Int = 1
@@ -31,11 +32,23 @@ class CEGameMesh: CEMesh {
     }
     
     init() {
+        vertices = []
+        createVertexOptions()
         createVertices()
         createBuffers(device: ConceptEngine.GPUDevice)
     }
     
+    //in all overrides create addVertex function with vertexOptions instead of creating every vertex manually.
     func createVertices() {}
+    
+    func createVertexOptions() {}
+    
+    func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0)) {
+        vertices.append(CEVertex(position: position, color: color
+//            ,
+//                                 textureCoordinate: textureCoordinate
+        ))
+    }
     
     func createBuffers(device: MTLDevice) {
         vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertices.count), options: [])
@@ -52,6 +65,14 @@ class CEGameMesh: CEMesh {
 }
 
 final class CETriangleGameMesh: CEGameMesh {
+    override func createVertexOptions() {
+        vertexOptions = CEVertexOptions(
+            positions: [float3( 0, 1, 0), float3(-1,-1, 0), float3( 1,-1, 0)],
+            colors: [float4(1, 0, 0, 1), float4(1, 1, 0, 1), float4(0, 0, 1, 1)],
+            textureCoordinate: []
+        )
+    }
+    
     override func createVertices() {
         vertices = [
             CEVertex(position: float3( 0, 1, 0), color: float4(1, 0, 0, 1)),
@@ -62,6 +83,15 @@ final class CETriangleGameMesh: CEGameMesh {
 }
 
 final class CEQuadGameMesh: CEGameMesh {
+    
+    override func createVertexOptions() {
+        vertexOptions = CEVertexOptions(
+            positions: [float3( 0.5, 0.5, 0), float3(-0.5, 0.5, 0), float3(-0.5,-0.5, 0), float3( 0.5, 0.5, 0), float3(-0.5,-0.5, 0), float3( 0.5,-0.5, 0)],
+            colors: [float4(1, 0, 0, 1), float4(0, 1, 0, 1), float4(0, 0, 1, 1), float4(1, 0, 0, 1), float4(0, 0, 1, 1), float4(1, 0, 1, 1)],
+            textureCoordinate: []
+        )
+    }
+    
     override func createVertices() {
         vertices = [
             CEVertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
@@ -76,6 +106,15 @@ final class CEQuadGameMesh: CEGameMesh {
 }
 
 final class CECubeGameMesh: CEGameMesh {
+    
+    override func createVertexOptions() {
+        vertexOptions = CEVertexOptions(
+            positions: [float3( 0, 1, 0), float3(-1,-1, 0), float3( 1,-1, 0)],
+            colors: [float4(1, 0, 0, 1), float4(1, 1, 0, 1), float4(0, 0, 1, 1)],
+            textureCoordinate: []
+        )
+    }
+    
     override func createVertices() {
         vertices = [
             //Left

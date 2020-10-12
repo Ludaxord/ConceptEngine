@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		77039D792509779A00078F31 /* CETypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* CETypes.swift */; };
 		77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptEngineBridge.m */; };
+		772103F32534D01000E7572A /* CEBaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772103F22534D01000E7572A /* CEBaseUtils.swift */; };
 		7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725BB0725150DF200411499 /* CEColorUtils.swift */; };
 		77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E272514BC6C009EFBFB /* CECameraManager.swift */; };
 		77367E2B2514DCCF009EFBFB /* CEGame3DObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */; };
@@ -85,6 +86,7 @@
 		77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ConceptEngine-Bridging-Header.h"; sourceTree = "<group>"; };
 		77039D7B2509802300078F31 /* ConceptEngineBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptEngineBridge.m; sourceTree = "<group>"; };
 		77039D7D2509805200078F31 /* ConceptEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptEngineBridge.h; sourceTree = "<group>"; };
+		772103F22534D01000E7572A /* CEBaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEBaseUtils.swift; sourceTree = "<group>"; };
 		7725BB0725150DF200411499 /* CEColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEColorUtils.swift; sourceTree = "<group>"; };
 		77367E272514BC6C009EFBFB /* CECameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECameraManager.swift; sourceTree = "<group>"; };
 		77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DObject.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				7725BB0725150DF200411499 /* CEColorUtils.swift */,
+				772103F22534D01000E7572A /* CEBaseUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				7788FAD5251103B200AF1B0C /* CEAI.swift in Sources */,
 				7759F250250BD0C80041E589 /* CEGameObject.swift in Sources */,
 				77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */,
+				772103F32534D01000E7572A /* CEBaseUtils.swift in Sources */,
 				7760D730251E063800E6AEF5 /* CEGraphics.swift in Sources */,
 				7760D72B251E033900E6AEF5 /* CEShader.swift in Sources */,
 				7760D729251E027900E6AEF5 /* CELibrary.swift in Sources */,
