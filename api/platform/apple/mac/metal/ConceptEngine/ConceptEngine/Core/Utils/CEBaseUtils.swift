@@ -40,7 +40,7 @@ class CEBaseUtils {
     }
     public static func fillFromType<T>(of count: Int, in x:[T]) -> [T] {
         var filled: [T] = x
-        var mCount = count - filled.count
+        let mCount = count - filled.count
         if T.self == float3.self {
             for _ in 0...mCount - 1 {
                 filled.append(float3( 0, 1, 0) as! T)
