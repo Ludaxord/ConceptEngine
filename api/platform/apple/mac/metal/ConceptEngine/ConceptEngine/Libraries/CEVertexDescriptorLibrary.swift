@@ -43,6 +43,10 @@ public final class CEVertexDescriptorLibrary: CEStandardLibrary {
         vertexDescriptor.attributes[1].bufferIndex = 0
         vertexDescriptor.attributes[1].offset = float3.size
         
+        vertexDescriptor.attributes[2].format = .float2
+        vertexDescriptor.attributes[2].bufferIndex = 0
+        vertexDescriptor.attributes[2].offset = float3.size + float4.size
+        
         vertexDescriptor.layouts[0].stride = CEVertex.stride
         return vertexDescriptor
     }

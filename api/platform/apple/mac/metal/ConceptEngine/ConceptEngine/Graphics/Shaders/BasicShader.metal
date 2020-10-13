@@ -20,7 +20,8 @@ vertex RasterizerInput basic_vertex_shader(
     
     rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
     rasterizer_input.color = vInput.color;
-//    rasterizer_input.textureCoordinate = vInput.textureCoordinate;
+    rasterizer_input.textureCoordinate = vInput.textureCoordinate;
+    rasterizer_input.gameTime = scene.gameTime;
     
     return rasterizer_input;
 }
@@ -29,6 +30,15 @@ fragment half4 basic_fragment_shader(
                                      RasterizerInput rasterizer_input [[ stage_in ]],
                                      constant CEMaterial &material [[ buffer(1) ]]
                                      ) {
-    float4 color = material.userMaterialColor ? material.color : rasterizer_input.color;
+//    float4 color = material.userMaterialColor ? material.color : rasterizer_input.color;
+    float2 texCoord = rasterizer_input.textureCoordinate;
+    float gameTime = rasterizer_input.gameTime;
+    
+//    Test Textures
+    float x = sin((texCoord.x + gameTime) * 20);
+    float y =  sin((texCoord.y - gameTime) * 20);
+    float z = tan((texCoord.x + gameTime) * 20);
+    
+    float4 color = float4(x, y, z, 1);
     return half4(color.r, color.g, color.b, color.a);
 }

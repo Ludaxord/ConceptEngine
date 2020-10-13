@@ -34,6 +34,7 @@ public class CEScene: CENode {
     func updateSceneDefaults() {
         sceneDefaults.viewMatrix = cameraManager.currentCamera.cameraMatrix
         sceneDefaults.projectionMatrix = cameraManager.currentCamera.projectionMatrix
+        sceneDefaults.gameTime = CEGameTime.TotalGameTime
     }
     
     public override func update() {

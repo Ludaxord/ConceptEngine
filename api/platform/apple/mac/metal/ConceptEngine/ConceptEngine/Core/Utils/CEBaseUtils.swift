@@ -12,50 +12,9 @@ import MetalKit
 
 class CEBaseUtils {
     
-    //Source: https://stackoverflow.com/a/48634199/7927803
-    public static func factorial(_ N: Double) -> Double {
-        var mult = N
-        var retVal: Double = 1.0
-        while mult > 0.0 {
-            retVal *= mult
-            mult -= 1.0
-        }
-        return retVal
-    }
-    
-    public static func combinationsWithoutRepeats(_ n: Double, _ k: Double) -> Double {
-        return (factorial(n)) / (factorial(k) * (factorial(n - k)))
-    }
-    
-    public static func createCombinationsArray(allElements: Array<Int>) -> Array<Array<Int>> {
-        let combinations = Int(CEBaseUtils.combinationsWithoutRepeats(Double(allElements.count), Double(allElements.count - 1)))
-        var tempArr: Array<Array<Int>> = []
-        for n in 0...(combinations - 1) {
-            for (index, _) in allElements.enumerated() {
-                if index != n {
-                    if tempArr.isEmpty {
-                        tempArr.append([index, n])
-                    } else {
-                        var exists = false
-                        for t in tempArr {
-                            if [index, n].containsSameElements(as: t) {
-                                exists = true
-                            }
-                        }
-                        if !exists {
-                            tempArr.append([index, n])
-                        }
-                    }
-                }
-            }
-        }
-        
-        return tempArr
-        
-    }
     
     public static func findNotEqualArrays(elements: Array<Int>) -> Array<Int> {
-        let tempArr = CEBaseUtils.createCombinationsArray(allElements: elements)
+        let tempArr = CEMathUtils.createCombinationsArray(allElements: elements)
         var vunelableIndexes: Array<Int> = []
         for t in tempArr {
             var tempElements: Array<Int> = []
@@ -73,11 +32,9 @@ class CEBaseUtils {
         let allElements = elements.map { $0.count }
         let elementsEqual = allElements.allEqual()
         if !elementsEqual {
-            print("not equal")
             let notEqualArrays = CEBaseUtils.findNotEqualArrays(elements: allElements)
             completion(elementsEqual, notEqualArrays)
         } else {
-            print("equal")
             completion(elementsEqual, nil)
         }
     }

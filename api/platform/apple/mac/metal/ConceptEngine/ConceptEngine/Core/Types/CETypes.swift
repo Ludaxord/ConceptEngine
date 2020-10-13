@@ -28,10 +28,10 @@ extension sizeable {
     }
 }
 
-extension float3: sizeable {}
 extension Float: sizeable {}
-extension float4: sizeable {}
 extension float2: sizeable {}
+extension float3: sizeable {}
+extension float4: sizeable {}
 
 struct CEVertex: sizeable {
     var position: float3
@@ -39,17 +39,32 @@ struct CEVertex: sizeable {
     var textureCoordinate: float2  = float2(0)
 }
 
+struct CEModelDefaults: sizeable {
+    var modelMatrix = matrix_identity_float4x4
+}
+
+struct CESceneDefaults: sizeable {
+    var gameTime: Float = 0
+    var viewMatrix = matrix_identity_float4x4
+    var projectionMatrix = matrix_identity_float4x4
+}
+
+struct CEMaterial: sizeable {
+    var color: float4 = float4(0.8, 0.8, 0.8, 1.0)
+    var useMaterialColor: Bool = false
+}
+
 public struct CEVertexOptions: sizeable {
     
     var positions: [float3]!
     var colors: [float4]!
     var textureCoordinate: [float2]!
+    var combination: [(float3, float4, float2)]!
+    
     
     init(positions: [float3], colors: [float4], textureCoordinate: [float2]) {
-        var (pos, cols, texts) = fillInSpacesInArrays(positions: positions, colors: colors, textureCoordinate: textureCoordinate)
-        self.positions = pos
-        self.colors = cols
-        self.textureCoordinate = texts
+        (self.positions, self.colors, self.textureCoordinate) = fillInSpacesInArrays(positions: positions, colors: colors, textureCoordinate: textureCoordinate)
+        self.combination = zip(self.positions, zip(self.colors, self.textureCoordinate)).map { ( $0.0, $0.1.0, $0.1.1 ) }
     }
     
     func fillInSpacesInArrays(positions: [float3], colors: [float4], textureCoordinate: [float2]) -> ([float3], [float4], [float2]) {
@@ -75,18 +90,4 @@ public struct CEVertexOptions: sizeable {
         }
         return (mainArray[0] as! [float3], mainArray[1] as! [float4], mainArray[2] as! [float2])
     }
-}
-
-struct CEModelDefaults: sizeable {
-    var modelMatrix = matrix_identity_float4x4
-}
-
-struct CESceneDefaults: sizeable {
-    var viewMatrix = matrix_identity_float4x4
-    var projectionMatrix = matrix_identity_float4x4
-}
-
-struct CEMaterial: sizeable {
-    var color: float4 = float4(0.8, 0.8, 0.8, 1.0)
-    var useMaterialColor: Bool = false
 }
