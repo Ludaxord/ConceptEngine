@@ -39,15 +39,21 @@ public final class CESandbox: CEScene {
     
     private func build3dMovingQuadWithTextures() {
         for node in nodeChildren {
-            if let quad = node as? CEGame3DQuad {
-                quad.rotateY(CEGameTime.DeltaTime)
+            if let quad = node as?
+//                CEGame3DCube
+                CEGame3DQuad
+            {
+                quad.rotateY(sin(CEGameTime.DeltaTime))
+                quad.rotateX(tan(CEGameTime.DeltaTime) * 2)
+                quad.rotateZ(CEGameTime.DeltaTime / 2)
             }
         }
     }
     
     private func build3DQuadWithTextures() {
+//        let quad = CEGame3DCube(camera: cameraManager.currentCamera)
         let quad = CEGame3DQuad(camera: cameraManager.currentCamera)
-        quad.setScale(1.3)
+//        quad.setScale(1.3)
         quad.setRotationY(4.2)
         addNodeChild(quad)
     }
@@ -118,7 +124,7 @@ public final class CESandbox: CEScene {
     private func buildDefault3DSandbox() {
         camera = CEDebugCamera()
         buildWithDefaultCamera()
-        camera.position.z = 3
+        camera.position.z = 5
         
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
 //        build3DCubeCollection()
