@@ -34,7 +34,9 @@ struct CESceneDefaults{
 
 struct CEMaterial {
     float4 color;
-    bool userMaterialColor;
+    bool useMaterialColor;
+    bool useTexture;
+    bool useDefaultTrigonometricTexture;
 };
 
 struct CETrigonometricTextures {

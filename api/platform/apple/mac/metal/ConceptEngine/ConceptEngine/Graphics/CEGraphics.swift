@@ -21,6 +21,8 @@ class CEGraphics {
     private var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
     private var RenderPipelineStateLibrary: CERenderPipelineStateLibrary!
     private var MeshLibrary: CEMeshLibrary!
+    private var TextureLibrary: CETextureLibrary!
+    private var SamplerStateLibrary: CESamplerStateLibrary!
     private var UtilitiesLibrary: CEUtilitiesLibrary!
     
     public var Libraries: [LibraryTypes: CEStandardLibrary] = [:]
@@ -50,6 +52,12 @@ class CEGraphics {
         
         self.MeshLibrary = CEMeshLibrary()
         Libraries.updateValue(MeshLibrary, forKey: .Mesh)
+        
+        self.TextureLibrary = CETextureLibrary()
+        Libraries.updateValue(TextureLibrary, forKey: .Texture)
+        
+        self.SamplerStateLibrary = CESamplerStateLibrary()
+        Libraries.updateValue(SamplerStateLibrary, forKey: .SamplerState)
     }
     
 }

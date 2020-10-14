@@ -60,6 +60,18 @@ public class CEMouse {
         scrollWheelChange = 0
         return position
     }
+    
+    public static func IsDWheelChanged() -> Bool {
+        return GetDWheel() != scrollWheelChange
+    }
+    
+    public static func GetDWheelPosition() -> Float {
+        return scrollWheelPosition
+    }
+    
+    public static func GetDWheelChange() -> Float {
+        return scrollWheelChange
+    }
 
     ///Movement on the y axis since last time getDY() was called.
     public static func GetDY()->Float{

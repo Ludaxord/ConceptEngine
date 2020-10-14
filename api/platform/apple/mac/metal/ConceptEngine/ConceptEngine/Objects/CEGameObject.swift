@@ -13,6 +13,7 @@ public class CEGameObject: CENode {
     
     internal var camera: CECamera!
     private var material = CEMaterial()
+    private var _textureType: TextureTypes = .None
     
     var model: CEModelDefaults = CEModelDefaults()
     
@@ -44,6 +45,21 @@ extension CEGameObject {
     public func setColor(_ color: float4) {
         self.material.color = color
         self.material.useMaterialColor = true
+        self.material.useTexture = false
+        self.material.useDefaultTrigonometricTexture = false
+    }
+    
+    public func setTexture(_ textureType: TextureTypes) {
+        self._textureType = textureType
+        self.material.useMaterialColor = false
+        self.material.useTexture = true
+        self.material.useDefaultTrigonometricTexture = false
+    }
+    
+    public func setDefaultTrigonometricTexture() {
+        self.material.useMaterialColor = false
+        self.material.useTexture = false
+        self.material.useDefaultTrigonometricTexture = true
     }
 }
 
@@ -51,6 +67,13 @@ extension CEGameObject: CERenderable {
     func doRender(_ renderCommandEncoder: MTLRenderCommandEncoder) {
         renderCommandEncoder.setRenderPipelineState((ConceptEngine.getLibrary(.RenderPipelineState) as! CERenderPipelineStateLibrary).PipelineState(.Basic))
         renderCommandEncoder.setDepthStencilState((ConceptEngine.getLibrary(.DepthStencilState) as! CEDepthStencilStateLibrary).DepthStencilState(.Less))
+        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
+        
+        if material.useTexture {
+            //Test Car texture
+            renderCommandEncoder.setFragmentTexture((ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(_textureType), index: 0)
+        }
+        
         renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
         renderCommandEncoder.setTriangleFillMode(meshFillMode)
         renderCommandEncoder.setFragmentBytes(&material, length: CEMaterial.stride, index: 1)

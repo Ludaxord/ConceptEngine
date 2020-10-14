@@ -43,9 +43,12 @@ public final class CESandbox: CEScene {
 //                CEGame3DCube
                 CEGame3DQuad
             {
-                quad.rotateY(sin(CEGameTime.DeltaTime))
-                quad.rotateX(tan(CEGameTime.DeltaTime) * 2)
-                quad.rotateZ(CEGameTime.DeltaTime / 2)
+//                quad.rotateY(sin(CEGameTime.DeltaTime))
+//                quad.rotateX(tan(CEGameTime.DeltaTime) * 2)
+//                quad.rotateZ(CEGameTime.DeltaTime / 2)
+                
+//                For Texture
+                quad.rotateY(CEGameTime.DeltaTime)
             }
         }
     }
@@ -54,7 +57,8 @@ public final class CESandbox: CEScene {
 //        let quad = CEGame3DCube(camera: cameraManager.currentCamera)
         let quad = CEGame3DQuad(camera: cameraManager.currentCamera)
 //        quad.setScale(1.3)
-        quad.setRotationY(4.2)
+//        quad.setRotationY(4.2)
+        quad.setTexture(.CarTest)
         addNodeChild(quad)
     }
     

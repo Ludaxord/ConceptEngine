@@ -18,6 +18,7 @@ public enum ClearColors {
 
 public enum PixelFormats {
     static let Default2DPixelFormat: MTLPixelFormat = MTLPixelFormat.bgra8Unorm
+    static let DefaultTexturePixelFormat: MTLPixelFormat = MTLPixelFormat.bgra8Unorm_srgb
     static let Default3DDepthPixelFormat: MTLPixelFormat = MTLPixelFormat.depth32Float
 }
 
@@ -33,7 +34,8 @@ public final class CEUtilitiesLibrary: CEStandardLibrary {
     
     required init() {
         CEUtilitiesLibrary.ClearColor = ClearColors.Grey
-        CEUtilitiesLibrary.PixelFormat = PixelFormats.Default2DPixelFormat
+//        CEUtilitiesLibrary.PixelFormat = PixelFormats.Default2DPixelFormat
+        CEUtilitiesLibrary.PixelFormat = PixelFormats.DefaultTexturePixelFormat
         CEUtilitiesLibrary.DepthPixelFormat = PixelFormats.Default3DDepthPixelFormat
         CEUtilitiesLibrary.DefaultSceneType = .Sandbox
     }

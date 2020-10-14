@@ -28,14 +28,23 @@ vertex RasterizerInput basic_vertex_shader(
 
 fragment half4 basic_fragment_shader(
                                      RasterizerInput rasterizer_input [[ stage_in ]],
-                                     constant CEMaterial &material [[ buffer(1) ]]
+                                     constant CEMaterial &material [[ buffer(1) ]],
+                                     sampler sampler2d [[ sampler(0) ]],
+                                     texture2d<float> texture [[ texture(0) ]]
                                      ) {
-//    float4 color = material.userMaterialColor ? material.color : rasterizer_input.color;
     float2 texCoord = rasterizer_input.textureCoordinate;
-    float gameTime = rasterizer_input.gameTime;
-    
-//    Test Textures
-    float4 color = CETrigonometricTextures(texCoord, gameTime).color;
+    float4 color;
+    if (material.useMaterialColor) {
+        color = material.color;
+    } else if (material.useTexture) {
+        color = texture.sample(sampler2d, texCoord);
+    } else if (material.useDefaultTrigonometricTexture) {
+        float gameTime = rasterizer_input.gameTime;
+        color = CETrigonometricTextures(texCoord, gameTime).color;
+        color = texture.sample(sampler2d, texCoord);
+    } else {
+        color = rasterizer_input.color;
+    }
     
     return half4(color.r, color.g, color.b, color.a);
 }

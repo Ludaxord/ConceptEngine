@@ -10,6 +10,8 @@
 		77039D792509779A00078F31 /* CETypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* CETypes.swift */; };
 		77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptEngineBridge.m */; };
 		771AB58325377198002BD97E /* supra_car.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 771AB58225377198002BD97E /* supra_car.jpg */; };
+		771AB58525377B53002BD97E /* CETextureLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771AB58425377B53002BD97E /* CETextureLibrary.swift */; };
+		771AB58725378382002BD97E /* CESamplerStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771AB58625378382002BD97E /* CESamplerStateLibrary.swift */; };
 		772103F32534D01000E7572A /* CEBaseUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772103F22534D01000E7572A /* CEBaseUtils.swift */; };
 		7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725BB0725150DF200411499 /* CEColorUtils.swift */; };
 		77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E272514BC6C009EFBFB /* CECameraManager.swift */; };
@@ -88,6 +90,8 @@
 		77039D7B2509802300078F31 /* ConceptEngineBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptEngineBridge.m; sourceTree = "<group>"; };
 		77039D7D2509805200078F31 /* ConceptEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptEngineBridge.h; sourceTree = "<group>"; };
 		771AB58225377198002BD97E /* supra_car.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = supra_car.jpg; path = ../../../../../../../../../../../../../../Users/konraduciechowski/Downloads/supra_car.jpg; sourceTree = "<group>"; };
+		771AB58425377B53002BD97E /* CETextureLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CETextureLibrary.swift; sourceTree = "<group>"; };
+		771AB58625378382002BD97E /* CESamplerStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CESamplerStateLibrary.swift; sourceTree = "<group>"; };
 		772103F22534D01000E7572A /* CEBaseUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEBaseUtils.swift; sourceTree = "<group>"; };
 		7725BB0725150DF200411499 /* CEColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEColorUtils.swift; sourceTree = "<group>"; };
 		77367E272514BC6C009EFBFB /* CECameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECameraManager.swift; sourceTree = "<group>"; };
@@ -418,6 +422,8 @@
 				7759F251250BD9F20041E589 /* CEStandardLibrary.swift */,
 				77A053BA2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift */,
 				7760D737251E18FE00E6AEF5 /* CEVertexShaderLibrary.swift */,
+				771AB58425377B53002BD97E /* CETextureLibrary.swift */,
+				771AB58625378382002BD97E /* CESamplerStateLibrary.swift */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -571,6 +577,7 @@
 				7759F258250C07E20041E589 /* CEGame2DQuad.swift in Sources */,
 				77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */,
 				77D3D608250A1EE6001035B6 /* CEFragmentShaderLibrary.swift in Sources */,
+				771AB58725378382002BD97E /* CESamplerStateLibrary.swift in Sources */,
 				77D3D60C250A58E1001035B6 /* CERenderPipelineDescriptorLibrary.swift in Sources */,
 				7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */,
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
@@ -589,6 +596,7 @@
 				77B69AF9250E8E9600199907 /* Math.swift in Sources */,
 				7759F24E250BD0BD0041E589 /* CEGame2DObject.swift in Sources */,
 				77367E2B2514DCCF009EFBFB /* CEGame3DObject.swift in Sources */,
+				771AB58525377B53002BD97E /* CETextureLibrary.swift in Sources */,
 				7759F256250BF6750041E589 /* CEMeshLibrary.swift in Sources */,
 				77A053BB2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift in Sources */,
 				77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */,

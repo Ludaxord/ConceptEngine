@@ -20,6 +20,10 @@ public class CEDebugCamera: CECamera {
     }
         
     public override func defaultCameraBehavior() {
+        
+        let wheel = CEMouse.GetDWheel()
+        let wheelChange = CEMouse.GetDWheelChange()
+        
         if CEKeyboard.IsKeyPressed(.leftArrow) {
             self.moveX(-CEGameTime.DeltaTime)
         }
@@ -35,5 +39,15 @@ public class CEDebugCamera: CECamera {
         if CEKeyboard.IsKeyPressed(.upArrow) {
             self.moveY(CEGameTime.DeltaTime)
         }
+        
+        if (wheel > wheelChange) {
+            self.position.z += 1
+        }
+
+
+        if (wheel < wheelChange) {
+            self.position.z -= 1
+        }
     }
+    
 }

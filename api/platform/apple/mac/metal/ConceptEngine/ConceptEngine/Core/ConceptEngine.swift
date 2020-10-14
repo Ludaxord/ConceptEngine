@@ -16,6 +16,8 @@ public enum LibraryTypes {
     case RenderPipelineDescriptor
     case RenderPipelineState
     case Mesh
+    case Texture
+    case SamplerState
     case DepthStencilState
     case Utilities
 }
