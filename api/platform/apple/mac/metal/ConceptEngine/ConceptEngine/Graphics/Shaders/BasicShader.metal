@@ -35,10 +35,7 @@ fragment half4 basic_fragment_shader(
     float gameTime = rasterizer_input.gameTime;
     
 //    Test Textures
-    float x = sin((texCoord.x + gameTime) * 20);
-    float y =  sin((texCoord.y - gameTime) * 20);
-    float z = tan((texCoord.x + gameTime) * 20);
+    float4 color = CETrigonometricTextures(texCoord, gameTime).color;
     
-    float4 color = float4(x, y, z, 1);
     return half4(color.r, color.g, color.b, color.a);
 }

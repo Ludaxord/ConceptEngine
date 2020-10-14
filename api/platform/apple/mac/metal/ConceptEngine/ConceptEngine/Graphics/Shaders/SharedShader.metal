@@ -36,3 +36,19 @@ struct CEMaterial {
     float4 color;
     bool userMaterialColor;
 };
+
+struct CETrigonometricTextures {
+    float x;
+    float y;
+    float z;
+    float4 color;
+    
+    CETrigonometricTextures(float2 texCoord, float gameTime) {
+        x = sin((texCoord.x + gameTime) * 20);
+        y =  sin((texCoord.y - gameTime) * 20);
+        z = tan((texCoord.x + gameTime) * 20);
+        color = float4(x, y, z, 1);
+    }
+};
+
+
