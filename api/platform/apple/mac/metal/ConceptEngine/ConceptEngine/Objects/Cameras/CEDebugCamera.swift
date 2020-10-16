@@ -24,6 +24,14 @@ public class CEDebugCamera: CECamera {
         let wheel = CEMouse.GetDWheel()
         let wheelChange = CEMouse.GetDWheelChange()
         
+        if CEKeyboard.IsKeyPressed(.z) {
+            self.position.z -= 50
+        }
+        
+        if CEKeyboard.IsKeyPressed(.x) {
+            self.position.z += 50
+        }
+        
         if CEKeyboard.IsKeyPressed(.leftArrow) {
             self.moveX(-CEGameTime.DeltaTime)
         }

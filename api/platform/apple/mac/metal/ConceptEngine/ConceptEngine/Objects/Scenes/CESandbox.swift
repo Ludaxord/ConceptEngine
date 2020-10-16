@@ -33,8 +33,68 @@ public final class CESandbox: CEScene {
 //        3D Moving Cube
 //        build3DMovingCubeActions()
 //        3D Move Quad
-        build3dMovingQuadWithTextures()
+//        build3dMovingQuadWithTextures()
+//        Obj Move CarTruck
+//        buildObjMovingCarTruck()
+//        Obj Manipulation CarTruck
+        mouseObjectManipulation()
         super.update()
+    }
+    
+    private func buildDefault3DSandbox() {
+        camera = CEDebugCamera()
+        buildWithDefaultCamera()
+        camera.position.z = 5
+        
+//        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
+//        build3DCubeCollection()
+//        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
+//        build3DMovingQuad()
+//        build3DQuadWithTextures()
+//        buildObjCarTruck()
+//        buildObjCarHatch()
+        buildObjCarSport()
+    }
+    
+    private func buildObjCarTruck() {
+        let carTruck = CEGameObjCarTruck(camera: cameraManager.currentCamera)
+        carTruck.setTexture(.CarTruck)
+        addNodeChild(carTruck)
+    }
+    
+    private func buildObjCarHatch() {
+        camera.position.z = -100
+        let carHatch = CEGameObjCarHatch(camera: cameraManager.currentCamera)
+//        carHatch.setColor(float4(1, 0, 0, 1))
+        carHatch.setTexture(.CarHatch)
+        addNodeChild(carHatch)
+    }
+        
+    private func buildObjCarSport() {
+        camera.position.z = -100
+        let carSport = CEGameObjCarSport(camera: cameraManager.currentCamera)
+//        carSport.setColor(float4(0, 1, 0, 1))
+        addNodeChild(carSport)
+    }
+    
+    private func mouseObjectManipulation() {
+        for node in nodeChildren {
+            if let carTruck = node as? CEGameObj {
+                if CEMouse.IsMouseButtonPressed(button: .LEFT) {
+                    carTruck.rotateX(CEMouse.GetDY() * CEGameTime.DeltaTime)
+                    carTruck.rotateY(CEMouse.GetDX() * CEGameTime.DeltaTime)
+                }
+            }
+        }
+
+    }
+    
+    private func buildObjMoving() {
+        for node in nodeChildren {
+            if let carTruck = node as? CEGameObj {
+                carTruck.rotateY(CEGameTime.DeltaTime)
+            }
+        }
     }
     
     private func build3dMovingQuadWithTextures() {
@@ -123,18 +183,6 @@ public final class CESandbox: CEScene {
 
     private func buildWithDefaultCamera() {
         addCamera(camera)
-    }
-    
-    private func buildDefault3DSandbox() {
-        camera = CEDebugCamera()
-        buildWithDefaultCamera()
-        camera.position.z = 5
-        
-//        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
-//        build3DCubeCollection()
-//        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
-//        build3DMovingQuad()
-        build3DQuadWithTextures()
     }
     
     private func build3DMovingCubeActions() {

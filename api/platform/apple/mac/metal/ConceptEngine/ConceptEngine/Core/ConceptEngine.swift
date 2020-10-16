@@ -42,9 +42,15 @@ public final class ConceptEngine {
         ConceptEngine.GPUDevice = device
         ConceptEngine.CommandQueue = device.makeCommandQueue()
         ConceptEngine.DefaultLibrary = device.makeDefaultLibrary()
-        ConceptEngine.Graphics = CEGraphics(device: device)
+        ConceptEngine.Graphics = instanceGraphics()
         instanceManagers()
         
+    }
+    
+    private func instanceGraphics() -> CEGraphics {
+        CEGraphics.staticLibraries()
+        let libraries = CEGraphics.MainLibraries
+        return CEGraphics(staticLibraries: libraries)
     }
     
     private func instanceManagers() {
@@ -64,7 +70,13 @@ public final class ConceptEngine {
 
 extension ConceptEngine {
     static func getLibrary(_ libraryType: LibraryTypes) -> CEStandardLibrary? {
-        return Graphics.Libraries[libraryType]
+        if Graphics != nil {
+            return Graphics.Libraries[libraryType]
+        } else {
+            print("WARNING::GETLIBRARY__cannot get library of type \(libraryType)")
+            return CEGraphics.MainLibraries[libraryType]
+        }
+        
     }
     
     static func getManager(_ managerType: ManagerTypes) -> CEManager? {

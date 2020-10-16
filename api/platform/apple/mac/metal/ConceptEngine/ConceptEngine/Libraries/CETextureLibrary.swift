@@ -11,6 +11,9 @@ import MetalKit
 public enum TextureTypes {
     case None
     case CarTest
+    case CarTruck
+    case CarSport
+    case CarHatch
 }
 
 public enum TextureOrigin {
@@ -80,6 +83,8 @@ final class CETextureLibrary: CELibrary<TextureTypes, MTLTexture>, CEStandardLib
     
     private func createDefaultTextures() {
         textures.updateValue(CETexture("supra_car", fileExtension: "jpg"), forKey: .CarTest)
+        textures.updateValue(CETexture("zuk", fileExtension: "jpeg", origin: .bottomLeft), forKey: .CarTruck)
+        textures.updateValue(CETexture("golf", fileExtension: "png", origin: .flippedVertically), forKey: .CarHatch)
     }
     
     public func Texture(_ textureType: TextureTypes) -> MTLTexture {

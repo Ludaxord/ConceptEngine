@@ -12,11 +12,14 @@ public enum MeshTypes {
     case Triangle
     case Quad
     case Cube
+    case CarTruck
+    case CarSport
+    case CarHatch
 }
 
 public protocol CEMesh {
     var vertexBuffer: MTLBuffer! { get }
-    var vertexCount: Int! { get }
+//    var vertexCount: Int! { get }
     var vertexOptions: CEVertexOptions! { get set }
     func setInstanceCount(_ count: Int)
     func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder)
@@ -61,6 +64,58 @@ class CEGameMesh: CEMesh {
     func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) {
         renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: instanceCount)
+    }
+}
+
+class CEModelGameMesh: CEMesh {
+    
+    private var _meshes: [Any]!
+    
+    private var _instanceCount: Int = 1
+    
+    var vertexBuffer: MTLBuffer!
+    
+    var vertexOptions: CEVertexOptions!
+    
+    init(modelName: String) {
+        loadModel(modelName: modelName)
+    }
+    
+    func loadModel(modelName: String) {
+        guard let assetUrl = Bundle.main.url(forResource: modelName, withExtension: "obj") else {
+            fatalError("Asset \(modelName) does not exist...")
+        }
+        
+        let descriptor = MTKModelIOVertexDescriptorFromMetal((ConceptEngine.getLibrary(.VertexDescriptor) as! CEVertexDescriptorLibrary).Descriptor(.Basic))
+        (descriptor.attributes[0] as! MDLVertexAttribute).name = MDLVertexAttributePosition
+        (descriptor.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeColor
+        (descriptor.attributes[2] as! MDLVertexAttribute).name = MDLVertexAttributeTextureCoordinate
+        
+        let bufferAllocator = MTKMeshBufferAllocator(device: ConceptEngine.GPUDevice)
+        let asset: MDLAsset = MDLAsset(url: assetUrl, vertexDescriptor: descriptor, bufferAllocator: bufferAllocator)
+        do {
+            self._meshes = try MTKMesh.newMeshes(asset: asset, device: ConceptEngine.GPUDevice).metalKitMeshes
+        } catch {
+            print("ERROR::LOADING_MESH::__\(modelName)__::\(error)")
+        }
+    }
+    
+    func setInstanceCount(_ count: Int) {
+        self._instanceCount = count
+    }
+    
+    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) {
+        guard let meshes = self._meshes as? [MTKMesh] else {
+            return
+        }
+        for mesh in meshes {
+            for vertexBuffer in mesh.vertexBuffers {
+                renderCommandEncoder.setVertexBuffer(vertexBuffer.buffer, offset: vertexBuffer.offset, index: 0)
+                for submesh in mesh.submeshes {
+                    renderCommandEncoder.drawIndexedPrimitives(type: submesh.primitiveType, indexCount: submesh.indexCount, indexType: submesh.indexType, indexBuffer: submesh.indexBuffer.buffer, indexBufferOffset: submesh.indexBuffer.offset, instanceCount: self._instanceCount)
+                }
+            }
+        }
     }
 }
 
@@ -312,6 +367,9 @@ public final class CEMeshLibrary: CEStandardLibrary {
        meshes.updateValue(CETriangleGameMesh(), forKey: .Triangle)
        meshes.updateValue(CEQuadGameMesh(), forKey: .Quad)
        meshes.updateValue(CECubeGameMesh(), forKey: .Cube)
+       meshes.updateValue(CEModelGameMesh(modelName: "zuk"), forKey: .CarTruck)
+       meshes.updateValue(CEModelGameMesh(modelName: "golf"), forKey: .CarHatch)
+       meshes.updateValue(CEModelGameMesh(modelName: "aston_martin"), forKey: .CarSport)
     }
     
 }

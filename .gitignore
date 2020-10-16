@@ -12,6 +12,8 @@ data/
 */geckodriver.log
 geckodriver.log
 
+*.obj
+
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
 #

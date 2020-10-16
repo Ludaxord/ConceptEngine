@@ -9,6 +9,17 @@
 /* Begin PBXBuildFile section */
 		77039D792509779A00078F31 /* CETypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* CETypes.swift */; };
 		77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptEngineBridge.m */; };
+		77151548253A271B0041377F /* CEGameObjCarTruck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77151547253A271B0041377F /* CEGameObjCarTruck.swift */; };
+		7715154B253A36640041377F /* zuk.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 77151549253A36630041377F /* zuk.mtl */; };
+		7715154C253A36640041377F /* zuk.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7715154A253A36640041377F /* zuk.obj */; };
+		7715154E253A36860041377F /* zuk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 7715154D253A36860041377F /* zuk.jpeg */; };
+		77151551253A38480041377F /* audi.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77151550253A38480041377F /* audi.obj */; };
+		77151553253A38C00041377F /* CEGameObjCarSport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77151552253A38C00041377F /* CEGameObjCarSport.swift */; };
+		77151555253A390D0041377F /* CEGameObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77151554253A390D0041377F /* CEGameObj.swift */; };
+		77151558253A3B3C0041377F /* golf.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77151557253A3B3C0041377F /* golf.obj */; };
+		7715155A253A3B420041377F /* golf.png in Resources */ = {isa = PBXBuildFile; fileRef = 77151559253A3B420041377F /* golf.png */; };
+		7715155C253A3DFD0041377F /* CEGameObjCarHatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7715155B253A3DFD0041377F /* CEGameObjCarHatch.swift */; };
+		7715155F253A3EE80041377F /* aston_martin.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7715155E253A3EE80041377F /* aston_martin.obj */; };
 		771AB58325377198002BD97E /* supra_car.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 771AB58225377198002BD97E /* supra_car.jpg */; };
 		771AB58525377B53002BD97E /* CETextureLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771AB58425377B53002BD97E /* CETextureLibrary.swift */; };
 		771AB58725378382002BD97E /* CESamplerStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771AB58625378382002BD97E /* CESamplerStateLibrary.swift */; };
@@ -89,6 +100,17 @@
 		77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ConceptEngine-Bridging-Header.h"; sourceTree = "<group>"; };
 		77039D7B2509802300078F31 /* ConceptEngineBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptEngineBridge.m; sourceTree = "<group>"; };
 		77039D7D2509805200078F31 /* ConceptEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptEngineBridge.h; sourceTree = "<group>"; };
+		77151547253A271B0041377F /* CEGameObjCarTruck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjCarTruck.swift; sourceTree = "<group>"; };
+		77151549253A36630041377F /* zuk.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zuk.mtl; sourceTree = "<group>"; };
+		7715154A253A36640041377F /* zuk.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zuk.obj; sourceTree = "<group>"; };
+		7715154D253A36860041377F /* zuk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zuk.jpeg; sourceTree = "<group>"; };
+		77151550253A38480041377F /* audi.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = audi.obj; sourceTree = "<group>"; };
+		77151552253A38C00041377F /* CEGameObjCarSport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjCarSport.swift; sourceTree = "<group>"; };
+		77151554253A390D0041377F /* CEGameObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObj.swift; sourceTree = "<group>"; };
+		77151557253A3B3C0041377F /* golf.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = golf.obj; sourceTree = "<group>"; };
+		77151559253A3B420041377F /* golf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = golf.png; sourceTree = "<group>"; };
+		7715155B253A3DFD0041377F /* CEGameObjCarHatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjCarHatch.swift; sourceTree = "<group>"; };
+		7715155E253A3EE80041377F /* aston_martin.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aston_martin.obj; sourceTree = "<group>"; };
 		771AB58225377198002BD97E /* supra_car.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = supra_car.jpg; path = ../../../../../../../../../../../../../../Users/konraduciechowski/Downloads/supra_car.jpg; sourceTree = "<group>"; };
 		771AB58425377B53002BD97E /* CETextureLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CETextureLibrary.swift; sourceTree = "<group>"; };
 		771AB58625378382002BD97E /* CESamplerStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CESamplerStateLibrary.swift; sourceTree = "<group>"; };
@@ -193,9 +215,67 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		7715153E253A1E830041377F /* Objs */ = {
+			isa = PBXGroup;
+			children = (
+				7715155D253A3ED20041377F /* aston_martin */,
+				77151556253A3AF80041377F /* golf */,
+				7715154F253A36C40041377F /* audi */,
+				7715153F253A1E9B0041377F /* zuk */,
+			);
+			path = Objs;
+			sourceTree = "<group>";
+		};
+		7715153F253A1E9B0041377F /* zuk */ = {
+			isa = PBXGroup;
+			children = (
+				7715154D253A36860041377F /* zuk.jpeg */,
+				77151549253A36630041377F /* zuk.mtl */,
+				7715154A253A36640041377F /* zuk.obj */,
+			);
+			path = zuk;
+			sourceTree = "<group>";
+		};
+		77151546253A26ED0041377F /* ObjObjects */ = {
+			isa = PBXGroup;
+			children = (
+				77151547253A271B0041377F /* CEGameObjCarTruck.swift */,
+				77151552253A38C00041377F /* CEGameObjCarSport.swift */,
+				77151554253A390D0041377F /* CEGameObj.swift */,
+				7715155B253A3DFD0041377F /* CEGameObjCarHatch.swift */,
+			);
+			path = ObjObjects;
+			sourceTree = "<group>";
+		};
+		7715154F253A36C40041377F /* audi */ = {
+			isa = PBXGroup;
+			children = (
+				77151550253A38480041377F /* audi.obj */,
+			);
+			path = audi;
+			sourceTree = "<group>";
+		};
+		77151556253A3AF80041377F /* golf */ = {
+			isa = PBXGroup;
+			children = (
+				77151559253A3B420041377F /* golf.png */,
+				77151557253A3B3C0041377F /* golf.obj */,
+			);
+			path = golf;
+			sourceTree = "<group>";
+		};
+		7715155D253A3ED20041377F /* aston_martin */ = {
+			isa = PBXGroup;
+			children = (
+				7715155E253A3EE80041377F /* aston_martin.obj */,
+			);
+			path = aston_martin;
+			sourceTree = "<group>";
+		};
 		771AB5812537703F002BD97E /* Res */ = {
 			isa = PBXGroup;
 			children = (
+				7715153E253A1E830041377F /* Objs */,
 				771AB58225377198002BD97E /* supra_car.jpg */,
 			);
 			path = Res;
@@ -312,6 +392,7 @@
 		7759F24C250BD0820041E589 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				77151546253A26ED0041377F /* ObjObjects */,
 				7759F25B250C0A9C0041E589 /* CENode.swift */,
 				7759F25D250C0C130041E589 /* CERenderable.swift */,
 				7759F24F250BD0C80041E589 /* CEGameObject.swift */,
@@ -533,9 +614,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7715154B253A36640041377F /* zuk.mtl in Resources */,
 				771AB58325377198002BD97E /* supra_car.jpg in Resources */,
+				7715155F253A3EE80041377F /* aston_martin.obj in Resources */,
+				7715154C253A36640041377F /* zuk.obj in Resources */,
+				77151551253A38480041377F /* audi.obj in Resources */,
 				774733B92507A6DE00F6771D /* Assets.xcassets in Resources */,
+				7715155A253A3B420041377F /* golf.png in Resources */,
+				7715154E253A36860041377F /* zuk.jpeg in Resources */,
 				774733BC2507A6DE00F6771D /* Main.storyboard in Resources */,
+				77151558253A3B3C0041377F /* golf.obj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +653,7 @@
 				7759F25A250C081D0041E589 /* CEGame2DTriangle.swift in Sources */,
 				7759F254250BDECD0041E589 /* CERenderer.swift in Sources */,
 				7760D732251E08F100E6AEF5 /* SharedShader.metal in Sources */,
+				7715155C253A3DFD0041377F /* CEGameObjCarHatch.swift in Sources */,
 				7788FAD02510F5E200AF1B0C /* CEKeyCodes.swift in Sources */,
 				7788FAD5251103B200AF1B0C /* CEAI.swift in Sources */,
 				7759F250250BD0C80041E589 /* CEGameObject.swift in Sources */,
@@ -583,7 +672,9 @@
 				774733B72507A6DD00F6771D /* ConceptEngine.xcdatamodeld in Sources */,
 				77D3D60A250A5039001035B6 /* CEVertexDescriptorLibrary.swift in Sources */,
 				7788FACB2510E37700AF1B0C /* CEManager.swift in Sources */,
+				77151553253A38C00041377F /* CEGameObjCarSport.swift in Sources */,
 				77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */,
+				77151548253A271B0041377F /* CEGameObjCarTruck.swift in Sources */,
 				7760D736251E098700E6AEF5 /* InstancedShader.metal in Sources */,
 				779E47342510DD9300DC88A1 /* CESandbox.swift in Sources */,
 				7760D738251E18FE00E6AEF5 /* CEVertexShaderLibrary.swift in Sources */,
@@ -597,6 +688,7 @@
 				7759F24E250BD0BD0041E589 /* CEGame2DObject.swift in Sources */,
 				77367E2B2514DCCF009EFBFB /* CEGame3DObject.swift in Sources */,
 				771AB58525377B53002BD97E /* CETextureLibrary.swift in Sources */,
+				77151555253A390D0041377F /* CEGameObj.swift in Sources */,
 				7759F256250BF6750041E589 /* CEMeshLibrary.swift in Sources */,
 				77A053BB2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift in Sources */,
 				77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */,
