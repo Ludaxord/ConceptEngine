@@ -10,8 +10,10 @@ import MetalKit
 
 public class CEScene: CENode {
     
-    var sceneDefaults = CESceneDefaults()
-    var cameraManager = CECameraManager()
+    internal var _cameraManager = CECameraManager()
+    
+    private var _lightManager = CELightManager()
+    private var _sceneDefaults = CESceneDefaults()
     
     override init(name: String? = nil) {
         super.init(name: name)
@@ -21,20 +23,25 @@ public class CEScene: CENode {
     func buildScene() {}
     
     func addCamera(_ camera: CECamera, _ currentCamera: Bool = true) {
-        cameraManager.registerCamera(camera: camera)
+        _cameraManager.registerCamera(camera: camera)
         if currentCamera {
-            cameraManager.setCamera(camera.cameraType)
+            _cameraManager.setCamera(camera.cameraType)
         }
     }
     
+    func addLight(_ light: CELight) {
+        self.addNodeChild(light)
+        _lightManager.addLight(light)
+    }
+    
     func updateCameras() {
-        cameraManager.update()
+        _cameraManager.update()
     }
     
     func updateSceneDefaults() {
-        sceneDefaults.viewMatrix = cameraManager.currentCamera.cameraMatrix
-        sceneDefaults.projectionMatrix = cameraManager.currentCamera.projectionMatrix
-        sceneDefaults.gameTime = CEGameTime.TotalGameTime
+        _sceneDefaults.viewMatrix = _cameraManager.currentCamera.cameraMatrix
+        _sceneDefaults.projectionMatrix = _cameraManager.currentCamera.projectionMatrix
+        _sceneDefaults.gameTime = CEGameTime.TotalGameTime
     }
     
     public override func update() {
@@ -43,7 +50,8 @@ public class CEScene: CENode {
     }
     
     public override func render(renderCommandEncoder: MTLRenderCommandEncoder) {
-        renderCommandEncoder.setVertexBytes(&sceneDefaults, length: CESceneDefaults.stride, index: 1)
+        renderCommandEncoder.setVertexBytes(&_sceneDefaults, length: CESceneDefaults.stride, index: 1)
+        _lightManager.setLightData(renderCommandEncoder)
         super.render(renderCommandEncoder: renderCommandEncoder)
     }
 }

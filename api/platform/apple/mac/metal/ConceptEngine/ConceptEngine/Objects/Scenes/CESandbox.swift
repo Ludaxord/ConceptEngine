@@ -11,6 +11,7 @@ import MetalKit
 public final class CESandbox: CEScene {
     
     var camera: CECamera!
+    var light: CELight!
     
     //Global sandbox objects
 //    var quad: CEGame3DQuad!
@@ -18,6 +19,7 @@ public final class CESandbox: CEScene {
     override func buildScene() {
 //        2D
 //        buildDefault2DSandbox()
+        
 //        3D
         buildDefault3DSandbox()
     }
@@ -26,16 +28,22 @@ public final class CESandbox: CEScene {
         
 //        2D
 //        buildDefault2DUpdate()
+        
 //        3D Cubes
 //        buildDefault3DUpdate()
+        
 //        3D CubeCollection
 //        buildDefault3DUpdateCubeCollection()
+        
 //        3D Moving Cube
 //        build3DMovingCubeActions()
+        
 //        3D Move Quad
 //        build3dMovingQuadWithTextures()
+        
 //        Obj Move CarTruck
 //        buildObjMovingCarTruck()
+        
 //        Obj Manipulation CarTruck
         mouseObjectManipulation()
         super.update()
@@ -46,25 +54,29 @@ public final class CESandbox: CEScene {
         buildWithDefaultCamera()
         camera.position.z = 5
         
+        light = CESunLight(camera: camera)
+        buildWithDefaultLight()
+        
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
 //        build3DCubeCollection()
 //        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
 //        build3DMovingQuad()
 //        build3DQuadWithTextures()
-//        buildObjCarTruck()
+        
+        buildObjCarTruck()
 //        buildObjCarHatch()
-        buildObjCarSport()
+//        buildObjCarSport()
     }
     
     private func buildObjCarTruck() {
-        let carTruck = CEGameObjCarTruck(camera: cameraManager.currentCamera)
+        let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
         carTruck.setTexture(.CarTruck)
         addNodeChild(carTruck)
     }
     
     private func buildObjCarHatch() {
         camera.position.z = -100
-        let carHatch = CEGameObjCarHatch(camera: cameraManager.currentCamera)
+        let carHatch = CEGameObjCarHatch(camera: _cameraManager.currentCamera)
 //        carHatch.setColor(float4(1, 0, 0, 1))
         carHatch.setTexture(.CarHatch)
         addNodeChild(carHatch)
@@ -72,14 +84,14 @@ public final class CESandbox: CEScene {
         
     private func buildObjCarSport() {
         camera.position.z = -100
-        let carSport = CEGameObjCarSport(camera: cameraManager.currentCamera)
+        let carSport = CEGameObjCarSport(camera: _cameraManager.currentCamera)
 //        carSport.setColor(float4(0, 1, 0, 1))
         addNodeChild(carSport)
     }
     
     private func mouseObjectManipulation() {
         for node in nodeChildren {
-            if let carTruck = node as? CEGameObj {
+            if let carTruck = node as? CEGameObjCarTruck {
                 if CEMouse.IsMouseButtonPressed(button: .LEFT) {
                     carTruck.rotateX(CEMouse.GetDY() * CEGameTime.DeltaTime)
                     carTruck.rotateY(CEMouse.GetDX() * CEGameTime.DeltaTime)
@@ -115,7 +127,7 @@ public final class CESandbox: CEScene {
     
     private func build3DQuadWithTextures() {
 //        let quad = CEGame3DCube(camera: cameraManager.currentCamera)
-        let quad = CEGame3DQuad(camera: cameraManager.currentCamera)
+        let quad = CEGame3DQuad(camera: _cameraManager.currentCamera)
 //        quad.setScale(1.3)
 //        quad.setRotationY(4.2)
         quad.setTexture(.CarTest)
@@ -185,6 +197,11 @@ public final class CESandbox: CEScene {
         addCamera(camera)
     }
     
+    private func buildWithDefaultLight() {
+        light.setPosition(float3(0, 2, 2))
+        addLight(light)
+    }
+    
     private func build3DMovingCubeActions() {
         for node in nodeChildren {
             node.setPositionX(cos(CEGameTime.TotalGameTime))
@@ -196,11 +213,11 @@ public final class CESandbox: CEScene {
     }
     
     private func build3DMovingQuad() {
-        let quad = CEGame3DQuad(camera: cameraManager.currentCamera)
+        let quad = CEGame3DQuad(camera: _cameraManager.currentCamera)
         quad.setScale(1.3)
         quad.setColor(CEColorUtils.hexStringToColor(hex: "#fdf800"))
         addNodeChild(quad)
-        let cube = CEGame3DCube(camera: cameraManager.currentCamera)
+        let cube = CEGame3DCube(camera: _cameraManager.currentCamera)
         cube.setScale(0.3)
         cube.setColor(CEColorUtils.hexStringToColor(hex: "#ffffff"))
         addNodeChild(cube)
@@ -224,7 +241,7 @@ public final class CESandbox: CEScene {
                 let xPosition = Float(x) + elementsSpace
                 for z in -zElementCount..<zElementCount {
                     let zPosition = Float(z) + elementsSpace
-                    let cube = CEGame3DCube(camera: cameraManager.currentCamera)
+                    let cube = CEGame3DCube(camera: _cameraManager.currentCamera)
                     cube.position.y = yPosition
                     cube.position.x = xPosition
                     cube.position.z = zPosition
@@ -241,9 +258,9 @@ public final class CESandbox: CEScene {
             for x in -elementsCount..<elementsCount {
                 let gameObject: CEGameObject!
                 if (y + x) % 2 == 0 {
-                    gameObject = CEGame2DQuad(camera: cameraManager.currentCamera)
+                    gameObject = CEGame2DQuad(camera: _cameraManager.currentCamera)
                 }else {
-                    gameObject = CEGame2DTriangle(camera: cameraManager.currentCamera)
+                    gameObject = CEGame2DTriangle(camera: _cameraManager.currentCamera)
                 }
                 gameObject.position.x = Float(Float(x) + elementsSpace) / Float(elementsCount)
                 gameObject.position.y = Float(Float(y) + elementsSpace) / Float(elementsCount)

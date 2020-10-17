@@ -9,9 +9,14 @@
 import MetalKit
 
 public enum MeshTypes {
+    case None
+    
     case Triangle
     case Quad
     case Cube
+    
+    case Sphere
+    
     case CarTruck
     case CarSport
     case CarHatch
@@ -42,8 +47,12 @@ class CEGameMesh: CEMesh {
     }
     
     func createVertices() {
-        for (position, color, textureCoordinate) in vertexOptions.combination {
-            addVertex(position: position, color: color, textureCoordinate: textureCoordinate)
+        if vertexOptions != nil {
+            for (position, color, textureCoordinate) in vertexOptions.combination {
+                addVertex(position: position, color: color, textureCoordinate: textureCoordinate)
+            }
+        } else {
+          print("vertexOptions is nil")
         }
     }
     
@@ -54,7 +63,11 @@ class CEGameMesh: CEMesh {
     }
     
     func createBuffers(device: MTLDevice) {
-        vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertices.count), options: [])
+        if vertices.count > 0 {
+            vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertices.count), options: [])
+        } else {
+            print("vertices count is less than 0")
+        }
     }
     
     func setInstanceCount(_ count: Int) {
@@ -117,6 +130,11 @@ class CEModelGameMesh: CEMesh {
             }
         }
     }
+}
+
+final class CEEmptyMesh: CEGameMesh {
+    override func setInstanceCount(_ count: Int) { }
+    override func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) { }
 }
 
 final class CETriangleGameMesh: CEGameMesh {
@@ -364,12 +382,14 @@ public final class CEMeshLibrary: CEStandardLibrary {
     }
     
     private func createDefaultMeshes() {
+        meshes.updateValue(CEEmptyMesh(), forKey: .None)
        meshes.updateValue(CETriangleGameMesh(), forKey: .Triangle)
        meshes.updateValue(CEQuadGameMesh(), forKey: .Quad)
        meshes.updateValue(CECubeGameMesh(), forKey: .Cube)
        meshes.updateValue(CEModelGameMesh(modelName: "zuk"), forKey: .CarTruck)
        meshes.updateValue(CEModelGameMesh(modelName: "golf"), forKey: .CarHatch)
        meshes.updateValue(CEModelGameMesh(modelName: "aston_martin"), forKey: .CarSport)
+        meshes.updateValue(CEModelGameMesh(modelName: "sphere"), forKey: .Sphere)
     }
     
 }

@@ -93,3 +93,8 @@ public struct CEVertexOptions: sizeable {
         return (mainArray[0] as! [float3], mainArray[1] as! [float4], mainArray[2] as! [float2])
     }
 }
+
+
+struct CELightData: sizeable {
+    var position: float3 = float3(0, 0, 0)
+}

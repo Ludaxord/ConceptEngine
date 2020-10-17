@@ -75,6 +75,11 @@
 		77D3D60E250A62EC001035B6 /* CERenderPipelineStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D60D250A62EC001035B6 /* CERenderPipelineStateLibrary.swift */; };
 		77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */; };
 		77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D908402517E227002BDDAC /* CECubeCollection.swift */; };
+		77D95796253B867F00EB337B /* CELightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D95795253B867F00EB337B /* CELightManager.swift */; };
+		77D95799253B8A0500EB337B /* CELight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D95798253B8A0500EB337B /* CELight.swift */; };
+		77D9579B253B94F500EB337B /* CESunLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9579A253B94F500EB337B /* CESunLight.swift */; };
+		77D9579D253B950C00EB337B /* CEMoonLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D9579C253B950C00EB337B /* CEMoonLight.swift */; };
+		77D957A0253B962D00EB337B /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77D9579F253B962D00EB337B /* sphere.obj */; };
 		77F8D2D3252E4EB30073684D /* CEGame3DQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F8D2D2252E4EB30073684D /* CEGame3DQuad.swift */; };
 /* End PBXBuildFile section */
 
@@ -173,6 +178,11 @@
 		77D3D60D250A62EC001035B6 /* CERenderPipelineStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CERenderPipelineStateLibrary.swift; sourceTree = "<group>"; };
 		77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjectInstances.swift; sourceTree = "<group>"; };
 		77D908402517E227002BDDAC /* CECubeCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECubeCollection.swift; sourceTree = "<group>"; };
+		77D95795253B867F00EB337B /* CELightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CELightManager.swift; sourceTree = "<group>"; };
+		77D95798253B8A0500EB337B /* CELight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CELight.swift; sourceTree = "<group>"; };
+		77D9579A253B94F500EB337B /* CESunLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CESunLight.swift; sourceTree = "<group>"; };
+		77D9579C253B950C00EB337B /* CEMoonLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEMoonLight.swift; sourceTree = "<group>"; };
+		77D9579F253B962D00EB337B /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		77F8D2D2252E4EB30073684D /* CEGame3DQuad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DQuad.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,6 +228,7 @@
 		7715153E253A1E830041377F /* Objs */ = {
 			isa = PBXGroup;
 			children = (
+				77D9579E253B95CD00EB337B /* sphere */,
 				7715155D253A3ED20041377F /* aston_martin */,
 				77151556253A3AF80041377F /* golf */,
 				7715154F253A36C40041377F /* audi */,
@@ -293,6 +304,7 @@
 		77367E292514DCB9009EFBFB /* 3DObjects */ = {
 			isa = PBXGroup;
 			children = (
+				77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */,
 				77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */,
 				77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */,
 				77D908402517E227002BDDAC /* CECubeCollection.swift */,
@@ -392,12 +404,12 @@
 		7759F24C250BD0820041E589 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				77151546253A26ED0041377F /* ObjObjects */,
 				7759F25B250C0A9C0041E589 /* CENode.swift */,
 				7759F25D250C0C130041E589 /* CERenderable.swift */,
 				7759F24F250BD0C80041E589 /* CEGameObject.swift */,
-				77D9083E2517CBA1002BDDAC /* CEGameObjectInstances.swift */,
 				776072962512371A00EC260A /* Cameras */,
+				77D95797253B89EB00EB337B /* Lights */,
+				77151546253A26ED0041377F /* ObjObjects */,
 				77367E292514DCB9009EFBFB /* 3DObjects */,
 				779E47322510DBDD00DC88A1 /* 2DObjects */,
 				779E47312510DBC200DC88A1 /* Scenes */,
@@ -479,6 +491,7 @@
 				779E47362510E07900DC88A1 /* CESceneManager.swift */,
 				7788FACA2510E37700AF1B0C /* CEManager.swift */,
 				77367E272514BC6C009EFBFB /* CECameraManager.swift */,
+				77D95795253B867F00EB337B /* CELightManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -507,6 +520,24 @@
 				771AB58625378382002BD97E /* CESamplerStateLibrary.swift */,
 			);
 			path = Libraries;
+			sourceTree = "<group>";
+		};
+		77D95797253B89EB00EB337B /* Lights */ = {
+			isa = PBXGroup;
+			children = (
+				77D95798253B8A0500EB337B /* CELight.swift */,
+				77D9579A253B94F500EB337B /* CESunLight.swift */,
+				77D9579C253B950C00EB337B /* CEMoonLight.swift */,
+			);
+			path = Lights;
+			sourceTree = "<group>";
+		};
+		77D9579E253B95CD00EB337B /* sphere */ = {
+			isa = PBXGroup;
+			children = (
+				77D9579F253B962D00EB337B /* sphere.obj */,
+			);
+			path = sphere;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -622,6 +653,7 @@
 				774733B92507A6DE00F6771D /* Assets.xcassets in Resources */,
 				7715155A253A3B420041377F /* golf.png in Resources */,
 				7715154E253A36860041377F /* zuk.jpeg in Resources */,
+				77D957A0253B962D00EB337B /* sphere.obj in Resources */,
 				774733BC2507A6DE00F6771D /* Main.storyboard in Resources */,
 				77151558253A3B3C0041377F /* golf.obj in Resources */,
 			);
@@ -661,9 +693,11 @@
 				772103F32534D01000E7572A /* CEBaseUtils.swift in Sources */,
 				7760D730251E063800E6AEF5 /* CEGraphics.swift in Sources */,
 				7760D72B251E033900E6AEF5 /* CEShader.swift in Sources */,
+				77D9579B253B94F500EB337B /* CESunLight.swift in Sources */,
 				7760D729251E027900E6AEF5 /* CELibrary.swift in Sources */,
 				7760D72D251E049500E6AEF5 /* CEGameTime.swift in Sources */,
 				7759F258250C07E20041E589 /* CEGame2DQuad.swift in Sources */,
+				77D95796253B867F00EB337B /* CELightManager.swift in Sources */,
 				77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */,
 				77D3D608250A1EE6001035B6 /* CEFragmentShaderLibrary.swift in Sources */,
 				771AB58725378382002BD97E /* CESamplerStateLibrary.swift in Sources */,
@@ -673,6 +707,7 @@
 				77D3D60A250A5039001035B6 /* CEVertexDescriptorLibrary.swift in Sources */,
 				7788FACB2510E37700AF1B0C /* CEManager.swift in Sources */,
 				77151553253A38C00041377F /* CEGameObjCarSport.swift in Sources */,
+				77D9579D253B950C00EB337B /* CEMoonLight.swift in Sources */,
 				77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */,
 				77151548253A271B0041377F /* CEGameObjCarTruck.swift in Sources */,
 				7760D736251E098700E6AEF5 /* InstancedShader.metal in Sources */,
@@ -692,6 +727,7 @@
 				7759F256250BF6750041E589 /* CEMeshLibrary.swift in Sources */,
 				77A053BB2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift in Sources */,
 				77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */,
+				77D95799253B8A0500EB337B /* CELight.swift in Sources */,
 				779E47372510E07900DC88A1 /* CESceneManager.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
 				77039D792509779A00078F31 /* CETypes.swift in Sources */,

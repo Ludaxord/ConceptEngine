@@ -29,6 +29,7 @@ vertex RasterizerInput basic_vertex_shader(
 fragment half4 basic_fragment_shader(
                                      RasterizerInput rasterizer_input [[ stage_in ]],
                                      constant CEMaterial &material [[ buffer(1) ]],
+                                     constant CELightData *lightDatas [[ buffer(2) ]],
                                      sampler sampler2d [[ sampler(0) ]],
                                      texture2d<float> texture [[ texture(0) ]]
                                      ) {
@@ -45,6 +46,8 @@ fragment half4 basic_fragment_shader(
     } else {
         color = rasterizer_input.color;
     }
+    
+//    CELightData lightData = lightDatas[0];
     
     return half4(color.r, color.g, color.b, color.a);
 }

@@ -33,7 +33,7 @@ public final class CEUtilitiesLibrary: CEStandardLibrary {
     public static var DefaultSceneType: SceneTypes!
     
     required init() {
-        CEUtilitiesLibrary.ClearColor = ClearColors.Grey
+        CEUtilitiesLibrary.ClearColor = ClearColors.Black
 //        CEUtilitiesLibrary.PixelFormat = PixelFormats.Default2DPixelFormat
         CEUtilitiesLibrary.PixelFormat = PixelFormats.DefaultTexturePixelFormat
         CEUtilitiesLibrary.DepthPixelFormat = PixelFormats.Default3DDepthPixelFormat

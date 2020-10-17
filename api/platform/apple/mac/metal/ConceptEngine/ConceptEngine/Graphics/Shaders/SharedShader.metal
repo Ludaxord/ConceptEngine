@@ -53,4 +53,7 @@ struct CETrigonometricTextures {
     }
 };
 
+struct CELightData {
+    float3 position;
+};
 
