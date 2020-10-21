@@ -42,7 +42,7 @@ public final class CESandbox: CEScene {
 //        build3dMovingQuadWithTextures()
         
 //        Obj Move CarTruck
-//        buildObjMovingCarTruck()
+        buildObjRotationCarTruck()
         
 //        Obj Manipulation CarTruck
         mouseObjectManipulation()
@@ -78,7 +78,7 @@ public final class CESandbox: CEScene {
         
         let middleSunLight = CESunLight(camera: camera)
         middleSunLight.setName("MiddleSun")
-        middleSunLight.setPosition(float3(0, 1, 0))
+        middleSunLight.setPosition(float3(0, 1.5, 0))
         middleSunLight.setMaterialIsIlluminated(false)
         middleSunLight.setMaterialColor(float4(1, 1, 1, 1))
         middleSunLight.setLightColor(float3(1, 1, 1))
@@ -125,7 +125,15 @@ public final class CESandbox: CEScene {
                 }
             }
         }
-
+    }
+    
+    private func buildObjRotationCarTruck() {
+        for node in nodeChildren {
+            if let carTruck = node as? CEGameObjCarTruck {
+//                carTruck.rotateX(CEGameTime.DeltaTime)
+                carTruck.rotateY(CEGameTime.DeltaTime)
+            }
+        }
     }
     
     private func buildObjMoving() {
