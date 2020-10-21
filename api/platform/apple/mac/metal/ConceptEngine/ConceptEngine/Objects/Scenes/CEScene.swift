@@ -34,6 +34,11 @@ public class CEScene: CENode {
         _lightManager.addLight(light)
     }
     
+    func addLights(_ lights: [CELight]) {
+        self.addNodeChildren(lights)
+        _lightManager.addLights(lights)
+    }
+    
     func updateCameras() {
         _cameraManager.update()
     }

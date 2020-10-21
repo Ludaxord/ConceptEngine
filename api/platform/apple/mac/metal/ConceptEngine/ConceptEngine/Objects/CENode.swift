@@ -48,6 +48,10 @@ public class CENode: PCENode {
         nodeChildren.append(nodeChild)
     }
     
+    public func addNodeChildren(_ nodeChildrenCollection: [CENode]) {
+        nodeChildren.append(contentsOf: nodeChildrenCollection)
+    }
+    
     public func update() {
         for child in nodeChildren {
             child.update()

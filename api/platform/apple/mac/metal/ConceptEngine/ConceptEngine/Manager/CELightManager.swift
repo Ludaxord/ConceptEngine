@@ -16,6 +16,10 @@ public class CELightManager: CEManager {
         self._lightObjects.append(light)
     }
     
+    func addLights(_ lights: [CELight]) {
+        self._lightObjects.append(contentsOf: lights)
+    }
+    
     func gatherLightData() -> [CELightData] {
         var result: [CELightData] = []
         
@@ -28,6 +32,12 @@ public class CELightManager: CEManager {
     
     func setLightData(_ renderCommandEncoder: MTLRenderCommandEncoder) {
         var lightDatas = gatherLightData()
-        renderCommandEncoder.setFragmentBytes(&lightDatas, length: CELightData.size(lightDatas.count), index: 2)
+        var lightCount = lightDatas.count
+        renderCommandEncoder.setFragmentBytes(&lightCount,
+                                              length: Int32.size,
+                                              index: 2)
+        renderCommandEncoder.setFragmentBytes(&lightDatas,
+                                              length: CELightData.stride(lightCount),
+                                              index: 3)
     }
 }

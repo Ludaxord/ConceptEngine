@@ -11,7 +11,7 @@ import MetalKit
 public final class CESandbox: CEScene {
     
     var camera: CECamera!
-    var light: CELight!
+    var lights: [CELight] = []
     
     //Global sandbox objects
 //    var quad: CEGame3DQuad!
@@ -54,8 +54,7 @@ public final class CESandbox: CEScene {
         buildWithDefaultCamera()
         camera.position.z = 5
         
-        light = CESunLight(camera: camera)
-        buildWithDefaultLight()
+        buildDefaultLights()
         
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
 //        build3DCubeCollection()
@@ -68,8 +67,36 @@ public final class CESandbox: CEScene {
 //        buildObjCarSport()
     }
     
+    private func buildDefaultLights() {
+        let leftSunLight = CESunLight(camera: camera)
+        leftSunLight.setName("LeftSun")
+        leftSunLight.setPosition(float3(-1, 1, 0))
+        leftSunLight.setMaterialIsIlluminated(false)
+        leftSunLight.setMaterialColor(float4(1, 0, 0, 1))
+        leftSunLight.setLightColor(float3(1, 0, 0))
+        lights.append(leftSunLight)
+        
+        let middleSunLight = CESunLight(camera: camera)
+        middleSunLight.setName("MiddleSun")
+        middleSunLight.setPosition(float3(0, 1, 0))
+        middleSunLight.setMaterialIsIlluminated(false)
+        middleSunLight.setMaterialColor(float4(1, 1, 1, 1))
+        middleSunLight.setLightColor(float3(1, 1, 1))
+        lights.append(middleSunLight)
+        
+        let rightSunLight = CESunLight(camera: camera)
+        rightSunLight.setName("RightSun")
+        rightSunLight.setPosition(float3(1, 1, 0))
+        rightSunLight.setMaterialIsIlluminated(false)
+        rightSunLight.setMaterialColor(float4(0, 0, 1, 1))
+        rightSunLight.setLightColor(float3(0, 0, 1))
+        lights.append(rightSunLight)
+        addLights(lights)
+    }
+    
     private func buildObjCarTruck() {
         let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
+        carTruck.setRotationX(0.3)
         carTruck.setTexture(.CarTruck)
         addNodeChild(carTruck)
     }
@@ -196,11 +223,7 @@ public final class CESandbox: CEScene {
     private func buildWithDefaultCamera() {
         addCamera(camera)
     }
-    
-    private func buildWithDefaultLight() {
-        light.setPosition(float3(0, 2, 2))
-        addLight(light)
-    }
+
     
     private func build3DMovingCubeActions() {
         for node in nodeChildren {
@@ -215,11 +238,11 @@ public final class CESandbox: CEScene {
     private func build3DMovingQuad() {
         let quad = CEGame3DQuad(camera: _cameraManager.currentCamera)
         quad.setScale(1.3)
-        quad.setColor(CEColorUtils.hexStringToColor(hex: "#fdf800"))
+        quad.setMaterialColor(CEColorUtils.hexStringToColor(hex: "#fdf800"))
         addNodeChild(quad)
         let cube = CEGame3DCube(camera: _cameraManager.currentCamera)
         cube.setScale(0.3)
-        cube.setColor(CEColorUtils.hexStringToColor(hex: "#ffffff"))
+        cube.setMaterialColor(CEColorUtils.hexStringToColor(hex: "#ffffff"))
         addNodeChild(cube)
     }
     
@@ -246,7 +269,7 @@ public final class CESandbox: CEScene {
                     cube.position.x = xPosition
                     cube.position.z = zPosition
                     cube.scale = float3(scale)
-                    cube.setColor(CEColorUtils.randomColor)
+                    cube.setMaterialColor(CEColorUtils.randomColor)
                     addNodeChild(cube)
                 }
             }

@@ -37,6 +37,8 @@ struct CEMaterial {
     bool useMaterialColor;
     bool useTexture;
     bool useDefaultTrigonometricTexture;
+    bool isIlluminated;
+    float3 ambient;
 };
 
 struct CETrigonometricTextures {
@@ -55,5 +57,13 @@ struct CETrigonometricTextures {
 
 struct CELightData {
     float3 position;
+    float3 color;
+    float brightness;
+    float ambientIntensity;
 };
 
+
+struct CELightCollection {
+    int lightCount;
+//    CELightData* lightDatas;
+};

@@ -28,6 +28,7 @@ extension sizeable {
     }
 }
 
+extension Int32: sizeable {}
 extension Float: sizeable {}
 extension float2: sizeable {}
 extension float3: sizeable {}
@@ -54,6 +55,8 @@ struct CEMaterial: sizeable {
     var useMaterialColor: Bool = false
     var useTexture: Bool = false
     var useDefaultTrigonometricTexture: Bool = false
+    var isIlluminated: Bool = true
+    var ambient: float3 = float3(0.3, 0.3, 0.3);
 }
 
 public struct CEVertexOptions: sizeable {
@@ -97,4 +100,7 @@ public struct CEVertexOptions: sizeable {
 
 struct CELightData: sizeable {
     var position: float3 = float3(0, 0, 0)
+    var color: float3 = float3(1, 1, 1)
+    var brightness: Float = 1.0;
+    var ambientIntensity: Float = 1.0;
 }

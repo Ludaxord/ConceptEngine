@@ -29,7 +29,8 @@ vertex RasterizerInput basic_vertex_shader(
 fragment half4 basic_fragment_shader(
                                      RasterizerInput rasterizer_input [[ stage_in ]],
                                      constant CEMaterial &material [[ buffer(1) ]],
-                                     constant CELightData *lightDatas [[ buffer(2) ]],
+                                     constant int &lightCount [[ buffer(2) ]],
+                                     constant CELightData *lightDatas [[ buffer(3) ]],
                                      sampler sampler2d [[ sampler(0) ]],
                                      texture2d<float> texture [[ texture(0) ]]
                                      ) {
@@ -45,6 +46,18 @@ fragment half4 basic_fragment_shader(
         color = texture.sample(sampler2d, texCoord);
     } else {
         color = rasterizer_input.color;
+    }
+    
+    if (material.isIlluminated) {
+        float3 ambients = float3(0,0,0);
+        for (int i = 0; i < lightCount; i++) {
+            CELightData lightData = lightDatas[i];
+            float3 ambientness = material.ambient * lightData.ambientIntensity;
+            float3 ambientColor = ambientness * lightData.color;
+            ambients += ambientColor;
+        }
+        float3 phongIntensity = ambients;
+        color *= float4(phongIntensity, 1.0);
     }
     
 //    CELightData lightData = lightDatas[0];

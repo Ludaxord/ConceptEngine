@@ -42,7 +42,7 @@ extension CEGameObject {
         self.meshFillMode = fillMode
     }
     
-    public func setColor(_ color: float4) {
+    public func setMaterialColor(_ color: float4) {
         self.material.color = color
         self.material.useMaterialColor = true
         self.material.useTexture = false
@@ -61,6 +61,14 @@ extension CEGameObject {
         self.material.useTexture = false
         self.material.useDefaultTrigonometricTexture = true
     }
+    
+    public func setMaterialIsIlluminated(_ isIlluminated: Bool) { self.material.isIlluminated = isIlluminated }
+    public func getMaterialIsIlluminated() -> Bool { return self.material.isIlluminated }
+    
+    public func setMaterialAmbient(_ ambient: float3) { self.material.ambient = ambient }
+    public func setMaterialAmbient(_ ambient: Float) { self.material.ambient = float3(ambient, ambient, ambient) }
+    public func addMaterialAmbient(_ value: Float) { self.material.ambient += value }
+    public func getMaterialAmbient() -> float3 { return self.material.ambient }
 }
 
 extension CEGameObject: CERenderable {
@@ -68,15 +76,17 @@ extension CEGameObject: CERenderable {
         renderCommandEncoder.setRenderPipelineState((ConceptEngine.getLibrary(.RenderPipelineState) as! CERenderPipelineStateLibrary).PipelineState(.Basic))
         renderCommandEncoder.setDepthStencilState((ConceptEngine.getLibrary(.DepthStencilState) as! CEDepthStencilStateLibrary).DepthStencilState(.Less))
         renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
+
+        
+        renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
+        
+        renderCommandEncoder.setTriangleFillMode(meshFillMode)
+        renderCommandEncoder.setFragmentBytes(&material, length: CEMaterial.stride, index: 1)
         
         if material.useTexture {
             //Test Car texture
             renderCommandEncoder.setFragmentTexture((ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(_textureType), index: 0)
         }
-        
-        renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
-        renderCommandEncoder.setTriangleFillMode(meshFillMode)
-        renderCommandEncoder.setFragmentBytes(&material, length: CEMaterial.stride, index: 1)
         mesh.drawPrimitives(renderCommandEncoder)
     }
 }

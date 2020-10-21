@@ -27,3 +27,14 @@ class CELight : CEGameObject {
         super.update()
     }
 }
+
+extension CELight {
+    public func setLightColor(_ color: float3) { self.lightData.color = color }
+    public func getLightColor() -> float3 { return self.lightData.color }
+    
+    public func setLightBrightness(_ brightness: Float) { self.lightData.brightness = brightness }
+    public func getLightBrightness() -> Float { return self.lightData.brightness }
+    
+    public func setLightAmbientIntensity(_ intensity: Float) { self.lightData.ambientIntensity = intensity }
+    public func getLightAmbientIntensity() -> Float { return self.lightData.ambientIntensity }
+}
