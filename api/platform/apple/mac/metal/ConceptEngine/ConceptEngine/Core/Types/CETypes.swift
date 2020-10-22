@@ -37,7 +37,8 @@ extension float4: sizeable {}
 struct CEVertex: sizeable {
     var position: float3
     var color: float4
-    var textureCoordinate: float2  = float2(0)
+    var textureCoordinate: float2
+    var normal: float3
 }
 
 struct CEModelDefaults: sizeable {
@@ -56,7 +57,17 @@ struct CEMaterial: sizeable {
     var useTexture: Bool = false
     var useDefaultTrigonometricTexture: Bool = false
     var isIlluminated: Bool = true
-    var ambient: float3 = float3(0.3, 0.3, 0.3);
+    var ambient: float3 = float3(0.1, 0.1, 0.1)
+    var diffuse: float3 = float3(1, 1, 1)
+    
+}
+
+struct CELightData: sizeable {
+    var position: float3 = float3(0, 0, 0)
+    var color: float3 = float3(1, 1, 1)
+    var brightness: Float = 1.0;
+    var ambientIntensity: Float = 1.0;
+    var diffuseIntensity: Float = 1.0;
 }
 
 public struct CEVertexOptions: sizeable {
@@ -64,15 +75,22 @@ public struct CEVertexOptions: sizeable {
     var positions: [float3]!
     var colors: [float4]!
     var textureCoordinate: [float2]!
+    var normals: [float3]!
     var combination: [(float3, float4, float2)]!
     
     
-    init(positions: [float3], colors: [float4], textureCoordinate: [float2]) {
-        (self.positions, self.colors, self.textureCoordinate) = fillInSpacesInArrays(positions: positions, colors: colors, textureCoordinate: textureCoordinate)
+    init(positions: [float3], colors: [float4], textureCoordinate: [float2], normal: [float3]) {
+        self.positions = positions
+        self.colors = colors
+        self.textureCoordinate = textureCoordinate
+        self.normals = normal
+        (self.positions, self.colors, self.textureCoordinate) = fillInSpacesInArrays(positions: positions, colors: colors, textureCoordinate: textureCoordinate, normal: normal)
+        print("ZIPS: \(zip(self.positions, zip(self.colors, zip(self.textureCoordinate, self.normals))).map { ($0.0, $0.1, $0.1.1, $0.1.1.0) })")
         self.combination = zip(self.positions, zip(self.colors, self.textureCoordinate)).map { ( $0.0, $0.1.0, $0.1.1 ) }
+//        self.combination = zip(self.positions, zip(self.colors, zip(self.textureCoordinate, self.normals))).map { ($0.0, $0.1, $0.1.1, $0.1.1.0) }
     }
     
-    func fillInSpacesInArrays(positions: [float3], colors: [float4], textureCoordinate: [float2]) -> ([float3], [float4], [float2]) {
+    func fillInSpacesInArrays(positions: [float3], colors: [float4], textureCoordinate: [float2], normal: [float3]) -> ([float3], [float4], [float2]) {
         var mainArray = [positions, colors, textureCoordinate] as [Any]
         CEBaseUtils.fillNotEqualArrays(elements: [positions, colors, textureCoordinate]) { (result, indexesArray) in
             if !result {
@@ -82,25 +100,22 @@ public struct CEVertexOptions: sizeable {
                     let f2Array = indexedArray as? Array<float2>
                     let f3Array = indexedArray as? Array<float3>
                     let f4Array = indexedArray as? Array<float4>
+                    let f5Array = indexedArray as? Array<float3>
                     if f2Array != nil {
                         indexedArray = CEBaseUtils.fillFromType(of: uniq!, in: f2Array!)
                     } else if f3Array != nil {
                         indexedArray = CEBaseUtils.fillFromType(of: uniq!, in: f3Array!)
                     } else if f4Array != nil {
                         indexedArray = CEBaseUtils.fillFromType(of: uniq!, in: f4Array!)
+                    } else if f5Array != nil {
+//                        indexedArray = CEBaseUtils.fillFromType(of: uniq!, in: f5Array!)
                     }
                     mainArray[i] = indexedArray
                 }
             }
         }
+//        return (mainArray[0] as! [float3], mainArray[1] as! [float4], mainArray[2] as! [float2], mainArray[3] as! [float3])
         return (mainArray[0] as! [float3], mainArray[1] as! [float4], mainArray[2] as! [float2])
     }
 }
 
-
-struct CELightData: sizeable {
-    var position: float3 = float3(0, 0, 0)
-    var color: float3 = float3(1, 1, 1)
-    var brightness: Float = 1.0;
-    var ambientIntensity: Float = 1.0;
-}

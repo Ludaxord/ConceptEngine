@@ -18,10 +18,14 @@ vertex RasterizerInput basic_vertex_shader(
                                            ) {
     RasterizerInput rasterizer_input;
     
-    rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * model.modelMatrix * float4(vInput.position, 1);
+    float4 worldPosition = model.modelMatrix * float4(vInput.position, 1);
+
+    rasterizer_input.position = scene.projectionMatrix * scene.viewMatrix * worldPosition;
     rasterizer_input.color = vInput.color;
     rasterizer_input.textureCoordinate = vInput.textureCoordinate;
     rasterizer_input.gameTime = scene.gameTime;
+    rasterizer_input.worldPosition = worldPosition.xyz;
+    rasterizer_input.surfaceNormal = (model.modelMatrix * float4(vInput.normal, 1.0)).xyz;
     
     return rasterizer_input;
 }
@@ -34,6 +38,7 @@ fragment half4 basic_fragment_shader(
                                      sampler sampler2d [[ sampler(0) ]],
                                      texture2d<float> texture [[ texture(0) ]]
                                      ) {
+    
     float2 texCoord = rasterizer_input.textureCoordinate;
     float4 color;
     if (material.useMaterialColor) {
@@ -49,14 +54,26 @@ fragment half4 basic_fragment_shader(
     }
     
     if (material.isIlluminated) {
+        float3 unitNormal = normalize(rasterizer_input.surfaceNormal);
+
         float3 ambients = float3(0,0,0);
+        float3 diffuses = float3(0,0,0);
         for (int i = 0; i < lightCount; i++) {
             CELightData lightData = lightDatas[i];
+            
+            float3 unitToLightVector = normalize(lightData.position - rasterizer_input.worldPosition);
+            
             float3 ambientness = material.ambient * lightData.ambientIntensity;
-            float3 ambientColor = ambientness * lightData.color;
+            float3 ambientColor = clamp(ambientness * lightData.color * lightData.brightness, 0.0, 0.1);
             ambients += ambientColor;
+                        
+            float3 diffuseness = material.diffuse * lightData.diffuseIntensity;
+            float nDotL = max(dot(unitNormal, unitToLightVector), 0.0);
+            float3 diffuseColor = clamp(diffuseness * nDotL * lightData.color * lightData.brightness, 0.0, 0.1);
+            diffuses += diffuseColor;
+            
         }
-        float3 phongIntensity = ambients;
+        float3 phongIntensity = ambients + diffuses;
         color *= float4(phongIntensity, 1.0);
     }
     

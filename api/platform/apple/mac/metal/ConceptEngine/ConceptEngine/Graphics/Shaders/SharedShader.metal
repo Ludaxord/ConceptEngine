@@ -13,6 +13,7 @@ struct VertexInput {
     float3 position [[ attribute(0) ]];
     float4 color [[ attribute(1) ]];
     float2 textureCoordinate [[ attribute(2) ]];
+    float3 normal [[ attribute(3) ]];
 };
 
 struct RasterizerInput {
@@ -20,6 +21,8 @@ struct RasterizerInput {
     float4 color;
     float2 textureCoordinate;
     float gameTime;
+    float3 worldPosition;
+    float3 surfaceNormal;
 };
 
 struct CEModelDefaults{
@@ -39,6 +42,8 @@ struct CEMaterial {
     bool useDefaultTrigonometricTexture;
     bool isIlluminated;
     float3 ambient;
+    float3 diffuse;
+    
 };
 
 struct CETrigonometricTextures {
@@ -60,6 +65,7 @@ struct CELightData {
     float3 color;
     float brightness;
     float ambientIntensity;
+    float diffuseIntensity;
 };
 
 

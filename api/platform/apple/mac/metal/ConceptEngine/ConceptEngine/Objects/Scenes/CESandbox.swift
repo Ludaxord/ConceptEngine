@@ -68,36 +68,41 @@ public final class CESandbox: CEScene {
     }
     
     private func buildDefaultLights() {
-        let leftSunLight = CESunLight(camera: camera)
-        leftSunLight.setName("LeftSun")
-        leftSunLight.setPosition(float3(-1, 1, 0))
-        leftSunLight.setMaterialIsIlluminated(false)
-        leftSunLight.setMaterialColor(float4(1, 0, 0, 1))
-        leftSunLight.setLightColor(float3(1, 0, 0))
-        lights.append(leftSunLight)
+        let leftSun = CESunLight(camera: camera)
+        leftSun.setName("LeftSun")
+        leftSun.setPosition(float3(-1, 1, 0))
+        leftSun.setMaterialIsIlluminated(false)
+        leftSun.setLightBrightness(0.3)
+        leftSun.setMaterialColor(float4(1,0,0,1))
+        leftSun.setLightColor(float3(1,0,0))
+        lights.append(leftSun)
         
-        let middleSunLight = CESunLight(camera: camera)
-        middleSunLight.setName("MiddleSun")
-        middleSunLight.setPosition(float3(0, 1.5, 0))
-        middleSunLight.setMaterialIsIlluminated(false)
-        middleSunLight.setMaterialColor(float4(1, 1, 1, 1))
-        middleSunLight.setLightColor(float3(1, 1, 1))
-        lights.append(middleSunLight)
+        let middleSun = CESunLight(camera: camera)
+        middleSun.setName("MiddleSun")
+        middleSun.setPosition(float3(0, 1, 0))
+        middleSun.setMaterialIsIlluminated(false)
+        middleSun.setLightBrightness(1.0)
+        middleSun.setMaterialColor(float4(1,1,1,1))
+        middleSun.setLightColor(float3(1,1,1))
+        lights.append(middleSun)
         
-        let rightSunLight = CESunLight(camera: camera)
-        rightSunLight.setName("RightSun")
-        rightSunLight.setPosition(float3(1, 1, 0))
-        rightSunLight.setMaterialIsIlluminated(false)
-        rightSunLight.setMaterialColor(float4(0, 0, 1, 1))
-        rightSunLight.setLightColor(float3(0, 0, 1))
-        lights.append(rightSunLight)
+        let rightSun = CESunLight(camera: camera)
+        rightSun.setName("RightSun")
+        rightSun.setPosition(float3( 1, 1, 0))
+        rightSun.setMaterialIsIlluminated(false)
+        rightSun.setLightBrightness(0.3)
+        rightSun.setMaterialColor(float4(0,0,1,1))
+        rightSun.setLightColor(float3(0,0,1))
+        lights.append(rightSun)
         addLights(lights)
     }
     
     private func buildObjCarTruck() {
         let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
-        carTruck.setRotationX(0.3)
         carTruck.setTexture(.CarTruck)
+        carTruck.setMaterialAmbient(0.1)
+        carTruck.setRotationX(0.3)
+//        carTruck.setPositionY(-1)
         addNodeChild(carTruck)
     }
     
@@ -124,6 +129,17 @@ public final class CESandbox: CEScene {
                     carTruck.rotateY(CEMouse.GetDX() * CEGameTime.DeltaTime)
                 }
             }
+            
+            if let light = node as? CELight {
+                if light.getName() == "LeftSun" {
+                    light.setPositionX(cos(CEGameTime.TotalGameTime) - 1)
+                } else if light.getName() == "MiddleSun" {
+                    light.setPositionX(cos(CEGameTime.TotalGameTime))
+                }else if light.getName() == "RightSun" {
+                    light.setPositionX(cos(CEGameTime.TotalGameTime) + 1)
+                }
+                
+            }
         }
     }
     
@@ -131,7 +147,7 @@ public final class CESandbox: CEScene {
         for node in nodeChildren {
             if let carTruck = node as? CEGameObjCarTruck {
 //                carTruck.rotateX(CEGameTime.DeltaTime)
-                carTruck.rotateY(CEGameTime.DeltaTime)
+//                carTruck.rotateY(CEGameTime.DeltaTime)
             }
         }
     }

@@ -41,25 +41,31 @@ class CEGameMesh: CEMesh {
     
     init() {
         vertices = []
-        createVertexOptions()
+//        createVertexOptions()
         createVertices()
         createBuffers(device: ConceptEngine.GPUDevice)
     }
     
-    func createVertices() {
+    func populateVertexes() throws {
         if vertexOptions != nil {
             for (position, color, textureCoordinate) in vertexOptions.combination {
                 addVertex(position: position, color: color, textureCoordinate: textureCoordinate)
             }
         } else {
-          print("vertexOptions is nil")
+            defaultVertexCreation()
         }
+    }
+    
+    func createVertices() {
+        defaultVertexCreation()
     }
     
     func createVertexOptions() {}
     
-    func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0)) {
-        vertices.append(CEVertex(position: position, color: color, textureCoordinate: textureCoordinate))
+    func defaultVertexCreation() {}
+    
+    func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0, 0), normal: float3 = float3(0, 1, 0)) {
+        vertices.append(CEVertex(position: position, color: color, textureCoordinate: textureCoordinate, normal: normal))
     }
     
     func createBuffers(device: MTLDevice) {
@@ -103,6 +109,7 @@ class CEModelGameMesh: CEMesh {
         (descriptor.attributes[0] as! MDLVertexAttribute).name = MDLVertexAttributePosition
         (descriptor.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeColor
         (descriptor.attributes[2] as! MDLVertexAttribute).name = MDLVertexAttributeTextureCoordinate
+        (descriptor.attributes[3] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
         
         let bufferAllocator = MTKMeshBufferAllocator(device: ConceptEngine.GPUDevice)
         let asset: MDLAsset = MDLAsset(url: assetUrl, vertexDescriptor: descriptor, bufferAllocator: bufferAllocator)
@@ -138,6 +145,11 @@ final class CEEmptyMesh: CEGameMesh {
 }
 
 final class CETriangleGameMesh: CEGameMesh {
+    override func defaultVertexCreation() {
+        addVertex(position: float3( 0, 1,0), color: float4(1,0,0,1))
+        addVertex(position: float3(-1,-1,0), color: float4(0,1,0,1))
+        addVertex(position: float3( 1,-1,0), color: float4(0,0,1,1))
+    }
     override func createVertexOptions() {
         vertexOptions = CEVertexOptions(
             positions: [
@@ -150,20 +162,23 @@ final class CETriangleGameMesh: CEGameMesh {
                 float4(1, 1, 0, 1),
                 float4(0, 0, 1, 1)
             ],
-            textureCoordinate: []
+            textureCoordinate: [],
+            normal: [float3(0, 1, 0)]
         )
     }
-    
-//    override func createVertices() {
-//        vertices = [
-//            CEVertex(position: float3( 0, 1, 0), color: float4(1, 0, 0, 1)),
-//            CEVertex(position: float3(-1,-1, 0), color: float4(1, 1, 0, 1)),
-//            CEVertex(position: float3( 1,-1, 0), color: float4(0, 0, 1, 1)),
-//        ]
-//    }
 }
 
 final class CEQuadGameMesh: CEGameMesh {
+    
+    override func defaultVertexCreation() {
+        addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0)) //Top Right
+        addVertex(position: float3(-1, 1,0), color: float4(0,1,0,1), textureCoordinate: float2(0,0)) //Top Left
+        addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1)) //Bottom Left
+        
+        addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0)) //Top Right
+        addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1)) //Bottom Left
+        addVertex(position: float3( 1,-1,0), color: float4(1,0,1,1), textureCoordinate: float2(1,1)) //Bottom Right
+    }
     
     override func createVertexOptions() {
         vertexOptions = CEVertexOptions(
@@ -194,24 +209,63 @@ final class CEQuadGameMesh: CEGameMesh {
                 float2(0,1),
                 float2(1,1)
 
-            ]
+            ],
+            normal: [float3(0, 1, 0)]
         )
     }
-    
-//    override func createVertices() {
-//        vertices = [
-//            CEVertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
-//            CEVertex(position: float3(-0.5, 0.5, 0), color: float4(0, 1, 0, 1)),
-//            CEVertex(position: float3(-0.5,-0.5, 0), color: float4(0, 0, 1, 1)),
-//
-//            CEVertex(position: float3( 0.5, 0.5, 0), color: float4(1, 0, 0, 1)),
-//            CEVertex(position: float3(-0.5,-0.5, 0), color: float4(0, 0, 1, 1)),
-//            CEVertex(position: float3( 0.5,-0.5, 0), color: float4(1, 0, 1, 1)),
-//        ]
-//    }
 }
 
 final class CECubeGameMesh: CEGameMesh {
+    
+    override func defaultVertexCreation() {
+        //Left
+        addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 0.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 0.5, 1.0))
+        addVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 0.5, 1.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0))
+        addVertex(position: float3(-1.0, 1.0,-1.0), color: float4(1.0, 0.0, 1.0, 1.0))
+        
+        //RIGHT
+        addVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 0.0, 0.5, 1.0))
+        addVertex(position: float3( 1.0,-1.0,-1.0), color: float4(0.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3( 1.0, 1.0,-1.0), color: float4(0.0, 0.5, 1.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0,-1.0), color: float4(1.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3( 1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.5, 1.0, 1.0))
+        
+        //TOP
+        addVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 0.0, 0.0, 1.0))
+        addVertex(position: float3( 1.0, 1.0,-1.0), color: float4(0.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3(-1.0, 1.0,-1.0), color: float4(0.0, 0.0, 1.0, 1.0))
+        addVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3(-1.0, 1.0,-1.0), color: float4(0.5, 1.0, 1.0, 1.0))
+        addVertex(position: float3(-1.0, 1.0, 1.0), color: float4(1.0, 0.0, 1.0, 1.0))
+        
+        //BOTTOM
+        addVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.5, 0.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(0.5, 1.0, 0.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0,-1.0), color: float4(0.0, 0.0, 1.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 1.0, 0.5, 1.0))
+        addVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 1.0, 1.0))
+        
+        //BACK
+        addVertex(position: float3( 1.0, 1.0,-1.0), color: float4(1.0, 0.5, 0.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(0.5, 1.0, 0.0, 1.0))
+        addVertex(position: float3(-1.0, 1.0,-1.0), color: float4(0.0, 0.0, 1.0, 1.0))
+        addVertex(position: float3( 1.0, 1.0,-1.0), color: float4(1.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0,-1.0), color: float4(0.0, 1.0, 1.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 1.0, 1.0))
+        
+        //FRONT
+        addVertex(position: float3(-1.0, 1.0, 1.0), color: float4(1.0, 0.5, 0.0, 1.0))
+        addVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 0.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0, 1.0), color: float4(0.5, 0.0, 1.0, 1.0))
+        addVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 1.0, 0.5, 1.0))
+        addVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0))
+        addVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.0, 1.0, 1.0))
+    }
     
     override func createVertexOptions() {
         vertexOptions = CEVertexOptions(
@@ -312,61 +366,10 @@ final class CECubeGameMesh: CEGameMesh {
                 float4(0.0, 1.0, 1.0, 1.0),
                 float4(1.0, 0.0, 1.0, 1.0)
             ],
-            textureCoordinate: []
+            textureCoordinate: [],
+            normal: [float3(0, 1, 0)]
         )
     }
-    
-//    override func createVertices() {
-//        vertices = [
-//            //Left
-//            CEVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 0.5, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 0.5, 1.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0,-1.0), color: float4(1.0, 0.0, 1.0, 1.0)),
-//
-//            //RIGHT
-//            CEVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 0.0, 0.5, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0,-1.0), color: float4(0.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3( 1.0, 1.0,-1.0), color: float4(0.0, 0.5, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0,-1.0), color: float4(1.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3( 1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.5, 1.0, 1.0)),
-//
-//            //TOP
-//            CEVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 0.0, 0.0, 1.0)),
-//            CEVertex(position: float3( 1.0, 1.0,-1.0), color: float4(0.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0,-1.0), color: float4(0.0, 0.0, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0,-1.0), color: float4(0.5, 1.0, 1.0, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0, 1.0), color: float4(1.0, 0.0, 1.0, 1.0)),
-//
-//            //BOTTOM
-//            CEVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.5, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0,-1.0), color: float4(0.5, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0,-1.0), color: float4(0.0, 0.0, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 1.0, 0.5, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 1.0, 1.0)),
-//
-//            //BACK
-//            CEVertex(position: float3( 1.0, 1.0,-1.0), color: float4(1.0, 0.5, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0,-1.0), color: float4(0.5, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0,-1.0), color: float4(0.0, 0.0, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0, 1.0,-1.0), color: float4(1.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0,-1.0), color: float4(0.0, 1.0, 1.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 1.0, 1.0)),
-//
-//            //FRONT
-//            CEVertex(position: float3(-1.0, 1.0, 1.0), color: float4(1.0, 0.5, 0.0, 1.0)),
-//            CEVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 0.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0, 1.0), color: float4(0.5, 0.0, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 1.0, 0.5, 1.0)),
-//            CEVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0)),
-//            CEVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.0, 1.0, 1.0))
-//        ]
-//    }
 }
 
 public final class CEMeshLibrary: CEStandardLibrary {
