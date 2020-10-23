@@ -23,6 +23,7 @@ struct RasterizerInput {
     float gameTime;
     float3 worldPosition;
     float3 surfaceNormal;
+    float3 toCameraVector;
 };
 
 struct CEModelDefaults{
@@ -33,6 +34,7 @@ struct CESceneDefaults{
     float gameTime;
     float4x4 viewMatrix;
     float4x4 projectionMatrix;
+    float3 cameraPosition;
 };
 
 struct CEMaterial {
@@ -43,7 +45,17 @@ struct CEMaterial {
     bool isIlluminated;
     float3 ambient;
     float3 diffuse;
-    
+    float3 specular;
+    float shininess;
+};
+
+struct CELightData {
+    float3 position;
+    float3 color;
+    float brightness;
+    float ambientIntensity;
+    float diffuseIntensity;
+    float specularIntensity;
 };
 
 struct CETrigonometricTextures {
@@ -59,15 +71,6 @@ struct CETrigonometricTextures {
         color = float4(x, y, z, 1);
     }
 };
-
-struct CELightData {
-    float3 position;
-    float3 color;
-    float brightness;
-    float ambientIntensity;
-    float diffuseIntensity;
-};
-
 
 struct CELightCollection {
     int lightCount;

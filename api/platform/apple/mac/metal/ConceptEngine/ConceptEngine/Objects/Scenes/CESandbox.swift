@@ -81,7 +81,7 @@ public final class CESandbox: CEScene {
         middleSun.setName("MiddleSun")
         middleSun.setPosition(float3(0, 1, 0))
         middleSun.setMaterialIsIlluminated(false)
-        middleSun.setLightBrightness(1.0)
+        middleSun.setLightBrightness(0.3)
         middleSun.setMaterialColor(float4(1,1,1,1))
         middleSun.setLightColor(float3(1,1,1))
         lights.append(middleSun)
@@ -100,8 +100,10 @@ public final class CESandbox: CEScene {
     private func buildObjCarTruck() {
         let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
         carTruck.setTexture(.CarTruck)
-        carTruck.setMaterialAmbient(0.1)
+        carTruck.setMaterialAmbient(0.01)
         carTruck.setRotationX(0.3)
+        carTruck.setMaterialShininess(10)
+        carTruck.setMaterialSpecular(5)
 //        carTruck.setPositionY(-1)
         addNodeChild(carTruck)
     }

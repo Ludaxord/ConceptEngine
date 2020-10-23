@@ -26,6 +26,7 @@ vertex RasterizerInput basic_vertex_shader(
     rasterizer_input.gameTime = scene.gameTime;
     rasterizer_input.worldPosition = worldPosition.xyz;
     rasterizer_input.surfaceNormal = (model.modelMatrix * float4(vInput.normal, 1.0)).xyz;
+    rasterizer_input.toCameraVector = scene.cameraPosition - worldPosition.xyz;
     
     return rasterizer_input;
 }
@@ -55,13 +56,16 @@ fragment half4 basic_fragment_shader(
     
     if (material.isIlluminated) {
         float3 unitNormal = normalize(rasterizer_input.surfaceNormal);
+        float3 unitToCameraVector = normalize(rasterizer_input.toCameraVector);
 
         float3 ambients = float3(0,0,0);
         float3 diffuses = float3(0,0,0);
+        float3 speculars = float3(0,0,0);
         for (int i = 0; i < lightCount; i++) {
             CELightData lightData = lightDatas[i];
             
             float3 unitToLightVector = normalize(lightData.position - rasterizer_input.worldPosition);
+            float3 unitReflectionVector = normalize(reflect(-unitToLightVector, unitNormal));
             
             float3 ambientness = material.ambient * lightData.ambientIntensity;
             float3 ambientColor = clamp(ambientness * lightData.color * lightData.brightness, 0.0, 0.1);
@@ -72,8 +76,13 @@ fragment half4 basic_fragment_shader(
             float3 diffuseColor = clamp(diffuseness * nDotL * lightData.color * lightData.brightness, 0.0, 0.1);
             diffuses += diffuseColor;
             
+            float3 specularness = material.specular * lightData.specularIntensity;
+            float rDotV = max(dot(unitReflectionVector, unitToCameraVector), 0.0);
+            float specularExp = pow(rDotV, material.shininess);
+            float3 specularColor = clamp(specularness * specularExp * lightData.color* lightData.brightness, 0.0, 1.0);
+            speculars += specularColor;
         }
-        float3 phongIntensity = ambients + diffuses;
+        float3 phongIntensity = ambients + diffuses + speculars;
         color *= float4(phongIntensity, 1.0);
     }
     

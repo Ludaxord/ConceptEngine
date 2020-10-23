@@ -49,6 +49,7 @@ struct CESceneDefaults: sizeable {
     var gameTime: Float = 0
     var viewMatrix = matrix_identity_float4x4
     var projectionMatrix = matrix_identity_float4x4
+    var cameraPosition = float3(0, 0, 0)
 }
 
 struct CEMaterial: sizeable {
@@ -59,7 +60,8 @@ struct CEMaterial: sizeable {
     var isIlluminated: Bool = true
     var ambient: float3 = float3(0.1, 0.1, 0.1)
     var diffuse: float3 = float3(1, 1, 1)
-    
+    var specular: float3 = float3(1, 1, 1)
+    var shininess: Float = 1
 }
 
 struct CELightData: sizeable {
@@ -68,6 +70,7 @@ struct CELightData: sizeable {
     var brightness: Float = 1.0;
     var ambientIntensity: Float = 1.0;
     var diffuseIntensity: Float = 1.0;
+    var specularIntensity: Float = 1.0;
 }
 
 public struct CEVertexOptions: sizeable {
