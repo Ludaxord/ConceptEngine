@@ -10,11 +10,17 @@ import MetalKit
 
 public final class CESandbox: CEScene {
     
-    var camera: CECamera!
-    var lights: [CELight] = []
+    override func buildCameras() {
+        buildDefaultCamera()
+        super.buildCameras()
+    }
     
-    //Global sandbox objects
-//    var quad: CEGame3DQuad!
+    override func buildLights() {
+        //Lighting
+//        buildDefaultLights()
+        buildSunLight()
+        super.buildLights()
+    }
     
     override func buildScene() {
 //        2D
@@ -51,14 +57,8 @@ public final class CESandbox: CEScene {
     
     private func buildDefault3DSandbox() {
         //Camera
-        camera = CEDebugCamera()
-        camera.setPosition(0,0,4)
-        camera.position.z = 5
-        buildWithDefaultCamera()
-        
-        //Lighting
-//        buildDefaultLights()
-        buildSunLight()
+
+        buildDefaultCamera()
         
         //3d Objects
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
@@ -82,7 +82,6 @@ public final class CESandbox: CEScene {
         sun.setMaterialColor(1,1,1,1)
         sun.setLightColor(1,1,1)
         lights.append(sun)
-        addLights(lights)
     }
     
     private func buildMipMappedQuad() {
@@ -122,7 +121,6 @@ public final class CESandbox: CEScene {
         rightSun.setMaterialColor(float4(0,0,1,1))
         rightSun.setLightColor(float3(0,0,1))
         lights.append(rightSun)
-        addLights(lights)
     }
     
     private func buildObjCarTruck() {
@@ -274,8 +272,10 @@ public final class CESandbox: CEScene {
         }
     }
 
-    private func buildWithDefaultCamera() {
-        addCamera(camera)
+    private func buildDefaultCamera() {
+        camera = CEDebugCamera()
+        camera.setPosition(0,0,4)
+        camera.position.z = 5
     }
 
     
@@ -302,7 +302,7 @@ public final class CESandbox: CEScene {
     
     private func buildDefault2DSandbox() {
         camera = CEDebugCamera()
-        buildWithDefaultCamera()
+        buildDefaultCamera()
         build2DTriangeQuadGrid(elementsCount: 5)
     }
     

@@ -15,12 +15,27 @@ public class CEScene: CENode {
     private var _lightManager = CELightManager()
     private var _sceneDefaults = CESceneDefaults()
     
+    internal var lights: [CELight] = []
+    //change to Array of cameras for more flexibility
+    internal var camera: CECamera!
+    
     override init(name: String? = nil) {
         super.init(name: name)
+        buildCameras()
+        buildLights()
         buildScene()
     }
     
-    func buildScene() {}
+    func buildCameras() {
+        addCamera(camera)
+    }
+    
+    func buildLights() {
+        addLights(lights)
+    }
+    
+    func buildScene() {
+    }
     
     func addCamera(_ camera: CECamera, _ currentCamera: Bool = true) {
         _cameraManager.registerCamera(camera: camera)
