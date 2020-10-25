@@ -49,6 +49,10 @@ extension CEGameObject {
         self.material.useDefaultTrigonometricTexture = false
     }
     
+    public func setMaterialColor(_ r: Float,_ g: Float,_ b: Float,_ a: Float) {
+        setMaterialColor(float4(r,g,b,a))
+    }
+    
     public func setTexture(_ textureType: TextureTypes) {
         self._textureType = textureType
         self.material.useMaterialColor = false
@@ -66,16 +70,19 @@ extension CEGameObject {
     public func getMaterialIsIlluminated() -> Bool { return self.material.isIlluminated }
     
     public func setMaterialAmbient(_ ambient: float3) { self.material.ambient = ambient }
+    public func setMaterialAmbient(_ r: Float,_ g: Float,_ b: Float) { setMaterialAmbient(float3(r,g,b)) }
     public func setMaterialAmbient(_ ambient: Float) { self.material.ambient = float3(ambient, ambient, ambient) }
     public func addMaterialAmbient(_ value: Float) { self.material.ambient += value }
     public func getMaterialAmbient() -> float3 { return self.material.ambient }
     
     public func setMaterialDiffuse(_ diffuse: float3) { self.material.diffuse = diffuse }
+    public func setMaterialDiffuse(_ r: Float,_ g: Float,_ b: Float) { setMaterialDiffuse(float3(r,g,b)) }
     public func setMaterialDiffuse(_ diffuse: Float) { self.material.diffuse = float3(diffuse, diffuse, diffuse) }
     public func addMaterialDiffuse(_ value: Float) { self.material.diffuse += value }
     public func getMaterialDiffuse()->float3 { return self.material.diffuse }
     
     public func setMaterialSpecular(_ specular: float3) { self.material.specular = specular }
+    public func setMaterialSpecular(_ r: Float,_ g: Float,_ b: Float) { setMaterialSpecular(float3(r,g,b)) }
     public func setMaterialSpecular(_ specular: Float) { self.material.specular = float3(specular, specular, specular) }
     public func addMaterialSpecular(_ value: Float) { self.material.specular += value }
     public func getMaterialSpecular()->float3 { return self.material.specular }

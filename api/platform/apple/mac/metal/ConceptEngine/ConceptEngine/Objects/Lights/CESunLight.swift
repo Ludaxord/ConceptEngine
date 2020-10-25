@@ -11,7 +11,7 @@ import MetalKit
 class CESunLight: CELight {
     init(camera: CECamera) {
         super.init(
-//            meshType: .Sphere,
+            meshType: .Sphere,
             name: "Sun Light",
             camera: camera)
         self.setMaterialColor(float4(0.5, 0.5, 0.0, 1.0))

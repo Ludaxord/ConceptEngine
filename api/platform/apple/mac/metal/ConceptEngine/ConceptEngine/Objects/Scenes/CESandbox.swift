@@ -74,20 +74,20 @@ public final class CESandbox: CEScene {
     }
     
     private func buildSunLight() {
-        let sun = CESunLight(camera: camera)
-        sun.setName("Sun")
-        sun.setPosition(float3(0, 2, 0))
+        let sun = CELight(name: "Sun",camera: camera)
+        sun.setScale(0.3)
+        sun.setPosition(0, 2, 0)
         sun.setMaterialIsIlluminated(false)
         sun.setLightBrightness(0.3)
-        sun.setMaterialColor(float4(1,1,1,1))
-        sun.setLightColor(float3(1,1,1))
+        sun.setMaterialColor(1,1,1,1)
+        sun.setLightColor(1,1,1)
         lights.append(sun)
         addLights(lights)
     }
     
     private func buildMipMappedQuad() {
         print("buildMipMappedQuad")
-        let quad = CEGame2DQuad(camera: camera)
+        let quad = CEGame3DQuad(camera: camera)
         quad.setMaterialAmbient(0.01)
         quad.setMaterialShininess(10)
         quad.setMaterialSpecular(5)
@@ -154,10 +154,10 @@ public final class CESandbox: CEScene {
     
     private func mouseObjectManipulation() {
         for node in nodeChildren {
-            if let carTruck = node as? CEGameObjCarTruck {
+            if let gameObject = node as? CEGame3DObject {
                 if CEMouse.IsMouseButtonPressed(button: .LEFT) {
-                    carTruck.rotateX(CEMouse.GetDY() * CEGameTime.DeltaTime)
-                    carTruck.rotateY(CEMouse.GetDX() * CEGameTime.DeltaTime)
+                    gameObject.rotateX(CEMouse.GetDY() * CEGameTime.DeltaTime)
+                    gameObject.rotateY(CEMouse.GetDX() * CEGameTime.DeltaTime)
                 }
             }
             
