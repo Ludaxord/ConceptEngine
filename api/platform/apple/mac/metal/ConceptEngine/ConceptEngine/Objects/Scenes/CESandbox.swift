@@ -86,12 +86,11 @@ public final class CESandbox: CEScene {
     }
     
     private func buildMipMappedQuad() {
-        print("buildMipMappedQuad")
         let quad = CEGame3DQuad(camera: camera)
         quad.setMaterialAmbient(0.01)
         quad.setMaterialShininess(10)
         quad.setMaterialSpecular(5)
-        quad.setMaterialIsIlluminated(false)
+//        quad.setMaterialIsIlluminated(false)
         quad.setTexture(.CarTest)
         addNodeChild(quad)
     }

@@ -39,7 +39,7 @@ public class CETextureLoader {
         
         if let url = Bundle.main.url(forResource: self._textureName, withExtension: self._textureExtension) {
             let defaultTextureLoader = MTKTextureLoader(device: ConceptEngine.GPUDevice)
-            let options: [MTKTextureLoader.Option : MTKTextureLoader.Origin] = [MTKTextureLoader.Option.origin: _origin]
+            let options: [MTKTextureLoader.Option : Any] = [MTKTextureLoader.Option.origin: _origin as Any, MTKTextureLoader.Option.generateMipmaps: true]
             do {
                 texture = try defaultTextureLoader.newTexture(URL: url, options: options)
                 texture.label = _textureName

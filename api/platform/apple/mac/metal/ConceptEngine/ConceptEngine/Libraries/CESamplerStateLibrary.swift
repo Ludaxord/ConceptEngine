@@ -26,6 +26,8 @@ public struct LinearSamplerState: CESamplerState {
         let samplerDescriptor = MTLSamplerDescriptor()
         samplerDescriptor.minFilter = .linear
         samplerDescriptor.magFilter = .linear
+        samplerDescriptor.mipFilter = .linear
+//        samplerDescriptor.lodMinClamp = 4
         samplerDescriptor.label = stateName
         samplerState = ConceptEngine.GPUDevice.makeSamplerState(descriptor: samplerDescriptor)
     }

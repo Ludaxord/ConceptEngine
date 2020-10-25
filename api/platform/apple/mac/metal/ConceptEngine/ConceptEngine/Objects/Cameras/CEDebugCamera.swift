@@ -18,9 +18,8 @@ public class CEDebugCamera: CECamera {
     init() {
         super.init(cameraType: .Debug)
     }
-        
-    public override func defaultCameraBehavior() {
-        
+    
+    private func cameraMovementWithCameraZoom() {
         let wheel = CEMouse.GetDWheel()
         let wheelChange = CEMouse.GetDWheelChange()
         
@@ -56,6 +55,43 @@ public class CEDebugCamera: CECamera {
         if (wheel < wheelChange) {
             self.position.z -= 1
         }
+    }
+    
+    private func cameraMovementWithSceneZoom() {
+        if(CEKeyboard.IsKeyPressed(.leftArrow)){
+            self.moveX(-CEGameTime.DeltaTime)
+        }
+        
+        if(CEKeyboard.IsKeyPressed(.rightArrow)){
+            self.moveX(CEGameTime.DeltaTime)
+        }
+        
+        if(CEKeyboard.IsKeyPressed(.upArrow)){
+            self.moveY(CEGameTime.DeltaTime)
+        }
+        
+        if(CEKeyboard.IsKeyPressed(.downArrow)){
+            self.moveY(-CEGameTime.DeltaTime)
+        }
+        
+        if(CEMouse.IsMouseButtonPressed(button: .RIGHT)) {
+            self.rotate(CEMouse.GetDY() * CEGameTime.DeltaTime,
+                        CEMouse.GetDX() * CEGameTime.DeltaTime,
+                        0)
+        }
+        
+        if(CEMouse.IsMouseButtonPressed(button: .CENTER)) {
+            self.moveX(-CEMouse.GetDX() * CEGameTime.DeltaTime)
+            self.moveY(CEMouse.GetDY() * CEGameTime.DeltaTime)
+        }
+        
+        self.moveZ(-CEMouse.GetDWheel() * 0.1)
+    }
+        
+    public override func defaultCameraBehavior() {
+//        cameraMovementWithCameraZoom()
+        cameraMovementWithSceneZoom()
+        
     }
     
 }
