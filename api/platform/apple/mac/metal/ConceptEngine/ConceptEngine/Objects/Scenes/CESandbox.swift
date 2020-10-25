@@ -69,8 +69,8 @@ public final class CESandbox: CEScene {
 //        buildObjCarHatch()
 //        buildObjCarSport()
         
-        buildObjCarTruck()
-//        buildMipMappedQuad()
+//        buildObjCarTruck()
+        buildMipMappedQuad()
     }
     
     private func buildSunLight() {
@@ -82,6 +82,7 @@ public final class CESandbox: CEScene {
         sun.setMaterialColor(float4(1,1,1,1))
         sun.setLightColor(float3(1,1,1))
         lights.append(sun)
+        addLights(lights)
     }
     
     private func buildMipMappedQuad() {
@@ -91,7 +92,7 @@ public final class CESandbox: CEScene {
         quad.setMaterialShininess(10)
         quad.setMaterialSpecular(5)
         quad.setMaterialIsIlluminated(false)
-//        quad.setTexture(.CarTest)
+        quad.setTexture(.CarTest)
         addNodeChild(quad)
     }
     
