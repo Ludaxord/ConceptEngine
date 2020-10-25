@@ -7,6 +7,7 @@
 //
 
 #include <metal_stdlib>
+#include "LightingShader.metal"
 #include "SharedShader.metal"
 using namespace metal;
 
@@ -58,31 +59,7 @@ fragment half4 basic_fragment_shader(
         float3 unitNormal = normalize(rasterizer_input.surfaceNormal);
         float3 unitToCameraVector = normalize(rasterizer_input.toCameraVector);
 
-        float3 ambients = float3(0,0,0);
-        float3 diffuses = float3(0,0,0);
-        float3 speculars = float3(0,0,0);
-        for (int i = 0; i < lightCount; i++) {
-            CELightData lightData = lightDatas[i];
-            
-            float3 unitToLightVector = normalize(lightData.position - rasterizer_input.worldPosition);
-            float3 unitReflectionVector = normalize(reflect(-unitToLightVector, unitNormal));
-            
-            float3 ambientness = material.ambient * lightData.ambientIntensity;
-            float3 ambientColor = clamp(ambientness * lightData.color * lightData.brightness, 0.0, 0.1);
-            ambients += ambientColor;
-                        
-            float3 diffuseness = material.diffuse * lightData.diffuseIntensity;
-            float nDotL = max(dot(unitNormal, unitToLightVector), 0.0);
-            float3 diffuseColor = clamp(diffuseness * nDotL * lightData.color * lightData.brightness, 0.0, 0.1);
-            diffuses += diffuseColor;
-            
-            float3 specularness = material.specular * lightData.specularIntensity;
-            float rDotV = max(dot(unitReflectionVector, unitToCameraVector), 0.0);
-            float specularExp = pow(rDotV, material.shininess);
-            float3 specularColor = clamp(specularness * specularExp * lightData.color* lightData.brightness, 0.0, 1.0);
-            speculars += specularColor;
-        }
-        float3 phongIntensity = ambients + diffuses + speculars;
+        float3 phongIntensity = LightingShader::GetPhongIntensity(material, lightDatas, lightCount, rasterizer_input.worldPosition, unitNormal, unitToCameraVector);
         color *= float4(phongIntensity, 1.0);
     }
     

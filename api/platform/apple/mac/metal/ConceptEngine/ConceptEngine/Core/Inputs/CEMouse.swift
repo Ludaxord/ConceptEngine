@@ -18,8 +18,8 @@ public class CEMouse {
     private static var MOUSE_BUTTON_COUNT = 12
     private static var mouseButtonList = [Bool].init(repeating: false, count: MOUSE_BUTTON_COUNT)
 
-    private static var overallMousePosition = float2(0)
-    private static var mousePositionDelta = float2(0)
+    private static var overallMousePosition = float2(repeating: 0)
+    private static var mousePositionDelta = float2(repeating: 0)
 
     private static var scrollWheelPosition: Float = 0
     private static var lastWheelPosition: Float = 0.0

@@ -44,10 +44,10 @@ public class CETextureLoader {
                 texture = try defaultTextureLoader.newTexture(URL: url, options: options)
                 texture.label = _textureName
             } catch let error as NSError {
-                print("ERROR::CREATING::TEXTURE::__\(_textureName)__::\(error)")
+                print("ERROR::CREATING::TEXTURE::__\(String(describing: _textureName))__::\(error)")
             }
         } else {
-            print("ERROR::CREATING::TEXTURE::__\(_textureName) does not exist")
+            print("ERROR::CREATING::TEXTURE::__\(String(describing: _textureName)) does not exist")
         }
         
         return texture

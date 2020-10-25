@@ -51,7 +51,7 @@ class CEBaseUtils {
             }
         } else if T.self == float2.self {
             for _ in 0...mCount - 1 {
-                filled.append(float2(0) as! T)
+                filled.append(float2(repeating: 0) as! T)
             }
         }
         return filled

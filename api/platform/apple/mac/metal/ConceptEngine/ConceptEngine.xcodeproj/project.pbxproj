@@ -61,6 +61,8 @@
 		7788FAD22510FA5B00AF1B0C /* CEMouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788FAD12510FA5B00AF1B0C /* CEMouse.swift */; };
 		7788FAD5251103B200AF1B0C /* CEAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788FAD4251103B200AF1B0C /* CEAI.swift */; };
 		7788FAD7251103CC00AF1B0C /* CEBasicAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7788FAD6251103CC00AF1B0C /* CEBasicAI.swift */; };
+		779D97832545DD390031FBB6 /* LightingShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 779D97822545DD390031FBB6 /* LightingShader.metal */; };
+		779D97852545DFAB0031FBB6 /* CEShaderLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779D97842545DFAB0031FBB6 /* CEShaderLibrary.swift */; };
 		779E47302510DB5900DC88A1 /* CEScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E472F2510DB5900DC88A1 /* CEScene.swift */; };
 		779E47342510DD9300DC88A1 /* CESandbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E47332510DD9300DC88A1 /* CESandbox.swift */; };
 		779E47372510E07900DC88A1 /* CESceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E47362510E07900DC88A1 /* CESceneManager.swift */; };
@@ -164,6 +166,8 @@
 		7788FAD12510FA5B00AF1B0C /* CEMouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEMouse.swift; sourceTree = "<group>"; };
 		7788FAD4251103B200AF1B0C /* CEAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEAI.swift; sourceTree = "<group>"; };
 		7788FAD6251103CC00AF1B0C /* CEBasicAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEBasicAI.swift; sourceTree = "<group>"; };
+		779D97822545DD390031FBB6 /* LightingShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = LightingShader.metal; sourceTree = "<group>"; };
+		779D97842545DFAB0031FBB6 /* CEShaderLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEShaderLibrary.swift; sourceTree = "<group>"; };
 		779E472F2510DB5900DC88A1 /* CEScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEScene.swift; sourceTree = "<group>"; };
 		779E47332510DD9300DC88A1 /* CESandbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CESandbox.swift; sourceTree = "<group>"; };
 		779E47362510E07900DC88A1 /* CESceneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CESceneManager.swift; sourceTree = "<group>"; };
@@ -397,6 +401,7 @@
 				774733E52507B3E500F6771D /* BasicShader.metal */,
 				7760D731251E08F100E6AEF5 /* SharedShader.metal */,
 				7760D735251E098700E6AEF5 /* InstancedShader.metal */,
+				779D97822545DD390031FBB6 /* LightingShader.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -518,6 +523,7 @@
 				7760D737251E18FE00E6AEF5 /* CEVertexShaderLibrary.swift */,
 				771AB58425377B53002BD97E /* CETextureLibrary.swift */,
 				771AB58625378382002BD97E /* CESamplerStateLibrary.swift */,
+				779D97842545DFAB0031FBB6 /* CEShaderLibrary.swift */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -688,6 +694,8 @@
 				7715155C253A3DFD0041377F /* CEGameObjCarHatch.swift in Sources */,
 				7788FAD02510F5E200AF1B0C /* CEKeyCodes.swift in Sources */,
 				7788FAD5251103B200AF1B0C /* CEAI.swift in Sources */,
+				779D97852545DFAB0031FBB6 /* CEShaderLibrary.swift in Sources */,
+				779D97832545DD390031FBB6 /* LightingShader.metal in Sources */,
 				7759F250250BD0C80041E589 /* CEGameObject.swift in Sources */,
 				77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */,
 				772103F32534D01000E7572A /* CEBaseUtils.swift in Sources */,

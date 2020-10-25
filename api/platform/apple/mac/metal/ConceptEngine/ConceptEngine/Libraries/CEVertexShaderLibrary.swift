@@ -8,11 +8,13 @@
 
 import MetalKit
 
+@available(*, deprecated)
 public enum VertexShaderTypes {
     case Basic
     case Instanced
 }
 
+@available(*, deprecated)
 public final class CEVertexShaderLibrary: CELibrary<VertexShaderTypes, MTLFunction>, CEStandardLibrary {
        
    private var vertexShaders: [VertexShaderTypes: CEShader] = [:]

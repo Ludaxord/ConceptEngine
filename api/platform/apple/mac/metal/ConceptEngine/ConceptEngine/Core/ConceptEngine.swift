@@ -20,6 +20,7 @@ public enum LibraryTypes {
     case SamplerState
     case DepthStencilState
     case Utilities
+    case Shader
 }
 
 public enum ManagerTypes {

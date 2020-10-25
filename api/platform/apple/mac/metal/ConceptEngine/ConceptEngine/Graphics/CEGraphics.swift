@@ -19,8 +19,9 @@ class CEGraphics {
         instanceLibraries(device: device)
     }
         
-    private var FragmentShaderLibrary: CEFragmentShaderLibrary!
-    private var VertexShaderLibrary: CEVertexShaderLibrary!
+//    private var FragmentShaderLibrary: CEFragmentShaderLibrary!
+//    private var VertexShaderLibrary: CEVertexShaderLibrary!
+    private var ShaderLibrary: CEShaderLibrary!
     private var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     private var DepthStencilStateLibrary: CEDepthStencilStateLibrary!
     private var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
@@ -43,13 +44,17 @@ class CEGraphics {
         Libraries.updateValue(UtilitiesLibrary, forKey: .Utilities)
         print("UtilitiesLibrary")
         
-        self.FragmentShaderLibrary = CEFragmentShaderLibrary()
-        Libraries.updateValue(FragmentShaderLibrary, forKey: .FragmentShader)
-        print("FragmentShaderLibrary")
+//        self.FragmentShaderLibrary = CEFragmentShaderLibrary()
+//        Libraries.updateValue(FragmentShaderLibrary, forKey: .FragmentShader)
+//        print("FragmentShaderLibrary")
 
-        self.VertexShaderLibrary = CEVertexShaderLibrary()
-        Libraries.updateValue(VertexShaderLibrary, forKey: .VertexShader)
-        print("VertexShaderLibrary")
+//        self.VertexShaderLibrary = CEVertexShaderLibrary()
+//        Libraries.updateValue(VertexShaderLibrary, forKey: .VertexShader)
+//        print("VertexShaderLibrary")
+
+            self.ShaderLibrary = CEShaderLibrary()
+            Libraries.updateValue(ShaderLibrary, forKey: .Shader)
+            print("ShaderLibrary")
 
         self.VertexDescriptorLibrary = CEVertexDescriptorLibrary()
         Libraries.updateValue(VertexDescriptorLibrary, forKey: .VertexDescriptor)
@@ -59,7 +64,7 @@ class CEGraphics {
         Libraries.updateValue(DepthStencilStateLibrary, forKey: .DepthStencilState)
         print("DepthStencilStateLibrary")
 
-        self.RenderPipelineDescriptorLibrary = CERenderPipelineDescriptorLibrary(fragmentShaderLibrary: self.FragmentShaderLibrary, vertexShaderLibrary: self.VertexShaderLibrary, vertexDescriptorLibrary: self.VertexDescriptorLibrary)
+        self.RenderPipelineDescriptorLibrary = CERenderPipelineDescriptorLibrary(shaderLibrary: self.ShaderLibrary, vertexDescriptorLibrary: self.VertexDescriptorLibrary)
         Libraries.updateValue(RenderPipelineDescriptorLibrary, forKey: .RenderPipelineDescriptor)
         print("RenderPipelineDescriptorLibrary")
 
@@ -88,12 +93,15 @@ extension CEGraphics {
     public static func staticLibraries() {
         MainLibraries.updateValue(CEUtilitiesLibrary(), forKey: .Utilities)
         print("static UtilitiesLibrary")
-        
-        MainLibraries.updateValue(CEFragmentShaderLibrary(), forKey: .FragmentShader)
-        print("static FragmentShaderLibrary")
 
-        MainLibraries.updateValue(CEVertexShaderLibrary(), forKey: .VertexShader)
-        print("static VertexShaderLibrary")
+        MainLibraries.updateValue(CEShaderLibrary(), forKey: .Shader)
+        print("static ShaderLibrary")
+        
+//        MainLibraries.updateValue(CEFragmentShaderLibrary(), forKey: .FragmentShader)
+//        print("static FragmentShaderLibrary")
+
+//        MainLibraries.updateValue(CEVertexShaderLibrary(), forKey: .VertexShader)
+//        print("static VertexShaderLibrary")
 
         MainLibraries.updateValue(CEVertexDescriptorLibrary(), forKey: .VertexDescriptor)
         print("static VertexDescriptorLibrary")
@@ -102,8 +110,7 @@ extension CEGraphics {
         print("static DepthStencilStateLibrary")
 
         MainLibraries.updateValue(CERenderPipelineDescriptorLibrary(
-            fragmentShaderLibrary: MainLibraries[.FragmentShader] as! CEFragmentShaderLibrary,
-            vertexShaderLibrary: MainLibraries[.VertexShader] as! CEVertexShaderLibrary,
+            shaderLibrary: MainLibraries[.Shader] as! CEShaderLibrary,
             vertexDescriptorLibrary: MainLibraries[.VertexDescriptor] as! CEVertexDescriptorLibrary
         ), forKey: .RenderPipelineDescriptor)
         print("static RenderPipelineDescriptorLibrary")

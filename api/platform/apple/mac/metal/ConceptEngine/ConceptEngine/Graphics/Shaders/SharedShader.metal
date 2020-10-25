@@ -6,6 +6,9 @@
 //  Copyright © 2020 Ldx Studio. All rights reserved.
 //
 
+#ifndef SHARED_METAL
+#define SHARED_METAL
+
 #include <metal_stdlib>
 using namespace metal;
 
@@ -76,3 +79,5 @@ struct CELightCollection {
     int lightCount;
 //    CELightData* lightDatas;
 };
+
+#endif

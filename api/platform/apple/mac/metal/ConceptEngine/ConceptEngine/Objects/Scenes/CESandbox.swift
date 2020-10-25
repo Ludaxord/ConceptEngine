@@ -226,7 +226,7 @@ public final class CESandbox: CEScene {
     private func buildDefaultKeyboardClick() {
         let c = nodeChildren[0]
         
-        c.scale = float3(0.2)
+        c.scale = float3(repeating: 0.2)
         
         if (CEKeyboard.IsKeyPressed(.d)) {
             c.position.x += CEGameTime.DeltaTime
@@ -294,7 +294,7 @@ public final class CESandbox: CEScene {
                     cube.position.y = yPosition
                     cube.position.x = xPosition
                     cube.position.z = zPosition
-                    cube.scale = float3(scale)
+                    cube.scale = float3(repeating: scale)
                     cube.setMaterialColor(CEColorUtils.randomColor)
                     addNodeChild(cube)
                 }
@@ -313,7 +313,7 @@ public final class CESandbox: CEScene {
                 }
                 gameObject.position.x = Float(Float(x) + elementsSpace) / Float(elementsCount)
                 gameObject.position.y = Float(Float(y) + elementsSpace) / Float(elementsCount)
-                gameObject.scale = float3(scale)
+                gameObject.scale = float3(repeating: scale)
                 addNodeChild(gameObject)
             }
         }

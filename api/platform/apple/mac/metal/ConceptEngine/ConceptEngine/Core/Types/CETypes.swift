@@ -8,6 +8,10 @@
 
 import simd
 
+public typealias float2 = SIMD2<Float>
+public typealias float3 = SIMD3<Float>
+public typealias float4 = SIMD4<Float>
+
 protocol sizeable {}
 
 extension sizeable {

@@ -8,10 +8,12 @@
 
 import MetalKit
 
+@available(*, deprecated)
 public enum FragmentShaderTypes {
     case Basic
 }
 
+@available(*, deprecated)
 public final class CEFragmentShaderLibrary: CELibrary<FragmentShaderTypes, MTLFunction>, CEStandardLibrary {
         
     private var vertexShaders: [VertexShaderTypes: CEShader] = [:]
