@@ -50,21 +50,49 @@ public final class CESandbox: CEScene {
     }
     
     private func buildDefault3DSandbox() {
+        //Camera
         camera = CEDebugCamera()
-        buildWithDefaultCamera()
+        camera.setPosition(0,0,4)
         camera.position.z = 5
+        buildWithDefaultCamera()
         
-        buildDefaultLights()
+        //Lighting
+//        buildDefaultLights()
+        buildSunLight()
         
+        //3d Objects
 //        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
 //        build3DCubeCollection()
 //        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
 //        build3DMovingQuad()
 //        build3DQuadWithTextures()
-        
-        buildObjCarTruck()
 //        buildObjCarHatch()
 //        buildObjCarSport()
+        
+        buildObjCarTruck()
+//        buildMipMappedQuad()
+    }
+    
+    private func buildSunLight() {
+        let sun = CESunLight(camera: camera)
+        sun.setName("Sun")
+        sun.setPosition(float3(0, 2, 0))
+        sun.setMaterialIsIlluminated(false)
+        sun.setLightBrightness(0.3)
+        sun.setMaterialColor(float4(1,1,1,1))
+        sun.setLightColor(float3(1,1,1))
+        lights.append(sun)
+    }
+    
+    private func buildMipMappedQuad() {
+        print("buildMipMappedQuad")
+        let quad = CEGame2DQuad(camera: camera)
+        quad.setMaterialAmbient(0.01)
+        quad.setMaterialShininess(10)
+        quad.setMaterialSpecular(5)
+        quad.setMaterialIsIlluminated(false)
+//        quad.setTexture(.CarTest)
+        addNodeChild(quad)
     }
     
     private func buildDefaultLights() {

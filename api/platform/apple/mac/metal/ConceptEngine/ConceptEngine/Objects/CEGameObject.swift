@@ -87,14 +87,17 @@ extension CEGameObject {
 extension CEGameObject: CERenderable {
     func doRender(_ renderCommandEncoder: MTLRenderCommandEncoder) {
         renderCommandEncoder.setRenderPipelineState((ConceptEngine.getLibrary(.RenderPipelineState) as! CERenderPipelineStateLibrary).PipelineState(.Basic))
-        renderCommandEncoder.setDepthStencilState((ConceptEngine.getLibrary(.DepthStencilState) as! CEDepthStencilStateLibrary).DepthStencilState(.Less))
-        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
-
         
+        renderCommandEncoder.setDepthStencilState((ConceptEngine.getLibrary(.DepthStencilState) as! CEDepthStencilStateLibrary).DepthStencilState(.Less))
+        
+        //Vertex Shader
         renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
         
-        renderCommandEncoder.setTriangleFillMode(meshFillMode)
+        //Fragment Shader
+        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
         renderCommandEncoder.setFragmentBytes(&material, length: CEMaterial.stride, index: 1)
+        
+        renderCommandEncoder.setTriangleFillMode(meshFillMode)
         
         if material.useTexture {
             //Test Car texture

@@ -44,8 +44,8 @@ public final class CERenderPipelineStateLibrary: CELibrary<RenderPipelineStateTy
     public static var DefeultDevice: MTLDevice!
     public static var RenderPipelineDescriptorLibrary: CERenderPipelineDescriptorLibrary!
     
-    private var vertexShaders: [VertexShaderTypes: CEShader] = [:]
-    private var fragmentShaders: [FragmentShaderTypes: CEShader] = [:]
+//    private var vertexShaders: [VertexShaderTypes: CEShader] = [:]
+    private var shaders: [ShaderTypes: CEShader] = [:]
     
     override func useLibrary() {
         createDefaultRenderPipelineState()

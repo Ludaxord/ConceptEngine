@@ -77,6 +77,7 @@ extension CENode {
     
     //Positioning and Movement
     func setPosition(_ position: float3){ self.position = position }
+    func setPosition(_ r: Float,_ g: Float,_ b: Float) { setPosition(float3(r,g,b)) }
     func setPositionX(_ xPosition: Float) { self.position.x = xPosition }
     func setPositionY(_ yPosition: Float) { self.position.y = yPosition }
     func setPositionZ(_ zPosition: Float) { self.position.z = zPosition }
@@ -91,6 +92,7 @@ extension CENode {
     
     //Rotating
     func setRotation(_ rotation: float3) { self.rotation = rotation }
+    func setRotation(_ r: Float,_ g: Float,_ b: Float) { setRotation(float3(r,g,b)) }
     func setRotationX(_ xRotation: Float) { self.rotation.x = xRotation }
     func setRotationY(_ yRotation: Float) { self.rotation.y = yRotation }
     func setRotationZ(_ zRotation: Float) { self.rotation.z = zRotation }
@@ -105,6 +107,7 @@ extension CENode {
     
     //Scaling
     func setScale(_ scale: float3){ self.scale = scale }
+    func setScale(_ r: Float,_ g: Float,_ b: Float) { setScale(float3(r,g,b)) }
     func setScale(_ scale: Float){setScale(float3(scale, scale, scale))}
     func setScaleX(_ scaleX: Float){ self.scale.x = scaleX }
     func setScaleY(_ scaleY: Float){ self.scale.y = scaleY }
