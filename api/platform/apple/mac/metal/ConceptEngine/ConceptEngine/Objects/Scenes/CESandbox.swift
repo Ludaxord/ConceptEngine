@@ -76,7 +76,7 @@ public final class CESandbox: CEScene {
     private func buildSunLight() {
         let sun = CELight(name: "Sun",camera: camera)
         sun.setScale(0.3)
-        sun.setPosition(0, 2, 0)
+        sun.setPosition(0, 2, 2)
         sun.setMaterialIsIlluminated(false)
         sun.setLightBrightness(0.3)
         sun.setMaterialColor(1,1,1,1)

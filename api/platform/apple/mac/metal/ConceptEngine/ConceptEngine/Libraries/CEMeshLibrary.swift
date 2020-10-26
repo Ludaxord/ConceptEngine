@@ -32,16 +32,26 @@ public protocol CEMesh {
 
 class CEGameMesh: CEMesh {
     var vertexOptions: CEVertexOptions!
+    
     var vertices: [CEVertex]!
+    var indicates: [UInt32]!
+    
     var vertexBuffer: MTLBuffer!
+    var indexBuffer: MTLBuffer!
+    
     var instanceCount: Int = 1
+    
     var vertexCount: Int! {
         return vertices.count
+    }
+    var indexCount: Int! {
+        return indicates.count
     }
     
     init() {
         vertices = []
-        createVertices()
+        indicates = []
+        createMesh()
         createBuffers(device: ConceptEngine.GPUDevice)
     }
     
@@ -51,25 +61,31 @@ class CEGameMesh: CEMesh {
                 addVertex(position: position, color: color, textureCoordinate: textureCoordinate)
             }
         } else {
-            defaultVertexCreation()
+            addDefaultVertex()
         }
     }
     
-    func createVertices() {
-        defaultVertexCreation()
+    func createMesh() {
+        addDefaultVertex()
     }
         
-    func defaultVertexCreation() {}
+    func addDefaultVertex() {}
     
     func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0, 0), normal: float3 = float3(0, 1, 0)) {
         vertices.append(CEVertex(position: position, color: color, textureCoordinate: textureCoordinate, normal: normal))
     }
     
+    func addIndicates(_ indicates: [UInt32]) {
+        self.indicates.append(contentsOf: indicates)
+    }
+    
     func createBuffers(device: MTLDevice) {
-        if vertices.count > 0 {
-            vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertices.count), options: [])
-        } else {
-            print("vertices count is less than 0")
+        if vertexCount > 0 {
+            vertexBuffer = device.makeBuffer(bytes: vertices, length: CEVertex.stride(vertexCount), options: [])
+        }
+        
+        if indexCount > 0 {
+            indexBuffer = device.makeBuffer(bytes: indicates, length: UInt32.stride(indexCount), options: [])
         }
     }
     
@@ -78,8 +94,14 @@ class CEGameMesh: CEMesh {
     }
     
     func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) {
-        renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-        renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: instanceCount)
+        if vertexCount > 0 {
+            renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+            if indexCount > 0 {
+                renderCommandEncoder.drawIndexedPrimitives(type: .triangle, indexCount: indexCount, indexType: .uint32, indexBuffer: indexBuffer, indexBufferOffset: 0, instanceCount: instanceCount)
+            } else {
+                renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: instanceCount)
+            }
+        }
     }
 }
 
@@ -142,7 +164,7 @@ final class CEEmptyMesh: CEGameMesh {
 }
 
 final class CETriangleGameMesh: CEGameMesh {
-    override func defaultVertexCreation() {
+    override func addDefaultVertex() {
         addVertex(position: float3( 0, 1,0), color: float4(1,0,0,1))
         addVertex(position: float3(-1,-1,0), color: float4(0,1,0,1))
         addVertex(position: float3( 1,-1,0), color: float4(0,0,1,1))
@@ -151,20 +173,24 @@ final class CETriangleGameMesh: CEGameMesh {
 
 final class CEQuadGameMesh: CEGameMesh {
     
-    override func defaultVertexCreation() {
-        addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0)) //Top Right
-        addVertex(position: float3(-1, 1,0), color: float4(0,1,0,1), textureCoordinate: float2(0,0)) //Top Left
-        addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1)) //Bottom Left
+    override func addDefaultVertex() {
+        addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0), normal: float3(0,0,1)) //Top Right
+        addVertex(position: float3(-1, 1,0), color: float4(0,1,0,1), textureCoordinate: float2(0,0), normal: float3(0,0,1)) //Top Left
+        addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1), normal: float3(0,0,1)) //Bottom Left
+//        addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0), normal: float3(0,0,1)) //Top Right
+//        addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1), normal: float3(0,0,1)) //Bottom Left
+        addVertex(position: float3( 1,-1,0), color: float4(1,0,1,1), textureCoordinate: float2(1,1), normal: float3(0,0,1)) //Bottom Right
         
-        addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0)) //Top Right
-        addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1)) //Bottom Left
-        addVertex(position: float3( 1,-1,0), color: float4(1,0,1,1), textureCoordinate: float2(1,1)) //Bottom Right
+        addIndicates([
+            0,1,2,
+            0,2,3
+        ])
     }
 }
 
 final class CECubeGameMesh: CEGameMesh {
     
-    override func defaultVertexCreation() {
+    override func addDefaultVertex() {
         //Left
         addVertex(position: float3(-1.0,-1.0,-1.0), color: float4(1.0, 0.5, 0.0, 1.0))
         addVertex(position: float3(-1.0,-1.0, 1.0), color: float4(0.0, 1.0, 0.5, 1.0))

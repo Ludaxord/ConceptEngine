@@ -32,6 +32,7 @@ extension sizeable {
     }
 }
 
+extension UInt32: sizeable {}
 extension Int32: sizeable {}
 extension Float: sizeable {}
 extension float2: sizeable {}
@@ -77,6 +78,7 @@ struct CELightData: sizeable {
     var specularIntensity: Float = 1.0;
 }
 
+@available(*, deprecated)
 public struct CEVertexOptions: sizeable {
     
     var positions: [float3]!
