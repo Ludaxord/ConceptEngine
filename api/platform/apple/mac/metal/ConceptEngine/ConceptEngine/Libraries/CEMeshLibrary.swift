@@ -41,7 +41,6 @@ class CEGameMesh: CEMesh {
     
     init() {
         vertices = []
-//        createVertexOptions()
         createVertices()
         createBuffers(device: ConceptEngine.GPUDevice)
     }
@@ -59,9 +58,7 @@ class CEGameMesh: CEMesh {
     func createVertices() {
         defaultVertexCreation()
     }
-    
-    func createVertexOptions() {}
-    
+        
     func defaultVertexCreation() {}
     
     func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0, 0), normal: float3 = float3(0, 1, 0)) {
@@ -150,22 +147,6 @@ final class CETriangleGameMesh: CEGameMesh {
         addVertex(position: float3(-1,-1,0), color: float4(0,1,0,1))
         addVertex(position: float3( 1,-1,0), color: float4(0,0,1,1))
     }
-    override func createVertexOptions() {
-        vertexOptions = CEVertexOptions(
-            positions: [
-                float3( 0, 1, 0),
-                float3(-1,-1, 0),
-                float3( 1,-1, 0)
-            ],
-            colors: [
-                float4(1, 0, 0, 1),
-                float4(1, 1, 0, 1),
-                float4(0, 0, 1, 1)
-            ],
-            textureCoordinate: [],
-            normal: [float3(0, 1, 0)]
-        )
-    }
 }
 
 final class CEQuadGameMesh: CEGameMesh {
@@ -178,40 +159,6 @@ final class CEQuadGameMesh: CEGameMesh {
         addVertex(position: float3( 1, 1,0), color: float4(1,0,0,1), textureCoordinate: float2(1,0)) //Top Right
         addVertex(position: float3(-1,-1,0), color: float4(0,0,1,1), textureCoordinate: float2(0,1)) //Bottom Left
         addVertex(position: float3( 1,-1,0), color: float4(1,0,1,1), textureCoordinate: float2(1,1)) //Bottom Right
-    }
-    
-    override func createVertexOptions() {
-        vertexOptions = CEVertexOptions(
-            positions: [
-                float3( 0.5, 0.5, 0),
-                float3(-0.5, 0.5, 0),
-                float3(-0.5,-0.5, 0),
-                
-                float3( 0.5, 0.5, 0),
-                float3(-0.5,-0.5, 0),
-                float3( 0.5,-0.5, 0)
-            ],
-            colors: [
-                float4(1, 0, 0, 1),
-                float4(0, 1, 0, 1),
-                float4(0, 0, 1, 1),
-                
-                float4(1, 0, 0, 1),
-                float4(0, 0, 1, 1),
-                float4(1, 0, 1, 1)
-            ],
-            textureCoordinate: [
-                float2(1,0),
-                float2(0,0),
-                float2(0,1),
-                
-                float2(1,0),
-                float2(0,1),
-                float2(1,1)
-
-            ],
-            normal: [float3(0, 1, 0)]
-        )
     }
 }
 
@@ -265,110 +212,6 @@ final class CECubeGameMesh: CEGameMesh {
         addVertex(position: float3( 1.0, 1.0, 1.0), color: float4(1.0, 1.0, 0.5, 1.0))
         addVertex(position: float3(-1.0, 1.0, 1.0), color: float4(0.0, 1.0, 1.0, 1.0))
         addVertex(position: float3( 1.0,-1.0, 1.0), color: float4(1.0, 0.0, 1.0, 1.0))
-    }
-    
-    override func createVertexOptions() {
-        vertexOptions = CEVertexOptions(
-            positions: [
-                //LEFT
-                float3(-1.0,-1.0,-1.0),
-                float3(-1.0,-1.0, 1.0),
-                float3(-1.0, 1.0, 1.0),
-                float3(-1.0,-1.0,-1.0),
-                float3(-1.0, 1.0, 1.0),
-                float3(-1.0, 1.0,-1.0),
-                
-                //RIGHT
-                float3( 1.0, 1.0, 1.0),
-                float3( 1.0,-1.0,-1.0),
-                float3( 1.0, 1.0,-1.0),
-                float3( 1.0,-1.0,-1.0),
-                float3( 1.0, 1.0, 1.0),
-                float3( 1.0,-1.0, 1.0),
-                
-                //TOP
-                float3( 1.0, 1.0, 1.0),
-                float3( 1.0, 1.0,-1.0),
-                float3(-1.0, 1.0,-1.0),
-                float3( 1.0, 1.0, 1.0),
-                float3(-1.0, 1.0,-1.0),
-                float3(-1.0, 1.0, 1.0),
-                
-                //BOTTOM
-                float3( 1.0,-1.0, 1.0),
-                float3(-1.0,-1.0,-1.0),
-                float3( 1.0,-1.0,-1.0),
-                float3( 1.0,-1.0, 1.0),
-                float3(-1.0,-1.0, 1.0),
-                float3(-1.0,-1.0,-1.0),
-                
-                //BACK
-                float3( 1.0, 1.0,-1.0),
-                float3(-1.0,-1.0,-1.0),
-                float3(-1.0, 1.0,-1.0),
-                float3( 1.0, 1.0,-1.0),
-                float3( 1.0,-1.0,-1.0),
-                float3(-1.0,-1.0,-1.0),
-                
-                //FRONT
-                float3(-1.0, 1.0, 1.0),
-                float3(-1.0,-1.0, 1.0),
-                float3( 1.0,-1.0, 1.0),
-                float3( 1.0, 1.0, 1.0),
-                float3(-1.0, 1.0, 1.0),
-                float3( 1.0,-1.0, 1.0),
-            ],
-            colors: [
-                float4(1.0, 0.5, 0.0, 1.0),
-                float4(0.0, 1.0, 0.5, 1.0),
-                float4(0.0, 0.5, 1.0, 1.0),
-                float4(1.0, 1.0, 0.0, 1.0),
-                float4(0.0, 1.0, 1.0, 1.0),
-                float4(1.0, 0.0, 1.0, 1.0),
-                
-                //RIGHT
-                float4(1.0, 0.0, 0.5, 1.0),
-                float4(0.0, 1.0, 0.0, 1.0),
-                float4(0.0, 0.5, 1.0, 1.0),
-                float4(1.0, 1.0, 0.0, 1.0),
-                float4(0.0, 1.0, 1.0, 1.0),
-                float4(1.0, 0.5, 1.0, 1.0),
-                
-                //TOP
-                float4(1.0, 0.0, 0.0, 1.0),
-                float4(0.0, 1.0, 0.0, 1.0),
-                float4(0.0, 0.0, 1.0, 1.0),
-                float4(1.0, 1.0, 0.0, 1.0),
-                float4(0.5, 1.0, 1.0, 1.0),
-                float4(1.0, 0.0, 1.0, 1.0),
-                
-                //BOTTOM
-                float4(1.0, 0.5, 0.0, 1.0),
-                float4(0.5, 1.0, 0.0, 1.0),
-                float4(0.0, 0.0, 1.0, 1.0),
-                float4(1.0, 1.0, 0.5, 1.0),
-                float4(0.0, 1.0, 1.0, 1.0),
-                float4(1.0, 0.5, 1.0, 1.0),
-                
-                //BACK
-                float4(1.0, 0.5, 0.0, 1.0),
-                float4(0.5, 1.0, 0.0, 1.0),
-                float4(0.0, 0.0, 1.0, 1.0),
-                float4(1.0, 1.0, 0.0, 1.0),
-                float4(0.0, 1.0, 1.0, 1.0),
-                float4(1.0, 0.5, 1.0, 1.0),
-                
-                //FRONT
-                float4(1.0, 0.5, 0.0, 1.0),
-                float4(0.0, 1.0, 0.0, 1.0),
-                float4(0.5, 0.0, 1.0, 1.0),
-                float4(1.0, 1.0, 0.5, 1.0),
-                float4(0.0, 1.0, 1.0, 1.0),
-                float4(1.0, 0.0, 1.0, 1.0)
-            ],
-            textureCoordinate: [],
-            normal: [float3(0, 1, 0)]
-        )
     }
 }
 
