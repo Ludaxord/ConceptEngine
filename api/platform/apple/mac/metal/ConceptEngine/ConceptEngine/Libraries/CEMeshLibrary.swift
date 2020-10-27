@@ -21,6 +21,7 @@ public enum MeshTypes {
     case CarSport
     case CarHatch
     case Monkeys
+    case DigimonAgumon
 }
 
 public protocol CEMesh {
@@ -264,6 +265,7 @@ public final class CEMeshLibrary: CEStandardLibrary {
         meshes.updateValue(CEModelGameMesh(modelName: "aston_martin"), forKey: .CarSport)
         meshes.updateValue(CEModelGameMesh(modelName: "sphere"), forKey: .Sphere)
         meshes.updateValue(CEModelGameMesh(modelName: "monkeys"), forKey: .Monkeys)
+        meshes.updateValue(CEModelGameMesh(modelName: "Agumon"), forKey: .DigimonAgumon)
         
     }
     

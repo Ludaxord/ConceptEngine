@@ -10,6 +10,10 @@
 		77039D792509779A00078F31 /* CETypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* CETypes.swift */; };
 		77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptEngineBridge.m */; };
 		77115FB02548B19800A14943 /* CEGameObjMonkeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77115FAF2548B19800A14943 /* CEGameObjMonkeys.swift */; };
+		77115FB62548CA6700A14943 /* Agumon.png in Resources */ = {isa = PBXBuildFile; fileRef = 77115FB32548CA6600A14943 /* Agumon.png */; };
+		77115FB72548CA6700A14943 /* Agumon.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77115FB42548CA6600A14943 /* Agumon.obj */; };
+		77115FB82548CA6700A14943 /* Agumon.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 77115FB52548CA6600A14943 /* Agumon.mtl */; };
+		77115FBB2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77115FBA2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift */; };
 		77151548253A271B0041377F /* CEGameObjCarTruck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77151547253A271B0041377F /* CEGameObjCarTruck.swift */; };
 		7715154B253A36640041377F /* zuk.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 77151549253A36630041377F /* zuk.mtl */; };
 		7715154C253A36640041377F /* zuk.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7715154A253A36640041377F /* zuk.obj */; };
@@ -111,6 +115,10 @@
 		77039D7B2509802300078F31 /* ConceptEngineBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptEngineBridge.m; sourceTree = "<group>"; };
 		77039D7D2509805200078F31 /* ConceptEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptEngineBridge.h; sourceTree = "<group>"; };
 		77115FAF2548B19800A14943 /* CEGameObjMonkeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjMonkeys.swift; sourceTree = "<group>"; };
+		77115FB32548CA6600A14943 /* Agumon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Agumon.png; sourceTree = "<group>"; };
+		77115FB42548CA6600A14943 /* Agumon.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Agumon.obj; sourceTree = "<group>"; };
+		77115FB52548CA6600A14943 /* Agumon.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Agumon.mtl; sourceTree = "<group>"; };
+		77115FBA2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjDigimonAgumon.swift; sourceTree = "<group>"; };
 		77151547253A271B0041377F /* CEGameObjCarTruck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjCarTruck.swift; sourceTree = "<group>"; };
 		77151549253A36630041377F /* zuk.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zuk.mtl; sourceTree = "<group>"; };
 		7715154A253A36640041377F /* zuk.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zuk.obj; sourceTree = "<group>"; };
@@ -235,9 +243,28 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		77115FB12548CA4C00A14943 /* digimon */ = {
+			isa = PBXGroup;
+			children = (
+				77115FB22548CA5B00A14943 /* agumon */,
+			);
+			path = digimon;
+			sourceTree = "<group>";
+		};
+		77115FB22548CA5B00A14943 /* agumon */ = {
+			isa = PBXGroup;
+			children = (
+				77115FB52548CA6600A14943 /* Agumon.mtl */,
+				77115FB42548CA6600A14943 /* Agumon.obj */,
+				77115FB32548CA6600A14943 /* Agumon.png */,
+			);
+			path = agumon;
+			sourceTree = "<group>";
+		};
 		7715153E253A1E830041377F /* Objs */ = {
 			isa = PBXGroup;
 			children = (
+				77115FB12548CA4C00A14943 /* digimon */,
 				7727800B2548B0BF003BF89F /* monkeys */,
 				77D9579E253B95CD00EB337B /* sphere */,
 				7715155D253A3ED20041377F /* aston_martin */,
@@ -266,6 +293,7 @@
 				77151554253A390D0041377F /* CEGameObj.swift */,
 				7715155B253A3DFD0041377F /* CEGameObjCarHatch.swift */,
 				77115FAF2548B19800A14943 /* CEGameObjMonkeys.swift */,
+				77115FBA2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift */,
 			);
 			path = ObjObjects;
 			sourceTree = "<group>";
@@ -674,10 +702,13 @@
 				7715154C253A36640041377F /* zuk.obj in Resources */,
 				77151551253A38480041377F /* audi.obj in Resources */,
 				774733B92507A6DE00F6771D /* Assets.xcassets in Resources */,
+				77115FB62548CA6700A14943 /* Agumon.png in Resources */,
 				7727800E2548B0E9003BF89F /* monkeys.obj in Resources */,
 				7715155A253A3B420041377F /* golf.png in Resources */,
+				77115FB72548CA6700A14943 /* Agumon.obj in Resources */,
 				7715154E253A36860041377F /* zuk.jpeg in Resources */,
 				77D957A0253B962D00EB337B /* sphere.obj in Resources */,
+				77115FB82548CA6700A14943 /* Agumon.mtl in Resources */,
 				774733BC2507A6DE00F6771D /* Main.storyboard in Resources */,
 				7727800F2548B0E9003BF89F /* monkeys.mtl in Resources */,
 				77151558253A3B3C0041377F /* golf.obj in Resources */,
@@ -721,6 +752,7 @@
 				7760D730251E063800E6AEF5 /* CEGraphics.swift in Sources */,
 				7760D72B251E033900E6AEF5 /* CEShader.swift in Sources */,
 				77D9579B253B94F500EB337B /* CESunLight.swift in Sources */,
+				77115FBB2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift in Sources */,
 				7760D729251E027900E6AEF5 /* CELibrary.swift in Sources */,
 				7760D72D251E049500E6AEF5 /* CEGameTime.swift in Sources */,
 				7759F258250C07E20041E589 /* CEGame2DQuad.swift in Sources */,

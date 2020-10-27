@@ -72,15 +72,19 @@ public final class CESandbox: CEScene {
 //        buildObjCarTruck()
 //        buildMipMappedQuad()
 //        buildMipMappedTruck()
-        buildMipMappedBlenderMonkeys()
+//        buildMipMappedBlenderMonkeys()
+        buildMipMappedDigimonAgumon()
     }
     
     private func buildSunLight() {
-        let sun = CELight(name: "Sun",camera: camera)
+        let sun = CELight(
+            name: "Sun",
+            camera: camera
+        )
         sun.setScale(0.3)
         sun.setPosition(0, 2, 2)
         sun.setMaterialIsIlluminated(false)
-        sun.setLightBrightness(0.3)
+        sun.setLightBrightness(0.7)
         sun.setMaterialColor(1,1,1,1)
         sun.setLightColor(1,1,1)
         lights.append(sun)
@@ -105,6 +109,17 @@ public final class CESandbox: CEScene {
         monkeys.setMaterialSpecular(10)
 //        monkeys.setTexture(.Monkeys)
         addNodeChild(monkeys)
+    }
+        
+    private func buildMipMappedDigimonAgumon() {
+        let agumon = CEGameObjDigimonAgumon(camera: _cameraManager.currentCamera)
+//        agumon.setMaterialColor(0.4, 0.4, 0.4, 0.1)
+        agumon.setMaterialAmbient(0.1)
+        agumon.setRotationX(0.3)
+        agumon.setMaterialShininess(100)
+        agumon.setMaterialSpecular(100)
+        agumon.setTexture(.DigimonAgumon)
+        addNodeChild(agumon)
     }
     
     private func buildMipMappedQuad() {
