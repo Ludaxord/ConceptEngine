@@ -20,6 +20,7 @@ public enum MeshTypes {
     case CarTruck
     case CarSport
     case CarHatch
+    case Monkeys
 }
 
 public protocol CEMesh {
@@ -255,13 +256,15 @@ public final class CEMeshLibrary: CEStandardLibrary {
     
     private func createDefaultMeshes() {
         meshes.updateValue(CEEmptyMesh(), forKey: .None)
-       meshes.updateValue(CETriangleGameMesh(), forKey: .Triangle)
-       meshes.updateValue(CEQuadGameMesh(), forKey: .Quad)
-       meshes.updateValue(CECubeGameMesh(), forKey: .Cube)
-       meshes.updateValue(CEModelGameMesh(modelName: "zuk"), forKey: .CarTruck)
-       meshes.updateValue(CEModelGameMesh(modelName: "golf"), forKey: .CarHatch)
-       meshes.updateValue(CEModelGameMesh(modelName: "aston_martin"), forKey: .CarSport)
+        meshes.updateValue(CETriangleGameMesh(), forKey: .Triangle)
+        meshes.updateValue(CEQuadGameMesh(), forKey: .Quad)
+        meshes.updateValue(CECubeGameMesh(), forKey: .Cube)
+        meshes.updateValue(CEModelGameMesh(modelName: "zuk"), forKey: .CarTruck)
+        meshes.updateValue(CEModelGameMesh(modelName: "golf"), forKey: .CarHatch)
+        meshes.updateValue(CEModelGameMesh(modelName: "aston_martin"), forKey: .CarSport)
         meshes.updateValue(CEModelGameMesh(modelName: "sphere"), forKey: .Sphere)
+        meshes.updateValue(CEModelGameMesh(modelName: "monkeys"), forKey: .Monkeys)
+        
     }
     
 }

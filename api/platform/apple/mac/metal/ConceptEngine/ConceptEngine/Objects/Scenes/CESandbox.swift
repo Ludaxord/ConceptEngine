@@ -71,7 +71,8 @@ public final class CESandbox: CEScene {
         
 //        buildObjCarTruck()
 //        buildMipMappedQuad()
-        buildMipMappedTruck()
+//        buildMipMappedTruck()
+        buildMipMappedBlenderMonkeys()
     }
     
     private func buildSunLight() {
@@ -93,6 +94,17 @@ public final class CESandbox: CEScene {
         carTruck.setMaterialSpecular(10)
         carTruck.setTexture(.CarTruck)
         addNodeChild(carTruck)
+    }
+    
+    private func buildMipMappedBlenderMonkeys() {
+        let monkeys = CEGameObjMonkeys(camera: _cameraManager.currentCamera)
+        monkeys.setMaterialColor(0.4, 0.4, 0.4, 0.1)
+        monkeys.setMaterialAmbient(0.01)
+        monkeys.setRotationX(0.3)
+        monkeys.setMaterialShininess(10)
+        monkeys.setMaterialSpecular(10)
+//        monkeys.setTexture(.Monkeys)
+        addNodeChild(monkeys)
     }
     
     private func buildMipMappedQuad() {

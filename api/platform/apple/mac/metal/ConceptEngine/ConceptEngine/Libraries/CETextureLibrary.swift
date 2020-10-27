@@ -14,6 +14,7 @@ public enum TextureTypes {
     case CarTruck
     case CarSport
     case CarHatch
+    case Monkeys
 }
 
 public enum TextureOrigin {
