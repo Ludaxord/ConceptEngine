@@ -101,7 +101,7 @@ public final class CESandbox: CEScene {
         monkeys.setMaterialColor(0.4, 0.4, 0.4, 0.1)
         monkeys.setMaterialAmbient(0.01)
         monkeys.setRotationX(0.3)
-        monkeys.setMaterialShininess(10)
+        monkeys.setMaterialShininess(100)
         monkeys.setMaterialSpecular(10)
 //        monkeys.setTexture(.Monkeys)
         addNodeChild(monkeys)
@@ -297,8 +297,8 @@ public final class CESandbox: CEScene {
 
     private func buildDefaultCamera() {
         camera = CEDebugCamera()
-        camera.setPosition(0,0,4)
-        camera.position.z = 5
+        camera.setPosition(0,0,10)
+//        camera.position.z = 5
     }
 
     
