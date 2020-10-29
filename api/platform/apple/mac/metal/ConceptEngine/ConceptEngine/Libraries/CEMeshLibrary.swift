@@ -26,15 +26,11 @@ public enum MeshTypes {
 
 public protocol CEMesh {
     var vertexBuffer: MTLBuffer! { get }
-//    var vertexCount: Int! { get }
-    var vertexOptions: CEVertexOptions! { get set }
     func setInstanceCount(_ count: Int)
     func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder)
 }
 
 class CEGameMesh: CEMesh {
-    var vertexOptions: CEVertexOptions!
-
     var submeshes: [CESubMesh]!
     var vertices: [CEVertex]!
     
@@ -163,9 +159,7 @@ class CESubMesh {
         _indexType = mtkSubmesh.indexType
         _primitiveType = mtkSubmesh.primitiveType
     }
-    
-    var vertexOptions: CEVertexOptions!
-    
+        
     private func createIndexBuffer() {
           if(_indices.count > 0) {
               _indexBuffer = ConceptEngine.GPUDevice.makeBuffer(bytes: _indices,

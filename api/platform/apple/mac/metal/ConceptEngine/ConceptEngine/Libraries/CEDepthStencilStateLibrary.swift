@@ -34,7 +34,7 @@ public final class CEDepthStencilStateLibrary: CELibrary<DepthStencilStateTypes,
     
     private var depthStencilStates: [DepthStencilStateTypes: CEDepthStencilState] = [:]
     
-    private static var ShaderLibrary: CEFragmentShaderLibrary!
+    private static var ShaderLibrary: CEShaderLibrary!
     private static var VertexDescriptorLibrary: CEVertexDescriptorLibrary!
     
     override func useLibrary() {
