@@ -69,10 +69,10 @@ public final class CESandbox: CEScene {
 //        buildObjCarHatch()
 //        buildObjCarSport()
         
-        buildObjCarTruck()
+//        buildObjCarTruck()
 //        buildMipMappedQuad()
 //        buildMipMappedTruck()
-//        buildMipMappedBlenderMonkeys()
+        buildMipMappedBlenderMonkeys()
 //        buildMipMappedDigimonAgumon()
     }
     
@@ -83,52 +83,42 @@ public final class CESandbox: CEScene {
         )
         sun.setScale(0.3)
         sun.setPosition(0, 2, 2)
-        sun.setMaterialIsIlluminated(false)
         sun.setLightBrightness(0.7)
-        sun.setMaterialColor(1,1,1,1)
         sun.setLightColor(1,1,1)
+        sun.setLightAmbientIntensity(0.04)
         lights.append(sun)
     }
     
     private func buildMipMappedTruck() {
         let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
-        carTruck.setMaterialAmbient(0.01)
         carTruck.setRotationX(0.3)
-        carTruck.setMaterialShininess(10)
-        carTruck.setMaterialSpecular(10)
-        carTruck.setTexture(.CarTruck)
+        carTruck.setBaseColorTexture(.CarTruck)
         addNodeChild(carTruck)
     }
     
     private func buildMipMappedBlenderMonkeys() {
         let monkeys = CEGameObjMonkeys(camera: _cameraManager.currentCamera)
-//        monkeys.setMaterialColor(0.4, 0.4, 0.4, 0.1)
-//        monkeys.setMaterialAmbient(0.01)
         monkeys.setRotationX(0.3)
-//        monkeys.setMaterialShininess(100)
-//        monkeys.setMaterialSpecular(10)
-//        monkeys.setTexture(.CarTest)
+        
+        var monkeysMaterial = CEMaterial()
+        monkeysMaterial.diffuse = float3(1, 1, 0)
+        monkeysMaterial.ambient = float3(1, 1, 1)
+        monkeysMaterial.shininess = 100.0
+        monkeys.setMaterial(monkeysMaterial)
+        
         addNodeChild(monkeys)
     }
         
     private func buildMipMappedDigimonAgumon() {
         let agumon = CEGameObjDigimonAgumon(camera: _cameraManager.currentCamera)
-//        agumon.setMaterialColor(0.4, 0.4, 0.4, 0.1)
-        agumon.setMaterialAmbient(0.1)
         agumon.setRotationX(0.3)
-        agumon.setMaterialShininess(100)
-        agumon.setMaterialSpecular(100)
-        agumon.setTexture(.DigimonAgumon)
+        agumon.setBaseColorTexture(.DigimonAgumon)
         addNodeChild(agumon)
     }
     
     private func buildMipMappedQuad() {
         let quad = CEGame3DQuad(camera: camera)
-        quad.setMaterialAmbient(0.01)
-        quad.setMaterialShininess(10)
-        quad.setMaterialSpecular(5)
-//        quad.setMaterialIsIlluminated(false)
-        quad.setTexture(.CarTest)
+        quad.setBaseColorTexture(.CarTest)
         addNodeChild(quad)
     }
     
@@ -136,39 +126,29 @@ public final class CESandbox: CEScene {
         let leftSun = CESunLight(camera: camera)
         leftSun.setName("LeftSun")
         leftSun.setPosition(float3(-1, 1, 0))
-        leftSun.setMaterialIsIlluminated(false)
         leftSun.setLightBrightness(0.3)
-        leftSun.setMaterialColor(float4(1,0,0,1))
         leftSun.setLightColor(float3(1,0,0))
         lights.append(leftSun)
         
         let middleSun = CESunLight(camera: camera)
         middleSun.setName("MiddleSun")
         middleSun.setPosition(float3(0, 1, 0))
-        middleSun.setMaterialIsIlluminated(false)
         middleSun.setLightBrightness(0.3)
-        middleSun.setMaterialColor(float4(1,1,1,1))
         middleSun.setLightColor(float3(1,1,1))
         lights.append(middleSun)
         
         let rightSun = CESunLight(camera: camera)
         rightSun.setName("RightSun")
         rightSun.setPosition(float3( 1, 1, 0))
-        rightSun.setMaterialIsIlluminated(false)
         rightSun.setLightBrightness(0.3)
-        rightSun.setMaterialColor(float4(0,0,1,1))
         rightSun.setLightColor(float3(0,0,1))
         lights.append(rightSun)
     }
     
     private func buildObjCarTruck() {
         let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
-        carTruck.setTexture(.CarTruck)
-        carTruck.setMaterialAmbient(0.01)
+        carTruck.setBaseColorTexture(.CarTruck)
         carTruck.setRotationX(0.3)
-        carTruck.setMaterialShininess(10)
-        carTruck.setMaterialSpecular(5)
-//        carTruck.setPositionY(-1)
         addNodeChild(carTruck)
     }
     
@@ -176,7 +156,7 @@ public final class CESandbox: CEScene {
         camera.position.z = -100
         let carHatch = CEGameObjCarHatch(camera: _cameraManager.currentCamera)
 //        carHatch.setColor(float4(1, 0, 0, 1))
-        carHatch.setTexture(.CarHatch)
+        carHatch.setBaseColorTexture(.CarHatch)
         addNodeChild(carHatch)
     }
         
@@ -247,7 +227,7 @@ public final class CESandbox: CEScene {
         let quad = CEGame3DQuad(camera: _cameraManager.currentCamera)
 //        quad.setScale(1.3)
 //        quad.setRotationY(4.2)
-        quad.setTexture(.CarTest)
+        quad.setBaseColorTexture(.CarTest)
         addNodeChild(quad)
     }
     
@@ -330,11 +310,9 @@ public final class CESandbox: CEScene {
     private func build3DMovingQuad() {
         let quad = CEGame3DQuad(camera: _cameraManager.currentCamera)
         quad.setScale(1.3)
-        quad.setMaterialColor(CEColorUtils.hexStringToColor(hex: "#fdf800"))
         addNodeChild(quad)
         let cube = CEGame3DCube(camera: _cameraManager.currentCamera)
         cube.setScale(0.3)
-        cube.setMaterialColor(CEColorUtils.hexStringToColor(hex: "#ffffff"))
         addNodeChild(cube)
     }
     
@@ -361,7 +339,6 @@ public final class CESandbox: CEScene {
                     cube.position.x = xPosition
                     cube.position.z = zPosition
                     cube.scale = float3(repeating: scale)
-                    cube.setMaterialColor(CEColorUtils.randomColor)
                     addNodeChild(cube)
                 }
             }

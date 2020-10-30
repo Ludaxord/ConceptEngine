@@ -107,12 +107,13 @@ public class CEGameMesh {
         submeshes.append(submesh)
     }
     
-    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder, baseColorTextureType: TextureTypes = .None) {
+    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder, material: CEMaterial? = nil, baseColorTextureType: TextureTypes = .None) {
         if vertexBuffer != nil {
             renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             if submeshes.count > 0 {
                 for submesh in submeshes {
                     submesh.applyTexture(renderCommandEncoder: renderCommandEncoder, customBaseColorTextureType: baseColorTextureType)
+                    submesh.applyMaterial(renderCommandEncoder: renderCommandEncoder, customMaterial: material)
                     renderCommandEncoder.drawIndexedPrimitives(type: submesh.primitiveType,
                                                                 indexCount: submesh.indexCount,
                                                                 indexType: submesh.indexType,
@@ -192,8 +193,16 @@ class CESubMesh {
         renderCommandEncoder.setFragmentTexture(baseColorTex, index: 0)
     }
     
+    func applyMaterial(renderCommandEncoder: MTLRenderCommandEncoder, customMaterial: CEMaterial?) {
+        var mat = customMaterial == nil ? _material : customMaterial
+        renderCommandEncoder.setFragmentBytes(&mat, length: CEMaterial.stride, index: 1)
+    }
+    
     private func createMaterial(_ mdlMaterial: MDLMaterial) {
-        
+        if let ambient = mdlMaterial.property(with: .emission)?.float3Value { _material.ambient = ambient }
+        if let diffuse = mdlMaterial.property(with: .baseColor)?.float3Value { _material.diffuse = diffuse }
+        if let specular = mdlMaterial.property(with: .specular)?.float3Value { _material.specular = specular }
+        if let shininess = mdlMaterial.property(with: .specularExponent)?.floatValue { _material.shininess = shininess }
     }
         
     private func createIndexBuffer() {

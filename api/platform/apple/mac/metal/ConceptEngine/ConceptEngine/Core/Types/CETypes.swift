@@ -57,7 +57,7 @@ struct CESceneDefaults: sizeable {
     var cameraPosition = float3(0, 0, 0)
 }
 
-struct CEMaterial: sizeable {
+public struct CEMaterial: sizeable {
     var color: float4 = float4(0.8, 0.8, 0.8, 1.0)
     var useDefaultTrigonometricTexture: Bool = false
     var isIlluminated: Bool = true
