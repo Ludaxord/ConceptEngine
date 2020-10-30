@@ -69,10 +69,10 @@ public final class CESandbox: CEScene {
 //        buildObjCarHatch()
 //        buildObjCarSport()
         
-//        buildObjCarTruck()
+        buildObjCarTruck()
 //        buildMipMappedQuad()
 //        buildMipMappedTruck()
-        buildMipMappedBlenderMonkeys()
+//        buildMipMappedBlenderMonkeys()
 //        buildMipMappedDigimonAgumon()
     }
     
@@ -107,7 +107,7 @@ public final class CESandbox: CEScene {
         monkeys.setRotationX(0.3)
 //        monkeys.setMaterialShininess(100)
 //        monkeys.setMaterialSpecular(10)
-        monkeys.setTexture(.CarTest)
+//        monkeys.setTexture(.CarTest)
         addNodeChild(monkeys)
     }
         

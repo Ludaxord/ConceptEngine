@@ -16,7 +16,7 @@ class CEGameObjectInstances : CENode {
     
     private var _models: [CEModelDefaults] = []
     private var _modelConstantBuffer: MTLBuffer!
-    private var _mesh: CEMesh!
+    private var _mesh: CEGameMesh!
     
     init(meshType: MeshTypes, instanceCount: Int, meshFillMode: MTLTriangleFillMode = .fill) {
         super.init()
@@ -74,6 +74,5 @@ extension CEGameObjectInstances {
     
     public func setColor(_ color: float4) {
         self.material.color = color
-        self.material.useMaterialColor = true
     }
 }

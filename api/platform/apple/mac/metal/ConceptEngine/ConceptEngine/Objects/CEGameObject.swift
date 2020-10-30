@@ -12,14 +12,14 @@ import MetalKit
 public class CEGameObject: CENode {
     
     internal var camera: CECamera!
-    private var material = CEMaterial()
-    private var _textureType: TextureTypes = .None
     
     var model: CEModelDefaults = CEModelDefaults()
     
     var meshFillMode: MTLTriangleFillMode!
-    var mesh: CEMesh!
+    var mesh: CEGameMesh!
     
+    private var material = CEMaterial()
+    private var baseColorTextureType: TextureTypes = .None
     
     init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill, camera: CECamera) {
         self.meshFillMode = meshFillMode
@@ -44,8 +44,6 @@ extension CEGameObject {
     
     public func setMaterialColor(_ color: float4) {
         self.material.color = color
-        self.material.useMaterialColor = true
-        self.material.useTexture = false
         self.material.useDefaultTrigonometricTexture = false
     }
     
@@ -54,15 +52,11 @@ extension CEGameObject {
     }
     
     public func setTexture(_ textureType: TextureTypes) {
-        self._textureType = textureType
-        self.material.useMaterialColor = false
-        self.material.useTexture = true
+        self.baseColorTextureType = textureType
         self.material.useDefaultTrigonometricTexture = false
     }
     
     public func setDefaultTrigonometricTexture() {
-        self.material.useMaterialColor = false
-        self.material.useTexture = false
         self.material.useDefaultTrigonometricTexture = true
     }
     
@@ -101,16 +95,16 @@ extension CEGameObject: CERenderable {
         renderCommandEncoder.setVertexBytes(&model, length: CEModelDefaults.stride, index: 2)
         
         //Fragment Shader
-        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
+//        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
         renderCommandEncoder.setFragmentBytes(&material, length: CEMaterial.stride, index: 1)
         
         renderCommandEncoder.setTriangleFillMode(meshFillMode)
         
-        if material.useTexture {
-            //Test Car texture
-            renderCommandEncoder.setFragmentTexture((ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(_textureType), index: 0)
-        }
-        mesh.drawPrimitives(renderCommandEncoder)
+//        if material.useTexture {
+//            //Test Car texture
+//            renderCommandEncoder.setFragmentTexture((ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(_textureType), index: 0)
+//        }
+        mesh.drawPrimitives(renderCommandEncoder, baseColorTextureType: baseColorTextureType)
     }
 }
 

@@ -24,13 +24,7 @@ public enum MeshTypes {
     case DigimonAgumon
 }
 
-public protocol CEMesh {
-    var vertexBuffer: MTLBuffer! { get }
-    func setInstanceCount(_ count: Int)
-    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder)
-}
-
-class CEGameMesh: CEMesh {
+public class CEGameMesh {
     var submeshes: [CESubMesh]!
     var vertices: [CEVertex]!
     
@@ -65,20 +59,26 @@ class CEGameMesh: CEMesh {
         (descriptor.attributes[3] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
         
         let bufferAllocator = MTKMeshBufferAllocator(device: ConceptEngine.GPUDevice)
-        let asset: MDLAsset = MDLAsset(url: assetUrl, vertexDescriptor: descriptor, bufferAllocator: bufferAllocator)
+        let asset: MDLAsset = MDLAsset(url: assetUrl, vertexDescriptor: descriptor, bufferAllocator: bufferAllocator, preserveTopology: true, error: nil)
+        asset.loadTextures()
+        
         var mtkMeshes: [MTKMesh] = []
+        var mdlMeshes: [MDLMesh] = []
         do {
             mtkMeshes = try MTKMesh.newMeshes(asset: asset, device: ConceptEngine.GPUDevice).metalKitMeshes
+            mdlMeshes = try MTKMesh.newMeshes(asset: asset, device: ConceptEngine.GPUDevice).modelIOMeshes
         } catch {
             print("ERROR::LOADING_MESH::__\(modelName)__::\(error)")
         }
         
         let mtkMesh = mtkMeshes[0]
+        let mdlMesh = mdlMeshes[0]
         self.vertexBuffer = mtkMesh.vertexBuffers[0].buffer
         self.vertexCount = mtkMesh.vertexCount
         for i in 0..<mtkMesh.submeshes.count {
             let mtkSubmesh = mtkMesh.submeshes[i]
-            let submesh = CESubMesh(mtkSubmesh: mtkSubmesh)
+            let mdlSubmesh = mdlMesh.submeshes![i] as? MDLSubmesh
+            let submesh = CESubMesh(mtkSubmesh: mtkSubmesh, mdlSubmesh: mdlSubmesh!)
             addSubMesh(submesh)
         }
     }
@@ -107,11 +107,12 @@ class CEGameMesh: CEMesh {
         submeshes.append(submesh)
     }
     
-    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) {
+    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder, baseColorTextureType: TextureTypes = .None) {
         if vertexBuffer != nil {
             renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             if submeshes.count > 0 {
                 for submesh in submeshes {
+                    submesh.applyTexture(renderCommandEncoder: renderCommandEncoder, customBaseColorTextureType: baseColorTextureType)
                     renderCommandEncoder.drawIndexedPrimitives(type: submesh.primitiveType,
                                                                 indexCount: submesh.indexCount,
                                                                 indexType: submesh.indexType,
@@ -144,20 +145,55 @@ class CESubMesh {
     private var _indexBufferOffset: Int = 0
     public var indexBufferOffset: Int { return _indexBufferOffset }
     
+    private var _material: CEMaterial!
+    
+    private var _baseColorTexture: MTLTexture!
+    
     var vertexBuffer: MTLBuffer!
     
     init(indices: [UInt32]) {
+        self._material = CEMaterial()
         self._indices = indices
         self._indexCount = indices.count
         createIndexBuffer()
     }
     
-    init(mtkSubmesh: MTKSubmesh) {
+    init(mtkSubmesh: MTKSubmesh, mdlSubmesh: MDLSubmesh) {
+        _material = CEMaterial()
         _indexBuffer = mtkSubmesh.indexBuffer.buffer
         _indexBufferOffset = mtkSubmesh.indexBuffer.offset
         _indexCount = mtkSubmesh.indexCount
         _indexType = mtkSubmesh.indexType
         _primitiveType = mtkSubmesh.primitiveType
+        
+        createTexture(mdlSubmesh.material!)
+        createMaterial(mdlSubmesh.material!)
+    }
+    
+    private func texture(for semantic: MDLMaterialSemantic, in material: MDLMaterial?, textureOrigin: MTKTextureLoader.Origin) -> MTLTexture? {
+        let textureLoader = MTKTextureLoader(device: ConceptEngine.GPUDevice)
+        guard let materialProperty = material?.property(with: semantic) else { return nil }
+        guard let sourceTexture = materialProperty.textureSamplerValue?.texture else { return nil }
+        let options: [MTKTextureLoader.Option: Any] = [
+            MTKTextureLoader.Option.origin: textureOrigin as Any,
+            MTKTextureLoader.Option.generateMipmaps: true
+        ]
+        let tex = try? textureLoader.newTexture(texture: sourceTexture, options: options)
+        return tex
+    }
+    
+    private func createTexture(_ mdlMaterial: MDLMaterial) {
+        _baseColorTexture = texture(for: .baseColor, in: mdlMaterial, textureOrigin: .bottomLeft)
+    }
+    
+    func applyTexture(renderCommandEncoder: MTLRenderCommandEncoder, customBaseColorTextureType: TextureTypes) {
+        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
+        let baseColorTex = customBaseColorTextureType == .None ? _baseColorTexture : (ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(customBaseColorTextureType)
+        renderCommandEncoder.setFragmentTexture(baseColorTex, index: 0)
+    }
+    
+    private func createMaterial(_ mdlMaterial: MDLMaterial) {
+        
     }
         
     private func createIndexBuffer() {
@@ -173,7 +209,6 @@ class CESubMesh {
 
 final class CEEmptyMesh: CEGameMesh {
     override func setInstanceCount(_ count: Int) { }
-    override func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder) { }
 }
 
 final class CETriangleGameMesh: CEGameMesh {
@@ -252,11 +287,11 @@ final class CECubeGameMesh: CEGameMesh {
     }
 }
 
-public final class CEMeshLibrary: CELibrary<MeshTypes, CEMesh>, CEStandardLibrary {
+public final class CEMeshLibrary: CELibrary<MeshTypes, CEGameMesh>, CEStandardLibrary {
 
-    private var meshes: [MeshTypes: CEMesh] = [:]
+    private var meshes: [MeshTypes: CEGameMesh] = [:]
     
-    override subscript(type: MeshTypes) -> CEMesh? {
+    override subscript(type: MeshTypes) -> CEGameMesh? {
         return Mesh(type)
     }
     
@@ -264,7 +299,7 @@ public final class CEMeshLibrary: CELibrary<MeshTypes, CEMesh>, CEStandardLibrar
         createDefaultMeshes()
     }
     
-    public func Mesh(_ meshType: MeshTypes) -> CEMesh {
+    public func Mesh(_ meshType: MeshTypes) -> CEGameMesh {
         return meshes[meshType]!
     }
     

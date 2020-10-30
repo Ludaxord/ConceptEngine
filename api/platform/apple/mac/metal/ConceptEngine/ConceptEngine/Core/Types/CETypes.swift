@@ -59,8 +59,6 @@ struct CESceneDefaults: sizeable {
 
 struct CEMaterial: sizeable {
     var color: float4 = float4(0.8, 0.8, 0.8, 1.0)
-    var useMaterialColor: Bool = false
-    var useTexture: Bool = false
     var useDefaultTrigonometricTexture: Bool = false
     var isIlluminated: Bool = true
     var ambient: float3 = float3(0.1, 0.1, 0.1)
