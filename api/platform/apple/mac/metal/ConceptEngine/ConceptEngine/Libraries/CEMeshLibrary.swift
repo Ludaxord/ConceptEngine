@@ -81,7 +81,7 @@ public class CEGameMesh {
             print("MDL MESH \(modelName)")
             print("mdl name:", mdl.name)
             print(mdl)
-            //TODO: FIX BUG in AddTangentBasis function -> Error: EXC_BAD_ACCESS
+            //Note: if Mdl.Name does not exists in files addTangent Will throw EXC_BAD_ACCESS Error
             mdl.addTangentBasis(forTextureCoordinateAttributeNamed: MDLVertexAttributeTextureCoordinate, tangentAttributeNamed: MDLVertexAttributeTangent, bitangentAttributeNamed: MDLVertexAttributeBitangent)
             mdl.vertexDescriptor = descriptor
             do {
@@ -346,7 +346,7 @@ public final class CEMeshLibrary: CELibrary<MeshTypes, CEGameMesh>, CEStandardLi
         meshes.updateValue(CEGameMesh(modelName: "zuk"), forKey: .CarTruck)
         meshes.updateValue(CEGameMesh(modelName: "quad"), forKey: .NormalQuad)
         meshes.updateValue(CEGameMesh(modelName: "quad_grass"), forKey: .QuadGrass)
-        meshes.updateValue(CEGameMesh(modelName: "bugatti"), forKey: .CarBugatti)
+//        meshes.updateValue(CEGameMesh(modelName: "bugatti"), forKey: .CarBugatti)
         meshes.updateValue(CEGameMesh(modelName: "golf"), forKey: .CarHatch)
         meshes.updateValue(CEGameMesh(modelName: "aston_martin"), forKey: .CarSport)
         meshes.updateValue(CEGameMesh(modelName: "sphere"), forKey: .Sphere)
