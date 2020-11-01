@@ -39,6 +39,8 @@ public:
                    float specularExp = pow(rDotV, material.shininess);
                    float3 specularColor = clamp(specularness * specularExp * lightData.color* lightData.brightness, 0.0, 1.0);
                    speculars += specularColor;
+//                   Test Value
+//                   speculars *= speculars * 10;
                }
                float3 phongIntensity = ambients + diffuses + speculars;
         return phongIntensity;
