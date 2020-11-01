@@ -75,6 +75,17 @@
 		779E47372510E07900DC88A1 /* CESceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779E47362510E07900DC88A1 /* CESceneManager.swift */; };
 		77A053BB2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A053BA2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift */; };
 		77B69AF9250E8E9600199907 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77B69AF8250E8E9600199907 /* Math.swift */; };
+		77C132CD254F4A4700B7FAD3 /* bugatti.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77C132CB254F4A4700B7FAD3 /* bugatti.obj */; };
+		77C132CE254F4A4700B7FAD3 /* bugatti.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 77C132CC254F4A4700B7FAD3 /* bugatti.mtl */; };
+		77C132D0254F4A8500B7FAD3 /* CEGameObjCarBugatti.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C132CF254F4A8500B7FAD3 /* CEGameObjCarBugatti.swift */; };
+		77C132D5254F4CE500B7FAD3 /* quad_grass.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 77C132D2254F4CE500B7FAD3 /* quad_grass.jpg */; };
+		77C132D6254F4CE500B7FAD3 /* quad_grass.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77C132D3254F4CE500B7FAD3 /* quad_grass.obj */; };
+		77C132D7254F4CE500B7FAD3 /* quad_grass.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 77C132D4254F4CE500B7FAD3 /* quad_grass.mtl */; };
+		77C132D9254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C132D8254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift */; };
+		77C132DE254F4F1B00B7FAD3 /* NormalMap.png in Resources */ = {isa = PBXBuildFile; fileRef = 77C132DB254F4F1B00B7FAD3 /* NormalMap.png */; };
+		77C132DF254F4F1B00B7FAD3 /* quad.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77C132DC254F4F1B00B7FAD3 /* quad.obj */; };
+		77C132E0254F4F1B00B7FAD3 /* quad.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 77C132DD254F4F1B00B7FAD3 /* quad.mtl */; };
+		77C132E2254F4F4000B7FAD3 /* CEGameObjQuad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C132E1254F4F4000B7FAD3 /* CEGameObjQuad.swift */; };
 		77CF67222540AB1300D5263A /* supra_car.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 77CF67212540AB1300D5263A /* supra_car.jpeg */; };
 		77D3D604250A19E2001035B6 /* ConceptEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D603250A19E2001035B6 /* ConceptEngine.swift */; };
 		77D3D606250A1B80001035B6 /* CEUtilitiesLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D3D605250A1B80001035B6 /* CEUtilitiesLibrary.swift */; };
@@ -187,6 +198,17 @@
 		779E47362510E07900DC88A1 /* CESceneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CESceneManager.swift; sourceTree = "<group>"; };
 		77A053BA2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEDepthStencilStateLibrary.swift; sourceTree = "<group>"; };
 		77B69AF8250E8E9600199907 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		77C132CB254F4A4700B7FAD3 /* bugatti.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bugatti.obj; sourceTree = "<group>"; };
+		77C132CC254F4A4700B7FAD3 /* bugatti.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bugatti.mtl; sourceTree = "<group>"; };
+		77C132CF254F4A8500B7FAD3 /* CEGameObjCarBugatti.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjCarBugatti.swift; sourceTree = "<group>"; };
+		77C132D2254F4CE500B7FAD3 /* quad_grass.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = quad_grass.jpg; sourceTree = "<group>"; };
+		77C132D3254F4CE500B7FAD3 /* quad_grass.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = quad_grass.obj; sourceTree = "<group>"; };
+		77C132D4254F4CE500B7FAD3 /* quad_grass.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = quad_grass.mtl; sourceTree = "<group>"; };
+		77C132D8254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjQuadGrass.swift; sourceTree = "<group>"; };
+		77C132DB254F4F1B00B7FAD3 /* NormalMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NormalMap.png; sourceTree = "<group>"; };
+		77C132DC254F4F1B00B7FAD3 /* quad.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = quad.obj; sourceTree = "<group>"; };
+		77C132DD254F4F1B00B7FAD3 /* quad.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = quad.mtl; sourceTree = "<group>"; };
+		77C132E1254F4F4000B7FAD3 /* CEGameObjQuad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjQuad.swift; sourceTree = "<group>"; };
 		77CF67212540AB1300D5263A /* supra_car.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = supra_car.jpeg; sourceTree = "<group>"; };
 		77D3D603250A19E2001035B6 /* ConceptEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptEngine.swift; sourceTree = "<group>"; };
 		77D3D605250A1B80001035B6 /* CEUtilitiesLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEUtilitiesLibrary.swift; sourceTree = "<group>"; };
@@ -264,6 +286,9 @@
 		7715153E253A1E830041377F /* Objs */ = {
 			isa = PBXGroup;
 			children = (
+				77C132DA254F4F1000B7FAD3 /* quad */,
+				77C132D1254F4C7000B7FAD3 /* quad_grass */,
+				77C132CA254F4A3100B7FAD3 /* bugatti */,
 				77115FB12548CA4C00A14943 /* digimon */,
 				7727800B2548B0BF003BF89F /* monkeys */,
 				77D9579E253B95CD00EB337B /* sphere */,
@@ -294,6 +319,9 @@
 				7715155B253A3DFD0041377F /* CEGameObjCarHatch.swift */,
 				77115FAF2548B19800A14943 /* CEGameObjMonkeys.swift */,
 				77115FBA2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift */,
+				77C132CF254F4A8500B7FAD3 /* CEGameObjCarBugatti.swift */,
+				77C132D8254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift */,
+				77C132E1254F4F4000B7FAD3 /* CEGameObjQuad.swift */,
 			);
 			path = ObjObjects;
 			sourceTree = "<group>";
@@ -554,6 +582,35 @@
 			path = Compute;
 			sourceTree = "<group>";
 		};
+		77C132CA254F4A3100B7FAD3 /* bugatti */ = {
+			isa = PBXGroup;
+			children = (
+				77C132CC254F4A4700B7FAD3 /* bugatti.mtl */,
+				77C132CB254F4A4700B7FAD3 /* bugatti.obj */,
+			);
+			path = bugatti;
+			sourceTree = "<group>";
+		};
+		77C132D1254F4C7000B7FAD3 /* quad_grass */ = {
+			isa = PBXGroup;
+			children = (
+				77C132D2254F4CE500B7FAD3 /* quad_grass.jpg */,
+				77C132D4254F4CE500B7FAD3 /* quad_grass.mtl */,
+				77C132D3254F4CE500B7FAD3 /* quad_grass.obj */,
+			);
+			path = quad_grass;
+			sourceTree = "<group>";
+		};
+		77C132DA254F4F1000B7FAD3 /* quad */ = {
+			isa = PBXGroup;
+			children = (
+				77C132DB254F4F1B00B7FAD3 /* NormalMap.png */,
+				77C132DD254F4F1B00B7FAD3 /* quad.mtl */,
+				77C132DC254F4F1B00B7FAD3 /* quad.obj */,
+			);
+			path = quad;
+			sourceTree = "<group>";
+		};
 		77D3D600250A18AE001035B6 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,14 +754,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				7715154B253A36640041377F /* zuk.mtl in Resources */,
+				77C132D6254F4CE500B7FAD3 /* quad_grass.obj in Resources */,
+				77C132DF254F4F1B00B7FAD3 /* quad.obj in Resources */,
 				77CF67222540AB1300D5263A /* supra_car.jpeg in Resources */,
 				7715155F253A3EE80041377F /* aston_martin.obj in Resources */,
 				7715154C253A36640041377F /* zuk.obj in Resources */,
+				77C132E0254F4F1B00B7FAD3 /* quad.mtl in Resources */,
+				77C132DE254F4F1B00B7FAD3 /* NormalMap.png in Resources */,
+				77C132D7254F4CE500B7FAD3 /* quad_grass.mtl in Resources */,
 				77151551253A38480041377F /* audi.obj in Resources */,
+				77C132D5254F4CE500B7FAD3 /* quad_grass.jpg in Resources */,
 				774733B92507A6DE00F6771D /* Assets.xcassets in Resources */,
+				77C132CE254F4A4700B7FAD3 /* bugatti.mtl in Resources */,
 				77115FB62548CA6700A14943 /* Agumon.png in Resources */,
 				7727800E2548B0E9003BF89F /* monkeys.obj in Resources */,
 				7715155A253A3B420041377F /* golf.png in Resources */,
+				77C132CD254F4A4700B7FAD3 /* bugatti.obj in Resources */,
 				77115FB72548CA6700A14943 /* Agumon.obj in Resources */,
 				7715154E253A36860041377F /* zuk.jpeg in Resources */,
 				77D957A0253B962D00EB337B /* sphere.obj in Resources */,
@@ -750,6 +815,7 @@
 				77D9083F2517CBA1002BDDAC /* CEGameObjectInstances.swift in Sources */,
 				772103F32534D01000E7572A /* CEBaseUtils.swift in Sources */,
 				7760D730251E063800E6AEF5 /* CEGraphics.swift in Sources */,
+				77C132E2254F4F4000B7FAD3 /* CEGameObjQuad.swift in Sources */,
 				7760D72B251E033900E6AEF5 /* CEShader.swift in Sources */,
 				77D9579B253B94F500EB337B /* CESunLight.swift in Sources */,
 				77115FBB2548CA7D00A14943 /* CEGameObjDigimonAgumon.swift in Sources */,
@@ -773,6 +839,7 @@
 				779E47342510DD9300DC88A1 /* CESandbox.swift in Sources */,
 				7760D738251E18FE00E6AEF5 /* CEVertexShaderLibrary.swift in Sources */,
 				7759F25E250C0C130041E589 /* CERenderable.swift in Sources */,
+				77C132D0254F4A8500B7FAD3 /* CEGameObjCarBugatti.swift in Sources */,
 				7759F25C250C0A9C0041E589 /* CENode.swift in Sources */,
 				7760729A251238E800EC260A /* CEDebugCamera.swift in Sources */,
 				7788FACE2510F36200AF1B0C /* CEKeyboard.swift in Sources */,
@@ -787,6 +854,7 @@
 				77A053BB2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift in Sources */,
 				77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */,
 				77D95799253B8A0500EB337B /* CELight.swift in Sources */,
+				77C132D9254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift in Sources */,
 				779E47372510E07900DC88A1 /* CESceneManager.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,
 				77115FB02548B19800A14943 /* CEGameObjMonkeys.swift in Sources */,

@@ -16,6 +16,7 @@ public enum TextureTypes {
     case CarHatch
     case Monkeys
     case DigimonAgumon
+    case QuadGrass
 }
 
 public enum TextureOrigin {
@@ -86,6 +87,7 @@ final class CETextureLibrary: CELibrary<TextureTypes, MTLTexture>, CEStandardLib
     private func createDefaultTextures() {
         textures.updateValue(CETexture("supra_car", fileExtension: "jpeg"), forKey: .CarTest)
         textures.updateValue(CETexture("zuk", fileExtension: "jpeg", origin: .bottomLeft), forKey: .CarTruck)
+        textures.updateValue(CETexture("quad_grass", fileExtension: "jpg", origin: .bottomLeft), forKey: .QuadGrass)
         textures.updateValue(CETexture("golf", fileExtension: "png", origin: .flippedVertically), forKey: .CarHatch)
         textures.updateValue(CETexture("Agumon", fileExtension: "png", origin: .bottomLeft), forKey: .DigimonAgumon)
     }

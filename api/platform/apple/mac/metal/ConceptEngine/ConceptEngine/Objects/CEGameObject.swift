@@ -20,6 +20,7 @@ public class CEGameObject: CENode {
     
     private var material: CEMaterial? = nil
     private var baseColorTextureType: TextureTypes = .None
+    private var normalMapTextureType: TextureTypes = .None
     
     init(meshType: MeshTypes, meshFillMode: MTLTriangleFillMode = .fill, camera: CECamera) {
         self.meshFillMode = meshFillMode
@@ -45,6 +46,10 @@ extension CEGameObject {
         self.baseColorTextureType = textureType
     }
     
+    public func setNormalMapTexture(_ textureType: TextureTypes) {
+        self.normalMapTextureType = textureType
+    }
+    
     public func setMaterial(_ material: CEMaterial) {
         self.material = material
     }
@@ -60,7 +65,7 @@ extension CEGameObject: CERenderable {
         
         renderCommandEncoder.setTriangleFillMode(meshFillMode)
         
-        mesh.drawPrimitives(renderCommandEncoder, material: material, baseColorTextureType: baseColorTextureType)
+        mesh.drawPrimitives(renderCommandEncoder, material: material, baseColorTextureType: baseColorTextureType, normalMapTextureType: normalMapTextureType)
     }
 }
 

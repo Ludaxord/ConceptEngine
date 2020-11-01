@@ -44,6 +44,8 @@ struct CEVertex: sizeable {
     var color: float4
     var textureCoordinate: float2
     var normal: float3
+    var tangent: float3
+    var bitangent: float3
 }
 
 struct CEModelDefaults: sizeable {

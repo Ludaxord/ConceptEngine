@@ -72,8 +72,11 @@ public final class CESandbox: CEScene {
 //        buildObjCarTruck()
 //        buildMipMappedQuad()
 //        buildMipMappedTruck()
-        buildMipMappedBlenderMonkeys()
+//        buildMipMappedBlenderMonkeys()
 //        buildMipMappedDigimonAgumon()
+//        buildCarBugatti()
+//        buildQuadGrass()
+        buildNormalMapQuad()
     }
     
     private func buildSunLight() {
@@ -82,7 +85,7 @@ public final class CESandbox: CEScene {
             camera: camera
         )
         sun.setScale(0.3)
-        sun.setPosition(0, 2, 2)
+        sun.setPosition(0, 4, 2)
         sun.setLightBrightness(0.7)
         sun.setLightColor(1,1,1)
         sun.setLightAmbientIntensity(0.04)
@@ -95,6 +98,37 @@ public final class CESandbox: CEScene {
         carTruck.setBaseColorTexture(.CarTruck)
         addNodeChild(carTruck)
     }
+    
+    private func buildCarBugatti() {
+        let car = CEGameObjCarBugatti(camera: _cameraManager.currentCamera)
+        car.setRotationX(0.3)
+        car.setScale(0.3)
+        var carMaterial = CEMaterial()
+        carMaterial.diffuse = float3(1, 1, 0)
+        carMaterial.ambient = float3(1, 1, 1)
+        carMaterial.shininess = 100.0
+        car.setMaterial(carMaterial)
+        addNodeChild(car)
+    }
+    
+    private func buildQuadGrass() {
+        let grass = CEGameObjQuadGrass(camera: _cameraManager.currentCamera)
+        grass.setRotationX(0.3)
+        grass.setScale(0.3)
+//        grass.setBaseColorTexture(.QuadGrass)
+        var grassMaterial = CEMaterial()
+        grassMaterial.diffuse = float3(1, 1, 0)
+        grassMaterial.ambient = float3(1, 1, 1)
+        grassMaterial.shininess = 100.0
+        grass.setMaterial(grassMaterial)
+        addNodeChild(grass)
+    }
+        
+        private func buildNormalMapQuad() {
+            let quad = CEGameObjQuad(camera: _cameraManager.currentCamera)
+            quad.setRotationX(0.3)
+            addNodeChild(quad)
+        }
     
     private func buildMipMappedBlenderMonkeys() {
         let monkeys = CEGameObjMonkeys(camera: _cameraManager.currentCamera)

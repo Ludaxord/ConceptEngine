@@ -25,8 +25,11 @@ vertex RasterizerInput basic_vertex_shader(
     rasterizer_input.textureCoordinate = vInput.textureCoordinate;
     rasterizer_input.gameTime = scene.gameTime;
     rasterizer_input.worldPosition = worldPosition.xyz;
-    rasterizer_input.surfaceNormal = (model.modelMatrix * float4(vInput.normal, 1.0)).xyz;
     rasterizer_input.toCameraVector = scene.cameraPosition - worldPosition.xyz;
+    
+    rasterizer_input.surfaceNormal = (model.modelMatrix * float4(vInput.normal, 1.0)).xyz;
+    rasterizer_input.surfaceTangent = (model.modelMatrix * float4(vInput.tangent, 1.0)).xyz;
+    rasterizer_input.surfaceBitangent = (model.modelMatrix * float4(vInput.bitangent, 1.0)).xyz;
     
     return rasterizer_input;
 }
@@ -37,29 +40,24 @@ fragment half4 basic_fragment_shader(
                                      constant int &lightCount [[ buffer(2) ]],
                                      constant CELightData *lightDatas [[ buffer(3) ]],
                                      sampler sampler2d [[ sampler(0) ]],
-                                     texture2d<float> baseColorMap [[ texture(0) ]]
+                                     texture2d<float> baseColorMap [[ texture(0) ]],
+                                     texture2d<float> normalMap [[ texture(1) ]]
                                      ) {
     
     float2 texCoord = rasterizer_input.textureCoordinate;
     float4 color = material.color;
+
     if (!is_null_texture(baseColorMap)) {
         color = baseColorMap.sample(sampler2d, texCoord);
     }
-//    float4 color;
-//    if (material.useMaterialColor) {
-//        color = material.color;
-//    } else if (material.useTexture) {
-//        color = texture.sample(sampler2d, texCoord);
-//    } else if (material.useDefaultTrigonometricTexture) {
-//        float gameTime = rasterizer_input.gameTime;
-//        color = CETrigonometricTextures(texCoord, gameTime).color;
-//        color = texture.sample(sampler2d, texCoord);
-//    } else {
-//        color = rasterizer_input.color;
-//    }
     
     if (material.isIlluminated) {
         float3 unitNormal = normalize(rasterizer_input.surfaceNormal);
+        if (!is_null_texture(normalMap)) {
+            float3 sampleNormal = (normalMap.sample(sampler2d, texCoord).rgb * 2) - 1;
+            float3x3 tangentBitangentNormalMatrix = { rasterizer_input.surfaceTangent, rasterizer_input.surfaceBitangent, rasterizer_input.surfaceNormal };
+            unitNormal = tangentBitangentNormalMatrix * sampleNormal;
+        }
         float3 unitToCameraVector = normalize(rasterizer_input.toCameraVector);
 
         float3 ambients = float3(0,0,0);

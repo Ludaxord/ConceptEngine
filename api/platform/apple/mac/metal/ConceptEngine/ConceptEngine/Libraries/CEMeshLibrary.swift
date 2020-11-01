@@ -17,7 +17,11 @@ public enum MeshTypes {
     
     case Sphere
     
+    case QuadGrass
+    case NormalQuad
+    
     case CarTruck
+    case CarBugatti
     case CarSport
     case CarHatch
     case Monkeys
@@ -57,6 +61,8 @@ public class CEGameMesh {
         (descriptor.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeColor
         (descriptor.attributes[2] as! MDLVertexAttribute).name = MDLVertexAttributeTextureCoordinate
         (descriptor.attributes[3] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
+        (descriptor.attributes[4] as! MDLVertexAttribute).name = MDLVertexAttributeTangent
+        (descriptor.attributes[5] as! MDLVertexAttribute).name = MDLVertexAttributeBitangent
         
         let bufferAllocator = MTKMeshBufferAllocator(device: ConceptEngine.GPUDevice)
         let asset: MDLAsset = MDLAsset(url: assetUrl, vertexDescriptor: descriptor, bufferAllocator: bufferAllocator, preserveTopology: true, error: nil)
@@ -65,12 +71,27 @@ public class CEGameMesh {
         var mtkMeshes: [MTKMesh] = []
         var mdlMeshes: [MDLMesh] = []
         do {
-            mtkMeshes = try MTKMesh.newMeshes(asset: asset, device: ConceptEngine.GPUDevice).metalKitMeshes
+//            mtkMeshes = try MTKMesh.newMeshes(asset: asset, device: ConceptEngine.GPUDevice).metalKitMeshes
             mdlMeshes = try MTKMesh.newMeshes(asset: asset, device: ConceptEngine.GPUDevice).modelIOMeshes
         } catch {
             print("ERROR::LOADING_MESH::__\(modelName)__::\(error)")
         }
         
+        for mdl in mdlMeshes {
+            print("MDL MESH \(modelName)")
+            print("mdl name:", mdl.name)
+            print(mdl)
+            //TODO: FIX BUG in AddTangentBasis function -> Error: EXC_BAD_ACCESS
+            mdl.addTangentBasis(forTextureCoordinateAttributeNamed: MDLVertexAttributeTextureCoordinate, tangentAttributeNamed: MDLVertexAttributeTangent, bitangentAttributeNamed: MDLVertexAttributeBitangent)
+            mdl.vertexDescriptor = descriptor
+            do {
+                let mtkMesh = try MTKMesh(mesh: mdl, device: ConceptEngine.GPUDevice)
+                mtkMeshes.append(mtkMesh)
+            } catch {
+                print("ERROR::LOADING_MDLMESH::__\(modelName)__::\(error)")
+            }
+        }
+
         let mtkMesh = mtkMeshes[0]
         let mdlMesh = mdlMeshes[0]
         self.vertexBuffer = mtkMesh.vertexBuffers[0].buffer
@@ -89,8 +110,8 @@ public class CEGameMesh {
         
     func addDefaultVertex() {}
     
-    func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0, 0), normal: float3 = float3(0, 1, 0)) {
-        vertices.append(CEVertex(position: position, color: color, textureCoordinate: textureCoordinate, normal: normal))
+    func addVertex(position: float3, color: float4 = float4(1, 0, 1, 1), textureCoordinate: float2 = float2(0, 0), normal: float3 = float3(0, 1, 0), tangent: float3 = float3(1, 0, 0), bitangent: float3 = float3(0, 0, 1)) {
+        vertices.append(CEVertex(position: position, color: color, textureCoordinate: textureCoordinate, normal: normal, tangent: tangent, bitangent: bitangent))
     }
         
     func createBuffer(device: MTLDevice) {
@@ -107,12 +128,12 @@ public class CEGameMesh {
         submeshes.append(submesh)
     }
     
-    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder, material: CEMaterial? = nil, baseColorTextureType: TextureTypes = .None) {
+    func drawPrimitives(_ renderCommandEncoder: MTLRenderCommandEncoder, material: CEMaterial? = nil, baseColorTextureType: TextureTypes = .None, normalMapTextureType: TextureTypes = .None) {
         if vertexBuffer != nil {
             renderCommandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             if submeshes.count > 0 {
                 for submesh in submeshes {
-                    submesh.applyTexture(renderCommandEncoder: renderCommandEncoder, customBaseColorTextureType: baseColorTextureType)
+                    submesh.applyTexture(renderCommandEncoder: renderCommandEncoder, customBaseColorTextureType: baseColorTextureType, normalMapTextureType: normalMapTextureType)
                     submesh.applyMaterial(renderCommandEncoder: renderCommandEncoder, customMaterial: material)
                     renderCommandEncoder.drawIndexedPrimitives(type: submesh.primitiveType,
                                                                 indexCount: submesh.indexCount,
@@ -149,6 +170,7 @@ class CESubMesh {
     private var _material: CEMaterial!
     
     private var _baseColorTexture: MTLTexture!
+    private var _normalMapTexture: MTLTexture!
     
     var vertexBuffer: MTLBuffer!
     
@@ -185,12 +207,16 @@ class CESubMesh {
     
     private func createTexture(_ mdlMaterial: MDLMaterial) {
         _baseColorTexture = texture(for: .baseColor, in: mdlMaterial, textureOrigin: .bottomLeft)
+        _normalMapTexture = texture(for: .tangentSpaceNormal, in: mdlMaterial, textureOrigin: .bottomLeft)
     }
     
-    func applyTexture(renderCommandEncoder: MTLRenderCommandEncoder, customBaseColorTextureType: TextureTypes) {
+    func applyTexture(renderCommandEncoder: MTLRenderCommandEncoder, customBaseColorTextureType: TextureTypes, normalMapTextureType: TextureTypes) {
         renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
         let baseColorTex = customBaseColorTextureType == .None ? _baseColorTexture : (ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(customBaseColorTextureType)
         renderCommandEncoder.setFragmentTexture(baseColorTex, index: 0)
+        
+        let normalMapTex = normalMapTextureType == .None ? _normalMapTexture : (ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(normalMapTextureType)
+        renderCommandEncoder.setFragmentTexture(normalMapTex, index: 1)
     }
     
     func applyMaterial(renderCommandEncoder: MTLRenderCommandEncoder, customMaterial: CEMaterial?) {
@@ -318,6 +344,9 @@ public final class CEMeshLibrary: CELibrary<MeshTypes, CEGameMesh>, CEStandardLi
         meshes.updateValue(CEQuadGameMesh(), forKey: .Quad)
         meshes.updateValue(CECubeGameMesh(), forKey: .Cube)
         meshes.updateValue(CEGameMesh(modelName: "zuk"), forKey: .CarTruck)
+        meshes.updateValue(CEGameMesh(modelName: "quad"), forKey: .NormalQuad)
+        meshes.updateValue(CEGameMesh(modelName: "quad_grass"), forKey: .QuadGrass)
+        meshes.updateValue(CEGameMesh(modelName: "bugatti"), forKey: .CarBugatti)
         meshes.updateValue(CEGameMesh(modelName: "golf"), forKey: .CarHatch)
         meshes.updateValue(CEGameMesh(modelName: "aston_martin"), forKey: .CarSport)
         meshes.updateValue(CEGameMesh(modelName: "sphere"), forKey: .Sphere)

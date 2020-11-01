@@ -17,6 +17,8 @@ struct VertexInput {
     float4 color [[ attribute(1) ]];
     float2 textureCoordinate [[ attribute(2) ]];
     float3 normal [[ attribute(3) ]];
+    float3 tangent [[ attribute(4) ]];
+    float3 bitangent [[ attribute(5) ]];
 };
 
 struct RasterizerInput {
@@ -25,7 +27,11 @@ struct RasterizerInput {
     float2 textureCoordinate;
     float gameTime;
     float3 worldPosition;
+    
     float3 surfaceNormal;
+    float3 surfaceTangent;
+    float3 surfaceBitangent;
+    
     float3 toCameraVector;
 };
 
