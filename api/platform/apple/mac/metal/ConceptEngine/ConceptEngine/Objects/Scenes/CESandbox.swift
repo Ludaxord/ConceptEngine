@@ -48,7 +48,7 @@ public final class CESandbox: CEScene {
 //        build3dMovingQuadWithTextures()
         
 //        Obj Move CarTruck
-        buildObjRotationCarTruck()
+//        buildObjRotationCarTruck()
         
 //        Obj Manipulation CarTruck
         mouseObjectManipulation()
@@ -84,10 +84,10 @@ public final class CESandbox: CEScene {
             name: "Sun",
             camera: camera
         )
-        sun.setScale(0.3)
+//        sun.setScale(0.3)
         sun.setPosition(0, 4, 2)
         sun.setLightBrightness(0.7)
-        sun.setLightColor(1,1,1)
+//        sun.setLightColor(1,1,1)
         sun.setLightAmbientIntensity(0.04)
         lights.append(sun)
     }
@@ -125,8 +125,16 @@ public final class CESandbox: CEScene {
     }
         
         private func buildNormalMapQuad() {
+            let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
+            carTruck.setBaseColorTexture(.CarTruck)
+            carTruck.moveX(-1)
+            addNodeChild(carTruck)
+            
             let quad = CEGameObjQuad(camera: _cameraManager.currentCamera)
-            quad.setRotationX(0.3)
+            quad.setBaseColorTexture(.CarTest)
+            quad.setNormalMapTexture(.PillowNormal)
+            quad.rotateX(4.5)
+            quad.moveX(1)
             addNodeChild(quad)
         }
     

@@ -31,6 +31,9 @@
 		7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725BB0725150DF200411499 /* CEColorUtils.swift */; };
 		7727800E2548B0E9003BF89F /* monkeys.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7727800C2548B0E8003BF89F /* monkeys.obj */; };
 		7727800F2548B0E9003BF89F /* monkeys.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 7727800D2548B0E9003BF89F /* monkeys.mtl */; };
+		77363FE625507C020095FBD4 /* plate.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 77363FE425507C010095FBD4 /* plate.jpg */; };
+		77363FE725507C020095FBD4 /* plate-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 77363FE525507C010095FBD4 /* plate-normal.png */; };
+		77363FE925507D930095FBD4 /* pillow-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 77363FE825507D920095FBD4 /* pillow-normal.png */; };
 		77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E272514BC6C009EFBFB /* CECameraManager.swift */; };
 		77367E2B2514DCCF009EFBFB /* CEGame3DObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */; };
 		77367E2D2514DD23009EFBFB /* CEGame3DCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */; };
@@ -147,6 +150,9 @@
 		7725BB0725150DF200411499 /* CEColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEColorUtils.swift; sourceTree = "<group>"; };
 		7727800C2548B0E8003BF89F /* monkeys.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkeys.obj; sourceTree = "<group>"; };
 		7727800D2548B0E9003BF89F /* monkeys.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkeys.mtl; sourceTree = "<group>"; };
+		77363FE425507C010095FBD4 /* plate.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = plate.jpg; sourceTree = "<group>"; };
+		77363FE525507C010095FBD4 /* plate-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plate-normal.png"; sourceTree = "<group>"; };
+		77363FE825507D920095FBD4 /* pillow-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pillow-normal.png"; sourceTree = "<group>"; };
 		77367E272514BC6C009EFBFB /* CECameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CECameraManager.swift; sourceTree = "<group>"; };
 		77367E2A2514DCCF009EFBFB /* CEGame3DObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DObject.swift; sourceTree = "<group>"; };
 		77367E2C2514DD23009EFBFB /* CEGame3DCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGame3DCube.swift; sourceTree = "<group>"; };
@@ -286,6 +292,7 @@
 		7715153E253A1E830041377F /* Objs */ = {
 			isa = PBXGroup;
 			children = (
+				77363FDF25507A690095FBD4 /* normal_maps */,
 				77C132DA254F4F1000B7FAD3 /* quad */,
 				77C132D1254F4C7000B7FAD3 /* quad_grass */,
 				77C132CA254F4A3100B7FAD3 /* bugatti */,
@@ -376,6 +383,16 @@
 				7727800C2548B0E8003BF89F /* monkeys.obj */,
 			);
 			path = monkeys;
+			sourceTree = "<group>";
+		};
+		77363FDF25507A690095FBD4 /* normal_maps */ = {
+			isa = PBXGroup;
+			children = (
+				77363FE825507D920095FBD4 /* pillow-normal.png */,
+				77363FE525507C010095FBD4 /* plate-normal.png */,
+				77363FE425507C010095FBD4 /* plate.jpg */,
+			);
+			path = normal_maps;
 			sourceTree = "<group>";
 		};
 		77367E292514DCB9009EFBFB /* 3DObjects */ = {
@@ -765,7 +782,9 @@
 				77151551253A38480041377F /* audi.obj in Resources */,
 				77C132D5254F4CE500B7FAD3 /* quad_grass.jpg in Resources */,
 				774733B92507A6DE00F6771D /* Assets.xcassets in Resources */,
+				77363FE625507C020095FBD4 /* plate.jpg in Resources */,
 				77C132CE254F4A4700B7FAD3 /* bugatti.mtl in Resources */,
+				77363FE925507D930095FBD4 /* pillow-normal.png in Resources */,
 				77115FB62548CA6700A14943 /* Agumon.png in Resources */,
 				7727800E2548B0E9003BF89F /* monkeys.obj in Resources */,
 				7715155A253A3B420041377F /* golf.png in Resources */,
@@ -773,6 +792,7 @@
 				77115FB72548CA6700A14943 /* Agumon.obj in Resources */,
 				7715154E253A36860041377F /* zuk.jpeg in Resources */,
 				77D957A0253B962D00EB337B /* sphere.obj in Resources */,
+				77363FE725507C020095FBD4 /* plate-normal.png in Resources */,
 				77115FB82548CA6700A14943 /* Agumon.mtl in Resources */,
 				774733BC2507A6DE00F6771D /* Main.storyboard in Resources */,
 				7727800F2548B0E9003BF89F /* monkeys.mtl in Resources */,

@@ -63,6 +63,8 @@ public struct CEMaterial: sizeable {
     var color: float4 = float4(0.8, 0.8, 0.8, 1.0)
     var useDefaultTrigonometricTexture: Bool = false
     var isIlluminated: Bool = true
+    var useBaseTexture: Bool = false
+    var useNormalMapTexture: Bool = false
     var ambient: float3 = float3(0.1, 0.1, 0.1)
     var diffuse: float3 = float3(1, 1, 1)
     var specular: float3 = float3(1, 1, 1)

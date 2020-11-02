@@ -47,13 +47,13 @@ fragment half4 basic_fragment_shader(
     float2 texCoord = rasterizer_input.textureCoordinate;
     float4 color = material.color;
 
-    if (!is_null_texture(baseColorMap)) {
+    if (material.useBaseTexture) {
         color = baseColorMap.sample(sampler2d, texCoord);
     }
     
     if (material.isIlluminated) {
         float3 unitNormal = normalize(rasterizer_input.surfaceNormal);
-        if (!is_null_texture(normalMap)) {
+        if (material.useNormalMapTexture) {
             float3 sampleNormal = (normalMap.sample(sampler2d, texCoord).rgb * 2) - 1;
             float3x3 tangentBitangentNormalMatrix = { rasterizer_input.surfaceTangent, rasterizer_input.surfaceBitangent, rasterizer_input.surfaceNormal };
             unitNormal = tangentBitangentNormalMatrix * sampleNormal;

@@ -50,6 +50,9 @@ struct CEMaterial {
     float4 color;
     bool useDefaultTrigonometricTexture;
     bool isIlluminated;
+    bool useBaseTexture;
+    bool useNormalMapTexture;
+    
     float3 ambient;
     float3 diffuse;
     float3 specular;

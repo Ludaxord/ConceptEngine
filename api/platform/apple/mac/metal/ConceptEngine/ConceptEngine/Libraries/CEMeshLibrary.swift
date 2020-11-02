@@ -211,7 +211,13 @@ class CESubMesh {
     }
     
     func applyTexture(renderCommandEncoder: MTLRenderCommandEncoder, customBaseColorTextureType: TextureTypes, normalMapTextureType: TextureTypes) {
-        renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
+        _material.useBaseTexture = customBaseColorTextureType != .None || _baseColorTexture != nil
+        _material.useNormalMapTexture = normalMapTextureType != .None || _normalMapTexture != nil
+        
+        if _material.useBaseTexture || _material.useNormalMapTexture {
+            renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
+        }
+
         let baseColorTex = customBaseColorTextureType == .None ? _baseColorTexture : (ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(customBaseColorTextureType)
         renderCommandEncoder.setFragmentTexture(baseColorTex, index: 0)
         

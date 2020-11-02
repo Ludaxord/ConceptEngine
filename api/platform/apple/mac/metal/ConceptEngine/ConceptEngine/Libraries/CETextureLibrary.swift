@@ -17,6 +17,9 @@ public enum TextureTypes {
     case Monkeys
     case DigimonAgumon
     case QuadGrass
+    case MetalPlateNormal
+    case PillowNormal
+    case MetalPlate
 }
 
 public enum TextureOrigin {
@@ -90,6 +93,9 @@ final class CETextureLibrary: CELibrary<TextureTypes, MTLTexture>, CEStandardLib
         textures.updateValue(CETexture("quad_grass", fileExtension: "jpg", origin: .bottomLeft), forKey: .QuadGrass)
         textures.updateValue(CETexture("golf", fileExtension: "png", origin: .flippedVertically), forKey: .CarHatch)
         textures.updateValue(CETexture("Agumon", fileExtension: "png", origin: .bottomLeft), forKey: .DigimonAgumon)
+        textures.updateValue(CETexture("plate-normal", fileExtension: "png", origin: .bottomLeft), forKey: .MetalPlateNormal)
+        textures.updateValue(CETexture("pillow-normal", fileExtension: "png", origin: .bottomLeft), forKey: .PillowNormal)
+        textures.updateValue(CETexture("plate", fileExtension: "jpg", origin: .bottomLeft), forKey: .MetalPlate)
     }
     
     public func Texture(_ textureType: TextureTypes) -> MTLTexture {
