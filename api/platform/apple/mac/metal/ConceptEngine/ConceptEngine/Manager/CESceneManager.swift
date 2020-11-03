@@ -10,6 +10,7 @@ import MetalKit
 
 public enum SceneTypes {
     case Sandbox
+    case Forest
 }
 
 public class CESceneManager: CEManager {
@@ -23,7 +24,9 @@ public class CESceneManager: CEManager {
     public func SetScene(_ sceneType: SceneTypes) {
         switch sceneType {
         case .Sandbox:
-            _currentScene = CESandbox()
+            _currentScene = CESandbox(name: "Sandbox")
+        case .Forest:
+            _currentScene = CEForest(name: "Forest")
         }
     }
     

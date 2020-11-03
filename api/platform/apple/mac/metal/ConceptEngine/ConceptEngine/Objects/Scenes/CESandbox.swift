@@ -11,7 +11,7 @@ import MetalKit
 public final class CESandbox: CEScene {
     
     override func buildCameras() {
-        buildDefaultCamera()
+        buildDebugCamera()
         super.buildCameras()
     }
     
@@ -332,7 +332,7 @@ public final class CESandbox: CEScene {
         }
     }
 
-    private func buildDefaultCamera() {
+    private func buildDebugCamera() {
         camera = CEDebugCamera()
         camera.setPosition(0,0,10)
 //        camera.position.z = 5

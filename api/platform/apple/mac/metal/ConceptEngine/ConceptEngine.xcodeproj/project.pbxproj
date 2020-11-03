@@ -31,6 +31,7 @@
 		7725BB0825150DF200411499 /* CEColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725BB0725150DF200411499 /* CEColorUtils.swift */; };
 		7727800E2548B0E9003BF89F /* monkeys.obj in Resources */ = {isa = PBXBuildFile; fileRef = 7727800C2548B0E8003BF89F /* monkeys.obj */; };
 		7727800F2548B0E9003BF89F /* monkeys.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 7727800D2548B0E9003BF89F /* monkeys.mtl */; };
+		77342CA62551CD380095D1A9 /* CEForest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77342CA52551CD380095D1A9 /* CEForest.swift */; };
 		77363FE625507C020095FBD4 /* plate.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 77363FE425507C010095FBD4 /* plate.jpg */; };
 		77363FE725507C020095FBD4 /* plate-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 77363FE525507C010095FBD4 /* plate-normal.png */; };
 		77363FE925507D930095FBD4 /* pillow-normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 77363FE825507D920095FBD4 /* pillow-normal.png */; };
@@ -150,6 +151,7 @@
 		7725BB0725150DF200411499 /* CEColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEColorUtils.swift; sourceTree = "<group>"; };
 		7727800C2548B0E8003BF89F /* monkeys.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkeys.obj; sourceTree = "<group>"; };
 		7727800D2548B0E9003BF89F /* monkeys.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkeys.mtl; sourceTree = "<group>"; };
+		77342CA52551CD380095D1A9 /* CEForest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEForest.swift; sourceTree = "<group>"; };
 		77363FE425507C010095FBD4 /* plate.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = plate.jpg; sourceTree = "<group>"; };
 		77363FE525507C010095FBD4 /* plate-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plate-normal.png"; sourceTree = "<group>"; };
 		77363FE825507D920095FBD4 /* pillow-normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pillow-normal.png"; sourceTree = "<group>"; };
@@ -385,6 +387,14 @@
 			path = monkeys;
 			sourceTree = "<group>";
 		};
+		77342CA42551CD230095D1A9 /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				77342CA52551CD380095D1A9 /* CEForest.swift */,
+			);
+			path = Levels;
+			sourceTree = "<group>";
+		};
 		77363FDF25507A690095FBD4 /* normal_maps */ = {
 			isa = PBXGroup;
 			children = (
@@ -564,6 +574,7 @@
 		779E47312510DBC200DC88A1 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				77342CA42551CD230095D1A9 /* Levels */,
 				779E472F2510DB5900DC88A1 /* CEScene.swift */,
 				779E47332510DD9300DC88A1 /* CESandbox.swift */,
 			);
@@ -858,6 +869,7 @@
 				7760D736251E098700E6AEF5 /* InstancedShader.metal in Sources */,
 				779E47342510DD9300DC88A1 /* CESandbox.swift in Sources */,
 				7760D738251E18FE00E6AEF5 /* CEVertexShaderLibrary.swift in Sources */,
+				77342CA62551CD380095D1A9 /* CEForest.swift in Sources */,
 				7759F25E250C0C130041E589 /* CERenderable.swift in Sources */,
 				77C132D0254F4A8500B7FAD3 /* CEGameObjCarBugatti.swift in Sources */,
 				7759F25C250C0A9C0041E589 /* CENode.swift in Sources */,

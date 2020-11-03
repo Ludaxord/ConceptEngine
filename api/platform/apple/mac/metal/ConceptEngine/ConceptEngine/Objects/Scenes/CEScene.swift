@@ -26,11 +26,33 @@ public class CEScene: CENode {
         buildScene()
     }
     
+    func buildDefaultCamera() {
+        camera = CEDebugCamera()
+        camera.setPosition(0,0,10)
+    }
+    
+    private func buildDefaultLight() {
+        let sun = CELight(
+            name: "Sun",
+            camera: camera
+        )
+        sun.setPosition(0, 4, 2)
+        sun.setLightBrightness(0.7)
+        sun.setLightAmbientIntensity(0.04)
+        lights.append(sun)
+    }
+    
     func buildCameras() {
+        if camera == nil {
+            buildDefaultCamera()
+        }
         addCamera(camera)
     }
     
     func buildLights() {
+        if lights.count == 0 {
+            buildDefaultLight()
+        }
         addLights(lights)
     }
     
