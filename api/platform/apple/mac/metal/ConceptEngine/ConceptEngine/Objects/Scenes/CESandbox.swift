@@ -16,66 +16,21 @@ public final class CESandbox: CEScene {
     }
     
     override func buildLights() {
-        //Lighting
-//        buildDefaultLights()
         buildSunLight()
         super.buildLights()
     }
     
     override func buildScene() {
-//        2D
-//        buildDefault2DSandbox()
-        
-//        3D
         buildDefault3DSandbox()
     }
     
     public override func update() {
-        
-//        2D
-//        buildDefault2DUpdate()
-        
-//        3D Cubes
-//        buildDefault3DUpdate()
-        
-//        3D CubeCollection
-//        buildDefault3DUpdateCubeCollection()
-        
-//        3D Moving Cube
-//        build3DMovingCubeActions()
-        
-//        3D Move Quad
-//        build3dMovingQuadWithTextures()
-        
-//        Obj Move CarTruck
-//        buildObjRotationCarTruck()
-        
-//        Obj Manipulation CarTruck
         mouseObjectManipulation()
         super.update()
     }
     
     private func buildDefault3DSandbox() {
-        //Camera
-
         buildDefaultCamera()
-        
-        //3d Objects
-//        build3DCubeGrid(xElementCount: 20, yElementCount: 20, zElementCount: 20)
-//        build3DCubeCollection()
-//        build3DCubeCollection(cubeWidth: 8, cubeHeight: 5, cubeBack: 5, scale: 1.0)
-//        build3DMovingQuad()
-//        build3DQuadWithTextures()
-//        buildObjCarHatch()
-//        buildObjCarSport()
-        
-//        buildObjCarTruck()
-//        buildMipMappedQuad()
-//        buildMipMappedTruck()
-//        buildMipMappedBlenderMonkeys()
-//        buildMipMappedDigimonAgumon()
-//        buildCarBugatti()
-//        buildQuadGrass()
         buildNormalMapQuad()
     }
     
@@ -84,10 +39,8 @@ public final class CESandbox: CEScene {
             name: "Sun",
             camera: camera
         )
-//        sun.setScale(0.3)
         sun.setPosition(0, 4, 2)
         sun.setLightBrightness(0.7)
-//        sun.setLightColor(1,1,1)
         sun.setLightAmbientIntensity(0.04)
         lights.append(sun)
     }
