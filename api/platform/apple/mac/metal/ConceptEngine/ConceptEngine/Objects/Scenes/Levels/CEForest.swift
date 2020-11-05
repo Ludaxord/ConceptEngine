@@ -76,6 +76,7 @@ public final class CEForest: CEScene {
         }
     }
     
+    //TODO: Fix to move camera in world instead of object around camera
     private func mouseObjectManipulation() {
         for node in nodeChildren {
             if let gameObject = node as? CEGame3DObject {
