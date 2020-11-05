@@ -9,5 +9,8 @@
 import MetalKit
 
 public class CEGameObj: CEGame3DObject {
-    
+    init(meshType: MeshTypes, camera: CECamera, name: String = String(describing: CEGameObj.self)) {
+        super.init(meshType: meshType, camera: camera)
+        setName(name)
+    }
 }

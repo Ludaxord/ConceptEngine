@@ -20,12 +20,26 @@ public enum MeshTypes {
     case QuadGrass
     case NormalQuad
     
+    //Objects
     case CarTruck
     case CarBugatti
     case CarSport
     case CarHatch
     case Monkeys
     case DigimonAgumon
+    
+    //Trees
+    case TreePineDefaultB
+    case TreePineRoundC
+    case TreePineTallADetailed
+    
+    //Terains
+    case GroundGrass
+    
+    //Flowers
+    case FlowerPurpleA
+    case FlowerRedA
+    case FlowerYellowA
 }
 
 public class CEGameMesh {
@@ -135,6 +149,7 @@ public class CEGameMesh {
                 for submesh in submeshes {
                     submesh.applyTexture(renderCommandEncoder: renderCommandEncoder, customBaseColorTextureType: baseColorTextureType, normalMapTextureType: normalMapTextureType)
                     submesh.applyMaterial(renderCommandEncoder: renderCommandEncoder, customMaterial: material)
+                    
                     renderCommandEncoder.drawIndexedPrimitives(type: submesh.primitiveType,
                                                                 indexCount: submesh.indexCount,
                                                                 indexType: submesh.indexType,
@@ -214,9 +229,9 @@ class CESubMesh {
         _material.useBaseTexture = customBaseColorTextureType != .None || _baseColorTexture != nil
         _material.useNormalMapTexture = normalMapTextureType != .None || _normalMapTexture != nil
         
-        if _material.useBaseTexture || _material.useNormalMapTexture {
+//        if _material.useBaseTexture || _material.useNormalMapTexture {
             renderCommandEncoder.setFragmentSamplerState((ConceptEngine.getLibrary(.SamplerState) as! CESamplerStateLibrary).SamplerState(.Linear), index: 0)
-        }
+//        }
 
         let baseColorTex = customBaseColorTextureType == .None ? _baseColorTexture : (ConceptEngine.getLibrary(.Texture) as! CETextureLibrary).Texture(customBaseColorTextureType)
         renderCommandEncoder.setFragmentTexture(baseColorTex, index: 0)
@@ -349,6 +364,8 @@ public final class CEMeshLibrary: CELibrary<MeshTypes, CEGameMesh>, CEStandardLi
         meshes.updateValue(CETriangleGameMesh(), forKey: .Triangle)
         meshes.updateValue(CEQuadGameMesh(), forKey: .Quad)
         meshes.updateValue(CECubeGameMesh(), forKey: .Cube)
+        
+        //Objects
         meshes.updateValue(CEGameMesh(modelName: "zuk"), forKey: .CarTruck)
         meshes.updateValue(CEGameMesh(modelName: "quad"), forKey: .NormalQuad)
         meshes.updateValue(CEGameMesh(modelName: "quad_grass"), forKey: .QuadGrass)
@@ -358,6 +375,19 @@ public final class CEMeshLibrary: CELibrary<MeshTypes, CEGameMesh>, CEStandardLi
         meshes.updateValue(CEGameMesh(modelName: "sphere"), forKey: .Sphere)
         meshes.updateValue(CEGameMesh(modelName: "monkeys"), forKey: .Monkeys)
         meshes.updateValue(CEGameMesh(modelName: "Agumon"), forKey: .DigimonAgumon)
+        
+        //Trees
+        meshes.updateValue(CEGameMesh(modelName: "tree_pineDefaultB"), forKey: .TreePineDefaultB)
+        meshes.updateValue(CEGameMesh(modelName: "tree_pineRoundC"), forKey: .TreePineRoundC)
+        meshes.updateValue(CEGameMesh(modelName: "tree_pineTallA_detailed"), forKey: .TreePineTallADetailed)
+        
+        //Terrains
+        meshes.updateValue(CEGameMesh(modelName: "ground_grass"), forKey: .GroundGrass)
+        
+        //Flowers
+        meshes.updateValue(CEGameMesh(modelName: "flower_redA"), forKey: .FlowerRedA)
+        meshes.updateValue(CEGameMesh(modelName: "flower_purpleA"), forKey: .FlowerPurpleA)
+        meshes.updateValue(CEGameMesh(modelName: "flower_yellowA"), forKey: .FlowerYellowA)
         
     }
     

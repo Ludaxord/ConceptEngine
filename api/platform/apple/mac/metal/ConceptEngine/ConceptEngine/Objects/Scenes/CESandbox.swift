@@ -26,6 +26,9 @@ public final class CESandbox: CEScene {
     
     public override func update() {
         mouseObjectManipulation()
+        for n in nodeChildren {
+            print(n.getName())
+        }
         super.update()
     }
     
