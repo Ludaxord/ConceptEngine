@@ -50,6 +50,30 @@ public final class CEForest: CEScene {
         let terrain = CEGameObj(meshType: .GroundGrass, camera: _cameraManager.currentCamera)
         terrain.setScale(100)
         addNodeChild(terrain)
+
+        let treeCount: Int = 500
+        let radius: Float = 10
+        for i in 0..<treeCount {
+            let tree = CEGameObj(meshType: selectRandomTreeMeshType(), camera: _cameraManager.currentCamera)
+            let pos = float3(cos(Float(i)) * radius + Float.random(in: -2...2),
+                             0,
+                             sin(Float(i)) * radius + Float.random(in: -5...5))
+            tree.setPosition(pos)
+            tree.setScale(Float.random(in: 1...2))
+            tree.rotateY(Float.random(in: 0...360))
+            addNodeChild(tree)
+        }
+
+        let flowerCount: Int = 200
+        for _ in 0..<flowerCount {
+            let flower = CEGameObj(meshType: selectRandomFlowerMeshType(), camera: _cameraManager.currentCamera)
+            let pos = float3(Float.random(in: -(radius-1)...(radius + 1)),
+                             0,
+                             Float.random(in: -(radius-1)...(radius + 1)))
+            flower.setPosition(pos)
+            flower.rotateY(Float.random(in: 0...360))
+            addNodeChild(flower)
+        }
     }
     
     private func mouseObjectManipulation() {
@@ -67,5 +91,33 @@ public final class CEForest: CEScene {
         camera = CEDebugCamera()
         camera.setPosition(0,1,3)
         camera.setRotationX(Float(10).toRadians)
+    }
+    
+    private func selectRandomTreeMeshType()->MeshTypes {
+        let randVal = Int.random(in: 0..<3)
+        switch randVal {
+        case 0:
+            return .TreePineTallADetailed
+        case 1:
+            return .TreePineDefaultB
+        case 2:
+            return .TreePineRoundC
+        default:
+            return .TreePineDefaultB
+        }
+    }
+
+    private func selectRandomFlowerMeshType()->MeshTypes {
+        let randVal = Int.random(in: 0..<3)
+        switch randVal {
+        case 0:
+            return .FlowerPurpleA
+        case 1:
+            return .FlowerRedA
+        case 2:
+            return .FlowerYellowA
+        default:
+            return .FlowerPurpleA
+        }
     }
 }
