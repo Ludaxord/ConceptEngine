@@ -91,8 +91,8 @@ public final class CEForest: CEScene {
     private func mouseSceneManipulation() {
         //TODO: Fix
         if CEMouse.IsMouseButtonPressed(button: .LEFT) {
-            camera.rotateX(CEMouse.GetDY() * camera.getRotationX())
-            camera.rotateY(CEMouse.GetDX() * camera.getRotationY())
+            camera.setPositionX(CEMouse.GetDY() * camera.getPositionX())
+            camera.setPositionY(CEMouse.GetDX() * camera.getPositionY())
 //            print(camera.getRotationX())
 //            print(camera.getRotationY())
         }
