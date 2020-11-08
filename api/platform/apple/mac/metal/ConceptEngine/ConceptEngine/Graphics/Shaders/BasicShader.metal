@@ -28,9 +28,9 @@ vertex RasterizerInput basic_vertex_shader(
     rasterizer_input.worldPosition = worldPosition.xyz;
     rasterizer_input.toCameraVector = scene.cameraPosition - worldPosition.xyz;
     
-    rasterizer_input.surfaceNormal = (model.modelMatrix * float4(vInput.normal, 1.0)).xyz;
-    rasterizer_input.surfaceTangent = (model.modelMatrix * float4(vInput.tangent, 1.0)).xyz;
-    rasterizer_input.surfaceBitangent = (model.modelMatrix * float4(vInput.bitangent, 1.0)).xyz;
+    rasterizer_input.surfaceNormal = normalize(model.modelMatrix * float4(vInput.normal, 1.0)).xyz;
+    rasterizer_input.surfaceTangent = normalize(model.modelMatrix * float4(vInput.tangent, 1.0)).xyz;
+    rasterizer_input.surfaceBitangent = normalize(model.modelMatrix * float4(vInput.bitangent, 1.0)).xyz;
     
     return rasterizer_input;
 }
