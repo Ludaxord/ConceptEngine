@@ -154,7 +154,8 @@ public class CEGameMesh {
                                                                 indexCount: submesh.indexCount,
                                                                 indexType: submesh.indexType,
                                                                 indexBuffer: submesh.indexBuffer,
-                                                                indexBufferOffset: submesh.indexBufferOffset)
+                                                                indexBufferOffset: submesh.indexBufferOffset,
+                                                                instanceCount: instanceCount)
                 }
             } else {
                 renderCommandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount, instanceCount: instanceCount)
