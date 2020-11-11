@@ -81,7 +81,7 @@ public class CEScene: CENode {
     }
     
     func updateSceneDefaults() {
-        _sceneDefaults.viewMatrix = _cameraManager.currentCamera.cameraMatrix
+        _sceneDefaults.viewMatrix = _cameraManager.currentCamera.viewMatrix
         _sceneDefaults.projectionMatrix = _cameraManager.currentCamera.projectionMatrix
         _sceneDefaults.gameTime = CEGameTime.TotalGameTime
         _sceneDefaults.cameraPosition = _cameraManager.currentCamera.getPosition()

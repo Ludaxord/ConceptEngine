@@ -11,9 +11,15 @@ import simd
 
 public class CEDebugCamera: CECamera {
     
-    public override var projectionMatrix: matrix_float4x4 {
-        return matrix_float4x4.perspective(degreesFieldOfView: 45, aspectRatio: CERenderer.AspectRatio, near: 0.1, far: 1000)
+    override var projectionMatrix: matrix_float4x4 {
+        return matrix_float4x4.perspective(degreesFieldOfView: 45.0,
+        aspectRatio: CERenderer.AspectRatio,
+        near: 0.1,
+        far: 1000)
     }
+    
+    private var _moveSpeed: Float = 4.0
+    private var _turnSpeed: Float = 1.0
     
     init() {
         super.init(cameraType: .Debug)
@@ -59,30 +65,30 @@ public class CEDebugCamera: CECamera {
     
     private func cameraMovementWithSceneZoom() {
         if(CEKeyboard.IsKeyPressed(.leftArrow)){
-            self.moveX(-CEGameTime.DeltaTime)
+            self.moveX(-CEGameTime.DeltaTime * _moveSpeed)
         }
         
         if(CEKeyboard.IsKeyPressed(.rightArrow)){
-            self.moveX(CEGameTime.DeltaTime)
+            self.moveX(CEGameTime.DeltaTime * _moveSpeed)
         }
         
         if(CEKeyboard.IsKeyPressed(.upArrow)){
-            self.moveY(CEGameTime.DeltaTime)
+            self.moveY(CEGameTime.DeltaTime * _moveSpeed)
         }
         
         if(CEKeyboard.IsKeyPressed(.downArrow)){
-            self.moveY(-CEGameTime.DeltaTime)
+            self.moveY(-CEGameTime.DeltaTime * _moveSpeed)
         }
         
-        if(CEMouse.IsMouseButtonPressed(button: .RIGHT)) {
-            self.rotate(CEMouse.GetDY() * CEGameTime.DeltaTime,
-                        CEMouse.GetDX() * CEGameTime.DeltaTime,
+        if(CEMouse.IsMouseButtonPressed(button: .LEFT)) {
+            self.rotate(CEMouse.GetDY() * CEGameTime.DeltaTime * _turnSpeed,
+                        CEMouse.GetDX() * CEGameTime.DeltaTime * _turnSpeed,
                         0)
         }
         
         if(CEMouse.IsMouseButtonPressed(button: .CENTER)) {
-            self.moveX(-CEMouse.GetDX() * CEGameTime.DeltaTime)
-            self.moveY(CEMouse.GetDY() * CEGameTime.DeltaTime)
+            self.moveX(-CEMouse.GetDX() * CEGameTime.DeltaTime * _moveSpeed)
+            self.moveY(CEMouse.GetDY() * CEGameTime.DeltaTime * _moveSpeed)
         }
         
         self.moveZ(-CEMouse.GetDWheel() * 0.1)

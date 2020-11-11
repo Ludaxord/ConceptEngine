@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		77039D792509779A00078F31 /* CETypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77039D782509779A00078F31 /* CETypes.swift */; };
 		77039D7C2509802300078F31 /* ConceptEngineBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 77039D7B2509802300078F31 /* ConceptEngineBridge.m */; };
+		770BF7DA255C3DFF005E8985 /* CEGameObjTrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770BF7D9255C3DFF005E8985 /* CEGameObjTrees.swift */; };
+		770BF7DC255C3E09005E8985 /* CEGameObjFlowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770BF7DB255C3E09005E8985 /* CEGameObjFlowers.swift */; };
+		770BF7DE255C3E6E005E8985 /* CEInstancedGameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770BF7DD255C3E6E005E8985 /* CEInstancedGameObject.swift */; };
 		77115FB02548B19800A14943 /* CEGameObjMonkeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77115FAF2548B19800A14943 /* CEGameObjMonkeys.swift */; };
 		77115FB62548CA6700A14943 /* Agumon.png in Resources */ = {isa = PBXBuildFile; fileRef = 77115FB32548CA6600A14943 /* Agumon.png */; };
 		77115FB72548CA6700A14943 /* Agumon.obj in Resources */ = {isa = PBXBuildFile; fileRef = 77115FB42548CA6600A14943 /* Agumon.obj */; };
@@ -328,6 +331,9 @@
 		77039D7A2509802200078F31 /* ConceptEngine-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ConceptEngine-Bridging-Header.h"; sourceTree = "<group>"; };
 		77039D7B2509802300078F31 /* ConceptEngineBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConceptEngineBridge.m; sourceTree = "<group>"; };
 		77039D7D2509805200078F31 /* ConceptEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConceptEngineBridge.h; sourceTree = "<group>"; };
+		770BF7D9255C3DFF005E8985 /* CEGameObjTrees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjTrees.swift; sourceTree = "<group>"; };
+		770BF7DB255C3E09005E8985 /* CEGameObjFlowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjFlowers.swift; sourceTree = "<group>"; };
+		770BF7DD255C3E6E005E8985 /* CEInstancedGameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEInstancedGameObject.swift; sourceTree = "<group>"; };
 		77115FAF2548B19800A14943 /* CEGameObjMonkeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CEGameObjMonkeys.swift; sourceTree = "<group>"; };
 		77115FB32548CA6600A14943 /* Agumon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Agumon.png; sourceTree = "<group>"; };
 		77115FB42548CA6600A14943 /* Agumon.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Agumon.obj; sourceTree = "<group>"; };
@@ -731,6 +737,8 @@
 				77C132D8254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift */,
 				77C132E1254F4F4000B7FAD3 /* CEGameObjQuad.swift */,
 				77E4AA5C25548F370099C89F /* CEGameObjGroundGrass.swift */,
+				770BF7D9255C3DFF005E8985 /* CEGameObjTrees.swift */,
+				770BF7DB255C3E09005E8985 /* CEGameObjFlowers.swift */,
 			);
 			path = ObjObjects;
 			sourceTree = "<group>";
@@ -912,6 +920,7 @@
 				7759F25B250C0A9C0041E589 /* CENode.swift */,
 				7759F25D250C0C130041E589 /* CERenderable.swift */,
 				7759F24F250BD0C80041E589 /* CEGameObject.swift */,
+				770BF7DD255C3E6E005E8985 /* CEInstancedGameObject.swift */,
 				776072962512371A00EC260A /* Cameras */,
 				77D95797253B89EB00EB337B /* Lights */,
 				77151546253A26ED0041377F /* ObjObjects */,
@@ -1667,6 +1676,7 @@
 				7715155C253A3DFD0041377F /* CEGameObjCarHatch.swift in Sources */,
 				7788FAD02510F5E200AF1B0C /* CEKeyCodes.swift in Sources */,
 				7788FAD5251103B200AF1B0C /* CEAI.swift in Sources */,
+				770BF7DE255C3E6E005E8985 /* CEInstancedGameObject.swift in Sources */,
 				779D97852545DFAB0031FBB6 /* CEShaderLibrary.swift in Sources */,
 				77E4AA5D25548F370099C89F /* CEGameObjGroundGrass.swift in Sources */,
 				779D97832545DD390031FBB6 /* LightingShader.metal in Sources */,
@@ -1691,6 +1701,7 @@
 				77D3D60A250A5039001035B6 /* CEVertexDescriptorLibrary.swift in Sources */,
 				7788FACB2510E37700AF1B0C /* CEManager.swift in Sources */,
 				77151553253A38C00041377F /* CEGameObjCarSport.swift in Sources */,
+				770BF7DA255C3DFF005E8985 /* CEGameObjTrees.swift in Sources */,
 				77D9579D253B950C00EB337B /* CEMoonLight.swift in Sources */,
 				77D908412517E227002BDDAC /* CECubeCollection.swift in Sources */,
 				77151548253A271B0041377F /* CEGameObjCarTruck.swift in Sources */,
@@ -1714,6 +1725,7 @@
 				77A053BB2514EC8400D1E997 /* CEDepthStencilStateLibrary.swift in Sources */,
 				77367E282514BC6C009EFBFB /* CECameraManager.swift in Sources */,
 				77D95799253B8A0500EB337B /* CELight.swift in Sources */,
+				770BF7DC255C3E09005E8985 /* CEGameObjFlowers.swift in Sources */,
 				77C132D9254F4D2B00B7FAD3 /* CEGameObjQuadGrass.swift in Sources */,
 				779E47372510E07900DC88A1 /* CESceneManager.swift in Sources */,
 				774733B22507A6DD00F6771D /* AppDelegate.swift in Sources */,

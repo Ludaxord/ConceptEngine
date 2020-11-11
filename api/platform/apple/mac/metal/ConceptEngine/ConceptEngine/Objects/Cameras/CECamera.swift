@@ -15,15 +15,17 @@ public enum CameraTypes {
 }
 
 public class CECamera: CENode {
+    
+    init(cameraType: CameraTypes){
+        super.init(name: "Camera")
+        self.cameraType = cameraType
+    }
+    
     var cameraType: CameraTypes!
     
+    private var _viewMatrix = matrix_identity_float4x4
     var viewMatrix: matrix_float4x4 {
-        var viewMatrix = matrix_identity_float4x4
-        viewMatrix.rotate(angle: self.getRotationX(), axis: X_AXIS)
-        viewMatrix.rotate(angle: self.getRotationY(), axis: Y_AXIS)
-        viewMatrix.rotate(angle: self.getRotationZ(), axis: Z_AXIS)
-        viewMatrix.translate(direction: -getPosition())
-        return viewMatrix
+        return _viewMatrix
     }
     
     var projectionMatrix: matrix_float4x4 {
@@ -37,20 +39,13 @@ public class CECamera: CENode {
     public override func update() {
         defaultCameraBehavior()
     }
-
     
-    init(cameraType: CameraTypes){
-        super.init(name: "Camera")
-        self.cameraType = cameraType
+    override func updateModelMatrix() {
+        _viewMatrix = matrix_identity_float4x4
+        _viewMatrix.rotate(angle: self.getRotationX(), axis: X_AXIS)
+        _viewMatrix.rotate(angle: self.getRotationY(), axis: Y_AXIS)
+        _viewMatrix.rotate(angle: self.getRotationZ(), axis: Z_AXIS)
+        _viewMatrix.translate(direction: -getPosition())
     }
-}
 
-
-extension CECamera {
-    
-    var cameraMatrix: matrix_float4x4 {
-        var cameraMatrix = matrix_identity_float4x4
-        cameraMatrix.translate(direction: -position)
-        return cameraMatrix
-    }
 }

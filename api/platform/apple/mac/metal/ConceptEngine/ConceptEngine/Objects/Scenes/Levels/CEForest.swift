@@ -20,12 +20,12 @@ public final class CEForest: CEScene {
     }
     
     override func buildScene() {
-        buildForrest()
+        buildForest()
+        buildTruckInForest()
     }
     
     public override func update() {
 //        mouseObjectManipulation()
-        mouseSceneManipulation()
         super.update()
     }
     
@@ -46,35 +46,26 @@ public final class CEForest: CEScene {
       light.setLightBrightness(0.5)
       lights.append(light)
     }
+    
+    private func buildTruckInForest() {
+        let carTruck = CEGameObjCarTruck(camera: _cameraManager.currentCamera)
+        carTruck.moveY(0.15)
+        carTruck.setBaseColorTexture(.CarTruck)
+        addNodeChild(carTruck)
+    }
              
-    private func buildForrest() {
+    private func buildForest() {
         let terrain = CEGameObj(meshType: .GroundGrass, camera: _cameraManager.currentCamera)
-        terrain.setScale(100)
+        terrain.setScale(200)
         addNodeChild(terrain)
 
-        let treeCount: Int = 500
-        let radius: Float = 10
-        for i in 0..<treeCount {
-            let tree = CEGameObj(meshType: selectRandomTreeMeshType(), camera: _cameraManager.currentCamera)
-            let pos = float3(cos(Float(i)) * radius + Float.random(in: -2...2),
-                             0,
-                             sin(Float(i)) * radius + Float.random(in: -5...5))
-            tree.setPosition(pos)
-            tree.setScale(Float.random(in: 1...2))
-            tree.rotateY(Float.random(in: 0...360))
-            addNodeChild(tree)
-        }
-
-        let flowerCount: Int = 200
-        for _ in 0..<flowerCount {
-            let flower = CEGameObj(meshType: selectRandomFlowerMeshType(), camera: _cameraManager.currentCamera)
-            let pos = float3(Float.random(in: -(radius-1)...(radius + 1)),
-                             0,
-                             Float.random(in: -(radius-1)...(radius + 1)))
-            flower.setPosition(pos)
-            flower.rotateY(Float.random(in: 0...360))
-            addNodeChild(flower)
-        }
+        // Trees
+        let trees = CEGameObjTrees(treeACount: 4000, treeBCount: 4000, treeCCount: 4000)
+        addNodeChild(trees)
+        
+        // Flowers
+        let flowers = CEGameObjFlowers(flowerRedCount: 1500, flowerPurpleCount: 1500, flowerYellowCount: 1500)
+        addNodeChild(flowers)
     }
     
     private func mouseObjectManipulation() {
@@ -85,16 +76,6 @@ public final class CEForest: CEScene {
                     gameObject.rotateY(CEMouse.GetDX() * CEGameTime.DeltaTime)
                 }
             }
-        }
-    }
-    
-    private func mouseSceneManipulation() {
-        //TODO: Fix
-        if CEMouse.IsMouseButtonPressed(button: .LEFT) {
-            camera.setPositionX(CEMouse.GetDY() * camera.getPositionX())
-            camera.setPositionY(CEMouse.GetDX() * camera.getPositionY())
-//            print(camera.getRotationX())
-//            print(camera.getRotationY())
         }
     }
 
