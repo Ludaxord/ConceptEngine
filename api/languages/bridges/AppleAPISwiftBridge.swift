@@ -39,7 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MTKViewDelegate {
     }
 
     private var ceView: MTKView {
-        window.contentView = MTKView()
+        window.contentView = CEGameView()
         return window.contentView as! MTKView
     }
 
