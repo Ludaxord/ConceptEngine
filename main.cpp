@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdint>
 
-extern "C" void apiBridge();
+extern "C" void macApiMain();
 
 
 void switch_os() {
@@ -16,7 +16,7 @@ void switch_os() {
     printf("iPhone\n");
 #elif TARGET_OS_MAC
     printf("MacOS\n");
-    apiBridge();
+    macApiMain();
 #else
     printf("Other Apple OS\n");
 #endif
