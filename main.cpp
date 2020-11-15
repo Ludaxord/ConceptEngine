@@ -4,7 +4,7 @@
 extern "C" void macApiMain();
 
 
-void switch_os() {
+void select_os() {
     std::cout << "Host OS:" << std::endl;
 #if __APPLE__
 
@@ -38,7 +38,8 @@ void switch_os() {
 
 int main() {
 //    TODO: call AppleBridge from C++ main file. Create initial install script in install directory
+//    TODO: Refactor code, remove unused files and create mapping script to map files from Platform Concept Engine Projects to Library dynamically.
     std::cout << "Welcome to ConceptEngine..." << std::endl;
-    switch_os();
+    select_os();
     return 0;
 }
