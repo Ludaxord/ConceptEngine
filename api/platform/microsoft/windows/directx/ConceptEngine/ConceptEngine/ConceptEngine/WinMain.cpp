@@ -12,6 +12,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		PostQuitMessage(1);
 		break;
 	case WM_KEYDOWN:
+		//test event
 		if (wParam == 'M') {
 			ShowWindow(hWnd, SW_MAXIMIZE);
 		}
