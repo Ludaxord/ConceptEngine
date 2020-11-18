@@ -202,8 +202,8 @@ std::string WindowsMessage::operator()(DWORD msg, LPARAM lp, WPARAM wp) const no
 		padss << "Unknown message: 0x" << std::hex << msg;
 		oss << std::left << std::setw(firstColWidth) << padss.str() << std::right;
 	}
-	oss << "   LP: 0x" << std::hex << std::setfill('0') << std::setw(8) << lp;
-	oss << "   WP: 0x" << std::hex << std::setfill('0') << std::setw(8) << wp << std::endl;
+	oss << "   LParam: 0x" << std::hex << std::setfill('0') << std::setw(8) << lp;
+	oss << "   WParam: 0x" << std::hex << std::setfill('0') << std::setw(8) << wp << std::endl;
 	std::cout << "WindowsMessage:" << oss.str();
 	return oss.str();
 }
