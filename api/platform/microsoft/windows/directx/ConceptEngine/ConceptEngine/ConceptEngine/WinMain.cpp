@@ -1,3 +1,4 @@
+#include <sstream>
 #include <Windows.h>
 #include "Converters.cpp"
 #include "WindowsMessage.h"
@@ -13,12 +14,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		break;
 	case WM_KEYDOWN:
 		//test event
-		if (wParam == 'M') {
-			ShowWindow(hWnd, SW_MAXIMIZE);
-		}
+		// if (wParam == 'M') {
+		// 	ShowWindow(hWnd, SW_MAXIMIZE);
+		// }
 		break;
-	default: 
-		break;
+	case WM_CHAR: {
+		static std::string title;
+		title.push_back((char)wParam);
+		OutputDebugString(convertCharArrayToLPCWSTR(("==== Keyboard input: " + title + " ====" + "\n").c_str()));
+	}
+	break;
+	case WM_LBUTTONDOWN: {
+		//coordinates of mouse 
+		const auto pt = MAKEPOINTS(lParam);
+		std::ostringstream oss;
+		oss << "Mouse coordinates" << "(" << pt.x << ", " << pt.y << ")" << "\n";
+		OutputDebugString(convertCharArrayToLPCWSTR(oss.str().c_str()));
+	}
+	break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -66,6 +79,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	MSG msg;
 	BOOL result;
 	while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0) {
+		//TranslateMessage used to use passed input ex. Values of key press on keyboard. That Used WM_CHAR from MSG object.
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
