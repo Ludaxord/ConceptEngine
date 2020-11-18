@@ -28,7 +28,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		//coordinates of mouse 
 		const auto pt = MAKEPOINTS(lParam);
 		std::ostringstream oss;
-		oss << "Mouse coordinates" << "(" << pt.x << ", " << pt.y << ")" << "\n";
+		oss << "Mouse coordinates: " << "(" << pt.x << ", " << pt.y << ")" << "\n";
 		OutputDebugString(convertCharArrayToLPCWSTR(oss.str().c_str()));
 	}
 	break;
