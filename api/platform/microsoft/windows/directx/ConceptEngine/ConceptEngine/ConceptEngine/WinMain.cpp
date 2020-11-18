@@ -1,7 +1,12 @@
 #include <Windows.h>
 #include "Converters.cpp"
+#include "WindowsMessage.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	//print Windows Message 
+	static WindowsMessage wm;
+	OutputDebugString(convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
+	// switch to pass action to given message
 	switch (msg) {
 	case WM_CLOSE:
 		PostQuitMessage(1);
