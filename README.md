@@ -53,3 +53,11 @@ Game engine project, focused on develop cross-platform games and implements many
 ## Graphics
 * [ ] Import ```*.OBJ``` models
 * [ ] Ray Tracing for main Graphics API (Metal, DirectX12, NVidia, etc)
+
+
+### Resources and tutorials
+* [Swift 3D Game Tutorial](https://www.youtube.com/playlist?list=PLEXt1-oJUa4BVgjZt9tK2MhV_DW7PVDsg)
+* [C++ 3D DirectX Programming](https://www.youtube.com/playlist?list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD)
+* [Ray Tracing in One Weekend — The Book Series](https://raytracing.github.io/)
+* [Ray Tracey's blog](https://raytracey.blogspot.com/)
+* [3D Game Engine Programming](https://www.3dgep.com/)
