@@ -16,6 +16,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		if (wParam == 'M') {
 			ShowWindow(hWnd, SW_MAXIMIZE);
 		}
+		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
