@@ -159,13 +159,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Converters.cpp" />
-    <ClCompile Include="WindowsMessage.cpp" />
+    <ClCompile Include="CEWindow.cpp" />
+    <ClCompile Include="CEConverters.cpp" />
+    <ClCompile Include="CEWindowsMessage.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CEConverters.h" />
+    <ClInclude Include="CEWin.h" />
+    <ClInclude Include="CEWindow.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="WindowsMessage.h" />
+    <ClInclude Include="CEWindowsMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngine.rc" />

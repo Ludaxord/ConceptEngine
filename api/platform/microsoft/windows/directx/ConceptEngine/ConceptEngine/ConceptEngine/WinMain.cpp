@@ -1,12 +1,12 @@
 #include <sstream>
 #include <Windows.h>
-#include "Converters.cpp"
-#include "WindowsMessage.h"
+#include "CEConverters.h"
+#include "CEWindowsMessage.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	//print Windows Message 
-	static WindowsMessage wm;
-	OutputDebugString(convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
+	static CEWindowsMessage wm;
+	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	// switch to pass action to given message
 	switch (msg) {
 	case WM_CLOSE:
@@ -21,7 +21,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	case WM_CHAR: {
 		static std::string title;
 		title.push_back((char)wParam);
-		OutputDebugString(convertCharArrayToLPCWSTR(("==== Keyboard input: " + title + " ====" + "\n").c_str()));
+		OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(("==== Keyboard input: " + title + " ====" + "\n").c_str()));
 	}
 	break;
 	case WM_LBUTTONDOWN: {
@@ -29,7 +29,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 		const auto pt = MAKEPOINTS(lParam);
 		std::ostringstream oss;
 		oss << "Mouse coordinates: " << "(" << pt.x << ", " << pt.y << ")" << "\n";
-		OutputDebugString(convertCharArrayToLPCWSTR(oss.str().c_str()));
+		OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
 	}
 	break;
 	}
@@ -37,8 +37,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-	auto* const p_class_name = convertCharArrayToLPCWSTR("ConceptEngine");
-	auto* const p_window_name = convertCharArrayToLPCWSTR("Concept Engine Editor");
+	//TODO: Call CEWindow instead of manually create window with functions!
+	auto* const p_class_name = CEConverters::convertCharArrayToLPCWSTR("ConceptEngine");
+	auto* const p_window_name = CEConverters::convertCharArrayToLPCWSTR("Concept Engine Editor");
 
 	// register window class
 	WNDCLASSEX wc = {
