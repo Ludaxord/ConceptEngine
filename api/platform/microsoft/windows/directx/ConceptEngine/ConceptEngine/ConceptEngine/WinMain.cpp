@@ -1,6 +1,15 @@
 #include <Windows.h>
 #include "Converters.cpp"
 
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	switch (msg) {
+	case WM_CLOSE:
+		PostQuitMessage(1);
+		break;
+	}
+	return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	auto* const p_class_name = convertCharArrayToLPCWSTR("ConceptEngine");
 	auto* const p_window_name = convertCharArrayToLPCWSTR("Concept Engine Editor");
@@ -9,7 +18,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	WNDCLASSEX wc = {
 		sizeof(wc),
 		CS_OWNDC,
-		DefWindowProc,
+		WndProc,
 		0,
 		0,
 		hInstance,
@@ -38,5 +47,19 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		nullptr
 	);
 	ShowWindow(hWnd, SW_SHOW);
-	return 0;
+
+	//create event
+	// create message
+	MSG msg;
+	BOOL result;
+	while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	if (result == -1) {
+		return -1;
+	}
+	
+	return msg.wParam;
 }
