@@ -11,6 +11,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	case WM_CLOSE:
 		PostQuitMessage(1);
 		break;
+	case WM_KEYDOWN:
+		if (wParam == 'M') {
+			ShowWindow(hWnd, SW_MAXIMIZE);
+		}
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -65,6 +69,6 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	if (result == -1) {
 		return -1;
 	}
-	
+
 	return msg.wParam;
 }
