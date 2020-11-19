@@ -67,6 +67,13 @@ CEWindow::CEWindow(int width, int height, const char* name): width(width), heigh
 		CEWindowClass::GetInstance(),
 		this
 	);
+	if (hWnd == nullptr) {
+		//TODO: Throw exception instead of string
+		OutputDebugString(
+			CEConverters::convertCharArrayToLPCWSTR("Error cannot create window")
+		);
+		//TODO: Finish function
+	}
 }
 
 CEWindow::~CEWindow() {
