@@ -2,10 +2,21 @@
 #include "CEWin.h"
 
 class CEWindow {
+
+public:
+	enum CEWindowTypes {
+		main,
+		debug,
+		additional,
+		tools
+	};
+	
 private:
 	class CEWindowClass {
 	public:
 		static const char* GetName() noexcept;
+		static CEWindowTypes GetWindowType() noexcept;
+		static void SetWindowType(CEWindowTypes windowType) noexcept;
 		static HINSTANCE GetInstance() noexcept;
 	private:
 		CEWindowClass() noexcept;
@@ -14,11 +25,12 @@ private:
 		//TODO: check constexpr meaning
 		static constexpr const char* wndClassName = "Concept Engine";
 		static CEWindowClass wndClass;
+		static CEWindowTypes wndType;
 		HINSTANCE hInst;
 	};
 
 public:
-	CEWindow(int width, int height, const char* name);
+	CEWindow(int width, int height, const char* name, CEWindowTypes windowType = main);
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;

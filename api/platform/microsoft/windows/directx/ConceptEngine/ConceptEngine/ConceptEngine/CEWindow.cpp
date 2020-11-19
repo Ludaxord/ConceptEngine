@@ -9,6 +9,7 @@
 #include "CEWindowsMessage.h"
 
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
+CEWindow::CEWindowTypes CEWindow::CEWindowClass::wndType;
 
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
 
@@ -33,6 +34,14 @@ const char* CEWindow::CEWindowClass::GetName() noexcept {
 	return wndClassName;
 }
 
+CEWindow::CEWindowTypes CEWindow::CEWindowClass::GetWindowType() noexcept {
+	return wndType;
+}
+
+void CEWindow::CEWindowClass::SetWindowType(CEWindowTypes windowType) noexcept {
+	wndType = windowType;
+}
+
 HINSTANCE CEWindow::CEWindowClass::GetInstance() noexcept {
 	return wndClass.hInst;
 }
@@ -42,37 +51,32 @@ CEWindow::CEWindowClass::~CEWindowClass() {
 	UnregisterClass(CEConverters::convertCharArrayToLPCWSTR(wndClassName), GetInstance());
 }
 
-CEWindow::CEWindow(int width, int height, const char* name): width(width), height(height) {
+CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes windowTypes): width(width), height(height) {
+	std::ostringstream cen;
+	cen << "Initialize Concept Engine Window, Type: " << CEWindowClass::GetWindowType() << " name: " << name << "\n";
+	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(cen.str().c_str()));
+
 	//Start options
 	RECT winLoc;
 	winLoc.left = 100;
 	winLoc.right = width + winLoc.left;
 	winLoc.top = 100;
 	winLoc.bottom = height + winLoc.top;
-	if (AdjustWindowRect(&winLoc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
-		//TODO: Throw exception instead of string
-		OutputDebugString(
-			CEConverters::convertCharArrayToLPCWSTR("Error cannot create window with given width and height")
-		);
-	}
+	AdjustWindowRect(&winLoc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
 	hWnd = CreateWindow(
 		CEConverters::convertCharArrayToLPCWSTR(CEWindowClass::GetName()),
 		CEConverters::convertCharArrayToLPCWSTR(name),
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		winLoc.right - winLoc.left,
 		winLoc.bottom - winLoc.top,
 		nullptr,
 		nullptr,
 		CEWindowClass::GetInstance(),
-		this
+		this //passing CEWindow API function to get in HandleMsgSetup
 	);
-	if (hWnd == nullptr) {
-		//TODO: Throw exception instead of string
-		OutputDebugString(
-			CEConverters::convertCharArrayToLPCWSTR("Error cannot create window")
-		);
-	}
+	CEWindowClass::SetWindowType(windowTypes);
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 }
@@ -81,12 +85,13 @@ CEWindow::~CEWindow() {
 	DestroyWindow(hWnd);
 }
 
-LRESULT CALLBACK CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT WINAPI CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
-		//TODO: check reinterpret_cast & static_cast
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
 		CEWindow* const pWnd = static_cast<CEWindow*>(pCreate->lpCreateParams);
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd)); // creating window
+
+		//passing pointer to HandleMsgThunk to make it main function to call during lifecycle of window (if user press key or close window) 
 		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&CEWindow::HandleMsgThunk));
 		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 	}
@@ -94,21 +99,37 @@ LRESULT CALLBACK CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LP
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-LRESULT CALLBACK CEWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT WINAPI CEWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	CEWindow* const pWnd = reinterpret_cast<CEWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 	return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 }
 
-LRESULT CALLBACK CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 
 	//print Windows Message 
 	static CEWindowsMessage wm;
-	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
+	if (CEWindowClass::GetWindowType() == debug) {
+		OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
+	}
+
+	std::ostringstream cen;
+	cen << "Concept Engine Window, Type: " << CEWindowClass::GetWindowType() << "\n";
+	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(cen.str().c_str()));
+
 	// switch to pass action to given message
 	switch (msg) {
 	case WM_CLOSE:
-		PostQuitMessage(1);
-		break;
+		//TODO: Fix
+		if (CEWindowClass::GetWindowType() == main) {
+			PostQuitMessage(1);
+			return 0;
+		}
+		else {
+			// CloseWindow(hWnd);
+			// break;
+			PostQuitMessage(2);
+			return 0;
+		}
 	case WM_KEYDOWN:
 		//test event
 		// if (wParam == 'M') {
