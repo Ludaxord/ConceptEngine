@@ -72,15 +72,16 @@ CEWindow::CEWindow(int width, int height, const char* name): width(width), heigh
 		OutputDebugString(
 			CEConverters::convertCharArrayToLPCWSTR("Error cannot create window")
 		);
-		//TODO: Finish function
 	}
+	ShowWindow(hWnd, SW_SHOWDEFAULT);
+
 }
 
 CEWindow::~CEWindow() {
 	DestroyWindow(hWnd);
 }
 
-LRESULT CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT CALLBACK CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
 		//TODO: check reinterpret_cast & static_cast
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
@@ -93,12 +94,12 @@ LRESULT CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-LRESULT CEWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT CALLBACK CEWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	CEWindow* const pWnd = reinterpret_cast<CEWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 	return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 }
 
-LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT CALLBACK CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 
 	//print Windows Message 
 	static CEWindowsMessage wm;

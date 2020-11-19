@@ -12,7 +12,7 @@ private:
 		~CEWindowClass();
 		CEWindowClass(const CEWindowClass&) = delete;
 		//TODO: check constexpr meaning
-		static constexpr const char* wndClassName = "Concept Engine Editor";
+		static constexpr const char* wndClassName = "Concept Engine";
 		static CEWindowClass wndClass;
 		HINSTANCE hInst;
 	};
