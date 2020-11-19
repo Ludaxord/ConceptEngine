@@ -1,7 +1,2 @@
-﻿  CEWindow.cpp
-  WinMain.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition (compiling source file WinMain.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\sdkddkver.h(217): message : see previous definition of '_WIN32_WINNT' (compiling source file WinMain.cpp)
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(42,1): warning C4005: 'STRICT': macro redefinition (compiling source file WinMain.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(23): message : see previous definition of 'STRICT' (compiling source file WinMain.cpp)
+﻿  CEConverters.cpp
   ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe

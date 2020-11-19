@@ -11,13 +11,14 @@ private:
 		CEWindowClass() noexcept;
 		~CEWindowClass();
 		CEWindowClass(const CEWindowClass&) = delete;
+		//TODO: check constexpr meaning
 		static constexpr const char* wndClassName = "Concept Engine Editor";
 		static CEWindowClass wndClass;
 		HINSTANCE hInst;
 	};
 
 public:
-	CEWindow(int width, int height, const char* name) noexcept;
+	CEWindow(int width, int height, const char* name);
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;

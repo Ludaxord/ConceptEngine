@@ -1,6 +1,7 @@
 #include "CEWindow.h"
 
 
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -41,7 +42,31 @@ CEWindow::CEWindowClass::~CEWindowClass() {
 	UnregisterClass(CEConverters::convertCharArrayToLPCWSTR(wndClassName), GetInstance());
 }
 
-CEWindow::CEWindow(int width, int height, const char* name) noexcept {
+CEWindow::CEWindow(int width, int height, const char* name): width(width), height(height) {
+	//Start options
+	RECT winLoc;
+	winLoc.left = 100;
+	winLoc.right = width + winLoc.left;
+	winLoc.top = 100;
+	winLoc.bottom = height + winLoc.top;
+	if (AdjustWindowRect(&winLoc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
+		//TODO: Throw exception instead of string
+		OutputDebugString(
+			CEConverters::convertCharArrayToLPCWSTR("Error cannot create window with given width and height")
+		);
+	}
+	hWnd = CreateWindow(
+		CEConverters::convertCharArrayToLPCWSTR(CEWindowClass::GetName()),
+		CEConverters::convertCharArrayToLPCWSTR(name),
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		winLoc.right - winLoc.left,
+		winLoc.bottom - winLoc.top,
+		nullptr,
+		nullptr,
+		CEWindowClass::GetInstance(),
+		this
+	);
 }
 
 CEWindow::~CEWindow() {
