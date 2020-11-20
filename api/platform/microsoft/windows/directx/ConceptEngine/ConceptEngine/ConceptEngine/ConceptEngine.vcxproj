@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEWindow.cpp" />
     <ClCompile Include="CEConverters.cpp" />
     <ClCompile Include="CEWindowsMessage.cpp" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEConverters.h" />
+    <ClInclude Include="CEException.h" />
     <ClInclude Include="CEWin.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="resource.h" />

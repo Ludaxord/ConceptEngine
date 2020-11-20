@@ -9,7 +9,6 @@
 #include "CEWindowsMessage.h"
 
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
-CEWindow::CEWindowTypes CEWindow::CEWindowClass::wndType;
 
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
 
@@ -30,16 +29,59 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 	RegisterClassEx(&wc);
 }
 
+CEWindow::Exception::Exception(int exceptionLine, const char* exceptionFile, HRESULT hresult) noexcept:
+	CEException(exceptionLine, exceptionFile), hresult(hresult) {
+}
+
+const char* CEWindow::Exception::what() const noexcept {
+	std::ostringstream oss;
+	oss << GetType() << std::endl << "[Error Code] " << GetErrorCode() << std::endl << "[Message] " << GetErrorMessage()
+		<< std::endl << GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* CEWindow::Exception::GetType() const noexcept {
+	return "CEWindowException";
+}
+
+std::string CEWindow::Exception::TranslateErrorCode(HRESULT hresult) {
+	char* pMsgBuffer = nullptr;
+	DWORD nMsgLen = FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr,
+		hresult,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		reinterpret_cast<LPWSTR>(&pMsgBuffer),
+		0,
+		nullptr
+	);
+	if (nMsgLen == 0) {
+		return "Unidentified error code";
+	}
+	std::string errorMessage = pMsgBuffer;
+	LocalFree(pMsgBuffer);
+	return errorMessage;
+}
+
+HRESULT CEWindow::Exception::GetErrorCode() const noexcept {
+	return hresult;
+}
+
+std::string CEWindow::Exception::GetErrorMessage() const noexcept {
+	return TranslateErrorCode(hresult);
+}
+
 const char* CEWindow::CEWindowClass::GetName() noexcept {
 	return wndClassName;
 }
 
 CEWindow::CEWindowTypes CEWindow::CEWindowClass::GetWindowType() noexcept {
-	return wndType;
+	return wndClass.wndType;
 }
 
 void CEWindow::CEWindowClass::SetWindowType(CEWindowTypes windowType) noexcept {
-	wndType = windowType;
+	wndClass.wndType = windowType;
 }
 
 HINSTANCE CEWindow::CEWindowClass::GetInstance() noexcept {
@@ -121,13 +163,11 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	case WM_CLOSE:
 		//TODO: Fix
 		if (CEWindowClass::GetWindowType() == main) {
-			PostQuitMessage(1);
-			return 0;
+			CloseWindow(hWnd);
+			break;
 		}
 		else {
-			// CloseWindow(hWnd);
-			// break;
-			PostQuitMessage(2);
+			PostQuitMessage(1);
 			return 0;
 		}
 	case WM_KEYDOWN:
