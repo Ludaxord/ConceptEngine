@@ -1,9 +1,9 @@
 #include "CEWindow.h"
 
-
-#include <iostream>
 #include <sstream>
 #include <string>
+
+#include "resource.h"
 
 #include "CEConverters.h"
 #include "CEWindowsMessage.h"
@@ -19,12 +19,12 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 		0,
 		0,
 		GetInstance(),
-		nullptr,
+		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 32,32, 0)),
 		nullptr,
 		nullptr,
 		nullptr,
 		CEConverters::convertCharArrayToLPCWSTR(GetName()),
-		nullptr
+		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 16,16, 0))
 	};
 	RegisterClassEx(&wc);
 }
@@ -119,6 +119,10 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 		this //passing CEWindow API function to get in HandleMsgSetup
 	);
 	CEWindowClass::SetWindowType(windowTypes);
+	if (hWnd == nullptr) {
+		throw CEWIN_LAST_EXCEPTION();
+	}
+
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 }

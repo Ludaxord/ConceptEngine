@@ -56,4 +56,12 @@
       <Filter>Pliki zasobów</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\..\..\..\Data\pses\exports\conceptenginelogo.ico">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="icon1.ico">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

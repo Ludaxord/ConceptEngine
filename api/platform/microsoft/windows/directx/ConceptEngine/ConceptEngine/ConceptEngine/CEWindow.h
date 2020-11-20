@@ -63,3 +63,4 @@ private:
 };
 
 #define CEWIN_EXCEPTION(hresult) CEWindow::Exception(__LINE__, __FILE__, hresult)
+#define CEWIN_LAST_EXCEPTION() CEWindow::Exception(__LINE__, __FILE__, GetLastError())
