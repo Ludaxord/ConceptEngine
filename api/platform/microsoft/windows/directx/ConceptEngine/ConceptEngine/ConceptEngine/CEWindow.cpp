@@ -165,7 +165,6 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	// switch to pass action to given message
 	switch (msg) {
 	case WM_CLOSE:
-		//TODO: Fix
 		if (GetWindowType() == main) {
 			PostQuitMessage(1);
 			return 0;
