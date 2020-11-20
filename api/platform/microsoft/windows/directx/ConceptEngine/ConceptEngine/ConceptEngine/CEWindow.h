@@ -30,9 +30,6 @@ private:
 	class CEWindowClass {
 	public:
 		static const char* GetName() noexcept;
-		//TODO: change from static and move to CEWindow
-		static CEWindowTypes GetWindowType() noexcept;
-		static void SetWindowType(CEWindowTypes windowType) noexcept;
 		static HINSTANCE GetInstance() noexcept;
 	private:
 		CEWindowClass() noexcept;
@@ -41,8 +38,6 @@ private:
 		//TODO: check constexpr meaning
 		static constexpr const char* wndClassName = "Concept Engine";
 		static CEWindowClass wndClass;
-		//TODO: move to CEWindow
-		CEWindowTypes wndType;
 		HINSTANCE hInst;
 	};
 
@@ -55,7 +50,11 @@ private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
-
+	CEWindowTypes wndType;
+protected:
+	CEWindowTypes GetWindowType() noexcept;
+	void SetWindowType(CEWindowTypes windowType) noexcept;
+	
 private:
 	int width;
 	int height;

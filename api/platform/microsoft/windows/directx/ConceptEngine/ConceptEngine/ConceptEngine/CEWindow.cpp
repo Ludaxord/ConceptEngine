@@ -76,12 +76,12 @@ const char* CEWindow::CEWindowClass::GetName() noexcept {
 	return wndClassName;
 }
 
-CEWindow::CEWindowTypes CEWindow::CEWindowClass::GetWindowType() noexcept {
-	return wndClass.wndType;
+CEWindow::CEWindowTypes CEWindow::GetWindowType() noexcept {
+	return wndType;
 }
 
-void CEWindow::CEWindowClass::SetWindowType(CEWindowTypes windowType) noexcept {
-	wndClass.wndType = windowType;
+void CEWindow::SetWindowType(CEWindowTypes windowType) noexcept {
+	wndType = windowType;
 }
 
 HINSTANCE CEWindow::CEWindowClass::GetInstance() noexcept {
@@ -95,7 +95,7 @@ CEWindow::CEWindowClass::~CEWindowClass() {
 
 CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes windowTypes): width(width), height(height) {
 	std::ostringstream cen;
-	cen << "Initialize Concept Engine Window, Type: " << CEWindowClass::GetWindowType() << " name: " << name << "\n";
+	cen << "Initialize Concept Engine Window, Type: " << GetWindowType() << " name: " << name << "\n";
 	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(cen.str().c_str()));
 
 	//Start options
@@ -118,7 +118,7 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 		CEWindowClass::GetInstance(),
 		this //passing CEWindow API function to get in HandleMsgSetup
 	);
-	CEWindowClass::SetWindowType(windowTypes);
+	SetWindowType(windowTypes);
 	if (hWnd == nullptr) {
 		throw CEWIN_LAST_EXCEPTION();
 	}
@@ -154,25 +154,25 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 
 	//print Windows Message 
 	static CEWindowsMessage wm;
-	if (CEWindowClass::GetWindowType() == debug) {
+	if (GetWindowType() == debug) {
 		OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	}
 
 	std::ostringstream cen;
-	cen << "Concept Engine Window, Type: " << CEWindowClass::GetWindowType() << "\n";
+	cen << "Concept Engine Window, Type: " << GetWindowType() << "\n";
 	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(cen.str().c_str()));
 
 	// switch to pass action to given message
 	switch (msg) {
 	case WM_CLOSE:
 		//TODO: Fix
-		if (CEWindowClass::GetWindowType() == main) {
-			CloseWindow(hWnd);
-			break;
-		}
-		else {
+		if (GetWindowType() == main) {
 			PostQuitMessage(1);
 			return 0;
+		}
+		else {
+			CloseWindow(hWnd);
+			break;
 		}
 	case WM_KEYDOWN:
 		//test event
