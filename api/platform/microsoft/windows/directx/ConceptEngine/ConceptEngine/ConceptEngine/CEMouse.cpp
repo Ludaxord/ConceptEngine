@@ -1,4 +1,5 @@
 #include "CEMouse.h"
+#include <Windows.h>
 
 std::pair<int, int> CEMouse::GetMousePosition() const noexcept {
 	return {x, y};
@@ -10,6 +11,10 @@ int CEMouse::GetMousePositionX() const noexcept {
 
 int CEMouse::GetMousePositionY() const noexcept {
 	return y;
+}
+
+bool CEMouse::IsMouseInWindow() const noexcept {
+	return isMouseInWindow;
 }
 
 bool CEMouse::IsLeftKeyPressed() const noexcept {
@@ -38,6 +43,20 @@ void CEMouse::OnMouseMove(int moveX, int moveY) noexcept {
 	x = moveX;
 	y = moveY;
 	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::move, *this);
+	buffer.push(e);
+	TrimBuffer();
+}
+
+void CEMouse::OnMouseEnter() noexcept {
+	isMouseInWindow = true;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::enter, *this);
+	buffer.push(e);
+	TrimBuffer();
+}
+
+void CEMouse::OnMouseLeave() noexcept {
+	isMouseInWindow = false;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::leave, *this);
 	buffer.push(e);
 	TrimBuffer();
 }
@@ -85,5 +104,17 @@ void CEMouse::OnWheelDown(int moveX, int moveY) noexcept {
 void CEMouse::TrimBuffer() noexcept {
 	while (buffer.size() > bufferSize) {
 		buffer.pop();
+	}
+}
+
+void CEMouse::OnWheelDelta(int moveX, int moveY, int delta) noexcept {
+	wheelDeltaCarry += delta;
+	while (wheelDeltaCarry >= WHEEL_DELTA) {
+		wheelDeltaCarry -= WHEEL_DELTA;
+		OnWheelUp(moveX, moveY);
+	}
+	while (wheelDeltaCarry <= WHEEL_DELTA) {
+		wheelDeltaCarry += WHEEL_DELTA;
+		OnWheelDown(moveX, moveY);
 	}
 }

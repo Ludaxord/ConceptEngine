@@ -105,6 +105,7 @@ private:
 	void OnWheelUp(int moveX, int moveY) noexcept;
 	void OnWheelDown(int moveX, int moveY) noexcept;
 	void TrimBuffer() noexcept;
+	void OnWheelDelta(int moveX, int moveY, int delta) noexcept;
 private:
 	static constexpr unsigned int bufferSize = 16u;
 	int x;
@@ -112,5 +113,6 @@ private:
 	bool isMouseInWindow = false;
 	bool isLeftKeyPressed = false;
 	bool isRightKeyPressed = false;
+	int wheelDeltaCarry = 0;
 	std::queue<CEMouseEvent> buffer;
 };

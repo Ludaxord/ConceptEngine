@@ -12,9 +12,13 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		CEWindow ceWindow(800, 300, "Concept Engine Editor", CEWindow::main);
 		CEWindow ceWindowAdditional(300, 800, "Concept Engine Tools", CEWindow::additional);
 
-		// create message
 		MSG msg;
 		BOOL result;
+
+		//mouse wheel test
+		int wheel_count = 0;
+
+		
 		while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0) {
 			//TranslateMessage used to use passed input ex. Values of key press on keyboard. That Used WM_CHAR from MSG object.
 			TranslateMessage(&msg);
@@ -33,11 +37,32 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			//Mouse test
 			while (!ceWindow.mouse.IsEmpty()) {
 				const auto e = ceWindow.mouse.Read();
-				if (e.GetType() == CEMouse::CEMouseEvent::CEMouseEventType::move) {
+				switch (e.GetType()) {
+				case CEMouse::CEMouseEvent::CEMouseEventType::leave: {
 					std::ostringstream oss;
-					oss << "Mouse Position: (x: " << e.GetMousePositionX() << ", y: " << e.GetMousePositionY() << ")" <<
-						std::endl;
+					oss << "Mouse Leave Window" << std::endl;
 					OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+				}
+				break;
+				case CEMouse::CEMouseEvent::CEMouseEventType::move: {
+					std::ostringstream oss;
+					oss << "Mouse Position: (x: " << e.GetMousePositionX() << ", y: " << e.GetMousePositionY() << ")"
+						<< std::endl;
+					OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+				}
+				break;
+				case CEMouse::CEMouseEvent::CEMouseEventType::wheelUp: {
+					wheel_count++;
+					std::ostringstream oss;
+					oss << "Wheel: (" << wheel_count << ")" << std::endl;
+					OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+				}
+				case CEMouse::CEMouseEvent::CEMouseEventType::wheelDown: {
+					wheel_count--;
+					std::ostringstream oss;
+					oss << "Wheel: (" << wheel_count << ")" << std::endl;
+					OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+				}
 				}
 			}
 		}

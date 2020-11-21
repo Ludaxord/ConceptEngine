@@ -1,6 +1,10 @@
-﻿  CEMouse.cpp
+﻿  CEException.cpp
+  CEKeyboard.cpp
+  CEMouse.cpp
   CEPlaystationController.cpp
   CEWindow.cpp
+  CEConverters.cpp
+  CEWindowsMessage.cpp
   CEXboxController.cpp
   WinMain.cpp
   ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe
