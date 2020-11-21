@@ -1,7 +1,8 @@
 #pragma once
 #include "CEException.h"
-#include "CEKeyboard.h"
 #include "CEWin.h"
+#include "CEKeyboard.h"
+#include "CEMouse.h"
 
 class CEWindow {
 
@@ -47,6 +48,7 @@ public:
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;
+	void SetTitle(const std::string& title);
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -57,6 +59,7 @@ protected:
 	void SetWindowType(CEWindowTypes windowType) noexcept;
 public:
 	CEKeyboard keyboard;
+	CEMouse mouse;
 private:
 	int width;
 	int height;

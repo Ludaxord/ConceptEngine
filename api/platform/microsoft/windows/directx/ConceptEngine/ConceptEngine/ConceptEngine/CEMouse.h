@@ -16,6 +16,8 @@ public:
 			wheelUp,
 			wheelDown,
 			move,
+			enter,
+			leave,
 			invalid
 		};
 
@@ -82,6 +84,7 @@ public:
 	std::pair<int, int> GetMousePosition() const noexcept;
 	int GetMousePositionX() const noexcept;
 	int GetMousePositionY() const noexcept;
+	bool IsMouseInWindow() const noexcept;
 	bool IsLeftKeyPressed() const noexcept;
 	bool IsRightKeyPressed() const noexcept;
 	CEMouseEvent Read() noexcept;
@@ -93,6 +96,8 @@ public:
 	void Clear() noexcept;
 private:
 	void OnMouseMove(int moveX, int moveY) noexcept;
+	void OnMouseEnter() noexcept;
+	void OnMouseLeave() noexcept;
 	void OnLeftKeyPressed(int moveX, int moveY) noexcept;
 	void OnRightKeyPressed(int moveX, int moveY) noexcept;
 	void OnLeftKeyReleased(int moveX, int moveY) noexcept;
@@ -104,6 +109,7 @@ private:
 	static constexpr unsigned int bufferSize = 16u;
 	int x;
 	int y;
+	bool isMouseInWindow = false;
 	bool isLeftKeyPressed = false;
 	bool isRightKeyPressed = false;
 	std::queue<CEMouseEvent> buffer;

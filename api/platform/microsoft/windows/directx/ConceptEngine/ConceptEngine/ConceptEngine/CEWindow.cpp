@@ -94,17 +94,15 @@ CEWindow::CEWindowClass::~CEWindowClass() {
 }
 
 CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes windowTypes): width(width), height(height) {
-	std::ostringstream cen;
-	cen << "Initialize Concept Engine Window, Type: " << GetWindowType() << " name: " << name << "\n";
-	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(cen.str().c_str()));
-
 	//Start options
 	RECT winLoc;
 	winLoc.left = 100;
 	winLoc.right = width + winLoc.left;
 	winLoc.top = 100;
 	winLoc.bottom = height + winLoc.top;
-	AdjustWindowRect(&winLoc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+	if (AdjustWindowRect(&winLoc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
+		throw CEWIN_LAST_EXCEPTION();
+	}
 	hWnd = CreateWindow(
 		CEConverters::convertCharArrayToLPCWSTR(CEWindowClass::GetName()),
 		CEConverters::convertCharArrayToLPCWSTR(name),
@@ -130,6 +128,13 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 CEWindow::~CEWindow() {
 	DestroyWindow(hWnd);
 }
+
+void CEWindow::SetTitle(const std::string& title) {
+	if (SetWindowText(hWnd, CEConverters::convertCharArrayToLPCWSTR(title.c_str())) == 0) {
+		throw CEWIN_LAST_EXCEPTION();
+	}
+}
+
 
 LRESULT WINAPI CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
@@ -188,15 +193,41 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	case WM_CHAR:
 		keyboard.OnChar(static_cast<char>(wParam));
 		break;
-
-	case WM_LBUTTONDOWN: {
-		//coordinates of mouse 
+	case WM_MOUSEMOVE: {
 		const auto pt = MAKEPOINTS(lParam);
-		std::ostringstream oss;
-		oss << "Mouse coordinates: " << "(" << pt.x << ", " << pt.y << ")" << "\n";
-		OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+		mouse.OnMouseMove(pt.x, pt.y);
+		break;
 	}
-	break;
+	case WM_LBUTTONDOWN: {
+		const auto pt = MAKEPOINTS(lParam);
+		mouse.OnLeftKeyPressed(pt.x, pt.y);
+		break;
+	}
+	case WM_RBUTTONDOWN: {
+		const auto pt = MAKEPOINTS(lParam);
+		mouse.OnRightKeyPressed(pt.x, pt.y);
+		break;
+	}
+	case WM_LBUTTONUP: {
+		const auto pt = MAKEPOINTS(lParam);
+		mouse.OnLeftKeyReleased(pt.x, pt.y);
+		break;
+	}
+	case WM_RBUTTONUP: {
+		const auto pt = MAKEPOINTS(lParam);
+		mouse.OnRightKeyReleased(pt.x, pt.y);
+		break;
+	}
+	case WM_MOUSEWHEEL: {
+		const auto pt = MAKEPOINTS(lParam);
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0) {
+			mouse.OnWheelUp(pt.x, pt.y);
+		}
+		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0) {
+			mouse.OnWheelDown(pt.x, pt.y);
+		}
+		break;
+	}
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }

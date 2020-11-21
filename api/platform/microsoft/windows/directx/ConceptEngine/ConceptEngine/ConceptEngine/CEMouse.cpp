@@ -35,26 +35,55 @@ void CEMouse::Clear() noexcept {
 }
 
 void CEMouse::OnMouseMove(int moveX, int moveY) noexcept {
-	
+	x = moveX;
+	y = moveY;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::move, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::OnLeftKeyPressed(int moveX, int moveY) noexcept {
+	isLeftKeyPressed = true;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::leftKeyPress, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::OnRightKeyPressed(int moveX, int moveY) noexcept {
+	isRightKeyPressed = true;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::rightKeyPress, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::OnLeftKeyReleased(int moveX, int moveY) noexcept {
+	isLeftKeyPressed = false;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::leftKeyRelease, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::OnRightKeyReleased(int moveX, int moveY) noexcept {
+	isRightKeyPressed = false;
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::rightKeyRelease, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::OnWheelUp(int moveX, int moveY) noexcept {
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::wheelUp, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::OnWheelDown(int moveX, int moveY) noexcept {
+	CEMouseEvent e = CEMouseEvent(CEMouseEvent::CEMouseEventType::wheelDown, *this);
+	buffer.push(e);
+	TrimBuffer();
 }
 
 void CEMouse::TrimBuffer() noexcept {
+	while (buffer.size() > bufferSize) {
+		buffer.pop();
+	}
 }
