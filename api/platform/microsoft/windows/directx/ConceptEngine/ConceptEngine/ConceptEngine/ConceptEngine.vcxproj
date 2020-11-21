@@ -161,17 +161,24 @@
   <ItemGroup>
     <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
+    <ClCompile Include="CEMouse.cpp" />
+    <ClCompile Include="CEPlaystationController.cpp" />
     <ClCompile Include="CEWindow.cpp" />
     <ClCompile Include="CEConverters.cpp" />
     <ClCompile Include="CEWindowsMessage.cpp" />
+    <ClCompile Include="CEXboxController.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CEController.h" />
     <ClInclude Include="CEConverters.h" />
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEKeyboard.h" />
+    <ClInclude Include="CEMouse.h" />
+    <ClInclude Include="CEPlaystationController.h" />
     <ClInclude Include="CEWin.h" />
     <ClInclude Include="CEWindow.h" />
+    <ClInclude Include="CEXboxController.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CEWindowsMessage.h" />
   </ItemGroup>
