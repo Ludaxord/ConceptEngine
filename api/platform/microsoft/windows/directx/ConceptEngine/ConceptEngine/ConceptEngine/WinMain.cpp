@@ -10,19 +10,25 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	try {
 
 		CEWindow ceWindow(800, 300, "Concept Engine Editor", CEWindow::main);
-		CEWindow ceWindowAdditional(300, 800, "Concept Engine Tools", CEWindow::additional);
-
 		MSG msg;
 		BOOL result;
 
 		//mouse wheel test
 		int wheel_count = 0;
 
-		
+
 		while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0) {
 			//TranslateMessage used to use passed input ex. Values of key press on keyboard. That Used WM_CHAR from MSG object.
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			//Screen resolution test
+			auto resolution = ceWindow.GetScreenInfo();
+			std::ostringstream ossr;
+			ossr << "Screen resolution: " << resolution.horizontal << "x" << resolution.vertical << " Aspect Ratio: " <<
+				resolution.aspectRatio << " Refresh Rate: " << resolution.refreshRate << std::endl;
+			OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(ossr.str().c_str()));
+
 
 			//Keyboard test
 			if (ceWindow.keyboard.IsKeyPressed(VK_SPACE)) {
@@ -57,12 +63,14 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 					oss << "Wheel: (" << wheel_count << ")" << std::endl;
 					OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
 				}
+				break;
 				case CEMouse::CEMouseEvent::CEMouseEventType::wheelDown: {
 					wheel_count--;
 					std::ostringstream oss;
 					oss << "Wheel: (" << wheel_count << ")" << std::endl;
 					OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
 				}
+				break;
 				}
 			}
 		}

@@ -27,7 +27,26 @@ public:
 		tools
 	};
 
+	//TODO: create separate class for screen
+	enum class CEScreenTypes {
+		primary,
+		allCombined,
+		workingArea,
+		specific
+	};
 
+	//TODO: create separate class for screen
+	struct CEScreen {
+		int horizontal = 0;
+		int vertical = 0;
+		double aspectRatio = 0;
+		double refreshRate = 0;
+		//TODO: fix aspect ratio double
+		static double CalculateAspectRatio(int horizontal = 0, int vertical = 0);
+		static int GetRefreshRate();
+		static CEScreen GetScreenInfo(CEScreenTypes type = CEScreenTypes::primary);
+	};
+	
 private:
 	class CEWindowClass {
 	public:
@@ -49,6 +68,7 @@ public:
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;
 	void SetTitle(const std::string& title);
+	CEScreen GetScreenInfo();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
