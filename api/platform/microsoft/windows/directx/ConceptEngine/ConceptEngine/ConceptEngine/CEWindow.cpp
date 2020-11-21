@@ -19,12 +19,12 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 		0,
 		0,
 		GetInstance(),
-		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 32,32, 0)),
+		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 32, 32, 0)),
 		nullptr,
 		nullptr,
 		nullptr,
 		CEConverters::convertCharArrayToLPCWSTR(GetName()),
-		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 16,16, 0))
+		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 16, 16, 0))
 	};
 	RegisterClassEx(&wc);
 }
@@ -164,28 +164,31 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 
 	// switch to pass action to given message
 	switch (msg) {
-	case WM_CLOSE:
+	case WM_CLOSE: {
 		if (GetWindowType() == main) {
 			PostQuitMessage(1);
 			return 0;
 		}
-		else {
-			CloseWindow(hWnd);
-			break;
-		}
-	case WM_KEYDOWN:
-		//test event
-		// if (wParam == 'M') {
-		// 	ShowWindow(hWnd, SW_MAXIMIZE);
-		// }
+		CloseWindow(hWnd);
 		break;
-	case WM_CHAR: {
-		static std::string title;
-		title.push_back((char)wParam);
-		OutputDebugString(
-			CEConverters::convertCharArrayToLPCWSTR(("==== Keyboard input: " + title + " ====" + "\n").c_str()));
 	}
-	break;
+	case WM_KILLFOCUS:
+		keyboard.ClearState();
+		break;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		//0x4000000 == 30 Source: https://docs.microsoft.com/en-us/windows/win32/inputdev/wm-keydown
+		if (!(lParam & 0x4000000) || keyboard.IsAutoRepeatEnabled()) {
+			keyboard.OnKeyPressed(static_cast<unsigned char>(wParam));
+		}
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
+	case WM_CHAR:
+		keyboard.OnChar(static_cast<char>(wParam));
+		break;
+
 	case WM_LBUTTONDOWN: {
 		//coordinates of mouse 
 		const auto pt = MAKEPOINTS(lParam);

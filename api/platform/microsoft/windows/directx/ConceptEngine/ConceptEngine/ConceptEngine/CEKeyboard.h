@@ -54,13 +54,14 @@ public:
 
 	char ReadChar() noexcept;
 	bool IsCharEmpty() noexcept;
-	void ClearCar() noexcept;
+	void ClearChar() noexcept;
 	void Clear() noexcept;
 
 	void EnableAutoRepeat() noexcept;
 	void DisableAutoRepeat() noexcept;
 	bool IsAutoRepeatEnabled() const noexcept;
 private:
+	//keyCodes as chars
 	void OnKeyPressed(unsigned char keyCode) noexcept;
 	void OnKeyReleased(unsigned char keyCode) noexcept;
 	void OnChar(char character) noexcept;

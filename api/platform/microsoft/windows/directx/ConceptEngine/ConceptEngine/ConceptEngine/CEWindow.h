@@ -1,5 +1,6 @@
 #pragma once
 #include "CEException.h"
+#include "CEKeyboard.h"
 #include "CEWin.h"
 
 class CEWindow {
@@ -54,7 +55,8 @@ private:
 protected:
 	CEWindowTypes GetWindowType() noexcept;
 	void SetWindowType(CEWindowTypes windowType) noexcept;
-	
+public:
+	CEKeyboard keyboard;
 private:
 	int width;
 	int height;
