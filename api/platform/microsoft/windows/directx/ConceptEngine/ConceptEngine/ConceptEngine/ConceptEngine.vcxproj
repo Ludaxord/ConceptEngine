@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CEException.cpp" />
+    <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEWindow.cpp" />
     <ClCompile Include="CEConverters.cpp" />
     <ClCompile Include="CEWindowsMessage.cpp" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="CEConverters.h" />
     <ClInclude Include="CEException.h" />
+    <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CEWin.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="resource.h" />
