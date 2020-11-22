@@ -167,6 +167,7 @@
     <ClCompile Include="CEConverters.cpp" />
     <ClCompile Include="CEWindowsMessage.cpp" />
     <ClCompile Include="CEXboxController.cpp" />
+    <ClCompile Include="ConceptEngine.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClInclude Include="CEWin.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="CEXboxController.h" />
+    <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CEWindowsMessage.h" />
   </ItemGroup>
