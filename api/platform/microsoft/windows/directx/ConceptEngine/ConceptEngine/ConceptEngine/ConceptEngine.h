@@ -1,6 +1,6 @@
 #pragma once
-#include "CETimer.h"
 #include "CEWindow.h"
+#include "CETimer.h"
 
 class ConceptEngine {
 public:

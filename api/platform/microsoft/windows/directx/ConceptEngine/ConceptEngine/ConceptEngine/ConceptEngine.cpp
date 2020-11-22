@@ -1,6 +1,6 @@
 #include "ConceptEngine.h"
 
-#include <iomanip>
+#include <ostream>
 #include <sstream>
 
 #include "CEConverters.h"
@@ -20,5 +20,10 @@ int ConceptEngine::Run() {
 
 //Game logic per frame
 void ConceptEngine::DoFrame() {
+	const float c = sin(timer_.Peek()) / 2.0f + 0.5f;
+	std::ostringstream oss;
+	oss << "color: " << c << std::endl;
+	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+	window_.GetGraphics().ClearBuffer(c, c, 1.0f);
 	window_.GetGraphics().EndFrame();
 }

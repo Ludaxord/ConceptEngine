@@ -17,14 +17,29 @@ CEGraphics::CEGraphics(HWND hWnd) {
 		nullptr,
 		&pContext
 	);
+	ID3D11Resource* pBackBuffer = nullptr;
+	pSwap->GetBuffer(
+		0,
+		__uuidof(ID3D11Resource),
+		reinterpret_cast<void**>(&pBackBuffer)
+	);
+	pDevice->CreateRenderTargetView(
+		pBackBuffer,
+		nullptr,
+		&pTarget
+	);
+	pBackBuffer->Release();
 }
 
 CEGraphics::~CEGraphics() {
-	if (pSwap != nullptr) {
-		pSwap->Release();
+	if (pTarget != nullptr) {
+		pTarget->Release();
 	}
 	if (pContext != nullptr) {
 		pContext->Release();
+	}
+	if (pSwap != nullptr) {
+		pSwap->Release();
 	}
 	if (pDevice != nullptr) {
 		pDevice->Release();
@@ -33,6 +48,11 @@ CEGraphics::~CEGraphics() {
 
 void CEGraphics::EndFrame() {
 	pSwap->Present(1u, 0u);
+}
+
+void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
+	const float color[] = {red, green, blue, 1.0f};
+	pContext->ClearRenderTargetView(pTarget, color);
 }
 
 DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {
@@ -44,6 +64,7 @@ DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {
 	sd.BufferDesc.RefreshRate.Denominator = 0;
 	sd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	sd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.BufferCount = 1;
