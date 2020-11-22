@@ -1,4 +1,6 @@
 #pragma once
+#include <optional>
+
 #include "CEException.h"
 #include "CEWin.h"
 #include "CEKeyboard.h"
@@ -46,7 +48,7 @@ public:
 		static int GetRefreshRate();
 		static CEScreen GetScreenInfo(CEScreenTypes type = CEScreenTypes::primary);
 	};
-	
+
 private:
 	class CEWindowClass {
 	public:
@@ -69,6 +71,7 @@ public:
 	CEWindow& operator =(const CEWindow&) = delete;
 	void SetTitle(const std::string& title);
 	CEScreen GetScreenInfo();
+	static std::optional<int> ProcessMessages();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

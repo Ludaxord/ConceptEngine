@@ -1,27 +1,24 @@
 #include "ConceptEngine.h"
 
+#include <iomanip>
+#include <sstream>
+
+#include "CEConverters.h"
+
 ConceptEngine::ConceptEngine() : window_(800, 600, "Concept Engine Editor", CEWindow::main) {
 }
 
 int ConceptEngine::Run() {
-	MSG msg;
-	BOOL result;
 
-	while ((result = GetMessage(&msg, nullptr, 0, 0)) > 0) {
-		//TranslateMessage used to use passed input ex. Values of key press on keyboard. That Used WM_CHAR from MSG object.
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	while (true) {
+		if (const auto ecode = CEWindow::ProcessMessages()) {
+			return *ecode;
+		}
 		DoFrame();
 	}
-
-	if (result == -1) {
-		return -1;
-	}
-
-	return msg.wParam;
 }
 
-//Game logic
+//Game logic per frame
 void ConceptEngine::DoFrame() {
-	
+	const float time = timer_.Peek();
 }

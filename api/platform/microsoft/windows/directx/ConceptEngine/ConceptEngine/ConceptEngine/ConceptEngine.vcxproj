@@ -163,6 +163,7 @@
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMouse.cpp" />
     <ClCompile Include="CEPlaystationController.cpp" />
+    <ClCompile Include="CETimer.cpp" />
     <ClCompile Include="CEWindow.cpp" />
     <ClCompile Include="CEConverters.cpp" />
     <ClCompile Include="CEWindowsMessage.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CEMouse.h" />
     <ClInclude Include="CEPlaystationController.h" />
+    <ClInclude Include="CETimer.h" />
     <ClInclude Include="CEWin.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="CEXboxController.h" />

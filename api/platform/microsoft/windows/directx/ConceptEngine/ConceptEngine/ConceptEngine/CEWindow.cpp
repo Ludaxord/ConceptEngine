@@ -183,6 +183,19 @@ CEWindow::CEScreen CEWindow::GetScreenInfo() {
 	return CEScreen::GetScreenInfo();
 }
 
+std::optional<int> CEWindow::ProcessMessages() {
+	MSG msg;
+
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+		if (msg.message == WM_QUIT) {
+			return msg.wParam;
+		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return {};
+}
+
 LRESULT WINAPI CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
