@@ -1,4 +1,5 @@
-#include "CEGraphics.h";
+#include "CEGraphics.h"
+#pragma comment(lib, "d3d11.lib")
 
 CEGraphics::CEGraphics(HWND hWnd) {
 	DXGI_SWAP_CHAIN_DESC sd = GetDefaultD311Descriptor(hWnd);
@@ -16,6 +17,22 @@ CEGraphics::CEGraphics(HWND hWnd) {
 		nullptr,
 		&pContext
 	);
+}
+
+CEGraphics::~CEGraphics() {
+	if (pSwap != nullptr) {
+		pSwap->Release();
+	}
+	if (pContext != nullptr) {
+		pContext->Release();
+	}
+	if (pDevice != nullptr) {
+		pDevice->Release();
+	}
+}
+
+void CEGraphics::EndFrame() {
+	pSwap->Present(1u, 0u);
 }
 
 DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {

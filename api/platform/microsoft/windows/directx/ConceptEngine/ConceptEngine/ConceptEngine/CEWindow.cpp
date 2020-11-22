@@ -167,6 +167,7 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
+	pGraphics = std::make_unique<CEGraphics>(hWnd);
 }
 
 CEWindow::~CEWindow() {
@@ -194,6 +195,10 @@ std::optional<int> CEWindow::ProcessMessages() {
 		DispatchMessage(&msg);
 	}
 	return {};
+}
+
+CEGraphics& CEWindow::GetGraphics() {
+	return *pGraphics;
 }
 
 LRESULT WINAPI CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {

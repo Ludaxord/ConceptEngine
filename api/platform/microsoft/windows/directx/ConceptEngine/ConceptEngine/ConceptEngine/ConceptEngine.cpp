@@ -20,5 +20,5 @@ int ConceptEngine::Run() {
 
 //Game logic per frame
 void ConceptEngine::DoFrame() {
-	const float time = timer_.Peek();
+	window_.GetGraphics().EndFrame();
 }

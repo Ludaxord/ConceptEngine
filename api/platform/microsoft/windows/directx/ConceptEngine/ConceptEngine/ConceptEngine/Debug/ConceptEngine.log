@@ -1,2 +1,5 @@
-﻿  ConceptEngine.cpp
+﻿  CEGraphics.cpp
+  CEWindow.cpp
+  ConceptEngine.cpp
+  WinMain.cpp
   ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe

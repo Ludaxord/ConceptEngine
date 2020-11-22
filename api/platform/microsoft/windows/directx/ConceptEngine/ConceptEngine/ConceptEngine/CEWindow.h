@@ -5,6 +5,8 @@
 #include "CEWin.h"
 #include "CEKeyboard.h"
 #include "CEMouse.h"
+#include "CEGraphics.h"
+#include <memory>
 
 class CEWindow {
 
@@ -72,6 +74,7 @@ public:
 	void SetTitle(const std::string& title);
 	CEScreen GetScreenInfo();
 	static std::optional<int> ProcessMessages();
+	CEGraphics& GetGraphics();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -87,6 +90,7 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
+	std::unique_ptr<CEGraphics> pGraphics;
 };
 
 #define CEWIN_EXCEPTION(hresult) CEWindow::Exception(__LINE__, __FILE__, hresult)
