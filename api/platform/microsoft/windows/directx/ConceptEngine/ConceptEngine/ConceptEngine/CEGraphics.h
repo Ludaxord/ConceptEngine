@@ -2,6 +2,8 @@
 #include "CEWin.h"
 #include <d3d11.h>
 
+#include "CEException.h"
+
 
 class CEGraphics {
 public:
@@ -10,6 +12,29 @@ public:
 		direct3d12,
 		vulkan,
 		opengl
+	};
+
+public:
+	class Exception : CEException {
+		using CEException::CEException;
+	};
+
+	class HResultException : CEException {
+	public:
+		HResultException(int line, const char* file, HRESULT hResult) noexcept;
+		const char* what() const noexcept override;
+		const char* GetType() const noexcept override;
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorMessage() const noexcept;
+		std::string GetErrorDescription() const noexcept;
+	private:
+		HRESULT hResult;
+	};
+
+	class DeviceRemovedException : HResultException {
+		using HResultException::HResultException;
+	public:
+		const char* GetType() const noexcept override;
 	};
 
 public:

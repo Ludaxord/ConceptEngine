@@ -25,7 +25,7 @@ void ConceptEngine::DoFrame() {
 	const float c3 = sin(-timer_.Peek()) / 2.0f + 0.5f;
 	std::ostringstream oss;
 	oss << "color 1: " << c1 << " color 2: " << c2 << " color 3: " << c3 << std::endl;
-	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(oss.str().c_str()));
+	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 	window_.GetGraphics().ClearBuffer(c1, c2, c3);
 	window_.GetGraphics().EndFrame();
 }

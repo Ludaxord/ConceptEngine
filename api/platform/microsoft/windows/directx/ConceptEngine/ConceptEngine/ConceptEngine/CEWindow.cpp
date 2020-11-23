@@ -23,7 +23,7 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 		nullptr,
 		nullptr,
 		nullptr,
-		CEConverters::convertCharArrayToLPCWSTR(GetName()),
+		CEConverters::ConvertCharArrayToLPCWSTR(GetName()),
 		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON2), IMAGE_ICON, 16, 16, 0))
 	};
 	RegisterClassEx(&wc);
@@ -134,7 +134,7 @@ HINSTANCE CEWindow::CEWindowClass::GetInstance() noexcept {
 
 
 CEWindow::CEWindowClass::~CEWindowClass() {
-	UnregisterClass(CEConverters::convertCharArrayToLPCWSTR(wndClassName), GetInstance());
+	UnregisterClass(CEConverters::ConvertCharArrayToLPCWSTR(wndClassName), GetInstance());
 }
 
 CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes windowTypes): width(width), height(height) {
@@ -148,8 +148,8 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 		throw CEWIN_LAST_EXCEPTION();
 	}
 	hWnd = CreateWindow(
-		CEConverters::convertCharArrayToLPCWSTR(CEWindowClass::GetName()),
-		CEConverters::convertCharArrayToLPCWSTR(name),
+		CEConverters::ConvertCharArrayToLPCWSTR(CEWindowClass::GetName()),
+		CEConverters::ConvertCharArrayToLPCWSTR(name),
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -175,7 +175,7 @@ CEWindow::~CEWindow() {
 }
 
 void CEWindow::SetTitle(const std::string& title) {
-	if (SetWindowText(hWnd, CEConverters::convertCharArrayToLPCWSTR(title.c_str())) == 0) {
+	if (SetWindowText(hWnd, CEConverters::ConvertCharArrayToLPCWSTR(title.c_str())) == 0) {
 		throw CEWIN_LAST_EXCEPTION();
 	}
 }
@@ -225,12 +225,12 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	//print Windows Message 
 	static CEWindowsMessage wm;
 	if (GetWindowType() == debug) {
-		OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
+		OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	}
 
 	std::ostringstream cen;
 	cen << "Concept Engine Window, Type: " << GetWindowType() << "\n";
-	OutputDebugString(CEConverters::convertCharArrayToLPCWSTR(cen.str().c_str()));
+	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(cen.str().c_str()));
 
 	// switch to pass action to given message
 	switch (msg) {

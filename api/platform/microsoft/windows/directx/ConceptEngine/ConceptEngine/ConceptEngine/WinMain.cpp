@@ -15,24 +15,24 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		// CEException::CEExceptionBox(nullptr, e.what(), e.GetType(),MB_OK | MB_ICONEXCLAMATION);
 		MessageBox(
 			nullptr,
-			CEConverters::convertCharArrayToLPCWSTR(e.what()),
-			CEConverters::convertCharArrayToLPCWSTR(e.GetType()),
+			CEConverters::ConvertCharArrayToLPCWSTR(e.what()),
+			CEConverters::ConvertCharArrayToLPCWSTR(e.GetType()),
 			MB_OK | MB_ICONEXCLAMATION
 		);
 	} catch (const std::exception& e) {
 		// CEException::CEExceptionBox(nullptr, e.what(), "Exception", MB_OK | MB_ICONEXCLAMATION);
 		MessageBox(
 			nullptr,
-			CEConverters::convertCharArrayToLPCWSTR(e.what()),
-			CEConverters::convertCharArrayToLPCWSTR("Exception"),
+			CEConverters::ConvertCharArrayToLPCWSTR(e.what()),
+			CEConverters::ConvertCharArrayToLPCWSTR("Exception"),
 			MB_OK | MB_ICONEXCLAMATION
 		);
 	} catch (...) {
 		// CEException::CEExceptionBox(nullptr, "No error details", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
 		MessageBox(
 			nullptr,
-			CEConverters::convertCharArrayToLPCWSTR("No error details"),
-			CEConverters::convertCharArrayToLPCWSTR("Exception"),
+			CEConverters::ConvertCharArrayToLPCWSTR("No error details"),
+			CEConverters::ConvertCharArrayToLPCWSTR("Exception"),
 			MB_OK | MB_ICONEXCLAMATION
 		);
 	}

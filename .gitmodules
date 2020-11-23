@@ -1,0 +1,12 @@
+[submodule "DxErr"]
+	path = DxErr
+	url = https://github.com/nitrocaster/DxErr
+	branch = master
+[submodule "api/platform/microsoft/windows/lib/DxErr"]
+	path = api/platform/microsoft/windows/lib/DxErr
+	url = https://github.com/nitrocaster/DxErr
+	branch = master
+[submodule "api/platform/microsoft/windows/directx/ConceptEngine/lib/DxErr"]
+	path = api/platform/microsoft/windows/directx/ConceptEngine/lib/DxErr
+	url = https://github.com/nitrocaster/DxErr
+	branch = master
