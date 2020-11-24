@@ -29,25 +29,9 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 	RegisterClassEx(&wc);
 }
 
-CEWindow::Exception::Exception(int exceptionLine, const char* exceptionFile, HRESULT hresult) noexcept:
-	CEException(exceptionLine, exceptionFile), hresult(hresult) {
-}
-
-const char* CEWindow::Exception::what() const noexcept {
-	std::ostringstream oss;
-	oss << GetType() << std::endl << "[Error Code] " << GetErrorCode() << std::endl << "[Message] " << GetErrorMessage()
-		<< std::endl << GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const char* CEWindow::Exception::GetType() const noexcept {
-	return "CEWindowException";
-}
-
-std::string CEWindow::Exception::TranslateErrorCode(HRESULT hresult) {
+std::string CEWindow::Exception::TranslateErrorCode(HRESULT hresult) noexcept {
 	char* pMsgBuffer = nullptr;
-	DWORD nMsgLen = FormatMessage(
+	const DWORD nMsgLen = FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		nullptr,
 		hresult,
@@ -64,13 +48,36 @@ std::string CEWindow::Exception::TranslateErrorCode(HRESULT hresult) {
 	return errorMessage;
 }
 
-HRESULT CEWindow::Exception::GetErrorCode() const noexcept {
+CEWindow::HResultException::HResultException(int line, const char* file, HRESULT hresult) noexcept:
+	Exception(line, file),
+	hresult(hresult) {
+}
+
+HRESULT CEWindow::HResultException::GetErrorCode() const noexcept {
 	return hresult;
 }
 
-std::string CEWindow::Exception::GetErrorMessage() const noexcept {
+const char* CEWindow::HResultException::what() const noexcept {
+	std::ostringstream oss;
+	oss << GetType() << std::endl << "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode() << std::dec <<
+		" (" << (unsigned long)GetErrorCode() << ")" << std::endl << "[Description] " << GetErrorDescription() <<
+		std::endl << GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* CEWindow::HResultException::GetType() const noexcept {
+	return "Concept Engine Window Exception";
+}
+
+std::string CEWindow::HResultException::GetErrorDescription() const noexcept {
 	return TranslateErrorCode(hresult);
 }
+
+const char* CEWindow::GraphicsException::GetType() const noexcept {
+	return "Concept Engine Window Exception [No Graphics]";
+}
+
 
 double CEWindow::CEScreen::CalculateAspectRatio(int horizontal, int vertical) {
 	return (double)(horizontal / vertical);
@@ -184,7 +191,7 @@ CEWindow::CEScreen CEWindow::GetScreenInfo() {
 	return CEScreen::GetScreenInfo();
 }
 
-std::optional<int> CEWindow::ProcessMessages() {
+std::optional<int> CEWindow::ProcessMessages() noexcept {
 	MSG msg;
 
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -198,6 +205,9 @@ std::optional<int> CEWindow::ProcessMessages() {
 }
 
 CEGraphics& CEWindow::GetGraphics() {
+	if (!pGraphics) {
+		throw CEWIN_NOGFX_EXCEPTION();
+	}
 	return *pGraphics;
 }
 

@@ -13,15 +13,25 @@ class CEWindow {
 public:
 
 	class Exception : public CEException {
+		using CEException::CEException;
 	public:
-		Exception(int exceptionLine, const char* exceptionFile, HRESULT hresult) noexcept;
+		static std::string TranslateErrorCode(HRESULT hResult) noexcept;
+	};
+
+	class HResultException : public Exception {
+	public:
+		HResultException(int exceptionLine, const char* exceptionFile, HRESULT hresult) noexcept;
 		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept;
-		static std::string TranslateErrorCode(HRESULT hresult);
+		virtual const char* GetType() const noexcept override;
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorMessage() const noexcept;
+		std::string GetErrorDescription() const noexcept;
 	private:
 		HRESULT hresult;
+	};
+	class GraphicsException: public Exception {
+	public:
+		using Exception::Exception;
+		const char* GetType() const noexcept override;
 	};
 
 	enum CEWindowTypes {
@@ -73,7 +83,7 @@ public:
 	CEWindow& operator =(const CEWindow&) = delete;
 	void SetTitle(const std::string& title);
 	CEScreen GetScreenInfo();
-	static std::optional<int> ProcessMessages();
+	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -93,5 +103,6 @@ private:
 	std::unique_ptr<CEGraphics> pGraphics;
 };
 
-#define CEWIN_EXCEPTION(hresult) CEWindow::Exception(__LINE__, __FILE__, hresult)
-#define CEWIN_LAST_EXCEPTION() CEWindow::Exception(__LINE__, __FILE__, GetLastError())
+#define CEWIN_EXCEPTION(hresult) CEWindow::HResultException(__LINE__, __FILE__, hresult)
+#define CEWIN_LAST_EXCEPTION() CEWindow::HResultException(__LINE__, __FILE__, GetLastError())
+#define CEWIN_NOGFX_EXCEPTION() CEWindow::GraphicsException(__LINE__, __FILE__)
