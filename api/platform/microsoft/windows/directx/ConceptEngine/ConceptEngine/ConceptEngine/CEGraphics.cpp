@@ -1,8 +1,10 @@
 #include "CEGraphics.h"
-#pragma comment(lib, "d3d11.lib")
+
 #include <sstream>
 #include "dxerr.h"
 #include "CEConverters.h"
+namespace wrl = Microsoft::WRL;
+#pragma comment(lib, "d3d11.lib")
 
 #define GFX_THROW_INFO(hResultCall) if (FAILED(hResult = (hResultCall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResultCall)
 #define GFX_EXCEPT_NOINFO(hResult) CEGraphics::HResultException( __LINE__,__FILE__,(hResult) )
@@ -97,33 +99,17 @@ CEGraphics::CEGraphics(HWND hWnd) {
 		nullptr,
 		&pContext
 	));
-	ID3D11Resource* pBackBuffer = nullptr;
+	wrl::ComPtr<ID3D11Resource> pBackBuffer;
 	GFX_THROW_INFO(pSwap->GetBuffer(
 		0,
 		__uuidof(ID3D11Resource),
-		reinterpret_cast<void**>(&pBackBuffer)
+		&pBackBuffer
 	));
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(
-		pBackBuffer,
+		pBackBuffer.Get(),
 		nullptr,
 		&pTarget
 	));
-	pBackBuffer->Release();
-}
-
-CEGraphics::~CEGraphics() {
-	if (pTarget != nullptr) {
-		pTarget->Release();
-	}
-	if (pContext != nullptr) {
-		pContext->Release();
-	}
-	if (pSwap != nullptr) {
-		pSwap->Release();
-	}
-	if (pDevice != nullptr) {
-		pDevice->Release();
-	}
 }
 
 void CEGraphics::EndFrame() {
@@ -143,7 +129,7 @@ void CEGraphics::EndFrame() {
 
 void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
 	const float color[] = {red, green, blue, 1.0f};
-	pContext->ClearRenderTargetView(pTarget, color);
+	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
 DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {

@@ -25,14 +25,9 @@ CEDxgiInfoManager::CEDxgiInfoManager() {
 	}
 
 	HRESULT hresult;
-	GFX_THROW_NOINFO(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), reinterpret_cast<void**>(&pDxgiInfoQueue)));
+	GFX_THROW_NOINFO(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue));
 }
 
-CEDxgiInfoManager::~CEDxgiInfoManager() {
-	if (pDxgiInfoQueue != nullptr) {
-		pDxgiInfoQueue->Release();
-	}
-}
 
 void CEDxgiInfoManager::Set() noexcept {
 	next = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
