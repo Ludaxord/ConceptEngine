@@ -51,6 +51,9 @@
     <ClCompile Include="CEGraphics.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="dxerr.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -95,6 +98,9 @@
     <ClInclude Include="CEGraphics.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="dxerr.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngine.rc">
@@ -108,5 +114,16 @@
     <Image Include="icon1.ico">
       <Filter>Pliki zasobów</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXGetErrorDescription.inl">
+      <Filter>Pliki nagłówkowe</Filter>
+    </None>
+    <None Include="DXGetErrorString.inl">
+      <Filter>Pliki nagłówkowe</Filter>
+    </None>
+    <None Include="DXTrace.inl">
+      <Filter>Pliki nagłówkowe</Filter>
+    </None>
   </ItemGroup>
 </Project>
