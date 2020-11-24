@@ -3,6 +3,8 @@
 #include <d3d11.h>
 
 #include "CEException.h"
+#include <vector>
+#include "CEDxgiInfoManager.h"
 
 
 class CEGraphics {
@@ -21,20 +23,24 @@ public:
 
 	class HResultException : CEException {
 	public:
-		HResultException(int line, const char* file, HRESULT hResult) noexcept;
+		HResultException(int line, const char* file, HRESULT hResult, std::vector<std::string> infoMsgs = {}) noexcept;
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
 		HRESULT GetErrorCode() const noexcept;
 		std::string GetErrorMessage() const noexcept;
 		std::string GetErrorDescription() const noexcept;
+		std::string GetErrorInfo() const noexcept;
 	private:
 		HRESULT hResult;
+		std::string info;
 	};
 
 	class DeviceRemovedException : HResultException {
 		using HResultException::HResultException;
 	public:
 		const char* GetType() const noexcept override;
+	private:
+		std::string reason;
 	};
 
 public:
@@ -44,7 +50,10 @@ public:
 	~CEGraphics();
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-
+private:
+#ifndef NDEBUG
+	CEDxgiInfoManager infoManager;
+#endif
 public:
 	static DXGI_SWAP_CHAIN_DESC GetDefaultD311Descriptor(HWND hWnd) noexcept;
 

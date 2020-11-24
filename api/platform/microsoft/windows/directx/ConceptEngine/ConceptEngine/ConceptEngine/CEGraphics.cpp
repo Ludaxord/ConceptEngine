@@ -4,18 +4,41 @@
 #include "dxerr.h"
 #include "CEConverters.h"
 
-#define GFX_THROW_FAILED(hResultCall) if (FAILED(hResult = (hResultCall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResultCall)
+#define GFX_THROW_INFO(hResultCall) if (FAILED(hResult = (hResultCall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResultCall)
+#define GFX_EXCEPT_NOINFO(hResult) CEGraphics::HResultException( __LINE__,__FILE__,(hResult) )
+#define GFX_THROW_NOINFO(hrcall) if(FAILED(hResult = (hrcall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResult)
+#ifndef NDEBUG
+#define GFX_EXCEPT(hResult) CEGraphics::HResultException( __LINE__, __FILE__, (hResult), infoManager.GetMessages())
+#define GFX_THROW_INFO(hrcall) infoManager.Set(); if(FAILED(hResult = (hrcall))) throw GFX_EXCEPT(hResult)
+#define GFX_DEVICE_REMOVED_EXCEPT(hResult) CEGraphics::DeviceRemovedException(__LINE__, __FILE__, (hResult), infoManager.GetMessages())
+#else
+#define GFX_EXCEPT(hResult) CEGraphics::HResultException(__LINE__, __FILE__, (hResult))
+#define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
 #define GFX_DEVICE_REMOVED_EXCEPT(hResult) CEGraphics::DeviceRemovedException(__LINE__, __FILE__, hResult)
+#endif
 
 CEGraphics::HResultException::HResultException(int line, const char* file,
-                                               HRESULT hResult) noexcept: CEException(line, file), hResult(hResult) {
+                                               HRESULT hResult,
+                                               std::vector<std::string> infoMsgs) noexcept: CEException(line, file),
+	hResult(hResult) {
+	for (const auto& m : infoMsgs) {
+		info += m;
+		info.push_back('\n');
+	}
+	if (!info.empty()) {
+		info.pop_back();
+	}
 }
 
 const char* CEGraphics::HResultException::what() const noexcept {
 	std::ostringstream oss;
 	oss << GetType() << std::endl << "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode() << std::dec <<
 		" (" << (unsigned long)GetErrorCode() << ")" << std::endl << "[Error String] " << GetErrorMessage() << std::endl
-		<< "[Error Description] " << GetErrorDescription() << std::endl << GetOriginString();
+		<< "[Error Description] " << GetErrorDescription() << std::endl;
+	if (!info.empty()) {
+		oss << "\n[Error Info] \n" << GetErrorInfo() << std::endl << std::endl;
+	}
+	oss << GetOriginString();
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();
 
@@ -35,6 +58,11 @@ std::string CEGraphics::HResultException::GetErrorMessage() const noexcept {
 	return errorMessage;
 }
 
+std::string CEGraphics::HResultException::GetErrorInfo() const noexcept {
+	return info;
+}
+
+
 std::string CEGraphics::HResultException::GetErrorDescription() const noexcept {
 	char buff[512];
 	DXGetErrorDescription(hResult, CEConverters::ConvertCharArrayToLPCWSTR(buff), sizeof(buff));
@@ -47,14 +75,19 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 
 CEGraphics::CEGraphics(HWND hWnd) {
 	DXGI_SWAP_CHAIN_DESC sd = GetDefaultD311Descriptor(hWnd);
+	UINT swapCreateFlags = 0u;
+
+#ifndef NDEBUG
+	swapCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
 	HRESULT hResult;
 
-	GFX_THROW_FAILED(D3D11CreateDeviceAndSwapChain(
+	GFX_THROW_INFO(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
-		0,
+		swapCreateFlags,
 		nullptr,
 		0,
 		D3D11_SDK_VERSION,
@@ -65,13 +98,12 @@ CEGraphics::CEGraphics(HWND hWnd) {
 		&pContext
 	));
 	ID3D11Resource* pBackBuffer = nullptr;
-	GFX_THROW_FAILED(pSwap->GetBuffer(
+	GFX_THROW_INFO(pSwap->GetBuffer(
 		0,
-		// __uuidof(ID3D11Resource),
-		__uuidof(ID3D11Texture2D),
+		__uuidof(ID3D11Resource),
 		reinterpret_cast<void**>(&pBackBuffer)
 	));
-	GFX_THROW_FAILED(pDevice->CreateRenderTargetView(
+	GFX_THROW_INFO(pDevice->CreateRenderTargetView(
 		pBackBuffer,
 		nullptr,
 		&pTarget
@@ -96,12 +128,15 @@ CEGraphics::~CEGraphics() {
 
 void CEGraphics::EndFrame() {
 	HRESULT hResult;
+#ifndef NDEBUG
+	infoManager.Set();
+#endif
 	if (FAILED(hResult = pSwap->Present(1u, 0u))) {
 		if (hResult == DXGI_ERROR_DEVICE_REMOVED) {
 			throw GFX_DEVICE_REMOVED_EXCEPT(pDevice->GetDeviceRemovedReason());
 		}
 		else {
-			GFX_THROW_FAILED(hResult);
+			throw GFX_EXCEPT(hResult);
 		}
 	}
 }

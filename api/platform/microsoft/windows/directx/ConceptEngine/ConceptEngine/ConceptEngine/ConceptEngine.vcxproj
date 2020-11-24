@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CEDxgiInfoManager.cpp" />
     <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
@@ -180,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CEConverters.h" />
+    <ClInclude Include="CEDxgiInfoManager.h" />
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEKeyboard.h" />
