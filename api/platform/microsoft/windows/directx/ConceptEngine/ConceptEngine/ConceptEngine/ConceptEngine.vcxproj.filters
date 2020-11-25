@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="DXErr">
+      <UniqueIdentifier>{6ee120f7-581e-433c-aec2-a91b2ad07d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Shaders">
+      <UniqueIdentifier>{84ba2cb8-1232-482f-b485-190184017a69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -51,11 +57,11 @@
     <ClCompile Include="CEGraphics.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="dxerr.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="CEDxgiInfoManager.cpp">
       <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="dxerr.cpp">
+      <Filter>DXErr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,11 +107,11 @@
     <ClInclude Include="CEGraphics.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="dxerr.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="CEDxgiInfoManager.h">
       <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="dxerr.h">
+      <Filter>DXErr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,14 +128,19 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DXGetErrorDescription.inl">
-      <Filter>Pliki nagłówkowe</Filter>
+    <None Include="DXTrace.inl">
+      <Filter>DXErr</Filter>
     </None>
     <None Include="DXGetErrorString.inl">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>DXErr</Filter>
     </None>
-    <None Include="DXTrace.inl">
-      <Filter>Pliki nagłówkowe</Filter>
+    <None Include="DXGetErrorDescription.inl">
+      <Filter>DXErr</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="CEVertexShader.hlsl">
+      <Filter>Pliki nagłówkowe\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

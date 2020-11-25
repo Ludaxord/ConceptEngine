@@ -27,5 +27,6 @@ void ConceptEngine::DoFrame() {
 	oss << "color 1: " << c1 << " color 2: " << c2 << " color 3: " << c3 << std::endl;
 	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 	window_.GetGraphics().ClearBuffer(c1, c2, c3);
+	window_.GetGraphics().DrawDefaultTriangle();
 	window_.GetGraphics().EndFrame();
 }

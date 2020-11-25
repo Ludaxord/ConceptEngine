@@ -17,11 +17,17 @@ public:
 	};
 
 public:
-	class Exception : CEException {
+	struct CEVertex {
+		float x;
+		float y;
+	};
+
+public:
+	class Exception : public CEException {
 		using CEException::CEException;
 	};
 
-	class HResultException : CEException {
+	class HResultException : public Exception {
 	public:
 		HResultException(int line, const char* file, HRESULT hResult, std::vector<std::string> infoMsgs = {}) noexcept;
 		const char* what() const noexcept override;
@@ -32,6 +38,16 @@ public:
 		std::string GetErrorInfo() const noexcept;
 	private:
 		HRESULT hResult;
+		std::string info;
+	};
+
+	class InfoException : public Exception {
+	public:
+		InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept;
+		const char* what() const noexcept override;
+		const char* GetType() const noexcept override;
+		std::string GetErrorInfo() const noexcept;
+	private:
 		std::string info;
 	};
 
@@ -50,6 +66,7 @@ public:
 	~CEGraphics() = default;
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
+	void DrawDefaultTriangle();
 private:
 #ifndef NDEBUG
 	CEDxgiInfoManager infoManager;

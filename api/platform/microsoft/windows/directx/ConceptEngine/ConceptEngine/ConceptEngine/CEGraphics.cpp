@@ -1,27 +1,30 @@
 #include "CEGraphics.h"
 
 #include <sstream>
+#include <d3dcompiler.h>
 #include "dxerr.h"
 #include "CEConverters.h"
 namespace wrl = Microsoft::WRL;
 #pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "D3DCompiler.lib")
 
-#define GFX_THROW_INFO(hResultCall) if (FAILED(hResult = (hResultCall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResultCall)
 #define GFX_EXCEPT_NOINFO(hResult) CEGraphics::HResultException( __LINE__,__FILE__,(hResult) )
 #define GFX_THROW_NOINFO(hrcall) if(FAILED(hResult = (hrcall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResult)
 #ifndef NDEBUG
 #define GFX_EXCEPT(hResult) CEGraphics::HResultException( __LINE__, __FILE__, (hResult), infoManager.GetMessages())
 #define GFX_THROW_INFO(hrcall) infoManager.Set(); if(FAILED(hResult = (hrcall))) throw GFX_EXCEPT(hResult)
 #define GFX_DEVICE_REMOVED_EXCEPT(hResult) CEGraphics::DeviceRemovedException(__LINE__, __FILE__, (hResult), infoManager.GetMessages())
+#define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); {auto v = infoManager.GetMessages(); if(!v.empty()) {throw CEGraphics::InfoException( __LINE__,__FILE__,v);}}
 #else
 #define GFX_EXCEPT(hResult) CEGraphics::HResultException(__LINE__, __FILE__, (hResult))
 #define GFX_THROW_INFO(hrcall) GFX_THROW_NOINFO(hrcall)
 #define GFX_DEVICE_REMOVED_EXCEPT(hResult) CEGraphics::DeviceRemovedException(__LINE__, __FILE__, hResult)
+#define GFX_THROW_INFO_ONLY(call) (call)
 #endif
 
 CEGraphics::HResultException::HResultException(int line, const char* file,
                                                HRESULT hResult,
-                                               std::vector<std::string> infoMsgs) noexcept: CEException(line, file),
+                                               std::vector<std::string> infoMsgs) noexcept: Exception(line, file),
 	hResult(hResult) {
 	for (const auto& m : infoMsgs) {
 		info += m;
@@ -61,6 +64,34 @@ std::string CEGraphics::HResultException::GetErrorMessage() const noexcept {
 }
 
 std::string CEGraphics::HResultException::GetErrorInfo() const noexcept {
+	return info;
+}
+
+CEGraphics::InfoException::InfoException(int line, const char* file,
+                                         std::vector<std::string> infoMsgs) noexcept: Exception(line, file) {
+	for (const auto& m : infoMsgs) {
+		info += m;
+		info.push_back('\n');
+	}
+	if (!info.empty()) {
+		info.pop_back();
+	}
+
+}
+
+const char* CEGraphics::InfoException::what() const noexcept {
+	std::ostringstream oss;
+	oss << GetType() << std::endl << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
+	oss << GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* CEGraphics::InfoException::GetType() const noexcept {
+	return "Concept Engine Graphics Info Exception";
+}
+
+std::string CEGraphics::InfoException::GetErrorInfo() const noexcept {
 	return info;
 }
 
@@ -130,6 +161,38 @@ void CEGraphics::EndFrame() {
 void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
 	const float color[] = {red, green, blue, 1.0f};
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
+}
+
+void CEGraphics::DrawDefaultTriangle() {
+	namespace wrl = Microsoft::WRL;
+	HRESULT hResult;
+	const CEVertex vertices[] = {
+		{0.0f, 0.5f},
+		{0.5f, -0.5f},
+		{-0.5f, -0.5f},
+	};
+
+	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
+	D3D11_BUFFER_DESC bd = {};
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.CPUAccessFlags = 0u;
+	bd.MiscFlags = 0u;
+	bd.ByteWidth = sizeof(vertices);
+	bd.StructureByteStride = sizeof(CEVertex);
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = vertices;
+	GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer));
+	const UINT stride = sizeof(CEVertex);
+	const UINT offset = 0u;
+	pContext->IASetVertexBuffers(0u, 1u, &pVertexBuffer, &stride, &offset);
+	wrl::ComPtr<ID3D11VertexShader> pVertexShader;
+	wrl::ComPtr<ID3DBlob> pBlob;
+	GFX_THROW_INFO(D3DReadFileToBlob(L"CEVertexShader.cso", &pBlob));
+	GFX_THROW_INFO(
+		pDevice->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader));
+	pContext->VSSetShader(pVertexShader.Get(), nullptr, 0u);
+	GFX_THROW_INFO_ONLY(pContext->Draw((UINT)std::size(vertices), 0u));
 }
 
 DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {
