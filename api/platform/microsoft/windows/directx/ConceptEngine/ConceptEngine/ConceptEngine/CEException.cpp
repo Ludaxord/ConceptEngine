@@ -16,7 +16,7 @@ const char* CEException::what() const noexcept {
 }
 
 const char* CEException::GetType() const noexcept {
-	return "CEException";
+	return "ConceptEngineException";
 }
 
 int CEException::GetExceptionLine() const noexcept {
