@@ -185,13 +185,46 @@ void CEGraphics::DrawDefaultTriangle() {
 	GFX_THROW_INFO(pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer));
 	const UINT stride = sizeof(CEVertex);
 	const UINT offset = 0u;
-	pContext->IASetVertexBuffers(0u, 1u, &pVertexBuffer, &stride, &offset);
-	wrl::ComPtr<ID3D11VertexShader> pVertexShader;
+	pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+
+	wrl::ComPtr<ID3D11InputLayout> pInputLayout;
+	const D3D11_INPUT_ELEMENT_DESC ied[] = {
+		{"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
+
+
+	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
 	wrl::ComPtr<ID3DBlob> pBlob;
+	GFX_THROW_INFO(D3DReadFileToBlob(L"CEPixelShader.cso", &pBlob));
+	GFX_THROW_INFO(
+		pDevice->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader));
+	pContext->PSSetShader(pPixelShader.Get(), nullptr, 0u);
+
+	wrl::ComPtr<ID3D11VertexShader> pVertexShader;
 	GFX_THROW_INFO(D3DReadFileToBlob(L"CEVertexShader.cso", &pBlob));
 	GFX_THROW_INFO(
 		pDevice->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader));
 	pContext->VSSetShader(pVertexShader.Get(), nullptr, 0u);
+
+	GFX_THROW_INFO(
+		pDevice->CreateInputLayout(ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &
+			pInputLayout));
+
+	pContext->IASetInputLayout(pInputLayout.Get());
+
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
+
+	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	D3D11_VIEWPORT vp;
+	vp.Width = 800;
+	vp.Height = 600;
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	pContext->RSSetViewports(1u, &vp);
+
 	GFX_THROW_INFO_ONLY(pContext->Draw((UINT)std::size(vertices), 0u));
 }
 

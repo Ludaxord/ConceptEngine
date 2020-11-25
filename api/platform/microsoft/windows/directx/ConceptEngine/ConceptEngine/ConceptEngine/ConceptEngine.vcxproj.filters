@@ -142,5 +142,8 @@
     <FxCompile Include="CEVertexShader.hlsl">
       <Filter>Pliki nagłówkowe\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="CEPixelShader.hlsl">
+      <Filter>Pliki nagłówkowe\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
