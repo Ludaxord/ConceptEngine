@@ -18,8 +18,17 @@ public:
 
 public:
 	struct CEVertex {
-		float x;
-		float y;
+		struct {
+			float x;
+			float y;
+		} pos;
+
+		struct {
+			unsigned char red;
+			unsigned char green;
+			unsigned char blue;
+			unsigned char alpha;
+		} color;
 	};
 
 public:
