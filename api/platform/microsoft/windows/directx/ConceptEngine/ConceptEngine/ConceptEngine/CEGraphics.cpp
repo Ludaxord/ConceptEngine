@@ -167,14 +167,8 @@ void CEGraphics::DrawDefaultTriangle() {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hResult;
 	const CEVertex vertices[] = {
-		//triangle 1
-		//line1
 		{0.0f, 0.5f},
 		{0.5f, -0.5f},
-		//line2
-		{0.5f, -0.5f},
-		{-0.5f, -0.5f},
-		//line3
 		{-0.5f, -0.5f},
 		{0.0f, 0.5f},
 	};
@@ -223,7 +217,8 @@ void CEGraphics::DrawDefaultTriangle() {
 
 	pContext->IASetPrimitiveTopology(
 		// D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
-		D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST
+		// D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINELIST
+		D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP
 	);
 
 	D3D11_VIEWPORT vp;
