@@ -169,8 +169,9 @@ void CEGraphics::DrawDefaultTriangle() {
 	const CEVertex vertices[] = {
 		{0.0f, 0.5f, 255, 0, 0, 255},
 		{0.5f, -0.5f, 0, 255, 0, 128},
-		{-0.5f, -0.5f, 0, 0, 255, 0},
-		{-0.3f, 0.3f, 0, 0, 255, 0},
+		{-0.5f, -0.5f, 0, 0, 255, 255},
+		{-0.3f, 0.3f, 0, 0, 255, 255},
+		{0.3f, 0.3f, 0, 0, 255, 255},
 		{0.0f, -0.8f, 255, 0, 0, 255},
 	};
 
@@ -216,7 +217,8 @@ void CEGraphics::DrawDefaultTriangle() {
 		{
 			"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0,
 			D3D11_APPEND_ALIGNED_ELEMENT,
-			// or 8u,
+			// or
+			// 8u,
 			D3D11_INPUT_PER_VERTEX_DATA, 0
 		}
 	};
