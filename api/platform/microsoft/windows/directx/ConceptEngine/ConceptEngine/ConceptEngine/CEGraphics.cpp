@@ -168,11 +168,11 @@ void CEGraphics::DrawDefaultTriangle() {
 	HRESULT hResult;
 	const CEVertex vertices[] = {
 		{0.0f, 0.5f, 255, 0, 0, 255},
-		{0.5f, -0.5f, 0, 255, 0, 128},
-		{-0.5f, -0.5f, 0, 0, 255, 255},
+		{0.5f, -0.5f, 0, 255, 0, 255},
+		{-0.5f, -0.5f, 0, 0, 255, 0},
 		{-0.3f, 0.3f, 0, 0, 255, 255},
-		{0.3f, 0.3f, 0, 0, 255, 255},
-		{0.0f, -0.8f, 255, 0, 0, 255},
+		{0.3f, 0.3f, 0, 255, 0, 255},
+		{0.0f, -0.8f, 255, 255, 0, 0},
 	};
 
 	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
@@ -260,7 +260,7 @@ void CEGraphics::DrawDefaultTriangle() {
 	vp.TopLeftY = 0;
 	pContext->RSSetViewports(1u, &vp);
 
-	GFX_THROW_INFO_ONLY(pContext-> DrawIndexed((UINT)std::size(indices),0u,0u) );
+	GFX_THROW_INFO_ONLY(pContext-> DrawIndexed((UINT)std::size(indices),0u,0u));
 }
 
 DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {
