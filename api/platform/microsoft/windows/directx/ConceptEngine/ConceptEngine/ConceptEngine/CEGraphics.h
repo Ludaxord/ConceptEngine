@@ -38,10 +38,10 @@ public:
 		} transformation;
 	};
 
-	CEConstantBuffer GetDefaultConstantBuffer(float angle) {
+	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight) {
 		return CEConstantBuffer{
-			std::cos(angle), std::sin(angle), 0.0f, 0.0f,
-			-std::sin(angle), std::cos(angle), 0.0f, 0.0f,
+			(aspectRatioHeight / aspectRatioWidth) * std::cos(angle), std::sin(angle), 0.0f, 0.0f,
+			(aspectRatioHeight / aspectRatioWidth) * -std::sin(angle), std::cos(angle), 0.0f, 0.0f,
 			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f
 		};
@@ -91,7 +91,7 @@ public:
 	~CEGraphics() = default;
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	void DrawDefaultTriangle(float angle);
+	void DrawDefaultTriangle(float angle, float windowWidth, float windowHeight);
 private:
 #ifndef NDEBUG
 	CEDxgiInfoManager infoManager;

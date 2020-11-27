@@ -163,7 +163,7 @@ void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) no
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
-void CEGraphics::DrawDefaultTriangle(float angle) {
+void CEGraphics::DrawDefaultTriangle(float angle, float windowWidth, float windowHeight) {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hResult;
 	const CEVertex vertices[] = {
@@ -172,7 +172,7 @@ void CEGraphics::DrawDefaultTriangle(float angle) {
 		{-0.5f, -0.5f, 0, 0, 255, 0},
 		{-0.3f, 0.3f, 0, 0, 255, 255},
 		{0.3f, 0.3f, 0, 255, 0, 255},
-		{0.0f, -0.8f, 255, 255, 0, 0},
+		{0.0f, -1.0f, 255, 255, 0, 0},
 	};
 
 	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
@@ -217,7 +217,15 @@ void CEGraphics::DrawDefaultTriangle(float angle) {
 		{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
-	const CEConstantBuffer cb = GetDefaultConstantBuffer(angle);
+	const auto aspectRatio = CEConverters::gcd((int)windowWidth, (int)windowHeight);
+	const auto aspectRatioWidth = windowWidth / aspectRatio;
+	const auto aspectRatioHeight = windowHeight / aspectRatio;
+	std::string sW = std::to_string(aspectRatioWidth);
+	std::string sH = std::to_string(aspectRatioHeight);
+	std::ostringstream oss;
+	oss << "aspect ratio:" << sW << ":" << sH;
+	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
+	const CEConstantBuffer cb = GetDefaultConstantBuffer(angle, aspectRatioWidth, aspectRatioHeight);
 	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
 	D3D11_BUFFER_DESC cbd;
 	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -260,8 +268,8 @@ void CEGraphics::DrawDefaultTriangle(float angle) {
 	);
 
 	D3D11_VIEWPORT vp;
-	vp.Width = 800;
-	vp.Height = 600;
+	vp.Width = windowWidth;
+	vp.Height = windowHeight;
 	vp.MinDepth = 0;
 	vp.MaxDepth = 1;
 	vp.TopLeftX = 0;
