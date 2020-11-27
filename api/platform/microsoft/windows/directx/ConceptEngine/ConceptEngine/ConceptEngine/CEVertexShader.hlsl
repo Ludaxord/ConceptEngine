@@ -4,7 +4,7 @@ struct CEVertexOut {
 };
 
 cbuffer CEConstantBuffer {
-	matrix transform;
+	row_major matrix transform;
 }
 
 CEVertexOut main(float2 pos : POSITION, float4 color : COLOR) {
