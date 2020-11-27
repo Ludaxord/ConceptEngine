@@ -5,6 +5,7 @@
 #include "CEException.h"
 #include <vector>
 #include "CEDxgiInfoManager.h"
+#include <complex>
 
 
 class CEGraphics {
@@ -39,8 +40,8 @@ public:
 
 	CEConstantBuffer GetDefaultConstantBuffer(float angle) {
 		return CEConstantBuffer{
-			cos(angle), sin(angle), 0.0f, 0.0f,
-			-sin(angle), cos(angle), 0.0f, 0.0f,
+			std::cos(angle), std::sin(angle), 0.0f, 0.0f,
+			-std::sin(angle), std::cos(angle), 0.0f, 0.0f,
 			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f
 		};
