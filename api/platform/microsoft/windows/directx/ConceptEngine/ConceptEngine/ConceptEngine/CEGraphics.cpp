@@ -163,7 +163,7 @@ void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) no
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
-void CEGraphics::DrawDefaultTriangle() {
+void CEGraphics::DrawDefaultTriangle(float angle) {
 	namespace wrl = Microsoft::WRL;
 	HRESULT hResult;
 	const CEVertex vertices[] = {
@@ -217,6 +217,17 @@ void CEGraphics::DrawDefaultTriangle() {
 		{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
+	const CEConstantBuffer cb = GetDefaultConstantBuffer(angle);
+	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
+	D3D11_BUFFER_DESC cbd;
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.CPUAccessFlags = 0u;
+	cbd.MiscFlags = 0u;
+	cbd.ByteWidth = sizeof(cb);
+	cbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd = {};
+	csd.pSysMem = &cb;
+	GFX_THROW_INFO(pDevice->CreateBuffer(&cbd, &csd, &pConstantBuffer));
 
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
 	wrl::ComPtr<ID3DBlob> pBlob;
