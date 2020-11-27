@@ -31,6 +31,21 @@ public:
 		} color;
 	};
 
+	struct CEConstantBuffer {
+		struct {
+			float element[4][4];
+		} transformation;
+	};
+
+	CEConstantBuffer GetDefaultConstantBuffer(float angle) {
+		return CEConstantBuffer{
+			std::cos(angle), std::sin(angle), 0.0f, 0.0f,
+			std::cos(angle), std::sin(angle), 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
+	};
+
 public:
 	class Exception : public CEException {
 		using CEException::CEException;
