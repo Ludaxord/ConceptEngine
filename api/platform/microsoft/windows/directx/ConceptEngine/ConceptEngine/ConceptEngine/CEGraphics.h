@@ -6,6 +6,9 @@
 #include <vector>
 #include "CEDxgiInfoManager.h"
 #include <complex>
+#include <DirectXMath.h>
+
+namespace dx = DirectX;
 
 
 class CEGraphics {
@@ -34,16 +37,16 @@ public:
 
 	struct CEConstantBuffer {
 		struct {
-			float element[4][4];
-		} transformation;
+			dx::XMMATRIX transformation;
+		};
 	};
 
 	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight) {
 		return CEConstantBuffer{
-			(aspectRatioHeight / aspectRatioWidth) * std::cos(angle), std::sin(angle), 0.0f, 0.0f,
-			(aspectRatioHeight / aspectRatioWidth) * -std::sin(angle), std::cos(angle), 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			dx::XMMatrixMultiply(
+				dx::XMMatrixRotationZ(angle),
+				dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f)
+			)
 		};
 	};
 
