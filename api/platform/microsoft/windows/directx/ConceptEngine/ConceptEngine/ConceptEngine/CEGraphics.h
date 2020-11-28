@@ -20,11 +20,17 @@ public:
 		opengl
 	};
 
+	enum class CEDefaultFigureTypes {
+		triangle2d,
+		cube3d
+	};
+
 public:
 	struct CEVertex {
 		struct {
 			float x;
 			float y;
+			float z;
 		} pos;
 
 		struct {
@@ -47,7 +53,8 @@ public:
 			dx::XMMatrixTranspose(
 				dx::XMMatrixRotationZ(angle) *
 				dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f) *
-				dx::XMMatrixTranslation(x, y, 0.0f)
+				dx::XMMatrixTranslation(x, y, 4.0f) *
+				dx::XMMatrixPerspectiveLH(1.0f, aspectRatioHeight / aspectRatioWidth, 0.5f, 10.0f)
 			)
 		};
 	};
@@ -96,7 +103,8 @@ public:
 	~CEGraphics() = default;
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	void DrawDefaultTriangle(float angle, float windowWidth, float windowHeight, float x, float y);
+	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y,
+	                       CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
 private:
 #ifndef NDEBUG
 	CEDxgiInfoManager infoManager;

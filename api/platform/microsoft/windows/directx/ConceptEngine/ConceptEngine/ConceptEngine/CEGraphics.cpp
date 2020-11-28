@@ -2,6 +2,8 @@
 
 #include <sstream>
 #include <d3dcompiler.h>
+#include <iostream>
+
 #include "dxerr.h"
 #include "CEConverters.h"
 
@@ -165,17 +167,42 @@ void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) no
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
-void CEGraphics::DrawDefaultTriangle(float angle, float windowWidth, float windowHeight, float x, float y) {
+void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y,
+                                   CEDefaultFigureTypes figureTypes) {
 
 	HRESULT hResult;
-	const CEVertex vertices[] = {
-		{0.0f, 0.5f, 255, 0, 0, 255},
-		{0.5f, -0.5f, 0, 255, 0, 255},
-		{-0.5f, -0.5f, 0, 0, 255, 0},
-		{-0.3f, 0.3f, 0, 0, 255, 255},
-		{0.3f, 0.3f, 0, 255, 0, 255},
-		{0.0f, -1.0f, 255, 255, 0, 0},
+
+	//TODO: find way to change array of CEVertex to vector of CEVertex without manipulate with CEVertex size.
+	CEVertex vertices[] = {
+		{-1.0f, -1.0f, -1.0f, 255, 0, 0, 255},
+		{1.0f, -1.0f, -1.0f, 0, 255, 0, 255},
+		{-1.0f, 1.0f, -1.0f, 0, 0, 255, 0},
+		{1.0f, 1.0f, -1.0f, 0, 0, 255, 255},
+		{-1.0f, -1.0f, 1.0f, 0, 255, 0, 255},
+		{1.0f, -1.0f, 1.0f, 255, 255, 0, 0},
+		{-1.0f, 1.0f, 1.0f, 255, 255, 0, 0},
+		{1.0f, 1.0f, 1.0f, 255, 255, 0, 0},
 	};
+
+	//TODO: Fix
+	std::vector<CEVertex> verticesVector;
+	if (figureTypes == CEDefaultFigureTypes::triangle2d) {
+		verticesVector = {
+			{0.0f, 0.5f, 255, 0, 0, 255},
+			{0.5f, -0.5f, 0, 255, 0, 255},
+			{-0.5f, -0.5f, 0, 0, 255, 0},
+			{-0.3f, 0.3f, 0, 0, 255, 255},
+			{0.3f, 0.3f, 0, 255, 0, 255},
+			{0.0f, -1.0f, 255, 255, 0, 0},
+		};
+	}
+	else if (figureTypes == CEDefaultFigureTypes::cube3d) {
+		verticesVector = {};
+	}
+	// CEVertex* vertices = &verticesVector[0];
+	// CEVertex* vertices = verticesVector.data();
+	/////
+
 
 	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
 	D3D11_BUFFER_DESC bd = {};
@@ -193,12 +220,30 @@ void CEGraphics::DrawDefaultTriangle(float angle, float windowWidth, float windo
 	const UINT offset = 0u;
 	pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
 
+	//TODO: dynamic change of indices when different types of vertex is passed
 	const unsigned short indices[] = {
-		0, 1, 2,
-		0, 2, 3,
-		0, 4, 1,
-		2, 1, 5
+		0,2,1, 2,3,1,
+		1,3,5, 3,7,5,
+		2,6,3, 3,6,7,
+		4,5,7, 4,7,6,
+		0,4,2, 2,4,6,
+		0,1,4, 1,5,4
 	};
+	//TODO: Fix
+	std::vector<unsigned short> indicesVector;
+	if (figureTypes == CEDefaultFigureTypes::triangle2d) {
+		indicesVector = {
+			0, 1, 2,
+			0, 2, 3,
+			0, 4, 1,
+			2, 1, 5
+		};
+	}
+	else if (figureTypes == CEDefaultFigureTypes::cube3d) {
+		indicesVector = {};
+	}
+	/////
+	
 	wrl::ComPtr<ID3D11Buffer> pIndexBuffer;
 	D3D11_BUFFER_DESC ibd = {};
 	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;

@@ -30,7 +30,7 @@ void ConceptEngine::DoFrame() {
 	window_.GetGraphics().ClearBuffer(c1, c2, c3);
 	const float windowWidth = 800.0f;
 	const float windowHeight = 600.0f;
-	window_.GetGraphics().DrawDefaultTriangle(
+	window_.GetGraphics().DrawDefaultFigure(
 		timer_.Peek(),
 		windowWidth,
 		windowHeight,
