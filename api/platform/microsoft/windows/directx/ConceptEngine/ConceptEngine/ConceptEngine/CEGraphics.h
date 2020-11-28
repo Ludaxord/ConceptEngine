@@ -41,13 +41,14 @@ public:
 		};
 	};
 
-	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight) {
+	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight, float x,
+	                                          float y) {
 		return CEConstantBuffer{
 			dx::XMMatrixTranspose(
-				dx::XMMatrixMultiply(
-					dx::XMMatrixRotationZ(angle),
-					dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f)
-				))
+				dx::XMMatrixRotationZ(angle) *
+				dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f) *
+				dx::XMMatrixTranslation(x, y, 0.0f)
+			)
 		};
 	};
 
@@ -95,7 +96,7 @@ public:
 	~CEGraphics() = default;
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	void DrawDefaultTriangle(float angle, float windowWidth, float windowHeight);
+	void DrawDefaultTriangle(float angle, float windowWidth, float windowHeight, float x, float y);
 private:
 #ifndef NDEBUG
 	CEDxgiInfoManager infoManager;
