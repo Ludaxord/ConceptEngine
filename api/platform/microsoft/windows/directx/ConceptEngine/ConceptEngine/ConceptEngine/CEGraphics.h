@@ -52,7 +52,8 @@ public:
 		return CEConstantBuffer{
 			dx::XMMatrixTranspose(
 				dx::XMMatrixRotationZ(angle) *
-				dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f) *
+				dx::XMMatrixRotationX(angle) *
+				// dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f) *
 				dx::XMMatrixTranslation(x, y, 4.0f) *
 				dx::XMMatrixPerspectiveLH(1.0f, aspectRatioHeight / aspectRatioWidth, 0.5f, 10.0f)
 			)
