@@ -1,4 +1,5 @@
-﻿  CEDxgiInfoManager.cpp
+﻿  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEVertexShader.cso
+  CEDxgiInfoManager.cpp
   CEGraphics.cpp
   CEWindow.cpp
   ConceptEngine.cpp
@@ -46,4 +47,5 @@ F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\C
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
+  LINK : F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe not found or not built by the last incremental link; performing full link
   ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe

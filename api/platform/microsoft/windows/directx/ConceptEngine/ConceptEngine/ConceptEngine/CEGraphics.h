@@ -43,10 +43,11 @@ public:
 
 	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight) {
 		return CEConstantBuffer{
-			dx::XMMatrixMultiply(
-				dx::XMMatrixRotationZ(angle),
-				dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f)
-			)
+			dx::XMMatrixTranspose(
+				dx::XMMatrixMultiply(
+					dx::XMMatrixRotationZ(angle),
+					dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f)
+				))
 		};
 	};
 
