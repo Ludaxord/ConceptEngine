@@ -4,7 +4,11 @@
 #include <d3dcompiler.h>
 #include "dxerr.h"
 #include "CEConverters.h"
+#include <DirectXMath.h>
+
 namespace wrl = Microsoft::WRL;
+namespace dx = DirectX;
+
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
 
