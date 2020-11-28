@@ -168,7 +168,7 @@ void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) no
 void CEGraphics::DrawDefaultTriangle(float angle, float windowWidth, float windowHeight, float x, float y) {
 
 	dx::XMVECTOR v = dx::XMVectorSet(3.0f, 3.0f, 0.0f, 0.0f);
-	auto results = dx::XMVector4Dot(v, v);
+	auto results = dx::XMVector3Transform(v, dx::XMMatrixScaling(1.5f, 0.0f, 0.0f));
 	auto vectorX = dx::XMVectorGetX(results);
 
 	HRESULT hResult;
