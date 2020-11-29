@@ -174,30 +174,21 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 
 	//TODO: find way to change array of CEVertex to vector of CEVertex without manipulate with CEVertex size.
 	CEVertex vertices[] = {
-		{-1.0f, -1.0f, -1.0f, 255, 0, 0, 255},
-		{1.0f, -1.0f, -1.0f, 0, 255, 0, 255},
-		{-1.0f, 1.0f, -1.0f, 0, 0, 255, 0},
-		{1.0f, 1.0f, -1.0f, 0, 0, 255, 255},
-		{-1.0f, -1.0f, 1.0f, 0, 255, 0, 255},
-		{1.0f, -1.0f, 1.0f, 255, 255, 0, 0},
-		{-1.0f, 1.0f, 1.0f, 255, 255, 0, 0},
-		{1.0f, 1.0f, 1.0f, 255, 255, 0, 0},
+		{-1.0f, -1.0f, -1.0f},
+		{1.0f, -1.0f, -1.0f},
+		{-1.0f, 1.0f, -1.0f},
+		{1.0f, 1.0f, -1.0f},
+		{-1.0f, -1.0f, 1.0f},
+		{1.0f, -1.0f, 1.0f},
+		{-1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f},
 	};
 
 	//TODO: Fix
 	std::vector<CEVertex> verticesVector;
 	if (figureTypes == CEDefaultFigureTypes::triangle2d) {
-		verticesVector = {
-			{0.0f, 0.5f, 255, 0, 0, 255},
-			{0.5f, -0.5f, 0, 255, 0, 255},
-			{-0.5f, -0.5f, 0, 0, 255, 0},
-			{-0.3f, 0.3f, 0, 0, 255, 255},
-			{0.3f, 0.3f, 0, 255, 0, 255},
-			{0.0f, -1.0f, 255, 255, 0, 0},
-		};
 	}
 	else if (figureTypes == CEDefaultFigureTypes::cube3d) {
-		verticesVector = {};
 	}
 	// CEVertex* vertices = &verticesVector[0];
 	// CEVertex* vertices = verticesVector.data();
@@ -222,12 +213,12 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 
 	//TODO: dynamic change of indices when different types of vertex is passed
 	const unsigned short indices[] = {
-		0,2,1, 2,3,1,
-		1,3,5, 3,7,5,
-		2,6,3, 3,6,7,
-		4,5,7, 4,7,6,
-		0,4,2, 2,4,6,
-		0,1,4, 1,5,4
+		0, 2, 1, 2, 3, 1,
+		1, 3, 5, 3, 7, 5,
+		2, 6, 3, 3, 6, 7,
+		4, 5, 7, 4, 7, 6,
+		0, 4, 2, 2, 4, 6,
+		0, 1, 4, 1, 5, 4
 	};
 	//TODO: Fix
 	std::vector<unsigned short> indicesVector;
@@ -243,7 +234,7 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 		indicesVector = {};
 	}
 	/////
-	
+
 	wrl::ComPtr<ID3D11Buffer> pIndexBuffer;
 	D3D11_BUFFER_DESC ibd = {};
 	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
@@ -261,7 +252,6 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 	wrl::ComPtr<ID3D11InputLayout> pInputLayout;
 	const D3D11_INPUT_ELEMENT_DESC ied[] = {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
 	const auto aspectRatio = CEConverters::gcd((int)windowWidth, (int)windowHeight);
@@ -286,6 +276,21 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 	GFX_THROW_INFO(pDevice->CreateBuffer(&cbd, &csd, &pConstantBuffer));
 
 	pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
+
+	auto cfcb = GetDefaultFaceColorsConstantBuffer();
+	wrl::ComPtr<ID3D11Buffer> pColorFacedConstantBuffer;
+	D3D11_BUFFER_DESC cfcbd;
+	cfcbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cfcbd.Usage = D3D11_USAGE_DYNAMIC;
+	cfcbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cfcbd.MiscFlags = 0u;
+	cfcbd.ByteWidth = sizeof(cfcb);
+	cfcbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA cfcsd = {};
+	cfcsd.pSysMem = &cfcb;
+	GFX_THROW_INFO(pDevice->CreateBuffer(&cfcbd, &cfcsd, &pColorFacedConstantBuffer));
+
+	pContext->PSSetConstantBuffers(0u, 1u, pColorFacedConstantBuffer.GetAddressOf());
 
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
 	wrl::ComPtr<ID3DBlob> pBlob;

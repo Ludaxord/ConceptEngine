@@ -1,15 +1,7 @@
-struct CEVertexOut {
-	float4 color : COLOR;
-	float4 pos: SV_POSITION;
-};
-
 cbuffer CEConstantBuffer {
-	matrix transformation;
+	matrix transform;
 }
 
-CEVertexOut main(float3 pos : POSITION, float4 color : COLOR) {
-	CEVertexOut vso;
-	vso.pos = mul(float4(pos, 1.0f), transformation);
-	vso.color = color;
-	return vso;
+float4 main(float3 pos : POSITION): SV_POSITION {
+	return mul(float4(pos, 1.0f), transform);
 }

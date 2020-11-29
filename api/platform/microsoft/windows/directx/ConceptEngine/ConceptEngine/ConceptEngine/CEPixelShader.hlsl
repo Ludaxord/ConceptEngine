@@ -1,3 +1,7 @@
-float4 main(float4 color: COLOR) : SV_TARGET {
-	return color;
+cbuffer CEConstantBuffer {
+float4 face_colors[6];
+}
+
+float4 main(uint tid: SV_PRIMITIVEID) : SV_TARGET {
+	return face_colors[tid / 2];
 }

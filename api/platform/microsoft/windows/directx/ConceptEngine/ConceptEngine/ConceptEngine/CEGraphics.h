@@ -32,13 +32,6 @@ public:
 			float y;
 			float z;
 		} pos;
-
-		struct {
-			unsigned char r;
-			unsigned char g;
-			unsigned char b;
-			unsigned char a = 0;
-		} color;
 	};
 
 	struct CEConstantBuffer {
@@ -46,6 +39,28 @@ public:
 			dx::XMMATRIX transformation;
 		};
 	};
+
+	struct CEFaceColorsConstantBuffer {
+		struct {
+			float r;
+			float g;
+			float b;
+			float a;
+		} face_colors[6];
+	};
+
+	CEFaceColorsConstantBuffer GetDefaultFaceColorsConstantBuffer() {
+		return CEFaceColorsConstantBuffer{
+			{
+				{1.0f, 0.0f, 1.0f},
+				{1.0f, 0.0f, 0.0f},
+				{0.0f, 1.0f, 0.0f},
+				{0.0f, 0.0f, 1.0f},
+				{1.0f, 1.0f, 0.0f},
+				{0.0f, 1.0f, 1.0f},
+			}
+		};
+	}
 
 	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight, float x,
 	                                          float y) {
