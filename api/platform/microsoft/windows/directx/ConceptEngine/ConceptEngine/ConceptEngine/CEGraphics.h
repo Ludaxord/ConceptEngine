@@ -13,6 +13,8 @@ namespace dx = DirectX;
 
 class CEGraphics {
 public:
+	//TODO: Finish Direct3D 11 basic implementation of shaders and add usage of direct3d 12 and Vulkan
+	//TODO: Resources: https://github.com/NVIDIAGameWorks/DxrTutorials, https://github.com/microsoft/DirectX-Graphics-Samples, https://github.com/KhronosGroup/Vulkan-Samples
 	enum class CEGraphicsApiTypes {
 		direct3d11,
 		direct3d12,
