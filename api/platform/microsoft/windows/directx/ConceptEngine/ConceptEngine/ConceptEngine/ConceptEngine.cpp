@@ -34,7 +34,16 @@ void ConceptEngine::DoFrame() {
 		timer_.Peek(),
 		windowWidth,
 		windowHeight,
+		0,
+		0,
+		0
+	);
+	window_.GetGraphics().DrawDefaultFigure(
+		timer_.Peek(),
+		windowWidth,
+		windowHeight,
 		window_.mouse.GetMousePositionX() / (windowWidth / 2) - 1.0f,
+		0,
 		-window_.mouse.GetMousePositionY() / (windowHeight / 2) + 1.0f
 	);
 	window_.GetGraphics().EndFrame();

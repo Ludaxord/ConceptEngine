@@ -64,14 +64,14 @@ public:
 		};
 	}
 
-	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight, float x,
-	                                          float y) {
+	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight,
+	                                          float x = 0.0f, float y = 0.0f, float z = 0.0f) {
 		return CEConstantBuffer{
 			dx::XMMatrixTranspose(
 				dx::XMMatrixRotationZ(angle) *
 				dx::XMMatrixRotationX(angle) *
 				// dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f) *
-				dx::XMMatrixTranslation(x, y, 4.0f) *
+				dx::XMMatrixTranslation(x, y, z + 4.0f) *
 				dx::XMMatrixPerspectiveLH(1.0f, aspectRatioHeight / aspectRatioWidth, 0.5f, 10.0f)
 			)
 		};
@@ -121,7 +121,7 @@ public:
 	~CEGraphics() = default;
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y,
+	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
 	                       CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
 private:
 #ifndef NDEBUG
