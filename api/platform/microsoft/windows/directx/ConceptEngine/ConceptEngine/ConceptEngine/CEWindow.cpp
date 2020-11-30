@@ -174,7 +174,7 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
-	pGraphics = std::make_unique<CEGraphics>(hWnd);
+	pGraphics = std::make_unique<CEGraphics>(hWnd, CEGraphics::CEGraphicsApiTypes::direct3d11);
 }
 
 CEWindow::~CEWindow() {

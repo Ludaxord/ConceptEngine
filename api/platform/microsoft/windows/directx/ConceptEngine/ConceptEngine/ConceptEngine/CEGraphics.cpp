@@ -110,7 +110,11 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
-CEGraphics::CEGraphics(HWND hWnd) {
+CEGraphics::CEGraphics(HWND hWnd, CEGraphicsApiTypes apiType) {
+	graphicsApiType = apiType;
+
+	ResolveSelectedGraphicsAPI();
+
 	DXGI_SWAP_CHAIN_DESC sd = GetDefaultD311Descriptor(hWnd);
 	UINT swapCreateFlags = 0u;
 
@@ -296,11 +300,7 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 	const auto aspectRatio = CEConverters::gcd((int)windowWidth, (int)windowHeight);
 	const auto aspectRatioWidth = windowWidth / aspectRatio;
 	const auto aspectRatioHeight = windowHeight / aspectRatio;
-	std::string sW = std::to_string(aspectRatioWidth);
-	std::string sH = std::to_string(aspectRatioHeight);
-	std::ostringstream oss;
-	oss << "aspect ratio:" << sW << ":" << sH;
-	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
+
 	const CEConstantBuffer cb = GetDefaultConstantBuffer(angle, aspectRatioWidth, aspectRatioHeight, x, y, z);
 	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
 	D3D11_BUFFER_DESC cbd;
@@ -388,4 +388,29 @@ DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags = 0;
 	return sd;
+}
+
+void CEGraphics::ResolveSelectedGraphicsAPI() {
+	std::ostringstream oss;
+	oss << "Graphics API type: ";
+	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
+	switch (graphicsApiType) {
+	case CEGraphicsApiTypes::direct3d11:
+		oss << "Direct3D 11";
+		break;
+	case CEGraphicsApiTypes::direct3d12:
+		oss << "Direct3D 12";
+		break;
+	case CEGraphicsApiTypes::vulkan:
+		oss << "Vulkan";
+		break;
+	case CEGraphicsApiTypes::opengl:
+		oss << "OpenGL";
+		break;
+	default:
+		oss << "Direct3D 11 - Default";
+		break;
+	}
+	oss << std::endl;
+	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }

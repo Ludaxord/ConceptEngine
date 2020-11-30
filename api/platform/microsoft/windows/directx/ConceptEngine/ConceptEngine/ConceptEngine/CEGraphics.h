@@ -115,7 +115,7 @@ public:
 	};
 
 public:
-	CEGraphics(HWND hWnd);
+	CEGraphics(HWND hWnd, CEGraphicsApiTypes apiType);
 	CEGraphics(const CEGraphics&) = delete;
 	CEGraphics& operator=(const CEGraphics&) = delete;
 	~CEGraphics() = default;
@@ -131,6 +131,9 @@ public:
 	static DXGI_SWAP_CHAIN_DESC GetDefaultD311Descriptor(HWND hWnd) noexcept;
 
 private:
+	void ResolveSelectedGraphicsAPI();
+
+private:
 	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12
 	//TODO: add: Vulkan implementation => Source: https://www.khronos.org/registry/vulkan/specs/1.2/styleguide.html
 	//TODO: add OpenGL implementation => Source: https://www.khronos.org/registry/OpenGL/index_gl.php
@@ -139,4 +142,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTarget;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
+	CEGraphicsApiTypes graphicsApiType;
 };
