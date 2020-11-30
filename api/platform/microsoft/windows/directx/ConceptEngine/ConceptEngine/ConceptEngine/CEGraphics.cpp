@@ -394,6 +394,7 @@ void CEGraphics::ResolveSelectedGraphicsAPI() {
 	std::ostringstream oss;
 	oss << "Graphics API type: ";
 	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
+	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class
 	switch (graphicsApiType) {
 	case CEGraphicsApiTypes::direct3d11:
 		oss << "Direct3D 11";
