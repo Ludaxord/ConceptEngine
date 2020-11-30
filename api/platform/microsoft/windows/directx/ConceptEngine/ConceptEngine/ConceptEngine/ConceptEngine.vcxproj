@@ -163,13 +163,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CEDirect3D11Graphics.cpp" />
+    <ClCompile Include="CEDirect3D12Graphics.cpp" />
     <ClCompile Include="CEDxgiInfoManager.cpp" />
     <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMouse.cpp" />
+    <ClCompile Include="CEOpenGLGraphics.cpp" />
     <ClCompile Include="CEPlaystationController.cpp" />
     <ClCompile Include="CETimer.cpp" />
+    <ClCompile Include="CEVulkanGraphics.cpp" />
     <ClCompile Include="CEWindow.cpp" />
     <ClCompile Include="CEConverters.cpp" />
     <ClCompile Include="CEWindowsMessage.cpp" />
@@ -181,13 +185,17 @@
   <ItemGroup>
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CEConverters.h" />
+    <ClInclude Include="CEDirect3D11Graphics.h" />
+    <ClInclude Include="CEDirect3D12Graphics.h" />
     <ClInclude Include="CEDxgiInfoManager.h" />
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CEMouse.h" />
+    <ClInclude Include="CEOpenGLGraphics.h" />
     <ClInclude Include="CEPlaystationController.h" />
     <ClInclude Include="CETimer.h" />
+    <ClInclude Include="CEVulkanGraphics.h" />
     <ClInclude Include="CEWin.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="CEXboxController.h" />

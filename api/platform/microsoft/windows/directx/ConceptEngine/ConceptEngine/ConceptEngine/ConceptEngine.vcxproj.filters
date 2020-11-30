@@ -63,6 +63,18 @@
     <ClCompile Include="dxerr.cpp">
       <Filter>DXErr</Filter>
     </ClCompile>
+    <ClCompile Include="CEDirect3D11Graphics.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirect3D12Graphics.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="CEVulkanGraphics.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="CEOpenGLGraphics.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -112,6 +124,18 @@
     </ClInclude>
     <ClInclude Include="dxerr.h">
       <Filter>DXErr</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3D12Graphics.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3D11Graphics.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="CEVulkanGraphics.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="CEOpenGLGraphics.h">
+      <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
