@@ -145,6 +145,44 @@ CEGraphics::CEGraphics(HWND hWnd) {
 		nullptr,
 		&pTarget
 	));
+
+	D3D11_DEPTH_STENCIL_DESC ds_desc = {};
+	ds_desc.DepthEnable = TRUE;
+	ds_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	ds_desc.DepthFunc = D3D11_COMPARISON_LESS;
+	wrl::ComPtr<ID3D11DepthStencilState> pDSState;
+
+	GFX_THROW_INFO(pDevice->CreateDepthStencilState(
+		&ds_desc,
+		&pDSState
+	));
+
+	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
+
+	wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+	D3D11_TEXTURE2D_DESC descDepth = {};
+	descDepth.Width = 800u;
+	descDepth.Height = 600u;
+	descDepth.MipLevels = 1u;
+	descDepth.ArraySize = 1u;
+	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.SampleDesc.Count = 1u;
+	descDepth.SampleDesc.Quality = 0u;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	GFX_THROW_INFO(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC descStencilView = {};
+	descStencilView.Format = DXGI_FORMAT_D32_FLOAT;
+	descStencilView.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descStencilView.Texture2D.MipSlice = 0u;
+	GFX_THROW_INFO(pDevice->CreateDepthStencilView(
+		pDepthStencil.Get(),
+		&descStencilView,
+		&pDepthStencilView
+	));
+
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDepthStencilView.Get());
 }
 
 void CEGraphics::EndFrame() {
@@ -165,6 +203,7 @@ void CEGraphics::EndFrame() {
 void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
 	const float color[] = {red, green, blue, 1.0f};
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
+	pContext->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
 void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
@@ -311,7 +350,7 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 
 	pContext->IASetInputLayout(pInputLayout.Get());
 
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
+	// pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
 
 	pContext->IASetPrimitiveTopology(
 		D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
