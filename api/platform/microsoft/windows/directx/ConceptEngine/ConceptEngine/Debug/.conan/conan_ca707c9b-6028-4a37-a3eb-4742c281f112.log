@@ -1,0 +1,20 @@
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments '--version'
+Conan version 1.31.4
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments 'install F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\conanfile.txt -g visual_studio --install-folder F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\.conan -s arch=x86 -s build_type=Debug -s compiler.toolset=v142 -s compiler.version=16 -s compiler.runtime=MTd  --build --update'
+Configuration:
+[settings]
+arch=x86
+arch_build=x86_64
+build_type=Debug
+compiler=Visual Studio
+compiler.runtime=MTd
+compiler.toolset=v142
+compiler.version=16
+os=Windows
+os_build=Windows
+[options]
+ERROR: Specify the 'name' and the 'version'
+[build_requires]
+[env]
+
+Conan has returned exit code '1' while processing configuration 'Architecture: x86, build type: Debug, compiler toolset: v142, compiler version: 16;, runtime library: MTd'. Please check file 'F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\.conan\conan_ca707c9b-6028-4a37-a3eb-4742c281f112.log' for details.

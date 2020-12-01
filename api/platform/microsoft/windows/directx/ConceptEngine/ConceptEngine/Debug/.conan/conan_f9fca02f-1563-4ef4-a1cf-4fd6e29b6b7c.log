@@ -1,0 +1,22 @@
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments '--version'
+Conan version 1.31.4
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments 'install F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\conanfile.txt -g visual_studio --install-folder F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\.conan -s arch=x86 -s build_type=Debug -s compiler.toolset=v142 -s compiler.version=16 -s compiler.runtime=MTd  --build --update'
+Configuration:
+[settings]
+arch=x86
+arch_build=x86_64
+build_type=Debug
+compiler=Visual Studio
+compiler.runtime=MTd
+compiler.toolset=v142
+compiler.version=16
+os=Windows
+os_build=Windows
+[options]
+[build_requires]
+[env]
+
+magic_enum/x.y.z: Not found in local cache, looking in remotes...
+magic_enum/x.y.z: Trying with 'conan-center'...
+ERROR: Unable to find 'magic_enum/x.y.z' in remotes
+Conan has returned exit code '1' while processing configuration 'Architecture: x86, build type: Debug, compiler toolset: v142, compiler version: 16;, runtime library: MTd'. Please check file 'F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\.conan\conan_f9fca02f-1563-4ef4-a1cf-4fd6e29b6b7c.log' for details.

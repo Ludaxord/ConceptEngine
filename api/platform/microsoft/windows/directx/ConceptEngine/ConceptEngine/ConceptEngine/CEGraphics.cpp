@@ -137,7 +137,7 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTy
 void CEGraphics::ResolveSelectedGraphicsAPI() {
 	std::ostringstream oss;
 	oss << "Graphics API type: ";
-	magic_enum::enum_name(color);
+	// magic_enum::enum_name(color);
 	oss << std::endl;
 	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }
