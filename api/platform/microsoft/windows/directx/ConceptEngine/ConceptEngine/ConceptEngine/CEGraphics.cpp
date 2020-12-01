@@ -390,28 +390,26 @@ DXGI_SWAP_CHAIN_DESC CEGraphics::GetDefaultD311Descriptor(HWND hWnd) noexcept {
 	return sd;
 }
 
+CEGraphics CEGraphics::GetGraphicsByApiType(CEGraphicsApiTypes apiTypes) {
+	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
+	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class, https://docs.microsoft.com/en-us/cpp/cpp/abstract-classes-cpp?view=msvc-160
+	switch (apiTypes) {
+	case CEGraphicsApiTypes::direct3d11:
+		break;
+	case CEGraphicsApiTypes::direct3d12:
+		break;
+	case CEGraphicsApiTypes::vulkan:
+		break;
+	case CEGraphicsApiTypes::opengl:
+		break;
+	default:
+		break;
+	}
+}
+
 void CEGraphics::ResolveSelectedGraphicsAPI() {
 	std::ostringstream oss;
 	oss << "Graphics API type: ";
-	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
-	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class, https://docs.microsoft.com/en-us/cpp/cpp/abstract-classes-cpp?view=msvc-160
-	switch (graphicsApiType) {
-	case CEGraphicsApiTypes::direct3d11:
-		oss << "Direct3D 11";
-		break;
-	case CEGraphicsApiTypes::direct3d12:
-		oss << "Direct3D 12";
-		break;
-	case CEGraphicsApiTypes::vulkan:
-		oss << "Vulkan";
-		break;
-	case CEGraphicsApiTypes::opengl:
-		oss << "OpenGL";
-		break;
-	default:
-		oss << "Direct3D 11 - Default";
-		break;
-	}
 	oss << std::endl;
 	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }

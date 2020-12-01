@@ -129,7 +129,7 @@ private:
 #endif
 public:
 	static DXGI_SWAP_CHAIN_DESC GetDefaultD311Descriptor(HWND hWnd) noexcept;
-
+	static CEGraphics GetGraphicsByApiType(CEGraphicsApiTypes apiTypes);
 private:
 	void ResolveSelectedGraphicsAPI();
 
