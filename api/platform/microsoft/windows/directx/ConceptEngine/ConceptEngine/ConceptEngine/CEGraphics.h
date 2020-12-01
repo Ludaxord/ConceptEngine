@@ -51,32 +51,6 @@ public:
 		} face_colors[6];
 	};
 
-	CEFaceColorsConstantBuffer GetDefaultFaceColorsConstantBuffer() {
-		return CEFaceColorsConstantBuffer{
-			{
-				{1.0f, 0.0f, 1.0f},
-				{1.0f, 0.0f, 0.0f},
-				{0.0f, 1.0f, 0.0f},
-				{0.0f, 0.0f, 1.0f},
-				{1.0f, 1.0f, 0.0f},
-				{0.0f, 1.0f, 1.0f},
-			}
-		};
-	}
-
-	CEConstantBuffer GetDefaultConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight,
-	                                          float x = 0.0f, float y = 0.0f, float z = 0.0f) {
-		return CEConstantBuffer{
-			dx::XMMatrixTranspose(
-				dx::XMMatrixRotationZ(angle) *
-				dx::XMMatrixRotationX(angle) *
-				// dx::XMMatrixScaling(aspectRatioHeight / aspectRatioWidth, 1.0f, 1.0f) *
-				dx::XMMatrixTranslation(x, y, z + 4.0f) *
-				dx::XMMatrixPerspectiveLH(1.0f, aspectRatioHeight / aspectRatioWidth, 0.5f, 10.0f)
-			)
-		};
-	};
-
 public:
 	class Exception : public CEException {
 		using CEException::CEException;
@@ -117,30 +91,27 @@ public:
 public:
 	CEGraphics(HWND hWnd, CEGraphicsApiTypes apiType);
 	CEGraphics(const CEGraphics&) = delete;
-	CEGraphics& operator=(const CEGraphics&) = delete;
-	~CEGraphics() = default;
-	void EndFrame();
-	void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	                       CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
-private:
+	virtual CEGraphics& operator=(const CEGraphics&) = delete;
+	virtual ~CEGraphics() = default;
+
+public:
+	virtual void EndFrame();
+	virtual void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
+	virtual void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
+	                               CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
+protected:
 #ifndef NDEBUG
 	CEDxgiInfoManager infoManager;
 #endif
 public:
-	static DXGI_SWAP_CHAIN_DESC GetDefaultD311Descriptor(HWND hWnd) noexcept;
-	static CEGraphics GetGraphicsByApiType(CEGraphicsApiTypes apiTypes);
-private:
+	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTypes);
+protected:
 	void ResolveSelectedGraphicsAPI();
 
-private:
+protected:
 	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12
 	//TODO: add: Vulkan implementation => Source: https://www.khronos.org/registry/vulkan/specs/1.2/styleguide.html
 	//TODO: add OpenGL implementation => Source: https://www.khronos.org/registry/OpenGL/index_gl.php
-	Microsoft::WRL::ComPtr<ID3D11Device> pDevice;
-	Microsoft::WRL::ComPtr<IDXGISwapChain> pSwap;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTarget;
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
+
 	CEGraphicsApiTypes graphicsApiType;
 };

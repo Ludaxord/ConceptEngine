@@ -173,8 +173,9 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
-
-	pGraphics = std::make_unique<CEGraphics>(hWnd, CEGraphics::CEGraphicsApiTypes::direct3d11);
+	auto api = CEGraphics::GetGraphicsByApiType(hWnd, CEGraphics::CEGraphicsApiTypes::direct3d11);
+	std::unique_ptr<CEGraphics> pGraphics(api);
+	// pGraphics = std::make_unique<CEGraphics>(api);
 }
 
 CEWindow::~CEWindow() {
