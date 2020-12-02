@@ -34,7 +34,7 @@ public:
 		const char* GetType() const noexcept override;
 	};
 
-	enum CEWindowTypes {
+	enum class CEWindowTypes {
 		main,
 		debug,
 		additional,
@@ -77,7 +77,7 @@ private:
 	};
 
 public:
-	CEWindow(int width, int height, const char* name, CEWindowTypes windowType = main);
+	CEWindow(int width, int height, const char* name, CEWindowTypes windowType = CEWindowTypes::main);
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;

@@ -7,6 +7,7 @@
 
 #include "CEConverters.h"
 #include "CEWindowsMessage.h"
+#include <magic_enum.hpp>
 
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 
@@ -235,18 +236,18 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 
 	//print Windows Message 
 	static CEWindowsMessage wm;
-	if (GetWindowType() == debug) {
+	if (GetWindowType() == CEWindowTypes::debug) {
 		OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	}
 
 	std::ostringstream cen;
-	cen << "Concept Engine Window, Type: " << GetWindowType() << "\n";
+	cen << "Concept Engine Window, Type: " << magic_enum::enum_name(GetWindowType()) << "\n";
 	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(cen.str().c_str()));
 
 	// switch to pass action to given message
 	switch (msg) {
 	case WM_CLOSE: {
-		if (GetWindowType() == main) {
+		if (GetWindowType() == CEWindowTypes::main) {
 			PostQuitMessage(1);
 			return 0;
 		}

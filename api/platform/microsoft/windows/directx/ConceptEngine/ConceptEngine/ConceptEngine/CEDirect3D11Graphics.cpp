@@ -6,10 +6,10 @@
 #include "CEConverters.h"
 #include "CEDirect3D11Graphics.h"
 
-namespace wrl = Microsoft::WRL;
-
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "D3DCompiler.lib")
+
+namespace wrl = Microsoft::WRL;
 
 #define GFX_EXCEPT_NOINFO(hResult) CEGraphics::HResultException( __LINE__,__FILE__,(hResult) )
 #define GFX_THROW_NOINFO(hrcall) if(FAILED(hResult = (hrcall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hResult)

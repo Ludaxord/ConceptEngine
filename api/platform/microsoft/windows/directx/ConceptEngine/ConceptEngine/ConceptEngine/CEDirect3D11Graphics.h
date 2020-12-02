@@ -4,8 +4,9 @@
 class CEDirect3D11Graphics : public CEGraphics {
 public:
 	CEDirect3D11Graphics(HWND hWnd);
-
 	~CEDirect3D11Graphics() override = default;
+
+public:
 	void EndFrame() override;
 	void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,

@@ -3,6 +3,8 @@
 #include <sstream>
 #include <d3dcompiler.h>
 #include <iostream>
+#include <magic_enum.hpp>
+
 
 #include "dxerr.h"
 #include "CEConverters.h"
@@ -11,8 +13,8 @@
 #include "CEVulkanGraphics.h"
 
 CEGraphics::HResultException::HResultException(int line, const char* file,
-	HRESULT hResult,
-	std::vector<std::string> infoMsgs) noexcept : Exception(line, file),
+                                               HRESULT hResult,
+                                               std::vector<std::string> infoMsgs) noexcept : Exception(line, file),
 	hResult(hResult) {
 	for (const auto& m : infoMsgs) {
 		info += m;
@@ -56,7 +58,7 @@ std::string CEGraphics::HResultException::GetErrorInfo() const noexcept {
 }
 
 CEGraphics::InfoException::InfoException(int line, const char* file,
-	std::vector<std::string> infoMsgs) noexcept : Exception(line, file) {
+                                         std::vector<std::string> infoMsgs) noexcept : Exception(line, file) {
 	for (const auto& m : infoMsgs) {
 		info += m;
 		info.push_back('\n');
@@ -105,7 +107,7 @@ void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) no
 }
 
 void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	CEDefaultFigureTypes figureTypes) {
+                                   CEDefaultFigureTypes figureTypes) {
 }
 
 
@@ -137,7 +139,7 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTy
 void CEGraphics::ResolveSelectedGraphicsAPI() {
 	std::ostringstream oss;
 	oss << "Graphics API type: ";
-	// magic_enum::enum_name(color);
+	oss << magic_enum::enum_name(graphicsApiType);
 	oss << std::endl;
 	OutputDebugString(CEConverters::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }

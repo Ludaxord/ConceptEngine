@@ -5,7 +5,13 @@
 
 #include "CEConverters.h"
 
-ConceptEngine::ConceptEngine() : window_(800, 600, "Concept Engine Editor", CEWindow::main) {
+ConceptEngine::ConceptEngine() : window_(800, 600, "Concept Engine Editor", CEWindow::CEWindowTypes::main) {
+}
+
+ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* windowName,
+                             CEWindow::CEWindowTypes windowType): window_(
+	windowWidth, windowHeight, windowName, windowType) {
+
 }
 
 int ConceptEngine::Run() {
