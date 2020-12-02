@@ -10,6 +10,7 @@
 #include "CEConverters.h"
 #include "CEDirect3D11Graphics.h"
 #include "CEDirect3D12Graphics.h"
+#include "CEOpenGLGraphics.h"
 #include "CEVulkanGraphics.h"
 
 CEGraphics::HResultException::HResultException(int line, const char* file,
@@ -120,13 +121,13 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTy
 		graphics = new CEDirect3D11Graphics(hWnd);
 		break;
 	case CEGraphicsApiTypes::direct3d12:
-		// graphics = new CEDirect3D12Graphics();
+		graphics = new CEDirect3D12Graphics(hWnd);
 		break;
 	case CEGraphicsApiTypes::vulkan:
-		// graphics = new CEVulkanGraphics(hWnd);
+		graphics = new CEVulkanGraphics(hWnd);
 		break;
 	case CEGraphicsApiTypes::opengl:
-		// graphics = new CEVulkanGraphics(hWnd);
+		graphics = new CEOpenGLGraphics(hWnd);
 		break;
 	default:
 		graphics = new CEDirect3D11Graphics(hWnd);
