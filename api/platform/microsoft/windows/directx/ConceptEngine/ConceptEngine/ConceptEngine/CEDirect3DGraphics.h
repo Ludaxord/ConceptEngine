@@ -31,6 +31,9 @@ public:
 	};
 
 protected:
+	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
+	                        bool requestHighPerformanceAdapter = false);
+
 	CED3DConstantBuffer GetSampleConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight,
 	                                            float x = 0.0f, float y = 0.0f, float z = 0.0f) {
 		return CED3DConstantBuffer{
