@@ -45,6 +45,8 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 			IID_PPV_ARGS(&pDevice)
 		));
 	}
+
+	//TODO: Add Descriptors: CommandQueue, SwapChain, TargetView
 }
 
 void CEDirect3D12Graphics::EndFrame() {
