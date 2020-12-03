@@ -36,12 +36,6 @@ public:
 		} pos;
 	};
 
-	struct CEConstantBuffer {
-		struct {
-			dx::XMMATRIX transformation;
-		};
-	};
-
 	struct CEFaceColorsConstantBuffer {
 		struct {
 			float r;

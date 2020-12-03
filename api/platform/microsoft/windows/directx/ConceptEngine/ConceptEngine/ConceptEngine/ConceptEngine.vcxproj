@@ -166,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="CEDirect3D11Graphics.cpp" />
     <ClCompile Include="CEDirect3D12Graphics.cpp" />
+    <ClCompile Include="CEDirect3DGraphics.cpp" />
     <ClCompile Include="CEDxgiInfoManager.cpp" />
     <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="CEConverters.h" />
     <ClInclude Include="CEDirect3D11Graphics.h" />
     <ClInclude Include="CEDirect3D12Graphics.h" />
+    <ClInclude Include="CEDirect3DGraphics.h" />
     <ClInclude Include="CEDxgiInfoManager.h" />
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
