@@ -174,7 +174,7 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
-	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, CEGraphics::CEGraphicsApiTypes::direct3d11);
+	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, CEGraphics::CEGraphicsApiTypes::direct3d12);
 	std::unique_ptr<CEGraphics> graphics(api);
 	pGraphics = std::move(graphics);
 }

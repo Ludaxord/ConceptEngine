@@ -1,6 +1,5 @@
 #pragma once
 #include "CEWin.h"
-#include <d3d11.h>
 #include <wrl.h>
 #include "CEException.h"
 #include <vector>

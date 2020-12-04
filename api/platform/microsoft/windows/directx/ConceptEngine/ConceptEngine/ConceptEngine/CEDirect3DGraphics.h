@@ -22,17 +22,12 @@ class CEDirect3DGraphics : public CEGraphics {
 public:
 	CEDirect3DGraphics(HWND hWnd, CEGraphicsApiTypes apiType);
 	~CEDirect3DGraphics() = default;
-	DXGI_SWAP_CHAIN_DESC GetSampleDescriptor(HWND hWnd) noexcept;
 public:
 	struct CED3DConstantBuffer {
 		struct {
 			dx::XMMATRIX transformation;
 		};
 	};
-
-protected:
-	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
-	                        bool requestHighPerformanceAdapter = false);
 
 	CED3DConstantBuffer GetSampleConstantBuffer(float angle, float aspectRatioWidth, float aspectRatioHeight,
 	                                            float x = 0.0f, float y = 0.0f, float z = 0.0f) {

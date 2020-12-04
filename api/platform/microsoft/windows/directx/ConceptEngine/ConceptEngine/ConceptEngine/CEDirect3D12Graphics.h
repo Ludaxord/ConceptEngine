@@ -1,10 +1,13 @@
 #pragma once
+#include "CEDirect3DGraphics.h"
 #include <d3d12.h>
 #include <dxgi1_6.h>
+#include <D3Dcompiler.h>
+#include <DirectXMath.h>
 
-#include "CEDirect3DGraphics.h"
-#include "CEGraphics.h"
-
+#pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "D3DCompiler.lib")
 
 class CEDirect3D12Graphics : public CEDirect3DGraphics {
 
@@ -18,6 +21,9 @@ public:
 	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
 	                       CEDefaultFigureTypes figureTypes) override;
 
+protected:
+	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
+	                        bool requestHighPerformanceAdapter = false);
 private:
 	static const UINT FrameCount = 2;
 protected:
@@ -26,18 +32,18 @@ protected:
 	wrl::ComPtr<IDXGISwapChain3> pSwap;
 	wrl::ComPtr<ID3D12Device> pDevice;
 	wrl::ComPtr<ID3D12Resource> pTargets[FrameCount];
-	wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
-	wrl::ComPtr<ID3D12CommandQueue> m_commandQueue;
+	wrl::ComPtr<ID3D12CommandAllocator> pCommandAllocator;
+	wrl::ComPtr<ID3D12CommandQueue> pCommandQueue;
 	wrl::ComPtr<ID3D12RootSignature> m_rootSignature;
-	wrl::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+	wrl::ComPtr<ID3D12DescriptorHeap> pRtvHeap;
 	wrl::ComPtr<ID3D12PipelineState> m_pipelineState;
 	wrl::ComPtr<ID3D12GraphicsCommandList> m_commandList;
-	UINT m_rtvDescriptorSize;
+	UINT pTargetViewDescriptorSize{};
 	wrl::ComPtr<ID3D12Resource> m_vertexBuffer;
-	D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView;
+	D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView{};
 
-	UINT m_frameIndex;
-	HANDLE m_fenceEvent;
+	UINT pFrameIndex{};
+	HANDLE m_fenceEvent{};
 	wrl::ComPtr<ID3D12Fence> m_fence;
-	UINT64 m_fenceValue;
+	UINT64 m_fenceValue{};
 };
