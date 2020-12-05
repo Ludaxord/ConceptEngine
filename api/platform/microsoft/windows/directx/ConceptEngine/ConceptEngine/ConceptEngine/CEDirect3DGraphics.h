@@ -54,4 +54,7 @@ public:
 			}
 		};
 	}
+
+protected:
+	std::wstring GetShadersPath(LPCWSTR fileName);
 };

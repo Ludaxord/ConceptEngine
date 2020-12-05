@@ -175,6 +175,12 @@
     <FxCompile Include="CEPixelShader.hlsl">
       <Filter>Pliki nagłówkowe\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="CED3D12PixelShader.hlsl">
+      <Filter>Pliki nagłówkowe\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CED3D12VertexShader.hlsl">
+      <Filter>Pliki nagłówkowe\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="conanfile.txt" />

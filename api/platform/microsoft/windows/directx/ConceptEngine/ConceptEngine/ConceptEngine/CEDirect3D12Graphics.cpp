@@ -107,7 +107,7 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 
 	DXGI_SWAP_CHAIN_FULLSCREEN_DESC swapChainFSDesc = {};
 	swapChainFSDesc.Windowed = TRUE;
-	
+
 	wrl::ComPtr<IDXGISwapChain1> swapChain;
 	GFX_THROW_INFO(
 		factory->CreateSwapChainForHwnd(
@@ -136,6 +136,42 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 		}
 	}
 	GFX_THROW_INFO(pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&pCommandAllocator)));
+
+	{
+		D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc;
+		rootSignatureDesc.NumParameters = 0;
+		rootSignatureDesc.pParameters = nullptr;
+		rootSignatureDesc.NumStaticSamplers = 0;
+		rootSignatureDesc.pStaticSamplers = nullptr;
+		rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+		wrl::ComPtr<ID3DBlob> signature;
+		wrl::ComPtr<ID3DBlob> error;
+		GFX_THROW_INFO(
+			D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error));
+		GFX_THROW_INFO(
+			pDevice->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(), IID_PPV_ARGS(&
+				m_rootSignature)));
+	}
+
+	{
+		wrl::ComPtr<ID3DBlob> pVertexShader;
+		wrl::ComPtr<ID3DBlob> pPixelShader;
+#if defined(_DEBUG)
+		UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#else
+		UINT compileFlags = 0
+#endif
+		GFX_THROW_INFO(
+			D3DCompileFromFile(GetShadersPath(L"CED3D12VertexShader.hlsl").c_str(), nullptr, nullptr, "main", "vs_5_0",
+				compileFlags, 0, &pVertexShader, nullptr));
+		GFX_THROW_INFO(D3DCompileFromFile(GetShadersPath(L"CED3D12PixelShader.hlsl").c_str(), nullptr, nullptr, "main",
+			"ps_5_0", compileFlags, 0, &pPixelShader, nullptr));
+		D3D12_INPUT_ELEMENT_DESC inputElementDescs[] = {
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+		};
+	}
 }
 
 
