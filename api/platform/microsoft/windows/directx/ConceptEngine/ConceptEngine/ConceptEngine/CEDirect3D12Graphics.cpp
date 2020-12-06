@@ -1,5 +1,7 @@
 #include "CEDirect3D12Graphics.h"
 
+#include "CEConverters.h"
+
 
 void CEDirect3D12Graphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y,
                                              float z, CEDefaultFigureTypes figureTypes) {
@@ -230,10 +232,83 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 	GFX_THROW_INFO(
 		pDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, pCommandAllocator.Get(), m_pipelineState.Get()
 			, IID_PPV_ARGS(&m_commandList)));
+
+	GFX_THROW_INFO(m_commandList->Close());
+
+	{
+		const auto aspectRatio = CEConverters::gcd((int)800, (int)600);
+		// Define the geometry for a triangle.
+		CEVertex triangleVertices[] =
+		{
+			{{0.0f, 0.25f * aspectRatio, 0.0f}},
+			{{0.25f, -0.25f * aspectRatio, 0.0f}},
+			{{-0.25f, -0.25f * aspectRatio, 0.0f}}
+		};
+
+		const UINT vertexBufferSize = sizeof(triangleVertices);
+
+		D3D12_HEAP_PROPERTIES heapProps;
+		heapProps.Type = D3D12_HEAP_TYPE_UPLOAD;
+		heapProps.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		heapProps.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+		heapProps.CreationNodeMask = 1;
+		heapProps.VisibleNodeMask = 1;
+
+		D3D12_RESOURCE_DESC resourcesDescriptor = {
+			D3D12_RESOURCE_DIMENSION_BUFFER, 0, vertexBufferSize, 1, 1, 1,
+			DXGI_FORMAT_UNKNOWN, 1, 0, D3D12_TEXTURE_LAYOUT_ROW_MAJOR, D3D12_RESOURCE_FLAG_NONE
+		};
+
+		GFX_THROW_INFO(pDevice->CreateCommittedResource(
+			&heapProps,
+			D3D12_HEAP_FLAG_NONE,
+			&resourcesDescriptor,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&m_vertexBuffer)));
+
+		// Copy the triangle data to the vertex buffer.
+		UINT8* pVertexDataBegin;
+		D3D12_RANGE readRange;
+		readRange.Begin = 0;
+		readRange.End = 0;
+		GFX_THROW_INFO(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
+		memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
+		m_vertexBuffer->Unmap(0, nullptr);
+
+		// Initialize the vertex buffer view.
+		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
+		m_vertexBufferView.StrideInBytes = sizeof(CEVertex);
+		m_vertexBufferView.SizeInBytes = vertexBufferSize;
+	}
+
+	{
+		GFX_THROW_INFO(pDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
+		m_fenceValue = 1;
+
+		m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+		if (m_fenceEvent == nullptr) {
+			GFX_THROW_INFO(HRESULT_FROM_WIN32(GetLastError()));
+		}
+	}
 }
 
 
 void CEDirect3D12Graphics::EndFrame() {
+	HRESULT hResult;
+
+	const UINT64 fence = m_fenceValue;
+	GFX_THROW_INFO(pCommandQueue->Signal(m_fence.Get(), fence));
+	m_fenceValue++;
+
+	// Wait until the previous frame is finished.
+	if (m_fence->GetCompletedValue() < fence)
+	{
+		GFX_THROW_INFO(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
+		WaitForSingleObject(m_fenceEvent, INFINITE);
+	}
+
+	pFrameIndex = pSwap->GetCurrentBackBufferIndex();
 }
 
 void CEDirect3D12Graphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
