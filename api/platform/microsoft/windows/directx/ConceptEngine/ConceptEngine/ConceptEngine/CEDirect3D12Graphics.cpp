@@ -171,7 +171,65 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
 		};
+
+
+		//TODO: move all object instances to extensions of own structures
+		D3D12_SHADER_BYTECODE vertexShaderBytecode;
+		auto vBlob = pVertexShader.Get();
+		vertexShaderBytecode.pShaderBytecode = vBlob->GetBufferPointer();
+		vertexShaderBytecode.BytecodeLength = vBlob->GetBufferSize();
+
+		D3D12_SHADER_BYTECODE pixelShaderBytecode;
+		auto pBlob = pVertexShader.Get();
+		pixelShaderBytecode.pShaderBytecode = pBlob->GetBufferPointer();
+		pixelShaderBytecode.BytecodeLength = pBlob->GetBufferSize();
+
+		D3D12_RASTERIZER_DESC rasterizerDescriptor;
+		rasterizerDescriptor.FillMode = D3D12_FILL_MODE_SOLID;
+		rasterizerDescriptor.CullMode = D3D12_CULL_MODE_BACK;
+		rasterizerDescriptor.FrontCounterClockwise = FALSE;
+		rasterizerDescriptor.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
+		rasterizerDescriptor.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
+		rasterizerDescriptor.SlopeScaledDepthBias = D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS;
+		rasterizerDescriptor.DepthClipEnable = TRUE;
+		rasterizerDescriptor.MultisampleEnable = FALSE;
+		rasterizerDescriptor.AntialiasedLineEnable = FALSE;
+		rasterizerDescriptor.ForcedSampleCount = 0;
+		rasterizerDescriptor.ConservativeRaster = D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+
+		D3D12_BLEND_DESC blendStateDescriptor;
+		blendStateDescriptor.AlphaToCoverageEnable = FALSE;
+		blendStateDescriptor.IndependentBlendEnable = FALSE;
+		const D3D12_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlendDesc =
+		{
+			FALSE,FALSE,
+			D3D12_BLEND_ONE, D3D12_BLEND_ZERO, D3D12_BLEND_OP_ADD,
+			D3D12_BLEND_ONE, D3D12_BLEND_ZERO, D3D12_BLEND_OP_ADD,
+			D3D12_LOGIC_OP_NOOP,
+			D3D12_COLOR_WRITE_ENABLE_ALL,
+		};
+		for (UINT i = 0; i < D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT; ++i)
+			blendStateDescriptor.RenderTarget[i] = defaultRenderTargetBlendDesc;
+
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+		psoDesc.InputLayout = {inputElementDescs, _countof(inputElementDescs)};
+		psoDesc.pRootSignature = m_rootSignature.Get();
+		psoDesc.VS = vertexShaderBytecode;
+		psoDesc.PS = pixelShaderBytecode;
+		psoDesc.RasterizerState = rasterizerDescriptor;
+		psoDesc.BlendState = blendStateDescriptor;
+		psoDesc.DepthStencilState.DepthEnable = FALSE;
+		psoDesc.DepthStencilState.StencilEnable = FALSE;
+		psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		psoDesc.SampleMask = UINT_MAX;
+		psoDesc.NumRenderTargets = 1;
+		psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		psoDesc.SampleDesc.Count = 1;
 	}
+
+	GFX_THROW_INFO(
+		pDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, pCommandAllocator.Get(), m_pipelineState.Get()
+			, IID_PPV_ARGS(&m_commandList)));
 }
 
 
