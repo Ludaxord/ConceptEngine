@@ -78,6 +78,9 @@ private:
 protected:
 	bool useWarpDevice = false;
 
+	D3D12_VIEWPORT m_viewport;
+	D3D12_RECT m_scissorRect;
+
 	wrl::ComPtr<IDXGISwapChain3> pSwap;
 	wrl::ComPtr<ID3D12Device> pDevice;
 	wrl::ComPtr<ID3D12Resource> pTargets[FrameCount];

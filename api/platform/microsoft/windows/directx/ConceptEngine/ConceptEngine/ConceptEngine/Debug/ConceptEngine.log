@@ -1,3 +1,7 @@
 ﻿  CEDirect3D12Graphics.cpp
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(15,7): warning C4101: 'statement': unreferenced local variable
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(311,1): warning C4297: 'CEDirect3D12Graphics::ClearBuffer': function assumed not to throw an exception but does
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(311,1): message : __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(315,1): warning C4297: 'CEDirect3D12Graphics::ClearBuffer': function assumed not to throw an exception but does
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(315,1): message : __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
   ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe

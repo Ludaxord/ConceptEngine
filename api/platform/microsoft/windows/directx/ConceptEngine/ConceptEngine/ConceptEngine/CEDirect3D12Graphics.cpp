@@ -293,24 +293,27 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 	}
 }
 
-
 void CEDirect3D12Graphics::EndFrame() {
+
+	HRESULT hResult;
+	ID3D12CommandList* ppCommandLists[] = {m_commandList.Get()};
+	pCommandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+
+	// Present the frame.
+	GFX_THROW_INFO(pSwap->Present(1, 0));
+}
+
+void CEDirect3D12Graphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
 	HRESULT hResult;
 
 	const UINT64 fence = m_fenceValue;
 	GFX_THROW_INFO(pCommandQueue->Signal(m_fence.Get(), fence));
 	m_fenceValue++;
 
-	// Wait until the previous frame is finished.
-	if (m_fence->GetCompletedValue() < fence)
-	{
+	if (m_fence->GetCompletedValue() < fence) {
 		GFX_THROW_INFO(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
 		WaitForSingleObject(m_fenceEvent, INFINITE);
 	}
 
 	pFrameIndex = pSwap->GetCurrentBackBufferIndex();
-}
-
-void CEDirect3D12Graphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
-
 }
