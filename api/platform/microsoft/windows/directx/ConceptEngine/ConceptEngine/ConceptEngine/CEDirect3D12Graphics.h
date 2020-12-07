@@ -23,7 +23,8 @@ public:
 
 
 public:
-	struct CD3DX12_DEFAULT {};
+	struct CD3DX12_DEFAULT {
+	};
 
 	struct CD3DX12_ROOT_SIGNATURE_DESC : public D3D12_ROOT_SIGNATURE_DESC {
 		CD3DX12_ROOT_SIGNATURE_DESC() = default;
@@ -42,8 +43,7 @@ public:
 			Init(numParameters, _pParameters, numStaticSamplers, _pStaticSamplers, flags);
 		}
 
-		CD3DX12_ROOT_SIGNATURE_DESC(CD3DX12_DEFAULT) noexcept
-		{
+		CD3DX12_ROOT_SIGNATURE_DESC(CD3DX12_DEFAULT) noexcept {
 			Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_NONE);
 		}
 
@@ -73,6 +73,12 @@ public:
 protected:
 	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
 	                        bool requestHighPerformanceAdapter = false);
+
+	void PopulateCommandList();
+	void WaitForPreviousFrame();
+	void LoadPipeline(HWND hWnd);
+	void LoadAssets();
+
 private:
 	static const UINT FrameCount = 2;
 protected:

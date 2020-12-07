@@ -2,11 +2,6 @@
 
 #include "CEConverters.h"
 
-
-void CEDirect3D12Graphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y,
-                                             float z, CEDefaultFigureTypes figureTypes) {
-}
-
 void CEDirect3D12Graphics::GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
                                               bool requestHighPerformanceAdapter) {
 	*ppAdapter = nullptr;
@@ -49,7 +44,71 @@ void CEDirect3D12Graphics::GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdap
 	*ppAdapter = adapter.Detach();
 }
 
-CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, CEGraphicsApiTypes::direct3d12) {
+void CEDirect3D12Graphics::PopulateCommandList() {
+	HRESULT hResult;
+	GFX_THROW_INFO(pCommandAllocator->Reset());
+
+	// However, when ExecuteCommandList() is called on a particular command 
+	// list, that command list can then be reset at any time and must be before 
+	// re-recording.
+	GFX_THROW_INFO(m_commandList->Reset(pCommandAllocator.Get(), m_pipelineState.Get()));
+
+	// Set necessary state.
+	m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+	m_commandList->RSSetViewports(1, &m_viewport);
+	m_commandList->RSSetScissorRects(1, &m_scissorRect);
+
+	// Indicate that the back buffer will be used as a render target.
+	D3D12_RESOURCE_BARRIER barrier;
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = pTargets[pFrameIndex].Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	m_commandList->ResourceBarrier(1, &barrier);
+
+	D3D12_CPU_DESCRIPTOR_HANDLE targetViewHandle(pRtvHeap->GetCPUDescriptorHandleForHeapStart());
+	targetViewHandle.ptr = SIZE_T(INT64(targetViewHandle.ptr) + INT64(pFrameIndex) * INT64(pTargetViewDescriptorSize));
+
+	m_commandList->OMSetRenderTargets(1, &targetViewHandle, FALSE, nullptr);
+
+	// Record commands.
+	const float clearColor[] = {0.0f, 0.2f, 0.4f, 1.0f};
+	m_commandList->ClearRenderTargetView(targetViewHandle, clearColor, 0, nullptr);
+	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
+	m_commandList->DrawInstanced(3, 1, 0, 0);
+
+	// Indicate that the back buffer will now be used to present.
+	D3D12_RESOURCE_BARRIER backBufferBarrier;
+	backBufferBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	backBufferBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	backBufferBarrier.Transition.pResource = pTargets[pFrameIndex].Get();
+	backBufferBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	backBufferBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	backBufferBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	m_commandList->ResourceBarrier(1, &barrier);
+
+	GFX_THROW_INFO(m_commandList->Close());
+}
+
+void CEDirect3D12Graphics::WaitForPreviousFrame() {
+	HRESULT hResult;
+
+	const UINT64 fence = m_fenceValue;
+	GFX_THROW_INFO(pCommandQueue->Signal(m_fence.Get(), fence));
+	m_fenceValue++;
+
+	if (m_fence->GetCompletedValue() < fence) {
+		GFX_THROW_INFO(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
+		WaitForSingleObject(m_fenceEvent, INFINITE);
+	}
+
+	pFrameIndex = pSwap->GetCurrentBackBufferIndex();
+}
+
+void CEDirect3D12Graphics::LoadPipeline(HWND hWnd) {
 	UINT swapCreateFlags = 0u;
 	HRESULT hResult;
 
@@ -138,6 +197,10 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 		}
 	}
 	GFX_THROW_INFO(pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&pCommandAllocator)));
+}
+
+void CEDirect3D12Graphics::LoadAssets() {
+	HRESULT hResult;
 
 	{
 		D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc;
@@ -291,9 +354,20 @@ CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, 
 			GFX_THROW_INFO(HRESULT_FROM_WIN32(GetLastError()));
 		}
 	}
+
+	WaitForPreviousFrame();
+
 }
 
-void CEDirect3D12Graphics::EndFrame() {
+CEDirect3D12Graphics::CEDirect3D12Graphics(HWND hWnd): CEDirect3DGraphics(hWnd, CEGraphicsApiTypes::direct3d12) {
+	LoadPipeline(hWnd);
+	LoadAssets();
+}
+
+
+void CEDirect3D12Graphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y,
+                                             float z, CEDefaultFigureTypes figureTypes) {
+	PopulateCommandList();
 
 	HRESULT hResult;
 	ID3D12CommandList* ppCommandLists[] = {m_commandList.Get()};
@@ -301,19 +375,13 @@ void CEDirect3D12Graphics::EndFrame() {
 
 	// Present the frame.
 	GFX_THROW_INFO(pSwap->Present(1, 0));
+	WaitForPreviousFrame();
+}
+
+void CEDirect3D12Graphics::EndFrame() {
+
 }
 
 void CEDirect3D12Graphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
-	HRESULT hResult;
 
-	const UINT64 fence = m_fenceValue;
-	GFX_THROW_INFO(pCommandQueue->Signal(m_fence.Get(), fence));
-	m_fenceValue++;
-
-	if (m_fence->GetCompletedValue() < fence) {
-		GFX_THROW_INFO(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
-		WaitForSingleObject(m_fenceEvent, INFINITE);
-	}
-
-	pFrameIndex = pSwap->GetCurrentBackBufferIndex();
 }
