@@ -21,6 +21,7 @@ std::wstring CEDirect3DGraphics::GetShadersPath(LPCWSTR fileName) {
 	wss << "LAST SLASH: " << lastSlash << std::endl;
 	if (lastSlash) {
 		*(lastSlash - 5) = L'\0';
+		// *(lastSlash + 1) = L'\0';
 	}
 	std::wstring m_assetsPath = assetsPath;
 	m_assetsPath += L"ConceptEngine\\";

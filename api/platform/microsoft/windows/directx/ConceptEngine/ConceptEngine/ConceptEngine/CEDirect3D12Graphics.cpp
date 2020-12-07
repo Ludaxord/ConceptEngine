@@ -70,11 +70,10 @@ void CEDirect3D12Graphics::PopulateCommandList() {
 
 	D3D12_CPU_DESCRIPTOR_HANDLE targetViewHandle(pRtvHeap->GetCPUDescriptorHandleForHeapStart());
 	targetViewHandle.ptr = SIZE_T(INT64(targetViewHandle.ptr) + INT64(pFrameIndex) * INT64(pTargetViewDescriptorSize));
-
 	m_commandList->OMSetRenderTargets(1, &targetViewHandle, FALSE, nullptr);
 
 	// Record commands.
-	const float clearColor[] = {0.0f, 0.2f, 0.4f, 1.0f};
+	const float clearColor[] = {0.0f, 0.4f, 0.4f, 1.0f};
 	m_commandList->ClearRenderTargetView(targetViewHandle, clearColor, 0, nullptr);
 	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
@@ -88,7 +87,7 @@ void CEDirect3D12Graphics::PopulateCommandList() {
 	backBufferBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	backBufferBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 	backBufferBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-	m_commandList->ResourceBarrier(1, &barrier);
+	m_commandList->ResourceBarrier(1, &backBufferBarrier);
 
 	GFX_THROW_INFO(m_commandList->Close());
 }
@@ -109,7 +108,7 @@ void CEDirect3D12Graphics::WaitForPreviousFrame() {
 }
 
 void CEDirect3D12Graphics::LoadPipeline(HWND hWnd) {
-	UINT swapCreateFlags = 0u;
+	UINT dxgiFactoryFlags = 0;
 	HRESULT hResult;
 
 
@@ -120,13 +119,13 @@ void CEDirect3D12Graphics::LoadPipeline(HWND hWnd) {
 			debugController->EnableDebugLayer();
 
 			// Enable additional debug layers.
-			swapCreateFlags |= DXGI_CREATE_FACTORY_DEBUG;
+			dxgiFactoryFlags |= DXGI_CREATE_FACTORY_DEBUG;
 		}
 	}
 #endif
 
 	wrl::ComPtr<IDXGIFactory4> factory;
-	GFX_THROW_INFO(CreateDXGIFactory2(swapCreateFlags, IID_PPV_ARGS(&factory)));
+	GFX_THROW_INFO(CreateDXGIFactory2(dxgiFactoryFlags, IID_PPV_ARGS(&factory)));
 
 	if (useWarpDevice) {
 		wrl::ComPtr<IDXGIAdapter> warpAdapter;
@@ -173,7 +172,7 @@ void CEDirect3D12Graphics::LoadPipeline(HWND hWnd) {
 	GFX_THROW_INFO(
 		factory->CreateSwapChainForHwnd(
 			pCommandQueue.Get(),
-			hWnd, &swapChainDesc, &swapChainFSDesc,
+			hWnd, &swapChainDesc, nullptr,
 			nullptr, &swapChain));
 
 	GFX_THROW_INFO(factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
@@ -227,14 +226,14 @@ void CEDirect3D12Graphics::LoadAssets() {
 #else
 		UINT compileFlags = 0
 #endif
-		GFX_THROW_INFO(
-			D3DCompileFromFile(GetShadersPath(L"CED3D12VertexShader.hlsl").c_str(), nullptr, nullptr, "main", "vs_5_0",
-				compileFlags, 0, &pVertexShader, nullptr));
-		GFX_THROW_INFO(D3DCompileFromFile(GetShadersPath(L"CED3D12PixelShader.hlsl").c_str(), nullptr, nullptr, "main",
-			"ps_5_0", compileFlags, 0, &pPixelShader, nullptr));
+		//TODO: Fix compile from file
+		GFX_THROW_INFO(D3DCompileFromFile(GetShadersPath(L"CED3D12VertexShader.hlsl").c_str(), nullptr, nullptr, "main", "vs_4_0_level_9_3", compileFlags, 0, &pVertexShader, nullptr));
+		GFX_THROW_INFO(D3DCompileFromFile(GetShadersPath(L"CED3D12PixelShader.hlsl").c_str(), nullptr, nullptr, "main", "ps_4_0_level_9_3", compileFlags, 0, &pPixelShader, nullptr));
+		// GFX_THROW_INFO(D3DReadFileToBlob(L"CEVertexShader.cso", &pVertexShader));
+		// GFX_THROW_INFO(D3DReadFileToBlob(L"CEPixelShader.cso", &pPixelShader));
 		D3D12_INPUT_ELEMENT_DESC inputElementDescs[] = {
-			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+					{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
 		};
 
 
@@ -290,6 +289,7 @@ void CEDirect3D12Graphics::LoadAssets() {
 		psoDesc.NumRenderTargets = 1;
 		psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 		psoDesc.SampleDesc.Count = 1;
+		GFX_THROW_INFO(pDevice->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState)));
 	}
 
 	GFX_THROW_INFO(
@@ -301,11 +301,11 @@ void CEDirect3D12Graphics::LoadAssets() {
 	{
 		const auto aspectRatio = CEConverters::gcd((int)800, (int)600);
 		// Define the geometry for a triangle.
-		CEVertex triangleVertices[] =
+		Vertex triangleVertices[] =
 		{
-			{{0.0f, 0.25f * aspectRatio, 0.0f}},
-			{{0.25f, -0.25f * aspectRatio, 0.0f}},
-			{{-0.25f, -0.25f * aspectRatio, 0.0f}}
+			{{0.0f, 0.25f * aspectRatio, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+			{{0.25f, -0.25f * aspectRatio, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+			{{-0.25f, -0.25f * aspectRatio, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}}
 		};
 
 		const UINT vertexBufferSize = sizeof(triangleVertices);
@@ -341,7 +341,7 @@ void CEDirect3D12Graphics::LoadAssets() {
 
 		// Initialize the vertex buffer view.
 		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
-		m_vertexBufferView.StrideInBytes = sizeof(CEVertex);
+		m_vertexBufferView.StrideInBytes = sizeof(Vertex);
 		m_vertexBufferView.SizeInBytes = vertexBufferSize;
 	}
 
