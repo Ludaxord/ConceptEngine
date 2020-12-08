@@ -2,24 +2,24 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe</FullPath>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\CED3D12PixelShader.cso</FullPath>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\CED3D12PixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\CED3D12VertexShader.cso</FullPath>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\CED3D12VertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEPixelShader.cso</FullPath>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEVertexShader.cso</FullPath>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\shader.cso</FullPath>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\shader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

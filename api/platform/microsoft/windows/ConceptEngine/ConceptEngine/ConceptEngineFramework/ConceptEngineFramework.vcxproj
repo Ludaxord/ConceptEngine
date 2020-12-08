@@ -20,35 +20,51 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEController.h" />
+    <ClInclude Include="CEDirect3DGraphics.h" />
     <ClInclude Include="CEException.h" />
+    <ClInclude Include="CEGraphics.h" />
+    <ClInclude Include="CEInfoManager.h" />
     <ClInclude Include="CEKeyboard.h" />
+    <ClInclude Include="CELib.h" />
+    <ClInclude Include="CEMetalGraphics.h" />
     <ClInclude Include="CEMouse.h" />
+    <ClInclude Include="CEOpenGLGraphics.h" />
     <ClInclude Include="CETimer.h" />
     <ClInclude Include="CETools.h" />
+    <ClInclude Include="CEVulkanGraphics.h" />
     <ClInclude Include="CEWindow.h" />
-    <ClInclude Include="CEWindowsMessage.h" />
+    <ClInclude Include="CEWindowMessage.h" />
     <ClInclude Include="ConceptEngine.h" />
-    <ClInclude Include="CEGraphics.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEController.cpp" />
+    <ClCompile Include="CEDirect3DGraphics.cpp" />
     <ClCompile Include="CEException.cpp" />
+    <ClCompile Include="CEGraphics.cpp" />
+    <ClCompile Include="CEInfoManager.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
+    <ClCompile Include="CEMetalGraphics.cpp" />
     <ClCompile Include="CEMouse.cpp" />
+    <ClCompile Include="CEOpenGLGraphics.cpp" />
     <ClCompile Include="CETimer.cpp" />
     <ClCompile Include="CETools.cpp" />
+    <ClCompile Include="CEVulkanGraphics.cpp" />
     <ClCompile Include="CEWindow.cpp" />
-    <ClCompile Include="CEWindowsMessage.cpp" />
+    <ClCompile Include="CEWindowMessage.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />
-    <ClCompile Include="CEGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="conanfile.txt" />
+    <ResourceCompile Include="ConceptEngineFramework.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\..\..\Data\pses\exports\conceptenginelogo.png" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{39bd14dc-44b0-4c15-aec2-8e030a1576d2}</ProjectGuid>
+    <ProjectGuid>{d91c74fd-b6a3-4604-819a-6bbd97737979}</ProjectGuid>
     <RootNamespace>ConceptEngineFramework</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -92,7 +108,6 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\x64\Debug\.conan\conanbuildinfo.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -119,12 +134,16 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -137,6 +156,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -145,6 +165,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -155,12 +178,16 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -173,6 +200,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -181,6 +209,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

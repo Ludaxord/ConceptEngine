@@ -1,3 +1,73 @@
-﻿  CEDirect3D12Graphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(10,7): warning C4101: 'statement': unreferenced local variable
-  ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe
+﻿  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\CED3D12PixelShader.cso
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\CED3D12VertexShader.cso
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEPixelShader.cso
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEVertexShader.cso
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\shader.cso
+  CEDirect3D11Graphics.cpp
+  CEDirect3D12Graphics.cpp
+  CEDirect3DGraphics.cpp
+  CEDxgiInfoManager.cpp
+  CEException.cpp
+  CEGraphics.cpp
+  CEKeyboard.cpp
+  CEMouse.cpp
+  CEOpenGLGraphics.cpp
+  CEPlaystationController.cpp
+  CETimer.cpp
+  CEVulkanGraphics.cpp
+  CEWindow.cpp
+  CEConverters.cpp
+  CEWindowsMessage.cpp
+  CEXboxController.cpp
+  ConceptEngine.cpp
+  dxerr.cpp
+  WinMain.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition (compiling source file CEDxgiInfoManager.cpp)
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT' (compiling source file CEDxgiInfoManager.cpp)
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(42,1): warning C4005: 'STRICT': macro redefinition (compiling source file CEDxgiInfoManager.cpp)
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT' (compiling source file CEDxgiInfoManager.cpp)
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition (compiling source file CEDirect3D11Graphics.cpp)
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT' (compiling source file CEDirect3D11Graphics.cpp)
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(42,1): warning C4005: 'STRICT': macro redefinition (compiling source file CEDirect3D11Graphics.cpp)
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT' (compiling source file CEDirect3D11Graphics.cpp)
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEDirect3D12Graphics.cpp(10,7): warning C4101: 'statement': unreferenced local variable
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ] (compiling source file CEGraphics.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ] (compiling source file CEGraphics.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ] (compiling source file CEGraphics.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ] (compiling source file CEGraphics.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ] (compiling source file CEGraphics.cpp)
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEGraphics.cpp(53): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEGraphics.cpp(53): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+  ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe

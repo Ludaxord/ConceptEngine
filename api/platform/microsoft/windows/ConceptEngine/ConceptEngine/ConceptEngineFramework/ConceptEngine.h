@@ -1,14 +1,17 @@
 #pragma once
 #include <Windows.h>
 
+
+#include "CETimer.h"
+#include "CEWindow.h"
+
 class ConceptEngine {
 public:
 	ConceptEngine();
-
-public:
+	ConceptEngine(int width, int height, const char* name);
 	int Run();
-
+	void MakeFrame();
 private:
-	static void WelcomeMessage();
-
+	CEWindow window_;
+	CETimer timer_;
 };

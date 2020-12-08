@@ -1,3 +1,6 @@
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\CED3D12PixelShader.cso
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\CED3D12VertexShader.cso
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\directx\ConceptEngine\ConceptEngine\Debug\shader.cso
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\CED3D12PixelShader.cso
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\CED3D12VertexShader.cso
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\shader.cso
