@@ -67,7 +67,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CEMetalGraphics.h">
-      <Filter>Header Files</Filter>
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +114,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEMetalGraphics.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

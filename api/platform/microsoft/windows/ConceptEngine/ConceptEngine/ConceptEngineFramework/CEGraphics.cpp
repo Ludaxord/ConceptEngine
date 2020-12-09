@@ -5,6 +5,10 @@
 #include <iostream>
 #include <magic_enum.hpp>
 
+
+
+#include "CEDirect3DGraphics.h"
+#include "CEMetalGraphics.h"
 #include "CEOpenGLGraphics.h"
 #include "CETools.h"
 #include "CEVulkanGraphics.h"
@@ -115,19 +119,19 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTy
 	CEGraphics* graphics = nullptr;
 	switch (apiTypes) {
 	case CEGraphicsApiTypes::direct3d11:
-		// graphics = new CEDirect3D11Graphics(hWnd);
+		graphics = new CEDirect3DGraphics(hWnd, apiTypes);
 		break;
 	case CEGraphicsApiTypes::direct3d12:
-		// graphics = new CEDirect3D12Graphics(hWnd);
+		graphics = new CEDirect3DGraphics(hWnd, apiTypes);
 		break;
 	case CEGraphicsApiTypes::vulkan:
-		// graphics = new CEVulkanGraphics(hWnd);
+		graphics = new CEVulkanGraphics(hWnd);
 		break;
 	case CEGraphicsApiTypes::opengl:
-		// graphics = new CEOpenGLGraphics(hWnd);
+		graphics = new CEOpenGLGraphics(hWnd);
 		break;
 	case CEGraphicsApiTypes::metal:
-		// graphics = new CEMetalGraphics(hWnd);
+		graphics = new CEMetalGraphics(hWnd);
 		break;
 	default:
 		// graphics = new CEDirect3D11Graphics(hWnd);
