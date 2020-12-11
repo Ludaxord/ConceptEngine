@@ -10,6 +10,9 @@ public:
 	void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
 		CEDefaultFigureTypes figureTypes) override;
+
+	void CreateDirect3D12();
+	void CreateDirect3D11();
 protected:
 #ifndef NDEBUG
 	CEInfoManager infoManager;
