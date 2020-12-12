@@ -141,6 +141,10 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTy
 	return graphics;
 }
 
+CEGraphicsManager CEGraphics::GetGraphicsManager() {
+	return CEGraphicsManager();
+}
+
 void CEGraphics::ResolveSelectedGraphicsAPI() {
 	std::ostringstream oss;
 	oss << "Graphics API type: ";

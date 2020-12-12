@@ -7,6 +7,8 @@
 #include <complex>
 #include <DirectXMath.h>
 
+#include "CEGraphicsManager.h"
+
 class CEGraphics {
 
 public:
@@ -94,6 +96,7 @@ public:
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTypes);
+	virtual CEGraphicsManager GetGraphicsManager();
 protected:
 	void ResolveSelectedGraphicsAPI();
 

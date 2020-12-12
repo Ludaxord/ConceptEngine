@@ -16,6 +16,24 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{b00948fb-6095-4500-ad6f-88f4ad776eaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\GraphicsTools">
+      <UniqueIdentifier>{f727d2c6-71ad-45b8-aa51-da043573a15b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GraphicsTools\Direct3D">
+      <UniqueIdentifier>{31b462af-6fe4-42fd-84d7-959fef176db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GraphicsTools\Vulkan">
+      <UniqueIdentifier>{1b0af38f-07d5-4d02-bbd0-c7123c6f1281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GraphicsTools\OpenGL">
+      <UniqueIdentifier>{5e02fbd2-cd57-4f41-bf75-3bfc36b6eff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GraphicsTools\Metal">
+      <UniqueIdentifier>{7223c8f6-4cde-4247-940b-f376218f7d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\GraphicsTools\Global">
+      <UniqueIdentifier>{abad678f-7f13-4968-9664-3897b10ecaec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -35,9 +53,6 @@
     </ClInclude>
     <ClInclude Include="CETimer.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDirect3DGraphics.h">
-      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="CEOpenGLGraphics.h">
       <Filter>Graphics</Filter>
@@ -68,6 +83,36 @@
     </ClInclude>
     <ClInclude Include="CEMetalGraphics.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDevice.h">
+      <Filter>Graphics\GraphicsTools\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="CED3D12Device.h">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CED3D11Device.h">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGraphicsManager.h">
+      <Filter>Graphics\GraphicsTools\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="CEOpenGLManager.h">
+      <Filter>Graphics\GraphicsTools\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="CEVulkanManager.h">
+      <Filter>Graphics\GraphicsTools\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3D12Manager.h">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3D11Manager.h">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3DGraphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="CEMetalManager.h">
+      <Filter>Graphics\GraphicsTools\Metal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +160,27 @@
     </ClCompile>
     <ClCompile Include="CEMetalGraphics.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="CED3D12Device.cpp">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CED3D11Device.cpp">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CEOpenGLManager.cpp">
+      <Filter>Graphics\GraphicsTools\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="CEVulkanManager.cpp">
+      <Filter>Graphics\GraphicsTools\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirect3D12Manager.cpp">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirect3D11Manager.cpp">
+      <Filter>Graphics\GraphicsTools\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CEMetalManager.cpp">
+      <Filter>Graphics\GraphicsTools\Metal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

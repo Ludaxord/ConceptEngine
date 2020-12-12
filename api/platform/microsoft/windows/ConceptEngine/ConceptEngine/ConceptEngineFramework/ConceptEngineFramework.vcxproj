@@ -20,36 +20,52 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEController.h" />
+    <ClInclude Include="CED3D11Device.h" />
+    <ClInclude Include="CED3D12Device.h" />
+    <ClInclude Include="CEDevice.h" />
+    <ClInclude Include="CEDirect3D11Manager.h" />
     <ClInclude Include="CEDirect3DGraphics.h" />
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
+    <ClInclude Include="CEGraphicsManager.h" />
     <ClInclude Include="CEInfoManager.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CELib.h" />
     <ClInclude Include="CEMetalGraphics.h" />
+    <ClInclude Include="CEMetalManager.h" />
     <ClInclude Include="CEMouse.h" />
     <ClInclude Include="CEOpenGLGraphics.h" />
+    <ClInclude Include="CEOpenGLManager.h" />
     <ClInclude Include="CETimer.h" />
     <ClInclude Include="CETools.h" />
     <ClInclude Include="CEVulkanGraphics.h" />
+    <ClInclude Include="CEVulkanManager.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="CEWindowMessage.h" />
     <ClInclude Include="ConceptEngine.h" />
+    <ClInclude Include="CEDirect3D12Manager.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEController.cpp" />
+    <ClCompile Include="CED3D11Device.cpp" />
+    <ClCompile Include="CED3D12Device.cpp" />
+    <ClCompile Include="CEDirect3D11Manager.cpp" />
+    <ClCompile Include="CEDirect3D12Manager.cpp" />
     <ClCompile Include="CEDirect3DGraphics.cpp" />
     <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
     <ClCompile Include="CEInfoManager.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMetalGraphics.cpp" />
+    <ClCompile Include="CEMetalManager.cpp" />
     <ClCompile Include="CEMouse.cpp" />
     <ClCompile Include="CEOpenGLGraphics.cpp" />
+    <ClCompile Include="CEOpenGLManager.cpp" />
     <ClCompile Include="CETimer.cpp" />
     <ClCompile Include="CETools.cpp" />
     <ClCompile Include="CEVulkanGraphics.cpp" />
+    <ClCompile Include="CEVulkanManager.cpp" />
     <ClCompile Include="CEWindow.cpp" />
     <ClCompile Include="CEWindowMessage.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />

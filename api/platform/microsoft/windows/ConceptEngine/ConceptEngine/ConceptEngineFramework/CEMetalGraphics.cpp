@@ -1,5 +1,7 @@
 #include "CEMetalGraphics.h"
 
+#include "CEMetalManager.h"
+
 CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEGraphicsApiTypes::metal) {
 }
 
@@ -10,5 +12,9 @@ void CEMetalGraphics::ClearBuffer(float red, float green, float blue, float alph
 }
 
 void CEMetalGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	CEDefaultFigureTypes figureTypes) {
+                                        CEDefaultFigureTypes figureTypes) {
+}
+
+CEGraphicsManager CEMetalGraphics::GetGraphicsManager() {
+	return static_cast<CEGraphicsManager>(CEMetalManager());
 }

@@ -2,6 +2,8 @@
 
 #include <magic_enum.hpp>
 
+
+#include "CEDirect3D12Manager.h"
 #include "CETools.h"
 
 CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEGraphicsApiTypes apiType): CEGraphics(hWnd, apiType) {
@@ -37,4 +39,12 @@ void CEDirect3DGraphics::CreateDirect3D12() {
 }
 
 void CEDirect3DGraphics::CreateDirect3D11() {
+}
+
+CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
+	if (graphicsApiType == CEGraphicsApiTypes::direct3d11) {
+		return static_cast<CEGraphicsManager>(CEDirect3D11Manager());
+	} else {
+		return static_cast<CEGraphicsManager>(CEDirect3D12Manager());
+	}
 }
