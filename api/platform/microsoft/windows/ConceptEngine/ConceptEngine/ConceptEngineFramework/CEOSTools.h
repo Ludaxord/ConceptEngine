@@ -31,11 +31,8 @@ public:
 
 private:
 	static bool CheckVulkanCompatible();
-	static const char* CheckVulkanVersion();
 	static bool CheckDirect3DCompatible();
 	static const char* CheckDirect3DVersion();
 	static bool CheckMetalCompatible();
-	static const char* CheckMetalVersion();
 	static bool CheckOpenGLCompatible();
-	static const char* CheckOpenGLVersion();
 };
