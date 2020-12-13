@@ -1,0 +1,22 @@
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments '--version'
+Conan version 1.31.4
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments 'install F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\conanfile.txt -g visual_studio --install-folder F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\.conan -s arch=x86 -s build_type=Debug -s compiler.toolset=v142 -s compiler.version=16 -s compiler.runtime=MDd  --build --update'
+Configuration:
+[settings]
+arch=x86
+arch_build=x86_64
+build_type=Debug
+compiler=Visual Studio
+compiler.runtime=MDd
+compiler.toolset=v142
+compiler.version=16
+os=Windows
+os_build=Windows
+[options]
+[build_requires]
+[env]
+
+glad/0.1.29: Not found in local cache, looking in remotes...
+glad/0.1.29: Trying with 'conan-center'...
+ERROR: Unable to find 'glad/0.1.29' in remotes
+Conan has returned exit code '1' while processing configuration 'Architecture: x86, build type: Debug, compiler toolset: v142, compiler version: 16;, runtime library: MDd'. Please check file 'F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\.conan\conan_31f9b7ce-bf24-4c93-a8e6-b9de476b4bb1.log' for details.

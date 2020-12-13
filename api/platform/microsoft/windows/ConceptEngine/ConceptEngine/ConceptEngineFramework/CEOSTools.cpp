@@ -1,10 +1,6 @@
 #include "CEOSTools.h"
 
-#include <libloaderapi.h>
-
 #include "CETools.h"
-
-// #include <libloaderapi.h>
 
 CEOSTools::CEOSType CEOSTools::GetOperatingSystem() {
 #ifdef _WIN64
@@ -55,20 +51,7 @@ std::list<CEOSTools::CEGraphicsApiTypes> CEOSTools::GetCompatibleGraphics() {
 }
 
 bool CEOSTools::CheckVulkanCompatible() {
-	auto* const vk = LoadLibraryA("vulkan-1.dll");
-	if (!vk) {
-		return false;
-	}
-	const auto vkGetInstanceProcAddr = GetProcAddress(vk, "vkGetInstanceProcAddr");
-	if (!vkGetInstanceProcAddr) {
-		return false;
-	}
-	const auto vkCreateInstance = vkGetInstanceProcAddr();
-	if (!vkCreateInstance) {
-		return false;
-	}
-	return true;
-
+	return false;
 }
 
 bool CEOSTools::CheckDirect3DCompatible() {

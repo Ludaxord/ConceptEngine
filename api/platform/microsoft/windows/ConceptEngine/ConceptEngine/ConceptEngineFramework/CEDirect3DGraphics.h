@@ -3,11 +3,6 @@
 #include "CEInfoManager.h"
 
 #include <d3d11.h>
-#include <d3d12.h>
-#include <dxgi1_6.h>
-#include <D3Dcompiler.h>
-#include <DirectXMath.h>
-#include <winrt/base.h>
 #include "CEDirect3D11Manager.h"
 #include "CEOSTools.h"
 
@@ -22,10 +17,11 @@ public:
 	void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
 	                       CEDefaultFigureTypes figureTypes) override;
+	CEGraphicsManager GetGraphicsManager() override;
 
+private:
 	void CreateDirect3D12();
 	void CreateDirect3D11();
-	CEGraphicsManager GetGraphicsManager() override;
 protected:
 #ifndef NDEBUG
 	CEInfoManager infoManager;
