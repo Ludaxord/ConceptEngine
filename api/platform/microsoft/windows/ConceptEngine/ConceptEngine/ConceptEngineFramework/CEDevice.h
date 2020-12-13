@@ -1,5 +1,5 @@
 #pragma once
 class CEDevice {
-public:
-	virtual void CreateDevice();
+	// public:
+	// virtual void CreateDevice();
 };

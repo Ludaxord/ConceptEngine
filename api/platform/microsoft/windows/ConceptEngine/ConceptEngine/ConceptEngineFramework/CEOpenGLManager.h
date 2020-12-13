@@ -2,5 +2,6 @@
 #include "CEGraphicsManager.h"
 
 class CEOpenGLManager : public CEGraphicsManager {
-
+protected:
+	CEDevice GetDevice() override;
 };
