@@ -8,6 +8,8 @@
 #include "CEWindowMessage.h"
 #include <magic_enum.hpp>
 
+
+#include "CEOSTools.h"
 #include "CETools.h"
 #include "CEWindowMessage.h"
 
@@ -174,7 +176,7 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
-	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, CEGraphics::CEGraphicsApiTypes::direct3d12);
+	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, CEOSTools::CEGraphicsApiTypes::direct3d12);
 	std::unique_ptr<CEGraphics> graphics(api);
 	pGraphics = std::move(graphics);
 }

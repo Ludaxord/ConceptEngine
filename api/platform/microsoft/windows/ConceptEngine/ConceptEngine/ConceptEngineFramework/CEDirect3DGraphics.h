@@ -9,13 +9,14 @@
 #include <DirectXMath.h>
 #include <winrt/base.h>
 #include "CEDirect3D11Manager.h"
+#include "CEOSTools.h"
 
 #pragma comment(lib, "d3d11.lib")
 
 
 class CEDirect3DGraphics : public CEGraphics {
 public:
-	CEDirect3DGraphics(HWND hWnd, CEGraphicsApiTypes apiType);
+	CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType);
 
 	void EndFrame() override;
 	void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;

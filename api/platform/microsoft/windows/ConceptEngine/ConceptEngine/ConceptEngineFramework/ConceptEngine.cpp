@@ -9,7 +9,7 @@ ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* wind
 
 }
 
-ConceptEngine::ConceptEngine(int width, int height, const char* name, CEGraphics::CEGraphicsApiTypes graphicsApiType) : ConceptEngine(width, height, name) {
+ConceptEngine::ConceptEngine(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType) : ConceptEngine(width, height, name) {
 }
 
 int ConceptEngine::Run() {

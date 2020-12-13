@@ -1,7 +1,6 @@
-#include "CEOS.h"
-#include <stdio.h>
+#include "CEOSTools.h"
 
-CEOS::CEOSType CEOS::GetOperatingSystem() {
+CEOSTools::CEOSType CEOSTools::GetOperatingSystem() {
 #ifdef _WIN64
 	return CEOSType::Windows_64Bit;
 #elif _WIN32
@@ -43,40 +42,40 @@ CEOS::CEOSType CEOS::GetOperatingSystem() {
 #endif
 }
 
-std::list<CEGraphics::CEGraphicsApiTypes> CEOS::GetCompatibleGraphics() {
-	std::list<CEGraphics::CEGraphicsApiTypes> graphicsTypes;
+std::list<CEOSTools::CEGraphicsApiTypes> CEOSTools::GetCompatibleGraphics() {
+	std::list<CEOSTools::CEGraphicsApiTypes> graphicsTypes;
 	//TODO: Check compatible graphics
 	return graphicsTypes;
 }
 
-bool CEOS::CheckVulkanCompatible() {
+bool CEOSTools::CheckVulkanCompatible() {
 	return false;
 }
 
-const char* CEOS::CheckVulkanVersion() {
+const char* CEOSTools::CheckVulkanVersion() {
 	return "";
 }
 
-bool CEOS::CheckDirect3DCompatible() {
+bool CEOSTools::CheckDirect3DCompatible() {
 	return false;
 }
 
-const char* CEOS::CheckDirect3DVersion() {
+const char* CEOSTools::CheckDirect3DVersion() {
 	return "";
 }
 
-bool CEOS::CheckMetalCompatible() {
+bool CEOSTools::CheckMetalCompatible() {
 	return false;
 }
 
-const char* CEOS::CheckMetalVersion() {
+const char* CEOSTools::CheckMetalVersion() {
 	return "";
 }
 
-bool CEOS::CheckOpenGLCompatible() {
+bool CEOSTools::CheckOpenGLCompatible() {
 	return false;
 }
 
-const char* CEOS::CheckOpenGLVersion() {
+const char* CEOSTools::CheckOpenGLVersion() {
 	return "";
 }

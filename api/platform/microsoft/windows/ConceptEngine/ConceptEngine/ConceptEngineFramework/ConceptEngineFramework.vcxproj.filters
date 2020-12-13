@@ -168,7 +168,7 @@
     <ClInclude Include="CETools.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="CEOS.h">
+    <ClInclude Include="CEOSTools.h">
       <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
@@ -248,7 +248,7 @@
     <ClCompile Include="CETools.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="CEOS.cpp">
+    <ClCompile Include="CEOSTools.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,8 +1,9 @@
 #include "CEMetalGraphics.h"
 
 #include "CEMetalManager.h"
+#include "CEOSTools.h"
 
-CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEGraphicsApiTypes::metal) {
+CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::metal) {
 }
 
 void CEMetalGraphics::EndFrame() {

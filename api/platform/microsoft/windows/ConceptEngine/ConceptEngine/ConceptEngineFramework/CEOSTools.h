@@ -1,9 +1,8 @@
 #pragma once
+#pragma once
 #include <list>
 
-#include "CEGraphics.h"
-
-class CEOS {
+class CEOSTools {
 public:
 	enum class CEOSType {
 		Windows_64Bit,
@@ -18,9 +17,17 @@ public:
 		Undefined
 	};
 
+	enum class CEGraphicsApiTypes {
+		direct3d11,
+		direct3d12,
+		vulkan,
+		opengl,
+		metal
+	};
+
 public:
 	static CEOSType GetOperatingSystem();
-	static std::list<CEGraphics::CEGraphicsApiTypes> GetCompatibleGraphics();
+	static std::list<CEGraphicsApiTypes> GetCompatibleGraphics();
 
 private:
 	static bool CheckVulkanCompatible();

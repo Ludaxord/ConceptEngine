@@ -98,7 +98,7 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
-CEGraphics::CEGraphics(HWND hWnd, CEGraphicsApiTypes apiType) : graphicsApiType(apiType) {
+CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType) : graphicsApiType(apiType) {
 	ResolveSelectedGraphicsAPI();
 }
 
@@ -113,28 +113,28 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 }
 
 
-CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTypes) {
+CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes) {
 	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
 	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class, https://docs.microsoft.com/en-us/cpp/cpp/abstract-classes-cpp?view=msvc-160
 	CEGraphics* graphics = nullptr;
 	switch (apiTypes) {
-	case CEGraphicsApiTypes::direct3d11:
+	case CEOSTools::CEGraphicsApiTypes::direct3d11:
 		graphics = new CEDirect3DGraphics(hWnd, apiTypes);
 		break;
-	case CEGraphicsApiTypes::direct3d12:
+	case CEOSTools::CEGraphicsApiTypes::direct3d12:
 		graphics = new CEDirect3DGraphics(hWnd, apiTypes);
 		break;
-	case CEGraphicsApiTypes::vulkan:
+	case CEOSTools::CEGraphicsApiTypes::vulkan:
 		graphics = new CEVulkanGraphics(hWnd);
 		break;
-	case CEGraphicsApiTypes::opengl:
+	case CEOSTools::CEGraphicsApiTypes::opengl:
 		graphics = new CEOpenGLGraphics(hWnd);
 		break;
-	case CEGraphicsApiTypes::metal:
+	case CEOSTools::CEGraphicsApiTypes::metal:
 		graphics = new CEMetalGraphics(hWnd);
 		break;
 	default:
-		// graphics = new CEDirect3D11Graphics(hWnd);
+		graphics = new CEOpenGLGraphics(hWnd);
 		break;
 	}
 

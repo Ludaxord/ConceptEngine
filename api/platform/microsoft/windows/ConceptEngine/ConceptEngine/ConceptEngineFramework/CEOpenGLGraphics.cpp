@@ -1,8 +1,9 @@
 #include "CEOpenGLGraphics.h"
 
 #include "CEOpenGLManager.h"
+#include "CEOSTools.h"
 
-CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd): CEGraphics(hWnd, CEGraphicsApiTypes::opengl) {
+CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::opengl) {
 }
 
 void CEOpenGLGraphics::EndFrame() {

@@ -1,8 +1,10 @@
 #include "CEVulkanGraphics.h"
 
+
+#include "CEOSTools.h"
 #include "CEVulkanManager.h"
 
-CEVulkanGraphics::CEVulkanGraphics(HWND hWnd): CEGraphics(hWnd, CEGraphicsApiTypes::vulkan) {
+CEVulkanGraphics::CEVulkanGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::vulkan) {
 }
 
 void CEVulkanGraphics::EndFrame() {

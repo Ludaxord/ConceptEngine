@@ -1,27 +1,15 @@
 #pragma once
 #include "CEException.h"
-#include "CELib.h"
 #include <wrl.h>
-#include "CEException.h"
 #include <vector>
 #include <complex>
-#include <DirectXMath.h>
 
 #include "CEGraphicsManager.h"
+#include "CEOSTools.h"
 
 class CEGraphics {
 
 public:
-	//TODO: Finish Direct3D 11 basic implementation of shaders and add usage of direct3d 12 and Vulkan
-	//TODO: Resources: https://github.com/NVIDIAGameWorks/DxrTutorials, https://github.com/microsoft/DirectX-Graphics-Samples, https://github.com/KhronosGroup/Vulkan-Samples
-	enum class CEGraphicsApiTypes {
-		direct3d11,
-		direct3d12,
-		vulkan,
-		opengl,
-		metal
-	};
-
 	enum class CEDefaultFigureTypes {
 		triangle2d,
 		cube3d
@@ -83,7 +71,7 @@ public:
 	};
 
 public:
-	CEGraphics(HWND hWnd, CEGraphicsApiTypes apiType);
+	CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType);
 	CEGraphics(const CEGraphics&) = delete;
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
 	virtual ~CEGraphics() = default;
@@ -95,7 +83,7 @@ public:
 	                               CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
 
 public:
-	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEGraphicsApiTypes apiTypes);
+	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes);
 	virtual CEGraphicsManager GetGraphicsManager();
 protected:
 	void ResolveSelectedGraphicsAPI();
@@ -105,5 +93,5 @@ protected:
 	//TODO: add: Vulkan implementation => Source: https://www.khronos.org/registry/vulkan/specs/1.2/styleguide.html
 	//TODO: add OpenGL implementation => Source: https://www.khronos.org/registry/OpenGL/index_gl.php
 
-	CEGraphicsApiTypes graphicsApiType;
+	CEOSTools::CEGraphicsApiTypes graphicsApiType;
 };

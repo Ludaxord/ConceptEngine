@@ -6,11 +6,11 @@
 #include "CEDirect3D12Manager.h"
 #include "CETools.h"
 
-CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEGraphicsApiTypes apiType): CEGraphics(hWnd, apiType) {
-	if (apiType == CEGraphicsApiTypes::direct3d11) {
+CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType): CEGraphics(hWnd, apiType) {
+	if (apiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
 		CreateDirect3D11();
 	}
-	else if (apiType == CEGraphicsApiTypes::direct3d12) {
+	else if (apiType == CEOSTools::CEGraphicsApiTypes::direct3d12) {
 		CreateDirect3D12();
 	}
 	else {
@@ -42,7 +42,7 @@ void CEDirect3DGraphics::CreateDirect3D11() {
 }
 
 CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
-	if (graphicsApiType == CEGraphicsApiTypes::direct3d11) {
+	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
 		return static_cast<CEGraphicsManager>(CEDirect3D11Manager());
 	} else {
 		return static_cast<CEGraphicsManager>(CEDirect3D12Manager());
