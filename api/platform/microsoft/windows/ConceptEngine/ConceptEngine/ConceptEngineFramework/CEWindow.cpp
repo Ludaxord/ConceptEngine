@@ -81,7 +81,6 @@ const char* CEWindow::GraphicsException::GetType() const noexcept {
 	return "Concept Engine Window Exception [No Graphics]";
 }
 
-
 double CEWindow::CEScreen::CalculateAspectRatio(int horizontal, int vertical) {
 	return (double)(horizontal / vertical);
 }
@@ -141,7 +140,6 @@ void CEWindow::SetWindowType(CEWindowTypes windowType) noexcept {
 HINSTANCE CEWindow::CEWindowClass::GetInstance() noexcept {
 	return wndClass.hInst;
 }
-
 
 CEWindow::CEWindowClass::~CEWindowClass() {
 	UnregisterClass(CETools::ConvertCharArrayToLPCWSTR(wndClassName), GetInstance());

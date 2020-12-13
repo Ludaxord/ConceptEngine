@@ -1,24 +1,4 @@
-﻿  CED3D11Device.cpp
-  CED3D12Device.cpp
-  CEDirect3D11Manager.cpp
-  CEDirect3D12Manager.cpp
-  CEDirect3DGraphics.cpp
-  CEGraphics.cpp
-  CEInfoManager.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  CEMetalDevice.cpp
-  CEMetalGraphics.cpp
-  CEMetalManager.cpp
-  CEOpenGLDevice.cpp
-  CEOpenGLGraphics.cpp
-  CEOpenGLManager.cpp
-  CEVulkanDevice.cpp
-  CEVulkanGraphics.cpp
-  CEVulkanManager.cpp
-  CEWindow.cpp
+﻿  CEOS.cpp
   ConceptEngine.cpp
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'

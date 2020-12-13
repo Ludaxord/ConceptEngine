@@ -43,7 +43,6 @@ public:
 		tools
 	};
 
-	//TODO: create separate class for screen
 	enum class CEScreenTypes {
 		primary,
 		allCombined,
@@ -51,7 +50,6 @@ public:
 		specific
 	};
 
-	//TODO: create separate class for screen
 	struct CEScreen {
 		int horizontal = 0;
 		int vertical = 0;

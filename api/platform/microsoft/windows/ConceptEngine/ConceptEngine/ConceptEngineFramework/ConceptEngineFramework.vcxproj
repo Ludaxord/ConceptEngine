@@ -38,6 +38,7 @@
     <ClInclude Include="CEOpenGLDevice.h" />
     <ClInclude Include="CEOpenGLGraphics.h" />
     <ClInclude Include="CEOpenGLManager.h" />
+    <ClInclude Include="CEOS.h" />
     <ClInclude Include="CETimer.h" />
     <ClInclude Include="CETools.h" />
     <ClInclude Include="CEVulkanDevice.h" />
@@ -67,6 +68,7 @@
     <ClCompile Include="CEOpenGLDevice.cpp" />
     <ClCompile Include="CEOpenGLGraphics.cpp" />
     <ClCompile Include="CEOpenGLManager.cpp" />
+    <ClCompile Include="CEOS.cpp" />
     <ClCompile Include="CETimer.cpp" />
     <ClCompile Include="CETools.cpp" />
     <ClCompile Include="CEVulkanDevice.cpp" />

@@ -1,11 +1,15 @@
 #include "ConceptEngine.h"
 
 ConceptEngine::ConceptEngine() : window_(800, 600, "Concept Engine Editor") {
+
 }
 
 ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* windowName) : window_(
 	windowWidth, windowHeight, windowName) {
 
+}
+
+ConceptEngine::ConceptEngine(int width, int height, const char* name, CEGraphics::CEGraphicsApiTypes graphicsApiType) : ConceptEngine(width, height, name) {
 }
 
 int ConceptEngine::Run() {

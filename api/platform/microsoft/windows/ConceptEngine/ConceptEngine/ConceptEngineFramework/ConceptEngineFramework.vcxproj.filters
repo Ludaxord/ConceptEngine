@@ -76,6 +76,9 @@
     <Filter Include="Graphics\GraphicsTools\Metal\GraphicsObjects">
       <UniqueIdentifier>{5d5c0abb-b0f7-4d24-be80-ab637f58ecd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{ff94b88d-4291-41c6-b1b3-e7414055e692}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -109,9 +112,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CEWindowMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CETools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CELib.h">
@@ -165,6 +165,12 @@
     <ClInclude Include="CEVulkanDevice.h">
       <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="CETools.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="CEOS.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -203,9 +209,6 @@
     <ClCompile Include="CEWindowMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CETools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CEInfoManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -241,6 +244,12 @@
     </ClCompile>
     <ClCompile Include="CEVulkanDevice.cpp">
       <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CETools.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="CEOS.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
