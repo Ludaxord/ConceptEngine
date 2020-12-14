@@ -176,9 +176,12 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 	}
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
-	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, CEOSTools::CEGraphicsApiTypes::direct3d12);
-	std::unique_ptr<CEGraphics> graphics(api);
-	pGraphics = std::move(graphics);
+}
+
+CEWindow::CEWindow(int width, int height, const char* name,
+                   CEOSTools::CEGraphicsApiTypes graphicsApiType): CEWindow(width, height, name) {
+	SetGraphicsApi(graphicsApiType);
+	RunGraphics();
 }
 
 CEWindow::~CEWindow() {
@@ -189,6 +192,16 @@ void CEWindow::SetTitle(const std::string& title) {
 	if (SetWindowText(hWnd, CETools::ConvertCharArrayToLPCWSTR(title.c_str())) == 0) {
 		throw CEWIN_LAST_EXCEPTION();
 	}
+}
+
+void CEWindow::SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType) {
+	apiType_ = graphicsApiType;
+}
+
+void CEWindow::RunGraphics() {
+	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, apiType_);
+	std::unique_ptr<CEGraphics> graphics(api);
+	pGraphics = std::move(graphics);
 }
 
 CEWindow::CEScreen CEWindow::GetScreenInfo() {
@@ -242,9 +255,9 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	}
 
-	std::ostringstream cen;
-	cen << "Concept Engine Window, Type: " << magic_enum::enum_name(GetWindowType()) << "\n";
-	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(cen.str().c_str()));
+	// std::ostringstream cen;
+	// cen << "Concept Engine Window, Type: " << magic_enum::enum_name(GetWindowType()) << "\n";
+	// OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(cen.str().c_str()));
 
 	// switch to pass action to given message
 	switch (msg) {

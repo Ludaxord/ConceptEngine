@@ -41,6 +41,10 @@ void CEDirect3DGraphics::CreateDirect3D12() {
 void CEDirect3DGraphics::CreateDirect3D11() {
 }
 
+void CEDirect3DGraphics::PrintGraphicsVersion() {
+	
+}
+
 CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
 	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
 		return static_cast<CEGraphicsManager>(CEDirect3D11Manager());

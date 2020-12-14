@@ -29,10 +29,13 @@ public:
 	static CEOSType GetOperatingSystem();
 	static std::list<CEGraphicsApiTypes> GetCompatibleGraphics();
 
-private:
+public:
 	static bool CheckVulkanCompatible();
+	static const char* GetVulkanVersion();
 	static bool CheckDirect3DCompatible();
-	static const char* CheckDirect3DVersion();
+	static const char* GetDirect3DVersion();
 	static bool CheckMetalCompatible();
+	static const char* GetMetalVersion();
 	static bool CheckOpenGLCompatible();
+	static const char* GetOpenGLVersion();
 };

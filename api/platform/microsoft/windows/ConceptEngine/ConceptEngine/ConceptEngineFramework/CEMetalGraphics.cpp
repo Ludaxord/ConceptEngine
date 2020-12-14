@@ -19,3 +19,6 @@ void CEMetalGraphics::DrawDefaultFigure(float angle, float windowWidth, float wi
 CEGraphicsManager CEMetalGraphics::GetGraphicsManager() {
 	return static_cast<CEGraphicsManager>(CEMetalManager());
 }
+
+void CEMetalGraphics::PrintGraphicsVersion() {
+}

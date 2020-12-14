@@ -9,4 +9,5 @@ public:
 	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
 	                       CEDefaultFigureTypes figureTypes) override;
 	CEGraphicsManager GetGraphicsManager() override;
+	void PrintGraphicsVersion() override;
 };

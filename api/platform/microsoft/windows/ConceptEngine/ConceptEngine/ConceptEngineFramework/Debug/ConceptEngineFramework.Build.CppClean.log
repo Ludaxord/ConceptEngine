@@ -4,7 +4,6 @@ f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\concepten
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cetimer.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceostools.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceopenglmanager.obj
-f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceopenglgraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceopengldevice.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cemouse.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cemetalmanager.obj
@@ -12,7 +11,6 @@ f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\concepten
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cemetaldevice.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cekeyboard.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceinfomanager.obj
-f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cegraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceexception.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cedirect3dgraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cedirect3d12manager.obj
@@ -26,6 +24,8 @@ f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\concepten
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cevulkanmanager.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cevulkangraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cevulkandevice.obj
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\ceopenglgraphics.obj
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cegraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\debug\conceptengineframework.lib
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\conceptengineframework.res
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\cl.command.1.tlog

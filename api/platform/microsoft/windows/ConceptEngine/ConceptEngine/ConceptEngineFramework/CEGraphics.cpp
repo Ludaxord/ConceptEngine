@@ -6,7 +6,6 @@
 #include <magic_enum.hpp>
 
 
-
 #include "CEDirect3DGraphics.h"
 #include "CEMetalGraphics.h"
 #include "CEOpenGLGraphics.h"
@@ -143,6 +142,12 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApi
 
 CEGraphicsManager CEGraphics::GetGraphicsManager() {
 	return CEGraphicsManager();
+}
+
+void CEGraphics::PrintGraphicsVersion() {
+	std::wstringstream wss;
+	wss << "Graphics API" << std::endl;
+	OutputDebugString(wss.str().c_str());
 }
 
 void CEGraphics::ResolveSelectedGraphicsAPI() {

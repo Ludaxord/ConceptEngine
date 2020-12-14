@@ -1,5 +1,8 @@
 #include "CEOSTools.h"
 
+#include <GL/glew.h>
+
+
 #include "CETools.h"
 
 CEOSTools::CEOSType CEOSTools::GetOperatingSystem() {
@@ -45,7 +48,7 @@ CEOSTools::CEOSType CEOSTools::GetOperatingSystem() {
 }
 
 std::list<CEOSTools::CEGraphicsApiTypes> CEOSTools::GetCompatibleGraphics() {
-	std::list<CEOSTools::CEGraphicsApiTypes> graphicsTypes;
+	std::list<CEGraphicsApiTypes> graphicsTypes;
 	//TODO: Check compatible graphics
 	return graphicsTypes;
 }
@@ -54,11 +57,15 @@ bool CEOSTools::CheckVulkanCompatible() {
 	return false;
 }
 
+const char* CEOSTools::GetVulkanVersion() {
+	return "";
+}
+
 bool CEOSTools::CheckDirect3DCompatible() {
 	return false;
 }
 
-const char* CEOSTools::CheckDirect3DVersion() {
+const char* CEOSTools::GetDirect3DVersion() {
 	return "";
 }
 
@@ -66,6 +73,14 @@ bool CEOSTools::CheckMetalCompatible() {
 	return false;
 }
 
+const char* CEOSTools::GetMetalVersion() {
+	return "";
+}
+
 bool CEOSTools::CheckOpenGLCompatible() {
 	return false;
+}
+
+const char* CEOSTools::GetOpenGLVersion() {
+	return (char*)glGetString(GL_VERSION);
 }

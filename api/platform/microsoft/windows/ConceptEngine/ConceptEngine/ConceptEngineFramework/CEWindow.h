@@ -76,11 +76,16 @@ private:
 	};
 
 public:
+	// TODO: Detect default Graphics API type.
+	// TODO: Add constructor with ApiType
 	CEWindow(int width, int height, const char* name, CEWindowTypes windowType = CEWindowTypes::main);
+	CEWindow(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType);
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;
 	void SetTitle(const std::string& title);
+	void SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType);
+	void RunGraphics();
 	CEScreen GetScreenInfo();
 	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();
@@ -99,6 +104,7 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
+	CEOSTools::CEGraphicsApiTypes apiType_;
 	std::unique_ptr<CEGraphics> pGraphics;
 };
 

@@ -85,6 +85,7 @@ public:
 	CEScreen GetScreenInfo();
 	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();
+	void RunGraphics();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

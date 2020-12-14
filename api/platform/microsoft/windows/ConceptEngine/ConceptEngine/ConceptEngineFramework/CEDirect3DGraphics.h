@@ -22,6 +22,8 @@ public:
 private:
 	void CreateDirect3D12();
 	void CreateDirect3D11();
+public:
+	void PrintGraphicsVersion() override;
 protected:
 #ifndef NDEBUG
 	CEInfoManager infoManager;

@@ -85,6 +85,7 @@ public:
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes);
 	virtual CEGraphicsManager GetGraphicsManager();
+	virtual void PrintGraphicsVersion();
 protected:
 	void ResolveSelectedGraphicsAPI();
 

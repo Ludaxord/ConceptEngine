@@ -1,8 +1,9 @@
 #pragma once
 #include "CEGraphics.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
+#pragma comment(lib, "OpenGL32.lib")
 
 class CEOpenGLGraphics : public CEGraphics {
 public:
@@ -13,6 +14,7 @@ public:
 	                       CEDefaultFigureTypes figureTypes) override;
 	CEGraphicsManager GetGraphicsManager() override;
 
+	void PrintGraphicsVersion() override;
 private:
 	HDC g_HDC;
 };

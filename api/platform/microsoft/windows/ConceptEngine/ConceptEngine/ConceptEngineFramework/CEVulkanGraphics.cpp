@@ -20,3 +20,6 @@ void CEVulkanGraphics::DrawDefaultFigure(float angle, float windowWidth, float w
 CEGraphicsManager CEVulkanGraphics::GetGraphicsManager() {
 	return static_cast<CEGraphicsManager>(CEVulkanManager());
 }
+
+void CEVulkanGraphics::PrintGraphicsVersion() {
+}
