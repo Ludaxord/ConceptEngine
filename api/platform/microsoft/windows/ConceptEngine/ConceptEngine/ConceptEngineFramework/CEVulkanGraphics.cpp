@@ -1,6 +1,5 @@
 #include "CEVulkanGraphics.h"
 
-
 #include "CEOSTools.h"
 #include "CEVulkanManager.h"
 
@@ -14,7 +13,7 @@ void CEVulkanGraphics::ClearBuffer(float red, float green, float blue, float alp
 }
 
 void CEVulkanGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	CEDefaultFigureTypes figureTypes) {
+                                         CEDefaultFigureTypes figureTypes) {
 }
 
 CEGraphicsManager CEVulkanGraphics::GetGraphicsManager() {

@@ -1,5 +1,6 @@
 #pragma once
 #include "CEGraphics.h"
+#include <vulkan/vulkan.h>
 
 class CEVulkanGraphics : public CEGraphics {
 public:
