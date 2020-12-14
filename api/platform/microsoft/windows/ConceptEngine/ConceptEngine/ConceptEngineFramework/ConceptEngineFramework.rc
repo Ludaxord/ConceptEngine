@@ -47,19 +47,20 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// PNG
+//
+
+IDB_PNG1                PNG                     "F:\\Data\\pses\\exports\\conceptenginelogo.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Icon
 //
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// PNG
-//
-
-IDB_PNG1                PNG                     "F:\\Data\\pses\\exports\\conceptenginelogo.png"
+IDI_ICON2               ICON                    "F:\\Projects\\ConceptEngine\\assets\\conceptenginelogo.ico"
 
 #endif    // Polish (Poland) resources
 /////////////////////////////////////////////////////////////////////////////

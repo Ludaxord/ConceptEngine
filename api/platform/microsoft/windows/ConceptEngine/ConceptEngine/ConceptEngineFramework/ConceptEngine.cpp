@@ -1,6 +1,7 @@
 #include "ConceptEngine.h"
 
-ConceptEngine::ConceptEngine() : window_(800, 600, "Concept Engine Editor", CEOSTools::CEGraphicsApiTypes::opengl) {
+ConceptEngine::ConceptEngine() : apiType_(CEOSTools::CEGraphicsApiTypes::vulkan),
+                                 window_(800, 600, "Concept Engine Editor", apiType_) {
 
 }
 

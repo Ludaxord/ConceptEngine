@@ -261,7 +261,7 @@
     <Image Include="..\..\..\..\..\..\..\..\..\Data\pses\exports\conceptenginelogo.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="icon1.ico">
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

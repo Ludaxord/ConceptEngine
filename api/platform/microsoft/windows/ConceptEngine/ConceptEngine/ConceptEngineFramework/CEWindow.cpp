@@ -24,12 +24,16 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 		0,
 		0,
 		GetInstance(),
-		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDB_PNG1), IMAGE_ICON, 32, 32, 0)),
+		static_cast<HICON>(LoadImage(hInst,
+		                             MAKEINTRESOURCE(IDI_ICON2),
+		                             IMAGE_ICON, 32, 32, 0)),
 		nullptr,
 		nullptr,
 		nullptr,
 		CETools::ConvertCharArrayToLPCWSTR(GetName()),
-		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDB_PNG1), IMAGE_ICON, 16, 16, 0))
+		static_cast<HICON>(LoadImage(hInst,
+		                             MAKEINTRESOURCE(IDI_ICON2),
+		                             IMAGE_ICON, 16, 16, 0))
 	};
 	RegisterClassEx(&wc);
 }

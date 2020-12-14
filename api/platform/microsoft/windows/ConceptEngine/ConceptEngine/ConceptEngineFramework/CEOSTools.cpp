@@ -1,7 +1,10 @@
 #include "CEOSTools.h"
 
-#include <GL/glew.h>
 
+#include <activation.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <vulkan/vulkan.h>
 
 #include "CETools.h"
 

@@ -83,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\..\..\..\..\Data\pses\exports\conceptenginelogo.png" />
-    <Image Include="icon1.ico" />
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="conanfile.txt" />

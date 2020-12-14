@@ -14,7 +14,7 @@ public:
 	int Run();
 	void MakeFrame();
 private:
+	CEOSTools::CEGraphicsApiTypes apiType_;
 	CEWindow window_;
 	CETimer timer_;
-	CEOSTools::CEGraphicsApiTypes apiType_;
 };
