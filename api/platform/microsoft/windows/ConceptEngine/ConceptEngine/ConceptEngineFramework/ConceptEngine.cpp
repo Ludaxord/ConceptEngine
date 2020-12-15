@@ -1,6 +1,6 @@
 #include "ConceptEngine.h"
 
-ConceptEngine::ConceptEngine() : apiType_(CEOSTools::CEGraphicsApiTypes::vulkan),
+ConceptEngine::ConceptEngine() : apiType_(CEOSTools::CEGraphicsApiTypes::direct3d11),
                                  window_(800, 600, "Concept Engine Editor", apiType_) {
 
 }
