@@ -38,8 +38,9 @@ void CEDirect3DGraphics::DrawDefaultFigure(float angle, float windowWidth, float
                                            float z, CEDefaultFigureTypes figureTypes) {
 }
 
-_Use_decl_annotations_
+//TODO: Refactor All definitions that belong to Direct3D 12 initializer
 
+_Use_decl_annotations_
 void CEDirect3DGraphics::GetHardwareAdapter(
 	IDXGIFactory1* pFactory,
 	IDXGIAdapter1** ppAdapter,
