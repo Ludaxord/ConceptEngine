@@ -10,3 +10,13 @@ wchar_t* CETools::ConvertCharArrayToLPCWSTR(const char* charArray) {
 int CETools::gcd(int a, int b) {
 	return (b == 0) ? a : gcd(b, a % b);
 }
+
+void CETools::Assert(bool flag, const char* msg) {
+	if (!flag) {
+		OutputDebugStringA("ASSERT: ");
+		OutputDebugStringA(msg);
+		OutputDebugStringA("\n");
+		int* base = 0;
+		*base = 1;
+	}
+}

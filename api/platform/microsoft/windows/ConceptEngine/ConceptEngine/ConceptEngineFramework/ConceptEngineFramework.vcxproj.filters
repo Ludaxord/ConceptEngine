@@ -171,6 +171,9 @@
     <ClInclude Include="CEOSTools.h">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="CEVulkan.h">
+      <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="CEOSTools.cpp">
       <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="CEVulkan.cpp">
+      <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
