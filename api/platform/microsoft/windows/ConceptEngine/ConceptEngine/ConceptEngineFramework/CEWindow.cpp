@@ -13,6 +13,7 @@
 #include "CETools.h"
 #include "CEWindowMessage.h"
 
+
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
@@ -24,18 +25,22 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 		0,
 		0,
 		GetInstance(),
-		static_cast<HICON>(LoadImage(hInst,
-		                             MAKEINTRESOURCE(IDI_ICON2),
-		                             IMAGE_ICON, 32, 32, 0)),
+		// static_cast<HICON>(LoadImage(hInst,
+		//                              MAKEINTRESOURCE(IDI_ICON2),
+		//                              IMAGE_ICON, 32, 32, 0)),
+		LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2)),
 		nullptr,
 		nullptr,
 		nullptr,
 		CETools::ConvertCharArrayToLPCWSTR(GetName()),
-		static_cast<HICON>(LoadImage(hInst,
-		                             MAKEINTRESOURCE(IDI_ICON2),
-		                             IMAGE_ICON, 16, 16, 0))
+		// static_cast<HICON>(LoadImage(hInst,
+		//                              MAKEINTRESOURCE(IDI_ICON2),
+		//                              IMAGE_ICON, 16, 16, 0))
+		LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2))
 	};
-	RegisterClassEx(&wc);
+	if (!RegisterClassEx(&wc)) {
+		MessageBoxA(NULL, "Unable to register the window class.", "Error", MB_OK | MB_ICONERROR);
+	}
 }
 
 std::string CEWindow::Exception::TranslateErrorCode(HRESULT hresult) noexcept {
@@ -203,7 +208,7 @@ void CEWindow::SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType) {
 }
 
 void CEWindow::RunGraphics() {
-	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, apiType_);
+	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, apiType_, width, height);
 	std::unique_ptr<CEGraphics> graphics(api);
 	pGraphics = std::move(graphics);
 }

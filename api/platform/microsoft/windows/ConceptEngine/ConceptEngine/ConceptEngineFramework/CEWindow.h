@@ -103,6 +103,7 @@ public:
 private:
 	int width;
 	int height;
+
 	HWND hWnd;
 	CEOSTools::CEGraphicsApiTypes apiType_;
 	std::unique_ptr<CEGraphics> pGraphics;

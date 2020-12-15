@@ -112,16 +112,16 @@ void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowH
 }
 
 
-CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes) {
+CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height) {
 	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
 	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class, https://docs.microsoft.com/en-us/cpp/cpp/abstract-classes-cpp?view=msvc-160
 	CEGraphics* graphics = nullptr;
 	switch (apiTypes) {
 	case CEOSTools::CEGraphicsApiTypes::direct3d11:
-		graphics = new CEDirect3DGraphics(hWnd, apiTypes);
+		graphics = new CEDirect3DGraphics(hWnd, apiTypes, width, height);
 		break;
 	case CEOSTools::CEGraphicsApiTypes::direct3d12:
-		graphics = new CEDirect3DGraphics(hWnd, apiTypes);
+		graphics = new CEDirect3DGraphics(hWnd, apiTypes, width, height);
 		break;
 	case CEOSTools::CEGraphicsApiTypes::vulkan:
 		graphics = new CEVulkanGraphics(hWnd);

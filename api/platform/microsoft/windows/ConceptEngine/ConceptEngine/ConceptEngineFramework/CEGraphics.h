@@ -83,7 +83,7 @@ public:
 	                               CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
 
 public:
-	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes);
+	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);
 	virtual CEGraphicsManager GetGraphicsManager();
 	virtual void PrintGraphicsVersion();
 protected:
