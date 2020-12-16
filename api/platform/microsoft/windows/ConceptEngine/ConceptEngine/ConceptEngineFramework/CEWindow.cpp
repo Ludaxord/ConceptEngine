@@ -184,13 +184,13 @@ CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes window
 		throw CEWIN_LAST_EXCEPTION();
 	}
 
-	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
 
 CEWindow::CEWindow(int width, int height, const char* name,
                    CEOSTools::CEGraphicsApiTypes graphicsApiType): CEWindow(width, height, name) {
 	SetGraphicsApi(graphicsApiType);
 	RunGraphics();
+	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
 
 CEWindow::~CEWindow() {

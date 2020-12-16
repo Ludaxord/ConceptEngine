@@ -107,6 +107,67 @@ void CEDirect3DGraphics::GetHardwareAdapter(
 	*ppAdapter = adapter.Detach();
 }
 
+void CEDirect3DGraphics::OnRender() {
+	// Record all the commands we need to render the scene into the command list.
+	// Command list allocators can only be reset when the associated 
+	// command lists have finished execution on the GPU; apps should use 
+	// fences to determine GPU execution progress.
+	m_commandAllocator->Reset();
+
+	// However, when ExecuteCommandList() is called on a particular command 
+	// list, that command list can then be reset at any time and must be before 
+	// re-recording.
+	m_commandList->Reset(m_commandAllocator.Get(), m_pipelineState.Get());
+
+	// Set necessary state.
+	m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+	m_commandList->RSSetViewports(1, &m_viewport);
+	m_commandList->RSSetScissorRects(1, &m_scissorRect);
+
+	auto resBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_renderTargets[m_frameIndex].Get(), D3D12_RESOURCE_STATE_PRESENT,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	// Indicate that the back buffer will be used as a render target.
+	m_commandList->ResourceBarrier(1, &resBarrier);
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_frameIndex,
+	                                        m_rtvDescriptorSize);
+	m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
+
+	// Record commands.
+	const float clearColor[] = {0.0f, 0.2f, 0.4f, 1.0f};
+	m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
+	m_commandList->DrawInstanced(3, 1, 0, 0);
+
+	auto resBar = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_renderTargets[m_frameIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PRESENT);
+	// Indicate that the back buffer will now be used to present.
+	m_commandList->ResourceBarrier(1, &resBar);
+
+	m_commandList->Close();
+
+	// Execute the command list.
+	ID3D12CommandList* ppCommandLists[] = {m_commandList.Get()};
+	m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+
+	// Present the frame.
+	m_swapChain->Present(1, 0);
+	const UINT64 fence = m_fenceValue;
+	m_commandQueue->Signal(m_fence.Get(), fence);
+	m_fenceValue++;
+
+	// Wait until the previous frame is finished.
+	if (m_fence->GetCompletedValue() < fence) {
+		m_fence->SetEventOnCompletion(fence, m_fenceEvent);
+		WaitForSingleObject(m_fenceEvent, INFINITE);
+	}
+
+	m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
+}
+
 void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 
 	//LOADING PIPELINE
@@ -228,8 +289,8 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 #else
 		UINT compileFlags = 0;
 #endif
-		fs::path p{ ExePath() };
-		
+		fs::path p{ExePath()};
+
 		auto shaderPath = p.parent_path();
 		auto ss = shaderPath.parent_path();
 		ss.append(L"ConceptEngineFramework\\BasicShaders.hlsl");
@@ -325,7 +386,17 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 		// Wait for the command list to execute; we are reusing the same command 
 		// list in our main loop but for now, we just want to wait for setup to 
 		// complete before continuing.
-		// WaitForPreviousFrame();
+		const UINT64 fence = m_fenceValue;
+		m_commandQueue->Signal(m_fence.Get(), fence);
+		m_fenceValue++;
+
+		// Wait until the previous frame is finished.
+		if (m_fence->GetCompletedValue() < fence) {
+			m_fence->SetEventOnCompletion(fence, m_fenceEvent);
+			WaitForSingleObject(m_fenceEvent, INFINITE);
+		}
+
+		m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 	}
 
 }

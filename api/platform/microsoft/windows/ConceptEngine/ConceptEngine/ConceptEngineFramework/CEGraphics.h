@@ -76,6 +76,8 @@ public:
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
 	virtual ~CEGraphics() = default;
 
+public:
+	virtual void OnRender();
 	// public:
 	// 	virtual void EndFrame();
 	// 	virtual void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;

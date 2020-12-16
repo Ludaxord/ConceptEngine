@@ -62,6 +62,8 @@ protected:
 		_In_ IDXGIFactory1* pFactory,
 		_Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter,
 		bool requestHighPerformanceAdapter = false);
+public:
+	void OnRender() override;
 private:
 	static const UINT FrameCount = 2;
 
