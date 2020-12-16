@@ -157,23 +157,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\Packages\boost\boost\stage\lib;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Projects\Packages\boost\boost;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\Packages\boost\boost\stage\lib;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Projects\Packages\boost\boost;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\Packages\boost\boost\stage\lib;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Projects\Packages\boost\boost;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\Packages\boost\boost\stage\lib;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Projects\Packages\boost\boost;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -3,7 +3,6 @@
 #include <magic_enum.hpp>
 
 
-
 #include "CEDirect3D12Manager.h"
 
 CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width,
@@ -229,15 +228,15 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 #else
 		UINT compileFlags = 0;
 #endif
-		auto shaderPath = GetAssetFullPath(L"BasicShaders.hlsl");
-		auto sPath = boost::filesystem::path(ExePath().c_str());
+		fs::path p{ ExePath() };
+		
+		auto shaderPath = p.parent_path();
+		auto ss = shaderPath.parent_path();
+		ss.append(L"ConceptEngineFramework\\BasicShaders.hlsl");
 		std::wstringstream wss;
-		wss << "SHADER PATH:" << shaderPath << std::endl;
-		wss << "SHADER PARENT PATH:" << sPath.parent_path() << std::endl;
-		OutputDebugString(wss.str().c_str());
-		D3DCompileFromFile(shaderPath.c_str(), nullptr, nullptr, "VSMain", "vs_5_0",
+		D3DCompileFromFile(ss.c_str(), nullptr, nullptr, "VSMain", "vs_5_0",
 		                   compileFlags, 0, &vertexShader, nullptr);
-		(D3DCompileFromFile(shaderPath.c_str(), nullptr, nullptr, "PSMain", "ps_5_0",
+		(D3DCompileFromFile(ss.c_str(), nullptr, nullptr, "PSMain", "ps_5_0",
 		                    compileFlags, 0, &pixelShader, nullptr));
 
 		// Define the vertex input layout.

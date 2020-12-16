@@ -24,10 +24,13 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
-
-#include <boost/filesystem.hpp>
+#include <filesystem>
+// #include <boost/filesystem.hpp>
+// #pragma comment(lib, "libboost_filesystem-vc142-mt-gd-x64-1_76.lib")
 
 using namespace DirectX;
+namespace fs = std::filesystem;
+
 
 class CEDirect3DGraphics : public CEGraphics {
 public:
