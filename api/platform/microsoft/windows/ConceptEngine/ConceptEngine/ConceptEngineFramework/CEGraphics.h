@@ -76,11 +76,11 @@ public:
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
 	virtual ~CEGraphics() = default;
 
-public:
-	virtual void EndFrame();
-	virtual void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	virtual void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	                               CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
+	// public:
+	// 	virtual void EndFrame();
+	// 	virtual void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
+	// 	virtual void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
+	// 	                               CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);
@@ -88,6 +88,8 @@ public:
 	virtual void PrintGraphicsVersion();
 protected:
 	void ResolveSelectedGraphicsAPI();
+	std::wstring GetAssetFullPath(LPCWSTR assetName);
+	std::wstring ExePath();
 
 protected:
 	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12
@@ -95,4 +97,16 @@ protected:
 	//TODO: add OpenGL implementation => Source: https://www.khronos.org/registry/OpenGL/index_gl.php
 
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
+
+	// Viewport dimensions.
+	UINT m_width;
+	UINT m_height;
+	float m_aspectRatio;
+
+	// Adapter info.
+	bool m_useWarpDevice;
+
+private:
+	// Root assets path.
+	std::wstring m_assetsPath;
 };

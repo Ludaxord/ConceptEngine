@@ -8,18 +8,24 @@
 
 #pragma comment(lib, "d3d11.lib")
 
+// #include <d3d12.h>
+// #include <dxgi1_6.h>
+// #include <DirectXMath.h>
+//
+// #include "CED3D12Helper.h"
+
+// #pragma comment(lib, "d3d12.lib")
+// #pragma comment(lib, "dxgi.lib")
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <D3Dcompiler.h>
+#include <d3dcompiler.h>
 #include <DirectXMath.h>
-
-#include <string>
-#include <wrl.h>
-#include <shellapi.h>
-
+#include "CED3D12Helper.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3dcompiler.lib")
 
+#include <boost/filesystem.hpp>
 
 using namespace DirectX;
 
@@ -28,10 +34,10 @@ public:
 	// explicit CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType);
 	CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 
-	void EndFrame() override;
-	void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
-	void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	                       CEDefaultFigureTypes figureTypes) override;
+	// void EndFrame() override;
+	// void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
+	// void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
+	//                        CEDefaultFigureTypes figureTypes) override;
 	CEGraphicsManager GetGraphicsManager() override;
 
 private:
@@ -62,8 +68,8 @@ private:
 	};
 
 	// Pipeline objects.
-	D3D12_VIEWPORT m_viewport;
-	D3D12_RECT m_scissorRect;
+	CD3DX12_VIEWPORT m_viewport;
+	CD3DX12_RECT m_scissorRect;
 	wrl::ComPtr<IDXGISwapChain3> m_swapChain;
 	wrl::ComPtr<ID3D12Device> m_device;
 	wrl::ComPtr<ID3D12Resource> m_renderTargets[FrameCount];

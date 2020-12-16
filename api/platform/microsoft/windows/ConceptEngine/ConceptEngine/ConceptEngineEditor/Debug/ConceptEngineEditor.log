@@ -1,1 +1,1 @@
-﻿  ConceptEngineEditor.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\ConceptEngineEditor.exe
+﻿LINK : fatal error LNK1104: cannot open file 'libboost_filesystem-vc142-mt-gd-x32-1_75.lib'

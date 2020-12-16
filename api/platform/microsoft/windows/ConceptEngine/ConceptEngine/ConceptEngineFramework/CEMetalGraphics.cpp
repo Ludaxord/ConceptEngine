@@ -6,15 +6,15 @@
 CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::metal) {
 }
 
-void CEMetalGraphics::EndFrame() {
-}
-
-void CEMetalGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
-}
-
-void CEMetalGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-                                        CEDefaultFigureTypes figureTypes) {
-}
+// void CEMetalGraphics::EndFrame() {
+// }
+//
+// void CEMetalGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
+// }
+//
+// void CEMetalGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
+//                                         CEDefaultFigureTypes figureTypes) {
+// }
 
 CEGraphicsManager CEMetalGraphics::GetGraphicsManager() {
 	return static_cast<CEGraphicsManager>(CEMetalManager());

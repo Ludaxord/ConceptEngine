@@ -22,6 +22,7 @@
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D11Device.h" />
     <ClInclude Include="CED3D12Device.h" />
+    <ClInclude Include="CED3D12Helper.h" />
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEDirect3D11Manager.h" />
     <ClInclude Include="CEDirect3DGraphics.h" />
@@ -97,6 +98,9 @@
     <Library Include="glfw3.lib" />
     <Library Include="glfw3dll.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="BasicShaders.hlsl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -145,6 +149,7 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\x64\Debug\.conan\conanbuildinfo.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -152,23 +157,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_67_0\lib64-msvc-14.1;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\local\boost_1_67_0;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -193,6 +198,12 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -221,6 +232,12 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -245,6 +262,12 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -273,6 +296,12 @@
       <AdditionalDependencies>
       </AdditionalDependencies>
     </Lib>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

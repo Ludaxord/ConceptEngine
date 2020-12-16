@@ -97,19 +97,54 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
+inline void GetAssetsPath(_Out_writes_(pathSize) WCHAR* path, UINT pathSize) {
+	if (path == nullptr) {
+		throw std::exception();
+	}
+
+	DWORD size = GetModuleFileName(nullptr, path, pathSize);
+	if (size == 0 || size == pathSize) {
+		// Method failed or path was truncated.
+		throw std::exception();
+	}
+
+	WCHAR* lastSlash = wcsrchr(path, L'\\');
+	if (lastSlash) {
+		*(lastSlash + 1) = L'\0';
+	}
+}
+
+
 CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType) : graphicsApiType(apiType) {
+
+	WCHAR assetsPath[512];
+	GetAssetsPath(assetsPath, _countof(assetsPath));
+	m_assetsPath = assetsPath;
+
 	ResolveSelectedGraphicsAPI();
 }
 
-void CEGraphics::EndFrame() {
+std::wstring CEGraphics::GetAssetFullPath(LPCWSTR assetName)
+{
+	return m_assetsPath + assetName;
 }
 
-void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
+std::wstring CEGraphics::ExePath() {
+	TCHAR buffer[MAX_PATH] = { 0 };
+	GetModuleFileName(NULL, buffer, MAX_PATH);
+	std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+	return std::wstring(buffer).substr(0, pos);
 }
 
-void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-                                   CEDefaultFigureTypes figureTypes) {
-}
+// void CEGraphics::EndFrame() {
+// }
+//
+// void CEGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept {
+// }
+//
+// void CEGraphics::DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
+//                                    CEDefaultFigureTypes figureTypes) {
+// }
 
 
 CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height) {
@@ -157,3 +192,4 @@ void CEGraphics::ResolveSelectedGraphicsAPI() {
 	oss << std::endl;
 	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }
+
