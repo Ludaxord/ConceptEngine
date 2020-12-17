@@ -9,6 +9,7 @@
 #include <magic_enum.hpp>
 
 
+#include "CEHelper.h"
 #include "CEOSTools.h"
 #include "CETools.h"
 #include "CEWindowMessage.h"
@@ -19,8 +20,9 @@ CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
 
 	WNDCLASSEX wc = {
-		sizeof(wc),
-		CS_OWNDC,
+		sizeof(WNDCLASSEX),
+		// CS_OWNDC,
+		CS_HREDRAW | CS_VREDRAW,
 		HandleMsgSetup,
 		0,
 		0,
@@ -28,15 +30,15 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 		// static_cast<HICON>(LoadImage(hInst,
 		//                              MAKEINTRESOURCE(IDI_ICON2),
 		//                              IMAGE_ICON, 32, 32, 0)),
-		LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2)),
+		::LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2)),
 		nullptr,
-		nullptr,
+		(HBRUSH)(5 + 1),
 		nullptr,
 		CETools::ConvertCharArrayToLPCWSTR(GetName()),
 		// static_cast<HICON>(LoadImage(hInst,
 		//                              MAKEINTRESOURCE(IDI_ICON2),
 		//                              IMAGE_ICON, 16, 16, 0))
-		LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2))
+		::LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2))
 	};
 	if (!RegisterClassEx(&wc)) {
 		MessageBoxA(NULL, "Unable to register the window class.", "Error", MB_OK | MB_ICONERROR);
@@ -158,27 +160,36 @@ CEWindow::CEWindowClass::~CEWindowClass() {
 
 CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes windowTypes) : width(width), height(height) {
 	//Start options
-	RECT winLoc;
-	winLoc.left = 100;
-	winLoc.right = width + winLoc.left;
-	winLoc.top = 100;
-	winLoc.bottom = height + winLoc.top;
-	if (AdjustWindowRect(&winLoc, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
+	int screenWidth = 0;
+	int screenHeight = 0;
+	GetDesktopResolution(screenHeight, screenWidth);
+	RECT windowRect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
+	int windowWidth = windowRect.right - windowRect.left;
+	int windowHeight = windowRect.bottom - windowRect.top;
+
+	// Center the window within the screen. Clamp to 0, 0 for the top-left corner.
+	int windowX = std::max<int>(0, (screenWidth - windowWidth) / 2);
+	int windowY = std::max<int>(0, (screenHeight - windowHeight) / 2);
+
+	if (AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE) == 0) {
 		throw CEWIN_LAST_EXCEPTION();
 	}
-	hWnd = CreateWindow(
+	
+	hWnd = CreateWindowEx(
+		NULL,
 		CETools::ConvertCharArrayToLPCWSTR(CEWindowClass::GetName()),
 		CETools::ConvertCharArrayToLPCWSTR(name),
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		winLoc.right - winLoc.left,
-		winLoc.bottom - winLoc.top,
-		nullptr,
-		nullptr,
+		WS_OVERLAPPEDWINDOW,
+		windowX,
+		windowY,
+		windowWidth,
+		windowHeight,
+		NULL,
+		NULL,
 		CEWindowClass::GetInstance(),
-		this //passing CEWindow API function to get in HandleMsgSetup
+		this
 	);
+
 	SetWindowType(windowTypes);
 	if (hWnd == nullptr) {
 		throw CEWIN_LAST_EXCEPTION();

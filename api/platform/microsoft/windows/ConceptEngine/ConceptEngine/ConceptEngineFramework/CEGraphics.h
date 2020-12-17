@@ -78,11 +78,6 @@ public:
 
 public:
 	virtual void OnRender();
-	// public:
-	// 	virtual void EndFrame();
-	// 	virtual void ClearBuffer(float red, float green, float blue, float alpha = 1.0f) noexcept;
-	// 	virtual void DrawDefaultFigure(float angle, float windowWidth, float windowHeight, float x, float y, float z,
-	// 	                               CEDefaultFigureTypes figureTypes = CEDefaultFigureTypes::triangle2d);
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);

@@ -28,6 +28,7 @@
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEGraphicsManager.h" />
+    <ClInclude Include="CEHelper.h" />
     <ClInclude Include="CEInfoManager.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CELib.h" />

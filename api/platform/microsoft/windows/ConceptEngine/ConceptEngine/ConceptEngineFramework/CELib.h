@@ -42,3 +42,5 @@
 #define STRICT
 
 #include <Windows.h>
+// #define COMPILE_MULTIMON_STUBS
+// #include <multimon.h>

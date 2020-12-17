@@ -177,6 +177,9 @@
     <ClInclude Include="d3dx12.h">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="CEHelper.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
