@@ -174,9 +174,6 @@
     <ClInclude Include="CEVulkan.h">
       <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
     </ClInclude>
-    <ClInclude Include="CED3D12Helper.h">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">

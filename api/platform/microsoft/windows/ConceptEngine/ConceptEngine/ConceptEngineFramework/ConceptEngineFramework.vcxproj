@@ -22,7 +22,6 @@
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D11Device.h" />
     <ClInclude Include="CED3D12Device.h" />
-    <ClInclude Include="CED3D12Helper.h" />
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEDirect3D11Manager.h" />
     <ClInclude Include="CEDirect3DGraphics.h" />
