@@ -49,6 +49,7 @@
     <ClInclude Include="CEWindowMessage.h" />
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="CEDirect3D12Manager.h" />
+    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
