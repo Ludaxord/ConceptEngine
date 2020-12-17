@@ -287,9 +287,4 @@
       <Filter>Resource Files</Filter>
     </Library>
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="BasicShaders.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
-    </FxCompile>
-  </ItemGroup>
 </Project>

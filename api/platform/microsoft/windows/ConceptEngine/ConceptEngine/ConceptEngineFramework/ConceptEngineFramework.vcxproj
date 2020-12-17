@@ -97,9 +97,6 @@
     <Library Include="glfw3.lib" />
     <Library Include="glfw3dll.lib" />
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="BasicShaders.hlsl" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
