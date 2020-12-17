@@ -14,7 +14,6 @@
 #include "CETools.h"
 #include "CEWindowMessage.h"
 
-
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
@@ -159,41 +158,8 @@ CEWindow::CEWindowClass::~CEWindowClass() {
 }
 
 CEWindow::CEWindow(int width, int height, const char* name, CEWindowTypes windowTypes) : width(width), height(height) {
-	//Start options
-	int screenWidth = 0;
-	int screenHeight = 0;
-	GetDesktopResolution(screenHeight, screenWidth);
-	RECT windowRect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
-	int windowWidth = windowRect.right - windowRect.left;
-	int windowHeight = windowRect.bottom - windowRect.top;
-
-	// Center the window within the screen. Clamp to 0, 0 for the top-left corner.
-	int windowX = std::max<int>(0, (screenWidth - windowWidth) / 2);
-	int windowY = std::max<int>(0, (screenHeight - windowHeight) / 2);
-
-	if (AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE) == 0) {
-		throw CEWIN_LAST_EXCEPTION();
-	}
-	
-	hWnd = CreateWindowEx(
-		NULL,
-		CETools::ConvertCharArrayToLPCWSTR(CEWindowClass::GetName()),
-		CETools::ConvertCharArrayToLPCWSTR(name),
-		WS_OVERLAPPEDWINDOW,
-		windowX,
-		windowY,
-		windowWidth,
-		windowHeight,
-		NULL,
-		NULL,
-		CEWindowClass::GetInstance(),
-		this
-	);
-
+	CreateMainWindow(name);
 	SetWindowType(windowTypes);
-	if (hWnd == nullptr) {
-		throw CEWIN_LAST_EXCEPTION();
-	}
 
 }
 
@@ -248,6 +214,51 @@ CEGraphics& CEWindow::GetGraphics() {
 	return *pGraphics;
 }
 
+
+void CEWindow::RegisterWindowClass() {
+}
+
+HWND CEWindow::CreateMainWindow(const char* name) {
+
+	//Start options
+	int screenWidth = 0;
+	int screenHeight = 0;
+	GetDesktopResolution(screenHeight, screenWidth);
+	RECT windowRect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
+	int windowWidth = windowRect.right - windowRect.left;
+	int windowHeight = windowRect.bottom - windowRect.top;
+
+	// Center the window within the screen. Clamp to 0, 0 for the top-left corner.
+	int windowX = std::max<int>(0, (screenWidth - windowWidth) / 2);
+	int windowY = std::max<int>(0, (screenHeight - windowHeight) / 2);
+
+	if (AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE) == 0) {
+		throw CEWIN_LAST_EXCEPTION();
+	}
+
+	hWnd = CreateWindowEx(
+		NULL,
+		CETools::ConvertCharArrayToLPCWSTR(CEWindowClass::GetName()),
+		CETools::ConvertCharArrayToLPCWSTR(name),
+		WS_OVERLAPPEDWINDOW,
+		windowX,
+		windowY,
+		windowWidth,
+		windowHeight,
+		NULL,
+		NULL,
+		CEWindowClass::GetInstance(),
+		this
+	);
+
+	if (hWnd == nullptr) {
+		throw CEWIN_LAST_EXCEPTION();
+	}
+
+	return hWnd;
+}
+
+
 LRESULT WINAPI CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
@@ -275,12 +286,12 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	}
 
-	// std::ostringstream cen;
-	// cen << "Concept Engine Window, Type: " << magic_enum::enum_name(GetWindowType()) << "\n";
-	// OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(cen.str().c_str()));
-
 	// switch to pass action to given message
 	switch (msg) {
+	// case WM_PAINT:
+	// 	pGraphics->OnUpdate();
+	// 	pGraphics->OnRender();
+	// 	break;
 	case WM_CLOSE: {
 		if (GetWindowType() == CEWindowTypes::main) {
 			PostQuitMessage(1);
@@ -293,12 +304,29 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		keyboard.ClearState();
 		break;
 	case WM_KEYDOWN:
-	case WM_SYSKEYDOWN:
+	case WM_SYSKEYDOWN: {
 		//0x4000000 == 30 Source: https://docs.microsoft.com/en-us/windows/win32/inputdev/wm-keydown
 		if (!(lParam & 0x4000000) || keyboard.IsAutoRepeatEnabled()) {
 			keyboard.OnKeyPressed(static_cast<unsigned char>(wParam));
 		}
-		break;
+		const bool alt = (::GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+
+		switch (wParam) {
+		case 'V':
+			pGraphics->ChangeVSyncState();
+			break;
+		case VK_ESCAPE:
+			::PostQuitMessage(0);
+			break;
+		case VK_RETURN:
+			if (alt) {
+			case VK_F11:
+				pGraphics->SetFullscreen(!pGraphics->GetFullScreenState());
+			}
+			break;
+		}
+	}
+	break;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));

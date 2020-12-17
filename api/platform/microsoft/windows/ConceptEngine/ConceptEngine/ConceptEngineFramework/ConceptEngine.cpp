@@ -24,6 +24,7 @@ int ConceptEngine::Run() {
 
 		//debug
 		window_.GetGraphics().PrintGraphicsVersion();
+		MakeFrame();
 	}
 }
 
@@ -31,5 +32,6 @@ void ConceptEngine::MakeFrame() {
 	const float c1 = sin(timer_.Peek()) / 2.0f + 0.5f;
 	const float c2 = cos(timer_.Peek()) / 2.0f + 0.5f;
 	const float c3 = sin(-timer_.Peek()) / 2.0f + 0.5f;
+	window_.GetGraphics().OnUpdate();
 	window_.GetGraphics().OnRender();
 }

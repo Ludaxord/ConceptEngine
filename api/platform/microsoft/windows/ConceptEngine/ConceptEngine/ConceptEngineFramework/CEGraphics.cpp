@@ -114,6 +114,17 @@ void CEGraphics::OnRender() {
 	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }
 
+void CEGraphics::OnUpdate() {
+	std::ostringstream oss;
+	oss << "Updating API: ";
+	oss << magic_enum::enum_name(graphicsApiType);
+	oss << std::endl;
+	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
+}
+
+void CEGraphics::SetFullscreen(bool fullscreen) {
+}
+
 CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height) {
 	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
 	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class, https://docs.microsoft.com/en-us/cpp/cpp/abstract-classes-cpp?view=msvc-160
@@ -151,6 +162,27 @@ void CEGraphics::PrintGraphicsVersion() {
 	wss << "Graphics API" << std::endl;
 	OutputDebugString(wss.str().c_str());
 }
+
+bool CEGraphics::GetVSyncState() {
+	return g_VSync;
+}
+
+void CEGraphics::ChangeVSyncState() {
+	g_VSync = !g_VSync;
+}
+
+bool CEGraphics::GetTearingSupportedState() {
+	return g_TearingSupported;
+}
+
+bool CEGraphics::GetFullScreenState() {
+	return g_Fullscreen;
+}
+
+bool CEGraphics::IsInitialized() {
+	return g_IsInitialized;
+}
+
 
 void CEGraphics::ResolveSelectedGraphicsAPI() {
 	std::ostringstream oss;

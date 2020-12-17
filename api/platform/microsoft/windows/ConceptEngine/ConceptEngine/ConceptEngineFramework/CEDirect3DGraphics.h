@@ -24,8 +24,14 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 #include <filesystem>
-// #include <boost/filesystem.hpp>
-// #pragma comment(lib, "libboost_filesystem-vc142-mt-gd-x64-1_76.lib")
+
+#if defined(min)
+#undef min
+#endif
+
+#if defined(max)
+#undef max
+#endif
 
 using namespace DirectX;
 namespace fs = std::filesystem;
@@ -51,24 +57,43 @@ private:
 	CEDirect3D11Manager pManager;
 
 public:
-	void OnRender() override;
 	wrl::ComPtr<IDXGIAdapter4> GetAdapter(bool useWarp) const;
-	wrl::ComPtr<ID3D12Device2> CreateDevice(wrl::ComPtr<IDXGIAdapter4> adapter);
-	wrl::ComPtr<ID3D12CommandQueue> CreateCommandQueue(wrl::ComPtr<ID3D12Device2> device, D3D12_COMMAND_LIST_TYPE type);
-	bool CheckVSyncSupport();
+	wrl::ComPtr<ID3D12Device2> CreateDevice(wrl::ComPtr<IDXGIAdapter4> adapter) const;
+	wrl::ComPtr<ID3D12CommandQueue> CreateCommandQueue(wrl::ComPtr<ID3D12Device2> device,
+	                                                   D3D12_COMMAND_LIST_TYPE type) const;
+	bool CheckVSyncSupport() const;
 	wrl::ComPtr<IDXGISwapChain4> CreateSwapChain(HWND hWnd, wrl::ComPtr<ID3D12CommandQueue> commandQueue,
 	                                             uint32_t width,
 	                                             uint32_t height, uint32_t bufferCount);
 	wrl::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(wrl::ComPtr<ID3D12Device2> device,
-	                                                       D3D12_DESCRIPTOR_HEAP_TYPE type, uint32_t numDescriptors);
-
+	                                                       D3D12_DESCRIPTOR_HEAP_TYPE type,
+	                                                       uint32_t numDescriptors) const;
+	void UpdateRenderTargetViews(wrl::ComPtr<ID3D12Device2> device, wrl::ComPtr<IDXGISwapChain4> swapChain,
+	                             wrl::ComPtr<ID3D12DescriptorHeap> descriptorHeap);
+	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(wrl::ComPtr<ID3D12Device2> device,
+	                                                           D3D12_COMMAND_LIST_TYPE type);
+	wrl::ComPtr<ID3D12GraphicsCommandList> CreateCommandList(wrl::ComPtr<ID3D12Device2> device,
+		wrl::ComPtr<ID3D12CommandAllocator> commandAllocator,
+		D3D12_COMMAND_LIST_TYPE type);
+	wrl
+	::ComPtr<ID3D12Fence> CreateFence(wrl::ComPtr<ID3D12Device2> device);
+	HANDLE CreateEventHandle();
+	uint64_t Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
+	                uint64_t& fenceValue);
+	void WaitForFenceValue(wrl::ComPtr<ID3D12Fence> fence, uint64_t fenceValue, HANDLE fenceEvent,
+	                       std::chrono::milliseconds duration = std::chrono::milliseconds::max());
+	void Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
+	           uint64_t& fenceValue, HANDLE fenceEvent);
+	void OnUpdate() override;
+	void OnRender() override;
+	void Resize(uint32_t width, uint32_t height);
+	void SetFullscreen(bool fullscreen) override;
 private:
 	//Graphics variables
 	const uint8_t g_NumFrames = 3;
 	bool g_UseWarp = false;
 	uint32_t g_ClientWidth = 1280;
 	uint32_t g_ClientHeight = 720;
-	bool g_IsInitialized = false;
 
 	// Window rectangle (used to toggle fullscreen state).
 	RECT g_WindowRect;
@@ -100,4 +125,5 @@ private:
 	// By default, use windowed mode.
 	// Can be toggled with the Alt+Enter or F11
 	bool g_Fullscreen = false;
+	HWND g_hWnd;
 };

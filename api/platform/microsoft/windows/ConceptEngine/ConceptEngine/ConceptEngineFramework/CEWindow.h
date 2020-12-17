@@ -58,7 +58,7 @@ public:
 		//TODO: fix aspect ratio double
 		static double CalculateAspectRatio(int horizontal = 0, int vertical = 0);
 		static int GetRefreshRate();
-		static CEScreen GetScreenInfo(CEScreenTypes type = CEScreenTypes::primary);
+		static CEScreen GetScreenInfo(CEWindow::CEScreenTypes type = CEScreenTypes::primary);
 	};
 
 private:
@@ -89,6 +89,10 @@ public:
 	CEScreen GetScreenInfo();
 	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();
+
+public:
+	HWND CreateMainWindow(const char* name);
+	void RegisterWindowClass();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -107,6 +111,7 @@ private:
 	HWND hWnd;
 	CEOSTools::CEGraphicsApiTypes apiType_;
 	std::unique_ptr<CEGraphics> pGraphics;
+
 };
 
 #define CEWIN_EXCEPTION(hresult) CEWindow::HResultException(__LINE__, __FILE__, hresult)

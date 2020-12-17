@@ -78,11 +78,19 @@ public:
 
 public:
 	virtual void OnRender();
+	virtual void OnUpdate();
+	virtual void SetFullscreen(bool fullscreen);
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);
 	virtual CEGraphicsManager GetGraphicsManager();
 	virtual void PrintGraphicsVersion();
+
+	bool GetVSyncState();
+	void ChangeVSyncState();
+	bool GetTearingSupportedState();
+	bool GetFullScreenState();
+	bool IsInitialized();
 protected:
 	void ResolveSelectedGraphicsAPI();
 	std::wstring ExePath();
@@ -94,4 +102,13 @@ protected:
 
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
 
+	//Swap Chain Present Methods
+	// By default, enable V-Sync.
+	// Can be toggled with the V key.
+	bool g_VSync = true;
+	bool g_TearingSupported = false;
+	// By default, use windowed mode.
+	// Can be toggled with the Alt+Enter or F11
+	bool g_Fullscreen = false;
+	bool g_IsInitialized = false;
 };
