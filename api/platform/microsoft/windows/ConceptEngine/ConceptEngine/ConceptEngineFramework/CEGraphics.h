@@ -90,7 +90,6 @@ public:
 	virtual void PrintGraphicsVersion();
 protected:
 	void ResolveSelectedGraphicsAPI();
-	std::wstring GetAssetFullPath(LPCWSTR assetName);
 	std::wstring ExePath();
 
 protected:
@@ -100,15 +99,4 @@ protected:
 
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
 
-	// Viewport dimensions.
-	UINT m_width;
-	UINT m_height;
-	float m_aspectRatio;
-
-	// Adapter info.
-	bool m_useWarpDevice;
-
-private:
-	// Root assets path.
-	std::wstring m_assetsPath;
 };

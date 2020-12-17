@@ -5,7 +5,6 @@
 #include <iostream>
 #include <magic_enum.hpp>
 
-
 #include "CEDirect3DGraphics.h"
 #include "CEMetalGraphics.h"
 #include "CEOpenGLGraphics.h"
@@ -116,21 +115,11 @@ inline void GetAssetsPath(_Out_writes_(pathSize) WCHAR* path, UINT pathSize) {
 
 
 CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType) : graphicsApiType(apiType) {
-
-	WCHAR assetsPath[512];
-	GetAssetsPath(assetsPath, _countof(assetsPath));
-	m_assetsPath = assetsPath;
-
 	ResolveSelectedGraphicsAPI();
 }
 
-std::wstring CEGraphics::GetAssetFullPath(LPCWSTR assetName)
-{
-	return m_assetsPath + assetName;
-}
-
 std::wstring CEGraphics::ExePath() {
-	TCHAR buffer[MAX_PATH] = { 0 };
+	TCHAR buffer[MAX_PATH] = {0};
 	GetModuleFileName(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
 	return std::wstring(buffer).substr(0, pos);
@@ -148,6 +137,11 @@ std::wstring CEGraphics::ExePath() {
 
 
 void CEGraphics::OnRender() {
+	std::ostringstream oss;
+	oss << "Rendering API: ";
+	oss << magic_enum::enum_name(graphicsApiType);
+	oss << std::endl;
+	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }
 
 CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height) {
@@ -195,4 +189,3 @@ void CEGraphics::ResolveSelectedGraphicsAPI() {
 	oss << std::endl;
 	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }
-
