@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D11Device.h" />
+    <ClInclude Include="CED3D12CommandQueue.h" />
     <ClInclude Include="CED3D12Device.h" />
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEDirect3D11Manager.h" />
@@ -56,6 +57,7 @@
   <ItemGroup>
     <ClCompile Include="CEController.cpp" />
     <ClCompile Include="CED3D11Device.cpp" />
+    <ClCompile Include="CED3D12CommandQueue.cpp" />
     <ClCompile Include="CED3D12Device.cpp" />
     <ClCompile Include="CEDirect3D11Manager.cpp" />
     <ClCompile Include="CEDirect3D12Manager.cpp" />

@@ -180,6 +180,9 @@
     <ClInclude Include="CEHelper.h">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="CED3D12CommandQueue.h">
+      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="CEVulkan.cpp">
       <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CED3D12CommandQueue.cpp">
+      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
