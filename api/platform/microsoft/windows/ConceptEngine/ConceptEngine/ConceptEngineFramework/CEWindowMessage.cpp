@@ -204,6 +204,6 @@ std::string CEWindowMessage::operator()(DWORD msg, LPARAM lp, WPARAM wp) const n
 	}
 	oss << "   LParam: 0x" << std::hex << std::setfill('0') << std::setw(8) << lp;
 	oss << "   WParam: 0x" << std::hex << std::setfill('0') << std::setw(8) << wp << std::endl;
-	std::cout << "CEWindowsMessage:" << oss.str();
+	std::cout << "CEWindowMessage:" << oss.str();
 	return oss.str();
 }

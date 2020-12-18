@@ -1,9 +1,2 @@
-﻿  CEDxgiInfoManager.cpp
-  CEWindow.cpp
-  ConceptEngine.cpp
-  WinMain.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition (compiling source file CEDxgiInfoManager.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT' (compiling source file CEDxgiInfoManager.cpp)
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\ConceptEngine\CEWin.h(42,1): warning C4005: 'STRICT': macro redefinition (compiling source file CEDxgiInfoManager.cpp)
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT' (compiling source file CEDxgiInfoManager.cpp)
+﻿  CEWindow.cpp
   ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\legacy\directx\ConceptEngine\ConceptEngine\Debug\ConceptEngine.exe

@@ -41,6 +41,11 @@ class CEDirect3DGraphics : public CEGraphics {
 public:
 	// explicit CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType);
 	CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
+	CEDirect3DGraphics(const CEDirect3DGraphics&) = delete;
+	CEDirect3DGraphics& operator=(const CEDirect3DGraphics&) = delete;
+	~CEDirect3DGraphics();
+
+public:
 	CEGraphicsManager GetGraphicsManager() override;
 	void EnableDebugLayer();
 
@@ -73,8 +78,8 @@ public:
 	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(wrl::ComPtr<ID3D12Device2> device,
 	                                                           D3D12_COMMAND_LIST_TYPE type);
 	wrl::ComPtr<ID3D12GraphicsCommandList> CreateCommandList(wrl::ComPtr<ID3D12Device2> device,
-		wrl::ComPtr<ID3D12CommandAllocator> commandAllocator,
-		D3D12_COMMAND_LIST_TYPE type);
+	                                                         wrl::ComPtr<ID3D12CommandAllocator> commandAllocator,
+	                                                         D3D12_COMMAND_LIST_TYPE type);
 	wrl
 	::ComPtr<ID3D12Fence> CreateFence(wrl::ComPtr<ID3D12Device2> device);
 	HANDLE CreateEventHandle();
@@ -84,6 +89,7 @@ public:
 	                       std::chrono::milliseconds duration = std::chrono::milliseconds::max());
 	void Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
 	           uint64_t& fenceValue, HANDLE fenceEvent);
+	void WaitForPreviousFrame();
 	void OnUpdate() override;
 	void OnRender() override;
 	void Resize(uint32_t width, uint32_t height);

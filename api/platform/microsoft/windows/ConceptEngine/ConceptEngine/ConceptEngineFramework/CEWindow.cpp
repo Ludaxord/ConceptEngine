@@ -12,7 +12,6 @@
 #include "CEHelper.h"
 #include "CEOSTools.h"
 #include "CETools.h"
-#include "CEWindowMessage.h"
 
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 
@@ -172,6 +171,7 @@ CEWindow::CEWindow(int width, int height, const char* name,
 
 CEWindow::~CEWindow() {
 	DestroyWindow(hWnd);
+	// CloseWindow(hWnd);
 }
 
 void CEWindow::SetTitle(const std::string& title) {
@@ -288,10 +288,6 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 
 	// switch to pass action to given message
 	switch (msg) {
-	// case WM_PAINT:
-	// 	pGraphics->OnUpdate();
-	// 	pGraphics->OnRender();
-	// 	break;
 	case WM_CLOSE: {
 		if (GetWindowType() == CEWindowTypes::main) {
 			PostQuitMessage(1);

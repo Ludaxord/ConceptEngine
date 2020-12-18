@@ -301,8 +301,8 @@ void CEDirect3DGraphics::OnRender() {
 	auto commandAllocator = g_CommandAllocators[g_CurrentBackBufferIndex];
 	auto backBuffer = g_BackBuffers[g_CurrentBackBufferIndex];
 
-	commandAllocator->Reset();
-	g_CommandList->Reset(commandAllocator.Get(), nullptr);
+	ThrowIfFailed(commandAllocator->Reset());
+	ThrowIfFailed(g_CommandList->Reset(commandAllocator.Get(), nullptr));
 
 	// Clear the render target.
 	{
@@ -343,6 +343,8 @@ void CEDirect3DGraphics::OnRender() {
 
 		WaitForFenceValue(g_Fence, g_FrameFenceValues[g_CurrentBackBufferIndex], g_FenceEvent);
 	}
+
+	WaitForPreviousFrame();
 }
 
 void CEDirect3DGraphics::Resize(uint32_t width, uint32_t height) {
@@ -425,9 +427,9 @@ void CEDirect3DGraphics::SetFullscreen(bool fullscreen) {
 
 void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 	// Windows 10 Creators update adds Per Monitor V2 DPI awareness context.
- // Using this awareness context allows the client area of the window 
- // to achieve 100% scaling while still allowing non-client window content to 
- // be rendered in a DPI sensitive fashion.
+	// Using this awareness context allows the client area of the window 
+	// to achieve 100% scaling while still allowing non-client window content to 
+	// be rendered in a DPI sensitive fashion.
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
 	// Window class name. Used for registering / creating the window.
@@ -446,7 +448,7 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 	g_CommandQueue = CreateCommandQueue(g_Device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 	g_SwapChain = CreateSwapChain(g_hWnd, g_CommandQueue,
-		g_ClientWidth, g_ClientHeight, g_NumFrames);
+	                              g_ClientWidth, g_ClientHeight, g_NumFrames);
 
 	g_CurrentBackBufferIndex = g_SwapChain->GetCurrentBackBufferIndex();
 
@@ -455,12 +457,11 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 
 	UpdateRenderTargetViews(g_Device, g_SwapChain, g_RTVDescriptorHeap);
 
-	for (int i = 0; i < g_NumFrames; ++i)
-	{
+	for (int i = 0; i < g_NumFrames; ++i) {
 		g_CommandAllocators[i] = CreateCommandAllocator(g_Device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 	g_CommandList = CreateCommandList(g_Device,
-		g_CommandAllocators[g_CurrentBackBufferIndex], D3D12_COMMAND_LIST_TYPE_DIRECT);
+	                                  g_CommandAllocators[g_CurrentBackBufferIndex], D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 	g_Fence = CreateFence(g_Device);
 	g_FenceEvent = CreateEventHandle();
@@ -471,12 +472,18 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 	Flush(g_CommandQueue, g_Fence, g_FenceValue, g_FenceEvent);
 
 	::CloseHandle(g_FenceEvent);
+
+	WaitForPreviousFrame();
 }
 
 void CEDirect3DGraphics::CreateDirect3D11(HWND hWnd, int width, int height) {
 }
 
 void CEDirect3DGraphics::PrintGraphicsVersion() {
+}
+
+CEDirect3DGraphics::~CEDirect3DGraphics() {
+	WaitForPreviousFrame();
 }
 
 CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
@@ -497,4 +504,24 @@ void CEDirect3DGraphics::EnableDebugLayer() {
 	ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface)));
 	debugInterface->EnableDebugLayer();
 #endif
+}
+
+void CEDirect3DGraphics::WaitForPreviousFrame() {
+	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
+	// This is code implemented as such for simplicity. The D3D12HelloFrameBuffering
+	// sample illustrates how to use fences for efficient resource usage and to
+	// maximize GPU utilization.
+
+	// Signal and increment the fence value.
+	const UINT64 fence = g_FenceValue;
+	ThrowIfFailed(g_CommandQueue->Signal(g_Fence.Get(), fence));
+	g_FenceValue++;
+
+	// Wait until the previous frame is finished.
+	if (g_Fence->GetCompletedValue() < fence) {
+		ThrowIfFailed(g_Fence->SetEventOnCompletion(fence, g_FenceEvent));
+		WaitForSingleObject(g_FenceEvent, INFINITE);
+	}
+
+	g_CurrentBackBufferIndex = g_SwapChain->GetCurrentBackBufferIndex();
 }
