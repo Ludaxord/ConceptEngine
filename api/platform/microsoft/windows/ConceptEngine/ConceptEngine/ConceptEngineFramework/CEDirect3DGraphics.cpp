@@ -311,8 +311,6 @@ void CEDirect3DGraphics::OnRender() {
 			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 		g_CommandList->ResourceBarrier(1, &barrier);
-
-		FLOAT clearColor[] = {0.4f, 0.6f, 0.9f, 1.0f};
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(g_RTVDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
 		                                  g_CurrentBackBufferIndex, g_RTVDescriptorSize);
 
@@ -344,7 +342,7 @@ void CEDirect3DGraphics::OnRender() {
 		WaitForFenceValue(g_Fence, g_FrameFenceValues[g_CurrentBackBufferIndex], g_FenceEvent);
 	}
 
-	WaitForPreviousFrame();
+	// WaitForPreviousFrame();
 }
 
 void CEDirect3DGraphics::Resize(uint32_t width, uint32_t height) {
@@ -473,7 +471,7 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 
 	::CloseHandle(g_FenceEvent);
 
-	WaitForPreviousFrame();
+	// WaitForPreviousFrame();
 }
 
 void CEDirect3DGraphics::CreateDirect3D11(HWND hWnd, int width, int height) {

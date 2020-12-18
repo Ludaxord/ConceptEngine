@@ -317,7 +317,8 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		case VK_RETURN:
 			if (alt) {
 			case VK_F11:
-				pGraphics->SetFullscreen(!pGraphics->GetFullScreenState());
+				auto fullscreen = pGraphics->GetFullScreenState();
+				pGraphics->SetFullscreen(!fullscreen);
 			}
 			break;
 		}

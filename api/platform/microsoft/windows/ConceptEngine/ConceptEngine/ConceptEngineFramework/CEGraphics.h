@@ -77,6 +77,7 @@ public:
 	virtual ~CEGraphics() = default;
 
 public:
+	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
 	virtual void OnRender();
 	virtual void OnUpdate();
 	virtual void SetFullscreen(bool fullscreen);
@@ -111,4 +112,5 @@ protected:
 	// Can be toggled with the Alt+Enter or F11
 	bool g_Fullscreen = false;
 	bool g_IsInitialized = false;
+	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
 };

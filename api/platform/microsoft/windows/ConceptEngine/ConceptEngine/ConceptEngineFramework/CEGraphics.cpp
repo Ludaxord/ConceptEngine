@@ -106,6 +106,13 @@ std::wstring CEGraphics::ExePath() {
 	return std::wstring(buffer).substr(0, pos);
 }
 
+void CEGraphics::ChangeClearColor(float red, float green, float blue, float alpha) {
+	clearColor[0] = red;
+	clearColor[1] = green;
+	clearColor[2] = blue;
+	clearColor[3] = alpha;
+}
+
 void CEGraphics::OnRender() {
 	std::ostringstream oss;
 	oss << "Rendering API: ";
