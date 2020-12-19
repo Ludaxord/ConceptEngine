@@ -223,7 +223,7 @@ HWND CEWindow::CreateMainWindow(const char* name) {
 	//Start options
 	int screenWidth = 0;
 	int screenHeight = 0;
-	GetDesktopResolution(screenHeight, screenWidth);
+	GetDesktopResolution(screenWidth, screenHeight);
 	RECT windowRect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
 	int windowWidth = windowRect.right - windowRect.left;
 	int windowHeight = windowRect.bottom - windowRect.top;
@@ -235,6 +235,16 @@ HWND CEWindow::CreateMainWindow(const char* name) {
 	if (AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE) == 0) {
 		throw CEWIN_LAST_EXCEPTION();
 	}
+
+	std::wstringstream wss;
+	wss << "screenWidth: " << screenWidth << std::endl;
+	wss << "screenHeight: " << screenHeight << std::endl;
+	wss << "windowWidth: " << windowWidth << std::endl;
+	wss << "windowHeight: " << windowHeight << std::endl;
+	wss << "windowX: " << windowX << std::endl;
+	wss << "windowY: " << windowY << std::endl;
+
+	OutputDebugStringW(wss.str().c_str());
 
 	hWnd = CreateWindowEx(
 		NULL,

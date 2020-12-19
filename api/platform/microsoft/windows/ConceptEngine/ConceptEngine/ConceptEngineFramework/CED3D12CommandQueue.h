@@ -21,7 +21,7 @@ public:
 	wrl::ComPtr<ID3D12CommandQueue> GetCommandQueue() const;
 
 protected:
-	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator();
+	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(); 
 	wrl::ComPtr<ID3D12GraphicsCommandList2> CreateCommandList(wrl::ComPtr<ID3D12CommandAllocator> allocator);
 private:
 	struct CECommandAllocatorEntry {
@@ -36,8 +36,9 @@ private:
 	wrl::ComPtr<ID3D12Device2> m_d3d12Device;
 	wrl::ComPtr<ID3D12CommandQueue> m_d3d12CommandQueue;
 	wrl::ComPtr<ID3D12Fence> m_d3d12Fence;
-	HANDLE m_fenceHandle;
+	HANDLE m_fenceEvent;
 	uint64_t m_fenceValue;
+	UINT m_nodeMask;
 	
 	CommandAllocatorQueue m_CommandAllocatorQueue;
 	CommandListQueue m_CommandListQueue;
