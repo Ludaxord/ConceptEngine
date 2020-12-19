@@ -83,6 +83,7 @@ public:
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;
+public:
 	void SetTitle(const std::string& title);
 	void SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType);
 	void RunGraphics();

@@ -77,6 +77,10 @@ public:
 	virtual ~CEGraphics() = default;
 
 public:
+	void OnInit();
+	void OnDestroy();
+
+public:
 	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
 	virtual void OnRender();
 	virtual void OnUpdate();
