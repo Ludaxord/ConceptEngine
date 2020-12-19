@@ -17,4 +17,7 @@ private:
 	CEOSTools::CEGraphicsApiTypes apiType_;
 	CEWindow window_;
 	CETimer timer_;
+
+private:
+	int g_frameIndx;
 };

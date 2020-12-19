@@ -337,6 +337,13 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	case WM_DESTROY:
 		::PostQuitMessage(0);
 		break;
+
+	case WM_PAINT:
+		if (pGraphics) {
+			pGraphics->OnUpdate();
+			pGraphics->OnRender();
+		}
+		return 0;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));

@@ -255,12 +255,21 @@ HANDLE CEDirect3DGraphics::CreateEventHandle() {
 uint64_t CEDirect3DGraphics::Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
                                     uint64_t& fenceValue) {
 	uint64_t fenceValueForSignal = ++fenceValue;
+
+	std::wstringstream wssx;
+	wssx << "Signal index: " << fenceValueForSignal << std::endl;
+	OutputDebugStringW(wssx.str().c_str());
+	
 	ThrowIfFailed(commandQueue->Signal(fence.Get(), fenceValueForSignal));
 	return fenceValueForSignal;
 }
 
 void CEDirect3DGraphics::WaitForFenceValue(wrl::ComPtr<ID3D12Fence> fence, uint64_t fenceValue, HANDLE fenceEvent,
                                            std::chrono::milliseconds duration) {
+
+	std::wstringstream wssx;
+	wssx << "WaitForFenceValue index: " << fenceValue << std::endl;
+	OutputDebugStringW(wssx.str().c_str());
 	if (fence->GetCompletedValue() < fenceValue) {
 		ThrowIfFailed(fence->SetEventOnCompletion(fenceValue, fenceEvent));
 		::WaitForSingleObject(fenceEvent, static_cast<DWORD>(duration.count()));
@@ -269,6 +278,9 @@ void CEDirect3DGraphics::WaitForFenceValue(wrl::ComPtr<ID3D12Fence> fence, uint6
 
 void CEDirect3DGraphics::Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
                                uint64_t& fenceValue, HANDLE fenceEvent) {
+	std::wstringstream wssx;
+	wssx << "Flush index: " << fenceValue << std::endl;
+	OutputDebugStringW(wssx.str().c_str());
 	uint64_t fenceValueForSignal = Signal(commandQueue, fence, fenceValue);
 	WaitForFenceValue(fence, fenceValueForSignal, fenceEvent);
 }
@@ -298,6 +310,13 @@ void CEDirect3DGraphics::OnUpdate() {
 
 
 void CEDirect3DGraphics::OnRender() {
+	std::wstringstream wss;
+	wss << "back buffer index: " << g_CurrentBackBufferIndex << std::endl;
+	OutputDebugStringW(wss.str().c_str());
+
+	std::wstringstream wssx;
+	wss << "fence value: " << g_FrameFenceValues[g_CurrentBackBufferIndex] << std::endl;
+	OutputDebugStringW(wss.str().c_str());
 	auto commandAllocator = g_CommandAllocators[g_CurrentBackBufferIndex];
 	auto backBuffer = g_BackBuffers[g_CurrentBackBufferIndex];
 
@@ -313,8 +332,10 @@ void CEDirect3DGraphics::OnRender() {
 		g_CommandList->ResourceBarrier(1, &barrier);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(g_RTVDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
 		                                  g_CurrentBackBufferIndex, g_RTVDescriptorSize);
+		g_CommandList->OMSetRenderTargets(1, &rtv, FALSE, nullptr);
 
 		g_CommandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
+		g_CommandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 	// Present
@@ -481,7 +502,7 @@ void CEDirect3DGraphics::PrintGraphicsVersion() {
 }
 
 CEDirect3DGraphics::~CEDirect3DGraphics() {
-	WaitForPreviousFrame();
+	// WaitForPreviousFrame();
 }
 
 CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
