@@ -22,19 +22,11 @@ int ConceptEngine::Run() {
 			return *ecode;
 		}
 
-		//debug
-		// window_.GetGraphics().PrintGraphicsVersion();
 		MakeFrame();
-		// g_frameIndx++;
 	}
 }
 
 void ConceptEngine::MakeFrame() {
-	std::wstringstream wssx;
-	wssx << "======" << std::endl;
-	wssx << "make frame index: " << g_frameIndx << std::endl;
-	wssx << "++++++" << std::endl;
-	OutputDebugStringW(wssx.str().c_str());
 	const float c1 = sin(timer_.Peek()) / 2.0f + 0.5f;
 	const float c2 = cos(timer_.Peek()) / 2.0f + 0.5f;
 	const float c3 = sin(-timer_.Peek()) / 2.0f + 0.5f;

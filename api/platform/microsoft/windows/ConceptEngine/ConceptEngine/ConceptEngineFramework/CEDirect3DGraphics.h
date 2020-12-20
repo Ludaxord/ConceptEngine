@@ -62,36 +62,14 @@ private:
 	CEDirect3D11Manager pManager;
 
 public:
-	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter, bool requestHighPerformanceAdapter = false) const;
-	wrl::ComPtr<IDXGIAdapter4> GetAdapter(bool useWarp) const;
-	wrl::ComPtr<ID3D12Device2> CreateDevice(wrl::ComPtr<IDXGIAdapter4> adapter) const;
-	wrl::ComPtr<ID3D12CommandQueue> CreateCommandQueue(wrl::ComPtr<ID3D12Device2> device,
-	                                                   D3D12_COMMAND_LIST_TYPE type) const;
-	wrl::ComPtr<IDXGISwapChain4> CreateSwapChain(HWND hWnd, wrl::ComPtr<ID3D12CommandQueue> commandQueue,
-	                                             uint32_t width,
-	                                             uint32_t height, uint32_t bufferCount);
-	wrl::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(wrl::ComPtr<ID3D12Device2> device,
-	                                                       D3D12_DESCRIPTOR_HEAP_TYPE type,
-	                                                       uint32_t numDescriptors) const;
-	void UpdateRenderTargetViews(wrl::ComPtr<ID3D12Device2> device, wrl::ComPtr<IDXGISwapChain4> swapChain,
-	                             wrl::ComPtr<ID3D12DescriptorHeap> descriptorHeap);
-	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(wrl::ComPtr<ID3D12Device2> device,
-	                                                           D3D12_COMMAND_LIST_TYPE type);
-	wrl::ComPtr<ID3D12GraphicsCommandList> CreateCommandList(wrl::ComPtr<ID3D12Device2> device,
-	                                                         wrl::ComPtr<ID3D12CommandAllocator> commandAllocator,
-	                                                         D3D12_COMMAND_LIST_TYPE type);
-	wrl
-	::ComPtr<ID3D12Fence> CreateFence(wrl::ComPtr<ID3D12Device2> device);
-	HANDLE CreateEventHandle();
-	uint64_t Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
-	                uint64_t& fenceValue);
-	void WaitForFenceValue(wrl::ComPtr<ID3D12Fence> fence, uint64_t fenceValue, HANDLE fenceEvent,
-	                       std::chrono::milliseconds duration = std::chrono::milliseconds::max());
-	void Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
-	           uint64_t& fenceValue, HANDLE fenceEvent);
+	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
+	                        bool requestHighPerformanceAdapter = false) const;
+	void PopulateCommandList();
 	bool CheckVSyncSupport() const;
 
 	void WaitForPreviousFrame();
+	void LoadPipeline();
+	void LoadAssets();
 
 public:
 	void OnUpdate() override;
@@ -102,33 +80,29 @@ public:
 	void OnDestroy() override;
 
 private:
-	//Graphics variables
-	const uint8_t g_NumFrames = 3;
-	bool g_UseWarp = false;
 	uint32_t g_ClientWidth = 1280;
 	uint32_t g_ClientHeight = 720;
+	static const UINT FrameCount = 2;
 
+	// Pipeline objects.
+	wrl::ComPtr<IDXGISwapChain3> m_swapChain;
+	wrl::ComPtr<ID3D12Device> m_device;
+	wrl::ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
+	wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
+	wrl::ComPtr<ID3D12CommandQueue> m_commandQueue;
+	wrl::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+	wrl::ComPtr<ID3D12PipelineState> m_pipelineState;
+	wrl::ComPtr<ID3D12GraphicsCommandList> m_commandList;
+	UINT m_rtvDescriptorSize;
+	bool m_useWarpDevice = false;
+
+	// Synchronization objects.
+	UINT m_frameIndex;
+	HANDLE m_fenceEvent;
+	wrl::ComPtr<ID3D12Fence> m_fence;
+	UINT64 m_fenceValue;
 	// Window rectangle (used to toggle fullscreen state).
 	RECT g_WindowRect;
-
-	// DirectX 12 Objects
-	wrl::ComPtr<ID3D12Device2> g_Device;
-	wrl::ComPtr<ID3D12CommandQueue> g_CommandQueue;
-	wrl::ComPtr<IDXGISwapChain4> g_SwapChain;
-	wrl::ComPtr<ID3D12Resource> g_BackBuffers[3];
-	wrl::ComPtr<ID3D12GraphicsCommandList> g_CommandList;
-	wrl::ComPtr<ID3D12CommandAllocator> g_CommandAllocators[3];
-	wrl::ComPtr<ID3D12DescriptorHeap> g_RTVDescriptorHeap;
-	UINT g_RTVDescriptorSize;
-	UINT g_CurrentBackBufferIndex;
-
-	// CPU && GPU Synchronization objects it is obligatory because
-	// CPU is faster at issuing commands than the command queue is at processing those commands,
-	// the CPU will have to stall at some point in order to allow the command queue to catch - up to the CPU.
-	wrl::ComPtr<ID3D12Fence> g_Fence;
-	uint64_t g_FenceValue = 0;
-	uint64_t g_FrameFenceValues[3] = {};
-	HANDLE g_FenceEvent;
 
 	//Swap Chain Present Methods
 	// By default, enable V-Sync.

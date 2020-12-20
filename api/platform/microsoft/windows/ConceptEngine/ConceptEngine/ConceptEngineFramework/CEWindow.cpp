@@ -171,6 +171,7 @@ CEWindow::CEWindow(int width, int height, const char* name,
 }
 
 CEWindow::~CEWindow() {
+	pGraphics->OnDestroy();
 	DestroyWindow(hWnd);
 	// CloseWindow(hWnd);
 }
