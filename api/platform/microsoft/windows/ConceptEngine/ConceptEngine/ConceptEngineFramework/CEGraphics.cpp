@@ -95,7 +95,7 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
-CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType) : graphicsApiType(apiType) {
+CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType) : hWnd(hWnd), graphicsApiType(apiType) {
 	ResolveSelectedGraphicsAPI();
 }
 
@@ -111,22 +111,6 @@ void CEGraphics::ChangeClearColor(float red, float green, float blue, float alph
 	clearColor[1] = green;
 	clearColor[2] = blue;
 	clearColor[3] = alpha;
-}
-
-void CEGraphics::OnRender() {
-	std::ostringstream oss;
-	oss << "Rendering API: ";
-	oss << magic_enum::enum_name(graphicsApiType);
-	oss << std::endl;
-	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
-}
-
-void CEGraphics::OnUpdate() {
-	std::ostringstream oss;
-	oss << "Updating API: ";
-	oss << magic_enum::enum_name(graphicsApiType);
-	oss << std::endl;
-	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }
 
 void CEGraphics::SetFullscreen(bool fullscreen) {

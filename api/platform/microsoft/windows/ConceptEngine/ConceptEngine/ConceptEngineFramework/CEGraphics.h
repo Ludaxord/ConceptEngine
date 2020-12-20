@@ -77,13 +77,14 @@ public:
 	virtual ~CEGraphics() = default;
 
 public:
-	void OnInit();
-	void OnDestroy();
+	virtual void OnInit() = 0;
+	virtual void OnDestroy() = 0;
+	virtual void OnRender() = 0;
+	virtual void OnUpdate() = 0;
 
 public:
 	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
-	virtual void OnRender();
-	virtual void OnUpdate();
+
 	virtual void SetFullscreen(bool fullscreen);
 
 public:
@@ -104,7 +105,7 @@ protected:
 	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12
 	//TODO: add: Vulkan implementation => Source: https://www.khronos.org/registry/vulkan/specs/1.2/styleguide.html
 	//TODO: add OpenGL implementation => Source: https://www.khronos.org/registry/OpenGL/index_gl.php
-
+	HWND hWnd;
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
 
 	//Swap Chain Present Methods
@@ -117,4 +118,5 @@ protected:
 	bool g_Fullscreen = false;
 	bool g_IsInitialized = false;
 	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
+
 };

@@ -50,8 +50,8 @@ public:
 	void EnableDebugLayer();
 
 private:
-	void CreateDirect3D12(HWND hWnd, int width, int height);
-	void CreateDirect3D11(HWND hWnd, int width, int height);
+	void CreateDirect3D12(int width, int height);
+	void CreateDirect3D11(int width, int height);
 public:
 	void PrintGraphicsVersion() override;
 protected:
@@ -66,7 +66,6 @@ public:
 	wrl::ComPtr<ID3D12Device2> CreateDevice(wrl::ComPtr<IDXGIAdapter4> adapter) const;
 	wrl::ComPtr<ID3D12CommandQueue> CreateCommandQueue(wrl::ComPtr<ID3D12Device2> device,
 	                                                   D3D12_COMMAND_LIST_TYPE type) const;
-	bool CheckVSyncSupport() const;
 	wrl::ComPtr<IDXGISwapChain4> CreateSwapChain(HWND hWnd, wrl::ComPtr<ID3D12CommandQueue> commandQueue,
 	                                             uint32_t width,
 	                                             uint32_t height, uint32_t bufferCount);
@@ -89,11 +88,18 @@ public:
 	                       std::chrono::milliseconds duration = std::chrono::milliseconds::max());
 	void Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
 	           uint64_t& fenceValue, HANDLE fenceEvent);
+	bool CheckVSyncSupport() const;
+
 	void WaitForPreviousFrame();
+
+public:
 	void OnUpdate() override;
 	void OnRender() override;
 	void Resize(uint32_t width, uint32_t height);
 	void SetFullscreen(bool fullscreen) override;
+	void OnInit() override;
+	void OnDestroy() override;
+
 private:
 	//Graphics variables
 	const uint8_t g_NumFrames = 3;
@@ -131,5 +137,4 @@ private:
 	// By default, use windowed mode.
 	// Can be toggled with the Alt+Enter or F11
 	bool g_Fullscreen = false;
-	HWND g_hWnd;
 };

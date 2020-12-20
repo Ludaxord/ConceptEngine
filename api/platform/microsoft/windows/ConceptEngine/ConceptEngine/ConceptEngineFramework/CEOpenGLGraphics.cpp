@@ -4,6 +4,21 @@
 
 
 CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::opengl) {
+
+}
+
+
+CEGraphicsManager CEOpenGLGraphics::GetGraphicsManager() {
+	return static_cast<CEGraphicsManager>(CEOpenGLManager());
+}
+
+void CEOpenGLGraphics::PrintGraphicsVersion() {
+	std::wstringstream wss;
+	wss << "OpenGL Version: " << CEOSTools::GetOpenGLVersion() << std::endl;
+	OutputDebugString(wss.str().c_str());
+}
+
+void CEOpenGLGraphics::OnInit() {
 	g_HDC = GetDC(hWnd);
 
 	PIXELFORMATDESCRIPTOR pfd =
@@ -35,13 +50,14 @@ CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGra
 
 }
 
-
-CEGraphicsManager CEOpenGLGraphics::GetGraphicsManager() {
-	return static_cast<CEGraphicsManager>(CEOpenGLManager());
+void CEOpenGLGraphics::OnDestroy() {
 }
 
-void CEOpenGLGraphics::PrintGraphicsVersion() {
-	std::wstringstream wss;
-	wss << "OpenGL Version: " << CEOSTools::GetOpenGLVersion() << std::endl;
-	OutputDebugString(wss.str().c_str());
+void CEOpenGLGraphics::OnRender() {
+}
+
+void CEOpenGLGraphics::OnUpdate() {
+}
+
+void CEOpenGLGraphics::SetFullscreen(bool fullscreen) {
 }

@@ -9,21 +9,9 @@
 #include "d3dx12.h"
 
 CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width,
-                                       int height) : CEGraphics(hWnd, apiType), g_hWnd(hWnd) {
+                                       int height) : CEGraphics(hWnd, apiType), g_ClientWidth(width),
+                                                     g_ClientHeight(height) {
 
-	if (apiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
-		CreateDirect3D11(hWnd, width, height);
-	}
-	else if (apiType == CEOSTools::CEGraphicsApiTypes::direct3d12) {
-		CreateDirect3D12(hWnd, width, height);
-	}
-	else {
-		std::ostringstream oss;
-		oss << "No API for enum: ";
-		oss << magic_enum::enum_name(apiType);
-		oss << std::endl;
-		throw CEException(__LINE__, oss.str().c_str());
-	}
 }
 
 
@@ -259,7 +247,7 @@ uint64_t CEDirect3DGraphics::Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue
 	std::wstringstream wssx;
 	wssx << "Signal index: " << fenceValueForSignal << std::endl;
 	OutputDebugStringW(wssx.str().c_str());
-	
+
 	ThrowIfFailed(commandQueue->Signal(fence.Get(), fenceValueForSignal));
 	return fenceValueForSignal;
 }
@@ -402,49 +390,69 @@ void CEDirect3DGraphics::SetFullscreen(bool fullscreen) {
 		{
 			// Store the current window dimensions so they can be restored 
 			// when switching out of fullscreen state.
-			::GetWindowRect(g_hWnd, &g_WindowRect);
+			::GetWindowRect(hWnd, &g_WindowRect);
 
 			// Set the window style to a borderless window so the client area fills
 			// the entire screen.
 			UINT windowStyle = WS_OVERLAPPEDWINDOW & ~(WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX |
 				WS_MAXIMIZEBOX);
 
-			::SetWindowLongW(g_hWnd, GWL_STYLE, windowStyle);
+			::SetWindowLongW(hWnd, GWL_STYLE, windowStyle);
 
 			// Query the name of the nearest display device for the window.
 			// This is required to set the fullscreen dimensions of the window
 			// when using a multi-monitor setup.
-			HMONITOR hMonitor = ::MonitorFromWindow(g_hWnd, MONITOR_DEFAULTTONEAREST);
+			HMONITOR hMonitor = ::MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
 			MONITORINFOEX monitorInfo = {};
 			monitorInfo.cbSize = sizeof(MONITORINFOEX);
 			::GetMonitorInfo(hMonitor, &monitorInfo);
 
-			::SetWindowPos(g_hWnd, HWND_TOPMOST,
+			::SetWindowPos(hWnd, HWND_TOPMOST,
 			               monitorInfo.rcMonitor.left,
 			               monitorInfo.rcMonitor.top,
 			               monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
 			               monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top,
 			               SWP_FRAMECHANGED | SWP_NOACTIVATE);
 
-			::ShowWindow(g_hWnd, SW_MAXIMIZE);
+			::ShowWindow(hWnd, SW_MAXIMIZE);
 		}
 		else {
 			// Restore all the window decorators.
-			::SetWindowLong(g_hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+			::SetWindowLong(hWnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
 
-			::SetWindowPos(g_hWnd, HWND_NOTOPMOST,
+			::SetWindowPos(hWnd, HWND_NOTOPMOST,
 			               g_WindowRect.left,
 			               g_WindowRect.top,
 			               g_WindowRect.right - g_WindowRect.left,
 			               g_WindowRect.bottom - g_WindowRect.top,
 			               SWP_FRAMECHANGED | SWP_NOACTIVATE);
 
-			::ShowWindow(g_hWnd, SW_NORMAL);
+			::ShowWindow(hWnd, SW_NORMAL);
 		}
 	}
 }
 
-void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
+void CEDirect3DGraphics::OnInit() {
+
+	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
+		CreateDirect3D11(g_ClientWidth, g_ClientHeight);
+	}
+	else if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d12) {
+		CreateDirect3D12(g_ClientWidth, g_ClientHeight);
+	}
+	else {
+		std::ostringstream oss;
+		oss << "No API for enum: ";
+		oss << magic_enum::enum_name(graphicsApiType);
+		oss << std::endl;
+		throw CEException(__LINE__, oss.str().c_str());
+	}
+}
+
+void CEDirect3DGraphics::OnDestroy() {
+}
+
+void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 	// Windows 10 Creators update adds Per Monitor V2 DPI awareness context.
 	// Using this awareness context allows the client area of the window 
 	// to achieve 100% scaling while still allowing non-client window content to 
@@ -452,13 +460,12 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
 	// Window class name. Used for registering / creating the window.
-	const wchar_t* windowClassName = L"DX12WindowClass";
 	EnableDebugLayer();
 
 	g_TearingSupported = CheckVSyncSupport();
 
 	// Initialize the global window rect variable.
-	::GetWindowRect(g_hWnd, &g_WindowRect);
+	::GetWindowRect(hWnd, &g_WindowRect);
 
 	wrl::ComPtr<IDXGIAdapter4> dxgiAdapter4 = GetAdapter(g_UseWarp);
 
@@ -466,7 +473,7 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 
 	g_CommandQueue = CreateCommandQueue(g_Device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-	g_SwapChain = CreateSwapChain(g_hWnd, g_CommandQueue,
+	g_SwapChain = CreateSwapChain(hWnd, g_CommandQueue,
 	                              g_ClientWidth, g_ClientHeight, g_NumFrames);
 
 	g_CurrentBackBufferIndex = g_SwapChain->GetCurrentBackBufferIndex();
@@ -495,7 +502,7 @@ void CEDirect3DGraphics::CreateDirect3D12(HWND hWnd, int width, int height) {
 	// WaitForPreviousFrame();
 }
 
-void CEDirect3DGraphics::CreateDirect3D11(HWND hWnd, int width, int height) {
+void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 }
 
 void CEDirect3DGraphics::PrintGraphicsVersion() {

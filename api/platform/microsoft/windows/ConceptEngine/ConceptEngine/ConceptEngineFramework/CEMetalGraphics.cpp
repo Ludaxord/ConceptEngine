@@ -12,3 +12,15 @@ CEGraphicsManager CEMetalGraphics::GetGraphicsManager() {
 
 void CEMetalGraphics::PrintGraphicsVersion() {
 }
+
+void CEMetalGraphics::OnInit() {
+}
+
+void CEMetalGraphics::OnDestroy() {
+}
+
+void CEMetalGraphics::OnRender() {
+}
+
+void CEMetalGraphics::OnUpdate() {
+}

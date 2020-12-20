@@ -8,79 +8,6 @@
 
 CEVulkanGraphics::CEVulkanGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::vulkan),
                                                pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
-	LoadVulkan();
-	VkResult result;
-
-	uint32_t layerCount = 0;
-	pVulkanData->vkEnumerateInstanceLayerProperties(&layerCount, NULL);
-	VkLayerProperties* layersAvailable = new VkLayerProperties[layerCount];
-	pVulkanData->vkEnumerateInstanceLayerProperties(&layerCount, layersAvailable);
-
-	// Extensions:
-	uint32_t extensionCount = 0;
-	pVulkanData->vkEnumerateInstanceExtensionProperties(NULL, &extensionCount, NULL);
-	VkExtensionProperties* extensionsAvailable = new VkExtensionProperties[extensionCount];
-	pVulkanData->vkEnumerateInstanceExtensionProperties(NULL, &extensionCount, extensionsAvailable);
-
-	const char* extensions[] = {"VK_KHR_surface", "VK_KHR_win32_surface", "VK_EXT_debug_utils"};
-	uint32_t numberRequiredExtensions = sizeof(extensions) / sizeof(char*);
-	uint32_t foundExtensions = 0;
-	for (uint32_t i = 0; i < extensionCount; ++i) {
-		for (int j = 0; j < numberRequiredExtensions; ++j) {
-			if (strcmp(extensionsAvailable[i].extensionName, extensions[j]) == 0) {
-				foundExtensions++;
-			}
-		}
-	}
-	CETools::Assert(foundExtensions == numberRequiredExtensions, "Could not find debug extension");
-	VkInstance instance;
-	VkSurfaceKHR surface;
-	//TODO: Load vulkan libraries dynamically
-	VkApplicationInfo applicationInfo = {};
-	applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	applicationInfo.pApplicationName = "Concept Engine";
-	applicationInfo.engineVersion = 1;
-	applicationInfo.apiVersion = VK_MAKE_VERSION(1, 0, 0);
-
-	VkInstanceCreateInfo instanceInfo = {};
-	instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	instanceInfo.pApplicationInfo = &applicationInfo;
-	instanceInfo.enabledExtensionCount = 3;
-	instanceInfo.ppEnabledExtensionNames = extensions;
-
-	result = pVulkanData->vkCreateInstance(&instanceInfo, NULL, &vulkanContext.instance);
-	checkVulkanResult(result, "Failed to create vulkan instance.");
-
-	LoadVulkanExtensions(vulkanContext);
-
-	VkDebugUtilsMessengerCreateInfoEXT callbackCreateInfo = {};
-	callbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-	callbackCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
-		VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
-		VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-	callbackCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
-		VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-	// callbackCreateInfo.pfnUserCallback = &MyDebugReportCallback;
-
-	result = pVulkanData->vkCreateDebugUtilsMessengerEXT(vulkanContext.instance, &callbackCreateInfo, nullptr,
-	                                                     &vulkanContext.callback);
-	checkVulkanResult(result, "Failed to create debug report callback.");
-
-	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
-	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
-	surfaceCreateInfo.hwnd = hWnd;
-
-	result = pVulkanData->vkCreateWin32SurfaceKHR(vulkanContext.instance, &surfaceCreateInfo, nullptr,
-	                                              &vulkanContext.surface);
-	checkVulkanResult(result, "Could not create surface.");
-
-	// Find a physical device that has a queue where we can present and do graphics: 
-	uint32_t physicalDeviceCount = 0;
-	pVulkanData->vkEnumeratePhysicalDevices(vulkanContext.instance, &physicalDeviceCount, nullptr);
-	auto physicalDevices = new VkPhysicalDevice[physicalDeviceCount];
-	pVulkanData->vkEnumeratePhysicalDevices(vulkanContext.instance, &physicalDeviceCount, physicalDevices);
-
 }
 
 CEGraphicsManager CEVulkanGraphics::GetGraphicsManager() {
@@ -195,4 +122,92 @@ void CEVulkanGraphics::LoadVulkanExtensions(CEVulkanContext context) {
 
 void CEVulkanGraphics::checkVulkanResult(VkResult& result, const char* msg) {
 	CETools::Assert(result == VK_SUCCESS, msg);
+}
+
+void CEVulkanGraphics::OnRender() {
+}
+
+void CEVulkanGraphics::OnUpdate() {
+}
+
+void CEVulkanGraphics::SetFullscreen(bool fullscreen) {
+}
+
+void CEVulkanGraphics::OnInit() {
+	LoadVulkan();
+	VkResult result;
+
+	uint32_t layerCount = 0;
+	pVulkanData->vkEnumerateInstanceLayerProperties(&layerCount, NULL);
+	VkLayerProperties* layersAvailable = new VkLayerProperties[layerCount];
+	pVulkanData->vkEnumerateInstanceLayerProperties(&layerCount, layersAvailable);
+
+	// Extensions:
+	uint32_t extensionCount = 0;
+	pVulkanData->vkEnumerateInstanceExtensionProperties(NULL, &extensionCount, NULL);
+	VkExtensionProperties* extensionsAvailable = new VkExtensionProperties[extensionCount];
+	pVulkanData->vkEnumerateInstanceExtensionProperties(NULL, &extensionCount, extensionsAvailable);
+
+	const char* extensions[] = {"VK_KHR_surface", "VK_KHR_win32_surface", "VK_EXT_debug_utils"};
+	uint32_t numberRequiredExtensions = sizeof(extensions) / sizeof(char*);
+	uint32_t foundExtensions = 0;
+	for (uint32_t i = 0; i < extensionCount; ++i) {
+		for (int j = 0; j < numberRequiredExtensions; ++j) {
+			if (strcmp(extensionsAvailable[i].extensionName, extensions[j]) == 0) {
+				foundExtensions++;
+			}
+		}
+	}
+	CETools::Assert(foundExtensions == numberRequiredExtensions, "Could not find debug extension");
+	VkInstance instance;
+	VkSurfaceKHR surface;
+	//TODO: Load vulkan libraries dynamically
+	VkApplicationInfo applicationInfo = {};
+	applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+	applicationInfo.pApplicationName = "Concept Engine";
+	applicationInfo.engineVersion = 1;
+	applicationInfo.apiVersion = VK_MAKE_VERSION(1, 0, 0);
+
+	VkInstanceCreateInfo instanceInfo = {};
+	instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+	instanceInfo.pApplicationInfo = &applicationInfo;
+	instanceInfo.enabledExtensionCount = 3;
+	instanceInfo.ppEnabledExtensionNames = extensions;
+
+	result = pVulkanData->vkCreateInstance(&instanceInfo, NULL, &vulkanContext.instance);
+	checkVulkanResult(result, "Failed to create vulkan instance.");
+
+	LoadVulkanExtensions(vulkanContext);
+
+	VkDebugUtilsMessengerCreateInfoEXT callbackCreateInfo = {};
+	callbackCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	callbackCreateInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+	callbackCreateInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+	// callbackCreateInfo.pfnUserCallback = &MyDebugReportCallback;
+
+	result = pVulkanData->vkCreateDebugUtilsMessengerEXT(vulkanContext.instance, &callbackCreateInfo, nullptr,
+	                                                     &vulkanContext.callback);
+	checkVulkanResult(result, "Failed to create debug report callback.");
+
+	VkWin32SurfaceCreateInfoKHR surfaceCreateInfo = {};
+	surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	surfaceCreateInfo.hinstance = GetModuleHandle(nullptr);
+	surfaceCreateInfo.hwnd = hWnd;
+
+	result = pVulkanData->vkCreateWin32SurfaceKHR(vulkanContext.instance, &surfaceCreateInfo, nullptr,
+	                                              &vulkanContext.surface);
+	checkVulkanResult(result, "Could not create surface.");
+
+	// Find a physical device that has a queue where we can present and do graphics: 
+	uint32_t physicalDeviceCount = 0;
+	pVulkanData->vkEnumeratePhysicalDevices(vulkanContext.instance, &physicalDeviceCount, nullptr);
+	auto physicalDevices = new VkPhysicalDevice[physicalDeviceCount];
+	pVulkanData->vkEnumeratePhysicalDevices(vulkanContext.instance, &physicalDeviceCount, physicalDevices);
+
+}
+
+void CEVulkanGraphics::OnDestroy() {
 }

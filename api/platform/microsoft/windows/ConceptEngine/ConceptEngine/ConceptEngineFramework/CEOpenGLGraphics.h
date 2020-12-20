@@ -11,6 +11,11 @@ public:
 	CEGraphicsManager GetGraphicsManager() override;
 
 	void PrintGraphicsVersion() override;
+	void OnInit() override;
+	void OnDestroy() override;
+	void OnRender() override;
+	void OnUpdate() override;
+	void SetFullscreen(bool fullscreen) override;
 private:
 	HDC g_HDC;
 };

@@ -166,6 +166,7 @@ CEWindow::CEWindow(int width, int height, const char* name,
                    CEOSTools::CEGraphicsApiTypes graphicsApiType): CEWindow(width, height, name) {
 	SetGraphicsApi(graphicsApiType);
 	RunGraphics();
+	pGraphics->OnInit();
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
 
