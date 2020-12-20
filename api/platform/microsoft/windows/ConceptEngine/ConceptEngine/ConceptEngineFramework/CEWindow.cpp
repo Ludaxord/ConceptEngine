@@ -206,6 +206,7 @@ std::optional<int> CEWindow::ProcessMessages() noexcept {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+
 	return {};
 }
 
@@ -305,6 +306,7 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 			PostQuitMessage(1);
 			return 0;
 		}
+		pGraphics->OnDestroy();
 		CloseWindow(hWnd);
 		break;
 	}
@@ -320,9 +322,16 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		const bool alt = (::GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
 
 		switch (wParam) {
-		case 'V':
+		case 'V': {
 			pGraphics->ChangeVSyncState();
+
+			std::stringstream wss;
+			wss << "VSync enabled: " << pGraphics->GetVSyncState() << std::endl;
+			OutputDebugStringA(wss.str().c_str());
+			
 			break;
+		}
+
 		case VK_ESCAPE:
 			::PostQuitMessage(0);
 			break;
@@ -339,13 +348,6 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	case WM_DESTROY:
 		::PostQuitMessage(0);
 		break;
-
-	// case WM_PAINT:
-	// 	if (pGraphics) {
-	// 		pGraphics->OnUpdate();
-	// 		pGraphics->OnRender();
-	// 	}
-	// 	return 0;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));

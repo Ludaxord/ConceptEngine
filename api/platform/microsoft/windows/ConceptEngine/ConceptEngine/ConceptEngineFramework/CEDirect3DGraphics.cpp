@@ -100,8 +100,56 @@ bool CEDirect3DGraphics::CheckVSyncSupport() const {
 
 // Load the rendering pipeline dependencies.
 void CEDirect3DGraphics::LoadPipeline() {
-	UINT dxgiFactoryFlags = 0;
+	EnableDebugLayer();
 
+
+	g_TearingSupported = CheckVSyncSupport();
+	// Initialize the global window rect variable.
+	::GetWindowRect(hWnd, &g_WindowRect);
+
+	m_factory = GetFactory();
+	wrl::ComPtr<IDXGIAdapter> dxgiAdapter = GetAdapter(m_useWarpDevice);
+	m_device = CreateDevice(dxgiAdapter);
+	m_commandQueue = CreateCommandQueue(m_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+	m_swapChain = CreateSwapChain(hWnd, m_commandQueue, g_ClientWidth, g_ClientHeight, FrameCount);
+	m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
+
+	m_rtvHeap = CreateDescriptorHeap(m_device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, FrameCount);
+	m_rtvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+	UpdateRenderTargetViews(m_device, m_swapChain, m_rtvHeap);
+
+	m_commandAllocator = CreateCommandAllocator(m_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+}
+
+// Load the sample assets.
+void CEDirect3DGraphics::LoadAssets() {
+	// Create the command list.
+	m_commandList = CreateCommandList(m_device,
+	                                  m_commandAllocator, D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+	m_fence = CreateFence(m_device);
+	m_fenceEvent = CreateEventHandle();
+
+	g_IsInitialized = true;
+
+	// Make sure the command queue has finished all commands before closing.
+	Flush(m_commandQueue, m_fence, m_fenceValue, m_fenceEvent);
+}
+
+wrl::ComPtr<IDXGIFactory4> CEDirect3DGraphics::GetFactory() const {
+	UINT dxgiFactoryFlags = 0;
+#if defined(_DEBUG)
+	// Enable additional debug layers.
+	dxgiFactoryFlags |= DXGI_CREATE_FACTORY_DEBUG;
+#endif
+	wrl::ComPtr<IDXGIFactory4> factory;
+	ThrowIfFailed(CreateDXGIFactory2(dxgiFactoryFlags, IID_PPV_ARGS(&factory)));
+
+	return factory;
+}
+
+void CEDirect3DGraphics::EnableDebugLayer() {
 #if defined(_DEBUG)
 	// Enable the debug layer (requires the Graphics Tools "optional feature").
 	// NOTE: Enabling the debug layer after device creation will invalidate the active device.
@@ -109,58 +157,73 @@ void CEDirect3DGraphics::LoadPipeline() {
 		wrl::ComPtr<ID3D12Debug> debugController;
 		if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 			debugController->EnableDebugLayer();
-
-			// Enable additional debug layers.
-			dxgiFactoryFlags |= DXGI_CREATE_FACTORY_DEBUG;
 		}
 	}
 #endif
+}
 
-	wrl::ComPtr<IDXGIFactory4> factory;
-	ThrowIfFailed(CreateDXGIFactory2(dxgiFactoryFlags, IID_PPV_ARGS(&factory)));
+wrl::ComPtr<IDXGIAdapter> CEDirect3DGraphics::GetAdapter(bool useWarp) const {
+	wrl::ComPtr<IDXGIAdapter> dxgiAdapter;
 
 	if (m_useWarpDevice) {
 		wrl::ComPtr<IDXGIAdapter> warpAdapter;
-		ThrowIfFailed(factory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
-
-		ThrowIfFailed(D3D12CreateDevice(
-			warpAdapter.Get(),
-			D3D_FEATURE_LEVEL_12_0,
-			IID_PPV_ARGS(&m_device)
-		));
+		ThrowIfFailed(m_factory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
+		dxgiAdapter = warpAdapter;
 	}
 	else {
 		wrl::ComPtr<IDXGIAdapter1> hardwareAdapter;
-		GetHardwareAdapter(factory.Get(), &hardwareAdapter);
-
-		ThrowIfFailed(D3D12CreateDevice(
-			hardwareAdapter.Get(),
-			D3D_FEATURE_LEVEL_12_0,
-			IID_PPV_ARGS(&m_device)
-		));
+		GetHardwareAdapter(m_factory.Get(), &hardwareAdapter);
+		ThrowIfFailed(hardwareAdapter.As(&dxgiAdapter));
 	}
 
+	return dxgiAdapter;
+}
+
+wrl::ComPtr<ID3D12Device> CEDirect3DGraphics::CreateDevice(wrl::ComPtr<IDXGIAdapter> adapter) const {
+	wrl::ComPtr<ID3D12Device> d3d12Device;
+
+	ThrowIfFailed(D3D12CreateDevice(
+		adapter.Get(),
+		D3D_FEATURE_LEVEL_12_0,
+		IID_PPV_ARGS(&d3d12Device)
+	));
+	return d3d12Device;
+}
+
+wrl::ComPtr<ID3D12CommandQueue> CEDirect3DGraphics::CreateCommandQueue(wrl::ComPtr<ID3D12Device> device,
+                                                                       D3D12_COMMAND_LIST_TYPE type) const {
+	wrl::ComPtr<ID3D12CommandQueue> d3d12CommandQueue;
 	// Describe and create the command queue.
 	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
 	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	queueDesc.Type = type;
 
-	ThrowIfFailed(m_device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_commandQueue)));
+	ThrowIfFailed(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&d3d12CommandQueue)));
+	return d3d12CommandQueue;
+}
 
+wrl::ComPtr<IDXGISwapChain3> CEDirect3DGraphics::CreateSwapChain(HWND hWnd,
+                                                                 wrl::ComPtr<ID3D12CommandQueue> commandQueue,
+                                                                 uint32_t width, uint32_t height,
+                                                                 uint32_t bufferCount) {
 	// Describe and create the swap chain.
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-	swapChainDesc.BufferCount = FrameCount;
-	swapChainDesc.Width = g_ClientWidth;
-	swapChainDesc.Height = g_ClientHeight;
+	swapChainDesc.BufferCount = bufferCount;
+	swapChainDesc.Width = width;
+	swapChainDesc.Height = height;
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.Flags = CheckVSyncSupport() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
 
+	//additional
+	swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+	swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+
 	wrl::ComPtr<IDXGISwapChain1> swapChain;
-	ThrowIfFailed(factory->CreateSwapChainForHwnd(
-		m_commandQueue.Get(), // Swap chain needs the queue so that it can force a flush on it.
+	ThrowIfFailed(m_factory->CreateSwapChainForHwnd(
+		commandQueue.Get(), // Swap chain needs the queue so that it can force a flush on it.
 		hWnd,
 		&swapChainDesc,
 		nullptr,
@@ -169,59 +232,99 @@ void CEDirect3DGraphics::LoadPipeline() {
 	));
 
 	// This sample does not support fullscreen transitions.
-	ThrowIfFailed(factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
+	ThrowIfFailed(m_factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
+	wrl::ComPtr<IDXGISwapChain3> swapChain3;
+	ThrowIfFailed(swapChain.As(&swapChain3));
 
-	ThrowIfFailed(swapChain.As(&m_swapChain));
-	m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
-
-	// Create descriptor heaps.
-	{
-		// Describe and create a render target view (RTV) descriptor heap.
-		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-		rtvHeapDesc.NumDescriptors = FrameCount;
-		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-		rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-		ThrowIfFailed(m_device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
-
-		m_rtvDescriptorSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	}
-
-	// Create frame resources.
-	{
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
-
-		// Create a RTV for each frame.
-		for (UINT n = 0; n < FrameCount; n++) {
-			ThrowIfFailed(m_swapChain->GetBuffer(n, IID_PPV_ARGS(&m_renderTargets[n])));
-			m_device->CreateRenderTargetView(m_renderTargets[n].Get(), nullptr, rtvHandle);
-			rtvHandle.Offset(1, m_rtvDescriptorSize);
-		}
-	}
-
-	ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&m_commandAllocator)));
+	return swapChain3;
 }
 
-// Load the sample assets.
-void CEDirect3DGraphics::LoadAssets() {
-	// Create the command list.
-	ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), nullptr,
-	                                          IID_PPV_ARGS(&m_commandList)));
+wrl::ComPtr<ID3D12DescriptorHeap> CEDirect3DGraphics::CreateDescriptorHeap(wrl::ComPtr<ID3D12Device> device,
+                                                                           D3D12_DESCRIPTOR_HEAP_TYPE type,
+                                                                           uint32_t numDescriptors) const {
+	wrl::ComPtr<ID3D12DescriptorHeap> descriptorHeap;
+	// Describe and create a render target view (RTV) descriptor heap.
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+	rtvHeapDesc.NumDescriptors = FrameCount;
+	rtvHeapDesc.Type = type;
+	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	ThrowIfFailed(device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&descriptorHeap)));
+	return descriptorHeap;
+}
 
+void CEDirect3DGraphics::UpdateRenderTargetViews(wrl::ComPtr<ID3D12Device> device,
+                                                 wrl::ComPtr<IDXGISwapChain3> swapChain,
+                                                 wrl::ComPtr<ID3D12DescriptorHeap> descriptorHeap) {
+	// Create frame resources.
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(descriptorHeap->GetCPUDescriptorHandleForHeapStart());
+
+	// Create a RTV for each frame.
+	for (UINT n = 0; n < FrameCount; n++) {
+		ThrowIfFailed(swapChain->GetBuffer(n, IID_PPV_ARGS(&m_renderTargets[n])));
+		m_device->CreateRenderTargetView(m_renderTargets[n].Get(), nullptr, rtvHandle);
+		rtvHandle.Offset(1, m_rtvDescriptorSize);
+	}
+}
+
+wrl::ComPtr<ID3D12CommandAllocator> CEDirect3DGraphics::CreateCommandAllocator(wrl::ComPtr<ID3D12Device> device,
+                                                                               D3D12_COMMAND_LIST_TYPE type) {
+	wrl::ComPtr<ID3D12CommandAllocator> commandAllocator;
+	ThrowIfFailed(device->CreateCommandAllocator(type, IID_PPV_ARGS(&commandAllocator)));
+	return commandAllocator;
+}
+
+wrl::ComPtr<ID3D12GraphicsCommandList> CEDirect3DGraphics::CreateCommandList(wrl::ComPtr<ID3D12Device> device,
+                                                                             wrl::ComPtr<ID3D12CommandAllocator>
+                                                                             commandAllocator,
+                                                                             D3D12_COMMAND_LIST_TYPE type) {
+	wrl::ComPtr<ID3D12GraphicsCommandList> commandList;
+	ThrowIfFailed(device->CreateCommandList(0, type, commandAllocator.Get(), nullptr,
+	                                        IID_PPV_ARGS(&commandList)));
 	// Command lists are created in the recording state, but there is nothing
 	// to record yet. The main loop expects it to be closed, so close it now.
-	ThrowIfFailed(m_commandList->Close());
+	ThrowIfFailed(commandList->Close());
+	return commandList;
+}
 
-	// Create synchronization objects.
-	{
-		ThrowIfFailed(m_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
-		m_fenceValue = 1;
+wrl::ComPtr<ID3D12Fence> CEDirect3DGraphics::CreateFence(wrl::ComPtr<ID3D12Device> device) {
+	wrl::ComPtr<ID3D12Fence> fence;
+	ThrowIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence)));
 
-		// Create an event handle to use for frame synchronization.
-		m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-		if (m_fenceEvent == nullptr) {
-			ThrowIfFailed(HRESULT_FROM_WIN32(GetLastError()));
-		}
+	return fence;
+}
+
+HANDLE CEDirect3DGraphics::CreateEventHandle() {
+	HANDLE fenceEvent;
+	m_fenceValue = 1;
+	// Create an event handle to use for frame synchronization.
+	fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (fenceEvent == nullptr) {
+		ThrowIfFailed(HRESULT_FROM_WIN32(GetLastError()));
 	}
+
+	return fenceEvent;
+}
+
+uint64_t CEDirect3DGraphics::Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
+                                    uint64_t& fenceValue) {
+	uint64_t fenceValueForSignal = ++fenceValue;
+	ThrowIfFailed(commandQueue->Signal(fence.Get(), fenceValueForSignal));
+	return fenceValueForSignal;
+
+}
+
+void CEDirect3DGraphics::WaitForFenceValue(wrl::ComPtr<ID3D12Fence> fence, uint64_t fenceValue, HANDLE fenceEvent,
+                                           std::chrono::milliseconds duration) {
+	if (fence->GetCompletedValue() < fenceValue) {
+		ThrowIfFailed(fence->SetEventOnCompletion(fenceValue, fenceEvent));
+		::WaitForSingleObject(fenceEvent, static_cast<DWORD>(duration.count()));
+	}
+}
+
+void CEDirect3DGraphics::Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
+                               uint64_t& fenceValue, HANDLE fenceEvent) {
+	uint64_t fenceValueForSignal = Signal(commandQueue, fence, fenceValue);
+	WaitForFenceValue(fence, fenceValueForSignal, fenceEvent);
 }
 
 void CEDirect3DGraphics::OnUpdate() {
@@ -285,8 +388,9 @@ void CEDirect3DGraphics::OnRender() {
 	ID3D12CommandList* ppCommandLists[] = {m_commandList.Get()};
 	m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
 
-	// Present the frame.
-	ThrowIfFailed(m_swapChain->Present(1, 0));
+	UINT syncInterval = g_VSync ? 1 : 0;
+	UINT presentFlags = g_TearingSupported && !g_VSync ? DXGI_PRESENT_ALLOW_TEARING : 0;
+	ThrowIfFailed(m_swapChain->Present(syncInterval, presentFlags));
 
 	WaitForPreviousFrame();
 }
@@ -317,7 +421,8 @@ void CEDirect3DGraphics::OnInit() {
 }
 
 void CEDirect3DGraphics::OnDestroy() {
-
+	WaitForPreviousFrame();
+	CloseHandle(m_fenceEvent);
 }
 
 void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
@@ -331,9 +436,6 @@ void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 void CEDirect3DGraphics::PrintGraphicsVersion() {
 }
 
-CEDirect3DGraphics::~CEDirect3DGraphics() {
-}
-
 CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
 	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
 		return static_cast<CEGraphicsManager>(CEDirect3D11Manager());
@@ -341,10 +443,6 @@ CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
 	else {
 		return static_cast<CEGraphicsManager>(CEDirect3D12Manager());
 	}
-}
-
-void CEDirect3DGraphics::EnableDebugLayer() {
-
 }
 
 void CEDirect3DGraphics::WaitForPreviousFrame() {
