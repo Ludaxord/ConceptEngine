@@ -17,16 +17,16 @@ ConceptEngine::ConceptEngine(int width, int height, const char* name,
 
 int ConceptEngine::Run() {
 
-	// while (true) {
-	if (const auto ecode = CEWindow::ProcessMessages()) {
-		return *ecode;
-	}
+	while (true) {
+		if (const auto ecode = CEWindow::ProcessMessages()) {
+			return *ecode;
+		}
 
-	//debug
-	// window_.GetGraphics().PrintGraphicsVersion();
-	// MakeFrame();
-	// g_frameIndx++;
-	// }
+		//debug
+		// window_.GetGraphics().PrintGraphicsVersion();
+		MakeFrame();
+		// g_frameIndx++;
+	}
 }
 
 void ConceptEngine::MakeFrame() {

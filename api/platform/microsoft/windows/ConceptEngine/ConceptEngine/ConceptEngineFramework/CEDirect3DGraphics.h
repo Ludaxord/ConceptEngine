@@ -62,6 +62,7 @@ private:
 	CEDirect3D11Manager pManager;
 
 public:
+	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter, bool requestHighPerformanceAdapter = false) const;
 	wrl::ComPtr<IDXGIAdapter4> GetAdapter(bool useWarp) const;
 	wrl::ComPtr<ID3D12Device2> CreateDevice(wrl::ComPtr<IDXGIAdapter4> adapter) const;
 	wrl::ComPtr<ID3D12CommandQueue> CreateCommandQueue(wrl::ComPtr<ID3D12Device2> device,

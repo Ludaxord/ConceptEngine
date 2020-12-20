@@ -31,27 +31,72 @@ wrl::ComPtr<IDXGIAdapter4> CEDirect3DGraphics::GetAdapter(bool useWarp) const {
 		ThrowIfFailed(dxgiAdapter1.As(&dxgiAdapter4));
 	}
 	else {
-		SIZE_T maxDedicatedVideoMemory = 0;
-		for (UINT i = 0; dxgiFactory->EnumAdapters1(i, &dxgiAdapter1) != DXGI_ERROR_NOT_FOUND; ++i) {
-			DXGI_ADAPTER_DESC1 dxgiAdapterDesc1;
-			dxgiAdapter1->GetDesc1(&dxgiAdapterDesc1);
+		GetHardwareAdapter(dxgiFactory.Get(), &dxgiAdapter1);
 
-			// Check to see if the adapter can create a D3D12 device without actually 
-			// creating it. The adapter with the largest dedicated video memory
-			// is favored.
-			if (
-				(dxgiAdapterDesc1.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) == 0
-				&& SUCCEEDED(
-					D3D12CreateDevice(dxgiAdapter1.Get(), D3D_FEATURE_LEVEL_12_0, __uuidof(ID3D12Device), nullptr))
-				&& dxgiAdapterDesc1.DedicatedVideoMemory > maxDedicatedVideoMemory
-			) {
-				maxDedicatedVideoMemory = dxgiAdapterDesc1.DedicatedVideoMemory;
-				ThrowIfFailed(dxgiAdapter1.As(&dxgiAdapter4));
+		ThrowIfFailed(D3D12CreateDevice(dxgiAdapter1.Get(), D3D_FEATURE_LEVEL_12_0, __uuidof(ID3D12Device), nullptr));
+		ThrowIfFailed(dxgiAdapter1.As(&dxgiAdapter4));
+	}
+
+	return dxgiAdapter4;
+}
+
+_Use_decl_annotations_
+void CEDirect3DGraphics::GetHardwareAdapter(
+	IDXGIFactory1* pFactory,
+	IDXGIAdapter1** ppAdapter,
+	bool requestHighPerformanceAdapter) const {
+	*ppAdapter = nullptr;
+
+	wrl::ComPtr<IDXGIAdapter1> adapter;
+
+	wrl::ComPtr<IDXGIFactory6> factory6;
+	if (SUCCEEDED(pFactory->QueryInterface(IID_PPV_ARGS(&factory6)))) {
+		for (
+			UINT adapterIndex = 0;
+			DXGI_ERROR_NOT_FOUND != factory6->EnumAdapterByGpuPreference(
+				adapterIndex,
+				requestHighPerformanceAdapter == true
+					? DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE
+					: DXGI_GPU_PREFERENCE_UNSPECIFIED,
+				IID_PPV_ARGS(&adapter));
+			++adapterIndex) {
+			DXGI_ADAPTER_DESC1 desc;
+			adapter->GetDesc1(&desc);
+
+			if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) {
+				// Don't select the Basic Render Driver adapter.
+				// If you want a software adapter, pass in "/warp" on the command line.
+				continue;
+			}
+
+			// Check to see whether the adapter supports Direct3D 12, but don't create the
+			// actual device yet.
+			if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr))) {
+				break;
+			}
+		}
+	}
+	else {
+		for (UINT adapterIndex = 0; DXGI_ERROR_NOT_FOUND != pFactory->EnumAdapters1(adapterIndex, &adapter); ++
+		     adapterIndex) {
+			DXGI_ADAPTER_DESC1 desc;
+			adapter->GetDesc1(&desc);
+
+			if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) {
+				// Don't select the Basic Render Driver adapter.
+				// If you want a software adapter, pass in "/warp" on the command line.
+				continue;
+			}
+
+			// Check to see whether the adapter supports Direct3D 12, but don't create the
+			// actual device yet.
+			if (SUCCEEDED(D3D12CreateDevice(adapter.Get(), D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr))) {
+				break;
 			}
 		}
 	}
 
-	return dxgiAdapter4;
+	*ppAdapter = adapter.Detach();
 }
 
 wrl::ComPtr<ID3D12Device2> CEDirect3DGraphics::CreateDevice(wrl::ComPtr<IDXGIAdapter4> adapter) const {
