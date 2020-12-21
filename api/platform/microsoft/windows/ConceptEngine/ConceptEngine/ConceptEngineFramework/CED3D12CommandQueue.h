@@ -32,4 +32,14 @@ private:
 
 	using CommandAllocatorQueue = std::queue<CECommandAllocatorEntry>;
 	using CommandListQueue = std::queue<wrl::ComPtr<ID3D12GraphicsCommandList>>;
+
+	D3D12_COMMAND_LIST_TYPE m_CommandListType;
+	Microsoft::WRL::ComPtr<ID3D12Device> m_d3d12Device;
+	Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_d3d12CommandQueue;
+	Microsoft::WRL::ComPtr<ID3D12Fence> m_d3d12Fence;
+	HANDLE m_FenceEvent;
+	uint64_t m_FenceValue;
+
+	CommandAllocatorQueue m_CommandAllocatorQueue;
+	CommandListQueue m_CommandListQueue;
 };
