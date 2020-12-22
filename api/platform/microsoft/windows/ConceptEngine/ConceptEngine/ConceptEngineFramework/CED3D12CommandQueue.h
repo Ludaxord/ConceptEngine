@@ -15,9 +15,11 @@ public:
 	// Execute a command list.
 	// Returns the fence value to wait for for this command list.
 	uint64_t ExecuteCommandList(wrl::ComPtr<ID3D12GraphicsCommandList> commandList);
-
+	uint64_t Signal();
 	bool IsFenceComplete(uint64_t fenceValue);
 	void WaitForPreviousFrame(uint64_t fenceValue);
+	void Flush();
+
 protected:
 	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator();
 	wrl::ComPtr<ID3D12GraphicsCommandList> CreateCommandList(wrl::ComPtr<ID3D12CommandAllocator> allocator);
