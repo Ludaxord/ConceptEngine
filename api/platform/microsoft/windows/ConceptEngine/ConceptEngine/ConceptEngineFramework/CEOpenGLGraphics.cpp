@@ -8,8 +8,8 @@ CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGra
 }
 
 
-CEGraphicsManager CEOpenGLGraphics::GetGraphicsManager() {
-	return static_cast<CEGraphicsManager>(CEOpenGLManager());
+CEManager CEOpenGLGraphics::GetGraphicsManager() {
+	return static_cast<CEManager>(CEOpenGLManager());
 }
 
 void CEOpenGLGraphics::PrintGraphicsVersion() {

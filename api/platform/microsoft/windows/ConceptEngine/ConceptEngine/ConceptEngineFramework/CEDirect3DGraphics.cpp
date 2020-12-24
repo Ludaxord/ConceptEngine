@@ -444,12 +444,12 @@ void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 void CEDirect3DGraphics::PrintGraphicsVersion() {
 }
 
-CEGraphicsManager CEDirect3DGraphics::GetGraphicsManager() {
+CEManager CEDirect3DGraphics::GetGraphicsManager() {
 	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
-		return static_cast<CEGraphicsManager>(CEDirect3D11Manager());
+		return static_cast<CEManager>(CEDirect3D11Manager());
 	}
 	else {
-		return static_cast<CEGraphicsManager>(CEDirect3D12Manager());
+		return static_cast<CEManager>(CEDirect3D12Manager());
 	}
 }
 

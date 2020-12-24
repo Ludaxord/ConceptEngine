@@ -10,8 +10,8 @@ CEVulkanGraphics::CEVulkanGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGra
                                                pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
 }
 
-CEGraphicsManager CEVulkanGraphics::GetGraphicsManager() {
-	return static_cast<CEGraphicsManager>(CEVulkanManager());
+CEManager CEVulkanGraphics::GetGraphicsManager() {
+	return static_cast<CEManager>(CEVulkanManager());
 }
 
 void CEVulkanGraphics::PrintGraphicsVersion() {

@@ -144,8 +144,8 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApi
 	return graphics;
 }
 
-CEGraphicsManager CEGraphics::GetGraphicsManager() {
-	return CEGraphicsManager();
+CEManager CEGraphics::GetGraphicsManager() {
+	return CEManager();
 }
 
 void CEGraphics::PrintGraphicsVersion() {

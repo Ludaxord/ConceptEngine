@@ -141,9 +141,6 @@
     <ClInclude Include="CEDirect3D12Manager.h">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
     </ClInclude>
-    <ClInclude Include="CEGraphicsManager.h">
-      <Filter>Graphics\GraphicsTools\Global\GraphicsManagers</Filter>
-    </ClInclude>
     <ClInclude Include="CEMetalManager.h">
       <Filter>Graphics\GraphicsTools\Metal\GraphicsManagers</Filter>
     </ClInclude>
@@ -182,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="CEDirect3DInfoManager.h">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEManager.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsManagers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

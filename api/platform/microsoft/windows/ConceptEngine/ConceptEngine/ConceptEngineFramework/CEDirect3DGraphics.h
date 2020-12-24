@@ -37,7 +37,7 @@ public:
 	~CEDirect3DGraphics() = default;
 
 public:
-	CEGraphicsManager GetGraphicsManager() override;
+	CEManager GetGraphicsManager() override;
 	void EnableDebugLayer();
 
 private:

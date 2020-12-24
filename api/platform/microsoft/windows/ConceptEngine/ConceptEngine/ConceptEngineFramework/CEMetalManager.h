@@ -1,7 +1,7 @@
 #pragma once
-#include "CEGraphicsManager.h"
+#include "CEManager.h"
 
-class CEMetalManager : public CEGraphicsManager {
+class CEMetalManager : public CEManager {
 protected:
 	CEDevice GetDevice() override;
 };

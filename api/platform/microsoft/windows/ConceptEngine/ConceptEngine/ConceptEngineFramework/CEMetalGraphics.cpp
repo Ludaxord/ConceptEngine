@@ -6,8 +6,8 @@
 CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::metal) {
 }
 
-CEGraphicsManager CEMetalGraphics::GetGraphicsManager() {
-	return static_cast<CEGraphicsManager>(CEMetalManager());
+CEManager CEMetalGraphics::GetGraphicsManager() {
+	return static_cast<CEManager>(CEMetalManager());
 }
 
 void CEMetalGraphics::PrintGraphicsVersion() {

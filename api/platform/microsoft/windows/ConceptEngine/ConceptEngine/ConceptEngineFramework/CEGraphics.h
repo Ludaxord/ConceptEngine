@@ -4,7 +4,7 @@
 #include <vector>
 #include <complex>
 
-#include "CEGraphicsManager.h"
+#include "CEManager.h"
 #include "CEOSTools.h"
 
 class CEGraphics {
@@ -90,7 +90,7 @@ public:
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);
-	virtual CEGraphicsManager GetGraphicsManager();
+	virtual CEManager GetGraphicsManager();
 	virtual void PrintGraphicsVersion();
 
 	bool GetVSyncState();
