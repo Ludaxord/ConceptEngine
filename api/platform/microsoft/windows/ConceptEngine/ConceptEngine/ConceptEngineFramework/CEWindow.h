@@ -86,7 +86,7 @@ public:
 public:
 	void SetTitle(const std::string& title);
 	void SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType);
-	void RunGraphics();
+	bool RunGraphics();
 	CEScreen GetScreenInfo();
 	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();

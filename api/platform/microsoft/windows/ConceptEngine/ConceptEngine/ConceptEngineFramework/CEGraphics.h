@@ -77,7 +77,8 @@ public:
 	virtual ~CEGraphics() = default;
 
 public:
-	virtual void OnInit() = 0;
+	//TODO: Change onInit to bool class and check if graphics are initialized. 
+	virtual bool OnInit() = 0;
 	virtual void OnDestroy() = 0;
 	virtual void OnRender() = 0;
 	virtual void OnUpdate() = 0;

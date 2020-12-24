@@ -18,7 +18,7 @@ void CEOpenGLGraphics::PrintGraphicsVersion() {
 	OutputDebugString(wss.str().c_str());
 }
 
-void CEOpenGLGraphics::OnInit() {
+bool CEOpenGLGraphics::OnInit() {
 	g_HDC = GetDC(hWnd);
 
 	PIXELFORMATDESCRIPTOR pfd =
@@ -47,7 +47,7 @@ void CEOpenGLGraphics::OnInit() {
 
 	HGLRC ourOpenGLRenderingContext = wglCreateContext(g_HDC);
 	wglMakeCurrent(g_HDC, ourOpenGLRenderingContext);
-
+	return true;
 }
 
 void CEOpenGLGraphics::OnDestroy() {

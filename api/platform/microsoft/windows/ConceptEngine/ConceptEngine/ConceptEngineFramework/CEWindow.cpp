@@ -188,10 +188,14 @@ void CEWindow::SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType) {
 	apiType_ = graphicsApiType;
 }
 
-void CEWindow::RunGraphics() {
+bool CEWindow::RunGraphics() {
 	const auto api = CEGraphics::GetGraphicsByApiType(hWnd, apiType_, width, height);
+	if (api == nullptr) {
+		return false;
+	}
 	std::unique_ptr<CEGraphics> graphics(api);
 	pGraphics = std::move(graphics);
+	return true;
 }
 
 CEWindow::CEScreen CEWindow::GetScreenInfo() {

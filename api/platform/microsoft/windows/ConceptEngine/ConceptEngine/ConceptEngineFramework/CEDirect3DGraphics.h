@@ -96,7 +96,7 @@ public:
 	void OnRender() override;
 	void Resize(uint32_t width, uint32_t height);
 	void SetFullscreen(bool fullscreen) override;
-	void OnInit() override;
+	bool OnInit() override;
 	void OnDestroy() override;
 
 private:

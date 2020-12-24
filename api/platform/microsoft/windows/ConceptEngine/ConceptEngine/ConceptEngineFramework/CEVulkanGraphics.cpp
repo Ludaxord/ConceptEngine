@@ -133,7 +133,7 @@ void CEVulkanGraphics::OnUpdate() {
 void CEVulkanGraphics::SetFullscreen(bool fullscreen) {
 }
 
-void CEVulkanGraphics::OnInit() {
+bool CEVulkanGraphics::OnInit() {
 	LoadVulkan();
 	VkResult result;
 
@@ -207,6 +207,7 @@ void CEVulkanGraphics::OnInit() {
 	auto physicalDevices = new VkPhysicalDevice[physicalDeviceCount];
 	pVulkanData->vkEnumeratePhysicalDevices(vulkanContext.instance, &physicalDeviceCount, physicalDevices);
 
+	return true;
 }
 
 void CEVulkanGraphics::OnDestroy() {

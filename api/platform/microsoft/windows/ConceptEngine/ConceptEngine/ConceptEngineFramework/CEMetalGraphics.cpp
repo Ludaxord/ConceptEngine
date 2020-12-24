@@ -13,7 +13,8 @@ CEGraphicsManager CEMetalGraphics::GetGraphicsManager() {
 void CEMetalGraphics::PrintGraphicsVersion() {
 }
 
-void CEMetalGraphics::OnInit() {
+bool CEMetalGraphics::OnInit() {
+	return true;
 }
 
 void CEMetalGraphics::OnDestroy() {

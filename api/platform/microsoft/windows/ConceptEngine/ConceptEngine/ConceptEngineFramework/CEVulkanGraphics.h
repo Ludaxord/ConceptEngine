@@ -20,7 +20,7 @@ public:
 	void OnRender() override;
 	void OnUpdate() override;
 	void SetFullscreen(bool fullscreen) override;
-	void OnInit() override;
+	bool OnInit() override;
 	void OnDestroy() override;
 private:
 	std::unique_ptr <CEVulkanData> pVulkanData;

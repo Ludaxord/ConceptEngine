@@ -405,21 +405,27 @@ void CEDirect3DGraphics::SetFullscreen(bool fullscreen) {
 
 }
 
-void CEDirect3DGraphics::OnInit() {
+bool CEDirect3DGraphics::OnInit() {
+	// Check for DirectX Math library support.
+	if (!DirectX::XMVerifyCPUSupport()) {
+		MessageBoxA(NULL, "Failed to verify DirectX Math library support.", "Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
 
 	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
 		CreateDirect3D11(g_ClientWidth, g_ClientHeight);
+		return true;
 	}
-	else if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d12) {
+	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d12) {
 		CreateDirect3D12(g_ClientWidth, g_ClientHeight);
+		return true;
 	}
-	else {
-		std::ostringstream oss;
-		oss << "No API for enum: ";
-		oss << magic_enum::enum_name(graphicsApiType);
-		oss << std::endl;
-		throw CEException(__LINE__, oss.str().c_str());
-	}
+	std::ostringstream oss;
+	oss << "No API for enum: ";
+	oss << magic_enum::enum_name(graphicsApiType);
+	oss << std::endl;
+	throw CEException(__LINE__, oss.str().c_str());
+	return false;
 }
 
 void CEDirect3DGraphics::OnDestroy() {
