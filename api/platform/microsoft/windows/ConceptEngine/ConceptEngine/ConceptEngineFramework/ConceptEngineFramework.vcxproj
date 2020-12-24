@@ -30,7 +30,7 @@
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEGraphicsManager.h" />
     <ClInclude Include="CEHelper.h" />
-    <ClInclude Include="CEInfoManager.h" />
+    <ClInclude Include="CEDirect3DInfoManager.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CELib.h" />
     <ClInclude Include="CEMetalDevice.h" />
@@ -64,7 +64,7 @@
     <ClCompile Include="CEDirect3DGraphics.cpp" />
     <ClCompile Include="CEException.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
-    <ClCompile Include="CEInfoManager.cpp" />
+    <ClCompile Include="CEDirect3DInfoManager.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMetalDevice.cpp" />
     <ClCompile Include="CEMetalGraphics.cpp" />

@@ -1,4 +1,4 @@
-#include "CEInfoManager.h"
+#include "CEDirect3DInfoManager.h"
 
 #include "CETools.h"
 #include "CEWindow.h"
@@ -10,7 +10,7 @@
 
 #define GFX_THROW_NOINFO(hrcall) if (FAILED(hresult = (hrcall))) throw CEGraphics::HResultException(__LINE__, __FILE__, hresult)
 
-CEInfoManager::CEInfoManager() {
+CEDirect3DInfoManager::CEDirect3DInfoManager() {
 	typedef HRESULT (WINAPI* DXGIGetDebugInterface)(REFIID, void**);
 	const auto hModDxgiDebug = LoadLibraryEx(CETools::ConvertCharArrayToLPCWSTR("dxgidebug.dll"), nullptr,
 	                                         LOAD_LIBRARY_SEARCH_SYSTEM32);
@@ -29,11 +29,11 @@ CEInfoManager::CEInfoManager() {
 }
 
 
-void CEInfoManager::Set() noexcept {
+void CEDirect3DInfoManager::Set() noexcept {
 	next = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 }
 
-std::vector<std::string> CEInfoManager::GetMessages() const {
+std::vector<std::string> CEDirect3DInfoManager::GetMessages() const {
 	std::vector<std::string> messages;
 	const auto end = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 	for (auto i = next; i < end; i++) {

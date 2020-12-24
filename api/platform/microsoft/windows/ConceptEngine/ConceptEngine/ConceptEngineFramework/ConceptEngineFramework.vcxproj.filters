@@ -120,9 +120,6 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CEInfoManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CEMetalGraphics.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -183,6 +180,9 @@
     <ClInclude Include="CED3D12CommandQueue.h">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="CEDirect3DInfoManager.h">
+      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -219,9 +219,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEWindowMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CEInfoManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEMetalGraphics.cpp">
@@ -268,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="CED3D12CommandQueue.cpp">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirect3DInfoManager.cpp">
+      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

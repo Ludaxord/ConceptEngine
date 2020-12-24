@@ -15,6 +15,8 @@
 
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 
+
+//TODO: Change CEWindow class as a only window initializer, move actions connected with UserInput (Keyboard, Mouse, Controller to different Manager class).
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
 
 	WNDCLASSEX wc = {

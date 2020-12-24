@@ -1,6 +1,6 @@
 #pragma once
 #include "CEGraphics.h"
-#include "CEInfoManager.h"
+#include "CEDirect3DInfoManager.h"
 
 #include <d3d11.h>
 #include "CEDirect3D11Manager.h"
@@ -47,7 +47,7 @@ public:
 	void PrintGraphicsVersion() override;
 protected:
 #ifndef NDEBUG
-	CEInfoManager infoManager;
+	CEDirect3DInfoManager infoManager;
 #endif
 private:
 	CEDirect3D11Manager pManager;
