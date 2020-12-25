@@ -6,6 +6,7 @@
 #include "CEDirect3D12Manager.h"
 #include "CEHelper.h"
 #include "CETools.h"
+#include "CEWindow.h"
 #include "d3dx12.h"
 
 CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width,
@@ -444,12 +445,20 @@ void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 void CEDirect3DGraphics::PrintGraphicsVersion() {
 }
 
-CEManager CEDirect3DGraphics::GetGraphicsManager() {
-	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d11) {
-		return static_cast<CEManager>(CEDirect3D11Manager());
+void CEDirect3DGraphics::SetGraphicsManager() {
+	if (graphicsApiType != CEOSTools::CEGraphicsApiTypes::direct3d11) {
+		auto manager = std::make_unique<CEDirect3D12Manager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
+		                                                     g_ClientWidth,
+		                                                     g_ClientHeight,
+		                                                     g_VSync);
+		pManager = std::move(manager);
 	}
 	else {
-		return static_cast<CEManager>(CEDirect3D12Manager());
+		auto manager = std::make_unique<CEDirect3D11Manager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
+			g_ClientWidth,
+			g_ClientHeight,
+			g_VSync);
+		pManager = std::move(manager);
 	}
 }
 

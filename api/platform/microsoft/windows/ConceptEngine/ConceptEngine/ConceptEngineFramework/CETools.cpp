@@ -1,4 +1,6 @@
 #include "CETools.h"
+
+#include <tuple>
 #include <Windows.h>
 
 wchar_t* CETools::ConvertCharArrayToLPCWSTR(const char* charArray) {
@@ -18,5 +20,17 @@ void CETools::Assert(bool flag, const char* msg) {
 		OutputDebugStringA("\n");
 		int* base = 0;
 		*base = 1;
+	}
+}
+
+std::tuple<int, int> CETools::WindowSize(HWND hWnd) {
+	RECT rect;
+	if (GetWindowRect(hWnd, &rect)) {
+		int width = rect.right - rect.left;
+		int height = rect.bottom - rect.top;
+		return std::make_tuple(width, height);
+	}
+	else {
+		return std::make_tuple(0, 0);
 	}
 }

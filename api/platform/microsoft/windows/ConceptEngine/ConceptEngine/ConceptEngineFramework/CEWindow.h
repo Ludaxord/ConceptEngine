@@ -90,6 +90,7 @@ public:
 	CEScreen GetScreenInfo();
 	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();
+	static const char* GetName();
 
 public:
 	HWND CreateMainWindow(const char* name);
@@ -105,6 +106,8 @@ protected:
 public:
 	CEKeyboard keyboard;
 	CEMouse mouse;
+	static const char* windowName_;
+
 private:
 	int width;
 	int height;

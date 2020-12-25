@@ -37,7 +37,7 @@ public:
 	~CEDirect3DGraphics() = default;
 
 public:
-	CEManager GetGraphicsManager() override;
+	void SetGraphicsManager() override;
 	void EnableDebugLayer();
 
 private:
@@ -49,8 +49,6 @@ protected:
 #ifndef NDEBUG
 	CEDirect3DInfoManager infoManager;
 #endif
-private:
-	CEDirect3D11Manager pManager;
 
 private:
 	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,

@@ -2,12 +2,20 @@
 
 #include "CEMetalManager.h"
 #include "CEOSTools.h"
+#include "CETools.h"
+#include "CEWindow.h"
 
 CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::metal) {
 }
 
-CEManager CEMetalGraphics::GetGraphicsManager() {
-	return static_cast<CEManager>(CEMetalManager());
+void CEMetalGraphics::SetGraphicsManager() {
+	int width, height;
+	std::tie(width, height) = CETools::WindowSize(hWnd);
+	auto manager = std::make_unique<CEMetalManager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
+	                                                width,
+	                                                height,
+	                                                g_VSync);
+	pManager = std::move(manager);
 }
 
 void CEMetalGraphics::PrintGraphicsVersion() {

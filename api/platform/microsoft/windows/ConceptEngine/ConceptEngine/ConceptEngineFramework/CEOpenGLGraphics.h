@@ -8,7 +8,7 @@
 class CEOpenGLGraphics : public CEGraphics {
 public:
 	CEOpenGLGraphics(HWND hWnd);
-	CEManager GetGraphicsManager() override;
+	void SetGraphicsManager() override;
 
 	void PrintGraphicsVersion() override;
 	bool OnInit() override;

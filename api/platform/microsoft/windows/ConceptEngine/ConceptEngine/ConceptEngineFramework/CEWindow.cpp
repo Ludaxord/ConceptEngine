@@ -223,6 +223,10 @@ CEGraphics& CEWindow::GetGraphics() {
 	return *pGraphics;
 }
 
+const char* CEWindow::GetName() {
+	return "ConceptEngine Editor";
+}
+
 
 void CEWindow::RegisterWindowClass() {
 }
@@ -334,7 +338,7 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 			std::stringstream wss;
 			wss << "VSync enabled: " << pGraphics->GetVSyncState() << std::endl;
 			OutputDebugStringA(wss.str().c_str());
-			
+
 			break;
 		}
 

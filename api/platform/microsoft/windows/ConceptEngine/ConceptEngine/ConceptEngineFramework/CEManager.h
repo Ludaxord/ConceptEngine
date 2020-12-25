@@ -9,33 +9,35 @@ namespace wrl = Microsoft::WRL;
 
 //TODO: Initialize all virtual memebers of class
 class CEManager : public std::enable_shared_from_this<CEManager> {
+
 public:
-	CEManager() = default;
-	CEManager(const std::wstring& name, int width, int height, bool vSync);
-	// virtual ~CEManager();
-	// virtual bool Initialize();
-	// virtual bool LoadContent() = 0;
-	// virtual void UnloadContent() = 0;
-	// virtual void Destroy();
+	CEManager(const std::wstring& name, int width, int height, bool vSync) {
+	}
+	virtual ~CEManager() = default;
+
+	virtual bool Initialize() = 0;
+	virtual bool LoadContent() = 0;
+	virtual void UnloadContent() = 0;
+	virtual void Destroy() = 0;
 protected:
-	friend class Window;
+	friend class CEWindow;
 
 	virtual CEDevice GetDevice() {
 		return CEDevice();
 	}
 
-	// virtual void OnUpdate();
-	// virtual void OnRender();
-	// virtual void OnKeyPressed();
-	// virtual void OnKeyReleased();
-	// virtual void OnMouseMoved();
-	// virtual void OnMouseButtonPressed();
-	// virtual void OnMouseButtonReleased();
-	// virtual void OnMouseWheel();
-	// virtual void OnResize();
-	// virtual void OnWindowDestroy();
+	virtual void OnUpdate() = 0;
+	virtual void OnRender() = 0;
+	virtual void OnKeyPressed() = 0;
+	virtual void OnKeyReleased() = 0;
+	virtual void OnMouseMoved() = 0;
+	virtual void OnMouseButtonPressed() = 0;
+	virtual void OnMouseButtonReleased() = 0;
+	virtual void OnMouseWheel() = 0;
+	virtual void OnResize() = 0;
+	virtual void OnWindowDestroy() = 0;
 
-	std::shared_ptr<Window> m_pWindow;
+	std::shared_ptr<CEWindow> m_pWindow;
 
 private:
 	std::wstring m_Name;

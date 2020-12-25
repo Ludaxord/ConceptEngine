@@ -10,8 +10,14 @@ CEVulkanGraphics::CEVulkanGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGra
                                                pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
 }
 
-CEManager CEVulkanGraphics::GetGraphicsManager() {
-	return static_cast<CEManager>(CEVulkanManager());
+void CEVulkanGraphics::SetGraphicsManager() {
+	int width, height;
+	std::tie(width, height) = CETools::WindowSize(hWnd);
+	auto manager = std::make_unique<CEVulkanManager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
+	                                                 width,
+	                                                 height,
+	                                                 g_VSync);
+	pManager = std::move(manager);
 }
 
 void CEVulkanGraphics::PrintGraphicsVersion() {

@@ -8,7 +8,7 @@
 class CEVulkanGraphics : public CEGraphics {
 public:
 	CEVulkanGraphics(HWND hWnd);
-	CEManager GetGraphicsManager() override;
+	void SetGraphicsManager() override;
 	void PrintGraphicsVersion() override;
 	void LoadVulkan() const;
 	void LoadVulkanExtensions(CEVulkanContext context);
