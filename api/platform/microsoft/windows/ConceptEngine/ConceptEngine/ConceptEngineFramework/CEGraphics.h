@@ -4,7 +4,6 @@
 #include <vector>
 #include <complex>
 
-#include "CEManager.h"
 #include "CEOSTools.h"
 
 class CEGraphics {
@@ -22,6 +21,25 @@ public:
 			float y;
 			float z;
 		} pos;
+	};
+
+	template <typename T>
+	struct CEIndex {
+		explicit CEIndex(T indx): i(indx) {
+
+		}
+
+		T i;
+	};
+
+	template <typename T>
+	struct CEBuffer {
+		std::vector<CEVertex> vertices;
+		std::vector<CEIndex<T>> indices;
+	};
+
+	template <typename T>
+	struct CEVertexBuffer : CEBuffer<T> {
 	};
 
 	struct CEFaceColorsConstantBuffer {
@@ -101,7 +119,6 @@ public:
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);
-	virtual void SetGraphicsManager();
 	virtual void PrintGraphicsVersion();
 
 	bool GetVSyncState();
@@ -133,9 +150,5 @@ protected:
 	bool g_Fullscreen = false;
 	bool g_IsInitialized = false;
 	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
-
-
-	//TODO: move all manager functions to graphics, change graphics class name to manager
-	std::shared_ptr<CEManager> pManager;
 
 };

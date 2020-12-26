@@ -145,9 +145,6 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApi
 	return graphics;
 }
 
-void CEGraphics::SetGraphicsManager() {
-}
-
 void CEGraphics::PrintGraphicsVersion() {
 	std::wstringstream wss;
 	wss << "Graphics API" << std::endl;

@@ -3,7 +3,6 @@
 #include "CEDirect3DInfoManager.h"
 
 #include <d3d11.h>
-#include "CEDirect3D11Manager.h"
 #include "CEOSTools.h"
 
 #pragma comment(lib, "d3d11.lib")
@@ -28,8 +27,47 @@
 using namespace DirectX;
 namespace fs = std::filesystem;
 
-
 class CEDirect3DGraphics : public CEGraphics {
+
+public:
+	struct CEVertexPosColor : CEVertex {
+		XMFLOAT3 Position = {pos.x, pos.y, pos.z};
+		XMFLOAT3 Color;
+
+		CEVertexPosColor() = default;
+		// conversion from A (constructor):
+		CEVertexPosColor(const CEVertex& x) {
+		}
+
+		// conversion from A (assignment):
+		CEVertexPosColor& operator=(const CEVertex& x) { return *this; }
+		// conversion to A (type-cast operator)
+		explicit operator CEVertexPosColor() const { return CEVertex(); }
+	};
+
+	struct CED3DVertexBuffer : CEVertexBuffer<WORD> {
+		using indexObject = CEIndex<WORD>;
+		CED3DVertexBuffer() = default;
+		// conversion from A (constructor):
+		CED3DVertexBuffer(const CEVertexBuffer<WORD>& x) {
+		}
+
+		// conversion from A (assignment):
+		CED3DVertexBuffer& operator=(const CEVertexBuffer<WORD>& x) { return *this; }
+		// conversion to A (type-cast operator)
+		operator CED3DVertexBuffer() const { return CEVertexBuffer<WORD>(); }
+
+		void CreateIndicies(WORD* indicies) {
+			indices = {};
+			for (auto i = 0; i < sizeof(indicies); i++)
+				indices[i] = indexObject(indicies[i]);
+		}
+
+		void CreateVertices() {
+			
+		}
+	};
+
 public:
 	CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEDirect3DGraphics(const CEDirect3DGraphics&) = delete;
@@ -37,7 +75,6 @@ public:
 	~CEDirect3DGraphics() = default;
 
 public:
-	void SetGraphicsManager() override;
 	void EnableDebugLayer();
 
 private:
@@ -122,6 +159,7 @@ private:
 	                          size_t numElements, size_t elementSize, const void* bufferData,
 	                          D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE);
 	void ResizeDepthBuffer(int width, int height);
+
 private:
 	// Pipeline objects.
 	wrl::ComPtr<IDXGISwapChain3> m_swapChain;
@@ -136,11 +174,32 @@ private:
 	UINT m_rtvDescriptorSize;
 	bool m_useWarpDevice = false;
 
+private:
+	// Vertex buffer for the cube.
+	wrl::ComPtr<ID3D12Resource> m_VertexBuffer;
+	D3D12_VERTEX_BUFFER_VIEW m_VertexBufferView;
+	// Index buffer for the cube.
+	wrl::ComPtr<ID3D12Resource> m_IndexBuffer;
+	D3D12_INDEX_BUFFER_VIEW m_IndexBufferView;
+	// Depth buffer.
+	wrl::ComPtr<ID3D12Resource> m_DepthBuffer;
+	// Descriptor heap for depth buffer.
+	wrl::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
+	// Root signature
+	wrl::ComPtr<ID3D12RootSignature> m_RootSignature;
+	D3D12_VIEWPORT m_Viewport;
+	D3D12_RECT m_ScissorRect;
 	// Synchronization objects.
 	UINT m_frameIndex;
 	HANDLE m_fenceEvent;
 	wrl::ComPtr<ID3D12Fence> m_fence;
 	UINT64 m_fenceValue;
+	float m_FoV;
+
+	DirectX::XMMATRIX m_ModelMatrix;
+	DirectX::XMMATRIX m_ViewMatrix;
+	DirectX::XMMATRIX m_ProjectionMatrix;
+	bool m_ContentLoaded;
 
 	// Window rectangle (used to toggle fullscreen state).
 	RECT g_WindowRect;

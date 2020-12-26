@@ -1,5 +1,4 @@
 #include "CEOpenGLGraphics.h"
-#include "CEOpenGLManager.h"
 #include "CEOSTools.h"
 #include "CETools.h"
 #include "CEWindow.h"
@@ -7,17 +6,6 @@
 
 CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd, int width, int height): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::opengl, width, height) {
 
-}
-
-
-void CEOpenGLGraphics::SetGraphicsManager() {
-	int width, height;
-	std::tie(width, height) = CETools::WindowSize(hWnd);
-	auto manager = std::make_unique<CEOpenGLManager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
-		width,
-		height,
-		g_VSync);
-	pManager = std::move(manager);
 }
 
 void CEOpenGLGraphics::PrintGraphicsVersion() {

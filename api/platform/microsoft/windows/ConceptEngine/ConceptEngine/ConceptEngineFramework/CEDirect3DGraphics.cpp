@@ -3,7 +3,6 @@
 #include <magic_enum.hpp>
 
 
-#include "CEDirect3D12Manager.h"
 #include "CEHelper.h"
 #include "CETools.h"
 #include "CEWindow.h"
@@ -13,7 +12,6 @@ CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes 
                                        int height) : CEGraphics(hWnd, apiType, width, height) {
 
 }
-
 
 _Use_decl_annotations_
 
@@ -465,21 +463,23 @@ void CEDirect3DGraphics::OnWindowDestroy() {
 }
 
 void CEDirect3DGraphics::TransitionResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState,
-	D3D12_RESOURCE_STATES afterState) {
+                                            Microsoft::WRL::ComPtr<ID3D12Resource> resource,
+                                            D3D12_RESOURCE_STATES beforeState,
+                                            D3D12_RESOURCE_STATES afterState) {
 }
 
 void CEDirect3DGraphics::ClearRTV(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	D3D12_CPU_DESCRIPTOR_HANDLE rtv, FLOAT* clearColor) {
+                                  D3D12_CPU_DESCRIPTOR_HANDLE rtv, FLOAT* clearColor) {
 }
 
 void CEDirect3DGraphics::ClearDepth(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	D3D12_CPU_DESCRIPTOR_HANDLE dsv, FLOAT depth) {
+                                    D3D12_CPU_DESCRIPTOR_HANDLE dsv, FLOAT depth) {
 }
 
 void CEDirect3DGraphics::UpdateBufferResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	ID3D12Resource** pDestinationResource, ID3D12Resource** pIntermediateResource, size_t numElements,
-	size_t elementSize, const void* bufferData, D3D12_RESOURCE_FLAGS flags) {
+                                              ID3D12Resource** pDestinationResource,
+                                              ID3D12Resource** pIntermediateResource, size_t numElements,
+                                              size_t elementSize, const void* bufferData, D3D12_RESOURCE_FLAGS flags) {
 }
 
 void CEDirect3DGraphics::ResizeDepthBuffer(int width, int height) {
@@ -494,23 +494,6 @@ void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 }
 
 void CEDirect3DGraphics::PrintGraphicsVersion() {
-}
-
-void CEDirect3DGraphics::SetGraphicsManager() {
-	if (graphicsApiType != CEOSTools::CEGraphicsApiTypes::direct3d11) {
-		auto manager = std::make_unique<CEDirect3D12Manager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
-		                                                     g_ClientWidth,
-		                                                     g_ClientHeight,
-		                                                     g_VSync);
-		pManager = std::move(manager);
-	}
-	else {
-		auto manager = std::make_unique<CEDirect3D11Manager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
-		                                                     g_ClientWidth,
-		                                                     g_ClientHeight,
-		                                                     g_VSync);
-		pManager = std::move(manager);
-	}
 }
 
 void CEDirect3DGraphics::WaitForPreviousFrame() {

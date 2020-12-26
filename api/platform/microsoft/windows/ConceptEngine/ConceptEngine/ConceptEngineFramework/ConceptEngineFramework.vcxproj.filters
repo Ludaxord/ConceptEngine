@@ -79,6 +79,15 @@
     <Filter Include="Tools">
       <UniqueIdentifier>{ff94b88d-4291-41c6-b1b3-e7414055e692}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Objects">
+      <UniqueIdentifier>{ee1aaa87-2ba6-4a0a-a775-5580e01d4fe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Objects\Direct3D">
+      <UniqueIdentifier>{8ec87a52-e89f-4bd2-b7ab-8c36d955ce49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Objects\Direct3D\Basic">
+      <UniqueIdentifier>{ea2ee018-3353-4a14-95f2-534e8d9803e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -135,21 +144,6 @@
     <ClInclude Include="CEDevice.h">
       <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
     </ClInclude>
-    <ClInclude Include="CEDirect3D11Manager.h">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDirect3D12Manager.h">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CEMetalManager.h">
-      <Filter>Graphics\GraphicsTools\Metal\GraphicsManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CEOpenGLManager.h">
-      <Filter>Graphics\GraphicsTools\OpenGL\GraphicsManagers</Filter>
-    </ClInclude>
-    <ClInclude Include="CEVulkanManager.h">
-      <Filter>Graphics\GraphicsTools\Vulkan\GraphicsManagers</Filter>
-    </ClInclude>
     <ClInclude Include="CEMetalDevice.h">
       <Filter>Graphics\GraphicsTools\Metal\GraphicsObjects</Filter>
     </ClInclude>
@@ -180,8 +174,14 @@
     <ClInclude Include="CEDirect3DInfoManager.h">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
     </ClInclude>
-    <ClInclude Include="CEManager.h">
-      <Filter>Graphics\GraphicsTools\Global\GraphicsManagers</Filter>
+    <ClInclude Include="CENode.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3DNode.h">
+      <Filter>Graphics\Objects\Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3DCube.h">
+      <Filter>Graphics\Objects\Direct3D\Basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -230,21 +230,6 @@
     <ClCompile Include="CED3D12Device.cpp">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClCompile>
-    <ClCompile Include="CEDirect3D11Manager.cpp">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CEDirect3D12Manager.cpp">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CEMetalManager.cpp">
-      <Filter>Graphics\GraphicsTools\Metal\GraphicsManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CEOpenGLManager.cpp">
-      <Filter>Graphics\GraphicsTools\OpenGL\GraphicsManagers</Filter>
-    </ClCompile>
-    <ClCompile Include="CEVulkanManager.cpp">
-      <Filter>Graphics\GraphicsTools\Vulkan\GraphicsManagers</Filter>
-    </ClCompile>
     <ClCompile Include="CEMetalDevice.cpp">
       <Filter>Graphics\GraphicsTools\Metal\GraphicsObjects</Filter>
     </ClCompile>
@@ -268,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="CEDirect3DInfoManager.cpp">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsManagers</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirect3DCube.cpp">
+      <Filter>Graphics\Objects\Direct3D\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirect3DNode.cpp">
+      <Filter>Graphics\Objects\Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

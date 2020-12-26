@@ -2,22 +2,12 @@
 
 #include "CEOSTools.h"
 #include "CETools.h"
-#include "CEVulkanManager.h"
 #include "CEWindow.h"
 
 
-CEVulkanGraphics::CEVulkanGraphics(HWND hWnd, int width, int height): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::vulkan, width, height),
-                                               pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
-}
-
-void CEVulkanGraphics::SetGraphicsManager() {
-	int width, height;
-	std::tie(width, height) = CETools::WindowSize(hWnd);
-	auto manager = std::make_unique<CEVulkanManager>(CETools::ConvertCharArrayToLPCWSTR(CEWindow::GetName()),
-	                                                 width,
-	                                                 height,
-	                                                 g_VSync);
-	pManager = std::move(manager);
+CEVulkanGraphics::CEVulkanGraphics(HWND hWnd, int width, int height):
+	CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::vulkan, width, height),
+	pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
 }
 
 void CEVulkanGraphics::PrintGraphicsVersion() {

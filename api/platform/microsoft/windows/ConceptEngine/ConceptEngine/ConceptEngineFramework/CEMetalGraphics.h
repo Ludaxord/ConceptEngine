@@ -4,7 +4,6 @@
 class CEMetalGraphics : public CEGraphics {
 public:
 	CEMetalGraphics(HWND hWnd, int width, int height);
-	void SetGraphicsManager() override;
 	void PrintGraphicsVersion() override;
 	bool OnInit() override;
 	void OnDestroy() override;
