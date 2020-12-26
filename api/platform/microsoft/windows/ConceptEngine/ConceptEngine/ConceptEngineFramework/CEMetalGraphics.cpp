@@ -5,7 +5,7 @@
 #include "CETools.h"
 #include "CEWindow.h"
 
-CEMetalGraphics::CEMetalGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::metal) {
+CEMetalGraphics::CEMetalGraphics(HWND hWnd, int width, int height): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::metal, width, height) {
 }
 
 void CEMetalGraphics::SetGraphicsManager() {
@@ -32,4 +32,38 @@ void CEMetalGraphics::OnRender() {
 }
 
 void CEMetalGraphics::OnUpdate() {
+}
+
+bool CEMetalGraphics::LoadContent() {
+	return false;
+}
+
+void CEMetalGraphics::UnloadContent() {
+}
+
+void CEMetalGraphics::OnKeyPressed() {
+}
+
+void CEMetalGraphics::OnKeyReleased() {
+}
+
+void CEMetalGraphics::OnMouseMoved() {
+}
+
+void CEMetalGraphics::OnMouseButtonPressed() {
+}
+
+void CEMetalGraphics::OnMouseButtonReleased() {
+}
+
+void CEMetalGraphics::OnMouseWheel() {
+}
+
+void CEMetalGraphics::OnResize() {
+}
+
+void CEMetalGraphics::OnWindowDestroy() {
+}
+
+void CEMetalGraphics::SetFullscreen(bool fullscreen) {
 }

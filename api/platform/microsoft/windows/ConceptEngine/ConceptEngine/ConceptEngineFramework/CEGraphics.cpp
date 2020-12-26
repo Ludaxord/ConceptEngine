@@ -95,7 +95,8 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
-CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType) : hWnd(hWnd), graphicsApiType(apiType) {
+CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height) : hWnd(hWnd), graphicsApiType(apiType), g_ClientWidth(width),
+                                                     g_ClientHeight(height) {
 	ResolveSelectedGraphicsAPI();
 }
 
@@ -128,16 +129,16 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApi
 		graphics = new CEDirect3DGraphics(hWnd, apiTypes, width, height);
 		break;
 	case CEOSTools::CEGraphicsApiTypes::vulkan:
-		graphics = new CEVulkanGraphics(hWnd);
+		graphics = new CEVulkanGraphics(hWnd, width, height);
 		break;
 	case CEOSTools::CEGraphicsApiTypes::opengl:
-		graphics = new CEOpenGLGraphics(hWnd);
+		graphics = new CEOpenGLGraphics(hWnd, width, height);
 		break;
 	case CEOSTools::CEGraphicsApiTypes::metal:
-		graphics = new CEMetalGraphics(hWnd);
+		graphics = new CEMetalGraphics(hWnd, width, height);
 		break;
 	default:
-		graphics = new CEOpenGLGraphics(hWnd);
+		graphics = new CEOpenGLGraphics(hWnd, width, height);
 		break;
 	}
 

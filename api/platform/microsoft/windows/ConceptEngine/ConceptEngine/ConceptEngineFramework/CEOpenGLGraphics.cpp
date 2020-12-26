@@ -5,7 +5,7 @@
 #include "CEWindow.h"
 
 
-CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::opengl) {
+CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd, int width, int height): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::opengl, width, height) {
 
 }
 
@@ -68,4 +68,35 @@ void CEOpenGLGraphics::OnUpdate() {
 }
 
 void CEOpenGLGraphics::SetFullscreen(bool fullscreen) {
+}
+
+bool CEOpenGLGraphics::LoadContent() {
+	return false;
+}
+
+void CEOpenGLGraphics::UnloadContent() {
+}
+
+void CEOpenGLGraphics::OnKeyPressed() {
+}
+
+void CEOpenGLGraphics::OnKeyReleased() {
+}
+
+void CEOpenGLGraphics::OnMouseMoved() {
+}
+
+void CEOpenGLGraphics::OnMouseButtonPressed() {
+}
+
+void CEOpenGLGraphics::OnMouseButtonReleased() {
+}
+
+void CEOpenGLGraphics::OnMouseWheel() {
+}
+
+void CEOpenGLGraphics::OnResize() {
+}
+
+void CEOpenGLGraphics::OnWindowDestroy() {
 }

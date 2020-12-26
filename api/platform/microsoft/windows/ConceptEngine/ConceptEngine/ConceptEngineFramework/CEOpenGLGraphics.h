@@ -7,7 +7,7 @@
 
 class CEOpenGLGraphics : public CEGraphics {
 public:
-	CEOpenGLGraphics(HWND hWnd);
+	CEOpenGLGraphics(HWND hWnd, int width, int height);
 	void SetGraphicsManager() override;
 
 	void PrintGraphicsVersion() override;
@@ -16,6 +16,17 @@ public:
 	void OnRender() override;
 	void OnUpdate() override;
 	void SetFullscreen(bool fullscreen) override;
+	bool LoadContent() override;
+	void UnloadContent() override;
+protected:
+	void OnKeyPressed() override;
+	void OnKeyReleased() override;
+	void OnMouseMoved() override;
+	void OnMouseButtonPressed() override;
+	void OnMouseButtonReleased() override;
+	void OnMouseWheel() override;
+	void OnResize() override;
+	void OnWindowDestroy() override;
 private:
 	HDC g_HDC;
 };

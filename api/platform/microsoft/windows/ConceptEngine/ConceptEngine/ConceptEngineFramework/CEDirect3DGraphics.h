@@ -59,6 +59,26 @@ private:
 	void LoadPipeline();
 	void LoadAssets();
 
+public:
+	void OnUpdate() override;
+	void OnRender() override;
+	void Resize(uint32_t width, uint32_t height);
+	void SetFullscreen(bool fullscreen) override;
+	bool OnInit() override;
+	void OnDestroy() override;
+
+	bool LoadContent() override;
+	void UnloadContent() override;
+protected:
+	void OnKeyPressed() override;
+	void OnKeyReleased() override;
+	void OnMouseMoved() override;
+	void OnMouseButtonPressed() override;
+	void OnMouseButtonReleased() override;
+	void OnMouseWheel() override;
+	void OnResize() override;
+	void OnWindowDestroy() override;
+
 private:
 	wrl::ComPtr<IDXGIFactory4> GetFactory() const;
 	wrl::ComPtr<IDXGIAdapter> GetAdapter(bool useWarp) const;
@@ -89,19 +109,20 @@ private:
 	void Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
 	           uint64_t& fenceValue, HANDLE fenceEvent);
 
-public:
-	void OnUpdate() override;
-	void OnRender() override;
-	void Resize(uint32_t width, uint32_t height);
-	void SetFullscreen(bool fullscreen) override;
-	bool OnInit() override;
-	void OnDestroy() override;
-
 private:
-	uint32_t g_ClientWidth = 1280;
-	uint32_t g_ClientHeight = 720;
-	static const UINT FrameCount = 2;
-
+	void TransitionResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+	                        Microsoft::WRL::ComPtr<ID3D12Resource> resource,
+	                        D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
+	void ClearRTV(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+	              D3D12_CPU_DESCRIPTOR_HANDLE rtv, FLOAT* clearColor);
+	void ClearDepth(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+	                D3D12_CPU_DESCRIPTOR_HANDLE dsv, FLOAT depth = 1.0f);
+	void UpdateBufferResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
+	                          ID3D12Resource** pDestinationResource, ID3D12Resource** pIntermediateResource,
+	                          size_t numElements, size_t elementSize, const void* bufferData,
+	                          D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE);
+	void ResizeDepthBuffer(int width, int height);
+private:
 	// Pipeline objects.
 	wrl::ComPtr<IDXGISwapChain3> m_swapChain;
 	wrl::ComPtr<ID3D12Device> m_device;
@@ -123,13 +144,4 @@ private:
 
 	// Window rectangle (used to toggle fullscreen state).
 	RECT g_WindowRect;
-
-	//Swap Chain Present Methods
-	// By default, enable V-Sync.
-	// Can be toggled with the V key.
-	bool g_VSync = true;
-	bool g_TearingSupported = false;
-	// By default, use windowed mode.
-	// Can be toggled with the Alt+Enter or F11
-	bool g_Fullscreen = false;
 };

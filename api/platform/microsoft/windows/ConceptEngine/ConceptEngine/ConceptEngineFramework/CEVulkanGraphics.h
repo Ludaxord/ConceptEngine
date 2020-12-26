@@ -7,7 +7,7 @@
 
 class CEVulkanGraphics : public CEGraphics {
 public:
-	CEVulkanGraphics(HWND hWnd);
+	CEVulkanGraphics(HWND hWnd, int width, int height);
 	void SetGraphicsManager() override;
 	void PrintGraphicsVersion() override;
 	void LoadVulkan() const;
@@ -22,6 +22,17 @@ public:
 	void SetFullscreen(bool fullscreen) override;
 	bool OnInit() override;
 	void OnDestroy() override;
+	bool LoadContent() override;
+	void UnloadContent() override;
+protected:
+	void OnKeyPressed() override;
+	void OnKeyReleased() override;
+	void OnMouseMoved() override;
+	void OnMouseButtonPressed() override;
+	void OnMouseButtonReleased() override;
+	void OnMouseWheel() override;
+	void OnResize() override;
+	void OnWindowDestroy() override;
 private:
 	std::unique_ptr <CEVulkanData> pVulkanData;
 	CEVulkanContext vulkanContext;

@@ -6,7 +6,7 @@
 #include "CEWindow.h"
 
 
-CEVulkanGraphics::CEVulkanGraphics(HWND hWnd): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::vulkan),
+CEVulkanGraphics::CEVulkanGraphics(HWND hWnd, int width, int height): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::vulkan, width, height),
                                                pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
 }
 
@@ -217,4 +217,35 @@ bool CEVulkanGraphics::OnInit() {
 }
 
 void CEVulkanGraphics::OnDestroy() {
+}
+
+bool CEVulkanGraphics::LoadContent() {
+	return false;
+}
+
+void CEVulkanGraphics::UnloadContent() {
+}
+
+void CEVulkanGraphics::OnKeyPressed() {
+}
+
+void CEVulkanGraphics::OnKeyReleased() {
+}
+
+void CEVulkanGraphics::OnMouseMoved() {
+}
+
+void CEVulkanGraphics::OnMouseButtonPressed() {
+}
+
+void CEVulkanGraphics::OnMouseButtonReleased() {
+}
+
+void CEVulkanGraphics::OnMouseWheel() {
+}
+
+void CEVulkanGraphics::OnResize() {
+}
+
+void CEVulkanGraphics::OnWindowDestroy() {
 }

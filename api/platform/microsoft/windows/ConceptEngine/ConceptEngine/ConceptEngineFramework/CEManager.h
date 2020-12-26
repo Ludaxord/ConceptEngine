@@ -7,7 +7,7 @@
 
 namespace wrl = Microsoft::WRL;
 
-//TODO: Initialize all virtual memebers of class
+//TODO: Decide if use manager or graphics class
 class CEManager : public std::enable_shared_from_this<CEManager> {
 
 public:

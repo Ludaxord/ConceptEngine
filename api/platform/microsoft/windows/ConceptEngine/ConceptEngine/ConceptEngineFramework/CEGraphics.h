@@ -71,21 +71,32 @@ public:
 	};
 
 public:
-	CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType);
+	CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEGraphics(const CEGraphics&) = delete;
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
 	virtual ~CEGraphics() = default;
 
 public:
-	//TODO: Change onInit to bool class and check if graphics are initialized. 
 	virtual bool OnInit() = 0;
 	virtual void OnDestroy() = 0;
 	virtual void OnRender() = 0;
 	virtual void OnUpdate() = 0;
 
 public:
-	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
+	virtual bool LoadContent() = 0;
+	virtual void UnloadContent() = 0;
+protected:
+	virtual void OnKeyPressed() = 0;
+	virtual void OnKeyReleased() = 0;
+	virtual void OnMouseMoved() = 0;
+	virtual void OnMouseButtonPressed() = 0;
+	virtual void OnMouseButtonReleased() = 0;
+	virtual void OnMouseWheel() = 0;
+	virtual void OnResize() = 0;
+	virtual void OnWindowDestroy() = 0;
 
+public:
+	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
 	virtual void SetFullscreen(bool fullscreen);
 
 public:
@@ -109,6 +120,9 @@ protected:
 	HWND hWnd;
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
 
+	uint32_t g_ClientWidth = 1280;
+	uint32_t g_ClientHeight = 720;
+	static const UINT FrameCount = 2;
 	//Swap Chain Present Methods
 	// By default, enable V-Sync.
 	// Can be toggled with the V key.
@@ -119,6 +133,9 @@ protected:
 	bool g_Fullscreen = false;
 	bool g_IsInitialized = false;
 	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
+
+
+	//TODO: move all manager functions to graphics, change graphics class name to manager
 	std::shared_ptr<CEManager> pManager;
 
 };
