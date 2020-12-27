@@ -79,13 +79,15 @@ public:
 		void CreateIndicies(WORD* indicies) {
 			this->indices = {};
 			for (auto i = 0; i < sizeof(indicies); i++)
-				this->indices[i] = indexObject(indicies[i]);
+				this->indices.push_back(indexObject(indicies[i]));
+			// this->indices[i] = indexObject(indicies[i]);
 		}
 
 		void CreateVertices(CEVertexPosColor* vertexPosColor) {
 			this->vertices = {};
 			for (auto i = 0; i < sizeof(vertexPosColor); i++)
-				this->vertices[i] = static_cast<CEVertex>(vertexPosColor[i]);
+				this->vertices.push_back(vertexPosColor[i]);
+			// this->vertices[i] = static_cast<CEVertex>(vertexPosColor[i]);
 		}
 	};
 
