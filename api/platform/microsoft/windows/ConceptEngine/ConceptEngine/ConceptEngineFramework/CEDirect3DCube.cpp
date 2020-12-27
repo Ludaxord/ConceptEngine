@@ -1,6 +1,8 @@
 #include "CEDirect3DCube.h"
 
-CEDirect3DCube::CEDirect3DCube(): super(CEDirect3DGraphics::CED3DVertexBuffer()) {
+CEDirect3DCube::CEDirect3DCube(): CEDirect3DNode() {
+	const auto buffer = CEDirect3DGraphics::CED3DVertexBuffer();
+	CEDirect3DNode::CreateBufferObject(buffer);
 }
 
 void CEDirect3DCube::CreateVertices(CEGraphics::CEVertexBuffer<WORD> buffer) {

@@ -36,13 +36,19 @@ public:
 
 		CEVertexPosColor() = default;
 		// conversion from A (constructor):
-		CEVertexPosColor(const CEVertex& x): Position(x.pos.x, x.pos.y, x.pos.y), Color(XMFLOAT3(0.0f, 0.0f, 0.0f)) {
+		CEVertexPosColor(const CEVertex& x) {
+			Position = {x.pos.x, x.pos.y, x.pos.y};
+			Color = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		}
 
-		CEVertexPosColor(const CEVertex& x, XMFLOAT3 col): Position(x.pos.x, x.pos.y, x.pos.y), Color(col) {
+		CEVertexPosColor(const CEVertex& x, XMFLOAT3 col) {
+			Position = {x.pos.x, x.pos.y, x.pos.y};
+			Color = col;
 		}
 
-		CEVertexPosColor(XMFLOAT3 pos, XMFLOAT3 col): Position(pos), Color(col) {
+		CEVertexPosColor(XMFLOAT3 pos, XMFLOAT3 col) {
+			Position = pos;
+			Color = col;
 		}
 
 		// conversion from A (assignment):

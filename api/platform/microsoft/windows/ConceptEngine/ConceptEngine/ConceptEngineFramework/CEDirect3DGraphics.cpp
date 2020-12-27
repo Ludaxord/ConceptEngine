@@ -3,6 +3,7 @@
 #include <magic_enum.hpp>
 
 
+#include "CEDirect3DCube.h"
 #include "CEHelper.h"
 #include "CETools.h"
 #include "CEWindow.h"
@@ -432,6 +433,7 @@ void CEDirect3DGraphics::OnDestroy() {
 }
 
 bool CEDirect3DGraphics::LoadContent() {
+	auto cube = CEDirect3DCube();
 	return false;
 }
 
@@ -488,6 +490,7 @@ void CEDirect3DGraphics::ResizeDepthBuffer(int width, int height) {
 void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 	LoadPipeline();
 	LoadAssets();
+	LoadContent();
 }
 
 void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
