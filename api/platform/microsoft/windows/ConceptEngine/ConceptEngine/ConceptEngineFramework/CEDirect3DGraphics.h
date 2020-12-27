@@ -36,13 +36,19 @@ public:
 
 		CEVertexPosColor() = default;
 		// conversion from A (constructor):
-		CEVertexPosColor(const CEVertex& x) {
+		CEVertexPosColor(const CEVertex& x): Position(x.pos.x, x.pos.y, x.pos.y), Color(XMFLOAT3(0.0f, 0.0f, 0.0f)) {
+		}
+
+		CEVertexPosColor(const CEVertex& x, XMFLOAT3 col): Position(x.pos.x, x.pos.y, x.pos.y), Color(col) {
+		}
+
+		CEVertexPosColor(XMFLOAT3 pos, XMFLOAT3 col): Position(pos), Color(col) {
 		}
 
 		// conversion from A (assignment):
 		CEVertexPosColor& operator=(const CEVertex& x) { return *this; }
 		// conversion to A (type-cast operator)
-		explicit operator CEVertexPosColor() const { return CEVertex(); }
+		operator CEVertexPosColor() const { return CEVertex(); }
 	};
 
 	struct CED3DVertexBuffer : CEVertexBuffer<WORD> {
@@ -50,6 +56,13 @@ public:
 		CED3DVertexBuffer() = default;
 		// conversion from A (constructor):
 		CED3DVertexBuffer(const CEVertexBuffer<WORD>& x) {
+			this->indices = x.indices;
+			this->vertices = x.vertices;
+		}
+
+		CED3DVertexBuffer(WORD* indicies, CEVertexPosColor* vertexPosColor) {
+			CreateVertices(vertexPosColor);
+			CreateIndicies(indicies);
 		}
 
 		// conversion from A (assignment):
@@ -58,13 +71,15 @@ public:
 		operator CED3DVertexBuffer() const { return CEVertexBuffer<WORD>(); }
 
 		void CreateIndicies(WORD* indicies) {
-			indices = {};
+			this->indices = {};
 			for (auto i = 0; i < sizeof(indicies); i++)
-				indices[i] = indexObject(indicies[i]);
+				this->indices[i] = indexObject(indicies[i]);
 		}
 
-		void CreateVertices() {
-			
+		void CreateVertices(CEVertexPosColor* vertexPosColor) {
+			this->vertices = {};
+			for (auto i = 0; i < sizeof(vertexPosColor); i++)
+				this->vertices[i] = static_cast<CEVertex>(vertexPosColor[i]);
 		}
 	};
 
