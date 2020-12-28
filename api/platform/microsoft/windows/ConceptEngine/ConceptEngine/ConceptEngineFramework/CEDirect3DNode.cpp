@@ -17,11 +17,23 @@ std::vector<CEGraphics::CEIndex<WORD>> CEDirect3DNode::GetIndicies() {
 }
 
 CEDirect3DGraphics::CEVertexPosColor* CEDirect3DNode::GetD3DVertexPosColor() {
+	std::wstringstream wssx;
+	wssx << "CEDirect3DNode::GetD3DVertexPosColor" << std::endl;
+	OutputDebugStringW(wssx.str().c_str());
 	auto v = GetVertices();
-	const auto vertex = &v[0];
-	CEDirect3DGraphics::CEVertexPosColor* vertexPosColor = {};
-	for (auto i = 0; i < v.size(); i++)
-		vertexPosColor[i] = vertex[i];
+	// const auto vertex = &v[0];
+	auto vertexPosColor = new CEDirect3DGraphics::CEVertexPosColor[v.size()];
+	auto indx = 0;
+	for (auto vertex : v) {
+		std::wstringstream wss;
+		wss << "vertexPosColor " << indx << ". x:" << vertex.pos.x << " y: " << vertex.pos.y << " z: " << vertex.pos.z
+			<< std::endl;
+		OutputDebugStringW(wss.str().c_str());
+		vertexPosColor[indx] = vertex;
+		indx++;
+	}
+	// for (auto i = 0; i < v.size(); i++)
+	// vertexPosColor[i] = vertex[i];
 	return vertexPosColor;
 }
 

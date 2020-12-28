@@ -16,7 +16,6 @@ ConceptEngine::ConceptEngine(int width, int height, const char* name,
 }
 
 int ConceptEngine::Run() {
-
 	while (true) {
 		if (const auto ecode = CEWindow::ProcessMessages()) {
 			return *ecode;

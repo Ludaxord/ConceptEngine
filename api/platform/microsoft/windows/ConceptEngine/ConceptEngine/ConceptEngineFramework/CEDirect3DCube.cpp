@@ -30,3 +30,26 @@ void CEDirect3DCube::CreateIndicies(CEGraphics::CEVertexBuffer<WORD> buffer) {
 	};
 	static_cast<CEDirect3DGraphics::CED3DVertexBuffer>(buffer).CreateIndicies(ind);
 }
+
+CEDirect3DGraphics::CEVertexPosColor* CEDirect3DCube::GetD3DVertexPosColor() {
+	std::wstringstream wssx;
+	wssx << "CEDirect3DNode::GetD3DVertexPosColor" << std::endl;
+	OutputDebugStringW(wssx.str().c_str());
+	return super::GetD3DVertexPosColor();
+}
+
+WORD* CEDirect3DCube::GetD3DIndicies() {
+	return super::GetD3DIndicies();
+}
+
+CEGraphics::CEVertexBuffer<WORD> CEDirect3DCube::GetBufferObject() {
+	return super::GetBufferObject();
+}
+
+std::vector<CEGraphics::CEVertex> CEDirect3DCube::GetVertices() {
+	return super::GetVertices();
+}
+
+std::vector<CEGraphics::CEIndex<WORD>> CEDirect3DCube::GetIndicies() {
+	return super::GetIndicies();
+}

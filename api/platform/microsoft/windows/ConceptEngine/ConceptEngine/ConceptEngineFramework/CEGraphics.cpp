@@ -95,8 +95,12 @@ const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
 	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
 }
 
-CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height) : hWnd(hWnd), graphicsApiType(apiType), g_ClientWidth(width),
-                                                     g_ClientHeight(height) {
+CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height) : hWnd(hWnd),
+	graphicsApiType(apiType), g_ClientWidth(width),
+	g_ClientHeight(height) {
+	WCHAR assetsPath[512];
+	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
+	m_assetsPath = assetsPath;
 	ResolveSelectedGraphicsAPI();
 }
 
@@ -105,6 +109,11 @@ std::wstring CEGraphics::ExePath() {
 	GetModuleFileName(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
 	return std::wstring(buffer).substr(0, pos);
+}
+
+// Helper function for resolving the full path of assets.
+std::wstring CEGraphics::GetAssetFullPath(LPCWSTR assetName) {
+	return m_assetsPath + assetName;
 }
 
 void CEGraphics::ChangeClearColor(float red, float green, float blue, float alpha) {

@@ -129,6 +129,7 @@ public:
 protected:
 	void ResolveSelectedGraphicsAPI();
 	std::wstring ExePath();
+	std::wstring GetAssetFullPath(LPCWSTR assetName);
 
 protected:
 	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12
@@ -150,5 +151,6 @@ protected:
 	bool g_Fullscreen = false;
 	bool g_IsInitialized = false;
 	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
+	std::wstring m_assetsPath;
 
 };

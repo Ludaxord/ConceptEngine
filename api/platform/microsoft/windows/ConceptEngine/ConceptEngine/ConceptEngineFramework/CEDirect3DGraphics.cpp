@@ -9,8 +9,27 @@
 #include "CEWindow.h"
 #include "d3dx12.h"
 
+
+//TODO: Test value fix CEDirect3DCube class to create vertices;
+static CEDirect3DGraphics::CEVertexPosColor g_Vertices[8] = {
+	{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f)}, // 0
+	{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)}, // 1
+	{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f)}, // 2
+	{XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)}, // 3
+	{XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)}, // 4
+	{XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f)}, // 5
+	{XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f)}, // 6
+	{XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f)} // 7
+};
+
 CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width,
-                                       int height) : CEGraphics(hWnd, apiType, width, height) {
+                                       int height) : CEGraphics(hWnd, apiType, width, height),
+                                                     m_ScissorRect(CD3DX12_RECT(0, 0,LONG_MAX, LONG_MAX)),
+                                                     m_Viewport(CD3DX12_VIEWPORT(
+	                                                     0.0f, 0.0f, static_cast<float>(width),
+	                                                     static_cast<float>(height))),
+                                                     m_FoV(45.0),
+                                                     m_ContentLoaded(false) {
 
 }
 
@@ -99,6 +118,7 @@ bool CEDirect3DGraphics::CheckVSyncSupport() const {
 
 // Load the rendering pipeline dependencies.
 void CEDirect3DGraphics::LoadPipeline() {
+	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	EnableDebugLayer();
 
 
@@ -107,8 +127,15 @@ void CEDirect3DGraphics::LoadPipeline() {
 	::GetWindowRect(hWnd, &g_WindowRect);
 
 	m_factory = GetFactory();
-	wrl::ComPtr<IDXGIAdapter> dxgiAdapter = GetAdapter(m_useWarpDevice);
-	m_device = CreateDevice(dxgiAdapter);
+	m_dxgiAdapter = GetAdapter(m_useWarpDevice);
+	if (m_dxgiAdapter) {
+		m_device = CreateDevice(m_dxgiAdapter);
+	}
+
+	if (m_device) {
+		m_device = CreateDevice(m_dxgiAdapter);
+
+	}
 	m_commandQueue = CreateCommandQueue(m_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	m_swapChain = CreateSwapChain(hWnd, m_commandQueue, g_ClientWidth, g_ClientHeight, FrameCount);
 	m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
@@ -123,10 +150,13 @@ void CEDirect3DGraphics::LoadPipeline() {
 
 // Load the sample assets.
 void CEDirect3DGraphics::LoadAssets() {
+	//TODO: Fix error: D3D12 ERROR: ID3D12Device::CreateGraphicsPipelineState: Root Signature doesn't match Vertex Shader: Shader CBV descriptor range (BaseShaderRegister=0, NumDescriptors=1, RegisterSpace=0) is not fully bound in root signature
+	CreateRootSignature();
+
 	// Create the command list.
 	m_commandList = CreateCommandList(m_device,
-	                                  m_commandAllocator, D3D12_COMMAND_LIST_TYPE_DIRECT);
-
+	                                  m_commandAllocator, m_pipelineState, D3D12_COMMAND_LIST_TYPE_DIRECT);
+	CreateVertexBuffer();
 	m_fence = CreateFence(m_device);
 	m_fenceEvent = CreateEventHandle();
 
@@ -277,14 +307,113 @@ wrl::ComPtr<ID3D12CommandAllocator> CEDirect3DGraphics::CreateCommandAllocator(w
 wrl::ComPtr<ID3D12GraphicsCommandList> CEDirect3DGraphics::CreateCommandList(wrl::ComPtr<ID3D12Device> device,
                                                                              wrl::ComPtr<ID3D12CommandAllocator>
                                                                              commandAllocator,
+                                                                             wrl::ComPtr<ID3D12PipelineState>
+                                                                             pipelineState,
                                                                              D3D12_COMMAND_LIST_TYPE type) {
 	wrl::ComPtr<ID3D12GraphicsCommandList> commandList;
-	ThrowIfFailed(device->CreateCommandList(0, type, commandAllocator.Get(), nullptr,
+	ThrowIfFailed(device->CreateCommandList(0, type, commandAllocator.Get(), pipelineState.Get(),
 	                                        IID_PPV_ARGS(&commandList)));
 	// Command lists are created in the recording state, but there is nothing
 	// to record yet. The main loop expects it to be closed, so close it now.
 	ThrowIfFailed(commandList->Close());
 	return commandList;
+}
+
+void CEDirect3DGraphics::CreateRootSignature() {
+	// Create an empty root signature.
+	{
+		CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
+		rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+		wrl::ComPtr<ID3DBlob> signature;
+		wrl::ComPtr<ID3DBlob> error;
+		ThrowIfFailed(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature,
+		                                          &error));
+		ThrowIfFailed(m_device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
+		                                            IID_PPV_ARGS(&m_RootSignature)));
+	}
+	// Create the pipeline state, which includes compiling and loading shaders.
+	{
+		wrl::ComPtr<ID3DBlob> vertexShader;
+		wrl::ComPtr<ID3DBlob> pixelShader;
+
+#if defined(_DEBUG)
+		// Enable better shader debugging with the graphics debugging tools.
+		UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#else
+		UINT compileFlags = 0;
+#endif
+
+		//Debug path
+		auto vsFile = GetAssetFullPath(L"CEVertexShader.cso");
+		auto psFile = GetAssetFullPath(L"CEPixelShader.cso");
+		ThrowIfFailed(D3DReadFileToBlob(vsFile.c_str(), &vertexShader));
+		// ThrowIfFailed(D3DCompileFromFile(vsFile, nullptr, nullptr, "main",
+		//                                  "vs_5_0", compileFlags, 0, &vertexShader, nullptr));
+		// ThrowIfFailed(D3DCompileFromFile(psFile, nullptr, nullptr, "main",
+		//                                  "ps_5_0", compileFlags, 0, &pixelShader, nullptr));
+		ThrowIfFailed(D3DReadFileToBlob(psFile.c_str(), &pixelShader));
+		// ThrowIfFailed(D3DReadFileToBlob(L"CEVertexShader.cso", &vertexShader));
+		// ThrowIfFailed(D3DReadFileToBlob(L"CEPixelShader.cso", &pixelShader));
+
+		// Define the vertex input layout.
+		D3D12_INPUT_ELEMENT_DESC inputElementDescs[] =
+		{
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+		};
+
+		// Describe and create the graphics pipeline state object (PSO).
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+		psoDesc.InputLayout = {inputElementDescs, _countof(inputElementDescs)};
+		psoDesc.pRootSignature = m_RootSignature.Get();
+		psoDesc.VS = CD3DX12_SHADER_BYTECODE(vertexShader.Get());
+		psoDesc.PS = CD3DX12_SHADER_BYTECODE(pixelShader.Get());
+		psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+		psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+		psoDesc.DepthStencilState.DepthEnable = FALSE;
+		psoDesc.DepthStencilState.StencilEnable = FALSE;
+		psoDesc.SampleMask = UINT_MAX;
+		psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		psoDesc.NumRenderTargets = 1;
+		psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		psoDesc.SampleDesc.Count = 1;
+		ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState)));
+	}
+}
+
+void CEDirect3DGraphics::CreateVertexBuffer() {
+
+	// Create the vertex buffer.
+	{
+		const UINT vertexBufferSize = sizeof(g_Vertices);
+
+		// Note: using upload heaps to transfer static data like vert buffers is not 
+		// recommended. Every time the GPU needs it, the upload heap will be marshalled 
+		// over. Please read up on Default Heap usage. An upload heap is used here for 
+		// code simplicity and because there are very few verts to actually transfer.
+		auto heapPropsUpload = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+		auto bufferResource = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
+		ThrowIfFailed(m_device->CreateCommittedResource(
+			&heapPropsUpload,
+			D3D12_HEAP_FLAG_NONE,
+			&bufferResource,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&m_VertexBuffer)));
+
+		// Copy the triangle data to the vertex buffer.
+		UINT8* pVertexDataBegin;
+		CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU.
+		ThrowIfFailed(m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
+		memcpy(pVertexDataBegin, g_Vertices, sizeof(g_Vertices));
+		m_VertexBuffer->Unmap(0, nullptr);
+
+		// Initialize the vertex buffer view.
+		m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress();
+		m_VertexBufferView.StrideInBytes = sizeof(CEVertexPosColor);
+		m_VertexBufferView.SizeInBytes = vertexBufferSize;
+	}
 }
 
 wrl::ComPtr<ID3D12Fence> CEDirect3DGraphics::CreateFence(wrl::ComPtr<ID3D12Device> device) {
@@ -433,8 +562,8 @@ void CEDirect3DGraphics::OnDestroy() {
 }
 
 bool CEDirect3DGraphics::LoadContent() {
-	auto cube = CEDirect3DCube();
-	return false;
+	auto cube = new CEDirect3DCube();
+	return true;
 }
 
 void CEDirect3DGraphics::UnloadContent() {
@@ -480,8 +609,50 @@ void CEDirect3DGraphics::ClearDepth(Microsoft::WRL::ComPtr<ID3D12GraphicsCommand
 
 void CEDirect3DGraphics::UpdateBufferResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
                                               ID3D12Resource** pDestinationResource,
-                                              ID3D12Resource** pIntermediateResource, size_t numElements,
-                                              size_t elementSize, const void* bufferData, D3D12_RESOURCE_FLAGS flags) {
+                                              ID3D12Resource** pIntermediateResource,
+                                              size_t numElements,
+                                              size_t elementSize,
+                                              const void* bufferData,
+                                              D3D12_RESOURCE_FLAGS flags) {
+	size_t bufferSize = numElements * elementSize;
+	std::wstringstream wss;
+	wss << "buffer size " << bufferSize << std::endl;
+	wss << "num elements " << numElements << std::endl;
+	wss << "element size " << elementSize << std::endl;
+	OutputDebugStringW(wss.str().c_str());
+	auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	auto bufferResource = CD3DX12_RESOURCE_DESC::Buffer(bufferSize, flags);
+	ThrowIfFailed(
+		m_device->CreateCommittedResource(
+			&heapProps,
+			D3D12_HEAP_FLAG_NONE,
+			&bufferResource,
+			D3D12_RESOURCE_STATE_COPY_DEST,
+			nullptr,
+			IID_PPV_ARGS(pDestinationResource)
+		)
+	);
+
+	if (bufferData) {
+		auto heapPropsUpload = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+		auto bufferDataBufferResource = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+		ThrowIfFailed(
+			m_device->CreateCommittedResource(
+				&heapPropsUpload,
+				D3D12_HEAP_FLAG_NONE,
+				&bufferDataBufferResource,
+				D3D12_RESOURCE_STATE_GENERIC_READ,
+				nullptr,
+				IID_PPV_ARGS(pIntermediateResource)
+			)
+		);
+		D3D12_SUBRESOURCE_DATA subResourceData = {};
+		subResourceData.pData = bufferData;
+		subResourceData.RowPitch = bufferSize;
+		subResourceData.SlicePitch = subResourceData.RowPitch;
+		UpdateSubresources(commandList.Get(), *pDestinationResource, *pIntermediateResource, 0, 0, 1, &subResourceData);
+	}
+
 }
 
 void CEDirect3DGraphics::ResizeDepthBuffer(int width, int height) {
@@ -490,7 +661,6 @@ void CEDirect3DGraphics::ResizeDepthBuffer(int width, int height) {
 void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 	LoadPipeline();
 	LoadAssets();
-	LoadContent();
 }
 
 void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {

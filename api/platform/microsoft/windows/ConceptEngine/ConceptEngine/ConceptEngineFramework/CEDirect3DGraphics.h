@@ -16,6 +16,8 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include <filesystem>
 
+#include "CED3D12CommandQueue.h"
+
 #if defined(min)
 #undef min
 #endif
@@ -157,9 +159,12 @@ private:
 	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(wrl::ComPtr<ID3D12Device> device,
 	                                                           D3D12_COMMAND_LIST_TYPE type);
 	wrl::ComPtr<ID3D12GraphicsCommandList> CreateCommandList(wrl::ComPtr<ID3D12Device> device,
-	                                                         wrl::ComPtr<ID3D12CommandAllocator>
-	                                                         commandAllocator,
+	                                                         wrl::ComPtr<ID3D12CommandAllocator> commandAllocator,
+	                                                         wrl::ComPtr<ID3D12PipelineState> pipelineState,
 	                                                         D3D12_COMMAND_LIST_TYPE type);
+
+	void CreateRootSignature();
+	void CreateVertexBuffer();
 	wrl::ComPtr<ID3D12Fence> CreateFence(wrl::ComPtr<ID3D12Device> device);
 	HANDLE CreateEventHandle();
 	uint64_t Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
@@ -198,6 +203,7 @@ private:
 	bool m_useWarpDevice = false;
 
 private:
+	wrl::ComPtr<IDXGIAdapter> m_dxgiAdapter;
 	// Vertex buffer for the cube.
 	wrl::ComPtr<ID3D12Resource> m_VertexBuffer;
 	D3D12_VERTEX_BUFFER_VIEW m_VertexBufferView;
@@ -210,6 +216,11 @@ private:
 	wrl::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
 	// Root signature
 	wrl::ComPtr<ID3D12RootSignature> m_RootSignature;
+
+	std::shared_ptr<CED3D12CommandQueue> m_DirectCommandQueue;
+	std::shared_ptr<CED3D12CommandQueue> m_ComputeCommandQueue;
+	std::shared_ptr<CED3D12CommandQueue> m_CopyCommandQueue;
+
 	D3D12_VIEWPORT m_Viewport;
 	D3D12_RECT m_ScissorRect;
 	// Synchronization objects.

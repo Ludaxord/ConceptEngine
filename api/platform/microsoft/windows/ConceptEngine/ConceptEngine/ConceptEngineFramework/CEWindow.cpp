@@ -268,8 +268,8 @@ HWND CEWindow::CreateMainWindow(const char* name) {
 		windowY,
 		windowWidth,
 		windowHeight,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		CEWindowClass::GetInstance(),
 		this
 	);

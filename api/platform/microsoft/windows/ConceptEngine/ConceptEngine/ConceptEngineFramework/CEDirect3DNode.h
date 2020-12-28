@@ -12,8 +12,8 @@ public:
 	std::vector<CEGraphics::CEVertex> GetVertices() override;
 	std::vector<CEGraphics::CEIndex<WORD>> GetIndicies() override;
 
-	CEDirect3DGraphics::CEVertexPosColor* GetD3DVertexPosColor();
-	WORD* GetD3DIndicies();
+	virtual CEDirect3DGraphics::CEVertexPosColor* GetD3DVertexPosColor();
+	virtual WORD* GetD3DIndicies();
 	void CreateBufferObject(CEGraphics::CEVertexBuffer<unsigned short> buffer) override;
 	void MoveBufferObject(CEGraphics::CEVertexBuffer<unsigned short> buffer) override;
 };
