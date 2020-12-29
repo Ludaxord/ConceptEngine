@@ -341,6 +341,7 @@ void CEDirect3DGraphics::CreateRootSignature() {
 #endif
 
 		//Read compiled shaders
+		//TODO: Create 3D object instead of Triangle
 		// auto vsFile = GetAssetFullPath(L"CEVertexShader.cso");
 		// auto psFile = GetAssetFullPath(L"CEPixelShader.cso");
 		// ThrowIfFailed(D3DReadFileToBlob(vsFile.c_str(), &vertexShader));
