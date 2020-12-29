@@ -10,29 +10,15 @@ struct CEVertexPosColor {
 };
 
 struct CEVertexShaderOutput {
-	float4 Position : SV_Position;
 	float4 Color : COLOR;
+	float4 Position : SV_Position;
 };
 
-struct PSInput {
-	float4 position : SV_POSITION;
-	float4 color : COLOR;
-};
+CEVertexShaderOutput main(CEVertexPosColor IN) {
+	CEVertexShaderOutput OUT;
 
-// CEVertexShaderOutput main(CEVertexPosColor IN) {
-// 	CEVertexShaderOutput OUT;
-//
-// 	OUT.Position = mul(ModelViewProjectionCB.MVP, float4(IN.Position, 1.0f));
-// 	OUT.Color = float4(IN.Color, 1.0f);
-//
-// 	return OUT;
-// }
+	OUT.Position = mul(ModelViewProjectionCB.MVP, float4(IN.Position, 1.0f));
+	OUT.Color = float4(IN.Color, 1.0f);
 
-PSInput main(float4 position: POSITION, float4 color: COLOR) {
-	PSInput result;
-	result.position = position;
-	result.color = color;
-
-	return result;
+	return OUT;
 }
-
