@@ -6,7 +6,7 @@ CEDirect3DCube::CEDirect3DCube(): CEDirect3DNode() {
 }
 
 void CEDirect3DCube::CreateVertices(CEGraphics::CEVertexBuffer<WORD> buffer) {
-	CEDirect3DGraphics::CEVertexPosColor vertices[] = {
+	CEDirect3DGraphics::CEVertexPositionColor vertices[] = {
 		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f)}, // 0
 		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)}, // 1
 		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f)}, // 2
@@ -31,7 +31,7 @@ void CEDirect3DCube::CreateIndicies(CEGraphics::CEVertexBuffer<WORD> buffer) {
 	static_cast<CEDirect3DGraphics::CED3DVertexBuffer>(buffer).CreateIndicies(ind);
 }
 
-CEDirect3DGraphics::CEVertexPosColor* CEDirect3DCube::GetD3DVertexPosColor() {
+CEDirect3DGraphics::CEVertexPositionColor* CEDirect3DCube::GetD3DVertexPosColor() {
 	std::wstringstream wssx;
 	wssx << "CEDirect3DNode::GetD3DVertexPosColor" << std::endl;
 	OutputDebugStringW(wssx.str().c_str());

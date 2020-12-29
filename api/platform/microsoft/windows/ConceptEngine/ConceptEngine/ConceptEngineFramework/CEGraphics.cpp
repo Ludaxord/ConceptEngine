@@ -101,6 +101,7 @@ CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int wid
 	WCHAR assetsPath[512];
 	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
 	m_assetsPath = assetsPath;
+	m_aspectRatio = static_cast<float>(width) / static_cast<float>(height);
 	ResolveSelectedGraphicsAPI();
 }
 

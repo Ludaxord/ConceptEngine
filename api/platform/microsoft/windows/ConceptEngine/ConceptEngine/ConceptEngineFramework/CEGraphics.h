@@ -152,5 +152,6 @@ protected:
 	bool g_IsInitialized = false;
 	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
 	std::wstring m_assetsPath;
+	float m_aspectRatio;
 
 };

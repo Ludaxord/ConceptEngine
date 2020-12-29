@@ -1,7 +1,7 @@
 #include "ConceptEngine.h"
 
 ConceptEngine::ConceptEngine() : apiType_(CEOSTools::CEGraphicsApiTypes::direct3d12),
-                                 window_(800, 600, "Concept Engine Editor", apiType_) {
+                                 window_(1280, 720, "Concept Engine Editor", apiType_) {
 
 }
 

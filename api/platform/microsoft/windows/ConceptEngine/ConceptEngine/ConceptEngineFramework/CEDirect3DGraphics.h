@@ -17,6 +17,7 @@
 #include <filesystem>
 
 #include "CED3D12CommandQueue.h"
+#include "d3dx12.h"
 
 #if defined(min)
 #undef min
@@ -32,31 +33,41 @@ namespace fs = std::filesystem;
 class CEDirect3DGraphics : public CEGraphics {
 
 public:
-	struct CEVertexPosColor : CEVertex {
+	struct CEVertexPosColor {
+		XMFLOAT3 Position;
+		XMFLOAT4 Color;
+	};
+
+	struct Vertex {
+		XMFLOAT3 position;
+		XMFLOAT4 color;
+	};
+
+	struct CEVertexPositionColor : CEVertex {
 		XMFLOAT3 Position = {pos.x, pos.y, pos.z};
 		XMFLOAT3 Color;
 
-		CEVertexPosColor() = default;
+		CEVertexPositionColor() = default;
 		// conversion from A (constructor):
-		CEVertexPosColor(const CEVertex& x) {
+		CEVertexPositionColor(const CEVertex& x) {
 			Position = {x.pos.x, x.pos.y, x.pos.y};
 			Color = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		}
 
-		CEVertexPosColor(const CEVertex& x, XMFLOAT3 col) {
+		CEVertexPositionColor(const CEVertex& x, XMFLOAT3 col) {
 			Position = {x.pos.x, x.pos.y, x.pos.y};
 			Color = col;
 		}
 
-		CEVertexPosColor(XMFLOAT3 pos, XMFLOAT3 col) {
+		CEVertexPositionColor(XMFLOAT3 pos, XMFLOAT3 col) {
 			Position = pos;
 			Color = col;
 		}
 
 		// conversion from A (assignment):
-		CEVertexPosColor& operator=(const CEVertex& x) { return *this; }
+		CEVertexPositionColor& operator=(const CEVertex& x) { return *this; }
 		// conversion to A (type-cast operator)
-		operator CEVertexPosColor() const { return CEVertex(); }
+		operator CEVertexPositionColor() const { return CEVertex(); }
 	};
 
 	struct CED3DVertexBuffer : CEVertexBuffer<WORD> {
@@ -68,7 +79,7 @@ public:
 			this->vertices = x.vertices;
 		}
 
-		CED3DVertexBuffer(WORD* indicies, CEVertexPosColor* vertexPosColor) {
+		CED3DVertexBuffer(WORD* indicies, CEVertexPositionColor* vertexPosColor) {
 			CreateVertices(vertexPosColor);
 			CreateIndicies(indicies);
 		}
@@ -85,7 +96,7 @@ public:
 			// this->indices[i] = indexObject(indicies[i]);
 		}
 
-		void CreateVertices(CEVertexPosColor* vertexPosColor) {
+		void CreateVertices(CEVertexPositionColor* vertexPosColor) {
 			this->vertices = {};
 			for (auto i = 0; i < sizeof(vertexPosColor); i++)
 				this->vertices.push_back(vertexPosColor[i]);
@@ -221,8 +232,8 @@ private:
 	std::shared_ptr<CED3D12CommandQueue> m_ComputeCommandQueue;
 	std::shared_ptr<CED3D12CommandQueue> m_CopyCommandQueue;
 
-	D3D12_VIEWPORT m_Viewport;
-	D3D12_RECT m_ScissorRect;
+	CD3DX12_VIEWPORT m_Viewport;
+	CD3DX12_RECT m_ScissorRect;
 	// Synchronization objects.
 	UINT m_frameIndex;
 	HANDLE m_fenceEvent;

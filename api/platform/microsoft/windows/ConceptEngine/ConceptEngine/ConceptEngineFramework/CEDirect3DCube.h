@@ -9,14 +9,14 @@ public:
 	CEDirect3DCube();
 	void CreateVertices(CEGraphics::CEVertexBuffer<WORD> buffer) override;
 	void CreateIndicies(CEGraphics::CEVertexBuffer<WORD> buffer) override;
-	CEDirect3DGraphics::CEVertexPosColor* GetD3DVertexPosColor() override;
+	CEDirect3DGraphics::CEVertexPositionColor* GetD3DVertexPosColor() override;
 	WORD* GetD3DIndicies() override;
 	CEGraphics::CEVertexBuffer<WORD> GetBufferObject() override;
 	std::vector<CEGraphics::CEVertex> GetVertices() override;
 	std::vector<CEGraphics::CEIndex<WORD>> GetIndicies() override;
 
 public:
-	CEDirect3DGraphics::CEVertexPosColor g_Vertices[8] = {
+	CEDirect3DGraphics::CEVertexPositionColor g_Vertices[8] = {
 		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f)}, // 0
 		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)}, // 1
 		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f)}, // 2

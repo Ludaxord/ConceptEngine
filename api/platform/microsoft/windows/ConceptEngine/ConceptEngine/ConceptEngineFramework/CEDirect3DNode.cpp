@@ -16,13 +16,13 @@ std::vector<CEGraphics::CEIndex<WORD>> CEDirect3DNode::GetIndicies() {
 	return GetBufferObject().indices;
 }
 
-CEDirect3DGraphics::CEVertexPosColor* CEDirect3DNode::GetD3DVertexPosColor() {
+CEDirect3DGraphics::CEVertexPositionColor* CEDirect3DNode::GetD3DVertexPosColor() {
 	std::wstringstream wssx;
 	wssx << "CEDirect3DNode::GetD3DVertexPosColor" << std::endl;
 	OutputDebugStringW(wssx.str().c_str());
 	auto v = GetVertices();
 	// const auto vertex = &v[0];
-	auto vertexPosColor = new CEDirect3DGraphics::CEVertexPosColor[v.size()];
+	auto vertexPosColor = new CEDirect3DGraphics::CEVertexPositionColor[v.size()];
 	auto indx = 0;
 	for (auto vertex : v) {
 		std::wstringstream wss;
