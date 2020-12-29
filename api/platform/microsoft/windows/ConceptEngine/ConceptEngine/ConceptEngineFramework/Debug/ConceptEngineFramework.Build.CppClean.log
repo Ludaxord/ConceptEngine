@@ -25,6 +25,7 @@ f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\concepten
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cewindow.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cevulkangraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\cevulkandevice.obj
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\debug\shaders.hlsl
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\debug\cepixelshader.cso
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\debug\cevertexshader.cso
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\debug\conceptengineframework.lib
@@ -32,6 +33,9 @@ f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\concepten
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\cl.command.1.tlog
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\cl.read.1.tlog
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\cl.write.1.tlog
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\custombuild.command.1.tlog
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\custombuild.read.1.tlog
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\custombuild.write.1.tlog
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\fxc.command.1.tlog
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\fxc.read.1.tlog
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\debug\concepte.d91c74fd.tlog\fxc.write.1.tlog

@@ -34,11 +34,6 @@ class CEDirect3DGraphics : public CEGraphics {
 
 public:
 	struct CEVertexPosColor {
-		XMFLOAT3 Position;
-		XMFLOAT4 Color;
-	};
-
-	struct Vertex {
 		XMFLOAT3 position;
 		XMFLOAT4 color;
 	};
