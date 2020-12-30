@@ -275,9 +275,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="conanfile.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="glfw3.dll">
       <Filter>Resource Files</Filter>
     </None>

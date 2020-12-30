@@ -1,0 +1,2 @@
+^F:\PROJECTS\CONCEPTENGINE\API\PLATFORM\MICROSOFT\WINDOWS\CONCEPTENGINE\CONCEPTENGINE\CONCEPTENGINEFRAMEWORK\SHADERS.HLSL
+copy shaders.hlsl "F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\" > NUL

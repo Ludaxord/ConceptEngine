@@ -1,0 +1,41 @@
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/magic_enum"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/magic_enum
+	url = https://github.com/Neargye/magic_enum
+	branch = master
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/DxErr"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/DxErr
+	url = https://github.com/nitrocaster/DxErr
+	branch = master
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/assimp"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/assimp
+	url = https://github.com/assimp/assimp
+	branch = master
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/glad"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/glad
+	url = https://github.com/Dav1dde/glad
+	branch = master
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Vulkan-Headers"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers
+	branch = master
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/PhysX"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/PhysX
+	url = https://github.com/NVIDIAGameWorks/PhysX
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/stb"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/stb
+	url = https://github.com/nothings/stb
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/imgui"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/json"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/json
+	url = https://github.com/nlohmann/json
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/QDarkStyleSheet"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/QDarkStyleSheet
+	url = https://github.com/ColinDuquesnoy/QDarkStyleSheet
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/gainput"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/gainput
+	url = https://github.com/jkuhlmann/gainput

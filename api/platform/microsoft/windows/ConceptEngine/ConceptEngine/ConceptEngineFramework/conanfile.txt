@@ -1,5 +1,0 @@
-[requires]
-magic_enum/0.7.0
-
-[generators]
-visual_studio

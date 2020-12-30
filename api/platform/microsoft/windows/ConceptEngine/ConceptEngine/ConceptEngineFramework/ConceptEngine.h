@@ -1,11 +1,10 @@
 #pragma once
 #include <Windows.h>
+// #include <spdlog/logger.h>
 
 #include "CEOSTools.h"
 #include "CETimer.h"
 #include "CEWindow.h"
-
-// using Logger = std::shared_ptr<spdlog::logger>;
 
 class ConceptEngine {
 public:
