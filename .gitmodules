@@ -39,3 +39,6 @@
 [submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/gainput"]
 	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/gainput
 	url = https://github.com/jkuhlmann/gainput
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog_setup"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog_setup
+	url = https://github.com/guangie88/spdlog_setup
