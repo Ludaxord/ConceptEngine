@@ -1,0 +1,133 @@
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments '--version'
+Conan version 1.31.4
+[Conan.VisualStudio] Calling process 'C:\Program Files\Conan\conan\conan.exe' with arguments 'install F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\conanfile.txt -g visual_studio --install-folder F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\.conan -s arch=x86 -s build_type=Debug -s compiler.toolset=v142 -s compiler.version=16 -s compiler.runtime=MDd  --build --update'
+Configuration:
+[settings]
+arch=x86
+arch_build=x86_64
+build_type=Debug
+compiler=Visual Studio
+compiler.runtime=MDd
+compiler.toolset=v142
+compiler.version=16
+os=Windows
+os_build=Windows
+[options]
+[build_requires]
+[env]
+
+fmt/7.1.2 is locked by another concurrent conan process, wait...
+If not the case, quit, and do 'conan remove --locks'
+fmt/7.1.2: Forced build from source
+magic_enum/0.7.0: Forced build from source
+spdlog/1.8.2: Forced build from source
+Version ranges solved
+    spdlog/* versions found in 'conan-center' remote
+    Version range '>=1.4.1' required by 'conanfile.txt' resolved to 'spdlog/1.8.2' in remote 'conan-center'
+
+conanfile.txt: Installing package
+Requirements
+    fmt/7.1.2 from 'conan-center' - Cache
+    magic_enum/0.7.0 from 'conan-center' - Cache
+    spdlog/1.8.2 from 'conan-center' - Cache
+Packages
+    fmt/7.1.2:9ffec4a59d60a2ccf636e06ba57253e21417f01b - Build
+    magic_enum/0.7.0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9 - Build
+    spdlog/1.8.2:0a0c3994710660e4f128a8e0a2affb80250cad1d - Build
+
+Cross-build from 'Windows:x86_64' to 'Windows:x86'
+Installing (downloading, building) binaries...
+fmt/7.1.2: Copying sources to build folder
+fmt/7.1.2: Building your package in C:\Users\konra\.conan\data\fmt\7.1.2\_\_\build\9ffec4a59d60a2ccf636e06ba57253e21417f01b
+fmt/7.1.2: Generator cmake created conanbuildinfo.cmake
+fmt/7.1.2: Calling build()
+-- Selecting Windows SDK version 10.0.19041.0 to target Windows 10.0.19042.
+-- The C compiler identification is MSVC 19.28.29335.0
+-- The CXX compiler identification is MSVC 19.28.29335.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x86/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.28.29333/bin/Hostx64/x86/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Conan: called by CMake conan helper
+-- Conan: called inside local cache
+-- Conan: Adjusting output directories
+-- Conan: Using cmake global configuration
+-- Conan: Adjusting default RPATHs Conan policies
+-- Conan: Adjusting language standard
+-- Conan: Skipping compiler check: Declared 'compiler.toolset'
+-- Version: 7.1.2
+-- Build type: 
+-- CXX_STANDARD: 11
+-- Performing Test has_std_11_flag
+-- Performing Test has_std_11_flag - Failed
+-- Performing Test has_std_0x_flag
+-- Performing Test has_std_0x_flag - Failed
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Required features: cxx_variadic_templates
+-- Looking for _strtod_l
+-- Looking for _strtod_l - found
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_EXPORT_NO_PACKAGE_REGISTRY
+    CONAN_COMPILER_VERSION
+
+
+-- Build files have been written to: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/build/9ffec4a59d60a2ccf636e06ba57253e21417f01b/build_subfolder
+Microsoft (R) Build Engine 16.8.2+25e4d540b dla platformy .NET Framework
+Copyright (C) Microsoft Corporation. Wszelkie prawa zastrzeľone.
+
+  Checking Build System
+  Building Custom Rule C:/Users/konra/.conan/data/fmt/7.1.2/_/_/build/9ffec4a59d60a2ccf636e06ba57253e21417f01b/source_subfolder/CMakeLists.txt
+  format.cc
+  os.cc
+  fmt.vcxproj -> C:\Users\konra\.conan\data\fmt\7.1.2\_\_\build\9ffec4a59d60a2ccf636e06ba57253e21417f01b\build_subfolder\lib\fmtd.lib
+  Building Custom Rule C:/Users/konra/.conan/data/fmt/7.1.2/_/_/build/9ffec4a59d60a2ccf636e06ba57253e21417f01b/CMakeLists.txt
+fmt/7.1.2: Package '9ffec4a59d60a2ccf636e06ba57253e21417f01b' built
+fmt/7.1.2: Build folder C:\Users\konra\.conan\data\fmt\7.1.2\_\_\build\9ffec4a59d60a2ccf636e06ba57253e21417f01b
+fmt/7.1.2: Generated conaninfo.txt
+fmt/7.1.2: Generated conanbuildinfo.txt
+fmt/7.1.2: Generating the package
+fmt/7.1.2: Package folder C:\Users\konra\.conan\data\fmt\7.1.2\_\_\package\9ffec4a59d60a2ccf636e06ba57253e21417f01b
+fmt/7.1.2: Calling package()
+Microsoft (R) Build Engine 16.8.2+25e4d540b dla platformy .NET Framework
+Copyright (C) Microsoft Corporation. Wszelkie prawa zastrzeľone.
+
+  fmt.vcxproj -> C:\Users\konra\.conan\data\fmt\7.1.2\_\_\build\9ffec4a59d60a2ccf636e06ba57253e21417f01b\build_subfolder\lib\fmtd.lib
+  -- Install configuration: "Debug"
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/lib/cmake/fmt/fmt-config.cmake
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/lib/cmake/fmt/fmt-config-version.cmake
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/lib/cmake/fmt/fmt-targets.cmake
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/lib/cmake/fmt/fmt-targets-debug.cmake
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/lib/fmtd.lib
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/chrono.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/color.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/compile.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/core.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/format.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/format-inl.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/locale.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/os.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/ostream.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/posix.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/printf.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/include/fmt/ranges.h
+  -- Installing: C:/Users/konra/.conan/data/fmt/7.1.2/_/_/package/9ffec4a59d60a2ccf636e06ba57253e21417f01b/lib/pkgconfig/fmt.pc
+fmt/7.1.2 package(): Packaged 12 '.h' files
+fmt/7.1.2 package(): Packaged 1 '.lib' file: fmtd.lib
+fmt/7.1.2 package(): Packaged 1 '.rst' file: LICENSE.rst
+fmt/7.1.2: Package '9ffec4a59d60a2ccf636e06ba57253e21417f01b' created
+fmt/7.1.2: Created package revision a716721f4dd556461f171460fb68f00d
+magic_enum/0.7.0: Building your package in C:\Users\konra\.conan\data\magic_enum\0.7.0\_\_\build\5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+magic_enum/0.7.0: Generator txt cr

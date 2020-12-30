@@ -14,6 +14,8 @@ geckodriver.log
 bin/
 *.obj
 
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog
+
 .vs/
 .vs
 */.vs/
