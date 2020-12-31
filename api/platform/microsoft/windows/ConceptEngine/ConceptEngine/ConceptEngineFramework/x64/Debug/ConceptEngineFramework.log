@@ -1,5 +1,4 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-cl : command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
   ConceptEngine.cpp
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
@@ -7,101 +6,6 @@ F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEn
 ConceptEngine.cpp : message : see previous definition of 'NOMINMAX'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  CEWindowMessage.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEWindowMessage.cpp : message : see previous definition of 'NOMINMAX'
-  CEWindow.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEWindow.cpp : message : see previous definition of 'NOMINMAX'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(68,17): warning C4244: 'initializing': conversion from 'WPARAM' to 'int', possible loss of data
-CEWindow.cpp(416): message : see reference to function template instantiation 'std::_Optional_destruct_base<_Ty,true>::_Optional_destruct_base<WPARAM&>(std::in_place_t,WPARAM &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-CEWindow.cpp(416): message : see reference to function template instantiation 'std::_Optional_destruct_base<_Ty,true>::_Optional_destruct_base<WPARAM&>(std::in_place_t,WPARAM &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(185): message : see reference to function template instantiation 'std::_Optional_construct_base<_Ty>::_Optional_construct_base<WPARAM&>(std::in_place_t,WPARAM &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(185): message : see reference to function template instantiation 'std::_Optional_construct_base<_Ty>::_Optional_construct_base<WPARAM&>(std::in_place_t,WPARAM &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-CEWindow.cpp(209): message : see reference to function template instantiation 'std::optional<int>::optional<WPARAM&,0>(_Ty2)' being compiled
-          with
-          [
-              _Ty2=WPARAM &
-          ]
-CEWindow.cpp(209): message : see reference to function template instantiation 'std::optional<int>::optional<WPARAM&,0>(_Ty2)' being compiled
-          with
-          [
-              _Ty2=WPARAM &
-          ]
-  CEVulkanGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEVulkanGraphics.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-CEVulkanGraphics.cpp(151,21): warning C4018: '<': signed/unsigned mismatch
-CEVulkanGraphics.cpp(159,15): warning C4101: 'surface': unreferenced local variable
-CEVulkanGraphics.cpp(158,13): warning C4101: 'instance': unreferenced local variable
-  CEVulkanDevice.cpp
-  CEVulkan.cpp
-  CETools.cpp
-  CETimer.cpp
-  CEOSTools.cpp
-  CEOpenGLGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEOpenGLGraphics.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  CEOpenGLDevice.cpp
-  CEMouse.cpp
-  CEMetalGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEMetalGraphics.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  CEMetalDevice.cpp
-  CEKeyboard.cpp
-  CEDirect3DInfoManager.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEDirect3DInfoManager.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  CEGraphics.cpp
-  CEException.cpp
-  CEDirect3DNode.cpp
-  CEDirect3DGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEDirect3DGraphics.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  Generating Code...
-  Compiling...
-  CEDirect3DCube.cpp
-  CED3D12Device.cpp
-  CED3D12CommandQueue.cpp
-  CED3D11Device.cpp
-  CEController.cpp
-  Generating Code...
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowShouldClose already defined in glfw3.lib(window.obj); second definition ignored
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHintString already defined in glfw3.lib(window.obj); second definition ignored
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHint already defined in glfw3.lib(window.obj); second definition ignored

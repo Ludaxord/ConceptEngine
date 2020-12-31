@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
-// #include "spdlog/spdlog.h"
-
+#include <spdlog/logger.h>
 #include "CEOSTools.h"
 #include "CETimer.h"
 #include "CEWindow.h"
@@ -17,7 +16,6 @@ private:
 	CEOSTools::CEGraphicsApiTypes apiType_;
 	CEWindow window_;
 	CETimer timer_;
-	// Logger logger_;
 
 private:
 	int g_frameIndx;

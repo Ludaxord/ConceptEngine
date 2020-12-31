@@ -143,6 +143,7 @@
     <ProjectGuid>{d91c74fd-b6a3-4604-819a-6bbd97737979}</ProjectGuid>
     <RootNamespace>ConceptEngineFramework</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -193,24 +194,37 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\build\Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
-    <ExecutablePath>$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <ExecutablePath>
+    </ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\build;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\build\Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\build;$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
-    <IncludePath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -222,7 +236,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\src;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -230,7 +244,7 @@
       <AdditionalOptions />
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <MinimalRebuild>true</MinimalRebuild>
@@ -276,6 +290,7 @@
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -306,7 +321,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\src;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -314,7 +329,7 @@
       <AdditionalOptions />
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <MinimalRebuild>true</MinimalRebuild>
@@ -359,6 +374,7 @@
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
