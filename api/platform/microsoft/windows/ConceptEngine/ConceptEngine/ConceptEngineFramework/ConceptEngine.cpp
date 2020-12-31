@@ -33,3 +33,13 @@ void ConceptEngine::MakeFrame() {
 	window_.GetGraphics().OnUpdate();
 	window_.GetGraphics().OnRender();
 }
+
+Logger ConceptEngine::CreateLogger(const std::string& name) {
+	Logger logger = spdlog::get(name);
+	if (!logger) {
+		logger = logger_->clone(name);
+		spdlog::register_logger(logger);
+	}
+
+	return logger;
+}
