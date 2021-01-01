@@ -7,6 +7,7 @@
 #include "CEHelper.h"
 #include "CETools.h"
 #include "CEWindow.h"
+#include "ConceptEngine.h"
 #include "d3dx12.h"
 
 
@@ -462,9 +463,6 @@ void CEDirect3DGraphics::Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl
 
 void CEDirect3DGraphics::OnUpdate() {
 	UpdatePerSecond(1.0);
-
-	auto fps = CountFPS(false);
-	OutputDebugString(fps);
 }
 
 void CEDirect3DGraphics::UpdatePerSecond(float second) {
@@ -482,6 +480,8 @@ void CEDirect3DGraphics::UpdatePerSecond(float second) {
 	wchar_t* output = nullptr;
 	if (elapsedSeconds > second) {
 		// DisplayGPUInfo();
+		auto fps = FPSFormula(frameCounter, elapsedSeconds);
+		ConceptEngine::GetLogger()->info("FPS: {:.7}", fps);
 		frameCounter = 0;
 		elapsedSeconds = 0.0;
 	}

@@ -117,6 +117,33 @@ std::wstring CEGraphics::GetAssetFullPath(LPCWSTR assetName) {
 	return m_assetsPath + assetName;
 }
 
+double CEGraphics::FPSFormula(uint64_t frameCounter, double elapsedSeconds) {
+	return frameCounter / elapsedSeconds;
+}
+
+double CEGraphics::GetFPS() {
+	static uint64_t frameCounter = 0;
+	static double elapsedSeconds = 0.0;
+	static std::chrono::high_resolution_clock clock;
+	static auto t0 = clock.now();
+
+	frameCounter++;
+	auto t1 = clock.now();
+	auto deltaTime = t1 - t0;
+	t0 = t1;
+
+	elapsedSeconds += deltaTime.count() * 1e-9;
+	double fps = 0;
+	if (elapsedSeconds > 1.0) {
+		char buffer[500];
+		fps = frameCounter / elapsedSeconds;
+
+		frameCounter = 0;
+		elapsedSeconds = 0.0;
+	}
+	return fps;
+}
+
 wchar_t* CEGraphics::CountFPS(bool displayLog) {
 	static uint64_t frameCounter = 0;
 	static double elapsedSeconds = 0.0;
