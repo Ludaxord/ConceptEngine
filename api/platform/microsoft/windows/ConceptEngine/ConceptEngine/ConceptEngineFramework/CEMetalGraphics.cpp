@@ -31,6 +31,13 @@ bool CEMetalGraphics::LoadContent() {
 void CEMetalGraphics::UnloadContent() {
 }
 
+void CEMetalGraphics::UpdatePerSecond(float second) {
+}
+
+CEGraphics::IGPUInfo CEMetalGraphics::GetGPUInfo() {
+	return IGPUInfo();
+}
+
 void CEMetalGraphics::OnKeyPressed() {
 }
 

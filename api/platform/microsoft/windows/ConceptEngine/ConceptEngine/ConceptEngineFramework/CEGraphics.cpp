@@ -117,6 +117,34 @@ std::wstring CEGraphics::GetAssetFullPath(LPCWSTR assetName) {
 	return m_assetsPath + assetName;
 }
 
+wchar_t* CEGraphics::CountFPS(bool displayLog) {
+	static uint64_t frameCounter = 0;
+	static double elapsedSeconds = 0.0;
+	static std::chrono::high_resolution_clock clock;
+	static auto t0 = clock.now();
+
+	frameCounter++;
+	auto t1 = clock.now();
+	auto deltaTime = t1 - t0;
+	t0 = t1;
+
+	elapsedSeconds += deltaTime.count() * 1e-9;
+	wchar_t* output = nullptr;
+	if (elapsedSeconds > 1.0) {
+		char buffer[500];
+		auto fps = frameCounter / elapsedSeconds;
+		sprintf_s(buffer, 500, "FPS: %f\n", fps);
+		output = CETools::ConvertCharArrayToLPCWSTR(buffer);
+		if (displayLog) {
+			OutputDebugString(output);
+		}
+
+		frameCounter = 0;
+		elapsedSeconds = 0.0;
+	}
+	return output;
+}
+
 void CEGraphics::ChangeClearColor(float red, float green, float blue, float alpha) {
 	clearColor[0] = red;
 	clearColor[1] = green;

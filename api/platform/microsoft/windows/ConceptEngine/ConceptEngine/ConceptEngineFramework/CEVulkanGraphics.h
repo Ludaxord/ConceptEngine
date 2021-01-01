@@ -23,6 +23,7 @@ public:
 	void OnDestroy() override;
 	bool LoadContent() override;
 	void UnloadContent() override;
+	void UpdatePerSecond(float second) override;
 protected:
 	void OnKeyPressed() override;
 	void OnKeyReleased() override;
@@ -32,6 +33,8 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
+	IGPUInfo GetGPUInfo() override;
+
 private:
 	std::unique_ptr <CEVulkanData> pVulkanData;
 	CEVulkanContext vulkanContext;

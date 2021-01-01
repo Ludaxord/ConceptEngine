@@ -4,7 +4,8 @@
 #include "CEWindow.h"
 
 
-CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd, int width, int height): CEGraphics(hWnd, CEOSTools::CEGraphicsApiTypes::opengl, width, height) {
+CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd, int width, int height): CEGraphics(
+	hWnd, CEOSTools::CEGraphicsApiTypes::opengl, width, height) {
 
 }
 
@@ -63,6 +64,13 @@ bool CEOpenGLGraphics::LoadContent() {
 }
 
 void CEOpenGLGraphics::UnloadContent() {
+}
+
+void CEOpenGLGraphics::UpdatePerSecond(float second) {
+}
+
+CEGraphics::IGPUInfo CEOpenGLGraphics::GetGPUInfo() {
+	return IGPUInfo();
 }
 
 void CEOpenGLGraphics::OnKeyPressed() {

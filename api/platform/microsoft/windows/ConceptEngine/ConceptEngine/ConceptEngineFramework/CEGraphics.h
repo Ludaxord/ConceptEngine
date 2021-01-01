@@ -89,6 +89,11 @@ public:
 	};
 
 public:
+	struct IGPUInfo {
+
+	};
+
+public:
 	CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEGraphics(const CEGraphics&) = delete;
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
@@ -101,6 +106,7 @@ public:
 	virtual void OnUpdate() = 0;
 
 public:
+	virtual void UpdatePerSecond(float second) = 0;
 	virtual bool LoadContent() = 0;
 	virtual void UnloadContent() = 0;
 protected:
@@ -112,7 +118,7 @@ protected:
 	virtual void OnMouseWheel() = 0;
 	virtual void OnResize() = 0;
 	virtual void OnWindowDestroy() = 0;
-
+	virtual IGPUInfo GetGPUInfo() = 0;
 public:
 	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
 	virtual void SetFullscreen(bool fullscreen);
@@ -130,6 +136,7 @@ protected:
 	void ResolveSelectedGraphicsAPI();
 	std::wstring ExePath();
 	std::wstring GetAssetFullPath(LPCWSTR assetName);
+	wchar_t* CountFPS(bool displayLog);
 
 protected:
 	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12

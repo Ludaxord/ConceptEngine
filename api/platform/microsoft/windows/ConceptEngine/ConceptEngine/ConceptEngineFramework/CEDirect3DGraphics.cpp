@@ -461,6 +461,13 @@ void CEDirect3DGraphics::Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl
 }
 
 void CEDirect3DGraphics::OnUpdate() {
+	UpdatePerSecond(1.0);
+
+	auto fps = CountFPS(false);
+	OutputDebugString(fps);
+}
+
+void CEDirect3DGraphics::UpdatePerSecond(float second) {
 	static uint64_t frameCounter = 0;
 	static double elapsedSeconds = 0.0;
 	static std::chrono::high_resolution_clock clock;
@@ -472,12 +479,9 @@ void CEDirect3DGraphics::OnUpdate() {
 	t0 = t1;
 
 	elapsedSeconds += deltaTime.count() * 1e-9;
-	if (elapsedSeconds > 1.0) {
-		char buffer[500];
-		auto fps = frameCounter / elapsedSeconds;
-		sprintf_s(buffer, 500, "FPS: %f\n", fps);
-		OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(buffer));
-
+	wchar_t* output = nullptr;
+	if (elapsedSeconds > second) {
+		// DisplayGPUInfo();
 		frameCounter = 0;
 		elapsedSeconds = 0.0;
 	}
@@ -603,6 +607,27 @@ void CEDirect3DGraphics::OnResize() {
 }
 
 void CEDirect3DGraphics::OnWindowDestroy() {
+}
+
+CEGraphics::IGPUInfo CEDirect3DGraphics::GetGPUInfo() {
+	DXGI_QUERY_VIDEO_MEMORY_INFO dqvmi;
+	wrl::ComPtr<IDXGIAdapter3> m_dxgiAdapter3;
+	ThrowIfFailed(m_dxgiAdapter.As(&m_dxgiAdapter3));
+	m_dxgiAdapter3->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &dqvmi);
+	ID3DGPUInfo d3dGpuInfo;
+	d3dGpuInfo.dqvmi = dqvmi;
+	return static_cast<IGPUInfo>(d3dGpuInfo);
+}
+
+void CEDirect3DGraphics::DisplayGPUInfo() {
+	const auto info = GetGPUInfo();
+	std::wstringstream wss;
+	wss << "GPU VRAM: " << std::endl;
+	wss << "AvailableForReservation: " << ID3DGPUInfo(info).dqvmi.AvailableForReservation << std::endl;
+	wss << "CurrentUsage: " << ID3DGPUInfo(info).dqvmi.CurrentUsage << std::endl;
+	wss << "CurrentReservation: " << ID3DGPUInfo(info).dqvmi.CurrentReservation << std::endl;
+	wss << "Budget: " << ID3DGPUInfo(info).dqvmi.Budget << std::endl;
+	OutputDebugStringW(wss.str().c_str());
 }
 
 void CEDirect3DGraphics::TransitionResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,

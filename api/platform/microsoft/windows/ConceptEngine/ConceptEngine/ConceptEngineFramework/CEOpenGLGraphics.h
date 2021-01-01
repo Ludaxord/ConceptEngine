@@ -17,6 +17,7 @@ public:
 	void SetFullscreen(bool fullscreen) override;
 	bool LoadContent() override;
 	void UnloadContent() override;
+	void UpdatePerSecond(float second) override;
 protected:
 	void OnKeyPressed() override;
 	void OnKeyReleased() override;
@@ -26,6 +27,7 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
+	IGPUInfo GetGPUInfo() override;
 private:
 	HDC g_HDC;
 };

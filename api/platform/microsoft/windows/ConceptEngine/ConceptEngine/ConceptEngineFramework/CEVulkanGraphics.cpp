@@ -216,6 +216,9 @@ bool CEVulkanGraphics::LoadContent() {
 void CEVulkanGraphics::UnloadContent() {
 }
 
+void CEVulkanGraphics::UpdatePerSecond(float second) {
+}
+
 void CEVulkanGraphics::OnKeyPressed() {
 }
 
@@ -238,4 +241,8 @@ void CEVulkanGraphics::OnResize() {
 }
 
 void CEVulkanGraphics::OnWindowDestroy() {
+}
+
+CEGraphics::IGPUInfo CEVulkanGraphics::GetGPUInfo() {
+	return IGPUInfo();
 }

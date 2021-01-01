@@ -33,6 +33,14 @@ namespace fs = std::filesystem;
 class CEDirect3DGraphics : public CEGraphics {
 
 public:
+	struct ID3DGPUInfo : IGPUInfo {
+		DXGI_QUERY_VIDEO_MEMORY_INFO dqvmi;
+		ID3DGPUInfo() = default;
+		// conversion from A (constructor):
+		explicit ID3DGPUInfo(const IGPUInfo& x) {
+		}
+	};
+
 	struct CEVertexPosColor {
 		XMFLOAT3 position;
 		XMFLOAT4 color;
@@ -135,6 +143,7 @@ public:
 	bool OnInit() override;
 	void OnDestroy() override;
 
+	void UpdatePerSecond(float second) override;
 	bool LoadContent() override;
 	void UnloadContent() override;
 protected:
@@ -146,8 +155,10 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
+	IGPUInfo GetGPUInfo() override;
 
 private:
+	void DisplayGPUInfo();
 	wrl::ComPtr<IDXGIFactory4> GetFactory() const;
 	wrl::ComPtr<IDXGIAdapter> GetAdapter(bool useWarp) const;
 	wrl::ComPtr<ID3D12Device> CreateDevice(wrl::ComPtr<IDXGIAdapter> adapter) const;
