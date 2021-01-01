@@ -170,7 +170,7 @@ void CEDirect3DGraphics::LoadBonus() {
 	std::wstring wDesc = adapterDescription_.Description;
 	auto videoMem = static_cast<double>(adapterDescription_.DedicatedVideoMemory);
 	std::string sDesc(wDesc.begin(), wDesc.end());
-	ConceptEngine::GetLogger()->info("Device: {} Video Memory: {:.4} MB", sDesc, fmt::format("{:.2f}", videoMem));
+	ConceptEngine::GetLogger()->info("Device: {}, Video Memory: {:.4} MB", sDesc, fmt::format("{:.2f}", videoMem));
 	
 }
 

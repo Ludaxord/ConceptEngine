@@ -1,4 +1,6 @@
-[2021-01-01 19:59:08.271] [ConceptEngine] [info] Spdlog Created
-[2021-01-01 19:59:08.271] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070 Video Memory: 8433 GB
-[2021-01-01 19:59:09.275] [ConceptEngine] [info] FPS: 145.9939
-[2021-01-01 19:59:10.282] [ConceptEngine] [info] FPS: 143.9937
+[2021-01-01 20:02:36.538] [ConceptEngine] [info] Spdlog Created
+[2021-01-01 20:02:36.538] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070 Video Memory: 8433 MB
+[2021-01-01 20:02:37.548] [ConceptEngine] [info] FPS: 145.1231
+[2021-01-01 20:02:38.555] [ConceptEngine] [info] FPS: 143.9725
+[2021-01-01 20:02:39.555] [ConceptEngine] [info] FPS: 143.9853
+[2021-01-01 20:02:40.555] [ConceptEngine] [info] FPS: 143.9972
