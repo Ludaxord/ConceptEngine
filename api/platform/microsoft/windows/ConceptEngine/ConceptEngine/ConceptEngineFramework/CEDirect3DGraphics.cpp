@@ -141,6 +141,9 @@ void CEDirect3DGraphics::LoadPipeline() {
 	if (m_dxgiAdapter) {
 		m_device = CreateDevice(m_dxgiAdapter);
 	}
+
+	adapterDescription_ = GetAdapterDescription(m_dxgiAdapter);
+
 	m_commandQueue = CreateCommandQueue(m_device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	m_swapChain = CreateSwapChain(hWnd, m_commandQueue, g_ClientWidth, g_ClientHeight, FrameCount);
 	m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
@@ -161,6 +164,14 @@ void CEDirect3DGraphics::LoadAssets() {
 	m_fenceEvent = CreateEventHandle();
 	Flush(m_commandQueue, m_fence, m_fenceValue, m_fenceEvent);
 	// WaitForPreviousFrame();
+}
+
+void CEDirect3DGraphics::LoadBonus() {
+	std::wstring wDesc = adapterDescription_.Description;
+	auto videoMem = static_cast<double>(adapterDescription_.DedicatedVideoMemory);
+	std::string sDesc(wDesc.begin(), wDesc.end());
+	ConceptEngine::GetLogger()->info("Device: {} Video Memory: {:.4} MB", sDesc, fmt::format("{:.2f}", videoMem));
+	
 }
 
 wrl::ComPtr<IDXGIFactory4> CEDirect3DGraphics::GetFactory() const {
@@ -479,7 +490,6 @@ void CEDirect3DGraphics::UpdatePerSecond(float second) {
 	elapsedSeconds += deltaTime.count() * 1e-9;
 	wchar_t* output = nullptr;
 	if (elapsedSeconds > second) {
-		// DisplayGPUInfo();
 		auto fps = FPSFormula(frameCounter, elapsedSeconds);
 		ConceptEngine::GetLogger()->info("FPS: {:.7}", fps);
 		frameCounter = 0;
@@ -628,6 +638,15 @@ void CEDirect3DGraphics::DisplayGPUInfo() {
 	wss << "CurrentReservation: " << ID3DGPUInfo(info).dqvmi.CurrentReservation << std::endl;
 	wss << "Budget: " << ID3DGPUInfo(info).dqvmi.Budget << std::endl;
 	OutputDebugStringW(wss.str().c_str());
+}
+
+DXGI_ADAPTER_DESC CEDirect3DGraphics::GetAdapterDescription(wrl::ComPtr<IDXGIAdapter> dxgiAdapter) const {
+	DXGI_ADAPTER_DESC desc = {0};
+	// wrl::ComPtr<IDXGIAdapter4> dxgiAdapter4;
+	// ThrowIfFailed(m_dxgiAdapter.As(&dxgiAdapter4));
+	ThrowIfFailed(dxgiAdapter->GetDesc(&desc));
+	// ThrowIfFailed(dxgiAdapter4->GetDesc3(&desc));
+	return desc;
 }
 
 void CEDirect3DGraphics::TransitionResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,

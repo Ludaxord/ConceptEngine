@@ -64,3 +64,6 @@ void CEMetalGraphics::OnWindowDestroy() {
 
 void CEMetalGraphics::SetFullscreen(bool fullscreen) {
 }
+
+void CEMetalGraphics::LoadBonus() {
+}

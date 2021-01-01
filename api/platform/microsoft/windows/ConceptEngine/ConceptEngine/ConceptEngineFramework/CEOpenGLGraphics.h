@@ -28,6 +28,8 @@ protected:
 	void OnResize() override;
 	void OnWindowDestroy() override;
 	IGPUInfo GetGPUInfo() override;
+public:
+	virtual void LoadBonus() override;
 private:
 	HDC g_HDC;
 };

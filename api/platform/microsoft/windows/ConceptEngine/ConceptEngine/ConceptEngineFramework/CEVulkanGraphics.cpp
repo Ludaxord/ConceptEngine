@@ -246,3 +246,6 @@ void CEVulkanGraphics::OnWindowDestroy() {
 CEGraphics::IGPUInfo CEVulkanGraphics::GetGPUInfo() {
 	return IGPUInfo();
 }
+
+void CEVulkanGraphics::LoadBonus() {
+}

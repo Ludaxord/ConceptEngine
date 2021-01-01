@@ -121,6 +121,7 @@ private:
 	void CreateDirect3D11(int width, int height);
 public:
 	void PrintGraphicsVersion() override;
+
 protected:
 #ifndef NDEBUG
 	CEDirect3DInfoManager infoManager;
@@ -134,6 +135,9 @@ private:
 	void WaitForPreviousFrame();
 	void LoadPipeline();
 	void LoadAssets();
+
+public:
+	void LoadBonus() override;
 
 public:
 	void OnUpdate() override;
@@ -159,6 +163,7 @@ protected:
 
 private:
 	void DisplayGPUInfo();
+	DXGI_ADAPTER_DESC GetAdapterDescription(wrl::ComPtr<IDXGIAdapter> dxgiAdapter) const;
 	wrl::ComPtr<IDXGIFactory4> GetFactory() const;
 	wrl::ComPtr<IDXGIAdapter> GetAdapter(bool useWarp) const;
 	wrl::ComPtr<ID3D12Device> CreateDevice(wrl::ComPtr<IDXGIAdapter> adapter) const;
@@ -207,6 +212,7 @@ private:
 
 private:
 	// Pipeline objects.
+	DXGI_ADAPTER_DESC adapterDescription_;
 	wrl::ComPtr<IDXGISwapChain3> m_swapChain;
 	wrl::ComPtr<ID3D12Device> m_device;
 	wrl::ComPtr<ID3D12Resource> m_renderTargets[FrameCount];

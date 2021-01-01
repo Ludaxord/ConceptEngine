@@ -35,6 +35,8 @@ protected:
 	void OnWindowDestroy() override;
 	IGPUInfo GetGPUInfo() override;
 
+public:
+	virtual void LoadBonus() override;
 private:
 	std::unique_ptr <CEVulkanData> pVulkanData;
 	CEVulkanContext vulkanContext;

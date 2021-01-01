@@ -73,6 +73,9 @@ CEGraphics::IGPUInfo CEOpenGLGraphics::GetGPUInfo() {
 	return IGPUInfo();
 }
 
+void CEOpenGLGraphics::LoadBonus() {
+}
+
 void CEOpenGLGraphics::OnKeyPressed() {
 }
 

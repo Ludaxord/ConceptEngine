@@ -26,4 +26,5 @@ protected:
 public:
 	void SetFullscreen(bool fullscreen) override;
 
+	virtual void LoadBonus() override;
 };

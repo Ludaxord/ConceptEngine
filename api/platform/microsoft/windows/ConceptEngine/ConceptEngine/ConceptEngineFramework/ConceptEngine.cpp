@@ -4,21 +4,22 @@
 ConceptEngine::ConceptEngine() : apiType_(CEOSTools::CEGraphicsApiTypes::direct3d12),
                                  window_(1280, 720, "Concept Engine Editor", apiType_) {
 	InitSpdLog();
+	static_logger_ = CreateLogger("ConceptEngine");
 }
 
 ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* windowName) : window_(
 	windowWidth, windowHeight, windowName) {
 	InitSpdLog();
+	static_logger_ = CreateLogger("ConceptEngine");
 }
 
 ConceptEngine::ConceptEngine(int width, int height, const char* name,
                              CEOSTools::CEGraphicsApiTypes graphicsApiType) : ConceptEngine(width, height, name) {
 	apiType_ = graphicsApiType;
-	InitSpdLog();
 }
 
 int ConceptEngine::Run() {
-	static_logger_ = CreateLogger("ConceptEngine");
+	window_.GetGraphics().LoadBonus();
 	while (true) {
 		if (const auto ecode = CEWindow::ProcessMessages()) {
 			return *ecode;
@@ -43,6 +44,7 @@ Logger ConceptEngine::CreateLogger(const std::string& name) const {
 		logger = logger_->clone(name);
 		spdlog::register_logger(logger);
 	}
+	logger->info("Spdlog Created");
 
 	return logger;
 }
@@ -67,10 +69,11 @@ void ConceptEngine::InitSpdLog() {
 	auto msvc_sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 
 	std::vector<spdlog::sink_ptr> sinks{stdout_sink, rotating_sink, msvc_sink};
-	logger_ = std::make_shared<spdlog::async_logger>("GameFramework", sinks.begin(), sinks.end(),
+	logger_ = std::make_shared<spdlog::async_logger>("ConceptEngine", sinks.begin(), sinks.end(),
 	                                                 spdlog::thread_pool(), spdlog::async_overflow_policy::block);
 	spdlog::register_logger(logger_);
 	spdlog::set_default_logger(logger_);
+	spdlog::flush_on(spdlog::level::info);
 }
 
 

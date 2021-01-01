@@ -109,6 +109,8 @@ public:
 	virtual void UpdatePerSecond(float second) = 0;
 	virtual bool LoadContent() = 0;
 	virtual void UnloadContent() = 0;
+	virtual void LoadBonus() = 0;
+
 protected:
 	virtual void OnKeyPressed() = 0;
 	virtual void OnKeyReleased() = 0;
