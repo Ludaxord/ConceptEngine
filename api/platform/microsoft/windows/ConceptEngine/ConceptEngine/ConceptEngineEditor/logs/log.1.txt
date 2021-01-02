@@ -1,6 +1,9 @@
-[2021-01-01 20:02:36.538] [ConceptEngine] [info] Spdlog Created
-[2021-01-01 20:02:36.538] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070 Video Memory: 8433 MB
-[2021-01-01 20:02:37.548] [ConceptEngine] [info] FPS: 145.1231
-[2021-01-01 20:02:38.555] [ConceptEngine] [info] FPS: 143.9725
-[2021-01-01 20:02:39.555] [ConceptEngine] [info] FPS: 143.9853
-[2021-01-01 20:02:40.555] [ConceptEngine] [info] FPS: 143.9972
+[2021-01-02 17:12:57.971] [ConceptEngine] [info] Spdlog Created
+[2021-01-02 17:12:57.972] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-02 17:12:58.977] [ConceptEngine] [info] FPS: 145.8837
+[2021-01-02 17:12:59.984] [ConceptEngine] [info] FPS: 144.0328
+[2021-01-02 17:13:00.985] [ConceptEngine] [info] FPS: 143.9420
+[2021-01-02 17:13:01.991] [ConceptEngine] [info] FPS: 144.0701
+[2021-01-02 17:13:02.991] [ConceptEngine] [info] FPS: 143.9946
+[2021-01-02 17:13:03.998] [ConceptEngine] [info] FPS: 144.0045
+[2021-01-02 17:13:04.998] [ConceptEngine] [info] FPS: 143.9389

@@ -327,6 +327,13 @@ wrl::ComPtr<ID3D12GraphicsCommandList> CEDirect3DGraphics::CreateCommandList(wrl
 	return commandList;
 }
 
+
+//TODO: Move to dynamic implementation of 3D objects, right now just to test 3d object creation in Direct3D 12
+void CreateCubeRootSignature() {
+	
+	
+}
+
 void CEDirect3DGraphics::CreateRootSignature() {
 	// Create an empty root signature.
 	{

@@ -138,9 +138,6 @@
     <ClInclude Include="CED3D12Device.h">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClInclude>
-    <ClInclude Include="CED3D11Device.h">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CEDevice.h">
       <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
     </ClInclude>
@@ -183,6 +180,66 @@
     <ClInclude Include="CEDirect3DCube.h">
       <Filter>Graphics\Objects\Direct3D\Basic</Filter>
     </ClInclude>
+    <ClInclude Include="CEAdapter.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CESwapChain.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGUI.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEConstantBuffer.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEByteAddressBuffer.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEBuffer.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEStructuredBuffer.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CETexture.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEResource.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEResourceDescriptor.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEIndexBuffer.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEVertexBuffer.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CERootSignature.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEType.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDescriptorAllocation.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEPipelineState.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEConstantBufferView.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEShaderResourceView.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEUnorderedAccessView.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CECommandQueue.h">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -224,9 +281,6 @@
     <ClCompile Include="CEMetalGraphics.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="CED3D11Device.cpp">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
-    </ClCompile>
     <ClCompile Include="CED3D12Device.cpp">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClCompile>
@@ -259,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="CEDirect3DNode.cpp">
       <Filter>Graphics\Objects\Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDevice.cpp">
+      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

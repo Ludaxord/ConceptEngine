@@ -19,18 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CEAdapter.h" />
+    <ClInclude Include="CEBuffer.h" />
+    <ClInclude Include="CEByteAddressBuffer.h" />
+    <ClInclude Include="CECommandQueue.h" />
+    <ClInclude Include="CEConstantBuffer.h" />
+    <ClInclude Include="CEConstantBufferView.h" />
     <ClInclude Include="CEController.h" />
-    <ClInclude Include="CED3D11Device.h" />
     <ClInclude Include="CED3D12CommandQueue.h" />
     <ClInclude Include="CED3D12Device.h" />
+    <ClInclude Include="CEDescriptorAllocation.h" />
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEDirect3DCube.h" />
     <ClInclude Include="CEDirect3DGraphics.h" />
     <ClInclude Include="CEDirect3DNode.h" />
     <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
+    <ClInclude Include="CEGUI.h" />
     <ClInclude Include="CEHelper.h" />
     <ClInclude Include="CEDirect3DInfoManager.h" />
+    <ClInclude Include="CEIndexBuffer.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CELib.h" />
     <ClInclude Include="CEMetalDevice.h" />
@@ -40,8 +48,19 @@
     <ClInclude Include="CEOpenGLDevice.h" />
     <ClInclude Include="CEOpenGLGraphics.h" />
     <ClInclude Include="CEOSTools.h" />
+    <ClInclude Include="CEPipelineState.h" />
+    <ClInclude Include="CEResource.h" />
+    <ClInclude Include="CEResourceDescriptor.h" />
+    <ClInclude Include="CERootSignature.h" />
+    <ClInclude Include="CEShaderResourceView.h" />
+    <ClInclude Include="CEStructuredBuffer.h" />
+    <ClInclude Include="CESwapChain.h" />
+    <ClInclude Include="CETexture.h" />
     <ClInclude Include="CETimer.h" />
     <ClInclude Include="CETools.h" />
+    <ClInclude Include="CEType.h" />
+    <ClInclude Include="CEUnorderedAccessView.h" />
+    <ClInclude Include="CEVertexBuffer.h" />
     <ClInclude Include="CEVulkan.h" />
     <ClInclude Include="CEVulkanDevice.h" />
     <ClInclude Include="CEVulkanGraphics.h" />
@@ -53,9 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEController.cpp" />
-    <ClCompile Include="CED3D11Device.cpp" />
     <ClCompile Include="CED3D12CommandQueue.cpp" />
     <ClCompile Include="CED3D12Device.cpp" />
+    <ClCompile Include="CEDevice.cpp" />
     <ClCompile Include="CEDirect3DCube.cpp" />
     <ClCompile Include="CEDirect3DGraphics.cpp" />
     <ClCompile Include="CEDirect3DNode.cpp" />
