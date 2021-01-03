@@ -11,6 +11,21 @@
 #include "d3dx12.h"
 
 
+CEDirect3DGraphics::CEVertexPosColor triangleVertices[] =
+{
+	{{0.0f, 0.25f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{0.25f, -0.25f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{-0.25f, -0.25f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}}
+};
+
+CEDirect3DGraphics::CEVertexPosColor quadVertices[] = {
+	{{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}}
+};
+
+
 //TODO: Test value fix CEDirect3DCube class to create vertices;
 static const CEDirect3DGraphics::CEVertexPosColor g_Vertices[8] = {
 	{{-1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 0.0f, 1.0f}}, // 0
@@ -170,8 +185,24 @@ void CEDirect3DGraphics::LoadBonus() {
 	std::wstring wDesc = adapterDescription_.Description;
 	auto videoMem = static_cast<double>(adapterDescription_.DedicatedVideoMemory);
 	std::string sDesc(wDesc.begin(), wDesc.end());
+	auto nDriverVersion = adapterDescription_.AdapterLuid;
+	auto deviceId = adapterDescription_.DeviceId;
+	auto revision = adapterDescription_.Revision;
+	auto vendorId = adapterDescription_.VendorId;
+
+	WORD nProduct = HIWORD(nDriverVersion.HighPart);
+	WORD nVersion = LOWORD(nDriverVersion.HighPart);
+	WORD nSubVersion = HIWORD(nDriverVersion.LowPart);
+	WORD nBuild = LOWORD(nDriverVersion.LowPart);
+	ConceptEngine::GetLogger()->info("Direct3D 12 Adapter Created");
+
+
 	ConceptEngine::GetLogger()->info("Device: {}, Video Memory: {:.4} MB", sDesc, fmt::format("{:.2f}", videoMem));
-	
+	ConceptEngine::GetLogger()->info("Driver: {} Build: {}.{}.{}", nProduct, nBuild, nVersion, nSubVersion);
+	ConceptEngine::GetLogger()->info("DeviceID: {}", deviceId);
+	ConceptEngine::GetLogger()->info("Revision: {}", revision);
+	ConceptEngine::GetLogger()->info("nVendorID: {}", vendorId);
+
 }
 
 wrl::ComPtr<IDXGIFactory4> CEDirect3DGraphics::GetFactory() const {
@@ -202,7 +233,7 @@ void CEDirect3DGraphics::EnableDebugLayer() {
 wrl::ComPtr<IDXGIAdapter> CEDirect3DGraphics::GetAdapter(bool useWarp) const {
 	wrl::ComPtr<IDXGIAdapter> dxgiAdapter;
 
-	if (m_useWarpDevice) {
+	if (useWarp) {
 		wrl::ComPtr<IDXGIAdapter> warpAdapter;
 		ThrowIfFailed(m_factory->EnumWarpAdapter(IID_PPV_ARGS(&warpAdapter)));
 		dxgiAdapter = warpAdapter;
@@ -330,8 +361,8 @@ wrl::ComPtr<ID3D12GraphicsCommandList> CEDirect3DGraphics::CreateCommandList(wrl
 
 //TODO: Move to dynamic implementation of 3D objects, right now just to test 3d object creation in Direct3D 12
 void CreateCubeRootSignature() {
-	
-	
+
+
 }
 
 void CEDirect3DGraphics::CreateRootSignature() {
@@ -403,14 +434,21 @@ void CEDirect3DGraphics::CreateRootSignature() {
 }
 
 void CEDirect3DGraphics::CreateVertexBuffer() {
-	CEVertexPosColor triangleVertices[] =
-	{
-		{{0.0f, 0.25f * m_aspectRatio, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}},
-		{{0.25f, -0.25f * m_aspectRatio, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}},
-		{{-0.25f, -0.25f * m_aspectRatio, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}}
-	};
+	// CEVertexPosColor triangleVertices[] =
+	// {
+	// 	{{0.0f, 0.25f * m_aspectRatio, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	// 	{{0.25f, -0.25f * m_aspectRatio, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	// 	{{-0.25f, -0.25f * m_aspectRatio, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}}
+	// };
 
-	const UINT vertexBufferSize = sizeof(triangleVertices);
+
+	//VERTEX BUFFER
+	//TODO: Create function for autocopy array
+	const int len = sizeof(quadVertices) / sizeof(quadVertices[0]);
+	CEVertexPosColor vertices[len];
+	std::copy(std::begin(quadVertices), std::end(quadVertices), std::begin(vertices));
+
+	const UINT vertexBufferSize = sizeof(vertices);
 
 	// Note: using upload heaps to transfer static data like vert buffers is not 
 	// recommended. Every time the GPU needs it, the upload heap will be marshalled 
@@ -421,20 +459,52 @@ void CEDirect3DGraphics::CreateVertexBuffer() {
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
+		// D3D12_RESOURCE_STATE_COPY_DEST, // TO USE COPY NEED TO SEND SIGNAL TO FENCE BEFORE START LOOP
 		nullptr,
 		IID_PPV_ARGS(&m_VertexBuffer)));
+	m_VertexBuffer->SetName(L"CE Vertex Buffer Resource Heap");
 
 	// Copy the triangle data to the vertex buffer.
 	UINT8* pVertexDataBegin;
 	CD3DX12_RANGE readRange(0, 0); // We do not intend to read from this resource on the CPU.
 	ThrowIfFailed(m_VertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pVertexDataBegin)));
-	memcpy(pVertexDataBegin, triangleVertices, sizeof(triangleVertices));
+	memcpy(pVertexDataBegin, vertices, sizeof(vertices));
 	m_VertexBuffer->Unmap(0, nullptr);
+
+	//INDEX BUFFER
+	DWORD iList[] = {
+		0, 1, 2, // first triangle
+		0, 3, 1 // second triangle
+	};
+	int indexBufferSize = sizeof(iList);
+	ThrowIfFailed(m_device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(indexBufferSize),
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		// D3D12_RESOURCE_STATE_COPY_DEST, // TO USE COPY NEED TO SEND SIGNAL TO FENCE BEFORE START LOOP
+		nullptr,
+		IID_PPV_ARGS(&m_IndexBuffer)));
+	m_IndexBuffer->SetName(L"CE Index Buffer Resource Heap");
+
+	// Copy the triangle data to the vertex buffer.
+	UINT8* pIndexDataBegin;
+	CD3DX12_RANGE readIndexRange(0, 0); // We do not intend to read from this resource on the CPU.
+	ThrowIfFailed(m_IndexBuffer->Map(0, &readIndexRange, reinterpret_cast<void**>(&pIndexDataBegin)));
+	memcpy(pIndexDataBegin, iList, sizeof(iList));
+	m_IndexBuffer->Unmap(0, nullptr);
+	//
 
 	// Initialize the vertex buffer view.
 	m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress();
 	m_VertexBufferView.StrideInBytes = sizeof(CEVertexPosColor);
 	m_VertexBufferView.SizeInBytes = vertexBufferSize;
+
+	//INDEXBUFFER
+	m_IndexBufferView.BufferLocation = m_IndexBuffer->GetGPUVirtualAddress();
+	m_IndexBufferView.Format = DXGI_FORMAT_R32_UINT;
+	// 32-bit unsigned integer (this is what a dword is, double word, a word is 2 bytes)
+	m_IndexBufferView.SizeInBytes = indexBufferSize;
 
 }
 
@@ -533,7 +603,10 @@ void CEDirect3DGraphics::PopulateCommandList() {
 	m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView);
-	m_commandList->DrawInstanced(3, 1, 0, 0);
+	m_commandList->IASetIndexBuffer(&m_IndexBufferView);
+	m_commandList->DrawIndexedInstanced(6, 1, 0, 0, 0); // draw 2 triangles (draw 1 instance of 2 triangles)
+
+	// m_commandList->DrawInstanced(3, 1, 0, 0);
 
 	// Indicate that the back buffer will now be used to present.
 	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(

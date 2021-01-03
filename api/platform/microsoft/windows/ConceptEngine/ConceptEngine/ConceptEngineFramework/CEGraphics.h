@@ -151,7 +151,7 @@ protected:
 
 	uint32_t g_ClientWidth = 1280;
 	uint32_t g_ClientHeight = 720;
-	static const UINT FrameCount = 2;
+	static const UINT FrameCount = 3;
 	//Swap Chain Present Methods
 	// By default, enable V-Sync.
 	// Can be toggled with the V key.

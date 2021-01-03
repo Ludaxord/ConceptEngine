@@ -44,7 +44,6 @@ Logger ConceptEngine::CreateLogger(const std::string& name) const {
 		logger = logger_->clone(name);
 		spdlog::register_logger(logger);
 	}
-	logger->info("Spdlog Created");
 
 	return logger;
 }

@@ -2,6 +2,7 @@
 
 
 #include <activation.h>
+#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <vulkan/vulkan.h>
@@ -86,4 +87,32 @@ bool CEOSTools::CheckOpenGLCompatible() {
 
 const char* CEOSTools::GetOpenGLVersion() {
 	return (char*)glGetString(GL_VERSION);
+}
+
+const char* CEOSTools::GetGPUProvider(std::string providerDescription) {
+	std::string nvidia = "Nvidia";
+	std::string amd = "AMD";
+	const char* provider = "";
+	if (providerDescription.find(nvidia) != std::string::npos) {
+		provider = "             @.8;8;8;8;8;8;8;8;88.      "
+			"  .  . .  ..;8:@. @;8%8%8;8%8;8%8: .  . "
+			"   .  .%@88888 :88888@X;8;88:8;@8:.     "
+			"     S88t;St;888;;   :@:8t8t8;%%8   .  ."
+			" ..888%8t@888S8. 88.@ XX;.8.88S88:.   . "
+			"  S.8% S@:8S 88% X8@8:%;8t%8;..X8;      "
+			"  .%;%888t@%;S88;8888%:88S:8 t888  . .  "
+			"   .:%8@S 88X%.8:8%:@88ttS % :t88.     ."
+			"     :Stt;;XXS 8 S8 S8XS .t888;88:  .   "
+			" . .    8@ ;XXX@S88;@@888.SS:88.8:    . "
+			"        ;  S8X 88@8.88. %:8t8t888: .    "
+			"   .       .%888@ @8S8:@ SX8%8.XS.   .  "
+			"     . .     . .                   .   ."
+			";;t;t8t:St%  8t8%S8.8%t%@S  88%  :Xttt  "
+			"SS@@SX:8.X:.: 8. S S@%@8%8% St.  t@8St  "
+			"S8%X8:t:;8;%S8:% @ SX8X;S@8@ @: %t8:%88 "
+			"S88 .8X8. @@ @t .X SX88:8X%X 8:. 8   @:X"
+			"8X8  @8X S%X88   8SX;@S@8%;.S8 .@XXX@@8S";
+	}
+
+	return provider;
 }

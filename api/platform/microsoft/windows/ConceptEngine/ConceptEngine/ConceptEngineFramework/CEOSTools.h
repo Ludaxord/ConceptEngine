@@ -1,6 +1,7 @@
 #pragma once
 #pragma once
 #include <list>
+#include <string>
 
 class CEOSTools {
 public:
@@ -38,4 +39,6 @@ public:
 	static const char* GetMetalVersion();
 	static bool CheckOpenGLCompatible();
 	static const char* GetOpenGLVersion();
+
+	static const char* GetGPUProvider(std::string providerDescription);
 };
