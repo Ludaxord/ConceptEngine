@@ -25,6 +25,19 @@ CEDirect3DGraphics::CEVertexPosColor quadVertices[] = {
 	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}}
 };
 
+CEDirect3DGraphics::CEVertexPosColor doubleQuadVertices[] = {
+	//First quad
+	{{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	//Second quad
+	{{-0.75f,  0.75f,  0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{0.0f,  0.0f, 0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{-0.75f,  0.0f, 0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{0.0f,  0.75f,  0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+};
+
 
 //TODO: Test value fix CEDirect3DCube class to create vertices;
 static const CEDirect3DGraphics::CEVertexPosColor g_Vertices[8] = {
@@ -444,9 +457,9 @@ void CEDirect3DGraphics::CreateVertexBuffer() {
 
 	//VERTEX BUFFER
 	//TODO: Create function for autocopy array
-	const int len = sizeof(quadVertices) / sizeof(quadVertices[0]);
+	const int len = sizeof(doubleQuadVertices) / sizeof(doubleQuadVertices[0]);
 	CEVertexPosColor vertices[len];
-	std::copy(std::begin(quadVertices), std::end(quadVertices), std::begin(vertices));
+	std::copy(std::begin(doubleQuadVertices), std::end(doubleQuadVertices), std::begin(vertices));
 
 	const UINT vertexBufferSize = sizeof(vertices);
 
@@ -604,7 +617,10 @@ void CEDirect3DGraphics::PopulateCommandList() {
 	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView);
 	m_commandList->IASetIndexBuffer(&m_IndexBufferView);
+
+	//Draw objects TODO: Create general objects to loop draw instances instead of call DrawIndexedInstanced many times
 	m_commandList->DrawIndexedInstanced(6, 1, 0, 0, 0); // draw 2 triangles (draw 1 instance of 2 triangles)
+	m_commandList->DrawIndexedInstanced(6, 1, 0, 4, 0); // draw second quad
 
 	// m_commandList->DrawInstanced(3, 1, 0, 0);
 

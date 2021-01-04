@@ -1,0 +1,16 @@
+[2021-01-04 16:51:04.782] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-04 16:51:04.782] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-04 16:51:04.782] [ConceptEngine] [info] Driver: 0 Build: 57614.0.0
+[2021-01-04 16:51:04.782] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-04 16:51:04.782] [ConceptEngine] [info] Revision: 161
+[2021-01-04 16:51:04.782] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-04 16:51:05.786] [ConceptEngine] [info] FPS: 145.6740
+[2021-01-04 16:51:06.793] [ConceptEngine] [info] FPS: 144.0183
+[2021-01-04 16:51:07.793] [ConceptEngine] [info] FPS: 143.9774
+[2021-01-04 16:51:08.800] [ConceptEngine] [info] FPS: 144.0273
+[2021-01-04 16:51:09.801] [ConceptEngine] [info] FPS: 143.9005
+[2021-01-04 16:51:10.808] [ConceptEngine] [info] FPS: 143.9499
+[2021-01-04 16:51:11.815] [ConceptEngine] [info] FPS: 144.0376
+[2021-01-04 16:51:12.815] [ConceptEngine] [info] FPS: 143.9974
+[2021-01-04 16:51:13.822] [ConceptEngine] [info] FPS: 143.9526
+[2021-01-04 16:51:14.822] [ConceptEngine] [info] FPS: 143.9981
