@@ -107,6 +107,15 @@ public:
 		}
 	};
 
+	//TEST:
+	struct Vertex {
+		Vertex(float x, float y, float z, float r, float g, float b, float a) : pos(x, y, z), color(r, g, b, z) {
+		}
+
+		XMFLOAT3 pos;
+		XMFLOAT4 color;
+	};
+
 public:
 	CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEDirect3DGraphics(const CEDirect3DGraphics&) = delete;
@@ -135,6 +144,7 @@ private:
 	void WaitForPreviousFrame();
 	void LoadPipeline();
 	void LoadAssets();
+	bool InitD3D12();
 
 public:
 	void LoadBonus() override;
@@ -210,6 +220,7 @@ private:
 	                          D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE);
 	void ResizeDepthBuffer(int width, int height);
 
+	void UpdatePipeline();
 private:
 	// Pipeline objects.
 	DXGI_ADAPTER_DESC adapterDescription_;
@@ -217,6 +228,7 @@ private:
 	wrl::ComPtr<ID3D12Device> m_device;
 	wrl::ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
 	wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
+	wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocators[FrameCount];
 	wrl::ComPtr<ID3D12CommandQueue> m_commandQueue;
 	wrl::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 	wrl::ComPtr<ID3D12PipelineState> m_pipelineState;
@@ -253,6 +265,12 @@ private:
 	UINT64 m_fenceValue;
 	float m_FoV;
 
+	ID3D12Fence* m_fences[FrameCount];
+	// an object that is locked while our command list is being executed by the gpu. We need as many 
+	//as we have allocators (more if we want to know when the gpu is finished with an asset)
+	UINT64 m_fenceValues[FrameCount]; // this value is incremented each frame. each fence will have its own value
+
+
 	DirectX::XMMATRIX m_ModelMatrix;
 	DirectX::XMMATRIX m_ViewMatrix;
 	DirectX::XMMATRIX m_ProjectionMatrix;
@@ -260,4 +278,6 @@ private:
 
 	// Window rectangle (used to toggle fullscreen state).
 	RECT g_WindowRect;
+
+	bool Running = true;
 };
