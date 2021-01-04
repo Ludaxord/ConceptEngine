@@ -33,9 +33,9 @@ CEDirect3DGraphics::CEVertexPosColor doubleQuadVertices[] = {
 	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
 	//Second quad
 	{{-0.75f, 0.75f, 0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
-	{{0.0f, 0.0f, 0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
-	{{-0.75f, 0.0f, 0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
-	{{0.0f, 0.75f, 0.7f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+	{{0.0f, 0.0f, 0.7f}, {1.0f, 1.0f, 0.0f, 1.0f}},
+	{{-0.75f, 0.0f, 0.7f}, {0.0f, 1.0f, 1.0f, 1.0f}},
+	{{0.0f, 0.75f, 0.7f}, {1.0f, 1.0f, 0.0f, 1.0f}},
 };
 
 
@@ -1026,6 +1026,8 @@ bool CEDirect3DGraphics::InitD3D12() {
 		return false;
 	}
 
+
+	adapterDescription_ = GetAdapterDescription(adapter);
 	// -- Create a direct command queue -- //
 
 	D3D12_COMMAND_QUEUE_DESC cqDesc = {};
@@ -1280,20 +1282,24 @@ bool CEDirect3DGraphics::InitD3D12() {
 	// Create vertex buffer
 
 	// a triangle
-	Vertex vList[] = {
-		// first quad (closer to camera, blue)
-		{-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-		{0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-		{-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-		{0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-
-		// second quad (further from camera, green)
-		{-0.75f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
-		{0.0f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
-		{-0.75f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
-		{0.0f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f}
-	};
-
+	// Vertex vList[] = {
+	// 	// first quad (closer to camera, blue)
+	// 	{-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
+	// 	{0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
+	// 	{-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
+	// 	{0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
+	//
+	// 	// second quad (further from camera, green)
+	// 	{-0.75f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
+	// 	{0.0f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
+	// 	{-0.75f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
+	// 	{0.0f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f}
+	// };
+	
+	const int len = sizeof(doubleQuadVertices) / sizeof(doubleQuadVertices[0]);
+	CEVertexPosColor vList[len];
+	std::copy(std::begin(doubleQuadVertices), std::end(doubleQuadVertices), std::begin(vList));
+	
 	int vBufferSize = sizeof(vList);
 
 	// create default heap
