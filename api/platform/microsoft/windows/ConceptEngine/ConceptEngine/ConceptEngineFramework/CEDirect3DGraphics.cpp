@@ -1151,9 +1151,34 @@ bool CEDirect3DGraphics::InitD3D12() {
 	}
 
 	// create root signature
+	D3D12_DESCRIPTOR_RANGE descriptorTableRange[1];
+	descriptorTableRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+	descriptorTableRange[0].NumDescriptors = 1;
+	descriptorTableRange[0].BaseShaderRegister = 0;
+	descriptorTableRange[0].RegisterSpace = 0;
+	descriptorTableRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
+	descriptorTable.NumDescriptorRanges = _countof(descriptorTableRange);
+	descriptorTable.pDescriptorRanges = &descriptorTableRange[0];
+
+	D3D12_ROOT_PARAMETER rootParameters[1];
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[0].DescriptorTable = descriptorTable;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 
 	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	rootSignatureDesc.Init(
+		_countof(rootParameters),
+		rootParameters,
+		0,
+		nullptr,
+		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS
+	);
 
 	ID3DBlob* signature;
 	hr = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, nullptr);
@@ -1295,11 +1320,11 @@ bool CEDirect3DGraphics::InitD3D12() {
 	// 	{-0.75f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
 	// 	{0.0f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f}
 	// };
-	
+
 	const int len = sizeof(doubleQuadVertices) / sizeof(doubleQuadVertices[0]);
 	CEVertexPosColor vList[len];
 	std::copy(std::begin(doubleQuadVertices), std::end(doubleQuadVertices), std::begin(vList));
-	
+
 	int vBufferSize = sizeof(vList);
 
 	// create default heap
