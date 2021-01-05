@@ -37,7 +37,43 @@ CEDirect3DGraphics::CEVertexPosColor doubleQuadVertices[] = {
 	{{-0.75f, 0.0f, 0.7f}, {0.0f, 1.0f, 1.0f, 1.0f}},
 	{{0.0f, 0.75f, 0.7f}, {1.0f, 1.0f, 0.0f, 1.0f}},
 };
+CEDirect3DGraphics::CEVertexPosColor cubesVertices[] = {
+	// front face
+	{{-0.5f, 0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	{{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
 
+	// right side face
+	{{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+
+	// left side face
+	{{-0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	{{-0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{-0.5f, 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+
+	// back face
+	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{-0.5f, -0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, -0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+
+	// top face
+	{{-0.5f, 0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{0.5f, 0.5f, 0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+
+	// bottom face
+	{{0.5f, -0.5f, 0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}},
+	{{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 1.0f, 1.0f}},
+	{{0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}},
+	{{-0.5f, -0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}},
+};
 
 //TODO: Test value fix CEDirect3DCube class to create vertices;
 static const CEDirect3DGraphics::CEVertexPosColor g_Vertices[8] = {
@@ -371,13 +407,6 @@ wrl::ComPtr<ID3D12GraphicsCommandList> CEDirect3DGraphics::CreateCommandList(wrl
 	return commandList;
 }
 
-
-//TODO: Move to dynamic implementation of 3D objects, right now just to test 3d object creation in Direct3D 12
-void CreateCubeRootSignature() {
-
-
-}
-
 void CEDirect3DGraphics::CreateRootSignature() {
 	// Create an empty root signature.
 	{
@@ -607,7 +636,51 @@ void CEDirect3DGraphics::Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl
 
 void CEDirect3DGraphics::OnUpdate() {
 	UpdatePerSecond(1.0);
-	UpdateMultiplierColors();
+	// UpdateMultiplierColors();
+	UpdateCubesRotation();
+}
+
+void CEDirect3DGraphics::UpdateCubesRotation() {
+	XMMATRIX rotXMat = XMMatrixRotationX(0.0001f);
+	XMMATRIX rotYMat = XMMatrixRotationY(0.0002f);
+	XMMATRIX rotZMat = XMMatrixRotationZ(0.0003f);
+
+	XMMATRIX rotMat = XMLoadFloat4x4(&cube1RotMat) * rotXMat * rotYMat * rotZMat;
+	XMStoreFloat4x4(&cube1RotMat, rotMat);
+
+	XMMATRIX translationMat = XMMatrixTranslationFromVector(XMLoadFloat4(&cube1Position));
+	XMMATRIX worldMat = rotMat * translationMat;
+
+	XMStoreFloat4x4(&cube1WorldMat, worldMat);
+
+
+	XMMATRIX viewMat = XMLoadFloat4x4(&cameraViewMat);
+	XMMATRIX projMat = XMLoadFloat4x4(&cameraProjMat);
+	XMMATRIX wvpMat = XMLoadFloat4x4(&cube1WorldMat) * viewMat * projMat;
+	XMMATRIX transposed = XMMatrixTranspose(wvpMat);
+	XMStoreFloat4x4(&cbPerObject.wvpMat, transposed);
+
+	memcpy(cbvGPUAddress[m_frameIndex], &cbPerObject, sizeof(cbPerObject));
+
+	rotXMat = XMMatrixRotationX(0.0003f);
+	rotYMat = XMMatrixRotationY(0.0002f);
+	rotZMat = XMMatrixRotationZ(0.0001f);
+
+	rotMat = rotZMat * (XMLoadFloat4x4(&cube2RotMat) * (rotXMat * rotYMat));
+	XMStoreFloat4x4(&cube2RotMat, rotMat);
+
+	XMMATRIX translationOffsetMat = XMMatrixTranslationFromVector(XMLoadFloat4(&cube2PositionOffset));
+
+	XMMATRIX scaleMat = XMMatrixScaling(0.5f, 0.5f, 0.5f);
+
+	worldMat = scaleMat * translationOffsetMat * rotMat * translationMat;
+
+	wvpMat = XMLoadFloat4x4(&cube2WorldMat) * viewMat * projMat;
+	transposed = XMMatrixTranspose(wvpMat);
+	XMStoreFloat4x4(&cbPerObject.wvpMat, transposed);
+
+	memcpy(cbvGPUAddress[m_frameIndex] + ConstantBufferPerObjectAlignedSize, &cbPerObject, sizeof(cbPerObject));
+	XMStoreFloat4x4(&cube2WorldMat, worldMat);
 }
 
 void CEDirect3DGraphics::UpdateMultiplierColors() {
@@ -773,11 +846,11 @@ void CEDirect3DGraphics::UpdatePipeline() {
 	// draw triangle
 	m_commandList->SetGraphicsRootSignature(m_RootSignature.Get()); // set the root signature
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = {mainDescriptorHeap[m_frameIndex].Get()};
-	m_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
-
-	m_commandList->SetGraphicsRootDescriptorTable(
-		0, mainDescriptorHeap[m_frameIndex].Get()->GetGPUDescriptorHandleForHeapStart());
+	// ID3D12DescriptorHeap* descriptorHeaps[] = {mainDescriptorHeap[m_frameIndex].Get()};
+	// m_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	//
+	// m_commandList->SetGraphicsRootDescriptorTable(
+	// 	0, mainDescriptorHeap[m_frameIndex].Get()->GetGPUDescriptorHandleForHeapStart());
 
 	m_commandList->RSSetViewports(1, &m_Viewport); // set the viewports
 	m_commandList->RSSetScissorRects(1, &m_ScissorRect); // set the scissor rects
@@ -785,8 +858,19 @@ void CEDirect3DGraphics::UpdatePipeline() {
 	m_commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView);
 	// set the vertex buffer (using the vertex buffer view)
 	m_commandList->IASetIndexBuffer(&m_IndexBufferView);
-	m_commandList->DrawIndexedInstanced(6, 1, 0, 0, 0); // draw first quad
-	m_commandList->DrawIndexedInstanced(6, 1, 0, 4, 0); // draw second quad
+
+	// set cube1's constant buffer
+	m_commandList->SetGraphicsRootConstantBufferView(0, constantBufferUploadHeaps[m_frameIndex]->GetGPUVirtualAddress());
+
+	// draw first cube
+	m_commandList->DrawIndexedInstanced(numCubeIndices, 1, 0, 0, 0);
+
+
+	m_commandList->SetGraphicsRootConstantBufferView(
+		0, constantBufferUploadHeaps[m_frameIndex]->GetGPUVirtualAddress() + ConstantBufferPerObjectAlignedSize);
+	m_commandList->DrawIndexedInstanced(numCubeIndices, 1, 0, 0, 0);
+	// m_commandList->DrawIndexedInstanced(6, 1, 0, 0, 0); // draw first quad
+	// m_commandList->DrawIndexedInstanced(6, 1, 0, 4, 0); // draw second quad
 
 	// transition the "frameIndex" render target from the render target state to the present state. If the debug layer is enabled, you will receive a
 	// warning if present is called on the render target when it's not in the present state
@@ -1187,20 +1271,26 @@ bool CEDirect3DGraphics::InitD3D12() {
 	}
 
 	// create root signature
-	D3D12_DESCRIPTOR_RANGE descriptorTableRange[1];
-	descriptorTableRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
-	descriptorTableRange[0].NumDescriptors = 1;
-	descriptorTableRange[0].BaseShaderRegister = 0;
-	descriptorTableRange[0].RegisterSpace = 0;
-	descriptorTableRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	// D3D12_DESCRIPTOR_RANGE descriptorTableRange[1];
+	// descriptorTableRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+	// descriptorTableRange[0].NumDescriptors = 1;
+	// descriptorTableRange[0].BaseShaderRegister = 0;
+	// descriptorTableRange[0].RegisterSpace = 0;
+	// descriptorTableRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	//
+	// D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
+	// descriptorTable.NumDescriptorRanges = _countof(descriptorTableRange);
+	// descriptorTable.pDescriptorRanges = &descriptorTableRange[0];
 
-	D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
-	descriptorTable.NumDescriptorRanges = _countof(descriptorTableRange);
-	descriptorTable.pDescriptorRanges = &descriptorTableRange[0];
+	D3D12_ROOT_DESCRIPTOR rootCBVDescriptor;
+	rootCBVDescriptor.RegisterSpace = 0;
+	rootCBVDescriptor.ShaderRegister = 0;
 
 	D3D12_ROOT_PARAMETER rootParameters[1];
-	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameters[0].DescriptorTable = descriptorTable;
+	// rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[0].Descriptor = rootCBVDescriptor;
+	// rootParameters[0].DescriptorTable = descriptorTable;
 	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 
 	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
@@ -1246,13 +1336,6 @@ bool CEDirect3DGraphics::InitD3D12() {
 #else
 	UINT compileFlags = 0;
 #endif
-
-	//Read compiled shaders
-	//TODO: Create 3D object instead of Triangle
-	// auto vsFile = GetAssetFullPath(L"CEVertexShader.cso");
-	// auto psFile = GetAssetFullPath(L"CEPixelShader.cso");
-	// ThrowIfFailed(D3DReadFileToBlob(vsFile.c_str(), &vertexShader));
-	// ThrowIfFailed(D3DReadFileToBlob(psFile.c_str(), &pixelShader));
 
 	//Add Command in Properties to copy shaders.hlsl to debug file and compile it at runtime
 	auto shadersFile = GetAssetFullPath(L"shaders.hlsl");
@@ -1342,24 +1425,9 @@ bool CEDirect3DGraphics::InitD3D12() {
 
 	// Create vertex buffer
 
-	// a triangle
-	// Vertex vList[] = {
-	// 	// first quad (closer to camera, blue)
-	// 	{-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-	// 	{0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-	// 	{-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-	// 	{0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f},
-	//
-	// 	// second quad (further from camera, green)
-	// 	{-0.75f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
-	// 	{0.0f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
-	// 	{-0.75f, 0.0f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f},
-	// 	{0.0f, 0.75f, 0.7f, 0.0f, 1.0f, 0.0f, 1.0f}
-	// };
-
-	const int len = sizeof(doubleQuadVertices) / sizeof(doubleQuadVertices[0]);
+	const int len = sizeof(cubesVertices) / sizeof(cubesVertices[0]);
 	CEVertexPosColor vList[len];
-	std::copy(std::begin(doubleQuadVertices), std::end(doubleQuadVertices), std::begin(vList));
+	std::copy(std::begin(cubesVertices), std::end(cubesVertices), std::begin(vList));
 
 	int vBufferSize = sizeof(vList);
 
@@ -1415,9 +1483,31 @@ bool CEDirect3DGraphics::InitD3D12() {
 		// first quad (blue)
 		0, 1, 2, // first triangle
 		0, 3, 1, // second triangle
+
+		// left face
+		4, 5, 6, // first triangle
+		4, 7, 5, // second triangle
+
+		// right face
+		8, 9, 10, // first triangle
+		8, 11, 9, // second triangle
+
+		// back face
+		12, 13, 14, // first triangle
+		12, 15, 13, // second triangle
+
+		// top face
+		16, 17, 18, // first triangle
+		16, 19, 17, // second triangle
+
+		// bottom face
+		20, 21, 22, // first triangle
+		20, 23, 21, // second triangle
 	};
 
 	int iBufferSize = sizeof(iList);
+
+	numCubeIndices = sizeof(iList) / sizeof(DWORD);
 
 	// create default heap to hold index buffer
 	m_device->CreateCommittedResource(
@@ -1494,35 +1584,25 @@ bool CEDirect3DGraphics::InitD3D12() {
 	                                 m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
 
 	for (int i = 0; i < FrameCount; ++i) {
-		D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-		heapDesc.NumDescriptors = 1;
-		heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-		heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-		hr = m_device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mainDescriptorHeap[i]));
-		if (FAILED(hr)) {
-			Running = false;
-		}
-	}
-
-	for (int i = 0; i < FrameCount; ++i) {
 		hr = m_device->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 			D3D12_HEAP_FLAG_NONE,
 			&CD3DX12_RESOURCE_DESC::Buffer(1024 * 64),
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(&constantBufferUploadHeap[i])
+			IID_PPV_ARGS(&constantBufferUploadHeaps[i])
 		);
-		constantBufferUploadHeap[i]->SetName(L"Constant Buffer Upload Resource Heap");
-		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
-		cbvDesc.BufferLocation = constantBufferUploadHeap[i]->GetGPUVirtualAddress();
-		cbvDesc.SizeInBytes = (sizeof(ConstantBuffer) + 255) & ~255;
-		m_device->CreateConstantBufferView(&cbvDesc, mainDescriptorHeap[i].Get()->GetCPUDescriptorHandleForHeapStart());
-		ZeroMemory(&cbColorMultiplierData, sizeof(cbColorMultiplierData));
+		constantBufferUploadHeaps[i]->SetName(L"Constant Buffer Upload Resource Heap");
+		ZeroMemory(&cbPerObject, sizeof(cbPerObject));
 
 		CD3DX12_RANGE readRange(0, 0);
-		hr = constantBufferUploadHeap[i]->Map(0, &readRange, reinterpret_cast<void**>(&cbColorMultiplierGPUAddress[i]));
-		memcpy(cbColorMultiplierGPUAddress[i], &cbColorMultiplierData, sizeof(cbColorMultiplierData));
+		hr = constantBufferUploadHeaps[i]->Map(0, &readRange, reinterpret_cast<void**>(&cbvGPUAddress[i]));
+		// Because of the constant read alignment requirements, constant buffer views must be 256 bit aligned. Our buffers are smaller than 256 bits,
+		// so we need to add spacing between the two buffers, so that the second buffer starts at 256 bits from the beginning of the resource heap.
+		memcpy(cbvGPUAddress[i], &cbPerObject, sizeof(cbPerObject)); // cube1's constant buffer data
+		memcpy(cbvGPUAddress[i] + ConstantBufferPerObjectAlignedSize, &cbPerObject, sizeof(cbPerObject));
+		// cube2's constant buffer data
+
 	}
 
 	// Now we execute the command list to upload the initial assets (triangle data)
@@ -1539,7 +1619,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 
 	// create a vertex buffer view for the triangle. We get the GPU memory address to the vertex pointer using the GetGPUVirtualAddress() method
 	m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress();
-	m_VertexBufferView.StrideInBytes = sizeof(Vertex);
+	m_VertexBufferView.StrideInBytes = sizeof(CEVertexPosColor);
 	m_VertexBufferView.SizeInBytes = vBufferSize;
 
 	// create a vertex buffer view for the triangle. We get the GPU memory address to the vertex pointer using the GetGPUVirtualAddress() method
@@ -1561,6 +1641,34 @@ bool CEDirect3DGraphics::InitD3D12() {
 	m_ScissorRect.top = 0;
 	m_ScissorRect.right = g_ClientWidth;
 	m_ScissorRect.bottom = g_ClientHeight;
+
+	XMMATRIX tmpMat = XMMatrixPerspectiveFovLH(45.0f * (3.14f / 180.0f), (float)g_ClientWidth / (float)g_ClientHeight,
+	                                           0.1f, 1000.0f);
+	XMStoreFloat4x4(&cameraProjMat, tmpMat);
+
+	cameraPosition = XMFLOAT4(0.0f, 2.0f, -4.0f, 0.0f);
+	cameraTarget = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	cameraUp = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMVECTOR cPos = XMLoadFloat4(&cameraPosition);
+	XMVECTOR cTarg = XMLoadFloat4(&cameraTarget);
+	XMVECTOR cUp = XMLoadFloat4(&cameraUp);
+	tmpMat = XMMatrixLookAtLH(cPos, cTarg, cUp);
+	XMStoreFloat4x4(&cameraViewMat, tmpMat);
+
+	cube1Position = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	XMVECTOR posVec = XMLoadFloat4(&cube1Position);
+
+	tmpMat = XMMatrixTranslationFromVector(posVec);
+	XMStoreFloat4x4(&cube1RotMat, XMMatrixIdentity());
+	XMStoreFloat4x4(&cube1WorldMat, tmpMat);
+
+	cube2PositionOffset = XMFLOAT4(1.5f, 0.0f, 0.0f, 0.0f);
+	posVec = XMLoadFloat4(&cube2PositionOffset) + XMLoadFloat4(&cube1Position);
+
+	tmpMat = XMMatrixTranslationFromVector(posVec);
+	XMStoreFloat4x4(&cube2RotMat, XMMatrixIdentity());
+	XMStoreFloat4x4(&cube2WorldMat, tmpMat);
 
 	return true;
 }
