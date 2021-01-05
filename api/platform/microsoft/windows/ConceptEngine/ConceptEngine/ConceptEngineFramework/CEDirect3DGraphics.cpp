@@ -607,6 +607,35 @@ void CEDirect3DGraphics::Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl
 
 void CEDirect3DGraphics::OnUpdate() {
 	UpdatePerSecond(1.0);
+	UpdateMultiplierColors();
+}
+
+void CEDirect3DGraphics::UpdateMultiplierColors() {
+	// update app logic, such as moving the camera or figuring out what objects are in view
+	static float rIncrement = 0.00002f;
+	static float gIncrement = 0.00006f;
+	static float bIncrement = 0.00009f;
+
+	cbColorMultiplierData.colorMultiplier.x += rIncrement;
+	cbColorMultiplierData.colorMultiplier.y += gIncrement;
+	cbColorMultiplierData.colorMultiplier.z += bIncrement;
+
+	if (cbColorMultiplierData.colorMultiplier.x >= 1.0 || cbColorMultiplierData.colorMultiplier.x <= 0.0) {
+		cbColorMultiplierData.colorMultiplier.x = cbColorMultiplierData.colorMultiplier.x >= 1.0 ? 1.0 : 0.0;
+		rIncrement = -rIncrement;
+	}
+	if (cbColorMultiplierData.colorMultiplier.y >= 1.0 || cbColorMultiplierData.colorMultiplier.y <= 0.0) {
+		cbColorMultiplierData.colorMultiplier.y = cbColorMultiplierData.colorMultiplier.y >= 1.0 ? 1.0 : 0.0;
+		gIncrement = -gIncrement;
+	}
+	if (cbColorMultiplierData.colorMultiplier.z >= 1.0 || cbColorMultiplierData.colorMultiplier.z <= 0.0) {
+		cbColorMultiplierData.colorMultiplier.z = cbColorMultiplierData.colorMultiplier.z >= 1.0 ? 1.0 : 0.0;
+		bIncrement = -bIncrement;
+	}
+
+	// copy our ConstantBuffer instance to the mapped constant buffer resource
+	memcpy(cbColorMultiplierGPUAddress[m_frameIndex], &cbColorMultiplierData, sizeof(cbColorMultiplierData));
+
 }
 
 void CEDirect3DGraphics::UpdatePerSecond(float second) {
@@ -743,6 +772,13 @@ void CEDirect3DGraphics::UpdatePipeline() {
 
 	// draw triangle
 	m_commandList->SetGraphicsRootSignature(m_RootSignature.Get()); // set the root signature
+
+	ID3D12DescriptorHeap* descriptorHeaps[] = {mainDescriptorHeap[m_frameIndex].Get()};
+	m_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	m_commandList->SetGraphicsRootDescriptorTable(
+		0, mainDescriptorHeap[m_frameIndex].Get()->GetGPUDescriptorHandleForHeapStart());
+
 	m_commandList->RSSetViewports(1, &m_Viewport); // set the viewports
 	m_commandList->RSSetScissorRects(1, &m_ScissorRect); // set the scissor rects
 	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // set the primitive topology
@@ -1456,6 +1492,38 @@ bool CEDirect3DGraphics::InitD3D12() {
 
 	m_device->CreateDepthStencilView(m_DepthBuffer.Get(), &depthStencilDesc,
 	                                 m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
+
+	for (int i = 0; i < FrameCount; ++i) {
+		D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
+		heapDesc.NumDescriptors = 1;
+		heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+		heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		hr = m_device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mainDescriptorHeap[i]));
+		if (FAILED(hr)) {
+			Running = false;
+		}
+	}
+
+	for (int i = 0; i < FrameCount; ++i) {
+		hr = m_device->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(1024 * 64),
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&constantBufferUploadHeap[i])
+		);
+		constantBufferUploadHeap[i]->SetName(L"Constant Buffer Upload Resource Heap");
+		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
+		cbvDesc.BufferLocation = constantBufferUploadHeap[i]->GetGPUVirtualAddress();
+		cbvDesc.SizeInBytes = (sizeof(ConstantBuffer) + 255) & ~255;
+		m_device->CreateConstantBufferView(&cbvDesc, mainDescriptorHeap[i].Get()->GetCPUDescriptorHandleForHeapStart());
+		ZeroMemory(&cbColorMultiplierData, sizeof(cbColorMultiplierData));
+
+		CD3DX12_RANGE readRange(0, 0);
+		hr = constantBufferUploadHeap[i]->Map(0, &readRange, reinterpret_cast<void**>(&cbColorMultiplierGPUAddress[i]));
+		memcpy(cbColorMultiplierGPUAddress[i], &cbColorMultiplierData, sizeof(cbColorMultiplierData));
+	}
 
 	// Now we execute the command list to upload the initial assets (triangle data)
 	m_commandList->Close();

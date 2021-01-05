@@ -221,6 +221,7 @@ private:
 	void ResizeDepthBuffer(int width, int height);
 
 	void UpdatePipeline();
+	void UpdateMultiplierColors();
 private:
 	// Pipeline objects.
 	DXGI_ADAPTER_DESC adapterDescription_;
@@ -251,6 +252,20 @@ private:
 	wrl::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
 	// Root signature
 	wrl::ComPtr<ID3D12RootSignature> m_RootSignature;
+
+	struct ConstantBuffer {
+		XMFLOAT4 colorMultiplier;
+	};
+
+	wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
+	// this heap will store the descripor to our constant buffer
+	wrl::ComPtr<ID3D12Resource> constantBufferUploadHeap[FrameCount];
+	// this is the memory on the gpu where our constant buffer will be placed.
+
+	ConstantBuffer cbColorMultiplierData; // this is the constant buffer data we will send to the gpu 
+	// (which will be placed in the resource we created above)
+
+	UINT8* cbColorMultiplierGPUAddress[FrameCount];
 
 	std::shared_ptr<CED3D12CommandQueue> m_DirectCommandQueue;
 	std::shared_ptr<CED3D12CommandQueue> m_ComputeCommandQueue;
