@@ -1,24 +1,14 @@
-[2021-01-06 22:14:10.906] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-06 22:14:10.906] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-06 22:14:10.906] [ConceptEngine] [info] Driver: 0 Build: 58422.0.0
-[2021-01-06 22:14:10.906] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-06 22:14:10.906] [ConceptEngine] [info] Revision: 161
-[2021-01-06 22:14:10.906] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-06 22:14:11.909] [ConceptEngine] [info] FPS: 3439.531
-[2021-01-06 22:14:12.910] [ConceptEngine] [info] FPS: 5265.620
-[2021-01-06 22:14:13.910] [ConceptEngine] [info] FPS: 5828.044
-[2021-01-06 22:14:14.910] [ConceptEngine] [info] FPS: 5744.728
-[2021-01-06 22:14:15.910] [ConceptEngine] [info] FPS: 5851.679
-[2021-01-06 22:14:16.910] [ConceptEngine] [info] FPS: 5807.715
-[2021-01-06 22:14:17.910] [ConceptEngine] [info] FPS: 5795.970
-[2021-01-06 22:14:18.910] [ConceptEngine] [info] FPS: 5804.407
-[2021-01-06 22:14:19.910] [ConceptEngine] [info] FPS: 5843.374
-[2021-01-06 22:14:20.910] [ConceptEngine] [info] FPS: 5869.793
-[2021-01-06 22:14:21.910] [ConceptEngine] [info] FPS: 5822.722
-[2021-01-06 22:14:22.910] [ConceptEngine] [info] FPS: 5829.514
-[2021-01-06 22:14:23.910] [ConceptEngine] [info] FPS: 5821.066
-[2021-01-06 22:14:24.911] [ConceptEngine] [info] FPS: 5731.444
-[2021-01-06 22:14:25.911] [ConceptEngine] [info] FPS: 5120.508
-[2021-01-06 22:14:26.911] [ConceptEngine] [info] FPS: 5595.452
-[2021-01-06 22:14:27.911] [ConceptEngine] [info] FPS: 5258.667
-[2021-01-06 22:14:28.911] [ConceptEngine] [info] FPS: 5370.669
+[2021-01-06 22:37:41.951] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-06 22:37:41.951] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-06 22:37:41.951] [ConceptEngine] [info] Driver: 0 Build: 58422.0.0
+[2021-01-06 22:37:41.951] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-06 22:37:41.951] [ConceptEngine] [info] Revision: 161
+[2021-01-06 22:37:41.951] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-06 22:37:41.951] [ConceptEngine] [warning] Loading Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-06 22:37:42.955] [ConceptEngine] [info] FPS: 3678.184
+[2021-01-06 22:37:43.955] [ConceptEngine] [info] FPS: 5470.833
+[2021-01-06 22:37:44.955] [ConceptEngine] [info] FPS: 5671.662
+[2021-01-06 22:37:45.956] [ConceptEngine] [info] FPS: 5361.471
+[2021-01-06 22:37:46.956] [ConceptEngine] [info] FPS: 5599.617
+[2021-01-06 22:37:47.956] [ConceptEngine] [info] FPS: 5615.442
+[2021-01-06 22:37:48.956] [ConceptEngine] [info] FPS: 4949.973

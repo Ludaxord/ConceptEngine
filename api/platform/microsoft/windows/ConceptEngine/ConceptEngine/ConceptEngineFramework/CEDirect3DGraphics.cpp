@@ -1095,7 +1095,6 @@ void CEDirect3DGraphics::UpdatePipeline() {
 	m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 
 	// Clear the render target by using the ClearRenderTargetView command
-	const float clearColor[] = {0.0f, 0.2f, 0.4f, 1.0f};
 	m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	// clear the depth/stencil buffer
@@ -1637,11 +1636,6 @@ bool CEDirect3DGraphics::InitD3D12() {
 
 	//Add Command in Properties to copy shaders.hlsl to debug file and compile it at runtime
 	auto shadersFile = GetAssetFullPath(L"shaders.hlsl");
-
-	std::wstringstream wss;
-	wss << "Shaders: " << shadersFile << std::endl;
-
-	OutputDebugStringW(wss.str().c_str());
 	// ThrowIfFailed(D3DCompileFromFile(shadersFile.c_str(), nullptr, nullptr, "VSMain",
 	//                                  "vs_5_0", compileFlags, 0, &vertexShader, &errorBuff));
 	auto vertexShaderPath = GetAssetFullPath(L"CEVertexShader.hlsl");
@@ -1678,10 +1672,6 @@ bool CEDirect3DGraphics::InitD3D12() {
 	                        0,
 	                        &pixelShader,
 	                        &errorBuff);
-	if (FAILED(hr)) {
-		OutputDebugStringA((char*)errorBuff->GetBufferPointer());
-		return false;
-	}
 
 	if (FAILED(hr)) {
 		OutputDebugStringA((char*)errorBuff->GetBufferPointer());
@@ -1747,7 +1737,42 @@ bool CEDirect3DGraphics::InitD3D12() {
 		return false;
 	}
 
+	//Text PSO
+	auto textVertexShaderPath = GetAssetFullPath(L"CETextVertexShader.hlsl");
+
+	// ID3DBlob* textVertexShader;
+	// hr = D3DCompileFromFile(textVertexShaderPath.c_str(), nullptr, nullptr, "main", "vs_5_0",
+	                        // D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &textVertexShader, &errorBuff);
+	// if (FAILED(hr)) {
+	// 	OutputDebugStringA((char*)errorBuff->GetBufferPointer());
+	// 	Running = false;
+	// 	return false;
+	// }
 	// Create vertex buffer
+
+	D3D12_SHADER_BYTECODE textVertexShaderBytecode = {};
+	// textVertexShaderBytecode.BytecodeLength = textVertexShader->GetBufferSize();
+	// textVertexShaderBytecode.pShaderBytecode = textVertexShader->GetBufferPointer();
+
+	// ID3DBlob* textPixelShader;
+	// auto textPixelShaderPath = GetAssetFullPath(L"CETextPixelShader.hlsl");
+	// hr = D3DCompileFromFile(textPixelShaderPath.c_str(), nullptr, nullptr, "main", "ps_5_0",
+	//                         D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &textPixelShader, &errorBuff);
+	// if (FAILED(hr)) {
+	// 	OutputDebugStringA((char*)errorBuff->GetBufferPointer());
+	// 	Running = false;
+	// 	return false;
+	// }
+
+	D3D12_SHADER_BYTECODE textPixelShaderBytecode = {};
+	// textPixelShaderBytecode.BytecodeLength = textPixelShader->GetBufferSize();
+	// textPixelShaderBytecode.pShaderBytecode = textPixelShader->GetBufferPointer();
+
+	D3D12_INPUT_ELEMENT_DESC textInputLayout[] = {
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
+	};
 
 	int vBufferSize = sizeof(CubesTexVertices);
 
