@@ -15,6 +15,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 #include <filesystem>
+#include <wincodec.h>
 
 #include "CED3D12CommandQueue.h"
 #include "d3dx12.h"
@@ -41,9 +42,17 @@ public:
 		}
 	};
 
+	//TODO: create struct for color and texture coordinates
 	struct CEVertexPosColor {
 		XMFLOAT3 position;
 		XMFLOAT4 color;
+		// XMFLOAT2 texCoord;
+	};
+
+	struct CEVertexPosTex {
+		XMFLOAT3 position;
+		// XMFLOAT4 color;
+		XMFLOAT2 texCoord;
 	};
 
 	struct CEVertexPositionColor : CEVertex {
@@ -224,6 +233,13 @@ private:
 	void UpdateMultiplierColors();
 	void UpdateCubesRotation();
 
+	int LoadImageDataFromFile(BYTE** imageData, D3D12_RESOURCE_DESC& resourceDescription, LPCWSTR filename,
+		int& bytesPerRow);
+	DXGI_FORMAT GetDXGIFormatFromWICFormat(WICPixelFormatGUID& wicFormatGUID);
+	WICPixelFormatGUID GetConvertToWICFormat(WICPixelFormatGUID& wicFormatGUID);
+	int GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat);
+
+
 private:
 	// Pipeline objects.
 	DXGI_ADAPTER_DESC adapterDescription_;
@@ -259,7 +275,7 @@ private:
 		XMFLOAT4 colorMultiplier;
 	};
 
-	wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
+	// wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
 	// this heap will store the descripor to our constant buffer
 	wrl::ComPtr<ID3D12Resource> constantBufferUploadHeap[FrameCount];
 	// this is the memory on the gpu where our constant buffer will be placed.
@@ -282,7 +298,7 @@ private:
 	UINT64 m_fenceValue;
 	float m_FoV;
 
-	ID3D12Fence* m_fences[FrameCount];
+	wrl::ComPtr<ID3D12Fence> m_fences[FrameCount];
 	// an object that is locked while our command list is being executed by the gpu. We need as many 
 	//as we have allocators (more if we want to know when the gpu is finished with an asset)
 	UINT64 m_fenceValues[FrameCount]; // this value is incremented each frame. each fence will have its own value
@@ -313,9 +329,10 @@ private:
 	int ConstantBufferPerObjectAlignedSize = (sizeof(ConstantBufferPerObject) + 255) & ~255;
 
 	ConstantBufferPerObject cbPerObject; // this is the constant buffer data we will send to the gpu 
-											// (which will be placed in the resource we created above)
+	// (which will be placed in the resource we created above)
 
-	ID3D12Resource* constantBufferUploadHeaps[FrameCount]; // this is the memory on the gpu where constant buffers for each frame will be placed
+	wrl::ComPtr<ID3D12Resource> constantBufferUploadHeaps[FrameCount];
+	// this is the memory on the gpu where constant buffers for each frame will be placed
 
 	UINT8* cbvGPUAddress[FrameCount]; // this is a pointer to each of the constant buffer resource heaps
 
@@ -332,9 +349,20 @@ private:
 
 	XMFLOAT4X4 cube2WorldMat; // our first cubes world matrix (transformation matrix)
 	XMFLOAT4X4 cube2RotMat; // this will keep track of our rotation for the second cube
-	XMFLOAT4 cube2PositionOffset; // our second cube will rotate around the first cube, so this is the position offset from the first cube
+	XMFLOAT4 cube2PositionOffset;
+	// our second cube will rotate around the first cube, so this is the position offset from the first cube
 
 	int numCubeIndices; // the number of indices to draw the cube
 
+	wrl::ComPtr<ID3D12Resource> textureBuffer; // the resource heap containing our texture
+	wrl::ComPtr<ID3D12Resource> textureBuffer1; // the resource heap containing our texture
+
+	wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap;
+	wrl::ComPtr<ID3D12Resource> textureBufferUploadHeap;
+
+	BYTE* imageData;
+
+	std::wstring debugImagePath;
+	
 	bool Running = true;
 };

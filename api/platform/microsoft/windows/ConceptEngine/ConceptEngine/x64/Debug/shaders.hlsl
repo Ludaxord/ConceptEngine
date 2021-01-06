@@ -1,31 +1,31 @@
-struct PSInput
-{
-    float4 position : SV_POSITION;
-    float4 color : COLOR;
+struct VS_INPUT {
+	float4 pos : POSITION;
+	float2 texCoord: TEXCOORD;
 };
 
-// cbuffer ConstantBuffer : register(b0)
-// {
-//     float4 colorMultiplier;
-// };
-
-cbuffer ConstantBuffer : register(b0)
-{
-    float4x4 wvpMat;
+struct VS_OUTPUT {
+	float4 pos: SV_POSITION;
+	float2 texCoord: TEXCOORD;
 };
 
-PSInput VSMain(float4 position : POSITION, float4 color : COLOR)
-{
-    PSInput result;
+cbuffer ConstantBuffer : register (b0) {
+	float4x4 wvpMat;
+};
 
-    result.position = mul(position, wvpMat);
-    // result.position = position;
-    // result.color = color * colorMultiplier;
-    result.color = color;
-    return result;
+PSInput VSMain(VS_INPUT input) {
+
+
+	VS_OUTPUT output;
+	output.pos = mul(input.pos, wvpMat);
+	output.texCoord = input.texCoord;
+	return output;
 }
 
-float4 PSMain(PSInput input) : SV_TARGET
+Texture2D t1 : register(t0);
+SamplerState s1 : register(s0);
+
+float4 PSMain(VS_OUTPUT input) : SV_TARGET
 {
-    return input.color;
+	// return interpolated color
+	return t1.Sample(s1, input.texCoord);
 }

@@ -8,6 +8,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return engine.Run();
 	}
 	catch (const CEException& e) {
+		std::wstringstream wssx;
+		wssx << "const CEException: " << e.what() << std::endl;
+		OutputDebugStringW(wssx.str().c_str());
+		
 		MessageBox(
 			nullptr,
 			CETools::ConvertCharArrayToLPCWSTR(e.what()),
@@ -16,6 +20,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		);
 	}
 	catch (const std::exception& e) {
+		std::wstringstream wssx;
+		wssx << "std::exception: " << e.what() << std::endl;
+		OutputDebugStringW(wssx.str().c_str());
+		
 		MessageBox(
 			nullptr,
 			CETools::ConvertCharArrayToLPCWSTR(e.what()),
@@ -24,6 +32,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		);
 	}
 	catch (...) {
+		std::wstringstream wssx;
+		wssx << "...: " << "No error details" << std::endl;
+		OutputDebugStringW(wssx.str().c_str());
+
 		MessageBox(
 			nullptr,
 			CETools::ConvertCharArrayToLPCWSTR("No error details"),

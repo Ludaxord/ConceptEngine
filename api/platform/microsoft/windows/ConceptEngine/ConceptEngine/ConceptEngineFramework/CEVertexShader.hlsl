@@ -1,24 +1,24 @@
-struct CEModelViewProjection {
-	matrix MVP;
+struct VS_INPUT
+{
+	float4 pos : POSITION;
+	float2 texCoord: TEXCOORD;
 };
 
-ConstantBuffer<CEModelViewProjection> ModelViewProjectionCB : register(b0);
-
-struct CEVertexPosColor {
-	float3 Position : POSITION;
-	float3 Color : COLOR;
+struct VS_OUTPUT
+{
+	float4 pos: SV_POSITION;
+	float2 texCoord: TEXCOORD;
 };
 
-struct CEVertexShaderOutput {
-	float4 Color : COLOR;
-	float4 Position : SV_Position;
+cbuffer ConstantBuffer : register(b0)
+{
+	float4x4 wvpMat;
 };
 
-CEVertexShaderOutput main(CEVertexPosColor IN) {
-	CEVertexShaderOutput OUT;
-
-	OUT.Position = mul(ModelViewProjectionCB.MVP, float4(IN.Position, 1.0f));
-	OUT.Color = float4(IN.Color, 1.0f);
-
-	return OUT;
+VS_OUTPUT main(VS_INPUT input)
+{
+	VS_OUTPUT output;
+	output.pos = mul(input.pos, wvpMat);
+	output.texCoord = input.texCoord;
+	return output;
 }
