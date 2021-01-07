@@ -1,5 +1,7 @@
 #include "CEDirect3DGraphics.h"
 
+
+#include <fstream>
 #include <magic_enum.hpp>
 
 
@@ -683,9 +685,11 @@ void CEDirect3DGraphics::OnUpdate() {
 }
 
 void CEDirect3DGraphics::UpdateCubesRotation() {
-	XMMATRIX rotXMat = XMMatrixRotationX(0.0001f);
-	XMMATRIX rotYMat = XMMatrixRotationY(0.0002f);
-	XMMATRIX rotZMat = XMMatrixRotationZ(0.0003f);
+	double delta = timer.GetFrameDelta();
+
+	XMMATRIX rotXMat = XMMatrixRotationX(0.0001f * delta);
+	XMMATRIX rotYMat = XMMatrixRotationY(0.0002f * delta);
+	XMMATRIX rotZMat = XMMatrixRotationZ(0.0003f * delta);
 
 	XMMATRIX rotMat = XMLoadFloat4x4(&cube1RotMat) * rotXMat * rotYMat * rotZMat;
 	XMStoreFloat4x4(&cube1RotMat, rotMat);
@@ -704,9 +708,9 @@ void CEDirect3DGraphics::UpdateCubesRotation() {
 
 	memcpy(cbvGPUAddress[m_frameIndex], &cbPerObject, sizeof(cbPerObject));
 
-	rotXMat = XMMatrixRotationX(0.0003f);
-	rotYMat = XMMatrixRotationY(0.0002f);
-	rotZMat = XMMatrixRotationZ(0.0001f);
+	rotXMat = XMMatrixRotationX(0.0003f * delta);
+	rotYMat = XMMatrixRotationY(0.0002f * delta);
+	rotZMat = XMMatrixRotationZ(0.0001f * delta);
 
 	rotMat = rotZMat * (XMLoadFloat4x4(&cube2RotMat) * (rotXMat * rotYMat));
 	XMStoreFloat4x4(&cube2RotMat, rotMat);
@@ -941,6 +945,261 @@ int CEDirect3DGraphics::GetDXGIFormatBitsPerPixel(DXGI_FORMAT& dxgiFormat) {
 	else if (dxgiFormat == DXGI_FORMAT_A8_UNORM) return 8;
 }
 
+CEDirect3DGraphics::Font CEDirect3DGraphics::LoadFont(LPCWSTR filename, int windowWidth, int windowHeight) {
+	std::wifstream fs;
+	fs.open(filename);
+
+	Font font;
+	std::wstring tmp;
+	int startpos;
+
+	// extract font name
+	fs >> tmp >> tmp; // info face="Arial"
+	startpos = tmp.find(L"\"") + 1;
+	font.name = tmp.substr(startpos, tmp.size() - startpos - 1);
+
+	// get font size
+	fs >> tmp; // size=73
+	startpos = tmp.find(L"=") + 1;
+	font.size = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+	// bold, italic, charset, unicode, stretchH, smooth, aa, padding, spacing
+	fs >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp >> tmp;
+	// bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 
+
+	// get padding
+	fs >> tmp; // padding=5,5,5,5 
+	startpos = tmp.find(L"=") + 1;
+	tmp = tmp.substr(startpos, tmp.size() - startpos); // 5,5,5,5
+
+	// get up padding
+	startpos = tmp.find(L",") + 1;
+	font.toppadding = std::stoi(tmp.substr(0, startpos)) / (float)windowWidth;
+
+	// get right padding
+	tmp = tmp.substr(startpos, tmp.size() - startpos);
+	startpos = tmp.find(L",") + 1;
+	font.rightpadding = std::stoi(tmp.substr(0, startpos)) / (float)windowWidth;
+
+	// get down padding
+	tmp = tmp.substr(startpos, tmp.size() - startpos);
+	startpos = tmp.find(L",") + 1;
+	font.bottompadding = std::stoi(tmp.substr(0, startpos)) / (float)windowWidth;
+
+	// get left padding
+	tmp = tmp.substr(startpos, tmp.size() - startpos);
+	font.leftpadding = std::stoi(tmp) / (float)windowWidth;
+
+	fs >> tmp; // spacing=0,0
+
+	// get lineheight (how much to move down for each line), and normalize (between 0.0 and 1.0 based on size of font)
+	fs >> tmp >> tmp; // common lineHeight=95
+	startpos = tmp.find(L"=") + 1;
+	font.lineHeight = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)windowHeight;
+
+	// get base height (height of all characters), and normalize (between 0.0 and 1.0 based on size of font)
+	fs >> tmp; // base=68
+	startpos = tmp.find(L"=") + 1;
+	font.baseHeight = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)windowHeight;
+
+	// get texture width
+	fs >> tmp; // scaleW=512
+	startpos = tmp.find(L"=") + 1;
+	font.textureWidth = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+	// get texture height
+	fs >> tmp; // scaleH=512
+	startpos = tmp.find(L"=") + 1;
+	font.textureHeight = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+	// get pages, packed, page id
+	fs >> tmp >> tmp; // pages=1 packed=0
+	fs >> tmp >> tmp; // page id=0
+
+	// get texture filename
+	std::wstring wtmp;
+	fs >> wtmp; // file="Arial.png"
+	startpos = wtmp.find(L"\"") + 1;
+	font.fontImage = wtmp.substr(startpos, wtmp.size() - startpos - 1);
+
+	auto fontImagePath = GetAssetFullPath(font.fontImage.c_str());
+	font.fontImage = fontImagePath;
+
+	// get number of characters
+	fs >> tmp >> tmp; // chars count=97
+	startpos = tmp.find(L"=") + 1;
+	font.numCharacters = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+	// initialize the character list
+	font.CharList = new FontChar[font.numCharacters];
+
+	for (int c = 0; c < font.numCharacters; ++c) {
+		// get unicode id
+		fs >> tmp >> tmp; // char id=0
+		startpos = tmp.find(L"=") + 1;
+		font.CharList[c].id = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+		// get x
+		fs >> tmp; // x=392
+		startpos = tmp.find(L"=") + 1;
+		font.CharList[c].u = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)font.textureWidth;
+
+		// get y
+		fs >> tmp; // y=340
+		startpos = tmp.find(L"=") + 1;
+		font.CharList[c].v = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)font.textureHeight;
+
+		// get width
+		fs >> tmp; // width=47
+		startpos = tmp.find(L"=") + 1;
+		tmp = tmp.substr(startpos, tmp.size() - startpos);
+		font.CharList[c].width = (float)std::stoi(tmp) / (float)windowWidth;
+		font.CharList[c].twidth = (float)std::stoi(tmp) / (float)font.textureWidth;
+
+		// get height
+		fs >> tmp; // height=57
+		startpos = tmp.find(L"=") + 1;
+		tmp = tmp.substr(startpos, tmp.size() - startpos);
+		font.CharList[c].height = (float)std::stoi(tmp) / (float)windowHeight;
+		font.CharList[c].theight = (float)std::stoi(tmp) / (float)font.textureHeight;
+
+		// get xoffset
+		fs >> tmp; // xoffset=-6
+		startpos = tmp.find(L"=") + 1;
+		font.CharList[c].xoffset = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)windowWidth;
+
+		// get yoffset
+		fs >> tmp; // yoffset=16
+		startpos = tmp.find(L"=") + 1;
+		font.CharList[c].yoffset = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)windowHeight;
+
+		// get xadvance
+		fs >> tmp; // xadvance=65
+		startpos = tmp.find(L"=") + 1;
+		font.CharList[c].xadvance = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos)) / (float)windowWidth;
+
+		// get page
+		// get channel
+		fs >> tmp >> tmp; // page=0    chnl=0
+	}
+
+	// get number of kernings
+	fs >> tmp >> tmp; // kernings count=96
+	startpos = tmp.find(L"=") + 1;
+	font.numKernings = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+	// initialize the kernings list
+	font.KerningsList = new FontKerning[font.numKernings];
+
+	for (int k = 0; k < font.numKernings; ++k) {
+		// get first character
+		fs >> tmp >> tmp; // kerning first=87
+		startpos = tmp.find(L"=") + 1;
+		font.KerningsList[k].firstid = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+		// get second character
+		fs >> tmp; // second=45
+		startpos = tmp.find(L"=") + 1;
+		font.KerningsList[k].secondid = std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+
+		// get amount
+		fs >> tmp; // amount=-1
+		startpos = tmp.find(L"=") + 1;
+		int t = (float)std::stoi(tmp.substr(startpos, tmp.size() - startpos));
+		font.KerningsList[k].amount = (float)t / (float)windowWidth;
+	}
+
+	return font;
+}
+
+void CEDirect3DGraphics::RenderText(Font font, std::wstring text, XMFLOAT2 pos, XMFLOAT2 scale, XMFLOAT2 padding,
+                                    XMFLOAT4 color) {
+	// clear the depth buffer so we can draw over everything
+	m_commandList->ClearDepthStencilView(m_DSVHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH, 1.0f,
+	                                     0, 0, nullptr);
+
+	// set the text pipeline state object
+	m_commandList->SetPipelineState(textPSO);
+
+	// this way we only need 4 vertices per quad rather than 6 if we were to use a triangle list topology
+	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	// set the text vertex buffer
+	m_commandList->IASetVertexBuffers(0, 1, &textVertexBufferView[m_frameIndex]);
+
+	// bind the text srv. We will assume the correct descriptor heap and table are currently bound and set
+	m_commandList->SetGraphicsRootDescriptorTable(1, font.srvHandle);
+
+	int numCharacters = 0;
+
+	float topLeftScreenX = (pos.x * 2.0f) - 1.0f;
+	float topLeftScreenY = ((1.0f - pos.y) * 2.0f) - 1.0f;
+
+	float x = topLeftScreenX;
+	float y = topLeftScreenY;
+
+	float horrizontalPadding = (font.leftpadding + font.rightpadding) * padding.x;
+	float verticalPadding = (font.toppadding + font.bottompadding) * padding.y;
+
+	// cast the gpu virtual address to a textvertex, so we can directly store our vertices there
+	CETextVertex* vert = (CETextVertex*)textVBGPUAddress[m_frameIndex];
+
+	wchar_t lastChar = -1; // no last character to start with
+
+	for (int i = 0; i < text.size(); ++i) {
+		wchar_t c = text[i];
+
+		FontChar* fc = font.GetChar(c);
+
+		// character not in font char set
+		if (fc == nullptr)
+			continue;
+
+		// end of string
+		if (c == L'\0')
+			break;
+
+		// new line
+		if (c == L'\n') {
+			x = topLeftScreenX;
+			y -= (font.lineHeight + verticalPadding) * scale.y;
+			continue;
+		}
+
+		// don't overflow the buffer. In your app if this is true, you can implement a resize of your text vertex buffer
+		if (numCharacters >= maxNumTextCharacters)
+			break;
+
+		float kerning = 0.0f;
+		if (i > 0)
+			kerning = font.GetKerning(lastChar, c);
+
+		vert[numCharacters] = CETextVertex(color.x,
+		                                   color.y,
+		                                   color.z,
+		                                   color.w,
+		                                   fc->u,
+		                                   fc->v,
+		                                   fc->twidth,
+		                                   fc->theight,
+		                                   x + ((fc->xoffset + kerning) * scale.x),
+		                                   y - (fc->yoffset * scale.y),
+		                                   fc->width * scale.x,
+		                                   fc->height * scale.y);
+
+		numCharacters++;
+
+		// remove horrizontal padding and advance to next char position
+		x += (fc->xadvance - horrizontalPadding) * scale.x;
+
+		lastChar = c;
+	}
+
+	// we are going to have 4 vertices per character (trianglestrip to make quad), and each instance is one character
+	m_commandList->DrawInstanced(4, numCharacters, 0, 0);
+
+}
+
 void CEDirect3DGraphics::UpdateMultiplierColors() {
 	// update app logic, such as moving the camera or figuring out what objects are in view
 	static float rIncrement = 0.00002f;
@@ -1132,11 +1391,17 @@ void CEDirect3DGraphics::UpdatePipeline() {
 	// set cube2's constant buffer. You can see we are adding the size of ConstantBufferPerObject to the constant buffer
 	// resource heaps address. This is because cube1's constant buffer is stored at the beginning of the resource heap, while
 	// cube2's constant buffer data is stored after (256 bits from the start of the heap).
+	// m_commandList->SetGraphicsRootConstantBufferView(
+	// 	0, constantBufferUploadHeaps[m_frameIndex]->GetGPUVirtualAddress() + ConstantBufferPerObjectAlignedSize);
 	m_commandList->SetGraphicsRootConstantBufferView(
 		0, constantBufferUploadHeaps[m_frameIndex]->GetGPUVirtualAddress() + ConstantBufferPerObjectAlignedSize);
 
 	// draw second cube
 	m_commandList->DrawIndexedInstanced(numCubeIndices, 1, 0, 0, 0);
+
+	// draw the text
+	RenderText(mrRobotFont, std::wstring(L"FPS: ") + std::to_wstring(timer.fps), XMFLOAT2(0.02f, 0.01f),
+	           XMFLOAT2(2.0f, 2.0f), XMFLOAT2(0.5f, 0.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	// transition the "frameIndex" render target from the render target state to the present state. If the debug layer is enabled, you will receive a
 	// warning if present is called on the render target when it's not in the present state
@@ -1151,22 +1416,6 @@ void CEDirect3DGraphics::UpdatePipeline() {
 }
 
 void CEDirect3DGraphics::OnRender() {
-
-	//OLD
-	// // // Record all the commands we need to render the scene into the command list.
-	// PopulateCommandList();
-	//
-	// // Execute the command list.
-	// ID3D12CommandList* ppCommandLists[] = {m_commandList.Get()};
-	// m_commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
-	// UINT syncInterval = g_VSync ? 1 : 0;
-	// UINT presentFlags = g_TearingSupported && !g_VSync ? DXGI_PRESENT_ALLOW_TEARING : 0;
-	// // Present the frame.
-	// ThrowIfFailed(m_swapChain->Present(syncInterval, presentFlags));
-	//
-	// WaitForPreviousFrame();
-
-	//NEW
 
 	HRESULT hr;
 
@@ -1359,7 +1608,10 @@ void CEDirect3DGraphics::ResizeDepthBuffer(int width, int height) {
 void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 	// LoadPipeline();
 	// LoadAssets();
-	InitD3D12();
+	bool initialized = InitD3D12();
+	std::wstringstream wss;
+	wss << "Direct3D 12 Initialized: " << initialized << std::endl;
+	OutputDebugStringW(wss.str().c_str());
 }
 
 bool CEDirect3DGraphics::InitD3D12() {
@@ -1390,7 +1642,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 		}
 
 		// we want a device that is compatible with direct3d 12 (feature level 11 or higher)
-		hr = D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr);
+		hr = D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_12_0, _uuidof(ID3D12Device), nullptr);
 		if (SUCCEEDED(hr)) {
 			adapterFound = true;
 			break;
@@ -1407,7 +1659,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 	// Create the device
 	hr = D3D12CreateDevice(
 		adapter,
-		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_12_0,
 		IID_PPV_ARGS(&m_device)
 	);
 	if (FAILED(hr)) {
@@ -1644,7 +1896,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 	                        nullptr,
 	                        "main",
 	                        "vs_5_0",
-	                        D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,
+	                        compileFlags,
 	                        0,
 	                        &vertexShader,
 	                        &errorBuff);
@@ -1668,7 +1920,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 	                        nullptr,
 	                        "main",
 	                        "ps_5_0",
-	                        D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,
+	                        compileFlags,
 	                        0,
 	                        &pixelShader,
 	                        &errorBuff);
@@ -1740,39 +1992,82 @@ bool CEDirect3DGraphics::InitD3D12() {
 	//Text PSO
 	auto textVertexShaderPath = GetAssetFullPath(L"CETextVertexShader.hlsl");
 
-	// ID3DBlob* textVertexShader;
-	// hr = D3DCompileFromFile(textVertexShaderPath.c_str(), nullptr, nullptr, "main", "vs_5_0",
-	                        // D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &textVertexShader, &errorBuff);
-	// if (FAILED(hr)) {
-	// 	OutputDebugStringA((char*)errorBuff->GetBufferPointer());
-	// 	Running = false;
-	// 	return false;
-	// }
+	ID3DBlob* textVertexShader;
+	hr = D3DCompileFromFile(textVertexShaderPath.c_str(), nullptr, nullptr, "main", "vs_5_0",
+	                        compileFlags, 0, &textVertexShader, &errorBuff);
+	if (FAILED(hr)) {
+		OutputDebugStringA((char*)errorBuff->GetBufferPointer());
+		Running = false;
+		return false;
+	}
 	// Create vertex buffer
 
 	D3D12_SHADER_BYTECODE textVertexShaderBytecode = {};
-	// textVertexShaderBytecode.BytecodeLength = textVertexShader->GetBufferSize();
-	// textVertexShaderBytecode.pShaderBytecode = textVertexShader->GetBufferPointer();
+	textVertexShaderBytecode.BytecodeLength = textVertexShader->GetBufferSize();
+	textVertexShaderBytecode.pShaderBytecode = textVertexShader->GetBufferPointer();
 
-	// ID3DBlob* textPixelShader;
-	// auto textPixelShaderPath = GetAssetFullPath(L"CETextPixelShader.hlsl");
-	// hr = D3DCompileFromFile(textPixelShaderPath.c_str(), nullptr, nullptr, "main", "ps_5_0",
-	//                         D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &textPixelShader, &errorBuff);
-	// if (FAILED(hr)) {
-	// 	OutputDebugStringA((char*)errorBuff->GetBufferPointer());
-	// 	Running = false;
-	// 	return false;
-	// }
+	ID3DBlob* textPixelShader;
+	auto textPixelShaderPath = GetAssetFullPath(L"CETextPixelShader.hlsl");
+	hr = D3DCompileFromFile(textPixelShaderPath.c_str(), nullptr, nullptr, "main", "ps_5_0",
+	                        compileFlags, 0, &textPixelShader, &errorBuff);
+	if (FAILED(hr)) {
+		OutputDebugStringA((char*)errorBuff->GetBufferPointer());
+		Running = false;
+		return false;
+	}
 
 	D3D12_SHADER_BYTECODE textPixelShaderBytecode = {};
-	// textPixelShaderBytecode.BytecodeLength = textPixelShader->GetBufferSize();
-	// textPixelShaderBytecode.pShaderBytecode = textPixelShader->GetBufferPointer();
+	textPixelShaderBytecode.BytecodeLength = textPixelShader->GetBufferSize();
+	textPixelShaderBytecode.pShaderBytecode = textPixelShader->GetBufferPointer();
 
 	D3D12_INPUT_ELEMENT_DESC textInputLayout[] = {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
 		{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
 		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
 	};
+
+	D3D12_INPUT_LAYOUT_DESC textInputLayoutDesc = {};
+	textInputLayoutDesc.NumElements = sizeof(textInputLayout) / sizeof(D3D12_INPUT_ELEMENT_DESC);
+	textInputLayoutDesc.pInputElementDescs = textInputLayout;
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC textPsoDesc = {};
+	textPsoDesc.InputLayout = textInputLayoutDesc;
+	textPsoDesc.pRootSignature = m_RootSignature.Get();
+	textPsoDesc.VS = textVertexShaderBytecode;
+	textPsoDesc.PS = textPixelShaderBytecode;
+	textPsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	textPsoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	textPsoDesc.SampleDesc = sampleDesc;
+	textPsoDesc.SampleMask = 0xffffffff;
+	textPsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+
+	D3D12_BLEND_DESC textBlendStateDesc = {};
+	textBlendStateDesc.AlphaToCoverageEnable = FALSE;
+	textBlendStateDesc.IndependentBlendEnable = FALSE;
+	textBlendStateDesc.RenderTarget[0].BlendEnable = TRUE;
+
+	textBlendStateDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	textBlendStateDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+	textBlendStateDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+
+	textBlendStateDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_SRC_ALPHA;
+	textBlendStateDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ONE;
+	textBlendStateDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+
+	textBlendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+	textPsoDesc.BlendState = textBlendStateDesc;
+	textPsoDesc.NumRenderTargets = 1;
+	D3D12_DEPTH_STENCIL_DESC textDepthStencilDesc = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	textDepthStencilDesc.DepthEnable = false;
+	textPsoDesc.DepthStencilState = textDepthStencilDesc;
+
+	hr = m_device->CreateGraphicsPipelineState(&textPsoDesc, IID_PPV_ARGS(&textPSO));
+
+	if (FAILED(hr)) {
+		Running = false;
+		return false;
+	}
 
 	int vBufferSize = sizeof(CubesTexVertices);
 
@@ -1969,7 +2264,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 			// this heap will be used to upload the constant buffer data
 			D3D12_HEAP_FLAG_NONE, // no flags
-			&CD3DX12_RESOURCE_DESC::Buffer(1024 * 64),
+			&CD3DX12_RESOURCE_DESC::Buffer(D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT),
 			// size of the resource heap. Must be a multiple of 64KB for single-textures and constant buffers
 			D3D12_RESOURCE_STATE_GENERIC_READ, // will be data that is read from so we keep it in the generic read state
 			nullptr, // we do not have use an optimized clear value for constant buffers
@@ -1996,16 +2291,6 @@ bool CEDirect3DGraphics::InitD3D12() {
 	}
 
 	// load the image, create a texture resource and descriptor heap
-
-	// create the descriptor heap that will store our srv
-	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-	heapDesc.NumDescriptors = 1;
-	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	hr = m_device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mainDescriptorHeap));
-	if (FAILED(hr)) {
-		Running = false;
-	}
 
 	// Load the image from file
 	D3D12_RESOURCE_DESC textureDesc;
@@ -2072,6 +2357,16 @@ bool CEDirect3DGraphics::InitD3D12() {
 		                               textureBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
 		                               D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 
+	// create the descriptor heap that will store our srv
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
+	heapDesc.NumDescriptors = 2;
+	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	hr = m_device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mainDescriptorHeap));
+	if (FAILED(hr)) {
+		Running = false;
+	}
+
 	// now we create a shader resource view (descriptor that points to the texture and describes it)
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -2080,6 +2375,99 @@ bool CEDirect3DGraphics::InitD3D12() {
 	srvDesc.Texture2D.MipLevels = 1;
 	m_device->CreateShaderResourceView(textureBuffer.Get(), &srvDesc,
 	                                   mainDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
+
+	auto mrRobotFontPath = GetAssetFullPath(L"mr-robot.fnt");
+	mrRobotFont = LoadFont(mrRobotFontPath.c_str(), g_ClientWidth, g_ClientHeight);
+
+	D3D12_RESOURCE_DESC fontTextureDesc;
+	int fontImageBytesPerRow;
+	BYTE* fontImageData;
+	int fontImageSize = LoadImageDataFromFile(&fontImageData, fontTextureDesc, mrRobotFont.fontImage.c_str(),
+	                                          fontImageBytesPerRow);
+	std::wstringstream wssxx;
+	wssxx << "font Image size: " << fontImageSize << "font image path: " << mrRobotFont.fontImage << std::endl;
+	if (fontImageSize <= 0) {
+		OutputDebugStringW(wssxx.str().c_str());
+		Running = false;
+		return false;
+	}
+
+	hr = m_device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT), D3D12_HEAP_FLAG_NONE,
+	                                       &fontTextureDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr,
+	                                       IID_PPV_ARGS(&mrRobotFont.textureBuffer));
+	if (FAILED(hr)) {
+		Running = false;
+		return false;
+	}
+	mrRobotFont.textureBuffer->SetName(L"Font Texture Buffer Resource Heap");
+
+	wrl::ComPtr<ID3D12Resource> fontTextureBufferUploadHeap;
+	UINT64 fontTextureUploadBufferSize;
+	m_device->GetCopyableFootprints(&fontTextureDesc, 0, 1, 0, nullptr, nullptr, nullptr, &fontTextureUploadBufferSize);
+	hr = m_device->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), D3D12_HEAP_FLAG_NONE,
+	                                       &CD3DX12_RESOURCE_DESC::Buffer(fontTextureUploadBufferSize),
+	                                       D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+	                                       IID_PPV_ARGS(&fontTextureBufferUploadHeap));
+	if (FAILED(hr)) {
+		Running = false;
+		return false;
+	}
+	fontTextureBufferUploadHeap->SetName(L"Font Texture Buffer Upload Resource Heap");
+
+	D3D12_SUBRESOURCE_DATA fontTextureData = {};
+	fontTextureData.pData = &fontImageData[0];
+	fontTextureData.RowPitch = fontImageBytesPerRow;
+	fontTextureData.SlicePitch = fontImageBytesPerRow * fontTextureDesc.Height;
+
+	UpdateSubresources(m_commandList.Get(), mrRobotFont.textureBuffer.Get(), fontTextureBufferUploadHeap.Get(), 0, 0, 1,
+	                   &fontTextureData);
+	// transition the texture default heap to a pixel shader resource (we will be sampling from this heap in the pixel shader to get the color of pixels)
+	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
+		                               mrRobotFont.textureBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
+		                               D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+
+	// create an srv for the font
+	D3D12_SHADER_RESOURCE_VIEW_DESC fontsrvDesc = {};
+	fontsrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	fontsrvDesc.Format = fontTextureDesc.Format;
+	fontsrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	fontsrvDesc.Texture2D.MipLevels = 1;
+
+	// we need to get the next descriptor location in the descriptor heap to store this srv
+	srvHandleSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	mrRobotFont.srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(mainDescriptorHeap->GetGPUDescriptorHandleForHeapStart(), 1,
+	                                                      srvHandleSize);
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(mainDescriptorHeap->GetCPUDescriptorHandleForHeapStart(), 1, srvHandleSize);
+	m_device->CreateShaderResourceView(mrRobotFont.textureBuffer.Get(), &fontsrvDesc, srvHandle);
+
+	// create text vertex buffer committed resources
+
+	for (int i = 0; i < FrameCount; ++i) {
+		// create upload heap. We will fill this with data for our text
+		ID3D12Resource* vBufferUploadHeap;
+		hr = m_device->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD), // upload heap
+			D3D12_HEAP_FLAG_NONE, // no flags
+			&CD3DX12_RESOURCE_DESC::Buffer(maxNumTextCharacters * sizeof(CETextVertex)),
+			// resource description for a buffer
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			// GPU will read from this buffer and copy its contents to the default heap
+			nullptr,
+			IID_PPV_ARGS(&textVertexBuffer[i]));
+		if (FAILED(hr)) {
+			Running = false;
+			return false;
+		}
+		textVertexBuffer[i]->SetName(L"Text Vertex Buffer Upload Resource Heap");
+
+		CD3DX12_RANGE readRange(0, 0);
+		// We do not intend to read from this resource on the CPU. (so end is less than or equal to begin)
+
+		// map the resource heap to get a gpu virtual address to the beginning of the heap
+		hr = textVertexBuffer[i]->Map(0, &readRange, reinterpret_cast<void**>(&textVBGPUAddress[i]));
+	}
+	// create the text pso
 
 	// Now we execute the command list to upload the initial assets (triangle data)
 	m_commandList->Close();
@@ -2095,12 +2483,19 @@ bool CEDirect3DGraphics::InitD3D12() {
 	}
 
 	// we are done with image data now that we've uploaded it to the gpu, so free it up
+	delete fontImageData;
 	delete imageData;
 
 	// create a vertex buffer view for the triangle. We get the GPU memory address to the vertex pointer using the GetGPUVirtualAddress() method
 	m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress();
 	m_VertexBufferView.StrideInBytes = sizeof(CEVertexPosTex);
 	m_VertexBufferView.SizeInBytes = vBufferSize;
+
+	for (int i = 0; i < FrameCount; ++i) {
+		textVertexBufferView[i].BufferLocation = textVertexBuffer[i]->GetGPUVirtualAddress();
+		textVertexBufferView[i].StrideInBytes = sizeof(CETextVertex);
+		textVertexBufferView[i].SizeInBytes = maxNumTextCharacters * sizeof(CETextVertex);
+	}
 
 	// create a vertex buffer view for the triangle. We get the GPU memory address to the vertex pointer using the GetGPUVirtualAddress() method
 	m_IndexBufferView.BufferLocation = m_IndexBuffer->GetGPUVirtualAddress();
@@ -2167,23 +2562,6 @@ void CEDirect3DGraphics::PrintGraphicsVersion() {
 }
 
 void CEDirect3DGraphics::WaitForPreviousFrame() {
-	// // WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-	// // This is code implemented as such for simplicity. The D3D12HelloFrameBuffering
-	// // sample illustrates how to use fences for efficient resource usage and to
-	// // maximize GPU utilization.
-	//
-	// // Signal and increment the fence value.
-	// const UINT64 fence = m_fenceValue;
-	// ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), fence));
-	// m_fenceValue++;
-	//
-	// // Wait until the previous frame is finished.
-	// if (m_fence->GetCompletedValue() < fence) {
-	// 	ThrowIfFailed(m_fence->SetEventOnCompletion(fence, m_fenceEvent));
-	// 	WaitForSingleObject(m_fenceEvent, INFINITE);
-	// }
-	//
-	// m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
 
 	HRESULT hr;
 

@@ -351,6 +351,12 @@
     <FxCompile Include="CEPixelShader.hlsl">
       <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="CETextVertexShader.hlsl">
+      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CETextPixelShader.hlsl">
+      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders.hlsl">

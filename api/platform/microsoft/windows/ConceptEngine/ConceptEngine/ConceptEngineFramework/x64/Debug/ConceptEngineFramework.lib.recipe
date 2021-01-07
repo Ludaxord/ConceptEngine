@@ -6,6 +6,12 @@
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CETextPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CETextVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>

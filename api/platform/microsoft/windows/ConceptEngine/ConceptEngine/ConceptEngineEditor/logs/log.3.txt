@@ -1,7 +1,19 @@
-[2021-01-06 22:20:09.810] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-06 22:20:09.810] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-06 22:20:09.810] [ConceptEngine] [info] Driver: 0 Build: 58422.0.0
-[2021-01-06 22:20:09.810] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-06 22:20:09.810] [ConceptEngine] [info] Revision: 161
-[2021-01-06 22:20:09.810] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-06 22:20:09.810] [ConceptEngine] [warning] Loading Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-07 23:15:23.024] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-07 23:15:23.024] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-07 23:15:23.024] [ConceptEngine] [info] Driver: 0 Build: 58991.0.749
+[2021-01-07 23:15:23.024] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-07 23:15:23.024] [ConceptEngine] [info] Revision: 161
+[2021-01-07 23:15:23.024] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-07 23:15:23.024] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-07 23:15:24.029] [ConceptEngine] [info] FPS: 2126.123
+[2021-01-07 23:15:25.029] [ConceptEngine] [info] FPS: 2647.827
+[2021-01-07 23:15:26.029] [ConceptEngine] [info] FPS: 2681.607
+[2021-01-07 23:15:27.029] [ConceptEngine] [info] FPS: 2692.520
+[2021-01-07 23:15:28.029] [ConceptEngine] [info] FPS: 2683.972
+[2021-01-07 23:15:29.030] [ConceptEngine] [info] FPS: 2660.301
+[2021-01-07 23:15:30.075] [ConceptEngine] [info] FPS: 2208.134
+[2021-01-07 23:15:31.075] [ConceptEngine] [info] FPS: 2862.706
+[2021-01-07 23:15:32.075] [ConceptEngine] [info] FPS: 3001.634
+[2021-01-07 23:15:33.075] [ConceptEngine] [info] FPS: 3024.261
+[2021-01-07 23:15:34.075] [ConceptEngine] [info] FPS: 3022.770
+[2021-01-07 23:15:35.076] [ConceptEngine] [info] FPS: 2873.938
