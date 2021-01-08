@@ -846,65 +846,6 @@ void CEDirect3DGraphics::UpdatePerSecond(float second) {
 	}
 }
 
-void CEDirect3DGraphics::PopulateCommandList() {
-	// Command list allocators can only be reset when the associated 
-	// command lists have finished execution on the GPU; apps should use 
-	// fences to determine GPU execution progress.
-	ThrowIfFailed(m_commandAllocator->Reset());
-
-	// However, when ExecuteCommandList() is called on a particular command 
-	// list, that command list can then be reset at any time and must be before 
-	// re-recording.
-	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), m_pipelineState.Get()));
-
-	// Set necessary state.
-	// Indicate that the back buffer will be used as a render target.
-	m_commandList->ResourceBarrier(
-		1,
-		&CD3DX12_RESOURCE_BARRIER::Transition(
-			m_renderTargets[m_frameIndex].Get(),
-			D3D12_RESOURCE_STATE_PRESENT,
-			D3D12_RESOURCE_STATE_RENDER_TARGET
-		)
-	);
-
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart(), m_frameIndex,
-	                                        m_rtvDescriptorSize);
-	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
-
-
-	m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
-
-	m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
-	m_commandList->ClearDepthStencilView(m_DSVHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH, 1.0f,
-	                                     0, 0, nullptr);
-
-	// Record commands.
-
-	m_commandList->SetGraphicsRootSignature(m_RootSignature.Get());
-	m_commandList->RSSetViewports(1, &m_Viewport);
-	m_commandList->RSSetScissorRects(1, &m_ScissorRect);
-	m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	m_commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView);
-	m_commandList->IASetIndexBuffer(&m_IndexBufferView);
-
-	//Draw objects TODO: Create general objects to loop draw instances instead of call DrawIndexedInstanced many times
-	m_commandList->DrawIndexedInstanced(6, 1, 0, 0, 0); // draw 2 triangles (draw 1 instance of 2 triangles)
-	m_commandList->DrawIndexedInstanced(6, 1, 0, 4, 0); // draw second quad
-
-	// m_commandList->DrawInstanced(3, 1, 0, 0);
-
-	// Indicate that the back buffer will now be used to present.
-	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
-		                               m_renderTargets[m_frameIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET,
-		                               D3D12_RESOURCE_STATE_PRESENT));
-
-
-	ThrowIfFailed(m_commandList->Close());
-}
-
-
 void CEDirect3DGraphics::UpdatePipeline() {
 	HRESULT hr;
 
@@ -1116,17 +1057,6 @@ CEGraphics::IGPUInfo CEDirect3DGraphics::GetGPUInfo() {
 	return static_cast<IGPUInfo>(d3dGpuInfo);
 }
 
-void CEDirect3DGraphics::DisplayGPUInfo() {
-	const auto info = GetGPUInfo();
-	std::wstringstream wss;
-	wss << "GPU VRAM: " << std::endl;
-	wss << "AvailableForReservation: " << ID3DGPUInfo(info).dqvmi.AvailableForReservation << std::endl;
-	wss << "CurrentUsage: " << ID3DGPUInfo(info).dqvmi.CurrentUsage << std::endl;
-	wss << "CurrentReservation: " << ID3DGPUInfo(info).dqvmi.CurrentReservation << std::endl;
-	wss << "Budget: " << ID3DGPUInfo(info).dqvmi.Budget << std::endl;
-	OutputDebugStringW(wss.str().c_str());
-}
-
 DXGI_ADAPTER_DESC CEDirect3DGraphics::GetAdapterDescription(wrl::ComPtr<IDXGIAdapter> dxgiAdapter) const {
 	DXGI_ADAPTER_DESC desc = {0};
 	// wrl::ComPtr<IDXGIAdapter4> dxgiAdapter4;
@@ -1143,6 +1073,10 @@ void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 	std::wstringstream wss;
 	wss << "Direct3D 12 Initialized: " << initialized << std::endl;
 	OutputDebugStringW(wss.str().c_str());
+}
+
+void CEDirect3DGraphics::Init() {
+
 }
 
 bool CEDirect3DGraphics::InitD3D12() {
@@ -2090,6 +2024,14 @@ void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 }
 
 void CEDirect3DGraphics::PrintGraphicsVersion() {
+	const auto info = GetGPUInfo();
+	std::wstringstream wss;
+	wss << "GPU VRAM: " << std::endl;
+	wss << "AvailableForReservation: " << ID3DGPUInfo(info).dqvmi.AvailableForReservation << std::endl;
+	wss << "CurrentUsage: " << ID3DGPUInfo(info).dqvmi.CurrentUsage << std::endl;
+	wss << "CurrentReservation: " << ID3DGPUInfo(info).dqvmi.CurrentReservation << std::endl;
+	wss << "Budget: " << ID3DGPUInfo(info).dqvmi.Budget << std::endl;
+	OutputDebugStringW(wss.str().c_str());
 }
 
 void CEDirect3DGraphics::WaitForPreviousFrame() {

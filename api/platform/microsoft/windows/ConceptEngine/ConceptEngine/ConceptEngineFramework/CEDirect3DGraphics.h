@@ -261,12 +261,66 @@ protected:
 private:
 	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
 	                        bool requestHighPerformanceAdapter = false) const;
-	void PopulateCommandList();
 	bool CheckVSyncSupport() const;
 	void WaitForPreviousFrame();
 	void LoadPipeline();
 	void LoadAssets();
+	void Init();
 	bool InitD3D12();
+
+	void CreateAdapter();
+	void GetAdaptersList();
+	void CreateDevice();
+	void CreateCommandQueue();
+	void CreateSwapChain();
+	void SetFrameIndex();
+	void CreateDescriptorHeap();
+	void CreateRenderTargetView();
+	void CreateCommandAllocators();
+	void CreateCommandList();
+	void CreateFences();
+	void CreateRootDescriptor();
+	void CreateDescriptorRange();
+	void CreateDescriptorTable();
+	void CreateRootParameters();
+	void CreateStaticSampler();
+	void CreateRootSignature();
+	void CompileShaderFromFile();
+	void CreatePipelineState();
+	void CreateDefaultHeap();
+	void CreateVertexBuffer();
+	void CreateIndexBuffer();
+	void CopyToDefaultHeap();
+	void TransitionToBuffer();
+	void CreateDepthStencilBuffer();
+	void CreateDepthStencilView();
+	void CreateConstantBuffer();
+	void LoadTexture();
+	void CreateTextureBuffer();
+	void CreateShaderResourceView();
+	void LoadFonts();
+	void InitCommandList();
+	void IncrementFenceValue();
+	void CreateVertexBufferView();
+	void CreateIndexBufferView();
+	void CreateViewPort();
+	void CreateScissorRect();
+	void BuildProjection();
+	void CreateViewMatrix();
+	void ResetCommandAllocators();
+	void ResetCommandList();
+	void SetRenderTarget();
+	void ClearRenderTargetView();
+	void ClearDepthStencilView();
+	void SetGraphicsRootSignature();
+	void SetDescriptorHeaps();
+	void SetGraphicsRootDescriptorTable();
+	void SetViewports();
+	void SetScissorRects();
+	void SetBuffers();
+	void SetGraphicsRootConstantBufferView();
+	void DrawObject();
+	void CloseCommandList();
 
 public:
 	void LoadBonus() override;
@@ -293,12 +347,12 @@ protected:
 	void OnWindowDestroy() override;
 	IGPUInfo GetGPUInfo() override;
 
+
 private:
-	void DisplayGPUInfo();
 	DXGI_ADAPTER_DESC GetAdapterDescription(wrl::ComPtr<IDXGIAdapter> dxgiAdapter) const;
 
 	void UpdatePipeline();
-	
+
 	void UpdateMultiplierColors();
 	void UpdateCubesRotation();
 

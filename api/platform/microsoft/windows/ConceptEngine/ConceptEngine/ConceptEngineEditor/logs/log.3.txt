@@ -1,10 +1,10 @@
-[2021-01-08 18:03:44.279] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-08 18:03:44.280] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-08 18:03:44.280] [ConceptEngine] [info] Driver: 0 Build: 58098.0.0
-[2021-01-08 18:03:44.280] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-08 18:03:44.280] [ConceptEngine] [info] Revision: 161
-[2021-01-08 18:03:44.280] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-08 18:03:44.280] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-08 18:03:45.286] [ConceptEngine] [info] FPS: 3307.708
-[2021-01-08 18:03:46.286] [ConceptEngine] [info] FPS: 4027.769
-[2021-01-08 18:03:47.286] [ConceptEngine] [info] FPS: 4928.405
+[2021-01-08 18:12:25.635] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-08 18:12:25.635] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-08 18:12:25.635] [ConceptEngine] [info] Driver: 0 Build: 58098.0.0
+[2021-01-08 18:12:25.635] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-08 18:12:25.635] [ConceptEngine] [info] Revision: 161
+[2021-01-08 18:12:25.635] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-08 18:12:25.635] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-08 18:12:26.640] [ConceptEngine] [info] FPS: 3203.413
+[2021-01-08 18:12:27.640] [ConceptEngine] [info] FPS: 5130.369
+[2021-01-08 18:12:28.641] [ConceptEngine] [info] FPS: 5462.761
