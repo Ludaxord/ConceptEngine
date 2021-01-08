@@ -247,9 +247,6 @@ public:
 	CEDirect3DGraphics& operator=(const CEDirect3DGraphics&) = delete;
 	~CEDirect3DGraphics() = default;
 
-public:
-	void EnableDebugLayer();
-
 private:
 	void CreateDirect3D12(int width, int height);
 	void CreateDirect3D11(int width, int height);
@@ -299,53 +296,9 @@ protected:
 private:
 	void DisplayGPUInfo();
 	DXGI_ADAPTER_DESC GetAdapterDescription(wrl::ComPtr<IDXGIAdapter> dxgiAdapter) const;
-	wrl::ComPtr<IDXGIFactory4> GetFactory() const;
-	wrl::ComPtr<IDXGIAdapter> GetAdapter(bool useWarp) const;
-	wrl::ComPtr<ID3D12Device> CreateDevice(wrl::ComPtr<IDXGIAdapter> adapter) const;
-	wrl::ComPtr<ID3D12CommandQueue> CreateCommandQueue(wrl::ComPtr<ID3D12Device> device,
-	                                                   D3D12_COMMAND_LIST_TYPE type) const;
-	wrl::ComPtr<IDXGISwapChain3> CreateSwapChain(
-		HWND hWnd, wrl::ComPtr<ID3D12CommandQueue> commandQueue, uint32_t width,
-		uint32_t height, uint32_t bufferCount);
-	wrl::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(wrl::ComPtr<ID3D12Device> device,
-	                                                       D3D12_DESCRIPTOR_HEAP_TYPE type,
-	                                                       uint32_t numDescriptors) const;
-	void UpdateRenderTargetViews(wrl::ComPtr<ID3D12Device> device,
-	                             wrl::ComPtr<IDXGISwapChain3> swapChain,
-	                             wrl::ComPtr<ID3D12DescriptorHeap> descriptorHeap);
-	wrl::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator(wrl::ComPtr<ID3D12Device> device,
-	                                                           D3D12_COMMAND_LIST_TYPE type);
-	wrl::ComPtr<ID3D12GraphicsCommandList> CreateCommandList(wrl::ComPtr<ID3D12Device> device,
-	                                                         wrl::ComPtr<ID3D12CommandAllocator> commandAllocator,
-	                                                         wrl::ComPtr<ID3D12PipelineState> pipelineState,
-	                                                         D3D12_COMMAND_LIST_TYPE type);
-
-	void CreateRootSignature();
-	void CreateVertexBuffer();
-	wrl::ComPtr<ID3D12Fence> CreateFence(wrl::ComPtr<ID3D12Device> device);
-	HANDLE CreateEventHandle();
-	uint64_t Signal(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
-	                uint64_t& fenceValue);
-	void WaitForFenceValue(wrl::ComPtr<ID3D12Fence> fence, uint64_t fenceValue, HANDLE fenceEvent,
-	                       std::chrono::milliseconds duration = std::chrono::milliseconds::max());
-	void Flush(wrl::ComPtr<ID3D12CommandQueue> commandQueue, wrl::ComPtr<ID3D12Fence> fence,
-	           uint64_t& fenceValue, HANDLE fenceEvent);
-
-private:
-	void TransitionResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	                        Microsoft::WRL::ComPtr<ID3D12Resource> resource,
-	                        D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
-	void ClearRTV(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	              D3D12_CPU_DESCRIPTOR_HANDLE rtv, FLOAT* clearColor);
-	void ClearDepth(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	                D3D12_CPU_DESCRIPTOR_HANDLE dsv, FLOAT depth = 1.0f);
-	void UpdateBufferResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList,
-	                          ID3D12Resource** pDestinationResource, ID3D12Resource** pIntermediateResource,
-	                          size_t numElements, size_t elementSize, const void* bufferData,
-	                          D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE);
-	void ResizeDepthBuffer(int width, int height);
 
 	void UpdatePipeline();
+	
 	void UpdateMultiplierColors();
 	void UpdateCubesRotation();
 
