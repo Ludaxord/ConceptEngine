@@ -143,9 +143,6 @@ protected:
 	double FPSFormula(uint64_t frameCounter, double elapsedSeconds);
 
 protected:
-	//TODO: after create Direct3D 11 port it to Direct3D 12 => Source: https://docs.microsoft.com/en-us/windows/win32/direct3d12/porting-from-direct3d-11-to-direct3d-12
-	//TODO: add: Vulkan implementation => Source: https://www.khronos.org/registry/vulkan/specs/1.2/styleguide.html
-	//TODO: add OpenGL implementation => Source: https://www.khronos.org/registry/OpenGL/index_gl.php
 	HWND hWnd;
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
 
