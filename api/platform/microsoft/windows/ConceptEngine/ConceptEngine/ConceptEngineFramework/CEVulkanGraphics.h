@@ -14,7 +14,8 @@ public:
 
 private:
 	static void checkVulkanResult(VkResult& result, const char* msg);
-
+	void OnVulkanInit();
+	void OnVInit();
 public:
 	void OnRender() override;
 	void OnUpdate() override;
@@ -38,6 +39,7 @@ protected:
 public:
 	virtual void LoadBonus() override;
 private:
+	VkInstance instance;
 	std::unique_ptr <CEVulkanData> pVulkanData;
 	CEVulkanContext vulkanContext;
 

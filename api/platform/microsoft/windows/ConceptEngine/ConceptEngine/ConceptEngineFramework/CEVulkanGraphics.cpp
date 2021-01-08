@@ -129,7 +129,7 @@ void CEVulkanGraphics::OnUpdate() {
 void CEVulkanGraphics::SetFullscreen(bool fullscreen) {
 }
 
-bool CEVulkanGraphics::OnInit() {
+void CEVulkanGraphics::OnVInit() {
 	LoadVulkan();
 	VkResult result;
 
@@ -203,10 +203,43 @@ bool CEVulkanGraphics::OnInit() {
 	auto physicalDevices = new VkPhysicalDevice[physicalDeviceCount];
 	pVulkanData->vkEnumeratePhysicalDevices(vulkanContext.instance, &physicalDeviceCount, physicalDevices);
 
+}
+
+
+void CEVulkanGraphics::OnVulkanInit() {
+	VkApplicationInfo applicationInfo;
+	VkInstanceCreateInfo instanceInfo;
+	applicationInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+	applicationInfo.pNext = nullptr;
+	applicationInfo.pApplicationName = "Concept Engine Editor";
+	applicationInfo.pEngineName = "Concept Engine";
+	applicationInfo.engineVersion = 1;
+	applicationInfo.apiVersion = VK_API_VERSION_1_2;
+
+	instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+	instanceInfo.pNext = nullptr;
+	instanceInfo.flags = 0;
+	instanceInfo.pApplicationInfo = &applicationInfo;
+	instanceInfo.enabledLayerCount = 0;
+	instanceInfo.ppEnabledLayerNames = nullptr;
+	instanceInfo.enabledExtensionCount = 0;
+	instanceInfo.ppEnabledExtensionNames = nullptr;
+
+	// VkResult result = vkCreateInstance(&instanceInfo, nullptr, &instance);
+	// if (result != VK_SUCCESS) {
+	//
+	// 	abort();
+	// }
+}
+
+bool CEVulkanGraphics::OnInit() {
+	// OnVInit();
+	OnVulkanInit();
 	return true;
 }
 
 void CEVulkanGraphics::OnDestroy() {
+	// vkDestroyInstance(instance, nullptr);
 }
 
 bool CEVulkanGraphics::LoadContent() {
