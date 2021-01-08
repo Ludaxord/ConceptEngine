@@ -1095,7 +1095,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 	int adapterIndex = 0; // we'll start looking for directx 12  compatible graphics devices starting at index 0
 
 	bool adapterFound = false; // set this to true when a good one was found
-
+	// 
 	// find first hardware gpu that supports d3d 12
 	while (dxgiFactory->EnumAdapters1(adapterIndex, &adapter) != DXGI_ERROR_NOT_FOUND) {
 		DXGI_ADAPTER_DESC1 desc;
@@ -1849,10 +1849,7 @@ bool CEDirect3DGraphics::InitD3D12() {
 	BYTE* fontImageData;
 	int fontImageSize = LoadImageDataFromFile(&fontImageData, fontTextureDesc, mrRobotFont.fontImage.c_str(),
 	                                          fontImageBytesPerRow);
-	std::wstringstream wssxx;
-	wssxx << "font Image size: " << fontImageSize << "font image path: " << mrRobotFont.fontImage << std::endl;
-	if (fontImageSize <= 0) {
-		OutputDebugStringW(wssxx.str().c_str());
+	if (fontImageSize <= 0) {;
 		Running = false;
 		return false;
 	}
