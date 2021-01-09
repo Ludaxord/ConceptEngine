@@ -241,6 +241,11 @@ public:
 		}
 	};
 
+	struct CEFence {
+		ID3D12Fence* fence;
+		UINT64 fenceValue;
+	};
+
 public:
 	CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEDirect3DGraphics(const CEDirect3DGraphics&) = delete;
@@ -266,32 +271,54 @@ private:
 	void LoadPipeline();
 	void LoadAssets();
 	void Init();
-	bool InitD3D12();
 
 	//TODO:Think about best solution ComPtr, shared_ptr or *
 	//TODO:Also find global abstract for all DXGI elements with numbers
-	IDXGIAdapter1* CreateAdapter();
-	//left for now
+	IDXGIFactory4* CreateFactory() const;
+	IDXGIAdapter1* CreateAdapter(IDXGIFactory4* dxgiFactory) const;
+	//Implement later to dynamic change gpu.
 	void GetAdaptersList();
 
-	ID3D12Device* CreateDevice();
+	ID3D12Device* CreateDevice(IDXGIAdapter1* adapter);
 
-	ID3D12CommandQueue* CreateCommandQueue();
-	IDXGISwapChain3* CreateSwapChain();
-	UINT GetFrameIndex();
-	ID3D12DescriptorHeap* CreateDescriptorHeap();
-	UINT GetDescriptorSize();
-	void CreateRenderTargetView();
-	ID3D12CommandAllocator* CreateCommandAllocators();
-	ID3D12GraphicsCommandList* CreateCommandList();
-	ID3D12Fence* CreateFence();
-	HANDLE CreateFenceEvent();
+	ID3D12CommandQueue* CreateCommandQueue(ID3D12Device* device);
+
+	IDXGISwapChain3* CreateSwapChain(IDXGIFactory4* dxgiFactory,
+	                                 ID3D12CommandQueue* commandQueue,
+	                                 uint32_t screenWidth,
+	                                 uint32_t screenHeight,
+	                                 int bufferCount,
+	                                 HWND outputWindow,
+	                                 bool windowed,
+	                                 int multiSampleCount = 1,
+	                                 DXGI_SWAP_EFFECT swapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD);
+	UINT GetFrameIndex(IDXGISwapChain3* swapChain);
+	ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device, int bufferCount) const;
+	UINT GetDescriptorSize(ID3D12Device* device);
+	std::vector<ID3D12Resource*> CreateRenderTargetView(ID3D12DescriptorHeap* heap,
+	                                                    int bufferCount,
+	                                                    IDXGISwapChain3* swapChain,
+	                                                    ID3D12Device* device,
+	                                                    UINT descriptorSize,
+	                                                    UINT offsetInDescriptor = 1) const;
+	std::vector<ID3D12CommandAllocator*> CreateCommandAllocators(ID3D12Device* device, int bufferCount) const;
+	ID3D12GraphicsCommandList* CreateCommandList(ID3D12Device* device,
+	                                             std::vector<ID3D12CommandAllocator*> commandAllocators,
+	                                             UINT frameIndex) const;
+	std::vector<CEFence> CreateFence(ID3D12Device* device, int bufferCount) const;
+	HANDLE CreateFenceEvent() const;
 	D3D12_ROOT_DESCRIPTOR CreateRootDescriptor();
-	D3D12_DESCRIPTOR_RANGE CreateDescriptorRange();
-	D3D12_ROOT_DESCRIPTOR_TABLE* CreateDescriptorTable();
-	D3D12_ROOT_PARAMETER* CreateRootParameters();
-	D3D12_STATIC_SAMPLER_DESC CreateStaticSampler();
-	ID3D12RootSignature* CreateRootSignature();
+	std::vector<D3D12_DESCRIPTOR_RANGE> CreateDescriptorRange(int range, int descriptorNumber = 1,
+	                                                          int shaderRegister = 0);
+	D3D12_ROOT_DESCRIPTOR_TABLE CreateDescriptorTable(std::vector<D3D12_DESCRIPTOR_RANGE> descriptorTableRanges);
+	std::vector<D3D12_ROOT_PARAMETER> CreateRootParameters(
+		D3D12_ROOT_DESCRIPTOR rootDescriptor, D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable);
+	D3D12_STATIC_SAMPLER_DESC CreateStaticSampler(int shaderRegister = 0,
+	                                              int registerSpace = 0,
+	                                              int minLevelOfDetail = 0.0f,
+	                                              int maxLevelOfDetail = D3D12_FLOAT32_MAX);
+	ID3D12RootSignature* CreateRootSignature(ID3D12Device* device, std::vector<D3D12_ROOT_PARAMETER> rootParameters,
+	                                         int staticSampler, D3D12_STATIC_SAMPLER_DESC sampler) const;
 	ID3DBlob* CompileShaderFromFile();
 	D3D12_BLEND_DESC CreateBlendDescriptor();
 	ID3D12PipelineState* CreatePipelineState();
@@ -329,6 +356,8 @@ private:
 	void SetGraphicsRootConstantBufferView();
 	void DrawObject();
 	void CloseCommandList();
+
+	bool InitD3D12();
 
 public:
 	void LoadBonus() override;

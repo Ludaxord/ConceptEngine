@@ -42,9 +42,10 @@ CEDirect3DGraphics.cpp(705,9): warning C4244: 'initializing': conversion from 'f
 CEDirect3DGraphics.cpp(811,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 CEDirect3DGraphics.cpp(815,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 CEDirect3DGraphics.cpp(819,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1971,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1972,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1910,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
+CEDirect3DGraphics.cpp(1261,68): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+CEDirect3DGraphics.cpp(2174,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(2175,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(2113,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
           with
           [

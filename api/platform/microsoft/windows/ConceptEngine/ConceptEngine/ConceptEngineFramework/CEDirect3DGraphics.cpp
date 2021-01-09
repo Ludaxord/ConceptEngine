@@ -239,7 +239,7 @@ void CEDirect3DGraphics::LoadPipeline() {
 	g_TearingSupported = CheckVSyncSupport();
 	// Initialize the global window rect variable.
 	::GetWindowRect(hWnd, &g_WindowRect);
-	
+
 }
 
 // Load the sample assets.
@@ -1076,7 +1076,255 @@ void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 }
 
 void CEDirect3DGraphics::Init() {
+}
 
+IDXGIFactory4* CEDirect3DGraphics::CreateFactory() const {
+	IDXGIFactory4* dxgiFactory;
+	ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory)));
+	return dxgiFactory;
+}
+
+
+/*
+ * For now CreateAdapter support only 1 adapter.
+ * Improve to multiple adapters.
+ */
+IDXGIAdapter1* CEDirect3DGraphics::CreateAdapter(IDXGIFactory4* dxgiFactory) const {
+	IDXGIAdapter1* adapter;
+	int adapterIndex = 0;
+	bool adapterFound = false;
+	while (dxgiFactory->EnumAdapters1(adapterIndex, &adapter) != DXGI_ERROR_NOT_FOUND) {
+		DXGI_ADAPTER_DESC1 desc;
+		adapter->GetDesc1(&desc);
+		if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) {
+			continue;
+		}
+
+		if (SUCCEEDED(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr))) {
+			adapterFound = true;
+			break;
+		}
+
+		adapterIndex++;
+	}
+
+	if (!adapterFound) {
+		throw std::exception("GPU not support Direct3D 12");
+	}
+	return adapter;
+}
+
+ID3D12Device* CEDirect3DGraphics::CreateDevice(IDXGIAdapter1* adapter) {
+	ID3D12Device* device;
+	ThrowIfFailed(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
+	return device;
+}
+
+ID3D12CommandQueue* CEDirect3DGraphics::CreateCommandQueue(ID3D12Device* device) {
+	ID3D12CommandQueue* commandQueue;
+	D3D12_COMMAND_QUEUE_DESC cqDesc = {};
+	cqDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	cqDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	ThrowIfFailed(device->CreateCommandQueue(&cqDesc, IID_PPV_ARGS(&commandQueue)));
+	return commandQueue;
+}
+
+IDXGISwapChain3* CEDirect3DGraphics::CreateSwapChain(IDXGIFactory4* dxgiFactory,
+                                                     ID3D12CommandQueue* commandQueue,
+                                                     uint32_t screenWidth,
+                                                     uint32_t screenHeight,
+                                                     int bufferCount,
+                                                     HWND outputWindow,
+                                                     bool windowed,
+                                                     int multiSampleCount,
+                                                     DXGI_SWAP_EFFECT swapEffect) {
+	DXGI_MODE_DESC backBufferDesc = {};
+	backBufferDesc.Width = screenWidth;
+	backBufferDesc.Height = screenHeight;
+	backBufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	DXGI_SAMPLE_DESC sampleDesc = {};
+	sampleDesc.Count = multiSampleCount;
+	DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
+	swapChainDesc.BufferCount = bufferCount; // number of buffers we have
+	swapChainDesc.BufferDesc = backBufferDesc; // our back buffer description
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.SwapEffect = swapEffect;
+	swapChainDesc.OutputWindow = outputWindow;
+	swapChainDesc.SampleDesc = sampleDesc;
+	swapChainDesc.Windowed = windowed;
+	IDXGISwapChain* tempSwapChain;
+	dxgiFactory->CreateSwapChain(commandQueue, &swapChainDesc, &tempSwapChain);
+
+	IDXGISwapChain3* swapChain = static_cast<IDXGISwapChain3*>(tempSwapChain);
+	return swapChain;
+}
+
+UINT CEDirect3DGraphics::GetFrameIndex(IDXGISwapChain3* swapChain) {
+	return swapChain->GetCurrentBackBufferIndex();
+}
+
+ID3D12DescriptorHeap* CEDirect3DGraphics::CreateDescriptorHeap(ID3D12Device* device, int bufferCount) const {
+	ID3D12DescriptorHeap* heap;
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+	rtvHeapDesc.NumDescriptors = bufferCount;
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	ThrowIfFailed(device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&heap)));
+	return heap;
+}
+
+UINT CEDirect3DGraphics::GetDescriptorSize(ID3D12Device* device) {
+	return device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+}
+
+std::vector<ID3D12Resource*> CEDirect3DGraphics::CreateRenderTargetView(ID3D12DescriptorHeap* heap,
+                                                                        int bufferCount,
+                                                                        IDXGISwapChain3* swapChain,
+                                                                        ID3D12Device* device,
+                                                                        UINT descriptorSize,
+                                                                        UINT offsetInDescriptor) const {
+	std::vector<ID3D12Resource*> renderTargets;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(heap->GetCPUDescriptorHandleForHeapStart());
+
+	for (int i = 0; i < bufferCount; i++) {
+		ThrowIfFailed(swapChain->GetBuffer(i, IID_PPV_ARGS(&renderTargets[i])));
+
+		device->CreateRenderTargetView(renderTargets[i], nullptr, rtvHandle);
+		rtvHandle.Offset(offsetInDescriptor, descriptorSize);
+	}
+
+	return renderTargets;
+}
+
+std::vector<ID3D12CommandAllocator*> CEDirect3DGraphics::CreateCommandAllocators(
+	ID3D12Device* device, int bufferCount) const {
+	std::vector<ID3D12CommandAllocator*> commandAllocators;
+	for (int i = 0; i < bufferCount; i++) {
+		ThrowIfFailed(
+			device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i])));
+	}
+	return commandAllocators;
+}
+
+ID3D12GraphicsCommandList* CEDirect3DGraphics::CreateCommandList(ID3D12Device* device,
+                                                                 std::vector<ID3D12CommandAllocator*> commandAllocators,
+                                                                 UINT frameIndex) const {
+	ID3D12GraphicsCommandList* commandList;
+	ThrowIfFailed(device->CreateCommandList(0,
+	                                        D3D12_COMMAND_LIST_TYPE_DIRECT,
+	                                        commandAllocators[frameIndex],
+	                                        nullptr,
+	                                        IID_PPV_ARGS(&commandList)));
+	return commandList;
+}
+
+std::vector<CEDirect3DGraphics::CEFence> CEDirect3DGraphics::CreateFence(ID3D12Device* device, int bufferCount) const {
+	std::vector<CEFence> fences;
+	for (int i = 0; i < bufferCount; i++) {
+		ThrowIfFailed(device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&(fences[i]).fence)));
+		fences[i].fenceValue = 0;
+	}
+	return fences;
+}
+
+HANDLE CEDirect3DGraphics::CreateFenceEvent() const {
+	const HANDLE fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (m_fenceEvent == nullptr) {
+		throw std::exception("Error creating fence event");
+	}
+	return fenceEvent;
+}
+
+D3D12_ROOT_DESCRIPTOR CEDirect3DGraphics::CreateRootDescriptor() {
+	D3D12_ROOT_DESCRIPTOR rootDescriptor;
+	rootDescriptor.RegisterSpace = 0;
+	rootDescriptor.ShaderRegister = 0;
+	return rootDescriptor;
+}
+
+std::vector<D3D12_DESCRIPTOR_RANGE> CEDirect3DGraphics::CreateDescriptorRange(
+	int range, int descriptorNumber, int shaderRegister) {
+	std::vector<D3D12_DESCRIPTOR_RANGE> descriptorTableRanges; // only one range right now
+	for (int i = 0; i < range; i++) {
+		descriptorTableRanges[i].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		descriptorTableRanges[i].NumDescriptors = descriptorNumber;
+		descriptorTableRanges[i].BaseShaderRegister = shaderRegister;
+		descriptorTableRanges[i].RegisterSpace = 0; // space 0. can usually be zero
+		descriptorTableRanges[i].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	}
+	return descriptorTableRanges;
+}
+
+D3D12_ROOT_DESCRIPTOR_TABLE CEDirect3DGraphics::CreateDescriptorTable(
+	std::vector<D3D12_DESCRIPTOR_RANGE> descriptorTableRanges) {
+	D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
+	descriptorTable.NumDescriptorRanges = descriptorTableRanges.size();
+	descriptorTable.pDescriptorRanges = &descriptorTableRanges[0];
+	return descriptorTable;
+}
+
+std::vector<D3D12_ROOT_PARAMETER> CEDirect3DGraphics::CreateRootParameters(
+	D3D12_ROOT_DESCRIPTOR rootDescriptor, D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable) {
+	std::vector<D3D12_ROOT_PARAMETER> rootParameters;
+	if (rootDescriptor.RegisterSpace != NULL && rootDescriptor.ShaderRegister != NULL) {
+		rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+		rootParameters[0].Descriptor = rootDescriptor;
+		rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	}
+
+	if (descriptorTable.pDescriptorRanges != nullptr && descriptorTable.NumDescriptorRanges != NULL) {
+		rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+		rootParameters[1].DescriptorTable = descriptorTable;
+		rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	}
+
+	return rootParameters;
+}
+
+D3D12_STATIC_SAMPLER_DESC CEDirect3DGraphics::CreateStaticSampler(int shaderRegister, int registerSpace,
+                                                                  int minLevelOfDetail, int maxLevelOfDetail) {
+	D3D12_STATIC_SAMPLER_DESC sampler = {};
+	sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
+	sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+	sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+	sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
+	sampler.MipLODBias = 0;
+	sampler.MaxAnisotropy = 0;
+	sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	sampler.MinLOD = minLevelOfDetail;
+	sampler.MaxLOD = maxLevelOfDetail;
+	sampler.ShaderRegister = shaderRegister;
+	sampler.RegisterSpace = registerSpace;
+	sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	return sampler;
+}
+
+ID3D12RootSignature* CEDirect3DGraphics::CreateRootSignature(ID3D12Device* device,
+                                                             std::vector<D3D12_ROOT_PARAMETER> rootParameters,
+                                                             int staticSampler,
+                                                             D3D12_STATIC_SAMPLER_DESC sampler) const {
+	ID3D12RootSignature* rootSignature;
+	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
+	rootSignatureDesc.Init(rootParameters.size(), &rootParameters[0],
+	                       1,
+	                       &sampler, // a pointer to our static sampler (array)
+	                       D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+	                       // we can deny shader stages here for better performance
+	                       D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+	                       D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+	                       D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS);
+
+	ID3DBlob* errorBuff; // a buffer holding the error data if any
+	ID3DBlob* signature;
+	if (FAILED(D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &errorBuff))) {
+		OutputDebugStringA((char*)errorBuff->GetBufferPointer());
+		throw std::exception("Error while serializing root signature");
+	}
+
+	ThrowIfFailed(device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
+	                                          IID_PPV_ARGS(&rootSignature)));
+	return rootSignature;
 }
 
 bool CEDirect3DGraphics::InitD3D12() {
@@ -1849,7 +2097,8 @@ bool CEDirect3DGraphics::InitD3D12() {
 	BYTE* fontImageData;
 	int fontImageSize = LoadImageDataFromFile(&fontImageData, fontTextureDesc, mrRobotFont.fontImage.c_str(),
 	                                          fontImageBytesPerRow);
-	if (fontImageSize <= 0) {;
+	if (fontImageSize <= 0) {
+		;
 		Running = false;
 		return false;
 	}
