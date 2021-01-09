@@ -1306,11 +1306,11 @@ ID3D12RootSignature* CEDirect3DGraphics::CreateRootSignature(ID3D12Device* devic
                                                              D3D12_STATIC_SAMPLER_DESC sampler) const {
 	ID3D12RootSignature* rootSignature;
 	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
-	rootSignatureDesc.Init(rootParameters.size(), &rootParameters[0],
+	rootSignatureDesc.Init(rootParameters.size(),
+	                       &rootParameters[0],
 	                       1,
-	                       &sampler, // a pointer to our static sampler (array)
+	                       &sampler,
 	                       D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-	                       // we can deny shader stages here for better performance
 	                       D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
 	                       D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 	                       D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS);
