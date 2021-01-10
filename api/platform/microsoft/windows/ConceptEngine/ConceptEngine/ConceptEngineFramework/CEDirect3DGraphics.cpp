@@ -1129,6 +1129,12 @@ ID3D12CommandQueue* CEDirect3DGraphics::CreateCommandQueue(ID3D12Device* device)
 	return commandQueue;
 }
 
+DXGI_SAMPLE_DESC CEDirect3DGraphics::CreateSampleDescriptor(int multiSampleCount) {
+	DXGI_SAMPLE_DESC sampleDesc = {};
+	sampleDesc.Count = multiSampleCount;
+	return sampleDesc;
+}
+
 IDXGISwapChain3* CEDirect3DGraphics::CreateSwapChain(IDXGIFactory4* dxgiFactory,
                                                      ID3D12CommandQueue* commandQueue,
                                                      uint32_t screenWidth,
@@ -1136,14 +1142,12 @@ IDXGISwapChain3* CEDirect3DGraphics::CreateSwapChain(IDXGIFactory4* dxgiFactory,
                                                      int bufferCount,
                                                      HWND outputWindow,
                                                      bool windowed,
-                                                     int multiSampleCount,
+                                                     DXGI_SAMPLE_DESC sampleDesc,
                                                      DXGI_SWAP_EFFECT swapEffect) {
 	DXGI_MODE_DESC backBufferDesc = {};
 	backBufferDesc.Width = screenWidth;
 	backBufferDesc.Height = screenHeight;
 	backBufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	DXGI_SAMPLE_DESC sampleDesc = {};
-	sampleDesc.Count = multiSampleCount;
 	DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 	swapChainDesc.BufferCount = bufferCount; // number of buffers we have
 	swapChainDesc.BufferDesc = backBufferDesc; // our back buffer description
@@ -1325,6 +1329,141 @@ ID3D12RootSignature* CEDirect3DGraphics::CreateRootSignature(ID3D12Device* devic
 	ThrowIfFailed(device->CreateRootSignature(0, signature->GetBufferPointer(), signature->GetBufferSize(),
 	                                          IID_PPV_ARGS(&rootSignature)));
 	return rootSignature;
+}
+
+ID3DBlob* CEDirect3DGraphics::CompileShaderFromFile(std::wstring shaderFilePath, const char* entryPoint,
+                                                    const char* shaderCompileTarget) {
+	ID3DBlob* errorBuff;
+	ID3DBlob* shader;
+
+#if defined(_DEBUG)
+	// Enable better shader debugging with the graphics debugging tools.
+	UINT compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#else
+	UINT compileFlags = 0;
+#endif
+
+	if (FAILED(D3DCompileFromFile(shaderFilePath.c_str(),
+		nullptr,
+		nullptr,
+		entryPoint,
+		shaderCompileTarget,
+		compileFlags,
+		0,
+		&shader,
+		&errorBuff))) {
+		OutputDebugStringA((char*)errorBuff->GetBufferPointer());
+		return errorBuff;
+	}
+
+	return shader;
+}
+
+D3D12_SHADER_BYTECODE CEDirect3DGraphics::CreateShaderByteCode(ID3DBlob* shader) {
+	D3D12_SHADER_BYTECODE shaderBytecode = {};
+	shaderBytecode.BytecodeLength = shader->GetBufferSize();
+	shaderBytecode.pShaderBytecode = shader->GetBufferPointer();
+	return shaderBytecode;
+}
+
+D3D12_BLEND_DESC CEDirect3DGraphics::CreateBlendDescriptor() {
+	D3D12_BLEND_DESC blendStateDesc = {};
+	blendStateDesc.AlphaToCoverageEnable = FALSE;
+	blendStateDesc.IndependentBlendEnable = FALSE;
+	blendStateDesc.RenderTarget[0].BlendEnable = TRUE;
+
+	blendStateDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;
+	blendStateDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+
+	blendStateDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ONE;
+	blendStateDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+
+	blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	return blendStateDesc;
+}
+
+ID3D12PipelineState* CEDirect3DGraphics::CreatePipelineState(ID3D12Device* device,
+                                                             ID3D12RootSignature* rootSignature,
+                                                             std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout,
+                                                             D3D12_SHADER_BYTECODE vertexShaderByteCode,
+                                                             D3D12_SHADER_BYTECODE pixelShaderByteCode,
+                                                             DXGI_SAMPLE_DESC sampleDesc,
+                                                             D3D12_DEPTH_STENCIL_DESC depthStencilDesc,
+                                                             D3D12_BLEND_DESC blendStateDesc,
+                                                             D3D12_RASTERIZER_DESC rasterizerDesc) const {
+	ID3D12PipelineState* pipelineState;
+
+	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc = {};
+	inputLayoutDesc.NumElements = inputLayout.size();
+	inputLayoutDesc.pInputElementDescs = &inputLayout[0];
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+	psoDesc.InputLayout = inputLayoutDesc;
+	psoDesc.pRootSignature = rootSignature;
+	psoDesc.VS = vertexShaderByteCode;
+	psoDesc.PS = pixelShaderByteCode;
+	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	psoDesc.SampleDesc = sampleDesc;
+	psoDesc.SampleMask = 0xffffffff;
+	psoDesc.RasterizerState = rasterizerDesc;
+
+	psoDesc.BlendState = blendStateDesc;
+	psoDesc.NumRenderTargets = 1;
+	psoDesc.DepthStencilState = depthStencilDesc;
+
+	ThrowIfFailed(device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState)));
+	return pipelineState;
+}
+
+ID3D12Resource* CEDirect3DGraphics::CreateHeap(ID3D12Device* device,
+                                               D3D12_RESOURCE_DESC* resourceDesc,
+                                               D3D12_HEAP_TYPE heapType,
+                                               D3D12_RESOURCE_STATES resourceState,
+                                               D3D12_CLEAR_VALUE* clearValue) const {
+	ID3D12Resource* heap;
+	ThrowIfFailed(device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(heapType),
+		D3D12_HEAP_FLAG_NONE,
+		resourceDesc,
+		resourceState,
+		clearValue,
+		IID_PPV_ARGS(&heap)));
+	heap->SetName(L"Vertex Buffer Resource Heap");
+	return heap;
+}
+
+void CEDirect3DGraphics::CopyToDefaultHeap(ID3D12GraphicsCommandList* commandList,
+                                           ID3D12Resource* destinationHeap,
+                                           ID3D12Resource* intermediateHeap,
+                                           const BYTE* dataArray,
+                                           int bufferSize) const {
+	D3D12_SUBRESOURCE_DATA subResourceData = {};
+	subResourceData.pData = dataArray;
+	subResourceData.RowPitch = bufferSize;
+	subResourceData.SlicePitch = bufferSize;
+
+	UpdateSubresources(commandList, destinationHeap, intermediateHeap, 0, 0, 1, &subResourceData);
+}
+
+void CEDirect3DGraphics::TransitionToBuffer(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource,
+                                            D3D12_RESOURCE_STATES stateBefore,
+                                            D3D12_RESOURCE_STATES stateAfter,
+                                            int barrierNumber) {
+	commandList->ResourceBarrier(barrierNumber,
+	                             &CD3DX12_RESOURCE_BARRIER::Transition(
+		                             resource,
+		                             stateBefore,
+		                             stateAfter
+	                             )
+	);
+}
+
+void CEDirect3DGraphics::CreateDepthStencilView(ID3D12Device* device, ID3D12DescriptorHeap* heap, ID3D12Resource* buffer, D3D12_DEPTH_STENCIL_VIEW_DESC* depthStencilDesc) {
+	device->CreateDepthStencilView(buffer, depthStencilDesc,
+		heap->GetCPUDescriptorHandleForHeapStart());
 }
 
 bool CEDirect3DGraphics::InitD3D12() {

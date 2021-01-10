@@ -283,6 +283,8 @@ private:
 
 	ID3D12CommandQueue* CreateCommandQueue(ID3D12Device* device);
 
+	DXGI_SAMPLE_DESC CreateSampleDescriptor(int multiSampleCount = 1);
+
 	IDXGISwapChain3* CreateSwapChain(IDXGIFactory4* dxgiFactory,
 	                                 ID3D12CommandQueue* commandQueue,
 	                                 uint32_t screenWidth,
@@ -290,7 +292,7 @@ private:
 	                                 int bufferCount,
 	                                 HWND outputWindow,
 	                                 bool windowed,
-	                                 int multiSampleCount = 1,
+	                                 DXGI_SAMPLE_DESC sampleDesc,
 	                                 DXGI_SWAP_EFFECT swapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD);
 	UINT GetFrameIndex(IDXGISwapChain3* swapChain);
 	ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device, int bufferCount) const;
@@ -319,17 +321,36 @@ private:
 	                                              int maxLevelOfDetail = D3D12_FLOAT32_MAX);
 	ID3D12RootSignature* CreateRootSignature(ID3D12Device* device, std::vector<D3D12_ROOT_PARAMETER> rootParameters,
 	                                         int staticSampler, D3D12_STATIC_SAMPLER_DESC sampler) const;
-	ID3DBlob* CompileShaderFromFile();
+	ID3DBlob* CompileShaderFromFile(std::wstring shaderFilePath, const char* entryPoint,
+	                                const char* shaderCompileTarget);
+	D3D12_SHADER_BYTECODE CreateShaderByteCode(ID3DBlob* shader);
 	D3D12_BLEND_DESC CreateBlendDescriptor();
-	ID3D12PipelineState* CreatePipelineState();
-	ID3D12Resource* CreateDefaultHeap();
-	ID3D12Resource* CreateVertexBuffer();
-	ID3D12Resource* CreateIndexBuffer();
-	void CopyToDefaultHeap();
-	void TransitionToBuffer();
-	ID3D12Resource* CreateDepthStencilBuffer();
-	void CreateDepthStencilView();
-	ID3D12Resource* CreateConstantBuffer();
+	ID3D12PipelineState* CreatePipelineState(ID3D12Device* device,
+	                                         ID3D12RootSignature* rootSignature,
+	                                         std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout,
+	                                         D3D12_SHADER_BYTECODE vertexShaderByteCode,
+	                                         D3D12_SHADER_BYTECODE pixelShaderByteCode,
+	                                         DXGI_SAMPLE_DESC sampleDesc,
+	                                         D3D12_DEPTH_STENCIL_DESC depthStencilDesc = CD3DX12_DEPTH_STENCIL_DESC(
+		                                         D3D12_DEFAULT),
+	                                         D3D12_BLEND_DESC blendStateDesc = CD3DX12_BLEND_DESC(D3D12_DEFAULT),
+	                                         D3D12_RASTERIZER_DESC rasterizerDesc = CD3DX12_RASTERIZER_DESC(
+		                                         D3D12_DEFAULT)) const;
+	ID3D12Resource* CreateHeap(ID3D12Device* device,
+	                           D3D12_RESOURCE_DESC* resourceDesc,
+	                           D3D12_HEAP_TYPE heapType,
+	                           D3D12_RESOURCE_STATES resourceState,
+	                           D3D12_CLEAR_VALUE* clearValue) const;
+	void CopyToDefaultHeap(ID3D12GraphicsCommandList* commandList, ID3D12Resource* destinationHeap,
+	                       ID3D12Resource* intermediateHeap,
+	                       const BYTE* dataArray, int bufferSize) const;
+	void TransitionToBuffer(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource,
+	                        D3D12_RESOURCE_STATES stateBefore,
+	                        D3D12_RESOURCE_STATES stateAfter,
+	                        int barrierNumber = 1);
+
+	void CreateDepthStencilView(ID3D12Device* device, ID3D12DescriptorHeap* heap, ID3D12Resource* buffer,
+	                            D3D12_DEPTH_STENCIL_VIEW_DESC* depthStencilDesc);
 	D3D12_RESOURCE_DESC LoadTexture();
 	ID3D12Resource* CreateTextureBuffer();
 	void CreateShaderResourceView();
@@ -340,6 +361,7 @@ private:
 	D3D12_INDEX_BUFFER_VIEW CreateIndexBufferView();
 	CD3DX12_VIEWPORT CreateViewPort();
 	CD3DX12_RECT CreateScissorRect();
+	
 	void BuildProjection();
 	void CreateViewMatrix();
 	void ResetCommandAllocators();
