@@ -1167,18 +1167,21 @@ UINT CEDirect3DGraphics::GetFrameIndex(IDXGISwapChain3* swapChain) {
 	return swapChain->GetCurrentBackBufferIndex();
 }
 
-ID3D12DescriptorHeap* CEDirect3DGraphics::CreateDescriptorHeap(ID3D12Device* device, int bufferCount) const {
+ID3D12DescriptorHeap* CEDirect3DGraphics::CreateDescriptorHeap(ID3D12Device* device,
+                                                               int descriptorCount,
+                                                               D3D12_DESCRIPTOR_HEAP_TYPE heapType,
+                                                               D3D12_DESCRIPTOR_HEAP_FLAGS heapFlags) const {
 	ID3D12DescriptorHeap* heap;
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-	rtvHeapDesc.NumDescriptors = bufferCount;
-	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	rtvHeapDesc.NumDescriptors = descriptorCount;
+	rtvHeapDesc.Type = heapType;
+	rtvHeapDesc.Flags = heapFlags;
 	ThrowIfFailed(device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&heap)));
 	return heap;
 }
 
-UINT CEDirect3DGraphics::GetDescriptorSize(ID3D12Device* device) {
-	return device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+UINT CEDirect3DGraphics::GetDescriptorSize(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType) {
+	return device->GetDescriptorHandleIncrementSize(heapType);
 }
 
 std::vector<ID3D12Resource*> CEDirect3DGraphics::CreateRenderTargetView(ID3D12DescriptorHeap* heap,
@@ -1435,6 +1438,12 @@ ID3D12Resource* CEDirect3DGraphics::CreateHeap(ID3D12Device* device,
 	return heap;
 }
 
+UINT64 CEDirect3DGraphics::GetUploadBufferSize(ID3D12Device* device, D3D12_RESOURCE_DESC desc) {
+	UINT64 uploadBufferSize;
+	device->GetCopyableFootprints(&desc, 0, 1, 0, nullptr, nullptr, nullptr, &uploadBufferSize);
+	return uploadBufferSize;
+}
+
 void CEDirect3DGraphics::CopyToDefaultHeap(ID3D12GraphicsCommandList* commandList,
                                            ID3D12Resource* destinationHeap,
                                            ID3D12Resource* intermediateHeap,
@@ -1461,10 +1470,228 @@ void CEDirect3DGraphics::TransitionToBuffer(ID3D12GraphicsCommandList* commandLi
 	);
 }
 
-void CEDirect3DGraphics::CreateDepthStencilView(ID3D12Device* device, ID3D12DescriptorHeap* heap, ID3D12Resource* buffer, D3D12_DEPTH_STENCIL_VIEW_DESC* depthStencilDesc) {
+void CEDirect3DGraphics::CreateDepthStencilView(ID3D12Device* device, ID3D12DescriptorHeap* heap,
+                                                ID3D12Resource* buffer,
+                                                D3D12_DEPTH_STENCIL_VIEW_DESC* depthStencilDesc) {
 	device->CreateDepthStencilView(buffer, depthStencilDesc,
-		heap->GetCPUDescriptorHandleForHeapStart());
+	                               heap->GetCPUDescriptorHandleForHeapStart());
 }
+
+std::tuple<int, D3D12_RESOURCE_DESC, BYTE*> CEDirect3DGraphics::LoadTexture(std::wstring texturePath) {
+	D3D12_RESOURCE_DESC textureDesc;
+	BYTE* imageData;
+	int imageBytesPerRow;
+	auto imageSize = LoadImageDataFromFile(&imageData, textureDesc, texturePath.c_str(), imageBytesPerRow);
+	if (imageSize <= 0) {
+		std::stringstream oss;
+		oss << "Texture not loaded from path: " << texturePath.c_str() << std::endl;
+		auto message = oss.str();
+		throw std::exception(message.c_str());
+	}
+	return std::make_tuple(imageBytesPerRow, textureDesc, imageData);
+}
+
+void CEDirect3DGraphics::CreateShaderResourceView(ID3D12Device* device,
+                                                  ID3D12Resource* buffer,
+                                                  ID3D12DescriptorHeap* heap,
+                                                  D3D12_RESOURCE_DESC textureDesc,
+                                                  D3D12_SRV_DIMENSION viewDimension,
+                                                  int mipLevels) const {
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Format = textureDesc.Format;
+	srvDesc.ViewDimension = viewDimension;
+	srvDesc.Texture2D.MipLevels = mipLevels;
+	device->CreateShaderResourceView(buffer,
+	                                 &srvDesc,
+	                                 heap->GetCPUDescriptorHandleForHeapStart());
+}
+
+std::tuple<int, D3D12_RESOURCE_DESC, BYTE*>
+CEDirect3DGraphics::LoadFonts(std::wstring fontPath, int width, int height) {
+	auto font = LoadFont(fontPath.c_str(), width, height);
+
+	D3D12_RESOURCE_DESC fontTextureDesc;
+	int fontImageBytesPerRow;
+	BYTE* fontImageData;
+	int fontImageSize = LoadImageDataFromFile(&fontImageData, fontTextureDesc, font.fontImage.c_str(),
+	                                          fontImageBytesPerRow);
+	if (fontImageSize <= 0) {
+		std::stringstream oss;
+		oss << "Font not loaded from path: " << fontPath.c_str() << std::endl;
+		auto message = oss.str();
+		throw std::exception(message.c_str());
+	}
+
+	return std::make_tuple(fontImageBytesPerRow, fontTextureDesc, fontImageData);
+}
+
+void CEDirect3DGraphics::InitCommandList(ID3D12GraphicsCommandList* commandList, ID3D12CommandQueue* commandQueue) {
+	commandList->Close();
+	ID3D12CommandList* ppCommandLists[] = {commandList};
+	commandQueue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
+}
+
+void CEDirect3DGraphics::IncrementFenceValue(ID3D12CommandQueue* commandQueue, std::vector<CEFence> fences,
+                                             UINT frameIndex) {
+	fences[frameIndex].fenceValue++;
+	ThrowIfFailed(commandQueue->Signal(fences[frameIndex].fence, fences[frameIndex].fenceValue));
+}
+
+D3D12_VERTEX_BUFFER_VIEW CEDirect3DGraphics::CreateVertexBufferView(ID3D12Resource* buffer, UINT stride, UINT size) {
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
+	vertexBufferView.BufferLocation = buffer->GetGPUVirtualAddress();
+	vertexBufferView.StrideInBytes = stride;
+	vertexBufferView.SizeInBytes = size;
+	return vertexBufferView;
+}
+
+D3D12_INDEX_BUFFER_VIEW CEDirect3DGraphics::CreateIndexBufferView(ID3D12Resource* buffer, DXGI_FORMAT indexBufferFormat,
+                                                                  UINT size) {
+	D3D12_INDEX_BUFFER_VIEW indexBufferView;
+	indexBufferView.BufferLocation = buffer->GetGPUVirtualAddress();
+	indexBufferView.Format = indexBufferFormat;
+	indexBufferView.SizeInBytes = size;
+	return indexBufferView;
+}
+
+CD3DX12_VIEWPORT CEDirect3DGraphics::CreateViewPort(int topLeftX, int topLeftY, int width, int height, float minDepth,
+                                                    float maxDepth) const {
+	CD3DX12_VIEWPORT viewPort;
+	viewPort.TopLeftX = topLeftX;
+	viewPort.TopLeftY = topLeftY;
+	viewPort.Width = width;
+	viewPort.Height = height;
+	viewPort.MinDepth = minDepth;
+	viewPort.MaxDepth = maxDepth;
+	return viewPort;
+}
+
+CD3DX12_RECT CEDirect3DGraphics::CreateScissorRect(int left, int right, int top, int bottom) const {
+	CD3DX12_RECT scissorRect;
+	scissorRect.left = left;
+	scissorRect.top = top;
+	scissorRect.right = right;
+	scissorRect.bottom = bottom;
+	return scissorRect;
+}
+
+XMFLOAT4X4 CEDirect3DGraphics::BuildProjection(float angleY, int width, int height, float nearZ, float farZ) {
+	XMFLOAT4X4 projectionMatrix;
+	XMMATRIX tmpMat = XMMatrixPerspectiveFovLH(angleY, (float)width / (float)height, nearZ, farZ);
+	XMStoreFloat4x4(&projectionMatrix, tmpMat);
+	return projectionMatrix;
+
+}
+
+XMFLOAT4X4 CEDirect3DGraphics::CreateViewMatrix(XMFLOAT4 position, XMFLOAT4 target, XMFLOAT4 up) {
+	XMFLOAT4X4 viewMatrix;
+	XMVECTOR cPos = XMLoadFloat4(&position);
+	XMVECTOR cTarg = XMLoadFloat4(&target);
+	XMVECTOR cUp = XMLoadFloat4(&up);
+	XMMATRIX tmpMat = XMMatrixLookAtLH(cPos, cTarg, cUp);
+	XMStoreFloat4x4(&viewMatrix, tmpMat);
+	return viewMatrix;
+}
+
+XMFLOAT4X4 CEDirect3DGraphics::CreateTranslationMatrix(XMFLOAT4 position) {
+	XMFLOAT4X4 translationMatrix;
+	XMVECTOR posVec = XMLoadFloat4(&position);
+	XMMATRIX tmpMat = XMMatrixTranslationFromVector(posVec);
+	XMStoreFloat4x4(&translationMatrix, tmpMat);
+	return translationMatrix;
+}
+
+void CEDirect3DGraphics::ResetCommandAllocators(std::vector<ID3D12CommandAllocator*> commandAllocators,
+                                                UINT frameIndex) {
+	ThrowIfFailed(commandAllocators[frameIndex]->Reset());
+}
+
+void CEDirect3DGraphics::ResetCommandList(ID3D12GraphicsCommandList* commandList,
+                                          std::vector<ID3D12CommandAllocator*> commandAllocators,
+                                          UINT frameIndex,
+                                          ID3D12PipelineState* pipelineState) {
+	ThrowIfFailed(commandList->Reset(commandAllocators[frameIndex], pipelineState));
+}
+
+void CEDirect3DGraphics::SetRenderTarget(ID3D12GraphicsCommandList* commandList,
+                                         D3D12_CPU_DESCRIPTOR_HANDLE* renderTargetViewHandle,
+                                         CD3DX12_CPU_DESCRIPTOR_HANDLE* depthStencilViewHandle,
+                                         int renderTargetDescriptorsCount) {
+	commandList->OMSetRenderTargets(renderTargetDescriptorsCount, renderTargetViewHandle, FALSE,
+	                                depthStencilViewHandle);
+}
+
+void CEDirect3DGraphics::ClearRenderTargetView(D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
+                                               int rectNumber) const {
+	m_commandList->ClearRenderTargetView(renderTargetViewHandle, clearColor, rectNumber, nullptr);
+}
+
+void CEDirect3DGraphics::ClearDepthStencilView(ID3D12GraphicsCommandList* commandList,
+                                               ID3D12DescriptorHeap* depthStencilViewHeap,
+                                               float depth,
+                                               float stencil,
+                                               int rectNumber) const {
+	commandList->ClearDepthStencilView(depthStencilViewHeap->GetCPUDescriptorHandleForHeapStart(),
+	                                   D3D12_CLEAR_FLAG_DEPTH, depth,
+	                                   stencil, rectNumber, nullptr);
+}
+
+void CEDirect3DGraphics::SetGraphicsRootSignature(ID3D12GraphicsCommandList* commandList,
+                                                  ID3D12RootSignature* rootSignature) const {
+	commandList->SetGraphicsRootSignature(rootSignature);
+}
+
+void CEDirect3DGraphics::SetDescriptorHeaps(ID3D12GraphicsCommandList* commandList,
+                                            std::vector<ID3D12DescriptorHeap*> descriptorHeaps) {
+	commandList->SetDescriptorHeaps(descriptorHeaps.size(), &descriptorHeaps[0]);
+}
+
+void CEDirect3DGraphics::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList,
+                                                        ID3D12DescriptorHeap* descriptorHeap, UINT rootParameterIndex) {
+	commandList->SetGraphicsRootDescriptorTable(rootParameterIndex,
+	                                            descriptorHeap->GetGPUDescriptorHandleForHeapStart());
+}
+
+void CEDirect3DGraphics::SetViewports(ID3D12GraphicsCommandList* commandList, D3D12_VIEWPORT* viewPort,
+                                      UINT viewPortsNumber) {
+	commandList->RSSetViewports(viewPortsNumber, viewPort);
+}
+
+void CEDirect3DGraphics::SetScissorRects(ID3D12GraphicsCommandList* commandList, D3D12_RECT* scissorRect,
+                                         UINT scissorRectsNumber) {
+	commandList->RSSetScissorRects(scissorRectsNumber, scissorRect);
+}
+
+void CEDirect3DGraphics::SetBuffers(ID3D12GraphicsCommandList* commandList, D3D12_VERTEX_BUFFER_VIEW* vertexBufferView,
+                                    D3D12_INDEX_BUFFER_VIEW* indexBufferView, UINT vertexBufferViewsNumber,
+                                    UINT vertexBufferViewStart) {
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	commandList->IASetVertexBuffers(vertexBufferViewStart, vertexBufferViewsNumber, vertexBufferView);
+	commandList->IASetIndexBuffer(indexBufferView);
+}
+
+void CEDirect3DGraphics::SetGraphicsRootConstantBufferView(ID3D12GraphicsCommandList* commandList,
+                                                           ID3D12Resource* constantBufferUploadHeap,
+                                                           UINT rootParameterIndex) {
+	commandList->
+		SetGraphicsRootConstantBufferView(rootParameterIndex, constantBufferUploadHeap->GetGPUVirtualAddress());
+}
+
+void CEDirect3DGraphics::DrawObject(ID3D12GraphicsCommandList* commandList,
+                                    UINT cubeIndices,
+                                    int instanceCount,
+                                    int startIndexLocation,
+                                    int baseVertexLocation,
+                                    int startInstanceLocation) {
+	commandList->DrawIndexedInstanced(cubeIndices, instanceCount, startIndexLocation, baseVertexLocation,
+	                                  startInstanceLocation);
+}
+
+void CEDirect3DGraphics::CloseCommandList(ID3D12GraphicsCommandList* commandList) {
+	ThrowIfFailed(commandList->Close());
+}
+
 
 bool CEDirect3DGraphics::InitD3D12() {
 	HRESULT hr;
@@ -2237,7 +2464,6 @@ bool CEDirect3DGraphics::InitD3D12() {
 	int fontImageSize = LoadImageDataFromFile(&fontImageData, fontTextureDesc, mrRobotFont.fontImage.c_str(),
 	                                          fontImageBytesPerRow);
 	if (fontImageSize <= 0) {
-		;
 		Running = false;
 		return false;
 	}

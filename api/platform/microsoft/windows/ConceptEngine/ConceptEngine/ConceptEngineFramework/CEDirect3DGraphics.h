@@ -295,8 +295,11 @@ private:
 	                                 DXGI_SAMPLE_DESC sampleDesc,
 	                                 DXGI_SWAP_EFFECT swapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD);
 	UINT GetFrameIndex(IDXGISwapChain3* swapChain);
-	ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device, int bufferCount) const;
-	UINT GetDescriptorSize(ID3D12Device* device);
+	ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device,
+	                                           int descriptorCount,
+	                                           D3D12_DESCRIPTOR_HEAP_TYPE heapType,
+	                                           D3D12_DESCRIPTOR_HEAP_FLAGS heapFlags) const;
+	UINT GetDescriptorSize(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType);
 	std::vector<ID3D12Resource*> CreateRenderTargetView(ID3D12DescriptorHeap* heap,
 	                                                    int bufferCount,
 	                                                    IDXGISwapChain3* swapChain,
@@ -341,6 +344,7 @@ private:
 	                           D3D12_HEAP_TYPE heapType,
 	                           D3D12_RESOURCE_STATES resourceState,
 	                           D3D12_CLEAR_VALUE* clearValue) const;
+	UINT64 GetUploadBufferSize(ID3D12Device* device, D3D12_RESOURCE_DESC desc);
 	void CopyToDefaultHeap(ID3D12GraphicsCommandList* commandList, ID3D12Resource* destinationHeap,
 	                       ID3D12Resource* intermediateHeap,
 	                       const BYTE* dataArray, int bufferSize) const;
@@ -351,33 +355,64 @@ private:
 
 	void CreateDepthStencilView(ID3D12Device* device, ID3D12DescriptorHeap* heap, ID3D12Resource* buffer,
 	                            D3D12_DEPTH_STENCIL_VIEW_DESC* depthStencilDesc);
-	D3D12_RESOURCE_DESC LoadTexture();
-	ID3D12Resource* CreateTextureBuffer();
-	void CreateShaderResourceView();
-	D3D12_RESOURCE_DESC LoadFonts();
-	void InitCommandList();
-	void IncrementFenceValue();
-	D3D12_VERTEX_BUFFER_VIEW CreateVertexBufferView();
-	D3D12_INDEX_BUFFER_VIEW CreateIndexBufferView();
-	CD3DX12_VIEWPORT CreateViewPort();
-	CD3DX12_RECT CreateScissorRect();
-	
-	void BuildProjection();
-	void CreateViewMatrix();
-	void ResetCommandAllocators();
-	void ResetCommandList();
-	void SetRenderTarget();
-	void ClearRenderTargetView();
-	void ClearDepthStencilView();
-	void SetGraphicsRootSignature();
-	void SetDescriptorHeaps();
-	void SetGraphicsRootDescriptorTable();
-	void SetViewports();
-	void SetScissorRects();
-	void SetBuffers();
-	void SetGraphicsRootConstantBufferView();
-	void DrawObject();
-	void CloseCommandList();
+	std::tuple<int, D3D12_RESOURCE_DESC, BYTE*> LoadTexture(std::wstring texturePath);
+	void CreateShaderResourceView(ID3D12Device* device,
+	                              ID3D12Resource* buffer,
+	                              ID3D12DescriptorHeap* heap,
+	                              D3D12_RESOURCE_DESC textureDesc,
+	                              D3D12_SRV_DIMENSION viewDimension,
+	                              int mipLevels = 1) const;
+	std::tuple<int, D3D12_RESOURCE_DESC, BYTE*> LoadFonts(std::wstring fontPath, int width, int height);
+	void InitCommandList(ID3D12GraphicsCommandList* commandList, ID3D12CommandQueue* commandQueue);
+	void IncrementFenceValue(ID3D12CommandQueue* commandQueue, std::vector<CEFence> fences, UINT frameIndex);
+	D3D12_VERTEX_BUFFER_VIEW CreateVertexBufferView(ID3D12Resource* buffer, UINT stride, UINT size);
+	D3D12_INDEX_BUFFER_VIEW CreateIndexBufferView(ID3D12Resource* buffer, DXGI_FORMAT indexBufferFormat, UINT size);
+	CD3DX12_VIEWPORT CreateViewPort(int topLeftX, int topLeftY, int width, int height, float minDepth,
+	                                float maxDepth) const;
+	CD3DX12_RECT CreateScissorRect(int left, int right, int top, int bottom) const;
+
+	XMFLOAT4X4 BuildProjection(float angleY, int width, int height, float nearZ, float farZ);
+	XMFLOAT4X4 CreateViewMatrix(XMFLOAT4 position, XMFLOAT4 target, XMFLOAT4 up);
+	XMFLOAT4X4 CreateTranslationMatrix(XMFLOAT4 position);
+
+	void ResetCommandAllocators(std::vector<ID3D12CommandAllocator*> commandAllocators, UINT frameIndex);
+	void ResetCommandList(ID3D12GraphicsCommandList* commandList,
+	                      std::vector<ID3D12CommandAllocator*> commandAllocators,
+	                      UINT frameIndex,
+	                      ID3D12PipelineState* pipelineState);
+	void SetRenderTarget(ID3D12GraphicsCommandList* commandList,
+	                     D3D12_CPU_DESCRIPTOR_HANDLE* renderTargetViewHandle,
+	                     CD3DX12_CPU_DESCRIPTOR_HANDLE* depthStencilViewHandle,
+	                     int renderTargetDescriptorsCount);
+	void ClearRenderTargetView(D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
+	                           int rectNumber = 0) const;
+	void ClearDepthStencilView(ID3D12GraphicsCommandList* commandList,
+	                           ID3D12DescriptorHeap* depthStencilViewHeap,
+	                           float depth,
+	                           float stencil,
+	                           int rectNumber) const;
+	void SetGraphicsRootSignature(ID3D12GraphicsCommandList* commandList,
+	                              ID3D12RootSignature* rootSignature) const;
+	void SetDescriptorHeaps(ID3D12GraphicsCommandList* commandList,
+	                        std::vector<ID3D12DescriptorHeap*> descriptorHeaps);
+	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* descriptorHeap,
+	                                    UINT rootParameterIndex);
+	void SetViewports(ID3D12GraphicsCommandList* commandList, D3D12_VIEWPORT* viewPort,
+	                  UINT viewPortsNumber);
+	void SetScissorRects(ID3D12GraphicsCommandList* commandList, D3D12_RECT* scissorRect,
+	                     UINT scissorRectsNumber);
+	void SetBuffers(ID3D12GraphicsCommandList* commandList, D3D12_VERTEX_BUFFER_VIEW* vertexBufferView,
+	                D3D12_INDEX_BUFFER_VIEW* indexBufferView, UINT vertexBufferViewsNumber,
+	                UINT vertexBufferViewStart = 0);
+	void SetGraphicsRootConstantBufferView(ID3D12GraphicsCommandList* commandList,
+	                                       ID3D12Resource* constantBufferUploadHeap, UINT rootParameterIndex);
+	void DrawObject(ID3D12GraphicsCommandList* commandList,
+	                UINT cubeIndices,
+	                int instanceCount = 1,
+	                int startIndexLocation = 0,
+	                int baseVertexLocation = 0,
+	                int startInstanceLocation = 0);
+	void CloseCommandList(ID3D12GraphicsCommandList* commandList);
 
 	bool InitD3D12();
 
