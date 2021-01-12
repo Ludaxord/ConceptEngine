@@ -320,8 +320,8 @@ private:
 		D3D12_ROOT_DESCRIPTOR rootDescriptor, D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable);
 	D3D12_STATIC_SAMPLER_DESC CreateStaticSampler(int shaderRegister = 0,
 	                                              int registerSpace = 0,
-	                                              int minLevelOfDetail = 0.0f,
-	                                              int maxLevelOfDetail = D3D12_FLOAT32_MAX);
+	                                              float minLevelOfDetail = 0.0f,
+	                                              float maxLevelOfDetail = D3D12_FLOAT32_MAX);
 	ID3D12RootSignature* CreateRootSignature(ID3D12Device* device, std::vector<D3D12_ROOT_PARAMETER> rootParameters,
 	                                         int staticSampler, D3D12_STATIC_SAMPLER_DESC sampler) const;
 	ID3DBlob* CompileShaderFromFile(std::wstring shaderFilePath, const char* entryPoint,
@@ -384,7 +384,8 @@ private:
 	                     D3D12_CPU_DESCRIPTOR_HANDLE* renderTargetViewHandle,
 	                     CD3DX12_CPU_DESCRIPTOR_HANDLE* depthStencilViewHandle,
 	                     int renderTargetDescriptorsCount);
-	void ClearRenderTargetView(D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
+	void ClearRenderTargetView(ID3D12GraphicsCommandList* commandList,
+	                           D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
 	                           int rectNumber = 0) const;
 	void ClearDepthStencilView(ID3D12GraphicsCommandList* commandList,
 	                           ID3D12DescriptorHeap* depthStencilViewHeap,

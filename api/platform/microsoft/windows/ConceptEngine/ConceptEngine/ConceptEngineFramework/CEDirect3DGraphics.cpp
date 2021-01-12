@@ -1075,9 +1075,6 @@ void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
 	OutputDebugStringW(wss.str().c_str());
 }
 
-void CEDirect3DGraphics::Init() {
-}
-
 IDXGIFactory4* CEDirect3DGraphics::CreateFactory() const {
 	IDXGIFactory4* dxgiFactory;
 	ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory)));
@@ -1289,7 +1286,7 @@ std::vector<D3D12_ROOT_PARAMETER> CEDirect3DGraphics::CreateRootParameters(
 }
 
 D3D12_STATIC_SAMPLER_DESC CEDirect3DGraphics::CreateStaticSampler(int shaderRegister, int registerSpace,
-                                                                  int minLevelOfDetail, int maxLevelOfDetail) {
+                                                                  float minLevelOfDetail, float maxLevelOfDetail) {
 	D3D12_STATIC_SAMPLER_DESC sampler = {};
 	sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
 	sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_BORDER;
@@ -1622,9 +1619,10 @@ void CEDirect3DGraphics::SetRenderTarget(ID3D12GraphicsCommandList* commandList,
 	                                depthStencilViewHandle);
 }
 
-void CEDirect3DGraphics::ClearRenderTargetView(D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
+void CEDirect3DGraphics::ClearRenderTargetView(ID3D12GraphicsCommandList* commandList,
+                                               D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
                                                int rectNumber) const {
-	m_commandList->ClearRenderTargetView(renderTargetViewHandle, clearColor, rectNumber, nullptr);
+	commandList->ClearRenderTargetView(renderTargetViewHandle, clearColor, rectNumber, nullptr);
 }
 
 void CEDirect3DGraphics::ClearDepthStencilView(ID3D12GraphicsCommandList* commandList,
@@ -1692,6 +1690,90 @@ void CEDirect3DGraphics::CloseCommandList(ID3D12GraphicsCommandList* commandList
 	ThrowIfFailed(commandList->Close());
 }
 
+void CEDirect3DGraphics::Init() {
+	auto* dxgiFactory = CreateFactory();
+	auto* adapter = CreateAdapter(dxgiFactory);
+	auto* device = CreateDevice(adapter);
+	auto adapterDescription = GetAdapterDescription(adapter);
+	auto* commandQueue = CreateCommandQueue(device);
+
+	DXGI_SAMPLE_DESC sampleDesc = {};
+	sampleDesc.Count = 1;
+
+	auto* swapChain = CreateSwapChain(dxgiFactory, commandQueue, g_ClientWidth, g_ClientHeight, FrameCount, hWnd,
+	                                  g_Fullscreen, sampleDesc);
+	auto frameIndex = GetFrameIndex(swapChain);
+
+	auto descriptorType = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	auto* renderTargetViewDescHeap = CreateDescriptorHeap(device, FrameCount, descriptorType,
+	                                                      D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+	const auto renderTargetViewDescHeapSize = GetDescriptorSize(device, descriptorType);
+	auto renderTargets = CreateRenderTargetView(renderTargetViewDescHeap, FrameCount, swapChain, device,
+	                                            renderTargetViewDescHeapSize);
+	auto commandAllocator = CreateCommandAllocators(device, FrameCount);
+	auto* commandList = CreateCommandList(device, commandAllocator, frameIndex);
+	auto fences = CreateFence(device, FrameCount);
+	auto fenceEvent = CreateFenceEvent();
+
+	const auto rootCBVDescriptor = CreateRootDescriptor();
+	auto descriptorTableRanges = CreateDescriptorRange(1, 1, 0);
+	auto descriptorTable = CreateDescriptorTable(descriptorTableRanges);
+	auto sampler = CreateStaticSampler();
+	auto rootParams = CreateRootParameters(rootCBVDescriptor, descriptorTable);
+
+	auto rootSignature = CreateRootSignature(device, rootParams, 1, sampler);
+
+	auto vertexShaderPath = GetAssetFullPath(L"CEVertexShader.hlsl");
+	auto vertexShader = CompileShaderFromFile(vertexShaderPath, "main", "vs_5_0");
+
+	auto vertexShaderByteCode = CreateShaderByteCode(vertexShader);
+
+	auto pixelShaderPath = GetAssetFullPath(L"CEPixelShader.hlsl");
+	auto pixelShader = CompileShaderFromFile(pixelShaderPath, "main", "ps_5_0");
+
+	auto pixelShaderByteCode = CreateShaderByteCode(pixelShader);
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout = {
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+
+	auto pipelineState = CreatePipelineState(device, rootSignature, inputLayout, vertexShaderByteCode,
+	                                         pixelShaderByteCode, sampleDesc);
+
+	auto textVertexShaderPath = GetAssetFullPath(L"CETextVertexShader.hlsl");
+	auto textVertexShader = CompileShaderFromFile(textVertexShaderPath, "main", "vs_5_0");
+
+	auto textVertexShaderByteCode = CreateShaderByteCode(textVertexShader);
+
+	auto textPixelShaderPath = GetAssetFullPath(L"CETextPixelShader.hlsl");
+	auto textPixelShader = CompileShaderFromFile(textPixelShaderPath, "main", "ps_5_0");
+
+	auto textPixelShaderByteCode = CreateShaderByteCode(textPixelShader);
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> textInputLayout = {
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA, 1},
+	};
+
+	auto blendDesc = CreateBlendDescriptor();
+
+	D3D12_DEPTH_STENCIL_DESC textDepthStencilDesc = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	textDepthStencilDesc.DepthEnable = false;
+
+	auto textPipelineState = CreatePipelineState(device, rootSignature, textInputLayout, textVertexShaderByteCode,
+	                                             textPixelShaderByteCode, sampleDesc, textDepthStencilDesc, blendDesc);
+
+	int vBufferSize = sizeof(CubesTexVertices);
+	auto* vertexBuffer = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(vBufferSize), D3D12_HEAP_TYPE_DEFAULT,
+	                                D3D12_RESOURCE_STATE_COPY_DEST, nullptr);
+
+	auto* vertexBufferUpload = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(vBufferSize), D3D12_HEAP_TYPE_UPLOAD,
+		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
+	CopyToDefaultHeap(commandList, vertexBuffer, vertexBufferUpload, reinterpret_cast<BYTE*>(CubesTexVertices), vBufferSize);
+	TransitionToBuffer(commandList, vertexBuffer, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER)
+}
 
 bool CEDirect3DGraphics::InitD3D12() {
 	HRESULT hr;
