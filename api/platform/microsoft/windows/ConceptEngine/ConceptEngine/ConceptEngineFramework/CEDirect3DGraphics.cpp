@@ -841,6 +841,11 @@ void CEDirect3DGraphics::UpdatePerSecond(float second) {
 	if (elapsedSeconds > second) {
 		auto fps = FPSFormula(frameCounter, elapsedSeconds);
 		ConceptEngine::GetLogger()->info("FPS: {:.7}", fps);
+
+		std::stringstream oss;
+		oss << "Screen Width: " << g_ClientWidth << " Screen Height: " << g_ClientHeight << std::endl;
+		ConceptEngine::GetLogger()->info(oss.str().c_str());
+
 		frameCounter = 0;
 		elapsedSeconds = 0.0;
 	}
@@ -954,7 +959,7 @@ void CEDirect3DGraphics::UpdatePipeline() {
 }
 
 void CEDirect3DGraphics::OnRender() {
-
+	g_IsInitialized = true;
 	HRESULT hr;
 
 	UpdatePipeline(); // update the pipeline by sending commands to the commandqueue
@@ -1039,9 +1044,6 @@ void CEDirect3DGraphics::OnMouseButtonReleased() {
 }
 
 void CEDirect3DGraphics::OnMouseWheel() {
-}
-
-void CEDirect3DGraphics::OnResize() {
 }
 
 void CEDirect3DGraphics::OnWindowDestroy() {
@@ -1982,6 +1984,109 @@ void CEDirect3DGraphics::Init() {
 	auto cube2WorldMatrix = CreateTranslationMatrix(XMFLOAT4(1.5f, 0.0f, 0.0f, 0.0f), cube1Position);
 
 }
+
+void CEDirect3DGraphics::OnResize() {
+	HRESULT hr;
+	WaitForPreviousFrame();
+	hr = m_commandAllocators[m_frameIndex]->Reset();
+	if (FAILED(hr)) {
+		Running = false;
+	}
+
+	hr = m_commandList->Reset(m_commandAllocators[m_frameIndex].Get(), m_pipelineState.Get());
+	if (FAILED(hr)) {
+		Running = false;
+	}
+
+	for (int i = 0; i < FrameCount; ++i) {
+		m_renderTargets[i].Reset();
+	}
+	m_DepthBuffer.Reset();
+
+	ThrowIfFailed(m_swapChain->ResizeBuffers(FrameCount, g_ClientWidth, g_ClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM,
+	                                         DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
+	m_frameIndex = 0;
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	for (int i = 0; i < FrameCount; i++) {
+		hr = m_swapChain->GetBuffer(i, IID_PPV_ARGS(&m_renderTargets[i]));
+		if (FAILED(hr)) {
+			Running = false;
+		}
+		
+		m_device->CreateRenderTargetView(m_renderTargets[i].Get(), nullptr, rtvHandle);
+		rtvHandle.Offset(1, m_rtvDescriptorSize);
+
+	}
+
+	// Create the depth/stencil buffer and view.
+	D3D12_RESOURCE_DESC depthStencilDesc;
+	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthStencilDesc.Alignment = 0;
+	depthStencilDesc.Width = g_ClientWidth;
+	depthStencilDesc.Height = g_ClientHeight;
+	depthStencilDesc.DepthOrArraySize = 1;
+	depthStencilDesc.MipLevels = 1;
+
+	// Correction 11/12/2016: SSAO chapter requires an SRV to the depth buffer to read from 
+	// the depth buffer.  Therefore, because we need to create two views to the same resource:
+	//   1. SRV format: DXGI_FORMAT_R24_UNORM_X8_TYPELESS
+	//   2. DSV Format: DXGI_FORMAT_D24_UNORM_S8_UINT
+	// we need to create the depth buffer resource with a typeless format.  
+	depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+
+	depthStencilDesc.SampleDesc.Count = m4xMsaaState ? 4 : 1;
+	depthStencilDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - 1) : 0;
+	depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	D3D12_CLEAR_VALUE optClear;
+	optClear.Format = DXGI_FORMAT_D32_FLOAT;
+	optClear.DepthStencil.Depth = 1.0f;
+	optClear.DepthStencil.Stencil = 0;
+	ThrowIfFailed(m_device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&depthStencilDesc,
+		D3D12_RESOURCE_STATE_COMMON,
+		&optClear,
+		IID_PPV_ARGS(m_DepthBuffer.GetAddressOf())));
+
+	// Create descriptor to mip level 0 of entire resource using the format of the resource.
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.Texture2D.MipSlice = 0;
+	m_device->CreateDepthStencilView(m_DepthBuffer.Get(), &dsvDesc, m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
+
+	// Transition the resource from its initial state to be used as a depth buffer.
+	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DepthBuffer.Get(),
+		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+
+	// Execute the resize commands.
+	ThrowIfFailed(m_commandList->Close());
+	ID3D12CommandList* cmdsLists[] = { m_commandList.Get() };
+	m_commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until resize is complete.
+	WaitForPreviousFrame();
+
+	// Update the viewport transform to cover the client area.
+	m_Viewport.TopLeftX = 0;
+	m_Viewport.TopLeftY = 0;
+	m_Viewport.Width = g_ClientWidth;
+	m_Viewport.Height = g_ClientHeight;
+	m_Viewport.MinDepth = 0.0f;
+	m_Viewport.MaxDepth = 1.0f;
+
+	// Fill out a scissor rect
+	m_ScissorRect.left = 0;
+	m_ScissorRect.top = 0;
+	m_ScissorRect.right = g_ClientWidth;
+	m_ScissorRect.bottom = g_ClientHeight;
+}
+
 
 bool CEDirect3DGraphics::InitD3D12() {
 	HRESULT hr;

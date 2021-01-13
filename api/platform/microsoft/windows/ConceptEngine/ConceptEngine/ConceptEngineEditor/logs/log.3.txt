@@ -1,9 +1,24 @@
-[2021-01-11 21:15:20.068] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-11 21:15:20.068] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-11 21:15:20.068] [ConceptEngine] [info] Driver: 0 Build: 57628.0.0
-[2021-01-11 21:15:20.068] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-11 21:15:20.068] [ConceptEngine] [info] Revision: 161
-[2021-01-11 21:15:20.068] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-11 21:15:20.068] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-11 21:15:21.074] [ConceptEngine] [info] FPS: 2435.564
-[2021-01-11 21:15:22.074] [ConceptEngine] [info] FPS: 4144.322
+[2021-01-13 21:16:19.611] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-13 21:16:19.612] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-13 21:16:19.612] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
+[2021-01-13 21:16:19.612] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-13 21:16:19.612] [ConceptEngine] [info] Revision: 161
+[2021-01-13 21:16:19.612] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-13 21:16:19.612] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-13 21:16:20.615] [ConceptEngine] [info] FPS: 2914.638
+[2021-01-13 21:16:21.615] [ConceptEngine] [info] FPS: 4841.894
+[2021-01-13 21:16:22.615] [ConceptEngine] [info] FPS: 5007.584
+[2021-01-13 21:16:23.615] [ConceptEngine] [info] FPS: 5119.228
+[2021-01-13 21:16:24.615] [ConceptEngine] [info] FPS: 4759.202
+[2021-01-13 21:16:25.615] [ConceptEngine] [info] FPS: 5195.989
+[2021-01-13 21:16:26.615] [ConceptEngine] [info] FPS: 5071.710
+[2021-01-13 21:16:27.615] [ConceptEngine] [info] FPS: 5155.267
+[2021-01-13 21:16:28.615] [ConceptEngine] [info] FPS: 5151.502
+[2021-01-13 21:16:29.615] [ConceptEngine] [info] FPS: 5103.220
+[2021-01-13 21:16:30.615] [ConceptEngine] [info] FPS: 5035.935
+[2021-01-13 21:16:31.615] [ConceptEngine] [info] FPS: 5160.689
+[2021-01-13 21:16:32.616] [ConceptEngine] [info] FPS: 5216.775
+[2021-01-13 21:16:33.616] [ConceptEngine] [info] FPS: 5167.919
+[2021-01-13 21:16:34.616] [ConceptEngine] [info] FPS: 5000.401
+[2021-01-13 21:16:35.616] [ConceptEngine] [info] FPS: 4650.935
+[2021-01-13 21:16:36.616] [ConceptEngine] [info] FPS: 4766.805

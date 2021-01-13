@@ -104,6 +104,7 @@ public:
 	virtual void OnDestroy() = 0;
 	virtual void OnRender() = 0;
 	virtual void OnUpdate() = 0;
+	virtual void OnResize() = 0;
 
 public:
 	virtual void UpdatePerSecond(float second) = 0;
@@ -118,10 +119,10 @@ protected:
 	virtual void OnMouseButtonPressed() = 0;
 	virtual void OnMouseButtonReleased() = 0;
 	virtual void OnMouseWheel() = 0;
-	virtual void OnResize() = 0;
 	virtual void OnWindowDestroy() = 0;
 	virtual IGPUInfo GetGPUInfo() = 0;
 public:
+	void ChangeScreenSize(float width, float height);
 	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
 	virtual void SetFullscreen(bool fullscreen);
 

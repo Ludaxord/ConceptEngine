@@ -172,6 +172,11 @@ wchar_t* CEGraphics::CountFPS(bool displayLog) {
 	return output;
 }
 
+void CEGraphics::ChangeScreenSize(float width, float height) {
+	g_ClientWidth = width;
+	g_ClientHeight = height;
+}
+
 void CEGraphics::ChangeClearColor(float red, float green, float blue, float alpha) {
 	clearColor[0] = red;
 	clearColor[1] = green;

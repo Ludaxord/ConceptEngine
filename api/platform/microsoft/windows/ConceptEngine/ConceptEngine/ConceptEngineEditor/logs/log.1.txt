@@ -1,25 +1,28 @@
-[2021-01-12 22:41:20.990] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-12 22:41:20.991] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-12 22:41:20.991] [ConceptEngine] [info] Driver: 0 Build: 59289.0.0
-[2021-01-12 22:41:20.991] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-12 22:41:20.991] [ConceptEngine] [info] Revision: 161
-[2021-01-12 22:41:20.991] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-12 22:41:20.991] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-12 22:41:21.991] [ConceptEngine] [info] FPS: 1945.047
-[2021-01-12 22:41:22.992] [ConceptEngine] [info] FPS: 1963.788
-[2021-01-12 22:41:23.992] [ConceptEngine] [info] FPS: 2349.857
-[2021-01-12 22:41:24.992] [ConceptEngine] [info] FPS: 2684.771
-[2021-01-12 22:41:25.992] [ConceptEngine] [info] FPS: 2621.133
-[2021-01-12 22:41:26.992] [ConceptEngine] [info] FPS: 2614.991
-[2021-01-12 22:41:27.992] [ConceptEngine] [info] FPS: 2244.894
-[2021-01-12 22:41:28.992] [ConceptEngine] [info] FPS: 2415.705
-[2021-01-12 22:41:29.992] [ConceptEngine] [info] FPS: 2444.969
-[2021-01-12 22:41:30.992] [ConceptEngine] [info] FPS: 2380.845
-[2021-01-12 22:41:31.993] [ConceptEngine] [info] FPS: 2484.358
-[2021-01-12 22:41:32.993] [ConceptEngine] [info] FPS: 2510.898
-[2021-01-12 22:41:33.993] [ConceptEngine] [info] FPS: 2393.856
-[2021-01-12 22:41:34.993] [ConceptEngine] [info] FPS: 2238.654
-[2021-01-12 22:41:35.993] [ConceptEngine] [info] FPS: 2367.960
-[2021-01-12 22:41:36.993] [ConceptEngine] [info] FPS: 2428.720
-[2021-01-12 22:41:37.993] [ConceptEngine] [info] FPS: 3295.802
-[2021-01-12 22:41:38.993] [ConceptEngine] [info] FPS: 5200.374
+[2021-01-13 22:31:20.007] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-13 22:31:20.007] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-13 22:31:20.007] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
+[2021-01-13 22:31:20.007] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-13 22:31:20.007] [ConceptEngine] [info] Revision: 161
+[2021-01-13 22:31:20.007] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-13 22:31:20.007] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-13 22:31:21.011] [ConceptEngine] [info] FPS: 2450.576
+[2021-01-13 22:31:21.011] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 22:31:22.011] [ConceptEngine] [info] FPS: 4566.546
+[2021-01-13 22:31:22.011] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 22:31:23.011] [ConceptEngine] [info] FPS: 5063.770
+[2021-01-13 22:31:23.011] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 22:31:24.235] [ConceptEngine] [info] FPS: 2563.504
+[2021-01-13 22:31:24.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
+
+[2021-01-13 22:31:25.235] [ConceptEngine] [info] FPS: 5742.164
+[2021-01-13 22:31:25.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
+
+[2021-01-13 22:31:26.235] [ConceptEngine] [info] FPS: 5638.275
+[2021-01-13 22:31:26.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
+
+[2021-01-13 22:31:27.235] [ConceptEngine] [info] FPS: 5644.357
+[2021-01-13 22:31:27.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
+

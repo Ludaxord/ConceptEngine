@@ -498,6 +498,10 @@ private:
 		XMFLOAT4 colorMultiplier;
 	};
 
+	// Set true to use 4X MSAA (§4.1.8).  The default is false.
+	bool      m4xMsaaState = false;    // 4X MSAA enabled
+	UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
+	
 	// wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
 	// this heap will store the descripor to our constant buffer
 	wrl::ComPtr<ID3D12Resource> constantBufferUploadHeap[FrameCount];

@@ -1,10 +1,961 @@
-[2021-01-11 22:31:05.172] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-11 22:31:05.172] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-11 22:31:05.172] [ConceptEngine] [info] Driver: 0 Build: 57628.0.0
-[2021-01-11 22:31:05.172] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-11 22:31:05.172] [ConceptEngine] [info] Revision: 161
-[2021-01-11 22:31:05.172] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-11 22:31:05.172] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-11 22:31:06.172] [ConceptEngine] [info] FPS: 3757.432
-[2021-01-11 22:31:07.172] [ConceptEngine] [info] FPS: 4054.572
-[2021-01-11 22:31:08.172] [ConceptEngine] [info] FPS: 5224.565
+[2021-01-13 21:27:07.937] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-13 21:27:07.938] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-13 21:27:07.938] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
+[2021-01-13 21:27:07.938] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-13 21:27:07.938] [ConceptEngine] [info] Revision: 161
+[2021-01-13 21:27:07.938] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-13 21:27:07.938] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-13 21:27:08.940] [ConceptEngine] [info] FPS: 3116.560
+[2021-01-13 21:27:08.940] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:09.940] [ConceptEngine] [info] FPS: 4785.836
+[2021-01-13 21:27:09.940] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:10.940] [ConceptEngine] [info] FPS: 4923.581
+[2021-01-13 21:27:10.940] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:11.940] [ConceptEngine] [info] FPS: 4872.291
+[2021-01-13 21:27:11.940] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:12.940] [ConceptEngine] [info] FPS: 5096.874
+[2021-01-13 21:27:12.940] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:13.940] [ConceptEngine] [info] FPS: 5020.588
+[2021-01-13 21:27:13.940] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:14.941] [ConceptEngine] [info] FPS: 5068.699
+[2021-01-13 21:27:14.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:15.941] [ConceptEngine] [info] FPS: 5025.947
+[2021-01-13 21:27:15.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:16.941] [ConceptEngine] [info] FPS: 5194.706
+[2021-01-13 21:27:16.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:17.941] [ConceptEngine] [info] FPS: 5182.979
+[2021-01-13 21:27:17.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:18.941] [ConceptEngine] [info] FPS: 5153.491
+[2021-01-13 21:27:18.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:19.941] [ConceptEngine] [info] FPS: 5096.778
+[2021-01-13 21:27:19.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:20.941] [ConceptEngine] [info] FPS: 5139.318
+[2021-01-13 21:27:20.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:21.941] [ConceptEngine] [info] FPS: 5127.986
+[2021-01-13 21:27:21.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:22.941] [ConceptEngine] [info] FPS: 5170.341
+[2021-01-13 21:27:22.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:23.941] [ConceptEngine] [info] FPS: 5153.721
+[2021-01-13 21:27:23.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:24.941] [ConceptEngine] [info] FPS: 5119.932
+[2021-01-13 21:27:24.941] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:25.942] [ConceptEngine] [info] FPS: 5142.175
+[2021-01-13 21:27:25.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:26.942] [ConceptEngine] [info] FPS: 5139.670
+[2021-01-13 21:27:26.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:27.942] [ConceptEngine] [info] FPS: 5218.290
+[2021-01-13 21:27:27.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:28.942] [ConceptEngine] [info] FPS: 5174.320
+[2021-01-13 21:27:28.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:29.942] [ConceptEngine] [info] FPS: 5178.601
+[2021-01-13 21:27:29.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:30.942] [ConceptEngine] [info] FPS: 5148.594
+[2021-01-13 21:27:30.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:31.942] [ConceptEngine] [info] FPS: 4828.877
+[2021-01-13 21:27:31.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:32.942] [ConceptEngine] [info] FPS: 5011.828
+[2021-01-13 21:27:32.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:33.942] [ConceptEngine] [info] FPS: 5169.199
+[2021-01-13 21:27:33.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:34.942] [ConceptEngine] [info] FPS: 5047.368
+[2021-01-13 21:27:34.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:35.942] [ConceptEngine] [info] FPS: 5122.755
+[2021-01-13 21:27:35.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:36.942] [ConceptEngine] [info] FPS: 5102.952
+[2021-01-13 21:27:36.942] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:37.942] [ConceptEngine] [info] FPS: 5009.884
+[2021-01-13 21:27:37.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:38.943] [ConceptEngine] [info] FPS: 4873.422
+[2021-01-13 21:27:38.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:39.943] [ConceptEngine] [info] FPS: 5065.965
+[2021-01-13 21:27:39.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:40.943] [ConceptEngine] [info] FPS: 5083.151
+[2021-01-13 21:27:40.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:41.943] [ConceptEngine] [info] FPS: 5099.517
+[2021-01-13 21:27:41.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:42.943] [ConceptEngine] [info] FPS: 5107.646
+[2021-01-13 21:27:42.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:43.943] [ConceptEngine] [info] FPS: 5094.321
+[2021-01-13 21:27:43.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:44.943] [ConceptEngine] [info] FPS: 5132.450
+[2021-01-13 21:27:44.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:45.943] [ConceptEngine] [info] FPS: 5168.552
+[2021-01-13 21:27:45.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:46.943] [ConceptEngine] [info] FPS: 5207.338
+[2021-01-13 21:27:46.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:47.943] [ConceptEngine] [info] FPS: 5188.858
+[2021-01-13 21:27:47.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:48.943] [ConceptEngine] [info] FPS: 5138.960
+[2021-01-13 21:27:48.943] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:49.944] [ConceptEngine] [info] FPS: 5134.227
+[2021-01-13 21:27:49.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:50.944] [ConceptEngine] [info] FPS: 5177.515
+[2021-01-13 21:27:50.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:51.944] [ConceptEngine] [info] FPS: 5105.344
+[2021-01-13 21:27:51.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:52.944] [ConceptEngine] [info] FPS: 4735.606
+[2021-01-13 21:27:52.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:53.944] [ConceptEngine] [info] FPS: 5067.988
+[2021-01-13 21:27:53.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:54.944] [ConceptEngine] [info] FPS: 5023.866
+[2021-01-13 21:27:54.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:55.944] [ConceptEngine] [info] FPS: 5074.695
+[2021-01-13 21:27:55.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:56.944] [ConceptEngine] [info] FPS: 5061.411
+[2021-01-13 21:27:56.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:57.944] [ConceptEngine] [info] FPS: 5057.172
+[2021-01-13 21:27:57.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:58.944] [ConceptEngine] [info] FPS: 4933.247
+[2021-01-13 21:27:58.944] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:27:59.945] [ConceptEngine] [info] FPS: 5086.374
+[2021-01-13 21:27:59.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:00.945] [ConceptEngine] [info] FPS: 5100.364
+[2021-01-13 21:28:00.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:01.945] [ConceptEngine] [info] FPS: 5064.800
+[2021-01-13 21:28:01.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:02.945] [ConceptEngine] [info] FPS: 5132.736
+[2021-01-13 21:28:02.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:03.945] [ConceptEngine] [info] FPS: 5125.189
+[2021-01-13 21:28:03.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:04.945] [ConceptEngine] [info] FPS: 4970.346
+[2021-01-13 21:28:04.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:05.945] [ConceptEngine] [info] FPS: 5030.784
+[2021-01-13 21:28:05.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:06.945] [ConceptEngine] [info] FPS: 5029.987
+[2021-01-13 21:28:06.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:07.945] [ConceptEngine] [info] FPS: 5029.310
+[2021-01-13 21:28:07.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:08.945] [ConceptEngine] [info] FPS: 5045.506
+[2021-01-13 21:28:08.945] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:09.945] [ConceptEngine] [info] FPS: 5112.094
+[2021-01-13 21:28:09.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:10.946] [ConceptEngine] [info] FPS: 4975.487
+[2021-01-13 21:28:10.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:11.946] [ConceptEngine] [info] FPS: 5021.704
+[2021-01-13 21:28:11.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:12.946] [ConceptEngine] [info] FPS: 5100.165
+[2021-01-13 21:28:12.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:13.946] [ConceptEngine] [info] FPS: 5052.541
+[2021-01-13 21:28:13.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:14.946] [ConceptEngine] [info] FPS: 5100.787
+[2021-01-13 21:28:14.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:15.946] [ConceptEngine] [info] FPS: 5139.750
+[2021-01-13 21:28:15.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:16.946] [ConceptEngine] [info] FPS: 5188.948
+[2021-01-13 21:28:16.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:17.946] [ConceptEngine] [info] FPS: 5159.472
+[2021-01-13 21:28:17.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:18.946] [ConceptEngine] [info] FPS: 5096.109
+[2021-01-13 21:28:18.946] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:19.946] [ConceptEngine] [info] FPS: 5036.107
+[2021-01-13 21:28:19.947] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:20.946] [ConceptEngine] [info] FPS: 5077.957
+[2021-01-13 21:28:20.947] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:21.947] [ConceptEngine] [info] FPS: 5032.765
+[2021-01-13 21:28:21.947] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:22.947] [ConceptEngine] [info] FPS: 4998.218
+[2021-01-13 21:28:22.947] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:23.947] [ConceptEngine] [info] FPS: 5047.125
+[2021-01-13 21:28:23.947] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:24.947] [ConceptEngine] [info] FPS: 4983.609
+[2021-01-13 21:28:24.947] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:25.948] [ConceptEngine] [info] FPS: 4963.806
+[2021-01-13 21:28:25.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:26.948] [ConceptEngine] [info] FPS: 5079.918
+[2021-01-13 21:28:26.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:27.948] [ConceptEngine] [info] FPS: 5040.823
+[2021-01-13 21:28:27.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:28.948] [ConceptEngine] [info] FPS: 4788.206
+[2021-01-13 21:28:28.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:29.948] [ConceptEngine] [info] FPS: 5074.709
+[2021-01-13 21:28:29.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:30.948] [ConceptEngine] [info] FPS: 5025.064
+[2021-01-13 21:28:30.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:31.948] [ConceptEngine] [info] FPS: 5029.315
+[2021-01-13 21:28:31.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:32.948] [ConceptEngine] [info] FPS: 5075.907
+[2021-01-13 21:28:32.948] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:33.949] [ConceptEngine] [info] FPS: 5025.144
+[2021-01-13 21:28:33.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:34.949] [ConceptEngine] [info] FPS: 4943.795
+[2021-01-13 21:28:34.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:35.949] [ConceptEngine] [info] FPS: 5045.561
+[2021-01-13 21:28:35.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:36.949] [ConceptEngine] [info] FPS: 5138.181
+[2021-01-13 21:28:36.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:37.949] [ConceptEngine] [info] FPS: 5058.402
+[2021-01-13 21:28:37.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:38.949] [ConceptEngine] [info] FPS: 5048.726
+[2021-01-13 21:28:38.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:39.949] [ConceptEngine] [info] FPS: 5074.738
+[2021-01-13 21:28:39.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:40.949] [ConceptEngine] [info] FPS: 4921.128
+[2021-01-13 21:28:40.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:41.949] [ConceptEngine] [info] FPS: 4977.230
+[2021-01-13 21:28:41.949] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:42.949] [ConceptEngine] [info] FPS: 5065.517
+[2021-01-13 21:28:42.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:43.950] [ConceptEngine] [info] FPS: 5048.789
+[2021-01-13 21:28:43.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:44.950] [ConceptEngine] [info] FPS: 4950.673
+[2021-01-13 21:28:44.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:45.950] [ConceptEngine] [info] FPS: 4584.708
+[2021-01-13 21:28:45.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:46.950] [ConceptEngine] [info] FPS: 4827.376
+[2021-01-13 21:28:46.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:47.950] [ConceptEngine] [info] FPS: 4992.774
+[2021-01-13 21:28:47.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:48.950] [ConceptEngine] [info] FPS: 5016.876
+[2021-01-13 21:28:48.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:49.950] [ConceptEngine] [info] FPS: 5058.447
+[2021-01-13 21:28:49.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:50.950] [ConceptEngine] [info] FPS: 5009.226
+[2021-01-13 21:28:50.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:51.950] [ConceptEngine] [info] FPS: 5029.903
+[2021-01-13 21:28:51.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:52.950] [ConceptEngine] [info] FPS: 5004.980
+[2021-01-13 21:28:52.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:53.950] [ConceptEngine] [info] FPS: 5009.989
+[2021-01-13 21:28:53.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:54.950] [ConceptEngine] [info] FPS: 5080.211
+[2021-01-13 21:28:54.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:55.950] [ConceptEngine] [info] FPS: 5109.630
+[2021-01-13 21:28:55.950] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:56.951] [ConceptEngine] [info] FPS: 5066.320
+[2021-01-13 21:28:56.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:57.951] [ConceptEngine] [info] FPS: 5092.230
+[2021-01-13 21:28:57.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:58.951] [ConceptEngine] [info] FPS: 5103.756
+[2021-01-13 21:28:58.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:28:59.951] [ConceptEngine] [info] FPS: 5174.653
+[2021-01-13 21:28:59.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:00.951] [ConceptEngine] [info] FPS: 5145.979
+[2021-01-13 21:29:00.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:01.951] [ConceptEngine] [info] FPS: 5062.220
+[2021-01-13 21:29:01.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:02.951] [ConceptEngine] [info] FPS: 5109.418
+[2021-01-13 21:29:02.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:03.951] [ConceptEngine] [info] FPS: 5159.949
+[2021-01-13 21:29:03.951] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:04.952] [ConceptEngine] [info] FPS: 5161.202
+[2021-01-13 21:29:04.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:05.952] [ConceptEngine] [info] FPS: 4964.409
+[2021-01-13 21:29:05.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:06.952] [ConceptEngine] [info] FPS: 5028.400
+[2021-01-13 21:29:06.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:07.952] [ConceptEngine] [info] FPS: 5044.724
+[2021-01-13 21:29:07.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:08.952] [ConceptEngine] [info] FPS: 5020.332
+[2021-01-13 21:29:08.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:09.952] [ConceptEngine] [info] FPS: 5028.712
+[2021-01-13 21:29:09.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:10.952] [ConceptEngine] [info] FPS: 5109.354
+[2021-01-13 21:29:10.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:11.952] [ConceptEngine] [info] FPS: 4976.859
+[2021-01-13 21:29:11.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:12.952] [ConceptEngine] [info] FPS: 5010.287
+[2021-01-13 21:29:12.952] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:13.952] [ConceptEngine] [info] FPS: 5084.610
+[2021-01-13 21:29:13.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:14.952] [ConceptEngine] [info] FPS: 5092.928
+[2021-01-13 21:29:14.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:15.953] [ConceptEngine] [info] FPS: 5072.790
+[2021-01-13 21:29:15.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:16.953] [ConceptEngine] [info] FPS: 5066.918
+[2021-01-13 21:29:16.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:17.953] [ConceptEngine] [info] FPS: 5170.751
+[2021-01-13 21:29:17.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:18.953] [ConceptEngine] [info] FPS: 5155.441
+[2021-01-13 21:29:18.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:19.953] [ConceptEngine] [info] FPS: 5144.619
+[2021-01-13 21:29:19.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:20.953] [ConceptEngine] [info] FPS: 5206.696
+[2021-01-13 21:29:20.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:21.953] [ConceptEngine] [info] FPS: 5180.315
+[2021-01-13 21:29:21.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:22.953] [ConceptEngine] [info] FPS: 5214.218
+[2021-01-13 21:29:22.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:23.953] [ConceptEngine] [info] FPS: 5173.092
+[2021-01-13 21:29:23.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:24.953] [ConceptEngine] [info] FPS: 5167.262
+[2021-01-13 21:29:24.953] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:25.953] [ConceptEngine] [info] FPS: 5162.632
+[2021-01-13 21:29:25.954] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:26.954] [ConceptEngine] [info] FPS: 5211.133
+[2021-01-13 21:29:26.954] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:27.954] [ConceptEngine] [info] FPS: 5195.711
+[2021-01-13 21:29:27.954] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:28.954] [ConceptEngine] [info] FPS: 5149.815
+[2021-01-13 21:29:28.954] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:29.954] [ConceptEngine] [info] FPS: 5162.405
+[2021-01-13 21:29:29.954] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:30.954] [ConceptEngine] [info] FPS: 5182.371
+[2021-01-13 21:29:30.954] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:31.954] [ConceptEngine] [info] FPS: 5127.388
+[2021-01-13 21:29:31.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:32.955] [ConceptEngine] [info] FPS: 5177.870
+[2021-01-13 21:29:32.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:33.955] [ConceptEngine] [info] FPS: 5199.785
+[2021-01-13 21:29:33.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:34.955] [ConceptEngine] [info] FPS: 5179.274
+[2021-01-13 21:29:34.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:35.955] [ConceptEngine] [info] FPS: 5244.263
+[2021-01-13 21:29:35.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:36.955] [ConceptEngine] [info] FPS: 5215.721
+[2021-01-13 21:29:36.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:37.955] [ConceptEngine] [info] FPS: 5182.293
+[2021-01-13 21:29:37.955] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:38.955] [ConceptEngine] [info] FPS: 5191.694
+[2021-01-13 21:29:38.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:39.956] [ConceptEngine] [info] FPS: 5240.144
+[2021-01-13 21:29:39.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:40.956] [ConceptEngine] [info] FPS: 5207.098
+[2021-01-13 21:29:40.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:41.956] [ConceptEngine] [info] FPS: 5189.973
+[2021-01-13 21:29:41.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:42.956] [ConceptEngine] [info] FPS: 5139.230
+[2021-01-13 21:29:42.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:43.956] [ConceptEngine] [info] FPS: 5150.515
+[2021-01-13 21:29:43.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:44.956] [ConceptEngine] [info] FPS: 5151.837
+[2021-01-13 21:29:44.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:45.956] [ConceptEngine] [info] FPS: 5199.748
+[2021-01-13 21:29:45.956] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:46.957] [ConceptEngine] [info] FPS: 5225.686
+[2021-01-13 21:29:46.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:47.957] [ConceptEngine] [info] FPS: 5175.687
+[2021-01-13 21:29:47.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:48.957] [ConceptEngine] [info] FPS: 5135.296
+[2021-01-13 21:29:48.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:49.957] [ConceptEngine] [info] FPS: 5191.805
+[2021-01-13 21:29:49.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:50.957] [ConceptEngine] [info] FPS: 4986.255
+[2021-01-13 21:29:50.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:51.957] [ConceptEngine] [info] FPS: 5066.891
+[2021-01-13 21:29:51.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:52.957] [ConceptEngine] [info] FPS: 5017.470
+[2021-01-13 21:29:52.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:53.957] [ConceptEngine] [info] FPS: 5010.825
+[2021-01-13 21:29:53.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:54.957] [ConceptEngine] [info] FPS: 5042.389
+[2021-01-13 21:29:54.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:55.957] [ConceptEngine] [info] FPS: 5023.515
+[2021-01-13 21:29:55.957] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:56.958] [ConceptEngine] [info] FPS: 4984.144
+[2021-01-13 21:29:56.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:57.958] [ConceptEngine] [info] FPS: 5003.924
+[2021-01-13 21:29:57.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:58.958] [ConceptEngine] [info] FPS: 4943.198
+[2021-01-13 21:29:58.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:29:59.958] [ConceptEngine] [info] FPS: 4841.483
+[2021-01-13 21:29:59.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:00.958] [ConceptEngine] [info] FPS: 5035.643
+[2021-01-13 21:30:00.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:01.958] [ConceptEngine] [info] FPS: 5020.820
+[2021-01-13 21:30:01.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:02.958] [ConceptEngine] [info] FPS: 5039.872
+[2021-01-13 21:30:02.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:03.958] [ConceptEngine] [info] FPS: 5101.612
+[2021-01-13 21:30:03.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:04.958] [ConceptEngine] [info] FPS: 4992.789
+[2021-01-13 21:30:04.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:05.958] [ConceptEngine] [info] FPS: 4946.780
+[2021-01-13 21:30:05.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:06.958] [ConceptEngine] [info] FPS: 5069.201
+[2021-01-13 21:30:06.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:07.958] [ConceptEngine] [info] FPS: 5110.492
+[2021-01-13 21:30:07.958] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:08.958] [ConceptEngine] [info] FPS: 4955.376
+[2021-01-13 21:30:08.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:09.959] [ConceptEngine] [info] FPS: 5088.795
+[2021-01-13 21:30:09.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:10.959] [ConceptEngine] [info] FPS: 5102.344
+[2021-01-13 21:30:10.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:11.959] [ConceptEngine] [info] FPS: 5155.535
+[2021-01-13 21:30:11.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:12.959] [ConceptEngine] [info] FPS: 5144.516
+[2021-01-13 21:30:12.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:13.959] [ConceptEngine] [info] FPS: 5167.990
+[2021-01-13 21:30:13.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:14.959] [ConceptEngine] [info] FPS: 5170.776
+[2021-01-13 21:30:14.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:15.959] [ConceptEngine] [info] FPS: 5030.651
+[2021-01-13 21:30:15.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:16.959] [ConceptEngine] [info] FPS: 4970.196
+[2021-01-13 21:30:16.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:17.959] [ConceptEngine] [info] FPS: 5025.989
+[2021-01-13 21:30:17.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:18.959] [ConceptEngine] [info] FPS: 5015.501
+[2021-01-13 21:30:18.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:19.959] [ConceptEngine] [info] FPS: 5032.815
+[2021-01-13 21:30:19.959] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:20.960] [ConceptEngine] [info] FPS: 5095.223
+[2021-01-13 21:30:20.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:21.960] [ConceptEngine] [info] FPS: 5023.907
+[2021-01-13 21:30:21.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:22.960] [ConceptEngine] [info] FPS: 4849.406
+[2021-01-13 21:30:22.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:23.960] [ConceptEngine] [info] FPS: 4999.553
+[2021-01-13 21:30:23.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:24.960] [ConceptEngine] [info] FPS: 5093.892
+[2021-01-13 21:30:24.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:25.960] [ConceptEngine] [info] FPS: 5049.315
+[2021-01-13 21:30:25.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:26.960] [ConceptEngine] [info] FPS: 5007.836
+[2021-01-13 21:30:26.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:27.960] [ConceptEngine] [info] FPS: 5041.911
+[2021-01-13 21:30:27.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:28.960] [ConceptEngine] [info] FPS: 5043.193
+[2021-01-13 21:30:28.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:29.960] [ConceptEngine] [info] FPS: 4959.465
+[2021-01-13 21:30:29.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:30.960] [ConceptEngine] [info] FPS: 5007.599
+[2021-01-13 21:30:30.960] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:31.961] [ConceptEngine] [info] FPS: 5013.330
+[2021-01-13 21:30:31.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:32.961] [ConceptEngine] [info] FPS: 5048.614
+[2021-01-13 21:30:32.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:33.961] [ConceptEngine] [info] FPS: 5102.111
+[2021-01-13 21:30:33.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:34.961] [ConceptEngine] [info] FPS: 5057.183
+[2021-01-13 21:30:34.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:35.961] [ConceptEngine] [info] FPS: 5148.970
+[2021-01-13 21:30:35.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:36.961] [ConceptEngine] [info] FPS: 5233.494
+[2021-01-13 21:30:36.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:37.961] [ConceptEngine] [info] FPS: 5209.645
+[2021-01-13 21:30:37.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:38.961] [ConceptEngine] [info] FPS: 5125.286
+[2021-01-13 21:30:38.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:39.961] [ConceptEngine] [info] FPS: 5141.696
+[2021-01-13 21:30:39.961] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:40.961] [ConceptEngine] [info] FPS: 5203.192
+[2021-01-13 21:30:40.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:41.961] [ConceptEngine] [info] FPS: 5179.943
+[2021-01-13 21:30:41.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:42.961] [ConceptEngine] [info] FPS: 5185.992
+[2021-01-13 21:30:42.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:43.962] [ConceptEngine] [info] FPS: 5122.289
+[2021-01-13 21:30:43.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:44.962] [ConceptEngine] [info] FPS: 5155.406
+[2021-01-13 21:30:44.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:45.962] [ConceptEngine] [info] FPS: 5153.807
+[2021-01-13 21:30:45.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:46.962] [ConceptEngine] [info] FPS: 5161.855
+[2021-01-13 21:30:46.962] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:47.962] [ConceptEngine] [info] FPS: 4914.635
+[2021-01-13 21:30:47.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:48.963] [ConceptEngine] [info] FPS: 5031.965
+[2021-01-13 21:30:48.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:49.963] [ConceptEngine] [info] FPS: 5003.308
+[2021-01-13 21:30:49.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:50.963] [ConceptEngine] [info] FPS: 5013.865
+[2021-01-13 21:30:50.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:51.963] [ConceptEngine] [info] FPS: 5028.290
+[2021-01-13 21:30:51.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:52.963] [ConceptEngine] [info] FPS: 5038.794
+[2021-01-13 21:30:52.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:53.963] [ConceptEngine] [info] FPS: 4947.096
+[2021-01-13 21:30:53.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:54.963] [ConceptEngine] [info] FPS: 4977.221
+[2021-01-13 21:30:54.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:55.963] [ConceptEngine] [info] FPS: 4800.741
+[2021-01-13 21:30:55.963] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:56.963] [ConceptEngine] [info] FPS: 5045.516
+[2021-01-13 21:30:56.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:57.964] [ConceptEngine] [info] FPS: 5034.111
+[2021-01-13 21:30:57.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:58.964] [ConceptEngine] [info] FPS: 5062.176
+[2021-01-13 21:30:58.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:30:59.964] [ConceptEngine] [info] FPS: 5067.637
+[2021-01-13 21:30:59.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:00.964] [ConceptEngine] [info] FPS: 5085.643
+[2021-01-13 21:31:00.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:01.964] [ConceptEngine] [info] FPS: 4900.650
+[2021-01-13 21:31:01.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:02.964] [ConceptEngine] [info] FPS: 5050.858
+[2021-01-13 21:31:02.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:03.964] [ConceptEngine] [info] FPS: 5091.564
+[2021-01-13 21:31:03.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:04.964] [ConceptEngine] [info] FPS: 5105.943
+[2021-01-13 21:31:04.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:05.964] [ConceptEngine] [info] FPS: 5046.771
+[2021-01-13 21:31:05.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:06.964] [ConceptEngine] [info] FPS: 5126.904
+[2021-01-13 21:31:06.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:07.964] [ConceptEngine] [info] FPS: 5109.277
+[2021-01-13 21:31:07.964] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:08.964] [ConceptEngine] [info] FPS: 4603.668
+[2021-01-13 21:31:08.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:09.964] [ConceptEngine] [info] FPS: 5081.933
+[2021-01-13 21:31:09.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:10.965] [ConceptEngine] [info] FPS: 5112.379
+[2021-01-13 21:31:10.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:11.965] [ConceptEngine] [info] FPS: 5026.325
+[2021-01-13 21:31:11.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:12.965] [ConceptEngine] [info] FPS: 5143.918
+[2021-01-13 21:31:12.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:13.965] [ConceptEngine] [info] FPS: 5146.683
+[2021-01-13 21:31:13.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:14.965] [ConceptEngine] [info] FPS: 5103.115
+[2021-01-13 21:31:14.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:15.965] [ConceptEngine] [info] FPS: 5044.889
+[2021-01-13 21:31:15.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:16.965] [ConceptEngine] [info] FPS: 5098.794
+[2021-01-13 21:31:16.965] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:17.966] [ConceptEngine] [info] FPS: 5074.511
+[2021-01-13 21:31:17.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:18.966] [ConceptEngine] [info] FPS: 5031.184
+[2021-01-13 21:31:18.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:19.966] [ConceptEngine] [info] FPS: 5172.602
+[2021-01-13 21:31:19.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:20.966] [ConceptEngine] [info] FPS: 5082.534
+[2021-01-13 21:31:20.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:21.966] [ConceptEngine] [info] FPS: 5044.702
+[2021-01-13 21:31:21.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:22.966] [ConceptEngine] [info] FPS: 4971.343
+[2021-01-13 21:31:22.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:23.966] [ConceptEngine] [info] FPS: 5071.602
+[2021-01-13 21:31:23.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:24.966] [ConceptEngine] [info] FPS: 4742.880
+[2021-01-13 21:31:24.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:25.966] [ConceptEngine] [info] FPS: 4957.584
+[2021-01-13 21:31:25.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:26.966] [ConceptEngine] [info] FPS: 5012.687
+[2021-01-13 21:31:26.966] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:27.966] [ConceptEngine] [info] FPS: 4816.260
+[2021-01-13 21:31:27.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:28.967] [ConceptEngine] [info] FPS: 4908.478
+[2021-01-13 21:31:28.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:29.967] [ConceptEngine] [info] FPS: 4582.361
+[2021-01-13 21:31:29.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:30.967] [ConceptEngine] [info] FPS: 4945.656
+[2021-01-13 21:31:30.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:31.967] [ConceptEngine] [info] FPS: 4911.226
+[2021-01-13 21:31:31.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:32.967] [ConceptEngine] [info] FPS: 4872.963
+[2021-01-13 21:31:32.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:33.967] [ConceptEngine] [info] FPS: 4834.738
+[2021-01-13 21:31:33.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:34.967] [ConceptEngine] [info] FPS: 4641.399
+[2021-01-13 21:31:34.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:35.967] [ConceptEngine] [info] FPS: 4825.412
+[2021-01-13 21:31:35.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:36.967] [ConceptEngine] [info] FPS: 4964.966
+[2021-01-13 21:31:36.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:37.967] [ConceptEngine] [info] FPS: 4920.616
+[2021-01-13 21:31:37.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:38.967] [ConceptEngine] [info] FPS: 4821.909
+[2021-01-13 21:31:38.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:39.967] [ConceptEngine] [info] FPS: 4975.699
+[2021-01-13 21:31:39.967] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:40.968] [ConceptEngine] [info] FPS: 4779.362
+[2021-01-13 21:31:40.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:41.968] [ConceptEngine] [info] FPS: 4634.887
+[2021-01-13 21:31:41.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:42.968] [ConceptEngine] [info] FPS: 4841.529
+[2021-01-13 21:31:42.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:43.968] [ConceptEngine] [info] FPS: 4930.985
+[2021-01-13 21:31:43.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:44.968] [ConceptEngine] [info] FPS: 4998.880
+[2021-01-13 21:31:44.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:45.968] [ConceptEngine] [info] FPS: 4951.665
+[2021-01-13 21:31:45.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:46.968] [ConceptEngine] [info] FPS: 4956.968
+[2021-01-13 21:31:46.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:47.968] [ConceptEngine] [info] FPS: 4693.899
+[2021-01-13 21:31:47.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:48.968] [ConceptEngine] [info] FPS: 4518.873
+[2021-01-13 21:31:48.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:49.968] [ConceptEngine] [info] FPS: 4915.777
+[2021-01-13 21:31:49.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:50.968] [ConceptEngine] [info] FPS: 4864.681
+[2021-01-13 21:31:50.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:51.968] [ConceptEngine] [info] FPS: 4908.133
+[2021-01-13 21:31:51.968] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:52.969] [ConceptEngine] [info] FPS: 4857.684
+[2021-01-13 21:31:52.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:53.969] [ConceptEngine] [info] FPS: 4934.096
+[2021-01-13 21:31:53.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:54.969] [ConceptEngine] [info] FPS: 4945.905
+[2021-01-13 21:31:54.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:55.969] [ConceptEngine] [info] FPS: 4932.410
+[2021-01-13 21:31:55.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:56.969] [ConceptEngine] [info] FPS: 5008.545
+[2021-01-13 21:31:56.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:57.969] [ConceptEngine] [info] FPS: 5064.445
+[2021-01-13 21:31:57.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:58.969] [ConceptEngine] [info] FPS: 5070.596
+[2021-01-13 21:31:58.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:31:59.969] [ConceptEngine] [info] FPS: 5152.549
+[2021-01-13 21:31:59.969] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:00.970] [ConceptEngine] [info] FPS: 5167.307
+[2021-01-13 21:32:00.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:01.970] [ConceptEngine] [info] FPS: 5172.563
+[2021-01-13 21:32:01.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:02.970] [ConceptEngine] [info] FPS: 5185.145
+[2021-01-13 21:32:02.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:03.970] [ConceptEngine] [info] FPS: 5204.140
+[2021-01-13 21:32:03.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:04.970] [ConceptEngine] [info] FPS: 5204.594
+[2021-01-13 21:32:04.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:05.970] [ConceptEngine] [info] FPS: 5172.808
+[2021-01-13 21:32:05.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:06.970] [ConceptEngine] [info] FPS: 5205.910
+[2021-01-13 21:32:06.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:07.970] [ConceptEngine] [info] FPS: 5190.371
+[2021-01-13 21:32:07.970] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:08.971] [ConceptEngine] [info] FPS: 5134.199
+[2021-01-13 21:32:08.971] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:09.971] [ConceptEngine] [info] FPS: 5132.716
+[2021-01-13 21:32:09.971] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:10.971] [ConceptEngine] [info] FPS: 5118.578
+[2021-01-13 21:32:10.971] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:11.971] [ConceptEngine] [info] FPS: 5177.744
+[2021-01-13 21:32:11.971] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:12.971] [ConceptEngine] [info] FPS: 5161.120
+[2021-01-13 21:32:12.971] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:13.971] [ConceptEngine] [info] FPS: 4650.644
+[2021-01-13 21:32:13.971] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+
+[2021-01-13 21:32:15.432] [ConceptEngine] [info] FPS: 3120.954
+[2021-01-13 21:32:15.433] [ConceptEngine] [info] Screen Width: 1707 Screen Height: 869
+
+[2021-01-13 21:32:16.432] [ConceptEngine] [info] FPS: 5812.774
+[2021-01-13 21:32:16.433] [ConceptEngine] [info] Screen Width: 1707 Screen Height: 869
+
+[2021-01-13 21:32:17.686] [ConceptEngine] [info] FPS: 2838.683
+[2021-01-13 21:32:17.686] [ConceptEngine] [info] Screen Width: 2112 Screen Height: 927
+
+[2021-01-13 21:32:18.701] [ConceptEngine] [info] FPS: 3024.706
+[2021-01-13 21:32:18.701] [ConceptEngine] [info] Screen Width: 2349 Screen Height: 871
+
+[2021-01-13 21:32:19.701] [ConceptEngine] [info] FPS: 5279.316
+[2021-01-13 21:32:19.701] [ConceptEngine] [info] Screen Width: 2349 Screen Height: 871
+
+[2021-01-13 21:32:20.946] [ConceptEngine] [info] FPS: 3120.912
+[2021-01-13 21:32:20.946] [ConceptEngine] [info] Screen Width: 2783 Screen Height: 871
+
+[2021-01-13 21:32:22.361] [ConceptEngine] [info] FPS: 2098.543
+[2021-01-13 21:32:22.361] [ConceptEngine] [info] Screen Width: 3105 Screen Height: 871
+
+[2021-01-13 21:32:23.361] [ConceptEngine] [info] FPS: 5252.790
+[2021-01-13 21:32:23.361] [ConceptEngine] [info] Screen Width: 3105 Screen Height: 871
+
+[2021-01-13 21:32:24.361] [ConceptEngine] [info] FPS: 5165.606
+[2021-01-13 21:32:24.361] [ConceptEngine] [info] Screen Width: 3105 Screen Height: 871
+
+[2021-01-13 21:32:25.361] [ConceptEngine] [info] FPS: 3922.922
+[2021-01-13 21:32:25.361] [ConceptEngine] [info] Screen Width: 3105 Screen Height: 871
+
+[2021-01-13 21:32:26.361] [ConceptEngine] [info] FPS: 4950.106
+[2021-01-13 21:32:26.361] [ConceptEngine] [info] Screen Width: 3105 Screen Height: 871
+
+[2021-01-13 21:32:27.361] [ConceptEngine] [info] FPS: 4000.668
+[2021-01-13 21:32:27.361] [ConceptEngine] [info] Screen Width: 3105 Screen Height: 871
+

@@ -319,6 +319,15 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		CloseWindow(hWnd);
 		break;
 	}
+	case WM_SIZE:
+		if (GetGraphics().IsInitialized()) {
+			OutputDebugStringW(L"Graphics initialized\n");
+			GetGraphics().ChangeScreenSize(LOWORD(lParam), HIWORD(lParam));
+			GetGraphics().OnResize();
+		} else {
+			OutputDebugStringW(L"Graphics not initialized\n");
+		}
+		
 	case WM_KILLFOCUS:
 		keyboard.ClearState();
 		break;
