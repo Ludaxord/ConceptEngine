@@ -1,37 +1,19 @@
-[2021-01-13 22:40:41.500] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-13 22:40:41.500] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-13 22:40:41.500] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
-[2021-01-13 22:40:41.500] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-13 22:40:41.500] [ConceptEngine] [info] Revision: 161
-[2021-01-13 22:40:41.500] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-13 22:40:41.500] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-13 22:40:42.505] [ConceptEngine] [info] FPS: 3232.545
-[2021-01-13 22:40:42.505] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
+[2021-01-13 22:55:16.159] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-13 22:55:16.159] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-13 22:55:16.159] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
+[2021-01-13 22:55:16.159] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-13 22:55:16.159] [ConceptEngine] [info] Revision: 161
+[2021-01-13 22:55:16.159] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-13 22:55:16.159] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-13 22:55:17.164] [ConceptEngine] [info] FPS: 2721.994
+[2021-01-13 22:55:17.164] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
 
-[2021-01-13 22:40:43.505] [ConceptEngine] [info] FPS: 4617.533
-[2021-01-13 22:40:43.505] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
+[2021-01-13 22:55:18.164] [ConceptEngine] [info] FPS: 3922.965
+[2021-01-13 22:55:18.164] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
 
-[2021-01-13 22:40:44.505] [ConceptEngine] [info] FPS: 4941.173
-[2021-01-13 22:40:44.505] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
+[2021-01-13 22:55:19.542] [ConceptEngine] [info] FPS: 1842.571
+[2021-01-13 22:55:19.542] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
 
-[2021-01-13 22:40:45.506] [ConceptEngine] [info] FPS: 4653.364
-[2021-01-13 22:40:45.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:40:46.506] [ConceptEngine] [info] FPS: 4571.321
-[2021-01-13 22:40:46.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:40:47.506] [ConceptEngine] [info] FPS: 4931.254
-[2021-01-13 22:40:47.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:40:48.506] [ConceptEngine] [info] FPS: 4684.951
-[2021-01-13 22:40:48.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:40:49.506] [ConceptEngine] [info] FPS: 4432.859
-[2021-01-13 22:40:49.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:40:50.506] [ConceptEngine] [info] FPS: 4915.604
-[2021-01-13 22:40:50.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:40:51.506] [ConceptEngine] [info] FPS: 5048.446
-[2021-01-13 22:40:51.506] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
+[2021-01-13 22:55:20.542] [ConceptEngine] [info] FPS: 5148.706
+[2021-01-13 22:55:20.542] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
 

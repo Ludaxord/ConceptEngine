@@ -1,28 +1,13 @@
-[2021-01-13 22:31:20.007] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-13 22:31:20.007] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-13 22:31:20.007] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
-[2021-01-13 22:31:20.007] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-13 22:31:20.007] [ConceptEngine] [info] Revision: 161
-[2021-01-13 22:31:20.007] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-13 22:31:20.007] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-13 22:31:21.011] [ConceptEngine] [info] FPS: 2450.576
-[2021-01-13 22:31:21.011] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
+[2021-01-13 22:53:40.365] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-13 22:53:40.365] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-13 22:53:40.365] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
+[2021-01-13 22:53:40.365] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-13 22:53:40.365] [ConceptEngine] [info] Revision: 161
+[2021-01-13 22:53:40.365] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-13 22:53:40.365] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
+[2021-01-13 22:53:41.369] [ConceptEngine] [info] FPS: 3057.464
+[2021-01-13 22:53:41.370] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
 
-[2021-01-13 22:31:22.011] [ConceptEngine] [info] FPS: 4566.546
-[2021-01-13 22:31:22.011] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
-
-[2021-01-13 22:31:23.011] [ConceptEngine] [info] FPS: 5063.770
-[2021-01-13 22:31:23.011] [ConceptEngine] [info] Screen Width: 1264 Screen Height: 681
-
-[2021-01-13 22:31:24.235] [ConceptEngine] [info] FPS: 2563.504
-[2021-01-13 22:31:24.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
-
-[2021-01-13 22:31:25.235] [ConceptEngine] [info] FPS: 5742.164
-[2021-01-13 22:31:25.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
-
-[2021-01-13 22:31:26.235] [ConceptEngine] [info] FPS: 5638.275
-[2021-01-13 22:31:26.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
-
-[2021-01-13 22:31:27.235] [ConceptEngine] [info] FPS: 5644.357
-[2021-01-13 22:31:27.235] [ConceptEngine] [info] Screen Width: 1959 Screen Height: 897
+[2021-01-13 22:53:42.370] [ConceptEngine] [info] FPS: 4473.384
+[2021-01-13 22:53:42.370] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
 
