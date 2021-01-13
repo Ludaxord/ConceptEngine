@@ -1422,7 +1422,7 @@ ID3D12Resource* CEDirect3DGraphics::CreateHeap(ID3D12Device* device,
                                                D3D12_RESOURCE_DESC* resourceDesc,
                                                D3D12_HEAP_TYPE heapType,
                                                D3D12_RESOURCE_STATES resourceState,
-                                               D3D12_CLEAR_VALUE* clearValue) const {
+                                               D3D12_CLEAR_VALUE* clearValue, std::wstring heapName) const {
 	ID3D12Resource* heap;
 	ThrowIfFailed(device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(heapType),
@@ -1431,7 +1431,7 @@ ID3D12Resource* CEDirect3DGraphics::CreateHeap(ID3D12Device* device,
 		resourceState,
 		clearValue,
 		IID_PPV_ARGS(&heap)));
-	heap->SetName(L"Vertex Buffer Resource Heap");
+	heap->SetName(heapName.c_str());
 	return heap;
 }
 
@@ -1445,11 +1445,16 @@ void CEDirect3DGraphics::CopyToDefaultHeap(ID3D12GraphicsCommandList* commandLis
                                            ID3D12Resource* destinationHeap,
                                            ID3D12Resource* intermediateHeap,
                                            const BYTE* dataArray,
-                                           int bufferSize) const {
+                                           int bufferSize,
+                                           bool useSlicePitch,
+                                           int slicePitch) const {
+	if (!useSlicePitch) {
+		slicePitch = bufferSize;
+	}
 	D3D12_SUBRESOURCE_DATA subResourceData = {};
 	subResourceData.pData = dataArray;
 	subResourceData.RowPitch = bufferSize;
-	subResourceData.SlicePitch = bufferSize;
+	subResourceData.SlicePitch = slicePitch;
 
 	UpdateSubresources(commandList, destinationHeap, intermediateHeap, 0, 0, 1, &subResourceData);
 }
@@ -1493,15 +1498,25 @@ void CEDirect3DGraphics::CreateShaderResourceView(ID3D12Device* device,
                                                   ID3D12DescriptorHeap* heap,
                                                   D3D12_RESOURCE_DESC textureDesc,
                                                   D3D12_SRV_DIMENSION viewDimension,
-                                                  int mipLevels) const {
+                                                  int mipLevels,
+                                                  D3D12_CPU_DESCRIPTOR_HANDLE handle) const {
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.Format = textureDesc.Format;
 	srvDesc.ViewDimension = viewDimension;
 	srvDesc.Texture2D.MipLevels = mipLevels;
+
+	D3D12_CPU_DESCRIPTOR_HANDLE outputHandle;
+	if (heap != nullptr) {
+		outputHandle = heap->GetCPUDescriptorHandleForHeapStart();
+	}
+	else {
+		outputHandle = handle;
+	}
+
 	device->CreateShaderResourceView(buffer,
 	                                 &srvDesc,
-	                                 heap->GetCPUDescriptorHandleForHeapStart());
+	                                 outputHandle);
 }
 
 std::tuple<int, D3D12_RESOURCE_DESC, BYTE*>
@@ -1591,9 +1606,9 @@ XMFLOAT4X4 CEDirect3DGraphics::CreateViewMatrix(XMFLOAT4 position, XMFLOAT4 targ
 	return viewMatrix;
 }
 
-XMFLOAT4X4 CEDirect3DGraphics::CreateTranslationMatrix(XMFLOAT4 position) {
+XMFLOAT4X4 CEDirect3DGraphics::CreateTranslationMatrix(XMFLOAT4 position, XMFLOAT4 offset) {
 	XMFLOAT4X4 translationMatrix;
-	XMVECTOR posVec = XMLoadFloat4(&position);
+	XMVECTOR posVec = XMLoadFloat4(&position) + XMLoadFloat4(&offset);
 	XMMATRIX tmpMat = XMMatrixTranslationFromVector(posVec);
 	XMStoreFloat4x4(&translationMatrix, tmpMat);
 	return translationMatrix;
@@ -1770,9 +1785,202 @@ void CEDirect3DGraphics::Init() {
 	                                D3D12_RESOURCE_STATE_COPY_DEST, nullptr);
 
 	auto* vertexBufferUpload = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(vBufferSize), D3D12_HEAP_TYPE_UPLOAD,
-		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
-	CopyToDefaultHeap(commandList, vertexBuffer, vertexBufferUpload, reinterpret_cast<BYTE*>(CubesTexVertices), vBufferSize);
-	TransitionToBuffer(commandList, vertexBuffer, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER)
+	                                      D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
+	CopyToDefaultHeap(commandList, vertexBuffer, vertexBufferUpload, reinterpret_cast<BYTE*>(CubesTexVertices),
+	                  vBufferSize);
+	TransitionToBuffer(commandList, vertexBuffer, D3D12_RESOURCE_STATE_COPY_DEST,
+	                   D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+
+	DWORD iList[] = {
+		// front face
+		0, 1, 2, // first triangle
+		0, 3, 1, // second triangle
+
+		// left face
+		4, 5, 6, // first triangle
+		4, 7, 5, // second triangle
+
+		// right face
+		8, 9, 10, // first triangle
+		8, 11, 9, // second triangle
+
+		// back face
+		12, 13, 14, // first triangle
+		12, 15, 13, // second triangle
+
+		// top face
+		16, 17, 18, // first triangle
+		16, 19, 17, // second triangle
+
+		// bottom face
+		20, 21, 22, // first triangle
+		20, 23, 21, // second triangle
+	};
+
+	int iBufferSize = sizeof(iList);
+
+	auto cubeIndicesNumber = sizeof(iList) / sizeof(DWORD);
+	auto indexBuffer = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(iBufferSize), D3D12_HEAP_TYPE_DEFAULT,
+	                              D3D12_RESOURCE_STATE_COPY_DEST, nullptr);
+	auto* indexBufferUpload = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(vBufferSize), D3D12_HEAP_TYPE_UPLOAD,
+	                                     D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
+	CopyToDefaultHeap(commandList, indexBuffer, indexBufferUpload, reinterpret_cast<BYTE*>(iList),
+	                  iBufferSize);
+	TransitionToBuffer(commandList, indexBuffer, D3D12_RESOURCE_STATE_COPY_DEST,
+	                   D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+	auto* depthStencilViewHeap = CreateDescriptorHeap(device, 1, D3D12_DESCRIPTOR_HEAP_TYPE_DSV,
+	                                                  D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+
+	D3D12_CLEAR_VALUE depthOptimizedClearValue = {};
+	depthOptimizedClearValue.Format = DXGI_FORMAT_D32_FLOAT;
+	depthOptimizedClearValue.DepthStencil.Depth = 1.0f;
+	depthOptimizedClearValue.DepthStencil.Stencil = 0;
+
+	auto depthStencilBuffer = CreateHeap(
+		device,
+		&CD3DX12_RESOURCE_DESC::Tex2D(
+			DXGI_FORMAT_D32_FLOAT,
+			g_ClientWidth,
+			g_ClientHeight,
+			1,
+			0,
+			1,
+			0,
+			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL
+		),
+		D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&depthOptimizedClearValue
+	);
+
+
+	D3D12_DEPTH_STENCIL_VIEW_DESC depthStencilDesc = {};
+	depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	depthStencilDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	depthStencilDesc.Flags = D3D12_DSV_FLAG_NONE;
+
+	CreateDepthStencilView(device, depthStencilViewHeap, depthStencilBuffer, &depthStencilDesc);
+
+	std::vector<ID3D12Resource*> constantBufferUpload;
+	UINT8* constantBufferGPUAddress[FrameCount];
+	ConstantBufferPerObject constantBufferPerObject;
+	int constantBufferPerObjectAlignedSize = (sizeof(ConstantBufferPerObject) + 255) & ~255;
+
+	for (int i = 0; i < FrameCount; ++i) {
+		constantBufferUpload[i] = CreateHeap(
+			device, &CD3DX12_RESOURCE_DESC::Buffer(D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT), D3D12_HEAP_TYPE_UPLOAD,
+			D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
+
+		ZeroMemory(&constantBufferPerObject, sizeof(constantBufferPerObject));
+
+		CD3DX12_RANGE readRange(0, 0);
+		ThrowIfFailed(constantBufferUpload[i]->Map(0, &readRange,
+		                                           reinterpret_cast<void**>(&constantBufferGPUAddress[i])));
+
+		memcpy(constantBufferGPUAddress[i], &constantBufferPerObject, sizeof(constantBufferPerObject));
+		memcpy(constantBufferGPUAddress[i] + constantBufferPerObjectAlignedSize, &constantBufferPerObject,
+		       sizeof(constantBufferPerObject));
+	}
+
+	int textureSize;
+	D3D12_RESOURCE_DESC textureDesc;
+	BYTE* imageData;
+	std::tie(textureSize, textureDesc, imageData) = LoadTexture(GetAssetFullPath(L"leather_red_03_coll1_1k.png"));
+	auto* textureBuffer = CreateHeap(device, &textureDesc, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_COPY_DEST,
+	                                 nullptr);
+
+	UINT64 textureUploadBufferSize = GetUploadBufferSize(device, textureDesc);
+
+	auto* textureBufferUpload = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(textureUploadBufferSize),
+	                                       D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
+
+	// store vertex buffer in upload heap
+	D3D12_SUBRESOURCE_DATA textureData = {};
+	textureData.pData = &imageData[0]; // pointer to our image data
+	textureData.RowPitch = textureSize; // size of all our triangle vertex data
+	textureData.SlicePitch = textureSize * textureDesc.Height; // also the size of our triangle vertex data
+
+	CopyToDefaultHeap(commandList, textureBuffer, textureBufferUpload, &imageData[0], textureSize, true,
+	                  textureSize * textureDesc.Height);
+	TransitionToBuffer(commandList, textureBuffer, D3D12_RESOURCE_STATE_COPY_DEST,
+	                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 2);
+
+
+	auto* descriptorHeap = CreateDescriptorHeap(device, 2, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+	                                            D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+
+	CreateShaderResourceView(device, textureBuffer, descriptorHeap, textureDesc, D3D12_SRV_DIMENSION_TEXTURE2D, 1);
+	int fontSize;
+	D3D12_RESOURCE_DESC fontDesc;
+	BYTE* fontData;
+	std::tie(fontSize, fontDesc, fontData) =
+		LoadFonts(GetAssetFullPath(L"mr-robot.fnt"), g_ClientWidth, g_ClientHeight);
+	Font mainFont;
+	mainFont.textureBuffer = CreateHeap(device, &fontDesc, D3D12_HEAP_TYPE_DEFAULT, D3D12_RESOURCE_STATE_COPY_DEST,
+	                                    nullptr);
+
+
+	auto fontTextureUploadBufferSize = GetUploadBufferSize(device, fontDesc);
+	auto fontTextureBufferUpload = CreateHeap(device, &CD3DX12_RESOURCE_DESC::Buffer(fontTextureUploadBufferSize),
+	                                          D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr);
+	CopyToDefaultHeap(commandList, mainFont.textureBuffer.Get(), fontTextureBufferUpload, fontData, fontSize, true,
+	                  fontSize * fontDesc.Height);
+	TransitionToBuffer(commandList, mainFont.textureBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
+	                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	auto handleSize = GetUploadBufferSize(device, fontDesc);
+
+	mainFont.srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(descriptorHeap->GetGPUDescriptorHandleForHeapStart(), 1,
+	                                                   handleSize);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE srvHandle(descriptorHeap->GetCPUDescriptorHandleForHeapStart(), 1, handleSize);
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC fontsrvDesc = {};
+	fontsrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	fontsrvDesc.Format = fontDesc.Format;
+	fontsrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	fontsrvDesc.Texture2D.MipLevels = 1;
+	CreateShaderResourceView(device, mainFont.textureBuffer.Get(), descriptorHeap, fontDesc,
+	                         D3D12_SRV_DIMENSION_TEXTURE2D, 1, srvHandle);
+
+	std::vector<ID3D12Resource*> textFontVertexBuffer;
+	UINT8* textVertexBufferGPUAddress[FrameCount];
+
+	for (int i = 0; i < FrameCount; ++i) {
+		textFontVertexBuffer[i] = CreateHeap(
+			device,
+			&CD3DX12_RESOURCE_DESC::Buffer(maxNumTextCharacters * sizeof(CETextVertex)),
+			D3D12_HEAP_TYPE_UPLOAD,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr
+		);
+
+		CD3DX12_RANGE readRange(0, 0);
+		ThrowIfFailed(textFontVertexBuffer[i]->Map(0, &readRange,
+		                                           reinterpret_cast<void**>(&textVertexBufferGPUAddress[i])));
+	}
+	InitCommandList(commandList, commandQueue);
+	IncrementFenceValue(commandQueue, fences, frameIndex);
+	auto vertexBufferView = CreateVertexBufferView(vertexBuffer, sizeof(CEVertexPosTex), vBufferSize);
+
+	std::vector<D3D12_VERTEX_BUFFER_VIEW> textVertexBufferViews;
+	for (int i = 0; i < FrameCount; ++i) {
+		textVertexBufferViews[i] = CreateVertexBufferView(textFontVertexBuffer[i], sizeof(CEVertexPosTex),
+		                                                  maxNumTextCharacters * sizeof(CETextVertex));
+	}
+	auto indexBufferView = CreateIndexBufferView(indexBuffer, DXGI_FORMAT_R32_FLOAT, iBufferSize);
+	auto viewport = CreateViewPort(0, 0, g_ClientWidth, g_ClientHeight, 0.0f, 1.0f);
+	auto scissorRect = CreateScissorRect(0, 0, g_ClientWidth, g_ClientHeight);
+	auto cameraProjectionMatrix = BuildProjection(45.0f * (3.14f / 180.0f), g_ClientWidth, g_ClientHeight, 0.1f,
+	                                              1000.0f);
+
+	auto cameraViewMatrix = CreateViewMatrix(XMFLOAT4(0.0f, 2.0f, -4.0f, 0.0f), XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f),
+	                                         XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f));
+
+	XMStoreFloat4x4(&cube1RotMat, XMMatrixIdentity()); // initialize cube1's rotation matrix to identity matrix
+	auto cube1WorldMatrix = CreateTranslationMatrix(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+
+	XMStoreFloat4x4(&cube2RotMat, XMMatrixIdentity()); // initialize cube2's rotation matrix to identity matrix
+	auto cube2WorldMatrix = CreateTranslationMatrix(XMFLOAT4(1.5f, 0.0f, 0.0f, 0.0f), cube1Position);
+
 }
 
 bool CEDirect3DGraphics::InitD3D12() {

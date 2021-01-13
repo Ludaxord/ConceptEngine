@@ -343,11 +343,11 @@ private:
 	                           D3D12_RESOURCE_DESC* resourceDesc,
 	                           D3D12_HEAP_TYPE heapType,
 	                           D3D12_RESOURCE_STATES resourceState,
-	                           D3D12_CLEAR_VALUE* clearValue) const;
+	                           D3D12_CLEAR_VALUE* clearValue, std::wstring heapName = L"Resource Heap") const;
 	UINT64 GetUploadBufferSize(ID3D12Device* device, D3D12_RESOURCE_DESC desc);
 	void CopyToDefaultHeap(ID3D12GraphicsCommandList* commandList, ID3D12Resource* destinationHeap,
 	                       ID3D12Resource* intermediateHeap,
-	                       const BYTE* dataArray, int bufferSize) const;
+	                       const BYTE* dataArray, int bufferSize, bool useSlicePitch = false, int slicePitch = 0) const;
 	void TransitionToBuffer(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource,
 	                        D3D12_RESOURCE_STATES stateBefore,
 	                        D3D12_RESOURCE_STATES stateAfter,
@@ -361,7 +361,8 @@ private:
 	                              ID3D12DescriptorHeap* heap,
 	                              D3D12_RESOURCE_DESC textureDesc,
 	                              D3D12_SRV_DIMENSION viewDimension,
-	                              int mipLevels = 1) const;
+	                              int mipLevels = 1,
+	                              D3D12_CPU_DESCRIPTOR_HANDLE handle = {0}) const;
 	std::tuple<int, D3D12_RESOURCE_DESC, BYTE*> LoadFonts(std::wstring fontPath, int width, int height);
 	void InitCommandList(ID3D12GraphicsCommandList* commandList, ID3D12CommandQueue* commandQueue);
 	void IncrementFenceValue(ID3D12CommandQueue* commandQueue, std::vector<CEFence> fences, UINT frameIndex);
@@ -373,7 +374,7 @@ private:
 
 	XMFLOAT4X4 BuildProjection(float angleY, int width, int height, float nearZ, float farZ);
 	XMFLOAT4X4 CreateViewMatrix(XMFLOAT4 position, XMFLOAT4 target, XMFLOAT4 up);
-	XMFLOAT4X4 CreateTranslationMatrix(XMFLOAT4 position);
+	XMFLOAT4X4 CreateTranslationMatrix(XMFLOAT4 position, XMFLOAT4 offset = { 0, 0, 0, 0 });
 
 	void ResetCommandAllocators(std::vector<ID3D12CommandAllocator*> commandAllocators, UINT frameIndex);
 	void ResetCommandList(ID3D12GraphicsCommandList* commandList,
