@@ -68,7 +68,6 @@
     <ClInclude Include="CEWindowMessage.h" />
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="CEGUI.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

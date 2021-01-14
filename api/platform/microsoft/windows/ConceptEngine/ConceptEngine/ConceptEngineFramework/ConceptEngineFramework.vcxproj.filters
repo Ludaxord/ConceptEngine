@@ -186,9 +186,6 @@
     <ClInclude Include="CESwapChain.h">
       <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
     </ClInclude>
-    <ClInclude Include="CEGUI.h">
-      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CEConstantBuffer.h">
       <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
     </ClInclude>
