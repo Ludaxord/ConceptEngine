@@ -55,6 +55,7 @@ Logger ConceptEngine::GetLogger() {
 	return static_logger_;
 }
 
+
 void ConceptEngine::InitSpdLog() {
 
 #if defined( _DEBUG )

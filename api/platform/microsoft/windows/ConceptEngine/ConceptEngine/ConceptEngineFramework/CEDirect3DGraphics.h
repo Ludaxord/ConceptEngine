@@ -17,6 +17,13 @@
 #include <filesystem>
 #include <wincodec.h>
 
+/*
+ * ImGUI
+ */
+#include "imgui.h"
+#include "imgui_impl_win32.h"
+#include "imgui_impl_dx12.h"
+
 #include "CED3D12CommandQueue.h"
 #include "d3dx12.h"
 
@@ -374,7 +381,7 @@ private:
 
 	XMFLOAT4X4 BuildProjection(float angleY, int width, int height, float nearZ, float farZ);
 	XMFLOAT4X4 CreateViewMatrix(XMFLOAT4 position, XMFLOAT4 target, XMFLOAT4 up);
-	XMFLOAT4X4 CreateTranslationMatrix(XMFLOAT4 position, XMFLOAT4 offset = { 0, 0, 0, 0 });
+	XMFLOAT4X4 CreateTranslationMatrix(XMFLOAT4 position, XMFLOAT4 offset = {0, 0, 0, 0});
 
 	void ResetCommandAllocators(std::vector<ID3D12CommandAllocator*> commandAllocators, UINT frameIndex);
 	void ResetCommandList(ID3D12GraphicsCommandList* commandList,
@@ -463,6 +470,15 @@ private:
 	void RenderText(Font font, std::wstring text, XMFLOAT2 pos, XMFLOAT2 scale = XMFLOAT2(1.0f, 1.0f),
 	                XMFLOAT2 padding = XMFLOAT2(0.5f, 0.0f), XMFLOAT4 color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
+protected:
+	void InitGui() override;
+	void RenderGui() override;
+	void DestroyGui() override;
+
+	void InitImGui() const;
+	void RenderImGui() const;
+	void DestroyImGui() const;
+	
 private:
 	// Pipeline objects.
 	DXGI_ADAPTER_DESC adapterDescription_;
@@ -472,7 +488,6 @@ private:
 	wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 	wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocators[FrameCount];
 	wrl::ComPtr<ID3D12CommandQueue> m_commandQueue;
-	wrl::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 	wrl::ComPtr<ID3D12PipelineState> m_pipelineState;
 	wrl::ComPtr<ID3D12GraphicsCommandList> m_commandList;
 	wrl::ComPtr<IDXGIFactory4> m_factory;
@@ -489,8 +504,6 @@ private:
 	D3D12_INDEX_BUFFER_VIEW m_IndexBufferView;
 	// Depth buffer.
 	wrl::ComPtr<ID3D12Resource> m_DepthBuffer;
-	// Descriptor heap for depth buffer.
-	wrl::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
 	// Root signature
 	wrl::ComPtr<ID3D12RootSignature> m_RootSignature;
 
@@ -499,9 +512,9 @@ private:
 	};
 
 	// Set true to use 4X MSAA (§4.1.8).  The default is false.
-	bool      m4xMsaaState = false;    // 4X MSAA enabled
-	UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
-	
+	bool m4xMsaaState = false; // 4X MSAA enabled
+	UINT m4xMsaaQuality = 0; // quality level of 4X MSAA
+
 	// wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
 	// this heap will store the descripor to our constant buffer
 	wrl::ComPtr<ID3D12Resource> constantBufferUploadHeap[FrameCount];
@@ -584,8 +597,13 @@ private:
 	wrl::ComPtr<ID3D12Resource> textureBuffer; // the resource heap containing our texture
 	wrl::ComPtr<ID3D12Resource> textureBuffer1; // the resource heap containing our texture
 
-	wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap;
 	wrl::ComPtr<ID3D12Resource> textureBufferUploadHeap;
+
+	wrl::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+	// Descriptor heap for depth buffer.
+	wrl::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
+	wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap;
+	wrl::ComPtr<ID3D12DescriptorHeap> g_pd3dSrvDescHeap;
 
 	BYTE* imageData;
 
@@ -609,5 +627,5 @@ private:
 
 	// create an instance of timer
 	Timer timer;
-
+	
 };

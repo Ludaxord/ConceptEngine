@@ -169,6 +169,8 @@ CEWindow::CEWindow(int width, int height, const char* name,
 	RunGraphics();
 	pGraphics->OnInit();
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
+	UpdateWindow(hWnd);
+	pGraphics->InitGui();
 }
 
 CEWindow::~CEWindow() {
@@ -324,10 +326,11 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 			OutputDebugStringW(L"Graphics initialized\n");
 			GetGraphics().ChangeScreenSize(LOWORD(lParam), HIWORD(lParam));
 			GetGraphics().OnResize();
-		} else {
+		}
+		else {
 			OutputDebugStringW(L"Graphics not initialized\n");
 		}
-		
+
 	case WM_KILLFOCUS:
 		keyboard.ClearState();
 		break;

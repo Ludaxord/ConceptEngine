@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include <Windows.h>
 #include <fcntl.h>
 
@@ -12,6 +14,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/logger.h>
 #include <spdlog/spdlog.h>
+
 
 #include "CEOSTools.h"
 #include "CETimer.h"

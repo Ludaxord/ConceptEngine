@@ -67,3 +67,12 @@ void CEMetalGraphics::SetFullscreen(bool fullscreen) {
 
 void CEMetalGraphics::LoadBonus() {
 }
+
+void CEMetalGraphics::InitGui() {
+}
+
+void CEMetalGraphics::RenderGui() {
+}
+
+void CEMetalGraphics::DestroyGui() {
+}

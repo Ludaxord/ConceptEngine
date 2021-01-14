@@ -30,6 +30,10 @@ protected:
 	IGPUInfo GetGPUInfo() override;
 public:
 	virtual void LoadBonus() override;
+protected:
+	void InitGui() override;
+	void RenderGui() override;
+	void DestroyGui() override;
 private:
 	HDC g_HDC;
 };

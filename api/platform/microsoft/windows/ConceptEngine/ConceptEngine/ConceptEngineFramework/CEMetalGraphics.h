@@ -27,4 +27,8 @@ public:
 	void SetFullscreen(bool fullscreen) override;
 
 	virtual void LoadBonus() override;
+protected:
+	void InitGui() override;
+	void RenderGui() override;
+	void DestroyGui() override;
 };

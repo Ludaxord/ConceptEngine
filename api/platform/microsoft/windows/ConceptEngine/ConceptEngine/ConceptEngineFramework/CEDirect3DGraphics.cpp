@@ -269,8 +269,7 @@ void CEDirect3DGraphics::LoadBonus() {
 	ConceptEngine::GetLogger()->info("Revision: {}", revision);
 	ConceptEngine::GetLogger()->info("nVendorID: {}", vendorId);
 
-	std::string sImagePath(debugImagePath.begin(), debugImagePath.end());
-	ConceptEngine::GetLogger()->warn("Loaded Texture: {}", sImagePath);
+	ConceptEngine::GetLogger()->info("GUI Created: {}", guiActive);
 
 }
 
@@ -797,6 +796,87 @@ void CEDirect3DGraphics::RenderText(Font font, std::wstring text, XMFLOAT2 pos, 
 
 }
 
+void CEDirect3DGraphics::InitImGui() const {
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	(void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	// Setup Platform/Renderer backends
+	auto imGuiSrvHandleSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	auto imGuiGPUSrvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(mainDescriptorHeap->GetGPUDescriptorHandleForHeapStart(), 2,
+	                                                       imGuiSrvHandleSize);
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE imGuiCPUSrvHandle(mainDescriptorHeap->GetCPUDescriptorHandleForHeapStart(), 2,
+	                                                imGuiSrvHandleSize);
+	ImGui_ImplWin32_Init(hWnd);
+	ImGui_ImplDX12_Init(m_device.Get(), FrameCount, DXGI_FORMAT_R8G8B8A8_UNORM, mainDescriptorHeap.Get(),
+	                    imGuiCPUSrvHandle, imGuiGPUSrvHandle);
+	// ImGui_ImplDX12_Init(m_device.Get(), FrameCount,
+	//                     DXGI_FORMAT_R8G8B8A8_UNORM, mainDescriptorHeap.Get(),
+	//                     mainDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
+	//                     mainDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
+}
+
+void CEDirect3DGraphics::RenderImGui() const {
+	// Start the Dear ImGui frame
+	ImGui_ImplDX12_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+	bool show_demo_window = true;
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
+
+	static float f = 0.0f;
+	static int counter = 0;
+
+	ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
+
+	ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
+	ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
+
+
+	ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+
+	if (ImGui::Button("Button"))
+		// Buttons return true when clicked (most widgets return true when edited/activated)
+		counter++;
+	ImGui::SameLine();
+	ImGui::Text("counter = %d", counter);
+
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
+	            ImGui::GetIO().Framerate);
+	ImGui::End();
+
+
+	ImGui::Render();
+}
+
+void CEDirect3DGraphics::DestroyImGui() const {
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+}
+
+void CEDirect3DGraphics::DestroyGui() {
+	DestroyImGui();
+}
+
+void CEDirect3DGraphics::InitGui() {
+	InitImGui();
+	guiActive = true;
+}
+
+void CEDirect3DGraphics::RenderGui() {
+	RenderImGui();
+}
+
 void CEDirect3DGraphics::UpdateMultiplierColors() {
 	// update app logic, such as moving the camera or figuring out what objects are in view
 	static float rIncrement = 0.00002f;
@@ -844,7 +924,7 @@ void CEDirect3DGraphics::UpdatePerSecond(float second) {
 
 		std::stringstream oss;
 		oss << "Screen Width: " << g_ClientWidth << " Screen Height: " << g_ClientHeight << std::endl;
-		ConceptEngine::GetLogger()->info(oss.str().c_str());
+		// ConceptEngine::GetLogger()->info(oss.str().c_str());
 
 		frameCounter = 0;
 		elapsedSeconds = 0.0;
@@ -946,6 +1026,10 @@ void CEDirect3DGraphics::UpdatePipeline() {
 	RenderText(mrRobotFont, std::wstring(L"FPS: ") + std::to_wstring(timer.fps), XMFLOAT2(0.02f, 0.01f),
 	           XMFLOAT2(2.0f, 2.0f), XMFLOAT2(0.5f, 0.0f), XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
+	if (guiActive) {
+		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), m_commandList.Get());
+	}
+
 	// transition the "frameIndex" render target from the render target state to the present state. If the debug layer is enabled, you will receive a
 	// warning if present is called on the render target when it's not in the present state
 	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(
@@ -959,7 +1043,10 @@ void CEDirect3DGraphics::UpdatePipeline() {
 }
 
 void CEDirect3DGraphics::OnRender() {
-	// g_IsInitialized = true;
+	if (guiActive) {
+		RenderGui();
+	}
+
 	HRESULT hr;
 
 	UpdatePipeline(); // update the pipeline by sending commands to the commandqueue
@@ -1017,6 +1104,7 @@ bool CEDirect3DGraphics::OnInit() {
 }
 
 void CEDirect3DGraphics::OnDestroy() {
+	DestroyGui();
 	WaitForPreviousFrame();
 	CloseHandle(m_fenceEvent);
 }
@@ -2015,7 +2103,7 @@ void CEDirect3DGraphics::OnResize() {
 		if (FAILED(hr)) {
 			Running = false;
 		}
-		
+
 		m_device->CreateRenderTargetView(m_renderTargets[i].Get(), nullptr, rtvHandle);
 		rtvHandle.Offset(1, m_rtvDescriptorSize);
 
@@ -2035,7 +2123,7 @@ void CEDirect3DGraphics::OnResize() {
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 		D3D12_HEAP_FLAG_NONE,
 		&CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT, g_ClientWidth, g_ClientHeight, 1, 0, 1, 0,
-			D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL),
+		                              D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL),
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&depthOptimizedClearValue,
 		IID_PPV_ARGS(&m_DepthBuffer)
@@ -2045,15 +2133,16 @@ void CEDirect3DGraphics::OnResize() {
 	}
 
 	m_device->CreateDepthStencilView(m_DepthBuffer.Get(), &depthStencilDesc,
-		m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
-	
+	                                 m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
+
 	// Transition the resource from its initial state to be used as a depth buffer.
 	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DepthBuffer.Get(),
-		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+	                                                                        D3D12_RESOURCE_STATE_COMMON,
+	                                                                        D3D12_RESOURCE_STATE_DEPTH_WRITE));
 
 	// Execute the resize commands.
 	ThrowIfFailed(m_commandList->Close());
-	ID3D12CommandList* cmdsLists[] = { m_commandList.Get() };
+	ID3D12CommandList* cmdsLists[] = {m_commandList.Get()};
 	m_commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 
 	// Wait until resize is complete.
@@ -2219,6 +2308,15 @@ bool CEDirect3DGraphics::InitD3D12() {
 		// we increment the rtv handle by the rtv descriptor size we got above
 		rtvHandle.Offset(1, m_rtvDescriptorSize);
 	}
+
+	// D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+	// desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	// desc.NumDescriptors = 3;
+	// desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	// if (m_device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&g_pd3dSrvDescHeap)) != S_OK) {
+	// 	Running = false;
+	// 	return false;
+	// }
 
 	// -- Create the Command Allocators -- //
 
@@ -2820,10 +2918,20 @@ bool CEDirect3DGraphics::InitD3D12() {
 
 	// create the descriptor heap that will store our srv
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-	heapDesc.NumDescriptors = 2;
+	// heapDesc.NumDescriptors = 2;
+	heapDesc.NumDescriptors = 3;
 	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	hr = m_device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&mainDescriptorHeap));
+	if (FAILED(hr)) {
+		Running = false;
+	}
+
+	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	desc.NumDescriptors = 3;
+	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	hr = m_device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&g_pd3dSrvDescHeap));
 	if (FAILED(hr)) {
 		Running = false;
 	}

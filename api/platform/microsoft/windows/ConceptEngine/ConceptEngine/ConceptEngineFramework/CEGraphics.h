@@ -111,8 +111,12 @@ public:
 	virtual bool LoadContent() = 0;
 	virtual void UnloadContent() = 0;
 	virtual void LoadBonus() = 0;
+	virtual void InitGui() = 0;
 
 protected:
+	virtual void RenderGui() = 0;
+	virtual void DestroyGui() = 0;
+	
 	virtual void OnKeyPressed() = 0;
 	virtual void OnKeyReleased() = 0;
 	virtual void OnMouseMoved() = 0;
@@ -162,5 +166,6 @@ protected:
 	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
 	std::wstring m_assetsPath;
 	float m_aspectRatio;
+	bool guiActive = false;
 
 };

@@ -42,3 +42,6 @@
 [submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog_setup"]
 	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/spdlog_setup
 	url = https://github.com/guangie88/spdlog_setup
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Nuklear"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Nuklear
+	url = https://github.com/Immediate-Mode-UI/Nuklear

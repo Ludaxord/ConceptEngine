@@ -38,6 +38,10 @@ protected:
 
 public:
 	virtual void LoadBonus() override;
+protected:
+	void InitGui() override;
+	void RenderGui() override;
+	void DestroyGui() override;
 private:
 	VkInstance instance;
 	std::unique_ptr <CEVulkanData> pVulkanData;

@@ -1,28 +1,10 @@
-[2021-01-13 22:52:48.764] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-13 22:52:48.764] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-13 22:52:48.764] [ConceptEngine] [info] Driver: 0 Build: 58205.0.0
-[2021-01-13 22:52:48.764] [ConceptEngine] [info] DeviceID: 9348
-[2021-01-13 22:52:48.764] [ConceptEngine] [info] Revision: 161
-[2021-01-13 22:52:48.764] [ConceptEngine] [info] nVendorID: 4318
-[2021-01-13 22:52:48.764] [ConceptEngine] [warning] Loaded Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\leather_red_03_coll1_1k.png
-[2021-01-13 22:52:49.766] [ConceptEngine] [info] FPS: 3030.752
-[2021-01-13 22:52:49.766] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:52:50.766] [ConceptEngine] [info] FPS: 4573.798
-[2021-01-13 22:52:50.766] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:52:51.766] [ConceptEngine] [info] FPS: 5023.425
-[2021-01-13 22:52:51.766] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:52:52.766] [ConceptEngine] [info] FPS: 4968.918
-[2021-01-13 22:52:52.766] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:52:54.883] [ConceptEngine] [info] FPS: 2088.328
-[2021-01-13 22:52:54.883] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:52:55.883] [ConceptEngine] [info] FPS: 4973.942
-[2021-01-13 22:52:55.883] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
-[2021-01-13 22:52:56.883] [ConceptEngine] [info] FPS: 5413.526
-[2021-01-13 22:52:56.883] [ConceptEngine] [info] Screen Width: 1280 Screen Height: 720
-
+[2021-01-14 17:09:36.017] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-14 17:09:36.018] [ConceptEngine] [info] Device: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-14 17:09:36.018] [ConceptEngine] [info] Driver: 0 Build: 57332.0.0
+[2021-01-14 17:09:36.018] [ConceptEngine] [info] DeviceID: 9348
+[2021-01-14 17:09:36.018] [ConceptEngine] [info] Revision: 161
+[2021-01-14 17:09:36.018] [ConceptEngine] [info] nVendorID: 4318
+[2021-01-14 17:09:36.018] [ConceptEngine] [info] GUI Created: true
+[2021-01-14 17:09:37.020] [ConceptEngine] [info] FPS: 1601.512
+[2021-01-14 17:09:38.020] [ConceptEngine] [info] FPS: 2360.469
+[2021-01-14 17:09:39.020] [ConceptEngine] [info] FPS: 2766.639

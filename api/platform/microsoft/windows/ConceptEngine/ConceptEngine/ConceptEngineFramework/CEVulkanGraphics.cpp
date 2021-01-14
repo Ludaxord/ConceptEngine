@@ -282,3 +282,12 @@ CEGraphics::IGPUInfo CEVulkanGraphics::GetGPUInfo() {
 
 void CEVulkanGraphics::LoadBonus() {
 }
+
+void CEVulkanGraphics::InitGui() {
+}
+
+void CEVulkanGraphics::RenderGui() {
+}
+
+void CEVulkanGraphics::DestroyGui() {
+}
