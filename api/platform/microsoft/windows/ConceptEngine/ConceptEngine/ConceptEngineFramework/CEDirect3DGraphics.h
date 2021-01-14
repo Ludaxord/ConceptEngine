@@ -17,13 +17,6 @@
 #include <filesystem>
 #include <wincodec.h>
 
-/*
- * ImGUI
- */
-#include "imgui.h"
-#include "imgui_impl_win32.h"
-#include "imgui_impl_dx12.h"
-
 #include "CED3D12CommandQueue.h"
 #include "d3dx12.h"
 
@@ -475,7 +468,7 @@ protected:
 	void RenderGui() override;
 	void DestroyGui() override;
 
-	void InitImGui() const;
+	void InitImGui();
 	void RenderImGui() const;
 	void DestroyImGui() const;
 	
@@ -627,5 +620,9 @@ private:
 
 	// create an instance of timer
 	Timer timer;
-	
+
+	std::unique_ptr<CEGUI> m_Gui;
+
+	CEOSTools::CESystemInfo systemInfo_;
+
 };

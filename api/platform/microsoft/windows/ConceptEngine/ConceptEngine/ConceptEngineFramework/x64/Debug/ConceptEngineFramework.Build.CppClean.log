@@ -1,9 +1,6 @@
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\conceptengineframework.pdb
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\conceptengineframework.idb
-f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedirect3dgraphics.obj
-f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedirect3dnode.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\ceexception.obj
-f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cegraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedirect3dinfomanager.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cekeyboard.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cemetaldevice.obj
@@ -24,7 +21,10 @@ f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\concepten
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\ced3d12commandqueue.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\ced3d12device.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedevice.obj
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedirect3dgraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedirect3dcube.obj
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cedirect3dnode.obj
+f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\conceptengineframework\x64\debug\cegraphics.obj
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\x64\debug\shaders.hlsl
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\x64\debug\cepixelshader.cso
 f:\projects\conceptengine\api\platform\microsoft\windows\conceptengine\conceptengine\x64\debug\cetextpixelshader.cso

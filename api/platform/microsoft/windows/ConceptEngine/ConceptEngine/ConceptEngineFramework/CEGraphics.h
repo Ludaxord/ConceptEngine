@@ -4,6 +4,8 @@
 #include <vector>
 #include <complex>
 
+
+#include "CEGUI.h"
 #include "CEOSTools.h"
 
 class CEGraphics {
@@ -167,5 +169,5 @@ protected:
 	std::wstring m_assetsPath;
 	float m_aspectRatio;
 	bool guiActive = false;
-
+	
 };

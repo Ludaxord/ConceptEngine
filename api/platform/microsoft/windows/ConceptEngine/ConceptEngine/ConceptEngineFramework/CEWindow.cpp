@@ -283,6 +283,9 @@ HWND CEWindow::CreateMainWindow(const char* name) {
 }
 
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+
 LRESULT WINAPI CEWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
@@ -309,6 +312,9 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	if (GetWindowType() == CEWindowTypes::debug) {
 		OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
 	}
+
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+		return true;
 
 	// switch to pass action to given message
 	switch (msg) {

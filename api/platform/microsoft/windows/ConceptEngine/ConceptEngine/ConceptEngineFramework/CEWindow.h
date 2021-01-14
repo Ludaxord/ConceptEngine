@@ -8,6 +8,7 @@
 #include "CEGraphics.h"
 #include <memory>
 
+#include "imgui_impl_win32.h"
 
 class CEWindow {
 

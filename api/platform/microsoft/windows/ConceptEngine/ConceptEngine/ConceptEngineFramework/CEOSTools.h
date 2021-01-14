@@ -2,6 +2,7 @@
 #pragma once
 #include <list>
 #include <string>
+#include <intrin.h>
 
 class CEOSTools {
 public:
@@ -26,7 +27,20 @@ public:
 		metal
 	};
 
+	enum class CEGUITypes {
+		ImGUI,
+		Nuklear
+	};
+
 public:
+	struct CESystemInfo {
+		float RamSize;
+		std::string CPUName;
+		std::string GPUName;
+		float VRamSize;
+		float CPUCores;
+	};
+	
 	static CEOSType GetOperatingSystem();
 	static std::list<CEGraphicsApiTypes> GetCompatibleGraphics();
 
@@ -41,4 +55,6 @@ public:
 	static const char* GetOpenGLVersion();
 
 	static const char* GetGPUProvider(std::string providerDescription);
+
+	static CESystemInfo GetEngineSystemInfo();
 };

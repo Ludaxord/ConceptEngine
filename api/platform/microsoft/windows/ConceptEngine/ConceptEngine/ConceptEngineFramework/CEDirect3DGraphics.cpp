@@ -6,6 +6,7 @@
 
 
 #include "CEDirect3DCube.h"
+#include "CEGUI.h"
 #include "CEHelper.h"
 #include "CETools.h"
 #include "CEWindow.h"
@@ -248,9 +249,6 @@ void CEDirect3DGraphics::LoadAssets() {
 }
 
 void CEDirect3DGraphics::LoadBonus() {
-	std::wstring wDesc = adapterDescription_.Description;
-	auto videoMem = static_cast<double>(adapterDescription_.DedicatedVideoMemory);
-	std::string sDesc(wDesc.begin(), wDesc.end());
 	auto nDriverVersion = adapterDescription_.AdapterLuid;
 	auto deviceId = adapterDescription_.DeviceId;
 	auto revision = adapterDescription_.Revision;
@@ -262,8 +260,11 @@ void CEDirect3DGraphics::LoadBonus() {
 	WORD nBuild = LOWORD(nDriverVersion.LowPart);
 	ConceptEngine::GetLogger()->info("Direct3D 12 Adapter Created");
 
+	ConceptEngine::GetLogger()->info("GPU: {}, Video Memory: {:.4} MB", systemInfo_.GPUName,
+	                                 fmt::format("{:.2f}", systemInfo_.VRamSize));
+	ConceptEngine::GetLogger()->info("CPU: {}, Threads: {}", systemInfo_.CPUName, systemInfo_.CPUCores);
+	ConceptEngine::GetLogger()->info("RAM: {}", fmt::format("{:.2f}", systemInfo_.RamSize));
 
-	ConceptEngine::GetLogger()->info("Device: {}, Video Memory: {:.4} MB", sDesc, fmt::format("{:.2f}", videoMem));
 	ConceptEngine::GetLogger()->info("Driver: {} Build: {}.{}.{}", nProduct, nBuild, nVersion, nSubVersion);
 	ConceptEngine::GetLogger()->info("DeviceID: {}", deviceId);
 	ConceptEngine::GetLogger()->info("Revision: {}", revision);
@@ -278,6 +279,8 @@ void CEDirect3DGraphics::OnUpdate() {
 	UpdatePerSecond(1.0);
 	// UpdateMultiplierColors();
 	UpdateCubesRotation();
+	auto cc = m_Gui->GetBgColor();
+	ChangeClearColor(cc.x, cc.y, cc.z, cc.w);
 }
 
 void CEDirect3DGraphics::UpdateCubesRotation() {
@@ -796,65 +799,33 @@ void CEDirect3DGraphics::RenderText(Font font, std::wstring text, XMFLOAT2 pos, 
 
 }
 
-void CEDirect3DGraphics::InitImGui() const {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	(void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+void CEDirect3DGraphics::InitImGui() {
+	const auto gui = CEGUI::Create(CEOSTools::CEGUITypes::ImGUI, graphicsApiType);
+	std::unique_ptr<CEGUI> guiInstance(gui);
+	m_Gui = std::move(guiInstance);
 
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	//ImGui::StyleColorsClassic();
-
-	// Setup Platform/Renderer backends
 	auto imGuiSrvHandleSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	auto imGuiGPUSrvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(mainDescriptorHeap->GetGPUDescriptorHandleForHeapStart(), 2,
 	                                                       imGuiSrvHandleSize);
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE imGuiCPUSrvHandle(mainDescriptorHeap->GetCPUDescriptorHandleForHeapStart(), 2,
 	                                                imGuiSrvHandleSize);
-	ImGui_ImplWin32_Init(hWnd);
-	ImGui_ImplDX12_Init(m_device.Get(), FrameCount, DXGI_FORMAT_R8G8B8A8_UNORM, mainDescriptorHeap.Get(),
-	                    imGuiCPUSrvHandle, imGuiGPUSrvHandle);
-	// ImGui_ImplDX12_Init(m_device.Get(), FrameCount,
-	//                     DXGI_FORMAT_R8G8B8A8_UNORM, mainDescriptorHeap.Get(),
-	//                     mainDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
-	//                     mainDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
+	m_Gui->InitDirect3D12ImGUI(hWnd,
+	                           m_device.Get(),
+	                           mainDescriptorHeap.Get(),
+	                           imGuiCPUSrvHandle,
+	                           imGuiGPUSrvHandle,
+	                           FrameCount,
+	                           DXGI_FORMAT_R8G8B8A8_UNORM);
 }
 
 void CEDirect3DGraphics::RenderImGui() const {
-	// Start the Dear ImGui frame
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	bool show_demo_window = true;
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
-
-	static float f = 0.0f;
-	static int counter = 0;
-
-	ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-
-	ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
-	ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-
-
-	ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-
-	if (ImGui::Button("Button"))
-		// Buttons return true when clicked (most widgets return true when edited/activated)
-		counter++;
-	ImGui::SameLine();
-	ImGui::Text("counter = %d", counter);
-
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
-	            ImGui::GetIO().Framerate);
-	ImGui::End();
-
-
+	m_Gui->CreateSystemInfoWindow(systemInfo_);
+	m_Gui->CreateSceneEditorWindow();
+	m_Gui->CreateTopMenu();
 	ImGui::Render();
 }
 
@@ -2218,6 +2189,13 @@ bool CEDirect3DGraphics::InitD3D12() {
 	}
 
 	adapterDescription_ = GetAdapterDescription(adapter);
+	auto systemInfo = CEOSTools::GetEngineSystemInfo();
+	std::wstring wDesc = adapterDescription_.Description;
+	auto videoMem = static_cast<double>(adapterDescription_.DedicatedVideoMemory);
+	std::string sDesc(wDesc.begin(), wDesc.end());
+	systemInfo.GPUName = sDesc;
+	systemInfo.VRamSize = videoMem;
+	systemInfo_ = systemInfo;
 
 	// -- Create a direct command queue -- //
 
