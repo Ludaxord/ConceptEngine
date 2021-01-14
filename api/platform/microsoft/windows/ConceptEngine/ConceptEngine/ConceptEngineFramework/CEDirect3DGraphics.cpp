@@ -271,7 +271,7 @@ void CEDirect3DGraphics::LoadBonus() {
 	ConceptEngine::GetLogger()->info("nVendorID: {}", vendorId);
 
 	ConceptEngine::GetLogger()->info("GUI Created: {}", guiActive);
-
+	g_IsInitialized = true;
 }
 
 
@@ -2044,94 +2044,8 @@ void CEDirect3DGraphics::Init() {
 
 }
 
-
-//TODO: Fix
 void CEDirect3DGraphics::OnResize() {
-	HRESULT hr;
-	WaitForPreviousFrame();
-	hr = m_commandAllocators[m_frameIndex]->Reset();
-	if (FAILED(hr)) {
-		Running = false;
-	}
-
-	hr = m_commandList->Reset(m_commandAllocators[m_frameIndex].Get(), m_pipelineState.Get());
-	if (FAILED(hr)) {
-		Running = false;
-	}
-
-	for (int i = 0; i < FrameCount; ++i) {
-		m_renderTargets[i].Reset();
-	}
-	m_DepthBuffer.Reset();
-
-	ThrowIfFailed(m_swapChain->ResizeBuffers(FrameCount, g_ClientWidth, g_ClientHeight, DXGI_FORMAT_R8G8B8A8_UNORM,
-	                                         DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
-	m_frameIndex = 0;
-
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
-	for (int i = 0; i < FrameCount; i++) {
-		hr = m_swapChain->GetBuffer(i, IID_PPV_ARGS(&m_renderTargets[i]));
-		if (FAILED(hr)) {
-			Running = false;
-		}
-
-		m_device->CreateRenderTargetView(m_renderTargets[i].Get(), nullptr, rtvHandle);
-		rtvHandle.Offset(1, m_rtvDescriptorSize);
-
-	}
-
-	D3D12_DEPTH_STENCIL_VIEW_DESC depthStencilDesc = {};
-	depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	depthStencilDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	depthStencilDesc.Flags = D3D12_DSV_FLAG_NONE;
-
-	D3D12_CLEAR_VALUE depthOptimizedClearValue = {};
-	depthOptimizedClearValue.Format = DXGI_FORMAT_D32_FLOAT;
-	depthOptimizedClearValue.DepthStencil.Depth = 1.0f;
-	depthOptimizedClearValue.DepthStencil.Stencil = 0;
-
-	hr = m_device->CreateCommittedResource(
-		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
-		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_D32_FLOAT, g_ClientWidth, g_ClientHeight, 1, 0, 1, 0,
-		                              D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL),
-		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		&depthOptimizedClearValue,
-		IID_PPV_ARGS(&m_DepthBuffer)
-	);
-	if (FAILED(hr)) {
-		Running = false;
-	}
-
-	m_device->CreateDepthStencilView(m_DepthBuffer.Get(), &depthStencilDesc,
-	                                 m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
-
-	// Transition the resource from its initial state to be used as a depth buffer.
-	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DepthBuffer.Get(),
-	                                                                        D3D12_RESOURCE_STATE_COMMON,
-	                                                                        D3D12_RESOURCE_STATE_DEPTH_WRITE));
-
-	// Execute the resize commands.
-	ThrowIfFailed(m_commandList->Close());
-	ID3D12CommandList* cmdsLists[] = {m_commandList.Get()};
-	m_commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
-
-	// Wait until resize is complete.
-	WaitForPreviousFrame();
-
-	// Update the viewport transform to cover the client area.
-	m_Viewport.TopLeftX = 0;
-	m_Viewport.TopLeftY = 0;
-	m_Viewport.Width = g_ClientWidth;
-	m_Viewport.Height = g_ClientHeight;
-	m_Viewport.MinDepth = 0.0f;
-	m_Viewport.MaxDepth = 1.0f;
-
-	// Fill out a scissor rect
-	m_ScissorRect.left = 0;
-	m_ScissorRect.top = 0;
-	m_ScissorRect.right = g_ClientWidth;
-	m_ScissorRect.bottom = g_ClientHeight;
+	
 }
 
 
