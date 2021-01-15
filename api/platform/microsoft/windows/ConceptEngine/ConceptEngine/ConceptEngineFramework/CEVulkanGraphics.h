@@ -8,7 +8,6 @@
 class CEVulkanGraphics : public CEGraphics {
 public:
 	CEVulkanGraphics(HWND hWnd, int width, int height);
-	void PrintGraphicsVersion() override;
 	void LoadVulkan() const;
 	void LoadVulkanExtensions(CEVulkanContext context);
 
@@ -34,7 +33,6 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
-	IGPUInfo GetGPUInfo() override;
 
 public:
 	virtual void LoadBonus() override;

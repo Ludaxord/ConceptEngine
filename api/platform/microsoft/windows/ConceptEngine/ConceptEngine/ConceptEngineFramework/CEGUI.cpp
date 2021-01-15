@@ -52,6 +52,9 @@ void CEGUI::CreateSceneEditorWindow() {
 	if (sceneEditorWindow) {
 		ImGui::Begin("Concept Engine Editor",&sceneEditorWindow);
 		ImGui::ColorEdit4("Background Color", reinterpret_cast<float*>(&bgColor));
+		ImGui::Checkbox("Toggle First Cube", &showCube1);
+		ImGui::Checkbox("Toggle Second Cube", &showCube2);
+		ImGui::Checkbox("Draw FPS Counter", &drawFPSCounter);
 		ImGui::End();
 	}
 }

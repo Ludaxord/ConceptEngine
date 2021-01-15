@@ -41,6 +41,9 @@ public:
 	void CreateTopMenu();
 	void CreateSceneEditorWindow();
 	ImVec4 GetBgColor() const;
+	bool showCube1 = true;
+	bool showCube2 = true;
+	bool drawFPSCounter = true;
 private:
 	ImGuiContext* context;
 	CEGUIType guiType_;

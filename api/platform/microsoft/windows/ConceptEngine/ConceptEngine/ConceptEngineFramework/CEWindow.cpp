@@ -15,29 +15,22 @@
 CEWindow::CEWindowClass CEWindow::CEWindowClass::wndClass;
 
 
-//TODO: Change CEWindow class as a only window initializer, move actions connected with UserInput (Keyboard, Mouse, Controller to different Manager class).
 CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
 
 	WNDCLASSEX wc = {
 		sizeof(WNDCLASSEX),
-		// CS_OWNDC,
 		CS_HREDRAW | CS_VREDRAW,
 		HandleMsgSetup,
 		0,
 		0,
 		GetInstance(),
-		// static_cast<HICON>(LoadImage(hInst,
-		//                              MAKEINTRESOURCE(IDI_ICON2),
-		//                              IMAGE_ICON, 32, 32, 0)),
-		::LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2)),
+		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32, 32, 0)),
+
 		nullptr,
 		(HBRUSH)(5 + 1),
 		nullptr,
 		CETools::ConvertCharArrayToLPCWSTR(GetName()),
-		// static_cast<HICON>(LoadImage(hInst,
-		//                              MAKEINTRESOURCE(IDI_ICON2),
-		//                              IMAGE_ICON, 16, 16, 0))
-		::LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON2))
+		static_cast<HICON>(LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0))
 	};
 	if (!RegisterClassEx(&wc)) {
 		MessageBoxA(NULL, "Unable to register the window class.", "Error", MB_OK | MB_ICONERROR);
@@ -329,13 +322,10 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 	}
 	case WM_SIZE:
 		if (GetGraphics().IsInitialized()) {
-			OutputDebugStringW(L"Graphics initialized\n");
 			GetGraphics().ChangeScreenSize(LOWORD(lParam), HIWORD(lParam));
 			GetGraphics().OnResize();
 		}
-		else {
-			OutputDebugStringW(L"Graphics not initialized\n");
-		}
+		break;
 
 	case WM_KILLFOCUS:
 		keyboard.ClearState();
@@ -345,30 +335,6 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 		//0x4000000 == 30 Source: https://docs.microsoft.com/en-us/windows/win32/inputdev/wm-keydown
 		if (!(lParam & 0x4000000) || keyboard.IsAutoRepeatEnabled()) {
 			keyboard.OnKeyPressed(static_cast<unsigned char>(wParam));
-		}
-		const bool alt = (::GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
-
-		switch (wParam) {
-		case 'V': {
-			pGraphics->ChangeVSyncState();
-
-			std::stringstream wss;
-			wss << "VSync enabled: " << pGraphics->GetVSyncState() << std::endl;
-			OutputDebugStringA(wss.str().c_str());
-
-			break;
-		}
-
-		case VK_ESCAPE:
-			::PostQuitMessage(0);
-			break;
-		case VK_RETURN:
-			if (alt) {
-			case VK_F11:
-				auto fullscreen = pGraphics->GetFullScreenState();
-				pGraphics->SetFullscreen(!fullscreen);
-			}
-			break;
 		}
 	}
 	break;

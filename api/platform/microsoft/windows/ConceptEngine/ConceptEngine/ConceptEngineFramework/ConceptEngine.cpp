@@ -5,7 +5,7 @@ ConceptEngine::ConceptEngine() : apiType_(
 	CEOSTools::CEGraphicsApiTypes::direct3d12
 	// CEOSTools::CEGraphicsApiTypes::vulkan
 ),
-                                 window_(1280, 720, "Concept Engine Editor", apiType_) {
+                                 window_(1920, 1080, "Concept Engine Editor", apiType_) {
 	InitSpdLog();
 	static_logger_ = CreateLogger("ConceptEngine");
 }

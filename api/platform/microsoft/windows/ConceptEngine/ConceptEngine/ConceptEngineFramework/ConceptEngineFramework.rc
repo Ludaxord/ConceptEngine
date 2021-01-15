@@ -50,7 +50,7 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "F:\\Data\\pses\\exports\\conceptenginelogo.png"
+IDB_PNG1                PNG                     "F:\\Projects\\ConceptEngine\\assets\\conceptenginelogo.png"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ IDB_PNG1                PNG                     "F:\\Data\\pses\\exports\\concep
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON2               ICON                    "F:\\Projects\\ConceptEngine\\assets\\conceptenginelogo.ico"
+IDI_ICON1               ICON                    "F:\\Projects\\ConceptEngine\\assets\\conceptenginelogo.ico"
 
 #endif    // Polish (Poland) resources
 /////////////////////////////////////////////////////////////////////////////

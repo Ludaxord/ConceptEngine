@@ -327,14 +327,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\..\..\..\Data\pses\exports\conceptenginelogo.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="glfw3.dll">
       <Filter>Resource Files</Filter>
     </None>
@@ -365,5 +357,13 @@
     <CustomBuild Include="shaders.hlsl">
       <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

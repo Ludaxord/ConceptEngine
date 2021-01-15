@@ -217,12 +217,6 @@ CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApi
 	return graphics;
 }
 
-void CEGraphics::PrintGraphicsVersion() {
-	std::wstringstream wss;
-	wss << "Graphics API" << std::endl;
-	OutputDebugString(wss.str().c_str());
-}
-
 bool CEGraphics::GetVSyncState() {
 	return g_VSync;
 }

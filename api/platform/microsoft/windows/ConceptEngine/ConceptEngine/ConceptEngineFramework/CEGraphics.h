@@ -91,11 +91,6 @@ public:
 	};
 
 public:
-	struct IGPUInfo {
-
-	};
-
-public:
 	CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEGraphics(const CEGraphics&) = delete;
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
@@ -118,7 +113,7 @@ public:
 protected:
 	virtual void RenderGui() = 0;
 	virtual void DestroyGui() = 0;
-	
+
 	virtual void OnKeyPressed() = 0;
 	virtual void OnKeyReleased() = 0;
 	virtual void OnMouseMoved() = 0;
@@ -126,7 +121,6 @@ protected:
 	virtual void OnMouseButtonReleased() = 0;
 	virtual void OnMouseWheel() = 0;
 	virtual void OnWindowDestroy() = 0;
-	virtual IGPUInfo GetGPUInfo() = 0;
 public:
 	void ChangeScreenSize(float width, float height);
 	void ChangeClearColor(float red, float green, float blue, float alpha = 1.0f);
@@ -134,7 +128,6 @@ public:
 
 public:
 	static CEGraphics* GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height);
-	virtual void PrintGraphicsVersion();
 
 	bool GetVSyncState();
 	void ChangeVSyncState();
@@ -152,22 +145,25 @@ protected:
 protected:
 	HWND hWnd;
 	CEOSTools::CEGraphicsApiTypes graphicsApiType;
-
-	uint32_t g_ClientWidth = 1280;
-	uint32_t g_ClientHeight = 720;
-	static const UINT FrameCount = 3;
-	//Swap Chain Present Methods
-	// By default, enable V-Sync.
-	// Can be toggled with the V key.
-	bool g_VSync = true;
-	bool g_TearingSupported = false;
-	// By default, use windowed mode.
-	// Can be toggled with the Alt+Enter or F11
-	bool g_Fullscreen = false;
-	bool g_IsInitialized = false;
-	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
 	std::wstring m_assetsPath;
+
+	FLOAT clearColor[4] = {0.4f, 0.6f, 0.9f, 1.0f};
+
 	float m_aspectRatio;
 	bool guiActive = false;
-	
+	bool mAppPaused = false; // is the application paused?
+	bool mMinimized = false; // is the application minimized?
+	bool mMaximized = false; // is the application maximized?
+	bool mResizing = false; // are the resize bars being dragged?
+	bool g_Fullscreen = false;
+	bool g_IsInitialized = false;
+	bool g_VSync = true;
+	bool g_TearingSupported = false;
+
+	bool m4xMsaaState = false; // 4X MSAA enabled
+	UINT m4xMsaaQuality = 0; // quality level of 4X MSAA
+
+	static const UINT FrameCount = 3;
+	uint32_t g_ClientWidth = 1920;
+	uint32_t g_ClientHeight = 1080;
 };

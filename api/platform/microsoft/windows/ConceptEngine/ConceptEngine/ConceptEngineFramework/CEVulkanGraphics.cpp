@@ -10,9 +10,6 @@ CEVulkanGraphics::CEVulkanGraphics(HWND hWnd, int width, int height):
 	pVulkanData(std::make_unique<CEVulkanData>()), vulkanContext() {
 }
 
-void CEVulkanGraphics::PrintGraphicsVersion() {
-}
-
 void CEVulkanGraphics::LoadVulkan() const {
 	HMODULE vulkan_module = LoadLibrary(CETools::ConvertCharArrayToLPCWSTR("vulkan-1.dll"));
 	pVulkanData->vkCreateInstance = (PFN_vkCreateInstance)GetProcAddress(vulkan_module, "vkCreateInstance");
@@ -274,10 +271,6 @@ void CEVulkanGraphics::OnResize() {
 }
 
 void CEVulkanGraphics::OnWindowDestroy() {
-}
-
-CEGraphics::IGPUInfo CEVulkanGraphics::GetGPUInfo() {
-	return IGPUInfo();
 }
 
 void CEVulkanGraphics::LoadBonus() {

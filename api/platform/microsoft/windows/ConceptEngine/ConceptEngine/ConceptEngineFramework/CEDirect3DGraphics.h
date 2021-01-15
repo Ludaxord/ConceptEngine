@@ -34,13 +34,6 @@ namespace fs = std::filesystem;
 class CEDirect3DGraphics : public CEGraphics {
 
 public:
-	struct ID3DGPUInfo : IGPUInfo {
-		DXGI_QUERY_VIDEO_MEMORY_INFO dqvmi;
-		ID3DGPUInfo() = default;
-		// conversion from A (constructor):
-		explicit ID3DGPUInfo(const IGPUInfo& x) {
-		}
-	};
 
 	//TODO: create struct for color and texture coordinates
 	struct CEVertexPosColor {
@@ -255,176 +248,27 @@ public:
 private:
 	void CreateDirect3D12(int width, int height);
 	void CreateDirect3D11(int width, int height);
-public:
-	void PrintGraphicsVersion() override;
 
-protected:
-#ifndef NDEBUG
-	CEDirect3DInfoManager infoManager;
-#endif
-
-private:
-	void GetHardwareAdapter(IDXGIFactory1* pFactory, IDXGIAdapter1** ppAdapter,
-	                        bool requestHighPerformanceAdapter = false) const;
 	bool CheckVSyncSupport() const;
 	void WaitForPreviousFrame();
-	void LoadPipeline();
-	void LoadAssets();
-	void Init();
+	void UpdateCubes();
+	void RenderCubes();
+	bool InitCubes();
 
-	//TODO:Think about best solution ComPtr, shared_ptr or *
-	//TODO:Also find global abstract for all DXGI elements with numbers
-	IDXGIFactory4* CreateFactory() const;
-	IDXGIAdapter1* CreateAdapter(IDXGIFactory4* dxgiFactory) const;
-	//Implement later to dynamic change gpu.
-	void GetAdaptersList();
+protected:
+	void InitGui() override;
+	void RenderGui() override;
+	void DestroyGui() override;
 
-	ID3D12Device* CreateDevice(IDXGIAdapter1* adapter);
-
-	ID3D12CommandQueue* CreateCommandQueue(ID3D12Device* device);
-
-	DXGI_SAMPLE_DESC CreateSampleDescriptor(int multiSampleCount = 1);
-
-	IDXGISwapChain3* CreateSwapChain(IDXGIFactory4* dxgiFactory,
-	                                 ID3D12CommandQueue* commandQueue,
-	                                 uint32_t screenWidth,
-	                                 uint32_t screenHeight,
-	                                 int bufferCount,
-	                                 HWND outputWindow,
-	                                 bool windowed,
-	                                 DXGI_SAMPLE_DESC sampleDesc,
-	                                 DXGI_SWAP_EFFECT swapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD);
-	UINT GetFrameIndex(IDXGISwapChain3* swapChain);
-	ID3D12DescriptorHeap* CreateDescriptorHeap(ID3D12Device* device,
-	                                           int descriptorCount,
-	                                           D3D12_DESCRIPTOR_HEAP_TYPE heapType,
-	                                           D3D12_DESCRIPTOR_HEAP_FLAGS heapFlags) const;
-	UINT GetDescriptorSize(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType);
-	std::vector<ID3D12Resource*> CreateRenderTargetView(ID3D12DescriptorHeap* heap,
-	                                                    int bufferCount,
-	                                                    IDXGISwapChain3* swapChain,
-	                                                    ID3D12Device* device,
-	                                                    UINT descriptorSize,
-	                                                    UINT offsetInDescriptor = 1) const;
-	std::vector<ID3D12CommandAllocator*> CreateCommandAllocators(ID3D12Device* device, int bufferCount) const;
-	ID3D12GraphicsCommandList* CreateCommandList(ID3D12Device* device,
-	                                             std::vector<ID3D12CommandAllocator*> commandAllocators,
-	                                             UINT frameIndex) const;
-	std::vector<CEFence> CreateFence(ID3D12Device* device, int bufferCount) const;
-	HANDLE CreateFenceEvent() const;
-	D3D12_ROOT_DESCRIPTOR CreateRootDescriptor();
-	std::vector<D3D12_DESCRIPTOR_RANGE> CreateDescriptorRange(int range, int descriptorNumber = 1,
-	                                                          int shaderRegister = 0);
-	D3D12_ROOT_DESCRIPTOR_TABLE CreateDescriptorTable(std::vector<D3D12_DESCRIPTOR_RANGE> descriptorTableRanges);
-	std::vector<D3D12_ROOT_PARAMETER> CreateRootParameters(
-		D3D12_ROOT_DESCRIPTOR rootDescriptor, D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable);
-	D3D12_STATIC_SAMPLER_DESC CreateStaticSampler(int shaderRegister = 0,
-	                                              int registerSpace = 0,
-	                                              float minLevelOfDetail = 0.0f,
-	                                              float maxLevelOfDetail = D3D12_FLOAT32_MAX);
-	ID3D12RootSignature* CreateRootSignature(ID3D12Device* device, std::vector<D3D12_ROOT_PARAMETER> rootParameters,
-	                                         int staticSampler, D3D12_STATIC_SAMPLER_DESC sampler) const;
-	ID3DBlob* CompileShaderFromFile(std::wstring shaderFilePath, const char* entryPoint,
-	                                const char* shaderCompileTarget);
-	D3D12_SHADER_BYTECODE CreateShaderByteCode(ID3DBlob* shader);
-	D3D12_BLEND_DESC CreateBlendDescriptor();
-	ID3D12PipelineState* CreatePipelineState(ID3D12Device* device,
-	                                         ID3D12RootSignature* rootSignature,
-	                                         std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout,
-	                                         D3D12_SHADER_BYTECODE vertexShaderByteCode,
-	                                         D3D12_SHADER_BYTECODE pixelShaderByteCode,
-	                                         DXGI_SAMPLE_DESC sampleDesc,
-	                                         D3D12_DEPTH_STENCIL_DESC depthStencilDesc = CD3DX12_DEPTH_STENCIL_DESC(
-		                                         D3D12_DEFAULT),
-	                                         D3D12_BLEND_DESC blendStateDesc = CD3DX12_BLEND_DESC(D3D12_DEFAULT),
-	                                         D3D12_RASTERIZER_DESC rasterizerDesc = CD3DX12_RASTERIZER_DESC(
-		                                         D3D12_DEFAULT)) const;
-	ID3D12Resource* CreateHeap(ID3D12Device* device,
-	                           D3D12_RESOURCE_DESC* resourceDesc,
-	                           D3D12_HEAP_TYPE heapType,
-	                           D3D12_RESOURCE_STATES resourceState,
-	                           D3D12_CLEAR_VALUE* clearValue, std::wstring heapName = L"Resource Heap") const;
-	UINT64 GetUploadBufferSize(ID3D12Device* device, D3D12_RESOURCE_DESC desc);
-	void CopyToDefaultHeap(ID3D12GraphicsCommandList* commandList, ID3D12Resource* destinationHeap,
-	                       ID3D12Resource* intermediateHeap,
-	                       const BYTE* dataArray, int bufferSize, bool useSlicePitch = false, int slicePitch = 0) const;
-	void TransitionToBuffer(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource,
-	                        D3D12_RESOURCE_STATES stateBefore,
-	                        D3D12_RESOURCE_STATES stateAfter,
-	                        int barrierNumber = 1);
-
-	void CreateDepthStencilView(ID3D12Device* device, ID3D12DescriptorHeap* heap, ID3D12Resource* buffer,
-	                            D3D12_DEPTH_STENCIL_VIEW_DESC* depthStencilDesc);
-	std::tuple<int, D3D12_RESOURCE_DESC, BYTE*> LoadTexture(std::wstring texturePath);
-	void CreateShaderResourceView(ID3D12Device* device,
-	                              ID3D12Resource* buffer,
-	                              ID3D12DescriptorHeap* heap,
-	                              D3D12_RESOURCE_DESC textureDesc,
-	                              D3D12_SRV_DIMENSION viewDimension,
-	                              int mipLevels = 1,
-	                              D3D12_CPU_DESCRIPTOR_HANDLE handle = {0}) const;
-	std::tuple<int, D3D12_RESOURCE_DESC, BYTE*> LoadFonts(std::wstring fontPath, int width, int height);
-	void InitCommandList(ID3D12GraphicsCommandList* commandList, ID3D12CommandQueue* commandQueue);
-	void IncrementFenceValue(ID3D12CommandQueue* commandQueue, std::vector<CEFence> fences, UINT frameIndex);
-	D3D12_VERTEX_BUFFER_VIEW CreateVertexBufferView(ID3D12Resource* buffer, UINT stride, UINT size);
-	D3D12_INDEX_BUFFER_VIEW CreateIndexBufferView(ID3D12Resource* buffer, DXGI_FORMAT indexBufferFormat, UINT size);
-	CD3DX12_VIEWPORT CreateViewPort(int topLeftX, int topLeftY, int width, int height, float minDepth,
-	                                float maxDepth) const;
-	CD3DX12_RECT CreateScissorRect(int left, int right, int top, int bottom) const;
-
-	XMFLOAT4X4 BuildProjection(float angleY, int width, int height, float nearZ, float farZ);
-	XMFLOAT4X4 CreateViewMatrix(XMFLOAT4 position, XMFLOAT4 target, XMFLOAT4 up);
-	XMFLOAT4X4 CreateTranslationMatrix(XMFLOAT4 position, XMFLOAT4 offset = {0, 0, 0, 0});
-
-	void ResetCommandAllocators(std::vector<ID3D12CommandAllocator*> commandAllocators, UINT frameIndex);
-	void ResetCommandList(ID3D12GraphicsCommandList* commandList,
-	                      std::vector<ID3D12CommandAllocator*> commandAllocators,
-	                      UINT frameIndex,
-	                      ID3D12PipelineState* pipelineState);
-	void SetRenderTarget(ID3D12GraphicsCommandList* commandList,
-	                     D3D12_CPU_DESCRIPTOR_HANDLE* renderTargetViewHandle,
-	                     CD3DX12_CPU_DESCRIPTOR_HANDLE* depthStencilViewHandle,
-	                     int renderTargetDescriptorsCount);
-	void ClearRenderTargetView(ID3D12GraphicsCommandList* commandList,
-	                           D3D12_CPU_DESCRIPTOR_HANDLE renderTargetViewHandle, float clearColor[4],
-	                           int rectNumber = 0) const;
-	void ClearDepthStencilView(ID3D12GraphicsCommandList* commandList,
-	                           ID3D12DescriptorHeap* depthStencilViewHeap,
-	                           float depth,
-	                           float stencil,
-	                           int rectNumber) const;
-	void SetGraphicsRootSignature(ID3D12GraphicsCommandList* commandList,
-	                              ID3D12RootSignature* rootSignature) const;
-	void SetDescriptorHeaps(ID3D12GraphicsCommandList* commandList,
-	                        std::vector<ID3D12DescriptorHeap*> descriptorHeaps);
-	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* descriptorHeap,
-	                                    UINT rootParameterIndex);
-	void SetViewports(ID3D12GraphicsCommandList* commandList, D3D12_VIEWPORT* viewPort,
-	                  UINT viewPortsNumber);
-	void SetScissorRects(ID3D12GraphicsCommandList* commandList, D3D12_RECT* scissorRect,
-	                     UINT scissorRectsNumber);
-	void SetBuffers(ID3D12GraphicsCommandList* commandList, D3D12_VERTEX_BUFFER_VIEW* vertexBufferView,
-	                D3D12_INDEX_BUFFER_VIEW* indexBufferView, UINT vertexBufferViewsNumber,
-	                UINT vertexBufferViewStart = 0);
-	void SetGraphicsRootConstantBufferView(ID3D12GraphicsCommandList* commandList,
-	                                       ID3D12Resource* constantBufferUploadHeap, UINT rootParameterIndex);
-	void DrawObject(ID3D12GraphicsCommandList* commandList,
-	                UINT cubeIndices,
-	                int instanceCount = 1,
-	                int startIndexLocation = 0,
-	                int baseVertexLocation = 0,
-	                int startInstanceLocation = 0);
-	void CloseCommandList(ID3D12GraphicsCommandList* commandList);
-
-	bool InitD3D12();
+	void InitImGui();
+	void RenderImGui() const;
+	void DestroyImGui() const;
 
 public:
 	void LoadBonus() override;
 
-public:
 	void OnUpdate() override;
 	void OnRender() override;
-	void Resize(uint32_t width, uint32_t height);
 	void SetFullscreen(bool fullscreen) override;
 	bool OnInit() override;
 	void OnDestroy() override;
@@ -432,6 +276,7 @@ public:
 	void UpdatePerSecond(float second) override;
 	bool LoadContent() override;
 	void UnloadContent() override;
+
 protected:
 	void OnKeyPressed() override;
 	void OnKeyReleased() override;
@@ -441,12 +286,37 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
-	IGPUInfo GetGPUInfo() override;
 
 
 private:
-	DXGI_ADAPTER_DESC GetAdapterDescription(wrl::ComPtr<IDXGIAdapter> dxgiAdapter) const;
-
+	/*
+	 * Direct3D Initialization
+	 */
+	void InitDirectX();
+	DXGI_ADAPTER_DESC GetAdapterDescription(IDXGIAdapter* dxgiAdapter) const;
+	IDXGIFactory4* CreateFactory() const;
+	std::tuple<ID3D12Device*, IDXGIAdapter*> CreateDeviceAndAdapter(IDXGIFactory4* factory,
+	                                                                D3D_FEATURE_LEVEL featureLevel =
+		                                                                D3D_FEATURE_LEVEL_11_0);
+	ID3D12Fence* CreateFence(ID3D12Device* device, int initialValue = 0,
+	                         D3D12_FENCE_FLAGS fenceFlags = D3D12_FENCE_FLAG_NONE) const;
+	CEOSTools::CESystemInfo CEDirect3DGraphics::GetSystemInfo(IDXGIAdapter* adapter) const;
+	UINT GetDescriptorHandleIncrementSize(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType);
+	UINT Check4XMSAAQualitySupport(ID3D12Device* device, DXGI_FORMAT backBufferFormat, int sampleCount = 4,
+	                               D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS multisampleFlags =
+		                               D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE, int qualityLevels = 0);
+	std::tuple<ID3D12CommandQueue*, ID3D12CommandAllocator*, ID3D12GraphicsCommandList*> CreateCommandObjects(
+		ID3D12Device* device);
+	IDXGISwapChain* CreateSwapChain(HWND hWnd, IDXGIFactory4* factory,
+	                                ID3D12CommandQueue* commandQueue,
+	                                int clientWidth, int clientHeight, DXGI_FORMAT backBufferFormat,
+	                                bool msaaState, UINT msaaQuality, UINT swapChainBufferCount);
+	std::tuple<ID3D12DescriptorHeap*, ID3D12DescriptorHeap*> CreateDescriptorHeaps(
+		ID3D12Device* device, UINT bufferCount) const;
+	ID3D12DescriptorHeap* BuildDescriptorHeaps(ID3D12Device* device);
+	/*
+	 * Cube Initialization Tools;
+	 */
 	void UpdatePipeline();
 
 	void UpdateMultiplierColors();
@@ -463,18 +333,23 @@ private:
 	void RenderText(Font font, std::wstring text, XMFLOAT2 pos, XMFLOAT2 scale = XMFLOAT2(1.0f, 1.0f),
 	                XMFLOAT2 padding = XMFLOAT2(0.5f, 0.0f), XMFLOAT4 color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
-protected:
-	void InitGui() override;
-	void RenderGui() override;
-	void DestroyGui() override;
 
-	void InitImGui();
-	void RenderImGui() const;
-	void DestroyImGui() const;
-	
+	/*
+	 * Global variables;
+	 */
 private:
-	// Pipeline objects.
 	DXGI_ADAPTER_DESC adapterDescription_;
+	// create an instance of timer
+	Timer timer;
+	std::unique_ptr<CEGUI> m_Gui;
+	CEOSTools::CESystemInfo systemInfo_;
+
+
+	/*
+	 * Variables to create cubes;
+	 */
+private:
+	wrl::ComPtr<IDXGISwapChain> swapChain_;
 	wrl::ComPtr<IDXGISwapChain3> m_swapChain;
 	wrl::ComPtr<ID3D12Device> m_device;
 	wrl::ComPtr<ID3D12Resource> m_renderTargets[FrameCount];
@@ -484,7 +359,10 @@ private:
 	wrl::ComPtr<ID3D12PipelineState> m_pipelineState;
 	wrl::ComPtr<ID3D12GraphicsCommandList> m_commandList;
 	wrl::ComPtr<IDXGIFactory4> m_factory;
+
 	UINT m_rtvDescriptorSize;
+	UINT m_dsvDescriptorSize;
+	UINT m_cbvSrvUavDescriptorSize;
 	bool m_useWarpDevice = false;
 
 private:
@@ -503,10 +381,6 @@ private:
 	struct ConstantBuffer {
 		XMFLOAT4 colorMultiplier;
 	};
-
-	// Set true to use 4X MSAA (§4.1.8).  The default is false.
-	bool m4xMsaaState = false; // 4X MSAA enabled
-	UINT m4xMsaaQuality = 0; // quality level of 4X MSAA
 
 	// wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
 	// this heap will store the descripor to our constant buffer
@@ -617,12 +491,5 @@ private:
 	wrl::ComPtr<ID3D12Resource> textVertexBuffer[FrameCount];
 	D3D12_VERTEX_BUFFER_VIEW textVertexBufferView[FrameCount]; // a view for our text vertex buffer
 	UINT8* textVBGPUAddress[FrameCount]; // this is a pointer to each of the text constant buffers
-
-	// create an instance of timer
-	Timer timer;
-
-	std::unique_ptr<CEGUI> m_Gui;
-
-	CEOSTools::CESystemInfo systemInfo_;
 
 };

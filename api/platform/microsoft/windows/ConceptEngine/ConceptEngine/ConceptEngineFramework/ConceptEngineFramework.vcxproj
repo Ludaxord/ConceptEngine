@@ -102,10 +102,6 @@
     <ResourceCompile Include="ConceptEngineFramework.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\..\..\..\Data\pses\exports\conceptenginelogo.png" />
-    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="glfw3.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +164,10 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)\%(Identity)</Outputs>
       <TreatOutputAsContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatOutputAsContent>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico" />
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

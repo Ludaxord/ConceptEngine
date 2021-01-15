@@ -157,6 +157,16 @@
       <Project>{d91c74fd-b6a3-4604-819a-6bbd97737979}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ConceptEngineEditor.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico" />
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

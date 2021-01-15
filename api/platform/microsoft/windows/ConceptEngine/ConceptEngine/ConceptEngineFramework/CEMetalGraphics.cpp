@@ -8,9 +8,6 @@ CEMetalGraphics::CEMetalGraphics(HWND hWnd, int width, int height): CEGraphics(
 	hWnd, CEOSTools::CEGraphicsApiTypes::metal, width, height) {
 }
 
-void CEMetalGraphics::PrintGraphicsVersion() {
-}
-
 bool CEMetalGraphics::OnInit() {
 	return true;
 }
@@ -32,10 +29,6 @@ void CEMetalGraphics::UnloadContent() {
 }
 
 void CEMetalGraphics::UpdatePerSecond(float second) {
-}
-
-CEGraphics::IGPUInfo CEMetalGraphics::GetGPUInfo() {
-	return IGPUInfo();
 }
 
 void CEMetalGraphics::OnKeyPressed() {

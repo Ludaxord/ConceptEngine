@@ -9,7 +9,6 @@ class CEOpenGLGraphics : public CEGraphics {
 public:
 	CEOpenGLGraphics(HWND hWnd, int width, int height);
 
-	void PrintGraphicsVersion() override;
 	bool OnInit() override;
 	void OnDestroy() override;
 	void OnRender() override;
@@ -27,7 +26,6 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
-	IGPUInfo GetGPUInfo() override;
 public:
 	virtual void LoadBonus() override;
 protected:

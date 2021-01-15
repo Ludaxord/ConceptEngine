@@ -4,7 +4,6 @@
 class CEMetalGraphics : public CEGraphics {
 public:
 	CEMetalGraphics(HWND hWnd, int width, int height);
-	void PrintGraphicsVersion() override;
 	bool OnInit() override;
 	void OnDestroy() override;
 	void OnRender() override;
@@ -21,7 +20,6 @@ protected:
 	void OnMouseWheel() override;
 	void OnResize() override;
 	void OnWindowDestroy() override;
-	IGPUInfo GetGPUInfo() override;
 
 public:
 	void SetFullscreen(bool fullscreen) override;

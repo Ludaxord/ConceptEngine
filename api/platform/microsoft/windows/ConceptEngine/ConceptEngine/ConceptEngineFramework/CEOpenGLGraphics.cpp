@@ -9,12 +9,6 @@ CEOpenGLGraphics::CEOpenGLGraphics(HWND hWnd, int width, int height): CEGraphics
 
 }
 
-void CEOpenGLGraphics::PrintGraphicsVersion() {
-	std::wstringstream wss;
-	wss << "OpenGL Version: " << CEOSTools::GetOpenGLVersion() << std::endl;
-	OutputDebugString(wss.str().c_str());
-}
-
 bool CEOpenGLGraphics::OnInit() {
 	g_HDC = GetDC(hWnd);
 
@@ -67,10 +61,6 @@ void CEOpenGLGraphics::UnloadContent() {
 }
 
 void CEOpenGLGraphics::UpdatePerSecond(float second) {
-}
-
-CEGraphics::IGPUInfo CEOpenGLGraphics::GetGPUInfo() {
-	return IGPUInfo();
 }
 
 void CEOpenGLGraphics::LoadBonus() {
