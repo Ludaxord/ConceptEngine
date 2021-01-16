@@ -12,99 +12,17 @@
 #include "CETools.h"
 #include "CEVulkanGraphics.h"
 
-CEGraphics::HResultException::HResultException(int line, const char* file,
-                                               HRESULT hResult,
-                                               std::vector<std::string> infoMsgs) noexcept : Exception(line, file),
-	hResult(hResult) {
-	for (const auto& m : infoMsgs) {
-		info += m;
-		info.push_back('\n');
-	}
-	if (!info.empty()) {
-		info.pop_back();
-	}
-}
 
-const char* CEGraphics::HResultException::what() const noexcept {
-	std::ostringstream oss;
-	oss << GetType() << std::endl << "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode() << std::dec <<
-		" (" << (unsigned long)GetErrorCode() << ")" << std::endl << "[Error String] " << GetErrorMessage() << std::endl
-		<< "[Error Description] " << GetErrorDescription() << std::endl;
-	if (!info.empty()) {
-		oss << "\n[Error Info] \n" << GetErrorInfo() << std::endl << std::endl;
-	}
-	oss << GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-
-}
-
-const char* CEGraphics::HResultException::GetType() const noexcept {
-	return "Concept Engine Graphics Exception";
-}
-
-HRESULT CEGraphics::HResultException::GetErrorCode() const noexcept {
-	return hResult;
-}
-
-std::string CEGraphics::HResultException::GetErrorMessage() const noexcept {
-	// std::wstring ws(DXGetErrorString(hResult));
-	// std::string errorMessage(ws.begin(), ws.end());
-	// return errorMessage;
-	return "";
-}
-
-std::string CEGraphics::HResultException::GetErrorInfo() const noexcept {
-	return info;
-}
-
-CEGraphics::InfoException::InfoException(int line, const char* file,
-                                         std::vector<std::string> infoMsgs) noexcept : Exception(line, file) {
-	for (const auto& m : infoMsgs) {
-		info += m;
-		info.push_back('\n');
-	}
-	if (!info.empty()) {
-		info.pop_back();
-	}
-
-}
-
-const char* CEGraphics::InfoException::what() const noexcept {
-	std::ostringstream oss;
-	oss << GetType() << std::endl << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
-	oss << GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const char* CEGraphics::InfoException::GetType() const noexcept {
-	return "Concept Engine Graphics Info Exception";
-}
-
-std::string CEGraphics::InfoException::GetErrorInfo() const noexcept {
-	return info;
-}
-
-
-std::string CEGraphics::HResultException::GetErrorDescription() const noexcept {
-	char buff[512];
-	return buff;
-}
-
-const char* CEGraphics::DeviceRemovedException::GetType() const noexcept {
-	return "Concept Engine Exception [Device Removed] (DXGI_ERROR_DEVICE_REMOVED)";
-}
-
-CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height) : hWnd(hWnd),
-	graphicsApiType(apiType), g_ClientWidth(width),
+CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height) :
+	hWnd(hWnd),
+	graphicsApiType(apiType),
+	g_ClientWidth(width),
 	g_ClientHeight(height) {
 	WCHAR assetsPath[512];
 	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
 	m_assetsPath = assetsPath;
 	m_aspectRatio = static_cast<float>(width) / static_cast<float>(height);
 	CEGUI::Create(CEOSTools::CEGUITypes::ImGUI, apiType);
-	ResolveSelectedGraphicsAPI();
 }
 
 std::wstring CEGraphics::ExePath() {
@@ -190,8 +108,6 @@ void CEGraphics::SetFullscreen(bool fullscreen) {
 }
 
 CEGraphics* CEGraphics::GetGraphicsByApiType(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiTypes, int width, int height) {
-	//TODO: Make CEGraphics Virtual and create implementation for every API -> Direct3D 11, Direct3D 12, Vulkan, OpenGL
-	//TODO: Docs reference: https://en.cppreference.com/w/cpp/language/abstract_class, https://docs.microsoft.com/en-us/cpp/cpp/abstract-classes-cpp?view=msvc-160
 	CEGraphics* graphics = nullptr;
 	switch (apiTypes) {
 	case CEOSTools::CEGraphicsApiTypes::direct3d11:
@@ -235,13 +151,4 @@ bool CEGraphics::GetFullScreenState() {
 
 bool CEGraphics::IsInitialized() {
 	return g_IsInitialized;
-}
-
-
-void CEGraphics::ResolveSelectedGraphicsAPI() {
-	std::ostringstream oss;
-	oss << "Graphics API type: ";
-	oss << magic_enum::enum_name(graphicsApiType);
-	oss << std::endl;
-	OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(oss.str().c_str()));
 }

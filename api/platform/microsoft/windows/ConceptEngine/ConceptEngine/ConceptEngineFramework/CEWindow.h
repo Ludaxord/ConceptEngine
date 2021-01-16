@@ -1,7 +1,6 @@
 #pragma once
 #include <optional>
 
-#include "CEException.h"
 #include "CELib.h"
 #include "CEKeyboard.h"
 #include "CEMouse.h"
@@ -13,29 +12,6 @@
 class CEWindow {
 
 public:
-
-	class Exception : public CEException {
-		using CEException::CEException;
-	public:
-		static std::string TranslateErrorCode(HRESULT hResult) noexcept;
-	};
-
-	class HResultException : public Exception {
-	public:
-		HResultException(int exceptionLine, const char* exceptionFile, HRESULT hresult) noexcept;
-		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept override;
-		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorDescription() const noexcept;
-	private:
-		HRESULT hresult;
-	};
-
-	class GraphicsException : public Exception {
-	public:
-		using Exception::Exception;
-		const char* GetType() const noexcept override;
-	};
 
 	enum class CEWindowTypes {
 		main,
@@ -77,14 +53,12 @@ private:
 	};
 
 public:
-	// TODO: Detect default Graphics API type.
-	// TODO: Add constructor with ApiType
 	CEWindow(int width, int height, const char* name, CEWindowTypes windowType = CEWindowTypes::main);
 	CEWindow(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType);
 	~CEWindow();
 	CEWindow(const CEWindow&) = delete;
 	CEWindow& operator =(const CEWindow&) = delete;
-public:
+	
 	void SetTitle(const std::string& title);
 	void SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType);
 	bool RunGraphics();
@@ -93,7 +67,6 @@ public:
 	CEGraphics& GetGraphics();
 	static const char* GetName();
 
-public:
 	HWND CreateMainWindow(const char* name);
 	void RegisterWindowClass();
 private:
@@ -118,7 +91,3 @@ private:
 	std::unique_ptr<CEGraphics> pGraphics;
 
 };
-
-#define CEWIN_EXCEPTION(hresult) CEWindow::HResultException(__LINE__, __FILE__, hresult)
-#define CEWIN_LAST_EXCEPTION() CEWindow::HResultException(__LINE__, __FILE__, GetLastError())
-#define CEWIN_NOGFX_EXCEPTION() CEWindow::GraphicsException(__LINE__, __FILE__)

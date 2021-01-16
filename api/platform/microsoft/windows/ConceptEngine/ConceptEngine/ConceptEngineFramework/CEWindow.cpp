@@ -37,55 +37,6 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 	}
 }
 
-std::string CEWindow::Exception::TranslateErrorCode(HRESULT hresult) noexcept {
-	char* pMsgBuffer = nullptr;
-	const DWORD nMsgLen = FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr,
-		hresult,
-		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPWSTR>(&pMsgBuffer),
-		0,
-		nullptr
-	);
-	if (nMsgLen == 0) {
-		return "Unidentified error code";
-	}
-	std::string errorMessage = pMsgBuffer;
-	LocalFree(pMsgBuffer);
-	return errorMessage;
-}
-
-CEWindow::HResultException::HResultException(int line, const char* file, HRESULT hresult) noexcept :
-	Exception(line, file),
-	hresult(hresult) {
-}
-
-HRESULT CEWindow::HResultException::GetErrorCode() const noexcept {
-	return hresult;
-}
-
-const char* CEWindow::HResultException::what() const noexcept {
-	std::ostringstream oss;
-	oss << GetType() << std::endl << "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode() << std::dec <<
-		" (" << (unsigned long)GetErrorCode() << ")" << std::endl << "[Description] " << GetErrorDescription() <<
-		std::endl << GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const char* CEWindow::HResultException::GetType() const noexcept {
-	return "Concept Engine Window Exception";
-}
-
-std::string CEWindow::HResultException::GetErrorDescription() const noexcept {
-	return TranslateErrorCode(hresult);
-}
-
-const char* CEWindow::GraphicsException::GetType() const noexcept {
-	return "Concept Engine Window Exception [No Graphics]";
-}
-
 double CEWindow::CEScreen::CalculateAspectRatio(int horizontal, int vertical) {
 	return (double)(horizontal / vertical);
 }
@@ -174,7 +125,7 @@ CEWindow::~CEWindow() {
 
 void CEWindow::SetTitle(const std::string& title) {
 	if (SetWindowText(hWnd, CETools::ConvertCharArrayToLPCWSTR(title.c_str())) == 0) {
-		throw CEWIN_LAST_EXCEPTION();
+		return;
 	}
 }
 
@@ -212,7 +163,9 @@ std::optional<int> CEWindow::ProcessMessages() noexcept {
 
 CEGraphics& CEWindow::GetGraphics() {
 	if (!pGraphics) {
-		throw CEWIN_NOGFX_EXCEPTION();
+		const auto api = CEGraphics::GetGraphicsByApiType(hWnd, apiType_, width, height);
+		std::unique_ptr<CEGraphics> graphics(api);
+		pGraphics = std::move(graphics);
 	}
 	return *pGraphics;
 }
@@ -240,18 +193,7 @@ HWND CEWindow::CreateMainWindow(const char* name) {
 	int windowY = std::max<int>(0, (screenHeight - windowHeight) / 2);
 
 	if (AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE) == 0) {
-		throw CEWIN_LAST_EXCEPTION();
 	}
-
-	std::wstringstream wss;
-	wss << "screenWidth: " << screenWidth << std::endl;
-	wss << "screenHeight: " << screenHeight << std::endl;
-	wss << "windowWidth: " << windowWidth << std::endl;
-	wss << "windowHeight: " << windowHeight << std::endl;
-	wss << "windowX: " << windowX << std::endl;
-	wss << "windowY: " << windowY << std::endl;
-
-	OutputDebugStringW(wss.str().c_str());
 
 	hWnd = CreateWindowEx(
 		NULL,
@@ -269,7 +211,6 @@ HWND CEWindow::CreateMainWindow(const char* name) {
 	);
 
 	if (hWnd == nullptr) {
-		throw CEWIN_LAST_EXCEPTION();
 	}
 
 	return hWnd;
@@ -316,7 +257,7 @@ LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) n
 			PostQuitMessage(1);
 			return 0;
 		}
-		pGraphics->OnDestroy();
+		GetGraphics().OnDestroy();
 		CloseWindow(hWnd);
 		break;
 	}

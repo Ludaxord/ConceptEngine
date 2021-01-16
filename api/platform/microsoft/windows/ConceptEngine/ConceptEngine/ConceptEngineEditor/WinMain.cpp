@@ -7,18 +7,6 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		ConceptEngine engine = ConceptEngine();
 		return engine.Run();
 	}
-	catch (const CEException& e) {
-		std::wstringstream wssx;
-		wssx << "const CEException: " << e.what() << std::endl;
-		OutputDebugStringW(wssx.str().c_str());
-
-		MessageBox(
-			nullptr,
-			CETools::ConvertCharArrayToLPCWSTR(e.what()),
-			CETools::ConvertCharArrayToLPCWSTR(e.GetType()),
-			MB_OK | MB_ICONEXCLAMATION
-		);
-	}
 	catch (const std::exception& e) {
 		std::wstringstream wssx;
 		wssx << "std::exception: " << e.what() << " FILE: " << __FILE__ << " LINE: " << __LINE__ << std::endl;

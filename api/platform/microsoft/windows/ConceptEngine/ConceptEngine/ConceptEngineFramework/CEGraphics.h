@@ -1,5 +1,4 @@
 #pragma once
-#include "CEException.h"
 #include <wrl.h>
 #include <vector>
 #include <complex>
@@ -54,43 +53,6 @@ public:
 	};
 
 public:
-	class Exception : public CEException {
-		using CEException::CEException;
-	};
-
-	class HResultException : public Exception {
-	public:
-		HResultException(int line, const char* file, HRESULT hResult, std::vector<std::string> infoMsgs = {}) noexcept;
-		const char* what() const noexcept override;
-		const char* GetType() const noexcept override;
-		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorMessage() const noexcept;
-		std::string GetErrorDescription() const noexcept;
-		std::string GetErrorInfo() const noexcept;
-	private:
-		HRESULT hResult;
-		std::string info;
-	};
-
-	class InfoException : public Exception {
-	public:
-		InfoException(int line, const char* file, std::vector<std::string> infoMsgs) noexcept;
-		const char* what() const noexcept override;
-		const char* GetType() const noexcept override;
-		std::string GetErrorInfo() const noexcept;
-	private:
-		std::string info;
-	};
-
-	class DeviceRemovedException : HResultException {
-		using HResultException::HResultException;
-	public:
-		const char* GetType() const noexcept override;
-	private:
-		std::string reason;
-	};
-
-public:
 	CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int width, int height);
 	CEGraphics(const CEGraphics&) = delete;
 	virtual CEGraphics& operator=(const CEGraphics&) = delete;
@@ -135,7 +97,6 @@ public:
 	bool GetFullScreenState();
 	bool IsInitialized();
 protected:
-	void ResolveSelectedGraphicsAPI();
 	std::wstring ExePath();
 	std::wstring GetAssetFullPath(LPCWSTR assetName);
 	wchar_t* CountFPS(bool displayLog);
@@ -155,15 +116,15 @@ protected:
 	bool mMinimized = false; // is the application minimized?
 	bool mMaximized = false; // is the application maximized?
 	bool mResizing = false; // are the resize bars being dragged?
+
 	bool g_Fullscreen = false;
 	bool g_IsInitialized = false;
 	bool g_VSync = true;
 	bool g_TearingSupported = false;
 
-	bool m4xMsaaState = false; // 4X MSAA enabled
-	UINT m4xMsaaQuality = 0; // quality level of 4X MSAA
-
 	static const UINT FrameCount = 3;
 	uint32_t g_ClientWidth = 1920;
 	uint32_t g_ClientHeight = 1080;
+
+
 };

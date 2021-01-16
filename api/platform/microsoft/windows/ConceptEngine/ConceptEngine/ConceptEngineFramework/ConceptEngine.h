@@ -14,7 +14,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/logger.h>
 #include <spdlog/spdlog.h>
-
+// #include <gainput/gainput.h>
 
 #include "CEOSTools.h"
 #include "CETimer.h"
@@ -37,14 +37,29 @@ protected:
 	void InitSpdLog();
 	static void CreateConsole();
 
+
 private:
+	/*
+	 * Global engine state variables:
+	 */
+
+	std::atomic_bool isAppRunning_;
+	std::atomic_bool appShouldQuit_;
+
+	/*
+	 * Gainput variables:
+	 */
+	// gainput::InputManager inputManager_;
+	// gainput::DeviceId keyboardDevice_;
+	// gainput::DeviceId mouseDevice_;
+	// gainput::DeviceId gamePadDevice_[gainput::MaxPadCount];
+	
+	/*
+	 * Global Engine objects variables:
+	 */
 	inline static Logger static_logger_ = nullptr;
 	CEOSTools::CEGraphicsApiTypes apiType_;
 	CEWindow window_;
 	CETimer timer_;
 	Logger logger_;
-
-private:
-	int g_frameIndx;
-
 };
