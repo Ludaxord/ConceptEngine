@@ -1,12 +1,39 @@
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] Threads: 24
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] RAM: 32689.00
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] DeviceID: 0
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] Revision: 0
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] nVendorID: 0
-[2021-01-16 19:12:14.516] [ConceptEngine] [info] GUI Created: true
-[2021-01-16 19:12:15.518] [ConceptEngine] [info] FPS: 1316.118
-[2021-01-16 19:12:16.519] [ConceptEngine] [info] FPS: 1787.498
-[2021-01-16 19:12:17.519] [ConceptEngine] [info] FPS: 2118.520
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] Threads: 24
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] RAM: 32689.00
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] DeviceID: 0
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] Revision: 0
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] nVendorID: 0
+[2021-01-16 20:38:58.539] [ConceptEngine] [info] GUI Created: true
+[2021-01-16 20:38:59.542] [ConceptEngine] [info] FPS: 1151.496
+[2021-01-16 20:39:00.542] [ConceptEngine] [info] FPS: 2047.891
+[2021-01-16 20:39:01.542] [ConceptEngine] [info] FPS: 2141.631
+[2021-01-16 20:39:02.542] [ConceptEngine] [info] FPS: 2153.340
+[2021-01-16 20:39:03.543] [ConceptEngine] [info] FPS: 2154.394
+[2021-01-16 20:39:04.543] [ConceptEngine] [info] FPS: 2155.759
+[2021-01-16 20:39:05.543] [ConceptEngine] [info] FPS: 2145.924
+[2021-01-16 20:39:06.543] [ConceptEngine] [info] FPS: 2142.908
+[2021-01-16 20:39:07.543] [ConceptEngine] [info] FPS: 2155.321
+[2021-01-16 20:39:08.543] [ConceptEngine] [info] FPS: 2135.506
+[2021-01-16 20:39:09.544] [ConceptEngine] [info] FPS: 2163.193
+[2021-01-16 20:39:10.544] [ConceptEngine] [info] FPS: 2138.912
+[2021-01-16 20:39:11.545] [ConceptEngine] [info] FPS: 2125.818
+[2021-01-16 20:39:12.545] [ConceptEngine] [info] FPS: 2130.569
+[2021-01-16 20:39:13.545] [ConceptEngine] [info] FPS: 2146.831
+[2021-01-16 20:39:14.546] [ConceptEngine] [info] FPS: 2156.324
+[2021-01-16 20:39:15.546] [ConceptEngine] [info] FPS: 2166.584
+[2021-01-16 20:39:16.546] [ConceptEngine] [info] FPS: 2173.226
+[2021-01-16 20:39:17.546] [ConceptEngine] [info] FPS: 2171.827
+[2021-01-16 20:39:18.547] [ConceptEngine] [info] FPS: 2166.725
+[2021-01-16 20:39:19.547] [ConceptEngine] [info] FPS: 2181.760
+[2021-01-16 20:39:20.547] [ConceptEngine] [info] FPS: 2192.505
+[2021-01-16 20:39:21.547] [ConceptEngine] [info] FPS: 2172.350
+[2021-01-16 20:39:22.547] [ConceptEngine] [info] FPS: 2190.889
+[2021-01-16 20:39:23.547] [ConceptEngine] [info] FPS: 2174.626
+[2021-01-16 20:39:24.548] [ConceptEngine] [info] FPS: 2166.257
+[2021-01-16 20:39:25.548] [ConceptEngine] [info] FPS: 2170.731
+[2021-01-16 20:39:26.548] [ConceptEngine] [info] FPS: 2157.540
+[2021-01-16 20:39:27.548] [ConceptEngine] [info] FPS: 2171.611
+[2021-01-16 20:39:28.549] [ConceptEngine] [info] FPS: 2145.071

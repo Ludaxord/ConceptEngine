@@ -196,25 +196,12 @@ void CEDirect3DGraphics::OnDestroy() {
 	CloseHandle(m_fenceEvent);
 }
 
-void CEDirect3DGraphics::LoadBonus() {
-	auto nDriverVersion = adapterDescription_.AdapterLuid;
-	auto deviceId = adapterDescription_.DeviceId;
-	auto revision = adapterDescription_.Revision;
-	auto vendorId = adapterDescription_.VendorId;
-
-	ConceptEngine::GetLogger()->info("Direct3D 12 Adapter Created");
-
+void CEDirect3DGraphics::LogSystemInfo() {
 	ConceptEngine::GetLogger()->info("GPU: {}, Video Memory: {:.4} MB", systemInfo_.GPUName,
 	                                 fmt::format("{:.2f}", systemInfo_.VRamSize));
 	ConceptEngine::GetLogger()->info("CPU: {}", systemInfo_.CPUName);
 	ConceptEngine::GetLogger()->info("Threads: {}", systemInfo_.CPUCores);
 	ConceptEngine::GetLogger()->info("RAM: {}", fmt::format("{:.2f}", systemInfo_.RamSize));
-
-	ConceptEngine::GetLogger()->info("DeviceID: {}", deviceId);
-	ConceptEngine::GetLogger()->info("Revision: {}", revision);
-	ConceptEngine::GetLogger()->info("nVendorID: {}", vendorId);
-
-	ConceptEngine::GetLogger()->info("GUI Created: {}", guiActive);
 	g_IsInitialized = true;
 }
 
@@ -441,9 +428,10 @@ bool CEDirect3DGraphics::InitCubes() {
 		return false;
 	}
 
-	// -- Create the Swap Chain (double/tripple buffering) -- //
+	// -- Create the Swap Chain (double/triple buffering) -- //
 
 	g_VSync = CheckVSyncSupport();
+	ConceptEngine::GetLogger()->info("VSync Enabled: {}", g_VSync);
 
 	DXGI_MODE_DESC backBufferDesc = {}; // this is to describe our display mode
 	backBufferDesc.Width = g_ClientWidth; // buffer width

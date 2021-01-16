@@ -276,7 +276,7 @@ protected:
 	void DestroyImGui() const;
 
 public:
-	void LoadBonus() override;
+	void LogSystemInfo() override;
 
 	void OnUpdate() override;
 	void OnRender() override;

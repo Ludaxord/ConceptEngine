@@ -20,21 +20,29 @@
 
 #include <gainput/gainput.h>
 
+
+#include "CEInput.h"
 #include "CEOSTools.h"
 #include "CETimer.h"
 #include "CEWindow.h"
 
 using Logger = std::shared_ptr<spdlog::logger>;
+using Input = std::shared_ptr<CEInput>;
 
 class ConceptEngine {
 public:
 	ConceptEngine();
 	ConceptEngine(int width, int height, const char* name);
 	ConceptEngine(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType);
+
+	void Init();
 	int Run();
 	void MakeFrame();
-public:
+
 	Logger CreateLogger(const std::string& name) const;
+	void InitInput();
+
+	static Input GetInput();
 	static Logger GetLogger();
 
 protected:
@@ -51,19 +59,15 @@ private:
 	std::atomic_bool appShouldQuit_;
 
 	/*
-	 * Gainput variables:
+	 * Input struct variable
 	 */
-	gainput::InputManager inputManager_;
-	gainput::DeviceId keyboardDevice_;
-	gainput::DeviceId mouseDevice_;
-	gainput::DeviceId gamePadDevice_[gainput::MaxPadCount];
-
+	inline static Input inputs_ = nullptr;
 	/*
 	 * Global Engine objects variables:
 	 */
 	inline static Logger static_logger_ = nullptr;
 	CEOSTools::CEGraphicsApiTypes apiType_;
-	CEWindow window_;
+	std::unique_ptr<CEWindow> window_ = nullptr;
 	CETimer timer_;
 	Logger logger_;
 };

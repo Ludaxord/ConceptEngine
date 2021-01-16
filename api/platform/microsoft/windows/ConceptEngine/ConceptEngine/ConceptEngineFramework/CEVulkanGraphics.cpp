@@ -273,7 +273,7 @@ void CEVulkanGraphics::OnResize() {
 void CEVulkanGraphics::OnWindowDestroy() {
 }
 
-void CEVulkanGraphics::LoadBonus() {
+void CEVulkanGraphics::LogSystemInfo() {
 }
 
 void CEVulkanGraphics::InitGui() {

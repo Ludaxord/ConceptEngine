@@ -14,7 +14,7 @@ public:
 	void UpdatePerSecond(float second) override;
 	bool LoadContent() override;
 	void UnloadContent() override;
-	void LoadBonus() override;
+	void LogSystemInfo() override;
 	void InitGui() override;
 protected:
 	void RenderGui() override;

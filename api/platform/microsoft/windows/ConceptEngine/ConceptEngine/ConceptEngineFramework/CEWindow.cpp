@@ -37,50 +37,6 @@ CEWindow::CEWindowClass::CEWindowClass() noexcept : hInst(GetModuleHandle(nullpt
 	}
 }
 
-double CEWindow::CEScreen::CalculateAspectRatio(int horizontal, int vertical) {
-	return (double)(horizontal / vertical);
-}
-
-int CEWindow::CEScreen::GetRefreshRate() {
-	DEVMODE mode;
-	memset(&mode, 0, sizeof(mode));
-	mode.dmSize = sizeof(mode);
-
-	if (!EnumDisplaySettings(0, ENUM_CURRENT_SETTINGS, &mode))
-		return 60;
-	return mode.dmDisplayFrequency;
-}
-
-CEWindow::CEScreen CEWindow::CEScreen::GetScreenInfo(CEScreenTypes type) {
-	int horizontal = 0;
-	int vertical = 0;
-	switch (type) {
-	case CEScreenTypes::primary: {
-		RECT desktop;
-		const HWND hDesktop = GetDesktopWindow();
-		GetWindowRect(hDesktop, &desktop);
-		horizontal = desktop.right;
-		vertical = desktop.bottom;
-	}
-	break;
-	case CEScreenTypes::allCombined: {
-	}
-	break;
-	case CEScreenTypes::specific: {
-	}
-	break;
-	case CEScreenTypes::workingArea: {
-	}
-	break;
-	}
-	auto screen = CEScreen();
-	screen.vertical = vertical;
-	screen.horizontal = horizontal;
-	screen.aspectRatio = CalculateAspectRatio(horizontal, vertical);
-	screen.refreshRate = GetRefreshRate();
-	return screen;
-}
-
 const char* CEWindow::CEWindowClass::GetName() noexcept {
 	return wndClassName;
 }
@@ -141,10 +97,6 @@ bool CEWindow::RunGraphics() {
 	std::unique_ptr<CEGraphics> graphics(api);
 	pGraphics = std::move(graphics);
 	return true;
-}
-
-CEWindow::CEScreen CEWindow::GetScreenInfo() {
-	return CEScreen::GetScreenInfo();
 }
 
 std::optional<int> CEWindow::ProcessMessages() noexcept {
@@ -240,12 +192,6 @@ LRESULT WINAPI CEWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 }
 
 LRESULT CEWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
-
-	//print Windows Message 
-	static CEWindowMessage wm;
-	if (GetWindowType() == CEWindowTypes::debug) {
-		OutputDebugString(CETools::ConvertCharArrayToLPCWSTR(wm(msg, lParam, wParam).c_str()));
-	}
 
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;

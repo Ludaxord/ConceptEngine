@@ -27,7 +27,7 @@ protected:
 	void OnResize() override;
 	void OnWindowDestroy() override;
 public:
-	virtual void LoadBonus() override;
+	virtual void LogSystemInfo() override;
 protected:
 	void InitGui() override;
 	void RenderGui() override;

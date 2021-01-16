@@ -22,5 +22,4 @@ C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(35
           ]
 C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
 C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-     Creating library F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineEditor.lib and object F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineEditor.exp
   ConceptEngineEditor.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineEditor.exe

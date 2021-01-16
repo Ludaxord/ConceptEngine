@@ -33,7 +33,7 @@ bool CEDirectXGraphics::LoadContent() {
 void CEDirectXGraphics::UnloadContent() {
 }
 
-void CEDirectXGraphics::LoadBonus() {
+void CEDirectXGraphics::LogSystemInfo() {
 }
 
 void CEDirectXGraphics::InitGui() {

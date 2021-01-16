@@ -7,6 +7,8 @@
 #include "CEGraphics.h"
 #include <memory>
 
+
+#include "CEScreen.h"
 #include "imgui_impl_win32.h"
 
 class CEWindow {
@@ -18,24 +20,6 @@ public:
 		debug,
 		additional,
 		tools
-	};
-
-	enum class CEScreenTypes {
-		primary,
-		allCombined,
-		workingArea,
-		specific
-	};
-
-	struct CEScreen {
-		int horizontal = 0;
-		int vertical = 0;
-		double aspectRatio = 0;
-		double refreshRate = 0;
-		//TODO: fix aspect ratio double
-		static double CalculateAspectRatio(int horizontal = 0, int vertical = 0);
-		static int GetRefreshRate();
-		static CEScreen GetScreenInfo(CEWindow::CEScreenTypes type = CEScreenTypes::primary);
 	};
 
 private:
@@ -62,7 +46,7 @@ public:
 	void SetTitle(const std::string& title);
 	void SetGraphicsApi(CEOSTools::CEGraphicsApiTypes graphicsApiType);
 	bool RunGraphics();
-	CEScreen GetScreenInfo();
+	
 	static std::optional<int> ProcessMessages() noexcept;
 	CEGraphics& GetGraphics();
 	static const char* GetName();

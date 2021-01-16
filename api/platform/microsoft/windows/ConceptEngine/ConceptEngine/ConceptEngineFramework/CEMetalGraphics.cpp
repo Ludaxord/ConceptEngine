@@ -58,7 +58,7 @@ void CEMetalGraphics::OnWindowDestroy() {
 void CEMetalGraphics::SetFullscreen(bool fullscreen) {
 }
 
-void CEMetalGraphics::LoadBonus() {
+void CEMetalGraphics::LogSystemInfo() {
 }
 
 void CEMetalGraphics::InitGui() {

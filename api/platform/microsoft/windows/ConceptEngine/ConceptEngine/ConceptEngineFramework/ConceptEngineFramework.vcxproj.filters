@@ -180,6 +180,15 @@
     <ClInclude Include="CEDirectXGraphics.h">
       <Filter>GraphicsEngine</Filter>
     </ClInclude>
+    <ClInclude Include="CEAudio.h">
+      <Filter>AudioEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="CEInput.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="CEScreen.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -244,6 +253,15 @@
     </ClCompile>
     <ClCompile Include="CEDirectXGraphics.cpp">
       <Filter>GraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="CEAudio.cpp">
+      <Filter>AudioEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="CEInput.cpp">
+      <Filter>GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="CEScreen.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

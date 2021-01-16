@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CEAudio.h" />
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D12UploadBuffer.h" />
     <ClInclude Include="CED3D12Utils.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEGUI.h" />
     <ClInclude Include="CEHelper.h" />
+    <ClInclude Include="CEInput.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CELib.h" />
     <ClInclude Include="CEMath.h" />
@@ -37,6 +39,7 @@
     <ClInclude Include="CENode.h" />
     <ClInclude Include="CEOpenGLGraphics.h" />
     <ClInclude Include="CEOSTools.h" />
+    <ClInclude Include="CEScreen.h" />
     <ClInclude Include="CETimer.h" />
     <ClInclude Include="CETools.h" />
     <ClInclude Include="CEVulkan.h" />
@@ -48,6 +51,7 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CEAudio.cpp" />
     <ClCompile Include="CEController.cpp" />
     <ClCompile Include="CED3D12Utils.cpp" />
     <ClCompile Include="CEDirect3DCube.cpp" />
@@ -55,12 +59,14 @@
     <ClCompile Include="CEDirect3DNode.cpp" />
     <ClCompile Include="CEDirectXGraphics.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
+    <ClCompile Include="CEInput.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMath.cpp" />
     <ClCompile Include="CEMetalGraphics.cpp" />
     <ClCompile Include="CEMouse.cpp" />
     <ClCompile Include="CEOpenGLGraphics.cpp" />
     <ClCompile Include="CEOSTools.cpp" />
+    <ClCompile Include="CEScreen.cpp" />
     <ClCompile Include="CETimer.cpp" />
     <ClCompile Include="CETools.cpp" />
     <ClCompile Include="CEVulkan.cpp" />

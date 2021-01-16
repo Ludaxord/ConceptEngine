@@ -63,7 +63,7 @@ void CEOpenGLGraphics::UnloadContent() {
 void CEOpenGLGraphics::UpdatePerSecond(float second) {
 }
 
-void CEOpenGLGraphics::LoadBonus() {
+void CEOpenGLGraphics::LogSystemInfo() {
 }
 
 void CEOpenGLGraphics::InitGui() {

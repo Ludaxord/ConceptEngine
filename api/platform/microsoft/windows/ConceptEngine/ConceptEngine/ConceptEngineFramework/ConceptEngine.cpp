@@ -1,19 +1,14 @@
 #include "ConceptEngine.h"
 
 
-ConceptEngine::ConceptEngine() : apiType_(
-	CEOSTools::CEGraphicsApiTypes::direct3d12
-	// CEOSTools::CEGraphicsApiTypes::vulkan
-),
-                                 window_(1920, 1080, "Concept Engine Editor", apiType_) {
-	InitSpdLog();
-	static_logger_ = CreateLogger("ConceptEngine");
+ConceptEngine::ConceptEngine(): apiType_(CEOSTools::CEGraphicsApiTypes::direct3d12) {
+	Init();
+	window_ = std::make_unique<CEWindow>(1920, 1080, "Concept Engine Editor", apiType_);
 }
 
-ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* windowName) : window_(
-	windowWidth, windowHeight, windowName) {
-	InitSpdLog();
-	static_logger_ = CreateLogger("ConceptEngine");
+ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* windowName) {
+	Init();
+	window_ = std::make_unique<CEWindow>(windowWidth, windowHeight, windowName);
 }
 
 ConceptEngine::ConceptEngine(int width, int height, const char* name,
@@ -21,8 +16,15 @@ ConceptEngine::ConceptEngine(int width, int height, const char* name,
 	apiType_ = graphicsApiType;
 }
 
+void ConceptEngine::Init() {
+	InitSpdLog();
+	static_logger_ = CreateLogger("ConceptEngine");
+	InitInput();
+}
+
 int ConceptEngine::Run() {
-	window_.GetGraphics().LoadBonus();
+	window_->GetGraphics().LogSystemInfo();
+	isAppRunning_ = true;
 	while (true) {
 		if (const auto ecode = CEWindow::ProcessMessages()) {
 			return *ecode;
@@ -37,8 +39,8 @@ void ConceptEngine::MakeFrame() {
 	// const float c2 = cos(timer_.Peek()) / 2.0f + 0.5f;
 	// const float c3 = sin(-timer_.Peek()) / 2.0f + 0.5f;
 	// window_.GetGraphics().ChangeClearColor(c1, c2, c3);
-	window_.GetGraphics().OnUpdate();
-	window_.GetGraphics().OnRender();
+	window_->GetGraphics().OnUpdate();
+	window_->GetGraphics().OnRender();
 }
 
 Logger ConceptEngine::CreateLogger(const std::string& name) const {
@@ -49,6 +51,14 @@ Logger ConceptEngine::CreateLogger(const std::string& name) const {
 	}
 
 	return logger;
+}
+
+void ConceptEngine::InitInput() {
+	inputs_ = std::shared_ptr<CEInput>();
+}
+
+Input ConceptEngine::GetInput() {
+	return inputs_;
 }
 
 Logger ConceptEngine::GetLogger() {
