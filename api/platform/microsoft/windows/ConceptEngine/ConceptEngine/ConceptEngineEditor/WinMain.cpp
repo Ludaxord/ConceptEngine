@@ -11,7 +11,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		std::wstringstream wssx;
 		wssx << "const CEException: " << e.what() << std::endl;
 		OutputDebugStringW(wssx.str().c_str());
-		
+
 		MessageBox(
 			nullptr,
 			CETools::ConvertCharArrayToLPCWSTR(e.what()),
@@ -21,9 +21,9 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 	catch (const std::exception& e) {
 		std::wstringstream wssx;
-		wssx << "std::exception: " << e.what() << std::endl;
+		wssx << "std::exception: " << e.what() << " FILE: " << __FILE__ << " LINE: " << __LINE__ << std::endl;
 		OutputDebugStringW(wssx.str().c_str());
-		
+
 		MessageBox(
 			nullptr,
 			CETools::ConvertCharArrayToLPCWSTR(e.what()),

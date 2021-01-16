@@ -1,6 +1,5 @@
 #pragma once
 #include "CEGraphics.h"
-#include "CEDirect3DInfoManager.h"
 
 #include <d3d11.h>
 #include "CEOSTools.h"
@@ -17,8 +16,11 @@
 #include <filesystem>
 #include <wincodec.h>
 
-#include "CED3D12CommandQueue.h"
+
+#include "CED3D12UploadBuffer.h"
+#include "CEMath.h"
 #include "d3dx12.h"
+#include <DirectXColors.h>
 
 #if defined(min)
 #undef min
@@ -30,6 +32,11 @@
 
 using namespace DirectX;
 namespace fs = std::filesystem;
+
+
+struct CEObjectConstants {
+	XMFLOAT4X4 WorldViewProjection = CEMath::Identity4x4();
+};
 
 class CEDirect3DGraphics : public CEGraphics {
 
@@ -128,6 +135,10 @@ public:
 		XMFLOAT4 color;
 	};
 
+	struct CVertex {
+		XMFLOAT3 Pos;
+		XMFLOAT4 Color;
+	};
 
 	struct FontChar {
 		// the unicode id
@@ -295,12 +306,12 @@ private:
 	void InitDirectX();
 	DXGI_ADAPTER_DESC GetAdapterDescription(IDXGIAdapter* dxgiAdapter) const;
 	IDXGIFactory4* CreateFactory() const;
-	std::tuple<ID3D12Device*, IDXGIAdapter*> CreateDeviceAndAdapter(IDXGIFactory4* factory,
+	std::tuple<ID3D12Device*, IDXGIAdapter1*> CreateDeviceAndAdapter(IDXGIFactory4* factory,
 	                                                                D3D_FEATURE_LEVEL featureLevel =
 		                                                                D3D_FEATURE_LEVEL_11_0);
 	ID3D12Fence* CreateFence(ID3D12Device* device, int initialValue = 0,
 	                         D3D12_FENCE_FLAGS fenceFlags = D3D12_FENCE_FLAG_NONE) const;
-	CEOSTools::CESystemInfo CEDirect3DGraphics::GetSystemInfo(IDXGIAdapter* adapter) const;
+	CEOSTools::CESystemInfo CEDirect3DGraphics::GetSystemInfo(IDXGIAdapter1* adapter) const;
 	UINT GetDescriptorHandleIncrementSize(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_TYPE heapType);
 	UINT Check4XMSAAQualitySupport(ID3D12Device* device, DXGI_FORMAT backBufferFormat, int sampleCount = 4,
 	                               D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS multisampleFlags =
@@ -313,7 +324,25 @@ private:
 	                                bool msaaState, UINT msaaQuality, UINT swapChainBufferCount);
 	std::tuple<ID3D12DescriptorHeap*, ID3D12DescriptorHeap*> CreateDescriptorHeaps(
 		ID3D12Device* device, UINT bufferCount) const;
-	ID3D12DescriptorHeap* BuildDescriptorHeaps(ID3D12Device* device);
+	ID3D12DescriptorHeap* BuildDescriptorHeaps(ID3D12Device* device) const;
+	void BuildConstantBuffers(ID3D12Device* device, ID3D12DescriptorHeap* constantBufferHeap, UINT elementsCount = 1);
+	ID3D12RootSignature* BuildRootSignature(ID3D12Device* device);
+	std::tuple<ID3DBlob*, ID3DBlob*, std::vector<D3D12_INPUT_ELEMENT_DESC>>
+	BuildShadersAndInputLayout();
+	void BuildBoxGeometry();
+	void BuildPSO();
+	void FlushCommandQueue();
+	void Draw();
+	void Update();
+	ID3D12Resource* CurrentBackBuffer() const;
+	D3D12_CPU_DESCRIPTOR_HANDLE CurrentBackBufferView() const;
+	D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView() const;
+	void Resize();
+	void ResizeProjection();
+	float AspectRatio() const;
+	void LogAdapters();
+	void LogAdapterOutputs(IDXGIAdapter* adapter);
+	void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
 	/*
 	 * Cube Initialization Tools;
 	 */
@@ -343,7 +372,16 @@ private:
 	Timer timer;
 	std::unique_ptr<CEGUI> m_Gui;
 	CEOSTools::CESystemInfo systemInfo_;
+	float mTheta = 1.5f * XM_PI;
+	float mPhi = XM_PIDIV4;
+	float mRadius = 5.0f;
 
+	POINT mLastMousePos;
+
+	XMFLOAT4X4 mWorld = CEMath::Identity4x4();
+	XMFLOAT4X4 mView = CEMath::Identity4x4();
+	XMFLOAT4X4 mProj = CEMath::Identity4x4();
+	static const int SwapChainBufferCount = 2;
 
 	/*
 	 * Variables to create cubes;
@@ -365,6 +403,21 @@ private:
 	UINT m_cbvSrvUavDescriptorSize;
 	bool m_useWarpDevice = false;
 
+	DXGI_FORMAT backBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+	DXGI_FORMAT mDepthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	D3D_DRIVER_TYPE md3dDriverType = D3D_DRIVER_TYPE_HARDWARE;
+	UINT64 mCurrentFence = 0;
+	int mCurrBackBuffer = 0;
+	D3D12_VIEWPORT mScreenViewport;
+	D3D12_RECT mScissorRect;
+	Microsoft::WRL::ComPtr<ID3D12Resource> mSwapChainBuffer[SwapChainBufferCount];
+	Microsoft::WRL::ComPtr<ID3D12Resource> mDepthStencilBuffer;
+
+	wrl::ComPtr<ID3D12PipelineState> mPSO = nullptr;
+	std::unique_ptr<CED3D12UploadBuffer<CEObjectConstants>> m_constantBuffers = nullptr;
+	std::unique_ptr<MeshGeometry> mBoxGeo = nullptr;
+
+
 private:
 	wrl::ComPtr<IDXGIAdapter> m_dxgiAdapter;
 	// Vertex buffer for the cube.
@@ -382,6 +435,11 @@ private:
 		XMFLOAT4 colorMultiplier;
 	};
 
+	wrl::ComPtr<ID3DBlob> mvsByteCode = nullptr;
+	wrl::ComPtr<ID3DBlob> mpsByteCode = nullptr;
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout;
+
 	// wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap[FrameCount];
 	// this heap will store the descripor to our constant buffer
 	wrl::ComPtr<ID3D12Resource> constantBufferUploadHeap[FrameCount];
@@ -391,10 +449,6 @@ private:
 	// (which will be placed in the resource we created above)
 
 	UINT8* cbColorMultiplierGPUAddress[FrameCount];
-
-	std::shared_ptr<CED3D12CommandQueue> m_DirectCommandQueue;
-	std::shared_ptr<CED3D12CommandQueue> m_ComputeCommandQueue;
-	std::shared_ptr<CED3D12CommandQueue> m_CopyCommandQueue;
 
 	CD3DX12_VIEWPORT m_Viewport;
 	CD3DX12_RECT m_ScissorRect;
@@ -469,6 +523,9 @@ private:
 	wrl::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 	// Descriptor heap for depth buffer.
 	wrl::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
+	wrl::ComPtr<ID3D12DescriptorHeap> m_cbvHeap;
+
+
 	wrl::ComPtr<ID3D12DescriptorHeap> mainDescriptorHeap;
 	wrl::ComPtr<ID3D12DescriptorHeap> g_pd3dSrvDescHeap;
 

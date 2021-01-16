@@ -18,6 +18,9 @@
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\shaders.hlsl</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\colors.hlsl</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\shaders.hlsl</FullPath>
     </ContentFile>
   </ContentFiles>

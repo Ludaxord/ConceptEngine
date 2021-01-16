@@ -1,51 +1,51 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   CEDirect3DGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(231,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
 CEDirect3DGraphics.cpp : message : see previous definition of 'NOMINMAX'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-CEDirect3DGraphics.cpp(360,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(530,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1386,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1387,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1325,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
-CEDirect3DGraphics.cpp(1446,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1447,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1448,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1467,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1468,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1469,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1714,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1719,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1728,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1732,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1737,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1742,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1753,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1758,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1763,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1768,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1778,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1786,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1795,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1800,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1805,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1810,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1817,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1824,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1829,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1834,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1844,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1853,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1858,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1863,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1864,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(2020,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(2024,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(2028,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(350,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1040,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1896,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(1897,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(1835,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
+CEDirect3DGraphics.cpp(1956,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1957,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1958,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1977,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1978,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1979,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(2224,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2229,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2238,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2242,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2247,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2252,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2263,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2268,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2273,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2278,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2288,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2296,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2305,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2310,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2315,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2320,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2327,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2334,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2339,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2344,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2354,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2363,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2368,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2373,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2374,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(2525,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(2529,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(2533,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
           with
           [
@@ -71,21 +71,21 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.2
           [
               _Iter=wchar_t *
           ]
-CEDirect3DGraphics.cpp(358): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+CEDirect3DGraphics.cpp(348): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-CEDirect3DGraphics.cpp(358): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+CEDirect3DGraphics.cpp(348): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(1702): warning C4715: 'CEDirect3DGraphics::GetDXGIFormatBitsPerPixel': not all control paths return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(2212): warning C4715: 'CEDirect3DGraphics::GetDXGIFormatBitsPerPixel': not all control paths return a value
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowShouldClose already defined in glfw3.lib(window.obj); second definition ignored
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHintString already defined in glfw3.lib(window.obj); second definition ignored
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHint already defined in glfw3.lib(window.obj); second definition ignored

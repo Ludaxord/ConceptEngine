@@ -1,11 +1,8 @@
 #include "CEDirect3DGraphics.h"
 
-
 #include <fstream>
 #include <magic_enum.hpp>
 
-
-#include "CEDirect3DCube.h"
 #include "CEGUI.h"
 #include "CEHelper.h"
 #include "CETools.h"
@@ -152,25 +149,38 @@ CEDirect3DGraphics::CEDirect3DGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes 
 }
 
 void CEDirect3DGraphics::CreateDirect3D12(int width, int height) {
-	// bool initialized = InitCubes();
-	InitDirectX();
+	bool initialized = InitCubes();
+	// InitDirectX();
 }
 
 void CEDirect3DGraphics::CreateDirect3D11(int width, int height) {
 }
 
 void CEDirect3DGraphics::OnUpdate() {
-	// UpdateCubes();
+	UpdateCubes();
+	// Update();
+
 }
 
 void CEDirect3DGraphics::OnRender() {
-	// RenderCubes();
+	RenderCubes();
+	// Draw();
 }
+
+void CEDirect3DGraphics::InitGui() {
+	InitImGui();
+	guiActive = true;
+}
+
+void CEDirect3DGraphics::OnResize() {
+	Resize();
+}
+
 
 bool CEDirect3DGraphics::OnInit() {
 	// Check for DirectX Math library support.
 	if (!DirectX::XMVerifyCPUSupport()) {
-		MessageBoxA(NULL, "Failed to verify DirectX Math library support.", "Error", MB_OK | MB_ICONERROR);
+		MessageBoxA(hWnd, "Failed to verify DirectX Math library support.", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
@@ -206,7 +216,8 @@ void CEDirect3DGraphics::LoadBonus() {
 
 	ConceptEngine::GetLogger()->info("GPU: {}, Video Memory: {:.4} MB", systemInfo_.GPUName,
 	                                 fmt::format("{:.2f}", systemInfo_.VRamSize));
-	ConceptEngine::GetLogger()->info("CPU: {}, Threads: {}", systemInfo_.CPUName, systemInfo_.CPUCores);
+	ConceptEngine::GetLogger()->info("CPU: {}", systemInfo_.CPUName);
+	ConceptEngine::GetLogger()->info("Threads: {}", systemInfo_.CPUCores);
 	ConceptEngine::GetLogger()->info("RAM: {}", fmt::format("{:.2f}", systemInfo_.RamSize));
 
 	ConceptEngine::GetLogger()->info("DeviceID: {}", deviceId);
@@ -215,10 +226,6 @@ void CEDirect3DGraphics::LoadBonus() {
 
 	ConceptEngine::GetLogger()->info("GUI Created: {}", guiActive);
 	g_IsInitialized = true;
-}
-
-void CEDirect3DGraphics::OnResize() {
-
 }
 
 bool CEDirect3DGraphics::CheckVSyncSupport() const {
@@ -278,30 +285,11 @@ void CEDirect3DGraphics::OnWindowDestroy() {
  * DirectX 12 Initializers
  */
 
-void CEDirect3DGraphics::InitDirectX() {
-	DXGI_FORMAT backBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-	m_factory = wrl::ComPtr<IDXGIFactory4>(CreateFactory());
-	auto deviceAdapter = CreateDeviceAndAdapter(m_factory.Get());
-	m_device = wrl::ComPtr<ID3D12Device>(std::get<0>(deviceAdapter));
-	m_dxgiAdapter = wrl::ComPtr<IDXGIAdapter>(std::get<1>(deviceAdapter));
-	systemInfo_ = GetSystemInfo(m_dxgiAdapter.Get());
-	m_rtvDescriptorSize = GetDescriptorHandleIncrementSize(m_device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	m_dsvDescriptorSize = GetDescriptorHandleIncrementSize(m_device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-	m_cbvSrvUavDescriptorSize =
-		GetDescriptorHandleIncrementSize(m_device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	m4xMsaaQuality = Check4XMSAAQualitySupport(m_device.Get(), backBufferFormat);
-	auto queueAllocatorList = CreateCommandObjects(m_device.Get());
-	m_commandQueue = wrl::ComPtr<ID3D12CommandQueue>(std::get<0>(queueAllocatorList));
-	m_commandAllocator = wrl::ComPtr<ID3D12CommandAllocator>(std::get<1>(queueAllocatorList));
-	m_commandList = wrl::ComPtr<ID3D12GraphicsCommandList>(std::get<2>(queueAllocatorList));
-	swapChain_ = wrl::ComPtr<IDXGISwapChain>(CreateSwapChain(hWnd, m_factory.Get(), m_commandQueue.Get(),
-	                                                         g_ClientWidth, g_ClientHeight, backBufferFormat,
-	                                                         m4xMsaaState, m4xMsaaQuality, FrameCount));
-	auto rtvDsvHeaps = CreateDescriptorHeaps(m_device.Get(), FrameCount);
-	m_rtvHeap = wrl::ComPtr<ID3D12DescriptorHeap>(std::get<0>(rtvDsvHeaps));
-	m_DSVHeap = wrl::ComPtr<ID3D12DescriptorHeap>(std::get<1>(rtvDsvHeaps));
-
+void CEDirect3DGraphics::ResizeProjection() {
+	Resize();
+	// The window resized, so update the aspect ratio and recompute the projection matrix.
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * CEMath::Pi, AspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&mProj, P);
 }
 
 IDXGIFactory4* CEDirect3DGraphics::CreateFactory() const {
@@ -310,7 +298,7 @@ IDXGIFactory4* CEDirect3DGraphics::CreateFactory() const {
 	return factory;
 }
 
-std::tuple<ID3D12Device*, IDXGIAdapter*> CEDirect3DGraphics::CreateDeviceAndAdapter(
+std::tuple<ID3D12Device*, IDXGIAdapter1*> CEDirect3DGraphics::CreateDeviceAndAdapter(
 	IDXGIFactory4* factory, D3D_FEATURE_LEVEL featureLevel) {
 	HRESULT hr;
 	ID3D12Device* device = nullptr;
@@ -330,9 +318,11 @@ std::tuple<ID3D12Device*, IDXGIAdapter*> CEDirect3DGraphics::CreateDeviceAndAdap
 		}
 		adapterIndex++;
 	}
+
 	if (!adapterFound) {
 		return std::make_tuple(device, adapter);
 	}
+
 	D3D12CreateDevice(adapter, featureLevel,IID_PPV_ARGS(&device));
 	return std::make_tuple(device, adapter);
 }
@@ -350,11 +340,11 @@ DXGI_ADAPTER_DESC CEDirect3DGraphics::GetAdapterDescription(IDXGIAdapter* dxgiAd
 	return desc;
 }
 
-CEOSTools::CESystemInfo CEDirect3DGraphics::GetSystemInfo(IDXGIAdapter* adapter) const {
+CEOSTools::CESystemInfo CEDirect3DGraphics::GetSystemInfo(IDXGIAdapter1* adapter) const {
 	auto adapterDescription = GetAdapterDescription(adapter);
 	auto systemInfo = CEOSTools::GetEngineSystemInfo();
-	std::wstring wDesc = adapterDescription_.Description;
-	auto videoMem = static_cast<double>(adapterDescription_.DedicatedVideoMemory);
+	std::wstring wDesc = adapterDescription.Description;
+	auto videoMem = static_cast<double>(adapterDescription.DedicatedVideoMemory);
 	std::string sDesc(wDesc.begin(), wDesc.end());
 	systemInfo.GPUName = sDesc;
 	systemInfo.VRamSize = videoMem;
@@ -464,11 +454,531 @@ std::tuple<ID3D12DescriptorHeap*, ID3D12DescriptorHeap*> CEDirect3DGraphics::Cre
 	return std::make_tuple(rtvHeap, dsvHeap);
 }
 
+ID3D12DescriptorHeap* CEDirect3DGraphics::BuildDescriptorHeaps(ID3D12Device* device) const {
+	ID3D12DescriptorHeap* mCbvHeap = nullptr;
+	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
+	cbvHeapDesc.NumDescriptors = 1;
+	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	cbvHeapDesc.NodeMask = 0;
+	ThrowIfFailed(device->CreateDescriptorHeap(&cbvHeapDesc,
+	                                           IID_PPV_ARGS(&mCbvHeap)));
+	return mCbvHeap;
+}
+
+void CEDirect3DGraphics::BuildConstantBuffers(ID3D12Device* device, ID3D12DescriptorHeap* constantBufferHeap,
+                                              UINT elementsCount) {
+	m_constantBuffers = std::make_unique<CED3D12UploadBuffer<CEObjectConstants>>(device, elementsCount, true);
+	UINT constantBufferByteSize = CED3D12Utils::CalcConstantBufferSize(sizeof(CEObjectConstants));
+	D3D12_GPU_VIRTUAL_ADDRESS constantBuffersAddress = m_constantBuffers->Buffer()->GetGPUVirtualAddress();
+	int boxConstantBufferIndex = 0;
+	constantBuffersAddress += boxConstantBufferIndex * constantBufferByteSize;
+	D3D12_CONSTANT_BUFFER_VIEW_DESC constantBufferViewDesc = {};
+	constantBufferViewDesc.BufferLocation = constantBuffersAddress;
+	constantBufferViewDesc.SizeInBytes = CED3D12Utils::CalcConstantBufferSize(sizeof(CEObjectConstants));
+	device->CreateConstantBufferView(&constantBufferViewDesc, constantBufferHeap->GetCPUDescriptorHandleForHeapStart());
+}
+
+ID3D12RootSignature* CEDirect3DGraphics::BuildRootSignature(ID3D12Device* device) {
+	ID3D12RootSignature* rootSignature;
+	CD3DX12_ROOT_PARAMETER rootParameter[1];
+	CD3DX12_DESCRIPTOR_RANGE constantBufferTable;
+	constantBufferTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+	rootParameter[0].InitAsDescriptorTable(1, &constantBufferTable);
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(1, rootParameter, 0, nullptr,
+	                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	wrl::ComPtr<ID3DBlob> serializedRootSig = nullptr;
+	wrl::ComPtr<ID3DBlob> errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1,
+	                                         serializedRootSig.GetAddressOf(), errorBlob.GetAddressOf());
+	if (errorBlob != nullptr) {
+		OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+	}
+	ThrowIfFailed(hr);
+	ThrowIfFailed(m_device->CreateRootSignature(0, serializedRootSig->GetBufferPointer(),
+	                                            serializedRootSig->GetBufferSize(), IID_PPV_ARGS(&rootSignature)));
+	return rootSignature;
+}
+
+std::tuple<ID3DBlob*, ID3DBlob*, std::vector<D3D12_INPUT_ELEMENT_DESC>>
+CEDirect3DGraphics::BuildShadersAndInputLayout() {
+	ID3DBlob* mvsByteCode = nullptr;
+	ID3DBlob* mpsByteCode = nullptr;
+	HRESULT hr = S_OK;
+	auto colorShadersPath = GetAssetFullPath(L"colors.hlsl");
+	std::wstringstream wss;
+	wss << "color shader: " << colorShadersPath << std::endl;
+	OutputDebugStringW(wss.str().c_str());
+	mvsByteCode = CED3D12Utils::CompileShader(colorShadersPath, nullptr, "VS", "vs_5_0");
+	mpsByteCode = CED3D12Utils::CompileShader(colorShadersPath, nullptr, "PS", "ps_5_0");
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+	};
+	return std::make_tuple(mvsByteCode, mpsByteCode, mInputLayout);
+}
+
+
+void CEDirect3DGraphics::BuildBoxGeometry() {
+	std::array<CVertex, 8> vertices =
+	{
+		CVertex({XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::White)}),
+		CVertex({XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(Colors::Black)}),
+		CVertex({XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT4(Colors::Red)}),
+		CVertex({XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Green)}),
+		CVertex({XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT4(Colors::Blue)}),
+		CVertex({XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4(Colors::Yellow)}),
+		CVertex({XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4(Colors::Cyan)}),
+		CVertex({XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(Colors::Magenta)})
+	};
+
+	std::array<std::uint16_t, 36> indices =
+	{
+		// front face
+		0, 1, 2,
+		0, 2, 3,
+
+		// back face
+		4, 6, 5,
+		4, 7, 6,
+
+		// left face
+		4, 5, 1,
+		4, 1, 0,
+
+		// right face
+		3, 2, 6,
+		3, 6, 7,
+
+		// top face
+		1, 5, 6,
+		1, 6, 2,
+
+		// bottom face
+		4, 0, 3,
+		4, 3, 7
+	};
+
+	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Vertex);
+	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
+
+	mBoxGeo = std::make_unique<MeshGeometry>();
+	mBoxGeo->Name = "boxGeo";
+
+	ThrowIfFailed(D3DCreateBlob(vbByteSize, &mBoxGeo->VertexBufferCPU));
+	CopyMemory(mBoxGeo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
+
+	ThrowIfFailed(D3DCreateBlob(ibByteSize, &mBoxGeo->IndexBufferCPU));
+	CopyMemory(mBoxGeo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
+
+	mBoxGeo->VertexBufferGPU = CED3D12Utils::CreateDefaultBuffer(m_device.Get(),
+	                                                             m_commandList.Get(), vertices.data(), vbByteSize,
+	                                                             mBoxGeo->VertexBufferUploader);
+
+	mBoxGeo->IndexBufferGPU = CED3D12Utils::CreateDefaultBuffer(m_device.Get(),
+	                                                            m_commandList.Get(), indices.data(), ibByteSize,
+	                                                            mBoxGeo->IndexBufferUploader);
+
+	mBoxGeo->VertexByteStride = sizeof(Vertex);
+	mBoxGeo->VertexBufferByteSize = vbByteSize;
+	mBoxGeo->IndexFormat = DXGI_FORMAT_R16_UINT;
+	mBoxGeo->IndexBufferByteSize = ibByteSize;
+
+	SubmeshGeometry submesh;
+	submesh.IndexCount = (UINT)indices.size();
+	submesh.StartIndexLocation = 0;
+	submesh.BaseVertexLocation = 0;
+
+	mBoxGeo->DrawArgs["box"] = submesh;
+}
+
+void CEDirect3DGraphics::BuildPSO() {
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc;
+	ZeroMemory(&psoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+	psoDesc.InputLayout = {mInputLayout.data(), (UINT)mInputLayout.size()};
+	psoDesc.pRootSignature = m_RootSignature.Get();
+	psoDesc.VS = {
+		reinterpret_cast<BYTE*>(mvsByteCode->GetBufferPointer()),
+		mvsByteCode->GetBufferSize()
+	};
+	psoDesc.PS = {
+		reinterpret_cast<BYTE*>(mpsByteCode->GetBufferPointer()),
+		mpsByteCode->GetBufferSize()
+	};
+	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	psoDesc.SampleMask = UINT_MAX;
+	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	psoDesc.NumRenderTargets = 1;
+	psoDesc.RTVFormats[0] = backBufferFormat;
+	psoDesc.SampleDesc.Count = m4xMsaaState ? 4 : 1;
+	psoDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - 1) : 0;
+	psoDesc.DSVFormat = mDepthStencilFormat;
+	ThrowIfFailed(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&mPSO)));
+}
+
+void CEDirect3DGraphics::FlushCommandQueue() {
+	// Advance the fence value to mark commands up to this fence point.
+	mCurrentFence++;
+
+	// Add an instruction to the command queue to set a new fence point.  Because we 
+	// are on the GPU timeline, the new fence point won't be set until the GPU finishes
+	// processing all the commands prior to this Signal().
+	ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), mCurrentFence));
+
+	// Wait until the GPU has completed commands up to this fence point.
+	if (m_fence->GetCompletedValue() < mCurrentFence) {
+		HANDLE eventHandle = CreateEventEx(nullptr, false, false, EVENT_ALL_ACCESS);
+
+		// Fire event when GPU hits current fence.  
+		ThrowIfFailed(m_fence->SetEventOnCompletion(mCurrentFence, eventHandle));
+
+		// Wait until the GPU hits current fence event is fired.
+		WaitForSingleObject(eventHandle, INFINITE);
+		CloseHandle(eventHandle);
+	}
+}
+
+ID3D12Resource* CEDirect3DGraphics::CurrentBackBuffer() const {
+	return mSwapChainBuffer[mCurrBackBuffer].Get();
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE CEDirect3DGraphics::CurrentBackBufferView() const {
+	return CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
+		mCurrBackBuffer,
+		m_rtvDescriptorSize);
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE CEDirect3DGraphics::DepthStencilView() const {
+	return m_DSVHeap->GetCPUDescriptorHandleForHeapStart();
+}
+
+float CEDirect3DGraphics::AspectRatio() const {
+	return static_cast<float>(g_ClientWidth) / g_ClientHeight;
+}
+
+void CEDirect3DGraphics::Draw() {
+	// Reuse the memory associated with command recording.
+	// We can only reset when the associated command lists have finished execution on the GPU.
+	ThrowIfFailed(m_commandAllocator->Reset());
+	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+	// Reusing the command list reuses memory.
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), mPSO.Get()));
+
+	m_commandList->RSSetViewports(1, &mScreenViewport);
+	m_commandList->RSSetScissorRects(1, &mScissorRect);
+	// Indicate a state transition on the resource usage.
+	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+	                                                                        D3D12_RESOURCE_STATE_PRESENT,
+	                                                                        D3D12_RESOURCE_STATE_RENDER_TARGET));
+	// Clear the back buffer and depth buffer.
+	m_commandList->ClearRenderTargetView(CurrentBackBufferView(), Colors::GreenYellow, 0, nullptr);
+	m_commandList->ClearDepthStencilView(DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0,
+	                                     0, nullptr);
+	// Specify the buffers we are going to render to.
+	m_commandList->OMSetRenderTargets(1, &CurrentBackBufferView(), true, &DepthStencilView());
+
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_cbvHeap.Get()};
+	m_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	m_commandList->SetGraphicsRootSignature(m_RootSignature.Get());
+
+	m_commandList->IASetVertexBuffers(0, 1, &mBoxGeo->VertexBufferView());
+	m_commandList->IASetIndexBuffer(&mBoxGeo->IndexBufferView());
+	m_commandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_commandList->SetGraphicsRootDescriptorTable(0, m_cbvHeap->GetGPUDescriptorHandleForHeapStart());
+
+	m_commandList->DrawIndexedInstanced(
+		mBoxGeo->DrawArgs["box"].IndexCount,
+		1, 0, 0, 0);
+
+	// Indicate a state transition on the resource usage.
+	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+	                                                                        D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                                        D3D12_RESOURCE_STATE_PRESENT));
+
+	// Done recording commands.
+	ThrowIfFailed(m_commandList->Close());
+
+	// Add the command list to the queue for execution.
+	ID3D12CommandList* cmdsLists[] = {m_commandList.Get()};
+	m_commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// swap the back and front buffers
+	ThrowIfFailed(swapChain_->Present(0, 0));
+	mCurrBackBuffer = (mCurrBackBuffer + 1) % SwapChainBufferCount;
+
+	// Wait until frame commands are complete.  This waiting is inefficient and is
+	// done for simplicity.  Later we will show how to organize our rendering code
+	// so we do not have to wait per frame.
+	FlushCommandQueue();
+}
+
+void CEDirect3DGraphics::Update() {
+	// Convert Spherical to Cartesian coordinates.
+	float x = mRadius * sinf(mPhi) * cosf(mTheta);
+	float z = mRadius * sinf(mPhi) * sinf(mTheta);
+	float y = mRadius * cosf(mPhi);
+
+	// Build the view matrix.
+	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
+	XMVECTOR target = XMVectorZero();
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
+	XMStoreFloat4x4(&mView, view);
+
+	XMMATRIX world = XMLoadFloat4x4(&mWorld);
+	XMMATRIX proj = XMLoadFloat4x4(&mProj);
+	XMMATRIX worldViewProj = world * view * proj;
+
+	// Update the constant buffer with the latest worldViewProj matrix.
+	CEObjectConstants objConstants;
+	XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(worldViewProj));
+	m_constantBuffers->CopyData(0, objConstants);
+}
+
+void CEDirect3DGraphics::Resize() {
+	assert(m_device);
+	assert(swapChain_);
+	assert(m_commandAllocator);
+
+	// Flush before changing any resources.
+	FlushCommandQueue();
+
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), nullptr));
+
+	// Release the previous resources we will be recreating.
+	for (int i = 0; i < SwapChainBufferCount; ++i)
+		mSwapChainBuffer[i].Reset();
+	mDepthStencilBuffer.Reset();
+
+	// Resize the swap chain.
+	ThrowIfFailed(swapChain_->ResizeBuffers(
+		SwapChainBufferCount,
+		g_ClientWidth, g_ClientHeight,
+		backBufferFormat,
+		DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
+
+	mCurrBackBuffer = 0;
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	for (UINT i = 0; i < SwapChainBufferCount; i++) {
+		ThrowIfFailed(swapChain_->GetBuffer(i, IID_PPV_ARGS(&mSwapChainBuffer[i])));
+		m_device->CreateRenderTargetView(mSwapChainBuffer[i].Get(), nullptr, rtvHeapHandle);
+		rtvHeapHandle.Offset(1, m_rtvDescriptorSize);
+	}
+
+	// Create the depth/stencil buffer and view.
+	D3D12_RESOURCE_DESC depthStencilDesc;
+	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthStencilDesc.Alignment = 0;
+	depthStencilDesc.Width = g_ClientWidth;
+	depthStencilDesc.Height = g_ClientHeight;
+	depthStencilDesc.DepthOrArraySize = 1;
+	depthStencilDesc.MipLevels = 1;
+
+	// Correction 11/12/2016: SSAO chapter requires an SRV to the depth buffer to read from 
+	// the depth buffer.  Therefore, because we need to create two views to the same resource:
+	//   1. SRV format: DXGI_FORMAT_R24_UNORM_X8_TYPELESS
+	//   2. DSV Format: DXGI_FORMAT_D24_UNORM_S8_UINT
+	// we need to create the depth buffer resource with a typeless format.  
+	depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+
+	depthStencilDesc.SampleDesc.Count = m4xMsaaState ? 4 : 1;
+	depthStencilDesc.SampleDesc.Quality = m4xMsaaState ? (m4xMsaaQuality - 1) : 0;
+	depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	D3D12_CLEAR_VALUE optClear;
+	optClear.Format = mDepthStencilFormat;
+	optClear.DepthStencil.Depth = 1.0f;
+	optClear.DepthStencil.Stencil = 0;
+	ThrowIfFailed(m_device->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&depthStencilDesc,
+		D3D12_RESOURCE_STATE_COMMON,
+		&optClear,
+		IID_PPV_ARGS(mDepthStencilBuffer.GetAddressOf())));
+
+	// Create descriptor to mip level 0 of entire resource using the format of the resource.
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = mDepthStencilFormat;
+	dsvDesc.Texture2D.MipSlice = 0;
+	m_device->CreateDepthStencilView(mDepthStencilBuffer.Get(), &dsvDesc, DepthStencilView());
+
+	// Transition the resource from its initial state to be used as a depth buffer.
+	m_commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mDepthStencilBuffer.Get(),
+	                                                                        D3D12_RESOURCE_STATE_COMMON,
+	                                                                        D3D12_RESOURCE_STATE_DEPTH_WRITE));
+
+	// Execute the resize commands.
+	ThrowIfFailed(m_commandList->Close());
+	ID3D12CommandList* cmdsLists[] = {m_commandList.Get()};
+	m_commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until resize is complete.
+	FlushCommandQueue();
+
+	// Update the viewport transform to cover the client area.
+	mScreenViewport.TopLeftX = 0;
+	mScreenViewport.TopLeftY = 0;
+	mScreenViewport.Width = static_cast<float>(g_ClientWidth);
+	mScreenViewport.Height = static_cast<float>(g_ClientHeight);
+	mScreenViewport.MinDepth = 0.0f;
+	mScreenViewport.MaxDepth = 1.0f;
+	mScissorRect.left = 0;
+	mScissorRect.top = 0;
+	mScissorRect.right = g_ClientWidth;
+	mScissorRect.bottom = g_ClientHeight;
+}
+
+void CEDirect3DGraphics::LogAdapters() {
+	UINT i = 0;
+	IDXGIAdapter* adapter = nullptr;
+	std::vector<IDXGIAdapter*> adapterList;
+	while (m_factory->EnumAdapters(i, &adapter) != DXGI_ERROR_NOT_FOUND) {
+		DXGI_ADAPTER_DESC desc;
+		adapter->GetDesc(&desc);
+
+		std::wstring text = L"***Adapter: ";
+		text += desc.Description;
+		text += L"\n";
+
+		OutputDebugString(text.c_str());
+
+		adapterList.push_back(adapter);
+
+		++i;
+	}
+
+	for (size_t i = 0; i < adapterList.size(); ++i) {
+		LogAdapterOutputs(adapterList[i]);
+		ReleaseCom(adapterList[i]);
+	}
+}
+
+void CEDirect3DGraphics::LogAdapterOutputs(IDXGIAdapter* adapter) {
+	UINT i = 0;
+	IDXGIOutput* output = nullptr;
+	while (adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND) {
+		DXGI_OUTPUT_DESC desc;
+		output->GetDesc(&desc);
+
+		std::wstring text = L"***Output: ";
+		text += desc.DeviceName;
+		text += L"\n";
+		OutputDebugString(text.c_str());
+
+		LogOutputDisplayModes(output, backBufferFormat);
+
+		ReleaseCom(output);
+
+		++i;
+	}
+}
+
+void CEDirect3DGraphics::LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format) {
+	UINT count = 0;
+	UINT flags = 0;
+
+	// Call with nullptr to get list count.
+	output->GetDisplayModeList(format, flags, &count, nullptr);
+
+	std::vector<DXGI_MODE_DESC> modeList(count);
+	output->GetDisplayModeList(format, flags, &count, &modeList[0]);
+
+	for (auto& x : modeList) {
+		UINT n = x.RefreshRate.Numerator;
+		UINT d = x.RefreshRate.Denominator;
+		std::wstring text =
+			L"Width = " + std::to_wstring(x.Width) + L" " +
+			L"Height = " + std::to_wstring(x.Height) + L" " +
+			L"Refresh = " + std::to_wstring(n) + L"/" + std::to_wstring(d) +
+			L"\n";
+
+		::OutputDebugString(text.c_str());
+	}
+}
+
+
+void CEDirect3DGraphics::InitDirectX() {
+
+#if defined(DEBUG) || defined(_DEBUG)
+	// Enable the D3D12 debug layer.
+	{
+		wrl::ComPtr<ID3D12Debug> debugController;
+		ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)));
+		debugController->EnableDebugLayer();
+	}
+#endif
+
+	m_factory = wrl::ComPtr<IDXGIFactory4>(CreateFactory());
+	auto deviceAdapter = CreateDeviceAndAdapter(m_factory.Get());
+	m_device = wrl::ComPtr<ID3D12Device>(std::get<0>(deviceAdapter));
+	auto adapter = wrl::ComPtr<IDXGIAdapter1>(std::get<1>(deviceAdapter));
+	systemInfo_ = GetSystemInfo(adapter.Get());
+	m_fence = wrl::ComPtr<ID3D12Fence>(CreateFence(m_device.Get()));
+	m_rtvDescriptorSize = GetDescriptorHandleIncrementSize(m_device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	m_dsvDescriptorSize = GetDescriptorHandleIncrementSize(m_device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	m_cbvSrvUavDescriptorSize =
+		GetDescriptorHandleIncrementSize(m_device.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	m4xMsaaQuality = Check4XMSAAQualitySupport(m_device.Get(), backBufferFormat);
+#ifdef _DEBUG
+	LogAdapters();
+#endif
+	auto queueAllocatorList = CreateCommandObjects(m_device.Get());
+	m_commandQueue = wrl::ComPtr<ID3D12CommandQueue>(std::get<0>(queueAllocatorList));
+	m_commandAllocator = wrl::ComPtr<ID3D12CommandAllocator>(std::get<1>(queueAllocatorList));
+	m_commandList = wrl::ComPtr<ID3D12GraphicsCommandList>(std::get<2>(queueAllocatorList));
+	swapChain_ = wrl::ComPtr<IDXGISwapChain>(CreateSwapChain(hWnd, m_factory.Get(), m_commandQueue.Get(),
+	                                                         g_ClientWidth, g_ClientHeight, backBufferFormat,
+	                                                         m4xMsaaState, m4xMsaaQuality, SwapChainBufferCount));
+	auto rtvDsvHeaps = CreateDescriptorHeaps(m_device.Get(), SwapChainBufferCount);
+	m_rtvHeap = wrl::ComPtr<ID3D12DescriptorHeap>(std::get<0>(rtvDsvHeaps));
+	m_DSVHeap = wrl::ComPtr<ID3D12DescriptorHeap>(std::get<1>(rtvDsvHeaps));
+
+	Resize();
+	m_cbvHeap = wrl::ComPtr<ID3D12DescriptorHeap>(BuildDescriptorHeaps(m_device.Get()));
+	BuildConstantBuffers(m_device.Get(), m_cbvHeap.Get());
+	m_RootSignature = wrl::ComPtr<ID3D12RootSignature>(BuildRootSignature(m_device.Get()));
+	auto shadersInputLayout = BuildShadersAndInputLayout();
+	mvsByteCode = wrl::ComPtr<ID3DBlob>(std::get<0>(shadersInputLayout));
+	mpsByteCode = wrl::ComPtr<ID3DBlob>(std::get<1>(shadersInputLayout));
+	mInputLayout = std::get<2>(shadersInputLayout);
+	BuildBoxGeometry();
+	BuildPSO();
+
+	// Execute the initialization commands.
+	m_commandList->Close();
+	ID3D12CommandList* cmdsLists[] = {m_commandList.Get()};
+	m_commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+	// Wait until initialization is complete.
+	FlushCommandQueue();
+}
 
 /*
  * Cubes
  */
 bool CEDirect3DGraphics::InitCubes() {
+
+#if defined(DEBUG) || defined(_DEBUG)
+	// Enable the D3D12 debug layer.
+	{
+		wrl::ComPtr<ID3D12Debug> debugController;
+		ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)));
+		debugController->EnableDebugLayer();
+	}
+#endif
+
 	HRESULT hr;
 
 	// -- Create the Device -- //
@@ -1997,11 +2507,6 @@ void CEDirect3DGraphics::DestroyGui() {
 		DestroyImGui();
 }
 
-void CEDirect3DGraphics::InitGui() {
-	// InitImGui();
-	// guiActive = true;
-}
-
 void CEDirect3DGraphics::RenderGui() {
 	RenderImGui();
 }
@@ -2227,3 +2732,4 @@ void CEDirect3DGraphics::WaitForPreviousFrame() {
 	// increment fenceValue for next frame
 	m_fenceValues[m_frameIndex]++;
 }
+
