@@ -60,7 +60,7 @@ void ConceptEngine::InitSpdLog() {
 
 #if defined( _DEBUG )
 	// Create a console window for std::cout
-	CreateConsole();
+	CreateConsoleWindow();
 #endif
 
 	// Init spdlog.
@@ -82,7 +82,7 @@ void ConceptEngine::InitSpdLog() {
 
 constexpr int MAX_CONSOLE_LINES = 500;
 
-void ConceptEngine::CreateConsole() {
+void ConceptEngine::CreateConsoleWindow() {
 	// Allocate a console.
 	if (AllocConsole()) {
 		HANDLE lStdHandle = GetStdHandle(STD_OUTPUT_HANDLE);

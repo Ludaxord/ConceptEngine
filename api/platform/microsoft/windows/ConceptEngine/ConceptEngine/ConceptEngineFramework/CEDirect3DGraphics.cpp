@@ -188,12 +188,6 @@ bool CEDirect3DGraphics::OnInit() {
 		CreateDirect3D12(g_ClientWidth, g_ClientHeight);
 		return true;
 	}
-	std::ostringstream oss;
-	oss << "No API for enum: ";
-	oss << magic_enum::enum_name(graphicsApiType);
-	oss << std::endl;
-	throw CEException(__LINE__, oss.str().c_str());
-	return false;
 }
 
 void CEDirect3DGraphics::OnDestroy() {

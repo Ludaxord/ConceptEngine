@@ -14,7 +14,11 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/logger.h>
 #include <spdlog/spdlog.h>
-// #include <gainput/gainput.h>
+
+#pragma comment(lib, "xinput.lib")
+#pragma comment(lib, "Ws2_32.lib")
+
+#include <gainput/gainput.h>
 
 #include "CEOSTools.h"
 #include "CETimer.h"
@@ -35,7 +39,7 @@ public:
 
 protected:
 	void InitSpdLog();
-	static void CreateConsole();
+	static void CreateConsoleWindow();
 
 
 private:
@@ -49,11 +53,11 @@ private:
 	/*
 	 * Gainput variables:
 	 */
-	// gainput::InputManager inputManager_;
-	// gainput::DeviceId keyboardDevice_;
-	// gainput::DeviceId mouseDevice_;
-	// gainput::DeviceId gamePadDevice_[gainput::MaxPadCount];
-	
+	gainput::InputManager inputManager_;
+	gainput::DeviceId keyboardDevice_;
+	gainput::DeviceId mouseDevice_;
+	gainput::DeviceId gamePadDevice_[gainput::MaxPadCount];
+
 	/*
 	 * Global Engine objects variables:
 	 */

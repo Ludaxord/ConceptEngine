@@ -1,4 +1,5 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+cl : command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
   CEDirect3DGraphics.cpp
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
@@ -7,44 +8,63 @@ F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEn
 CEDirect3DGraphics.cpp : message : see previous definition of 'NOMINMAX'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-CEDirect3DGraphics.cpp(297,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1294,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1295,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1233,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
-CEDirect3DGraphics.cpp(1354,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1355,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1356,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1375,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1376,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1377,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1622,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1627,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1636,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1640,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1645,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1650,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1661,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1666,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1671,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1676,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1686,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1694,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1703,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1708,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1713,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1718,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1725,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1732,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1737,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1742,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1752,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1761,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1766,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1771,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1772,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1923,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1927,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1931,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(291,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1288,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(1289,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(1227,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
+CEDirect3DGraphics.cpp(1348,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1349,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1350,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1369,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1370,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1371,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1616,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1621,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1630,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1634,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1639,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1644,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1655,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1660,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1665,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1670,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1680,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1688,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1697,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1702,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1707,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1712,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1719,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1726,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1731,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1736,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1746,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1755,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1760,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1765,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1766,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1917,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1921,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1925,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
           with
           [
@@ -70,21 +90,77 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.2
           [
               _Iter=wchar_t *
           ]
-CEDirect3DGraphics.cpp(295): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+CEDirect3DGraphics.cpp(289): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-CEDirect3DGraphics.cpp(295): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+CEDirect3DGraphics.cpp(289): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(1610): warning C4715: 'CEDirect3DGraphics::GetDXGIFormatBitsPerPixel': not all control paths return a value
+  Generating Code...
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(191): warning C4715: 'CEDirect3DGraphics::OnInit': not all control paths return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(1604): warning C4715: 'CEDirect3DGraphics::GetDXGIFormatBitsPerPixel': not all control paths return a value
+  Compiling...
+  ConceptEngine.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+ConceptEngine.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEGUI.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEGUI.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  Generating Code...
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowShouldClose already defined in glfw3.lib(window.obj); second definition ignored
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHintString already defined in glfw3.lib(window.obj); second definition ignored
 glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHint already defined in glfw3.lib(window.obj); second definition ignored

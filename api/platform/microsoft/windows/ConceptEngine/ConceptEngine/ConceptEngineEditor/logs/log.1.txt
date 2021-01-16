@@ -1,43 +1,11 @@
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] Threads: 24
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] RAM: 32689.00
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] DeviceID: 0
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] Revision: 0
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] nVendorID: 0
-[2021-01-16 15:51:27.314] [ConceptEngine] [info] GUI Created: true
-[2021-01-16 15:51:28.318] [ConceptEngine] [info] FPS: 2295.349
-[2021-01-16 15:51:29.318] [ConceptEngine] [info] FPS: 2537.962
-[2021-01-16 15:51:30.318] [ConceptEngine] [info] FPS: 2454.143
-[2021-01-16 15:51:31.318] [ConceptEngine] [info] FPS: 2421.366
-[2021-01-16 15:51:32.319] [ConceptEngine] [info] FPS: 2484.188
-[2021-01-16 15:51:33.319] [ConceptEngine] [info] FPS: 2521.210
-[2021-01-16 15:51:34.319] [ConceptEngine] [info] FPS: 2396.148
-[2021-01-16 15:51:35.319] [ConceptEngine] [info] FPS: 2276.000
-[2021-01-16 15:51:36.319] [ConceptEngine] [info] FPS: 2278.902
-[2021-01-16 15:51:37.320] [ConceptEngine] [info] FPS: 2361.910
-[2021-01-16 15:51:38.320] [ConceptEngine] [info] FPS: 2252.847
-[2021-01-16 15:51:39.320] [ConceptEngine] [info] FPS: 2261.197
-[2021-01-16 15:51:40.320] [ConceptEngine] [info] FPS: 2385.518
-[2021-01-16 15:51:41.321] [ConceptEngine] [info] FPS: 2320.454
-[2021-01-16 15:51:42.321] [ConceptEngine] [info] FPS: 2423.354
-[2021-01-16 15:51:43.321] [ConceptEngine] [info] FPS: 2386.251
-[2021-01-16 15:51:44.321] [ConceptEngine] [info] FPS: 2376.887
-[2021-01-16 15:51:45.321] [ConceptEngine] [info] FPS: 2462.925
-[2021-01-16 15:51:46.321] [ConceptEngine] [info] FPS: 2634.903
-[2021-01-16 15:51:47.321] [ConceptEngine] [info] FPS: 2609.572
-[2021-01-16 15:51:48.322] [ConceptEngine] [info] FPS: 2640.365
-[2021-01-16 15:51:49.322] [ConceptEngine] [info] FPS: 2627.674
-[2021-01-16 15:51:50.322] [ConceptEngine] [info] FPS: 2555.824
-[2021-01-16 15:51:51.322] [ConceptEngine] [info] FPS: 2576.735
-[2021-01-16 15:51:52.322] [ConceptEngine] [info] FPS: 2595.371
-[2021-01-16 15:51:53.322] [ConceptEngine] [info] FPS: 2610.597
-[2021-01-16 15:51:54.322] [ConceptEngine] [info] FPS: 2631.854
-[2021-01-16 15:51:55.323] [ConceptEngine] [info] FPS: 2603.318
-[2021-01-16 15:51:56.323] [ConceptEngine] [info] FPS: 2598.078
-[2021-01-16 15:51:57.323] [ConceptEngine] [info] FPS: 2567.900
-[2021-01-16 15:51:58.323] [ConceptEngine] [info] FPS: 2557.206
-[2021-01-16 15:51:59.324] [ConceptEngine] [info] FPS: 2316.176
-[2021-01-16 15:52:00.324] [ConceptEngine] [info] FPS: 2423.729
-[2021-01-16 15:52:01.324] [ConceptEngine] [info] FPS: 2167.989
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] Threads: 24
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] RAM: 32689.00
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] DeviceID: 0
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] Revision: 0
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] nVendorID: 0
+[2021-01-16 19:14:12.879] [ConceptEngine] [info] GUI Created: true
+[2021-01-16 19:14:13.880] [ConceptEngine] [info] FPS: 1482.532
+[2021-01-16 19:14:14.880] [ConceptEngine] [info] FPS: 1594.300

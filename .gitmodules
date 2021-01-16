@@ -45,3 +45,6 @@
 [submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Nuklear"]
 	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Nuklear
 	url = https://github.com/Immediate-Mode-UI/Nuklear
+[submodule "api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/portaudio"]
+	path = api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/portaudio
+	url = https://github.com/PortAudio/portaudio

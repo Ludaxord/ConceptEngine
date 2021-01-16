@@ -1,25 +1,12 @@
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] Direct3D 12 Adapter Created
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] Threads: 24
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] RAM: 32689.00
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] DeviceID: 0
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] Revision: 0
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] nVendorID: 0
-[2021-01-16 15:45:40.193] [ConceptEngine] [info] GUI Created: true
-[2021-01-16 15:45:41.196] [ConceptEngine] [info] FPS: 1154.503
-[2021-01-16 15:45:42.196] [ConceptEngine] [info] FPS: 1304.753
-[2021-01-16 15:45:43.197] [ConceptEngine] [info] FPS: 1344.624
-[2021-01-16 15:45:44.197] [ConceptEngine] [info] FPS: 1380.245
-[2021-01-16 15:45:45.198] [ConceptEngine] [info] FPS: 1411.341
-[2021-01-16 15:45:46.198] [ConceptEngine] [info] FPS: 1459.061
-[2021-01-16 15:45:47.199] [ConceptEngine] [info] FPS: 1388.218
-[2021-01-16 15:45:48.199] [ConceptEngine] [info] FPS: 1228.431
-[2021-01-16 15:45:49.200] [ConceptEngine] [info] FPS: 1278.403
-[2021-01-16 15:45:50.200] [ConceptEngine] [info] FPS: 1379.730
-[2021-01-16 15:45:51.201] [ConceptEngine] [info] FPS: 1381.198
-[2021-01-16 15:45:52.201] [ConceptEngine] [info] FPS: 1285.995
-[2021-01-16 15:45:53.201] [ConceptEngine] [info] FPS: 1180.251
-[2021-01-16 15:45:54.201] [ConceptEngine] [info] FPS: 1295.687
-[2021-01-16 15:45:55.201] [ConceptEngine] [info] FPS: 1172.977
-[2021-01-16 15:45:56.202] [ConceptEngine] [info] FPS: 1346.469
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] Threads: 24
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] RAM: 32689.00
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] DeviceID: 0
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] Revision: 0
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] nVendorID: 0
+[2021-01-16 19:12:14.516] [ConceptEngine] [info] GUI Created: true
+[2021-01-16 19:12:15.518] [ConceptEngine] [info] FPS: 1316.118
+[2021-01-16 19:12:16.519] [ConceptEngine] [info] FPS: 1787.498
+[2021-01-16 19:12:17.519] [ConceptEngine] [info] FPS: 2118.520

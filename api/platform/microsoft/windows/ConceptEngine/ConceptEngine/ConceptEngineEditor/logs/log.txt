@@ -1,0 +1,12 @@
+[2021-01-16 19:33:27.895] [ConceptEngine] [info] Direct3D 12 Adapter Created
+[2021-01-16 19:33:27.895] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-16 19:33:27.895] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
+[2021-01-16 19:33:27.895] [ConceptEngine] [info] Threads: 24
+[2021-01-16 19:33:27.895] [ConceptEngine] [info] RAM: 32689.00
+[2021-01-16 19:33:27.895] [ConceptEngine] [info] DeviceID: 0
+[2021-01-16 19:33:27.896] [ConceptEngine] [info] Revision: 0
+[2021-01-16 19:33:27.896] [ConceptEngine] [info] nVendorID: 0
+[2021-01-16 19:33:27.896] [ConceptEngine] [info] GUI Created: true
+[2021-01-16 19:33:28.896] [ConceptEngine] [info] FPS: 1117.963
+[2021-01-16 19:33:29.897] [ConceptEngine] [info] FPS: 1930.477
+[2021-01-16 19:33:30.897] [ConceptEngine] [info] FPS: 1790.437
