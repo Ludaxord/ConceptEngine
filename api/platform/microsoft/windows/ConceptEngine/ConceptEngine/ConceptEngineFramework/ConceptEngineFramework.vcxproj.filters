@@ -88,6 +88,18 @@
     <Filter Include="Graphics\Objects\Direct3D\Basic">
       <UniqueIdentifier>{ea2ee018-3353-4a14-95f2-534e8d9803e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine">
+      <UniqueIdentifier>{74f5fcec-bd5a-4d71-a0d7-62e00536253b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioEngine">
+      <UniqueIdentifier>{e0eb628e-06e3-40e6-9961-a27606808821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine">
+      <UniqueIdentifier>{11c2f14d-4314-4eaf-aaef-de571a62c0f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX">
+      <UniqueIdentifier>{9674f1c4-cf91-4eb6-aea0-9d55335933bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -115,9 +127,6 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="CEController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CEException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CEWindowMessage.h">
@@ -171,6 +180,9 @@
     <ClInclude Include="CEMath.h">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="CEDirectXGraphics.h">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -203,9 +215,6 @@
     <ClCompile Include="CEVulkanGraphics.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="CEException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CEWindowMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -235,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="CED3D12Utils.cpp">
       <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXGraphics.cpp">
+      <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

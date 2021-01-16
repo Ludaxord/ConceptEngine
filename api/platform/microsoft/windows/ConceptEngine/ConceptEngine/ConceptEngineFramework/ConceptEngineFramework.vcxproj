@@ -25,7 +25,6 @@
     <ClInclude Include="CEDirect3DCube.h" />
     <ClInclude Include="CEDirect3DGraphics.h" />
     <ClInclude Include="CEDirect3DNode.h" />
-    <ClInclude Include="CEException.h" />
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEGUI.h" />
     <ClInclude Include="CEHelper.h" />
@@ -45,6 +44,7 @@
     <ClInclude Include="CEWindowMessage.h" />
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="CEDirectXGraphics.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +53,7 @@
     <ClCompile Include="CEDirect3DCube.cpp" />
     <ClCompile Include="CEDirect3DGraphics.cpp" />
     <ClCompile Include="CEDirect3DNode.cpp" />
-    <ClCompile Include="CEException.cpp" />
+    <ClCompile Include="CEDirectXGraphics.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMath.cpp" />
@@ -251,7 +251,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -301,7 +301,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\gainput\lib\include;F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\spdlog\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -336,7 +336,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\lib\magic_enum\include;$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>vulkan-1.lib;%(AdditionalModuleDependencies) </AdditionalModuleDependencies>
       <CompileAsWinRT>false</CompileAsWinRT>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -344,7 +344,7 @@
       <AdditionalOptions />
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <MinimalRebuild>true</MinimalRebuild>
@@ -356,8 +356,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
     </Lib>
     <FxCompile>

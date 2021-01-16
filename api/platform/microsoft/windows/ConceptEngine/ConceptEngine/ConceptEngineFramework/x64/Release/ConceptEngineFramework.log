@@ -1,0 +1,7 @@
+﻿  Performing Custom Build Tools
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Release\CEPixelShader.cso
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Release\CETextPixelShader.cso
+  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Release\CETextVertexShader.cso
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEVertexShader.hlsl(13,9-22): error X3000: syntax error: unexpected token 'ConstantBuffer'
+  
+  compilation failed; no code produced

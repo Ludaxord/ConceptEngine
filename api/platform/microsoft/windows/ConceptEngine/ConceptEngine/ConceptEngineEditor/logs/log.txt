@@ -1,0 +1,37 @@
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] Threads: 24
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] RAM: 32689.00
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] DeviceID: 0
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] Revision: 0
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] nVendorID: 0
+[2021-01-16 18:06:28.304] [ConceptEngine] [info] GUI Created: true
+[2021-01-16 18:06:29.306] [ConceptEngine] [info] FPS: 1403.393
+[2021-01-16 18:06:30.306] [ConceptEngine] [info] FPS: 1863.593
+[2021-01-16 18:06:31.306] [ConceptEngine] [info] FPS: 1957.680
+[2021-01-16 18:06:32.307] [ConceptEngine] [info] FPS: 1980.397
+[2021-01-16 18:06:33.307] [ConceptEngine] [info] FPS: 2152.271
+[2021-01-16 18:06:34.307] [ConceptEngine] [info] FPS: 2053.780
+[2021-01-16 18:06:35.307] [ConceptEngine] [info] FPS: 2065.249
+[2021-01-16 18:06:36.308] [ConceptEngine] [info] FPS: 2078.273
+[2021-01-16 18:06:37.308] [ConceptEngine] [info] FPS: 1908.413
+[2021-01-16 18:06:38.308] [ConceptEngine] [info] FPS: 1988.926
+[2021-01-16 18:06:39.309] [ConceptEngine] [info] FPS: 1846.060
+[2021-01-16 18:06:40.309] [ConceptEngine] [info] FPS: 1767.019
+[2021-01-16 18:06:41.310] [ConceptEngine] [info] FPS: 1727.244
+[2021-01-16 18:06:42.310] [ConceptEngine] [info] FPS: 1818.555
+[2021-01-16 18:06:43.310] [ConceptEngine] [info] FPS: 1854.785
+[2021-01-16 18:06:44.310] [ConceptEngine] [info] FPS: 1858.864
+[2021-01-16 18:06:45.310] [ConceptEngine] [info] FPS: 1782.913
+[2021-01-16 18:06:46.310] [ConceptEngine] [info] FPS: 1839.794
+[2021-01-16 18:06:47.310] [ConceptEngine] [info] FPS: 1866.496
+[2021-01-16 18:06:48.311] [ConceptEngine] [info] FPS: 1887.582
+[2021-01-16 18:06:49.311] [ConceptEngine] [info] FPS: 1797.947
+[2021-01-16 18:06:50.311] [ConceptEngine] [info] FPS: 1836.248
+[2021-01-16 18:06:51.312] [ConceptEngine] [info] FPS: 1855.125
+[2021-01-16 18:06:52.312] [ConceptEngine] [info] FPS: 1811.785
+[2021-01-16 18:06:53.312] [ConceptEngine] [info] FPS: 1770.517
+[2021-01-16 18:06:54.312] [ConceptEngine] [info] FPS: 1651.903
+[2021-01-16 18:06:55.312] [ConceptEngine] [info] FPS: 1740.502
+[2021-01-16 18:06:56.312] [ConceptEngine] [info] FPS: 1734.783
+[2021-01-16 18:06:57.313] [ConceptEngine] [info] FPS: 1695.114

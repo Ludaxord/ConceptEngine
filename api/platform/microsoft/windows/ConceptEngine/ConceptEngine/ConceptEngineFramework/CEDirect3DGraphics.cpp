@@ -174,8 +174,7 @@ void CEDirect3DGraphics::OnResize() {
 
 
 bool CEDirect3DGraphics::OnInit() {
-	// Check for DirectX Math library support.
-	if (!DirectX::XMVerifyCPUSupport()) {
+	if (!XMVerifyCPUSupport()) {
 		MessageBoxA(hWnd, "Failed to verify DirectX Math library support.", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
@@ -186,13 +185,11 @@ bool CEDirect3DGraphics::OnInit() {
 	}
 	if (graphicsApiType == CEOSTools::CEGraphicsApiTypes::direct3d12) {
 		CreateDirect3D12(g_ClientWidth, g_ClientHeight);
+		spdlog::info("Direct3D 12 initialized.");
 		return true;
 	}
-	std::ostringstream oss;
-	oss << "No API for enum: ";
-	oss << magic_enum::enum_name(graphicsApiType);
-	oss << std::endl;
-	throw CEException(__LINE__, oss.str().c_str());
+	spdlog::info("CEDirect3DGraphics class created.");
+
 	return false;
 }
 
@@ -207,8 +204,6 @@ void CEDirect3DGraphics::LoadBonus() {
 	auto deviceId = adapterDescription_.DeviceId;
 	auto revision = adapterDescription_.Revision;
 	auto vendorId = adapterDescription_.VendorId;
-
-	ConceptEngine::GetLogger()->info("Direct3D 12 Adapter Created");
 
 	ConceptEngine::GetLogger()->info("GPU: {}, Video Memory: {:.4} MB", systemInfo_.GPUName,
 	                                 fmt::format("{:.2f}", systemInfo_.VRamSize));
