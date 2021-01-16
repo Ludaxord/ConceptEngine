@@ -35,10 +35,6 @@ int ConceptEngine::Run() {
 }
 
 void ConceptEngine::MakeFrame() {
-	// const float c1 = sin(timer_.Peek()) / 2.0f + 0.5f;
-	// const float c2 = cos(timer_.Peek()) / 2.0f + 0.5f;
-	// const float c3 = sin(-timer_.Peek()) / 2.0f + 0.5f;
-	// window_.GetGraphics().ChangeClearColor(c1, c2, c3);
 	window_->GetGraphics().OnUpdate();
 	window_->GetGraphics().OnRender();
 }
@@ -88,7 +84,6 @@ void ConceptEngine::InitSpdLog() {
 	spdlog::set_default_logger(logger_);
 	spdlog::flush_on(spdlog::level::info);
 }
-
 
 constexpr int MAX_CONSOLE_LINES = 500;
 

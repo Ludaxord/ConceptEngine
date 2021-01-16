@@ -197,11 +197,13 @@ void CEDirect3DGraphics::OnDestroy() {
 }
 
 void CEDirect3DGraphics::LogSystemInfo() {
+	ConceptEngine::GetLogger()->info("===== SYSTEM_INFO ======");
 	ConceptEngine::GetLogger()->info("GPU: {}, Video Memory: {:.4} MB", systemInfo_.GPUName,
 	                                 fmt::format("{:.2f}", systemInfo_.VRamSize));
 	ConceptEngine::GetLogger()->info("CPU: {}", systemInfo_.CPUName);
 	ConceptEngine::GetLogger()->info("Threads: {}", systemInfo_.CPUCores);
 	ConceptEngine::GetLogger()->info("RAM: {}", fmt::format("{:.2f}", systemInfo_.RamSize));
+	ConceptEngine::GetLogger()->info("========================");
 	g_IsInitialized = true;
 }
 
