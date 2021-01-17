@@ -298,7 +298,7 @@
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="CEDirectXResource.h">
-      <Filter>Header Files</Filter>
+      <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -471,7 +471,7 @@
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="CEDirectXResource.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
