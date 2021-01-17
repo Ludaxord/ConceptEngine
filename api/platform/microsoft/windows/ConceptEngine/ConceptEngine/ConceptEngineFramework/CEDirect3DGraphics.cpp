@@ -202,7 +202,7 @@ void CEDirect3DGraphics::LogSystemInfo() {
 	                                 fmt::format("{:.2f}", systemInfo_.VRamSize));
 	ConceptEngine::GetLogger()->info("CPU: {}", systemInfo_.CPUName);
 	ConceptEngine::GetLogger()->info("Threads: {}", systemInfo_.CPUCores);
-	ConceptEngine::GetLogger()->info("RAM: {}", fmt::format("{:.2f}", systemInfo_.RamSize));
+	ConceptEngine::GetLogger()->info("RAM: {} MB", fmt::format("{:.2f}", systemInfo_.RamSize));
 	ConceptEngine::GetLogger()->info("========================");
 	g_IsInitialized = true;
 }

@@ -1,1 +1,229 @@
 #pragma once
+#include <d3d12.h>
+#include <memory>
+#include <string>
+#include <wrl.h>
+
+#include "CEDirectXDescriptorAllocation.h"
+#include "CEDirectXGUI.h"
+
+namespace ConceptEngine::GraphicsEngine::DirectX {
+	namespace wrl = Microsoft::WRL;
+
+	class CEDirectXDescriptorAllocator;
+	class CEDirectXCommandQueue;
+	class CEDirectXUnorderedAccessView;
+	class CEDirectXResource;
+	class CEDirectXShaderResourceView;
+	class CEDirectXConstantBufferView;
+	class CEDirectXPipelineStateObject;
+	class CEDirectXRootSignature;
+	class CEDirectXVertexBuffer;
+	class CEDirectXIndexBuffer;
+	class CEDirectXTexture;
+	class CEDirectXStructuredBuffer;
+	class CEDirectXByteAddressBuffer;
+	class CEDirectXConstantBuffer;
+	class CEDirectXRenderTarget;
+	class CEDirectXSwapChain;
+	class CEDirectXAdapter;
+
+	class CEDirectXDevice {
+	public:
+
+		/*
+		 * Default Constructors/Destructors
+		 */
+		explicit CEDirectXDevice(std::shared_ptr<CEDirectXAdapter> adapter);
+		virtual ~CEDirectXDevice();
+
+		/*
+		 * Debug Layers are abe to catch possible error while creating or updating scene and display it in console.
+		 */
+		static void EnableDebugLayer();
+		static void ReportLiveObjects();
+
+		/*
+		 * Create DirectX 12 Device using DirectX Adapter class,
+		 * if adapter parameter is nullptr then Device will be created base on highest performance adapter.
+		 */
+		static std::shared_ptr<CEDirectXDevice> Create(std::shared_ptr<CEDirectXAdapter> adapter = nullptr);
+
+		/*
+		 * Get adapter description that Device is using.
+		 */
+		std::wstring GetDescription() const;
+
+		/*
+		 * Allocate a number of CPU visible descriptors.
+		 */
+		CEDirectXDescriptorAllocation AllocateDescriptors(D3D12_DESCRIPTOR_HEAP_TYPE type,
+		                                                  uint32_t numDescriptors = 1);
+
+		/*
+		 * Get size of handle increment for given type of descriptor heap;
+		 */
+		UINT GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE type) const {
+			return m_device->GetDescriptorHandleIncrementSize(type);
+		}
+
+		/*
+		 * Create Swap Chain using the provided OS window handle;
+		 * TODO: Change backBufferFormat to capable to use RayTracing, Candidate: DXGI_FORMAT_B8G8R8A8_UNORM
+		 */
+		std::shared_ptr<CEDirectXSwapChain> CreateSwapChain(
+			HWND hWnd, DXGI_FORMAT backBufferFormat = DXGI_FORMAT_R10G10B10A2_UNORM);
+
+		/*
+		 * Create GUI object;
+		 */
+		std::shared_ptr<CEDirectXGUI> CreateGUI(HWND hWnd, const CEDirectXRenderTarget& renderTarget);
+
+		/*
+		 * Create Constant Buffer from passed resource;
+		 */
+		std::shared_ptr<CEDirectXConstantBuffer> CreateConstantBuffer(wrl::ComPtr<ID3D12Resource> resource);
+
+		/*
+		 * Create Byte Address Buffer resource
+		 * @param resDesc = description of resource;
+		 */
+		std::shared_ptr<CEDirectXByteAddressBuffer> CreateByteAddressBuffer(size_t bufferSize);
+		std::shared_ptr<CEDirectXByteAddressBuffer> CreateByteAddressBuffer(
+			wrl::ComPtr<ID3D12Resource> resource);
+
+		/*
+		 * Create Structured buffer resource;
+		 */
+		std::shared_ptr<CEDirectXStructuredBuffer> CreateStructuredBuffer(
+			size_t numElements, size_t elementSize);
+		std::shared_ptr<CEDirectXStructuredBuffer> CreateStructuredBuffer(wrl::ComPtr<ID3D12Resource> resource,
+		                                                                  size_t numElements, size_t elementSize);
+
+		/*
+		 * Create Texture resource;
+		 *
+		 * @param ResourceDesc = description of texture to create;
+		 * @param [ClearValue] Optional optimized clear value for the texture;
+		 * @param [TextureUsage] Optional texture usage flag provides a hint about how the texture will be used;
+		 */
+		std::shared_ptr<CEDirectXTexture> CreateTexture(const D3D12_RESOURCE_DESC& resourceDesc,
+		                                                const D3D12_CLEAR_VALUE* clearValue = nullptr);
+		std::shared_ptr<CEDirectXTexture> CreateTexture(wrl::ComPtr<ID3D12Resource> resource,
+		                                                const D3D12_CLEAR_VALUE* clearValue = nullptr);
+
+		/*
+		 * Create Index Buffer resource;
+		 */
+		std::shared_ptr<CEDirectXIndexBuffer> CreateIndexBuffer(size_t numIndicies, DXGI_FORMAT indexFormat);
+		std::shared_ptr<CEDirectXIndexBuffer> CreateIndexBuffer(wrl::ComPtr<ID3D12Resource> resource,
+		                                                        size_t numIndicies,
+		                                                        DXGI_FORMAT indexFormat);
+
+		/*
+		 * Create Vertex Buffer resource;
+		 */
+		std::shared_ptr<CEDirectXVertexBuffer> CreateVertexBuffer(size_t numVertices, size_t vertexStride);
+		std::shared_ptr<CEDirectXVertexBuffer> CreateVertexBuffer(
+			wrl::ComPtr<ID3D12Resource> resource, size_t numVertices,
+			size_t vertexStride);
+
+		/*
+		 * Create Root Signature
+		 */
+		std::shared_ptr<CEDirectXRootSignature> CreateRootSignature(
+			const D3D12_ROOT_SIGNATURE_DESC1& rootSignature);
+
+		/*
+		 * Create Pipeline State Object based on passed template PipelineStateStream
+		 */
+		template <class PipelineStateStream>
+		std::shared_ptr<CEDirectXPipelineStateObject> CreatePipelineStateObject(
+			PipelineStateStream& pipelineStateStream) {
+			const D3D12_PIPELINE_STATE_STREAM_DESC pipelineStateStreamDesc = {
+				sizeof(PipelineStateStream), &pipelineStateStream
+			};
+			return MakePipelineStateObject(pipelineStateStreamDesc);
+		}
+
+		/*
+		 * Create Constant Buffer View
+		 */
+		std::shared_ptr<CEDirectXConstantBufferView> CreateConstantBufferView(
+			const std::shared_ptr<CEDirectXConstantBuffer>& constantBuffer, size_t offset = 0);
+
+		/*
+		 * Create Shader Resource View
+		 */
+		std::shared_ptr<CEDirectXShaderResourceView> CreateShaderResourceView(
+			const std::shared_ptr<CEDirectXResource>& resource,
+			const D3D12_SHADER_RESOURCE_VIEW_DESC* srv = nullptr);
+		/*
+		 * Create Unordered Access View
+		 */
+		std::shared_ptr<CEDirectXUnorderedAccessView> CreateUnorderedAccessView(
+			const std::shared_ptr<CEDirectXResource>& resource,
+			const std::shared_ptr<CEDirectXResource> counterResource = nullptr,
+			const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav = nullptr);
+
+		/*
+		 * Flush all command Queues;
+		 */
+		void Flush();
+
+		/*
+		 * Release State descriptors, function should be called when frame counter is completed;
+		 */
+		void ReleaseStaleDescriptors();
+
+		/*
+		 * Get adapter that was used to create device;
+		 */
+		std::shared_ptr<CEDirectXAdapter> GetAdapter() const {
+			return m_adapter;
+		}
+
+		/*
+		 * Get Command Queue
+		 * Command Queue Types:
+		 * - D3D12_COMMAND_LIST_TYPE_DIRECT: Can be used to draw, dispatch or copy commands;
+		 * - D3D12_COMMAND_LIST_TYPE_COMPUTE: Can be used to dispatch or copy commands;
+		 * - D3D12_COMMAND_LIST_TYPE_COPY: Can be used to copy commands;
+		 * Default is D3D12_COMMAND_LIST_TYPE_DIRECT;
+		 */
+		CEDirectXCommandQueue& GetCommandLQueue(D3D12_COMMAND_LIST_TYPE type = D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+		wrl::ComPtr<ID3D12Device5> GetDevice() const {
+			return m_device;
+		}
+
+		D3D_ROOT_SIGNATURE_VERSION GetHighestRootSignatureVersion() const {
+			return m_highestRootSignatureVersion;
+		}
+
+		DXGI_SAMPLE_DESC GetMultiSampleQualityLevels(DXGI_FORMAT format,
+		                                             UINT numSamples = D3D12_MAX_MULTISAMPLE_SAMPLE_COUNT,
+		                                             D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS flags =
+			                                             D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE) const;
+
+	protected:
+		/*
+		 * Make Pipeline State Object
+		 */
+		std::shared_ptr<CEDirectXPipelineStateObject> MakePipelineStateObject(
+			const D3D12_PIPELINE_STATE_STREAM_DESC& pipelineStateStreamDesc);
+
+	private:
+		wrl::ComPtr<ID3D12Device5> m_device;
+
+		std::unique_ptr<CEDirectXCommandQueue> m_directCommandQueue;
+		std::unique_ptr<CEDirectXCommandQueue> m_computeCommandQueue;
+		std::unique_ptr<CEDirectXCommandQueue> m_copyCommandQueue;
+
+		std::unique_ptr<CEDirectXDescriptorAllocator> m_descriptorAllocators[
+			D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
+
+		std::shared_ptr<CEDirectXAdapter> m_adapter;
+		D3D_ROOT_SIGNATURE_VERSION m_highestRootSignatureVersion;
+	};
+}

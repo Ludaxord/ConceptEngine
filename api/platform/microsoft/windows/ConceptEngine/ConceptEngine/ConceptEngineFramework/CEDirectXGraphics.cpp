@@ -1,13 +1,10 @@
 #include "CEDirectXGraphics.h"
 
-#include <spdlog/spdlog.h>
-
 CEDirectXGraphics::CEDirectXGraphics(HWND hWnd, int width, int height): CEGraphics(
 	hWnd, CEOSTools::CEGraphicsApiTypes::direct3d12, width, height) {
 }
 
 bool CEDirectXGraphics::OnInit() {
-	
 	return false;
 }
 

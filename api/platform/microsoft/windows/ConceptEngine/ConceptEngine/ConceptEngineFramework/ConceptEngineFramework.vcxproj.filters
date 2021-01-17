@@ -207,9 +207,6 @@
     <ClInclude Include="CEDirectXDescriptorAllocation.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="CEDirectXBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="CEDirectXCommandList.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
@@ -293,6 +290,15 @@
     </ClInclude>
     <ClInclude Include="d3dx12.h">
       <Filter>GraphicsEngine\DirectX\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirectXGUI.h">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirectXByteAddressBuffer.h">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirectXResource.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,9 +386,6 @@
     <ClCompile Include="CEDirectXDescriptorAllocation.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CEDirectXBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="CEDirectXCommandList.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
@@ -460,6 +463,15 @@
     </ClCompile>
     <ClCompile Include="CEDirectXVisitor.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXGUI.cpp">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXByteAddressBuffer.cpp">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXResource.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
