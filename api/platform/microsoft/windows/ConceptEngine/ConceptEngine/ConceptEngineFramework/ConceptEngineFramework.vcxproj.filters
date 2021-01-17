@@ -219,9 +219,6 @@
     <ClInclude Include="CEDirectXDescriptorAllocator.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="CEDirectXDescriptorHeap.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="CEDirectXGenerateMipsPSO.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
@@ -298,6 +295,12 @@
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="CEDirectXResource.h">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirectXDynamicDescriptorHeap.h">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirectXDescriptorAllocatorPage.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
@@ -398,9 +401,6 @@
     <ClCompile Include="CEDirectXDescriptorAllocator.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CEDirectXDescriptorHeap.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="CEDirectXGenerateMipsPSO.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
@@ -471,6 +471,12 @@
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="CEDirectXResource.cpp">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXDynamicDescriptorHeap.cpp">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXDescriptorAllocatorPage.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
   </ItemGroup>

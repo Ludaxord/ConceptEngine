@@ -34,7 +34,8 @@
     <ClInclude Include="CEDirectXConstantBuffer.h" />
     <ClInclude Include="CEDirectXConstantBufferView.h" />
     <ClInclude Include="CEDirectXDescriptorAllocator.h" />
-    <ClInclude Include="CEDirectXDescriptorHeap.h" />
+    <ClInclude Include="CEDirectXDescriptorAllocatorPage.h" />
+    <ClInclude Include="CEDirectXDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDirectXDevice.h" />
     <ClInclude Include="CEDirectXGenerateMipsPSO.h" />
     <ClInclude Include="CEDirectXGraphics.h" />
@@ -98,7 +99,8 @@
     <ClCompile Include="CEDirectXConstantBuffer.cpp" />
     <ClCompile Include="CEDirectXConstantBufferView.cpp" />
     <ClCompile Include="CEDirectXDescriptorAllocator.cpp" />
-    <ClCompile Include="CEDirectXDescriptorHeap.cpp" />
+    <ClCompile Include="CEDirectXDescriptorAllocatorPage.cpp" />
+    <ClCompile Include="CEDirectXDynamicDescriptorHeap.cpp" />
     <ClCompile Include="CEDirectXDevice.cpp" />
     <ClCompile Include="CEDirectXGenerateMipsPSO.cpp" />
     <ClCompile Include="CEDirectXGraphics.cpp" />

@@ -1,5 +1,11 @@
 #pragma once
-class CEDirectXMaterial
-{
-};
 
+#include <wrl.h>
+
+namespace ConceptEngine::GraphicsEngine::DirectX {
+	namespace wrl = Microsoft::WRL;
+
+	class CEDirectXMaterial {
+	};
+
+}

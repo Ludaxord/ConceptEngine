@@ -1,5 +1,9 @@
 #pragma once
-class CEDirectXSwapChain
-{
-};
+#include <wrl.h>
 
+namespace ConceptEngine::GraphicsEngine::DirectX {
+	namespace wrl = Microsoft::WRL;
+
+	class CEDirectXSwapChain {
+	};
+}

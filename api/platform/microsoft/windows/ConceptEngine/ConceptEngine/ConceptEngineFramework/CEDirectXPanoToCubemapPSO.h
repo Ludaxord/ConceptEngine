@@ -1,5 +1,9 @@
 #pragma once
-class CEDirectXPanoToCubemapPSO
-{
-};
+#include <wrl.h>
 
+namespace ConceptEngine::GraphicsEngine::DirectX {
+	namespace wrl = Microsoft::WRL;
+
+	class CEDirectXPanoToCubemapPSO {
+	};
+}
