@@ -484,7 +484,7 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 		void SetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, ID3D12DescriptorHeap* heap);
 
 		std::shared_ptr<CEDirectXCommandList> GetGenerateMipsCommandList() const {
-			return m_commputeCommandList;
+			return m_computeCommandList;
 		}
 
 	private:
@@ -525,5 +525,15 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 		 */
 		void CreateCylinderCap(VertexCollection& vertices, IndexCollection& indices, size_t tessellation, float height,
 		                       float radius, bool isTop);
+
+
+		//TODO: Add descriptions to variables
+		CEDirectXDevice& m_device;
+		D3D12_COMMAND_LIST_TYPE m_commandListType;
+		wrl::ComPtr<ID3D12GraphicsCommandList5> m_commandList;
+
+		std::shared_ptr<CEDirectXCommandList> m_computeCommandList;
+
+
 	};
 }

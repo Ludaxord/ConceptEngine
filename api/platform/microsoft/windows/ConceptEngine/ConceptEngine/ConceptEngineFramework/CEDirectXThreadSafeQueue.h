@@ -1,4 +1,5 @@
 #pragma once
+#include <queue>
 #include <wrl.h>
 
 namespace ConceptEngine::GraphicsEngine::DirectX {
