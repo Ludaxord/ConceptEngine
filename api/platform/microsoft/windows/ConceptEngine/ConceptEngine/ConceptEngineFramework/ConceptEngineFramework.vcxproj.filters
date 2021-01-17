@@ -303,6 +303,9 @@
     <ClInclude Include="CEDirectXDescriptorAllocatorPage.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="CEDirectXBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -446,9 +449,6 @@
     <ClCompile Include="CEDirectXTexture.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CEDirectXThreadSafeQueue.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="CEDirectXUnorderedAccessView.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClCompile>
@@ -478,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="CEDirectXDescriptorAllocatorPage.cpp">
       <Filter>GraphicsEngine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDirectXBuffer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

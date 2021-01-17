@@ -14,12 +14,6 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 	class CEDirectXAdapter {
 	public:
 		/*
-		 * Create Default Constructors/Destructors
-		 */
-		CEDirectXAdapter(wrl::ComPtr<IDXGIAdapter4> dxgiAdapter);
-		virtual ~CEDirectXAdapter() = default;
-
-		/*
 		 * Get list of compatible hardware adapters sorted by GPU performance;
 		 *
 		 * @param gpuPreference - gpu preference to sort returned adapters;
@@ -48,6 +42,13 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 		 * Get adapter Description;
 		 */
 		const std::wstring GetDescription() const;
+
+	protected:
+		/*
+		* Create Default Constructors/Destructors
+		*/
+		CEDirectXAdapter(wrl::ComPtr<IDXGIAdapter4> dxgiAdapter);
+		virtual ~CEDirectXAdapter() = default;
 
 	private:
 		wrl::ComPtr<IDXGIAdapter4> m_dxgiAdapter;

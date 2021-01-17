@@ -16,10 +16,6 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 
 	class CEDirectXDescriptorAllocatorPage : public std::enable_shared_from_this<CEDirectXDescriptorAllocatorPage> {
 	public:
-		CEDirectXDescriptorAllocatorPage(CEDirectXDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE type,
-		                                 uint32_t numDescriptors);
-		virtual ~CEDirectXDescriptorAllocatorPage() = default;
-
 		D3D12_DESCRIPTOR_HEAP_TYPE GetHeapType() const;
 
 		/*
@@ -49,6 +45,10 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 		void ReleaseStaleDescriptors();
 
 	protected:
+		CEDirectXDescriptorAllocatorPage(CEDirectXDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE type,
+		                                 uint32_t numDescriptors);
+		virtual ~CEDirectXDescriptorAllocatorPage() = default;
+
 		/*
 		 * Compute offset of descriptor handle from the starto of the heap
 		 */

@@ -3,7 +3,8 @@
 
 namespace ConceptEngine::GraphicsEngine::DirectX {
 	namespace wrl = Microsoft::WRL;
-	
-	class CEDirectXVertexTypes {
+
+	struct CEDirectXVertexPositionNormalTangentBitangentTexture {
+		
 	};
 }

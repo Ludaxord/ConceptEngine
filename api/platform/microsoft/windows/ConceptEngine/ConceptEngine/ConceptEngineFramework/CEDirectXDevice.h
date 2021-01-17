@@ -30,13 +30,6 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 
 	class CEDirectXDevice {
 	public:
-
-		/*
-		 * Default Constructors/Destructors
-		 */
-		explicit CEDirectXDevice(std::shared_ptr<CEDirectXAdapter> adapter);
-		virtual ~CEDirectXDevice();
-
 		/*
 		 * Debug Layers are abe to catch possible error while creating or updating scene and display it in console.
 		 */
@@ -207,6 +200,11 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 			                                             D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE) const;
 
 	protected:
+		/*
+		* Default Constructors/Destructors
+		*/
+		explicit CEDirectXDevice(std::shared_ptr<CEDirectXAdapter> adapter);
+		virtual ~CEDirectXDevice();
 		/*
 		 * Make Pipeline State Object
 		 */

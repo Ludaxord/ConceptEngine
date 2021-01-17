@@ -23,6 +23,7 @@
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D12UploadBuffer.h" />
     <ClInclude Include="CED3D12Utils.h" />
+    <ClInclude Include="CEDirectXBuffer.h" />
     <ClInclude Include="CEDirectXByteAddressBuffer.h" />
     <ClInclude Include="CEDirectXDescriptorAllocation.h" />
     <ClInclude Include="CEDirect3DCube.h" />
@@ -88,6 +89,7 @@
     <ClCompile Include="CEAudio.cpp" />
     <ClCompile Include="CEController.cpp" />
     <ClCompile Include="CED3D12Utils.cpp" />
+    <ClCompile Include="CEDirectXBuffer.cpp" />
     <ClCompile Include="CEDirectXByteAddressBuffer.cpp" />
     <ClCompile Include="CEDirectXDescriptorAllocation.cpp" />
     <ClCompile Include="CEDirect3DCube.cpp" />
@@ -120,7 +122,6 @@
     <ClCompile Include="CEDirectXStructuredBuffer.cpp" />
     <ClCompile Include="CEDirectXSwapChain.cpp" />
     <ClCompile Include="CEDirectXTexture.cpp" />
-    <ClCompile Include="CEDirectXThreadSafeQueue.cpp" />
     <ClCompile Include="CEDirectXUnorderedAccessView.cpp" />
     <ClCompile Include="CEDirectXUploadBuffer.cpp" />
     <ClCompile Include="CEDirectXVertexBuffer.cpp" />
