@@ -2,6 +2,7 @@
 #include <DirectXCollision.h>
 #include <filesystem>
 #include <functional>
+#include <map>
 #include <memory>
 #include <string>
 #include <wrl.h>
@@ -12,6 +13,9 @@ class aiNode;
 class aiScene;
 
 namespace ConceptEngine::GraphicsEngine::DirectX {
+	class CEDirectXDevice;
+	class CEDirectXMesh;
+	class CEDirectXMaterial;
 	class CEDirectXVisitor;
 	class CEDirectXSceneNode;
 	class CEDirectXCommandList;
@@ -59,7 +63,21 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 	private:
 		void ImportScene(CEDirectXCommandList& commandList, const aiScene& scene, std::filesystem::path parentPath);
 		void ImportMaterial(CEDirectXCommandList& commandList, const aiMaterial& material,
-		                 std::filesystem::path parentPath);
+		                    std::filesystem::path parentPath);
 		void ImportMesh(CEDirectXCommandList& commandList, const aiMaterial& mesh);
+		std::shared_ptr<CEDirectXSceneNode> ImportSceneNode(CEDirectXCommandList& commandList,
+		                                                    std::shared_ptr<CEDirectXSceneNode> parent,
+		                                                    const aiNode* aiNode);
+
+		using MaterialMap = std::map<std::string, std::shared_ptr<CEDirectXMaterial>>;
+		using MaterialList = std::vector<std::shared_ptr<CEDirectXMaterial>>;
+		using MeshList = std::vector<std::shared_ptr<CEDirectXMesh>>;
+
+		MaterialMap m_materialMap;
+		MaterialList m_materialList;
+		MeshList m_meshList;
+
+		std::shared_ptr<CEDirectXSceneNode> m_rootNode;
+		std::wstring m_sceneFile;
 	};
 }

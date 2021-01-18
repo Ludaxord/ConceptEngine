@@ -23,6 +23,7 @@
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D12UploadBuffer.h" />
     <ClInclude Include="CED3D12Utils.h" />
+    <ClInclude Include="CEDefinitions.h" />
     <ClInclude Include="CEDirectXBuffer.h" />
     <ClInclude Include="CEDirectXByteAddressBuffer.h" />
     <ClInclude Include="CEDirectXDescriptorAllocation.h" />
