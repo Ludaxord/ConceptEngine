@@ -5,15 +5,16 @@
 #include <wrl.h>
 
 #include "CEDirectXDescriptorAllocation.h"
-#include "CEDirectXGUI.h"
 
 namespace ConceptEngine::GraphicsEngine::DirectX {
 	namespace wrl = Microsoft::WRL;
 
+	class CEDirectXGUI;
 	class CEDirectXDescriptorAllocator;
 	class CEDirectXCommandQueue;
 	class CEDirectXUnorderedAccessView;
 	class CEDirectXResource;
+	class CEDirectXCommandList;
 	class CEDirectXShaderResourceView;
 	class CEDirectXConstantBufferView;
 	class CEDirectXPipelineStateObject;
@@ -27,6 +28,7 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 	class CEDirectXRenderTarget;
 	class CEDirectXSwapChain;
 	class CEDirectXAdapter;
+	class CEDirectXScene;
 
 	class CEDirectXDevice {
 	public:
@@ -184,7 +186,7 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 		 * - D3D12_COMMAND_LIST_TYPE_COPY: Can be used to copy commands;
 		 * Default is D3D12_COMMAND_LIST_TYPE_DIRECT;
 		 */
-		CEDirectXCommandQueue& GetCommandLQueue(D3D12_COMMAND_LIST_TYPE type = D3D12_COMMAND_LIST_TYPE_DIRECT);
+		CEDirectXCommandQueue& GetCommandQueue(D3D12_COMMAND_LIST_TYPE type = D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		wrl::ComPtr<ID3D12Device5> GetDevice() const {
 			return m_device;

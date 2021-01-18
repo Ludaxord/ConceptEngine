@@ -2,7 +2,9 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <functional>
+#include <map>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 #include <wrl.h>
@@ -12,6 +14,10 @@
 class CEDirectXBuffer;
 
 namespace ConceptEngine::GraphicsEngine::DirectX {
+	class CEDirectXPanoToCubemapPSO;
+	class CEDirectXGenerateMipsPSO;
+	class CEDirectXResourceStateTracker;
+	class CEDirectXUploadBuffer;
 	class CEDirectXRenderTarget;
 	class CEDirectXUnorderedAccessView;
 	class CEDirectXConstantBufferView;
@@ -526,14 +532,147 @@ namespace ConceptEngine::GraphicsEngine::DirectX {
 		void CreateCylinderCap(VertexCollection& vertices, IndexCollection& indices, size_t tessellation, float height,
 		                       float radius, bool isTop);
 
+		/*
+		 * Add resource to list of tracked resources (ensure lifetime while command list is in use in command queue)
+		 */
+		void TrackResource(wrl::ComPtr<ID3D12Object> object);
+		void TrackResource(const std::shared_ptr<CEDirectXResource>& res);
 
-		//TODO: Add descriptions to variables
+		/*
+		 * Generate mips for UAV compatible textures;
+		 */
+		void GenerateMipsUAV(const std::shared_ptr<CEDirectXTexture>& texture, bool isSRGB);
+
+		/*
+		 * Copy contents of CPU Buffer to a GPU Buffer (possibly replacing previous buffer contents)
+		 */
+		wrl::ComPtr<ID3D12Resource> CopyBuffer(size_t bufferSize, const void* bufferData,
+		                                       D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE);
+
+		/*
+		 * Binds current descriptor heaps to the command list.
+		 */
+		void BindDescriptorHeaps();
+
+		/*
+		 * Device that is used to create command list;
+		 */
 		CEDirectXDevice& m_device;
 		D3D12_COMMAND_LIST_TYPE m_commandListType;
 		wrl::ComPtr<ID3D12GraphicsCommandList5> m_commandList;
+		wrl::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 
+		/*
+		 * For copy queue, it may be necessary to generate mips while loading textures.
+		 * Mips can't be generated on cpy queues but must be generated on compute or direct queues.
+		 * In this case, a Compute command list is generated and executed
+		 * after copy queue is finished uploading first sub resource.
+		 */
 		std::shared_ptr<CEDirectXCommandList> m_computeCommandList;
 
+		/*
+		 * Keep track of currently bound root signatures to minimize root signature changes.
+		 */
+		ID3D12RootSignature* m_rootSignature;
 
+		/*
+		 * Keep track of current bound pipeline state object to minimize PSO changes.
+		 */
+		ID3D12PipelineState* m_pipelineState;
+
+		/*
+		 * Resource created in upload heap. Useful for drawing of dynamic geometry or
+		 * for uploading constant buffer data that changes every draw call
+		 */
+		std::unique_ptr<CEDirectXUploadBuffer> m_uploadBuffer;
+
+		/*
+		 * Resource state tracker is used by command list to track (per command list)
+		 * current state of a resource. Resource state tracker also tracks global state
+		 * of a resource in order to minimize resource state transitions.
+		 */
+		std::unique_ptr<CEDirectXResourceStateTracker> m_resourceStateTracker;
+
+		/*
+		 * Dynamic descriptor heap allows for descriptors to be staged before being committed to the command list
+		 * Dynamic descriptors need to be committed before a draw or dispatch.
+		 */
+		std::unique_ptr<CEDirectXDynamicDescriptorHeap> m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
+
+		/*
+		 * Keep track of currently bound descriptor heaps.
+		 * Only change descriptor heaps if they are different than currently bound descriptor heaps.
+		 */
+		ID3D12DescriptorHeap* m_descriptorHeaps[D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES];
+
+		/*
+		 * Pipeline state object for mip map generation.
+		 */
+		std::unique_ptr<CEDirectXGenerateMipsPSO> m_generateMipsPSO;
+
+		/*
+		 * Pipeline state object for converting panorama (quirectangular) to cubemaps
+		 */
+		std::unique_ptr<CEDirectXPanoToCubemapPSO> m_panoToCubemapPSO;
+
+		using TrackedObjects = std::vector<wrl::ComPtr<ID3D12Object>>;
+
+		/*
+		 * Objects that are being tracked by command list that is in use on command list and cannot be deleted.
+		 * To ensure objects are not deleted until command list is finished executing, a reference to object in stored.
+		 * Referenced objects are released when command list is reset.
+		 */
+		TrackedObjects m_trackedObjects;
+
+		/*
+		 * Keep track of loaded textures to avoid loading same texture multiple times.
+		 */
+		static std::map<std::wstring, ID3D12Resource*> m_textureCache;
+		static std::mutex m_textureCacheMutex;
 	};
+
+	inline ::DirectX::XMVECTOR CEDirectXCommandList::GetCircleVector(size_t i, size_t tessellation) noexcept {
+		float angle = float(i) * ::DirectX::XM_2PI / float(tessellation);
+		float dx, dz;
+
+		::DirectX::XMScalarSinCos(&dx, &dz, angle);
+		::DirectX::XMVECTORF32 v = {
+			{
+				{dx, 0, dz, 0}
+			}
+		};
+		return v;
+	}
+
+	inline ::DirectX::XMVECTOR CEDirectXCommandList::GetCircleTangent(size_t i, size_t tessellation) noexcept {
+		float angle = (float(i) * ::DirectX::XM_2PI / float(tessellation)) + ::DirectX::XM_PIDIV2;
+		float dx, dz;
+		::DirectX::XMScalarSinCos(&dx, &dz, angle);
+		::DirectX::XMVECTORF32 v = {
+			{
+				{dx, 0, dz, 0}
+			}
+		};
+		return v;
+	}
+
+	inline void CEDirectXCommandList::ReverseWinding(IndexCollection& indices, VertexCollection& vertices) {
+		assert((indices.size() % 3) == 0);
+		for (auto it = indices.begin(); it != indices.end(); it += 3) {
+			std::swap(*it, *(it + 2));
+		}
+		for (auto it = vertices.begin(); it != vertices.end(); ++it) {
+			it->TexCoord.x = (1.f - it->TexCoord.x);
+		}
+	}
+
+	inline void CEDirectXCommandList::InvertNormals(VertexCollection& vertices) {
+		for (auto it = vertices.begin(); it != vertices.end(); ++it) {
+			it->Normal.x = -it->Normal.x;
+			it->Normal.y = -it->Normal.y;
+			it->Normal.z = -it->Normal.z;
+		}
+	}
+
+
 }
