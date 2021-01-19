@@ -16,28 +16,28 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	class CEGUI {
 
 	public:
-		/*
+		/**
 		 * Window message handler. Need to be called by application to allow ImGui to handle input messages.
 		 */
 		LRESULT WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-		/*
+		/**
 		 * Begin new ImGui frame. Do this before calling any ImGui functions that modifies ImGui's render context;
 		 */
 		void NewFrame();
 
-		/*
+		/**
 		 * Render ImGui to given render target;
 		 */
 		void Render(const std::shared_ptr<CECommandList>& commandList,
 		            const CERenderTarget& renderTarget);
 
-		/*
+		/**
 		 * Destroy ImGui context.
 		 */
 		void Destroy();
 
-		/*
+		/**
 		 * Set font scaling for ImGui (this should be called when window DPI scaling changes).
 		 */
 		void SetScaling(float scale);

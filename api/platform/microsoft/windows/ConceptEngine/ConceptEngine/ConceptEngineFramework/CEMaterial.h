@@ -9,11 +9,11 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	class CETexture;
 	namespace wrl = Microsoft::WRL;
 
-	/*
+	/**
 	 * clang-format off
 	 */
 	struct alignas(16) MaterialProperties {
-		/*
+		/**
 		 * CEMaterial properties must be aligned to 16-byte boundary.
 		 * To guarantee alignment, MaterialProperties structure will be allocated in aligned memory.
 		 */
@@ -48,46 +48,46 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			  HasOpacityTexture(false) {
 		}
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		::DirectX::XMFLOAT4 Diffuse;
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		::DirectX::XMFLOAT4 Specular;
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		::DirectX::XMFLOAT4 Emissive;
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		::DirectX::XMFLOAT4 Ambient;
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		::DirectX::XMFLOAT4 Reflectance;
 
-		/*
+		/**
 		 * If Opacity < 1, then material is transparent.
 		 */
 		float Opacity;
 		float SpecularPower;
-		/*
+		/**
 		 * For transparent materials, IOR > 0
 		 */
 		float IndexOfRefraction;
-		/*
+		/**
 		 * When using bump textures (height maps) we need to scale height values so normals are visible;
 		 */
 		float BumpIntensity;
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		uint32_t HasAmbientTexture;
@@ -95,7 +95,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		uint32_t HasDiffuseTexture;
 		uint32_t HasSpecularTexture;
 
-		/*
+		/**
 		 * ---------------------------------- (16 bytes)
 		 */
 		uint32_t HasSpecularPowerTexture;
@@ -103,17 +103,17 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		uint32_t HasBumpTexture;
 		uint32_t HasOpacityTexture;
 
-		/*
+		/**
 		 * Total: (16 * 8 = 128 Bytes)
 		 */
 	};
 
-	/*
+	/**
 	 * clang-format on
 	 */
 	class CEMaterial {
 	public:
-		/*
+		/**
 		 * Texture slots that can be bound to material
 		 */
 		enum class TextureType {
@@ -157,7 +157,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		float GetIndexOfRefraction() const;
 		void SetIndexOfRefraction(float indexOfRefraction);
 
-		/*
+		/**
 		 * When using bump maps, we can adjust "intensity" of normals generated from bump maps.
 		 * We can even inverse normals by using a negative intensity.
 		 * Default bump intensity is 1.0 and a value of 0 will remove bump effect altogether.
@@ -168,7 +168,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		std::shared_ptr<CETexture> GetTexture(TextureType ID) const;
 		void SetTexture(TextureType type, std::shared_ptr<CETexture> texture);
 
-		/*
+		/**
 		 * CEMaterial defines transparent material
 		 * if opacity value is < 1, or there is an opacity map, or diffuse texture has an alpha channel
 		 */
@@ -177,7 +177,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		const MaterialProperties& GetMaterialProperties() const;
 		void SetMaterialProperties(const MaterialProperties& materialProperties);
 
-		/*
+		/**
 		 * PreBuild materials
 		 */
 		static const MaterialProperties Zero;
@@ -218,7 +218,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	protected:
 	private:
 		using TextureMap = std::map<TextureType, std::shared_ptr<CETexture>>;
-		/*
+		/**
 		 * unique pointer with custom allocator/dellocator to ensure alignment.
 		 */
 		using MaterialPropertiesPointer = std::unique_ptr<MaterialProperties, void(*)(MaterialProperties*)>;

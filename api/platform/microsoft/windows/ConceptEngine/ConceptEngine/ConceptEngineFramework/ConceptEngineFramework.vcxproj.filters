@@ -309,6 +309,9 @@
     <ClInclude Include="CEVertexTypes.h">
       <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="CEDX12Libs.h">
+      <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">

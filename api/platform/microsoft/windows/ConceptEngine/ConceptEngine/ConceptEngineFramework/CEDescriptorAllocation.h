@@ -28,40 +28,40 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			return !IsNull();
 		}
 
-		/*
+		/**
 		 * Get descriptor at given offset in the allocation.
 		 */
 		D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptorHandle(uint32_t offset = 0) const;
 
-		/*
+		/**
 		 * Get number of handles for this allocation.
 		 */
 		uint32_t GetNumHandles() const;
 
-		/*
+		/**
 		 * Get heap that allocation came from
 		 */
 		std::shared_ptr<CEDescriptorAllocatorPage> GetDescriptorAllocatorPage() const;
 
 	private:
-		/*
+		/**
 		 * Free descriptor back to the heap that came from
 		 */
 		void Free();
 
-		/*
+		/**
 		 * Base Descriptor
 		 */
 		D3D12_CPU_DESCRIPTOR_HANDLE m_descriptor;
-		/*
+		/**
 		 * Number of descriptors in allocation
 		 */
 		uint32_t m_numHandles;
-		/*
+		/**
 		 * offset to next descriptor
 		 */
 		uint32_t m_descriptorSize;
-		/*
+		/**
 		 * pointer to the original page where allocation came from;
 		 */
 		std::shared_ptr<CEDescriptorAllocatorPage> m_page;

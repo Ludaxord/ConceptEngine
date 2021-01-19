@@ -37,6 +37,7 @@
     <ClInclude Include="CEConstantBufferView.h" />
     <ClInclude Include="CEDescriptorAllocator.h" />
     <ClInclude Include="CEDescriptorAllocatorPage.h" />
+    <ClInclude Include="CEDX12Libs.h" />
     <ClInclude Include="CEDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEGenerateMipsPSO.h" />

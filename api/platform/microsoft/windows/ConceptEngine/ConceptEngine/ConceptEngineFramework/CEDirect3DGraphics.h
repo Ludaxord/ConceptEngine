@@ -300,7 +300,7 @@ protected:
 
 
 private:
-	/*
+	/**
 	 * Direct3D Initialization
 	 */
 	void InitDirectX();
@@ -343,7 +343,7 @@ private:
 	void LogAdapters();
 	void LogAdapterOutputs(IDXGIAdapter* adapter);
 	void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
-	/*
+	/**
 	 * Cube Initialization Tools;
 	 */
 	void UpdatePipeline();
@@ -363,7 +363,7 @@ private:
 	                XMFLOAT2 padding = XMFLOAT2(0.5f, 0.0f), XMFLOAT4 color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
 
-	/*
+	/**
 	 * Global variables;
 	 */
 private:
@@ -383,7 +383,7 @@ private:
 	XMFLOAT4X4 mProj = CEMath::Identity4x4();
 	static const int SwapChainBufferCount = 2;
 
-	/*
+	/**
 	 * Variables to create cubes;
 	 */
 private:

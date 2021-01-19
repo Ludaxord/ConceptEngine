@@ -564,7 +564,7 @@ struct CD3DX12_CLEAR_VALUE : public D3D12_CLEAR_VALUE
     {
         Format = format;
         memset(&Color, 0, sizeof(Color));
-        /* Use memcpy to preserve NAN values */
+        /** Use memcpy to preserve NAN values */
         memcpy(&DepthStencil.Depth, &depth, sizeof(depth));
         DepthStencil.Stencil = stencil;
     }
@@ -2560,9 +2560,9 @@ struct ID3DX12PipelineParserCallbacks
     virtual void CachedPSOCb(const D3D12_CACHED_PIPELINE_STATE&) {}
 
     // Error Callbacks
-    virtual void ErrorBadInputParameter(UINT /*ParameterIndex*/) {}
-    virtual void ErrorDuplicateSubobject(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE /*DuplicateType*/) {}
-    virtual void ErrorUnknownSubobject(UINT /*UnknownTypeValue*/) {}
+    virtual void ErrorBadInputParameter(UINT /**ParameterIndex*/) {}
+    virtual void ErrorDuplicateSubobject(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE /**DuplicateType*/) {}
+    virtual void ErrorUnknownSubobject(UINT /**UnknownTypeValue*/) {}
 
     virtual ~ID3DX12PipelineParserCallbacks() = default;
 };

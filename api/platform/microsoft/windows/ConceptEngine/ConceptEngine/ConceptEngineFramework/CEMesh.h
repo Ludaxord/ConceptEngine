@@ -24,13 +24,13 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 		void SetVertexBuffer(uint32_t slotID, const std::shared_ptr<CEVertexBuffer>& vertexBuffer);
 
-		/*
+		/**
 		 * Get number if indices are in index buffer
 		 * if no index buffer is bound to mesh, function returns 0
 		 */
 		size_t GetIndexCount() const;
 
-		/*
+		/**
 		 * Get number of vertices in mesh
 		 * if mesh does not have vertex buffer, function returns 0
 		 */
@@ -39,13 +39,13 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		void SetMaterial(std::shared_ptr<CEMaterial> material);
 		std::shared_ptr<CEMaterial> GetMaterial() const;
 
-		/*
+		/**
 		 * Set AABB bounding volume for geometry in mesh
 		 */
 		void SetAABB(const ::DirectX::BoundingBox& aabb);
 		const ::DirectX::BoundingBox& GetAABB() const;
 
-		/*
+		/**
 		 * Draw mesh to CommandList
 		 *
 		 * @param commandList, command list to draw to.
@@ -54,7 +54,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		 */
 		void Draw(CECommandList& commandList, uint32_t instanceCount = 1, uint32_t startInstance = 0);
 
-		/*
+		/**
 		 * Accept visitor
 		 */
 		void Accept(CEVisitor& visitor);

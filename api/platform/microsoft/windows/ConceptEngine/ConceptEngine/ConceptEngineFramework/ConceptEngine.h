@@ -51,18 +51,18 @@ protected:
 
 
 private:
-	/*
+	/**
 	 * Global engine state variables:
 	 */
 
 	std::atomic_bool isAppRunning_;
 	std::atomic_bool appShouldQuit_;
 
-	/*
+	/**
 	 * Input struct variable
 	 */
 	inline static Input inputs_ = nullptr;
-	/*
+	/**
 	 * Global Engine objects variables:
 	 */
 	inline static Logger static_logger_ = nullptr;

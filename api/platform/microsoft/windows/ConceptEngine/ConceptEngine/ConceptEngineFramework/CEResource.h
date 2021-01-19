@@ -11,14 +11,14 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	class CEResource {
 
 	public:
-		/*
+		/**
 		 * Get device that was used to create resource.
 		 */
 		CEDevice& GetDevice() const {
 			return m_device;
 		}
 
-		/*
+		/**
 		 * Get access to underlying D3D12 resource
 		 */
 		wrl::ComPtr<ID3D12Resource> GetD3D12Resource() const {
@@ -33,7 +33,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			return resDesc;
 		}
 
-		/*
+		/**
 		 * Set name of resource. Useful in debugging
 		 */
 		void SetName(const std::wstring& name);
@@ -42,14 +42,14 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			return m_resourceName;
 		}
 
-		/*
+		/**
 		 * Check if resource format supports a specific feature.
 		 */
 		bool CheckFormatSupport(D3D12_FORMAT_SUPPORT1 formatSupport) const;
 		bool CheckFormatSupport(D3D12_FORMAT_SUPPORT2 formatSupport) const;
 
 	protected:
-		/*
+		/**
 		 * Resource creation should go through device
 		 */
 		CEResource(CEDevice& device, const D3D12_RESOURCE_DESC& resourceDesc,
@@ -58,12 +58,12 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		                  const D3D12_CLEAR_VALUE* clearValue = nullptr);
 		virtual ~CEResource() = default;
 
-		/*
+		/**
 		 * Device that is used to create resource
 		 */
 		CEDevice& m_device;
 
-		/*
+		/**
 		 * Underlying D3D12 Resource;
 		 */
 		wrl::ComPtr<ID3D12Resource> m_resource;
@@ -72,7 +72,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		std::wstring m_resourceName;
 
 	private:
-		/*
+		/**
 		 * Check format support and populate m_formatSupport Struct
 		 */
 		void CheckFeatureSupport();

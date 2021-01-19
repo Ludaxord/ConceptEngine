@@ -12,8 +12,8 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CEDescriptorAllocator {
-
-		/*
+	public:
+		/**
 		 * Allocate number of contiguous descriptors from a CPU visible descriptor heap.
 		 *
 		 * @param numDescriptors, number of contiguous descriptors to allocate.
@@ -21,7 +21,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		 */
 		CEDescriptorAllocation Allocate(uint32_t numDescriptors = 1);
 
-		/*
+		/**
 		 * When frame has completed, stale descriptors can be released.
 		 */
 		void ReleaseStaleDescriptors();
@@ -30,18 +30,18 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		friend class std::default_delete<CEDescriptorAllocator>;
 
 		CEDescriptorAllocator(CEDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE type,
-		                             uint32_t numDescriptorsPerHeap = 256);
+		                      uint32_t numDescriptorsPerHeap = 256);
 		virtual ~CEDescriptorAllocator();
 
 	private:
 		using DescriptorHeapPool = std::vector<std::shared_ptr<CEDescriptorAllocatorPage>>;
 
-		/*
+		/**
 		 * Create new heap with specific number of descriptors
 		 */
 		std::shared_ptr<CEDescriptorAllocatorPage> CreateAllocatorPage();
 
-		/*
+		/**
 		 * Device that was use to create DescriptorAllocator.
 		 */
 		CEDevice& m_device;
@@ -49,7 +49,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		uint32_t m_numDescriptorsPerHeap;
 
 		DescriptorHeapPool m_heapPool;
-		/*
+		/**
 		 * Indices of available heaps in heap pool;
 		 */
 		std::set<size_t> m_availableHeaps;

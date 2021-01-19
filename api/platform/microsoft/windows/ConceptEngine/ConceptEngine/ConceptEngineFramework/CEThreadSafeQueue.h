@@ -10,23 +10,23 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		CEThreadSafeQueue();
 		CEThreadSafeQueue(const CEThreadSafeQueue& copy);
 
-		/*
+		/**
 		 * Push value into back of queue
 		 */
 		void Push(T value);
 
-		/*
+		/**
 		 * Try to pop value from front of the queue
 		 * @return false if queue is empty
 		 */
 		bool TryPop(T& value);
 
-		/*
+		/**
 		 * Check to se e if there are any items in queue;
 		 */
 		bool Empty() const;
 
-		/*
+		/**
 		 * Retrieve number of items in the queue;
 		 */
 		size_t Size() const;

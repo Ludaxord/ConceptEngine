@@ -16,12 +16,12 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	class CECommandQueue {
 	public:
-		/*
+		/**
 		 * Command List available for Command Queue
 		 */
 		std::shared_ptr<CECommandList> GetCommandList();
 
-		/*
+		/**
 		 * Execute command list;
 		 * Returns fence value to wait for command list
 		 */
@@ -33,7 +33,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		void WaitForFenceValue(uint64_t fenceValue);
 		void Flush();
 
-		/*
+		/**
 		 * Wait for another commandQueue to finish work;
 		 */
 		void Wait(const CECommandQueue& commandQueue);
@@ -47,12 +47,12 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		virtual ~CECommandQueue();
 
 	private:
-		/*
+		/**
 		 * Free command list that are finished processing on the command queue
 		 */
 		void ProcessCommandLists();
 
-		/*
+		/**
 		 * Keep track of command allocators that are in use,
 		 * first member is fence value to wait for,
 		 * second is shared pointer to used command list;

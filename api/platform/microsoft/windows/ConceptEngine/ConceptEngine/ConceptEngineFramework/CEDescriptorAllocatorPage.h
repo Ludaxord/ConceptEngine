@@ -18,28 +18,28 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	public:
 		D3D12_DESCRIPTOR_HEAP_TYPE GetHeapType() const;
 
-		/*
+		/**
 		 * Check if descriptor page has block of descriptors
 		 */
 		bool HasSpace(uint32_t numDescriptors) const;
 
-		/*
+		/**
 		 * Get number of available handles in the heap
 		 */
 		uint32_t NumFreeHandles() const;
 
-		/*
+		/**
 		 * Allocate number of descriptors from descriptor heap
 		 * If allocation cannot be satisfied (there is not enough space) then descriptor is set to NULL
 		 */
 		CEDescriptorAllocation Allocate(uint32_t numDescriptors);
 
-		/*
+		/**
 		 * Return a descriptor back to heap.
 		 */
 		void Free(CEDescriptorAllocation&& descriptorHandle);
 
-		/*
+		/**
 		 * Returned stale descriptor back to the descriptor heap
 		 */
 		void ReleaseStaleDescriptors();
@@ -49,39 +49,39 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		                                 uint32_t numDescriptors);
 		virtual ~CEDescriptorAllocatorPage() = default;
 
-		/*
+		/**
 		 * Compute offset of descriptor handle from the starto of the heap
 		 */
 		uint32_t ComputeOffset(D3D12_CPU_DESCRIPTOR_HANDLE handle);
 
-		/*
+		/**
 		 * Add new block to the free list
 		 */
 		void AddNewBlock(uint32_t offset, uint32_t numDescriptors);
 
-		/*
+		/**
 		 * Free block of descriptors
 		 * Merge free blocks to form larger blocks
 		 */
 		void FreeBlock(uint32_t offset, uint32_t numDescriptors);
 
 	private:
-		/*
+		/**
 		 * Offset type (in descriptors) within the descriptor heap
 		 */
 		using OffsetType = uint32_t;
-		/*
+		/**
 		 * Number type of descriptors that are available
 		 */
 		using SizeType = uint32_t;
 
 		struct FreeBlockInfo;
-		/*
+		/**
 		 * Map of free blocks by the offset within the descriptor heap
 		 */
 		using FreeListByOffset = std::map<OffsetType, FreeBlockInfo>;
 
-		/*
+		/**
 		 * Map of free block by size;
 		 * Multimap because blocks can have same size;
 		 */
@@ -106,7 +106,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 		CEDevice& m_device;
 
-		/*
+		/**
 		 * Stale descriptors are queued for release until frame that they were freed has completed;
 		 */
 		using StaleDescriptorQueue = std::queue<StaleDescriptorInfo>;

@@ -8,14 +8,14 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	class CEStructuredBuffer : public CEBuffer {
 	public:
-		/*
+		/**
 		 * Get number of elements contained in buffer;
 		 */
 		virtual size_t GetNumElements() const {
 			return m_numElements;
 		}
 
-		/*
+		/**
 		 * Get size in bytes of each element in buffer;
 		 */
 		virtual size_t GetElementSize() const {
@@ -36,7 +36,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		size_t m_numElements;
 		size_t m_elementSize;
 
-		/*
+		/**
 		 * Buffer store internal counter for structured buffer
 		 */
 		std::shared_ptr<CEByteAddressBuffer> m_counterBuffer;

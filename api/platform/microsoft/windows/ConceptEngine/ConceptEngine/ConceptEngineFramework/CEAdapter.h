@@ -13,7 +13,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	class CEAdapter {
 	public:
-		/*
+		/**
 		 * Get list of compatible hardware adapters sorted by GPU performance;
 		 *
 		 * @param gpuPreference - gpu preference to sort returned adapters;
@@ -21,7 +21,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		static AdapterList GetAdapters(
 			DXGI_GPU_PREFERENCE gpuPreference = DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE);
 
-		/*
+		/**
 		 * Create GPU Adapter
 		 * @param gpuPreference by default: High Performance GPU
 		 * @param iseWarp, if true create WARP adapter.
@@ -31,20 +31,20 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		static std::shared_ptr<CEAdapter> Create(
 			DXGI_GPU_PREFERENCE gpuPreference = DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, bool useWarp = false);
 
-		/*
+		/**
 		 * Get IDXGIAdapter
 		 */
 		wrl::ComPtr<IDXGIAdapter4> GetDXGIAdapter() const {
 			return m_dxgiAdapter;
 		};
 
-		/*
+		/**
 		 * Get adapter Description;
 		 */
 		const std::wstring GetDescription() const;
 
 	protected:
-		/*
+		/**
 		* Create Default Constructors/Destructors
 		*/
 		CEAdapter(wrl::ComPtr<IDXGIAdapter4> dxgiAdapter);

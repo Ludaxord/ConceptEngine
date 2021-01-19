@@ -9,7 +9,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	class CEIndexBuffer : public CEBuffer {
 	public:
-		/*
+		/**
 		 * Get index buffer view for biding to the Input Assembler stage.
 		 */
 		D3D12_INDEX_BUFFER_VIEW GetIndexBufferView() const {

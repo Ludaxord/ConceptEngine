@@ -30,13 +30,13 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			m_rootNode = node;
 		}
 
-		/*
+		/**
 		 * Get AABB of scene
 		 * returns AABB of root node of scene.
 		 */
 		::DirectX::BoundingBox GetAABB() const;
 
-		/*
+		/**
 		 * Accept visitor.
 		 * This will visit scene, then will visit root node of scene.
 		 */
@@ -45,13 +45,13 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 	protected:
 		friend class CECommandList;
 
-		/*
+		/**
 		 * Load scene from file
 		 */
 		bool LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
 		                       const std::function<bool(float)>& loadingProgress);
 
-		/*
+		/**
 		 * Load scene from string,
 		 * Scene can be preloaded into a byte array and scan can be loaded from loaded byte array,
 		 * @param scene, byte encoded scene file,

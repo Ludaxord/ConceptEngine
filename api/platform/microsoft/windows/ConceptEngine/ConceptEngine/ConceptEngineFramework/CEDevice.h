@@ -32,54 +32,54 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	class CEDevice {
 	public:
-		/*
+		/**
 		 * Debug Layers are abe to catch possible error while creating or updating scene and display it in console.
 		 */
 		static void EnableDebugLayer();
 		static void ReportLiveObjects();
 
-		/*
+		/**
 		 * Create DirectX 12 Device using DirectX Adapter class,
 		 * if adapter parameter is nullptr then Device will be created base on highest performance adapter.
 		 */
 		static std::shared_ptr<CEDevice> Create(std::shared_ptr<CEAdapter> adapter = nullptr);
 
-		/*
+		/**
 		 * Get adapter description that Device is using.
 		 */
 		std::wstring GetDescription() const;
 
-		/*
+		/**
 		 * Allocate a number of CPU visible descriptors.
 		 */
 		CEDescriptorAllocation AllocateDescriptors(D3D12_DESCRIPTOR_HEAP_TYPE type,
 		                                                  uint32_t numDescriptors = 1);
 
-		/*
+		/**
 		 * Get size of handle increment for given type of descriptor heap;
 		 */
 		UINT GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE type) const {
 			return m_device->GetDescriptorHandleIncrementSize(type);
 		}
 
-		/*
+		/**
 		 * Create Swap Chain using the provided OS window handle;
 		 * TODO: Change backBufferFormat to capable to use RayTracing, Candidate: DXGI_FORMAT_B8G8R8A8_UNORM
 		 */
 		std::shared_ptr<CESwapChain> CreateSwapChain(
 			HWND hWnd, DXGI_FORMAT backBufferFormat = DXGI_FORMAT_R10G10B10A2_UNORM);
 
-		/*
+		/**
 		 * Create GUI object;
 		 */
 		std::shared_ptr<CEGUI> CreateGUI(HWND hWnd, const CERenderTarget& renderTarget);
 
-		/*
+		/**
 		 * Create Constant Buffer from passed resource;
 		 */
 		std::shared_ptr<CEConstantBuffer> CreateConstantBuffer(wrl::ComPtr<ID3D12Resource> resource);
 
-		/*
+		/**
 		 * Create Byte Address Buffer resource
 		 * @param resDesc = description of resource;
 		 */
@@ -87,7 +87,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEByteAddressBuffer> CreateByteAddressBuffer(
 			wrl::ComPtr<ID3D12Resource> resource);
 
-		/*
+		/**
 		 * Create Structured buffer resource;
 		 */
 		std::shared_ptr<CEStructuredBuffer> CreateStructuredBuffer(
@@ -95,7 +95,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEStructuredBuffer> CreateStructuredBuffer(wrl::ComPtr<ID3D12Resource> resource,
 		                                                                  size_t numElements, size_t elementSize);
 
-		/*
+		/**
 		 * Create Texture resource;
 		 *
 		 * @param ResourceDesc = description of texture to create;
@@ -107,7 +107,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		std::shared_ptr<CETexture> CreateTexture(wrl::ComPtr<ID3D12Resource> resource,
 		                                                const D3D12_CLEAR_VALUE* clearValue = nullptr);
 
-		/*
+		/**
 		 * Create Index Buffer resource;
 		 */
 		std::shared_ptr<CEIndexBuffer> CreateIndexBuffer(size_t numIndicies, DXGI_FORMAT indexFormat);
@@ -115,7 +115,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		                                                        size_t numIndicies,
 		                                                        DXGI_FORMAT indexFormat);
 
-		/*
+		/**
 		 * Create Vertex Buffer resource;
 		 */
 		std::shared_ptr<CEVertexBuffer> CreateVertexBuffer(size_t numVertices, size_t vertexStride);
@@ -123,13 +123,13 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			wrl::ComPtr<ID3D12Resource> resource, size_t numVertices,
 			size_t vertexStride);
 
-		/*
+		/**
 		 * Create Root Signature
 		 */
 		std::shared_ptr<CERootSignature> CreateRootSignature(
 			const D3D12_ROOT_SIGNATURE_DESC1& rootSignature);
 
-		/*
+		/**
 		 * Create Pipeline State Object based on passed template PipelineStateStream
 		 */
 		template <class PipelineStateStream>
@@ -141,19 +141,19 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			return MakePipelineStateObject(pipelineStateStreamDesc);
 		}
 
-		/*
+		/**
 		 * Create Constant Buffer View
 		 */
 		std::shared_ptr<CEConstantBufferView> CreateConstantBufferView(
 			const std::shared_ptr<CEConstantBuffer>& constantBuffer, size_t offset = 0);
 
-		/*
+		/**
 		 * Create Shader Resource View
 		 */
 		std::shared_ptr<CEShaderResourceView> CreateShaderResourceView(
 			const std::shared_ptr<CEResource>& resource,
 			const D3D12_SHADER_RESOURCE_VIEW_DESC* srv = nullptr);
-		/*
+		/**
 		 * Create Unordered Access View
 		 */
 		std::shared_ptr<CEUnorderedAccessView> CreateUnorderedAccessView(
@@ -161,24 +161,24 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			const std::shared_ptr<CEResource> counterResource = nullptr,
 			const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav = nullptr);
 
-		/*
+		/**
 		 * Flush all command Queues;
 		 */
 		void Flush();
 
-		/*
+		/**
 		 * Release State descriptors, function should be called when frame counter is completed;
 		 */
 		void ReleaseStaleDescriptors();
 
-		/*
+		/**
 		 * Get adapter that was used to create device;
 		 */
 		std::shared_ptr<CEAdapter> GetAdapter() const {
 			return m_adapter;
 		}
 
-		/*
+		/**
 		 * Get Command Queue
 		 * Command Queue Types:
 		 * - D3D12_COMMAND_LIST_TYPE_DIRECT: Can be used to draw, dispatch or copy commands;
@@ -202,12 +202,12 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 			                                             D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE) const;
 
 	protected:
-		/*
+		/**
 		* Default Constructors/Destructors
 		*/
 		explicit CEDevice(std::shared_ptr<CEAdapter> adapter);
 		virtual ~CEDevice();
-		/*
+		/**
 		 * Make Pipeline State Object
 		 */
 		std::shared_ptr<CEPipelineStateObject> MakePipelineStateObject(
@@ -225,5 +225,6 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 		std::shared_ptr<CEAdapter> m_adapter;
 		D3D_ROOT_SIGNATURE_VERSION m_highestRootSignatureVersion;
+		D3D12_RAYTRACING_TIER m_highestRayTracingTier;
 	};
 }

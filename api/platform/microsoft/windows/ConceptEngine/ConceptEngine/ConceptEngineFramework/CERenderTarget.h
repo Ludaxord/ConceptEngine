@@ -24,7 +24,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	class CERenderTarget {
 	public:
-		/*
+		/**
 		 * Create enpty render target;
 		 */
 		CERenderTarget();
@@ -32,7 +32,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		CERenderTarget(const CERenderTarget& copy) = default;
 		CERenderTarget(CERenderTarget&& copy) = default;
 
-		/*
+		/**
 		 * Attach texture to given attachment point.
 		 *
 		 * @param [attachmentPoint], point to attach texture to,
@@ -41,7 +41,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		void AttachTexture(AttachmentPoint attachmentPoint, std::shared_ptr<CETexture> texture);
 		std::shared_ptr<CETexture> GetTexture(AttachmentPoint attachmentPoint) const;
 
-		/*
+		/**
 		 * Resize all textures associated with render target;
 		 */
 		void Resize(::DirectX::XMUINT2 size);
@@ -50,7 +50,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		uint32_t GetWidth() const;
 		uint32_t GetHeight() const;
 
-		/*
+		/**
 		 * Get viewPort for render target,
 		 * scale and bias parameters can be used to specify a split-screen,
 		 * viewport (bias parameter is normalized in range [0...1]).
@@ -61,31 +61,31 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		                           float minDepth = 0.0f, float maxDepth = 1.0f
 		) const;
 
-		/*
+		/**
 		 * Get list of textures attached to render target;
 		 * Method is primarily used by CommandList when binding
 		 * render target to output merger stage of rendering pipeline
 		 */
 		const std::vector<std::shared_ptr<CETexture>>& GetTextures() const;
 
-		/*
+		/**
 		 * Get render target formats of textures currently
 		 * attached to this render target object.
 		 * is should be used to configure pipeline state object.
 		 */
 		D3D12_RT_FORMAT_ARRAY GetRenderTargetFormats() const;
 
-		/*
+		/**
 		 * Get format of attached depth stencil buffer
 		 */
 		DXGI_FORMAT GetDepthStencilFormat() const;
 
-		/*
+		/**
 		 * Get sample description of render target;
 		 */
 		DXGI_SAMPLE_DESC GetSampleDesc() const;
 
-		/*
+		/**
 		 * Reset all textures
 		 */
 		void Reset() {

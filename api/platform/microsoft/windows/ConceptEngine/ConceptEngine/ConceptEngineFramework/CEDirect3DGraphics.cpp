@@ -260,7 +260,7 @@ void CEDirect3DGraphics::OnMouseWheel() {
 void CEDirect3DGraphics::OnWindowDestroy() {
 }
 
-/*
+/**
  * DirectX 12 Initializers
  */
 
@@ -349,7 +349,7 @@ void CEDirect3DGraphics::LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT 
 	}
 }
 
-/*
+/**
  * Cubes
  */
 bool CEDirect3DGraphics::InitCubes() {

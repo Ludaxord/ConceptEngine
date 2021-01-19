@@ -35,7 +35,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		D3D12_ROOT_SIGNATURE_DESC1 m_rootSignatureDesc;
 		wrl::ComPtr<ID3D12RootSignature> m_rootSignature;
 
-		/*
+		/**
 		 * Need to know number of descriptor per descriptor table.
 		 * maximum of 32 descriptor tables are supported
 		 * (since 32-bit mask is used to represent descriptor tables in root signature)
@@ -43,12 +43,12 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		static const int m_descriptorTablesMask = 32;
 		uint32_t m_numDescriptorsPerTable[m_descriptorTablesMask];
 
-		/*
+		/**
 		 * bit mask that represents root parameter indices that are descrptor tables for samplers;
 		 */
 		uint32_t m_samplerTableBitMask;
 
-		/*
+		/**
 		 * bit mask that represent root parameter indices that are CBV, UAV and SRV descriptor tables.
 		 */
 		uint32_t m_descriptorTableBitMask;

@@ -67,7 +67,7 @@ public:
 	}
 
 private:
-	/*
+	/**
 	 * Gainput variables:
 	 */
 	gainput::InputManager inputManager_;
