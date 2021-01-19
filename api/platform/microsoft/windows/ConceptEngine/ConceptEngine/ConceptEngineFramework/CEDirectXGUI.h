@@ -3,7 +3,7 @@
 #include <memory>
 #include <wrl.h>
 
-namespace ConceptEngine::GraphicsEngine::DirectX {
+namespace ConceptEngine::GraphicsEngine::Direct3D12 {
 	class CEDirectXPipelineStateObject;
 	class CEDirectXRootSignature;
 	class CEDirectXShaderResourceView;

@@ -8,7 +8,7 @@
 
 #include "d3dx12.h"
 
-namespace ConceptEngine::GraphicsEngine::DirectX {
+namespace ConceptEngine::GraphicsEngine::Direct3D12 {
 	class CEDirectXRootSignature;
 	class CEDirectXCommandList;
 	class CEDirectXDevice;

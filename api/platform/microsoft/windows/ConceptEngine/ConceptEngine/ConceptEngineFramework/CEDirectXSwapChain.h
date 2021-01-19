@@ -7,7 +7,7 @@
 
 #include "CEDirectXRenderTarget.h"
 
-namespace ConceptEngine::GraphicsEngine::DirectX {
+namespace ConceptEngine::GraphicsEngine::Direct3D12 {
 	class CEDirectXCommandQueue;
 	class CEDirectXDevice;
 	class CEDirectXTexture;

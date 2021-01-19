@@ -10,7 +10,7 @@
 #include "CEDirectXDescriptorAllocation.h"
 #include "d3dx12.h"
 
-namespace ConceptEngine::GraphicsEngine::DirectX {
+namespace ConceptEngine::GraphicsEngine::Direct3D12 {
 	namespace wrl = Microsoft::WRL;
 	class CEDirectXDevice;
 

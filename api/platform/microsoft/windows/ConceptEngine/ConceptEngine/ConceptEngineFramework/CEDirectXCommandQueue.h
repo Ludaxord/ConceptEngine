@@ -9,7 +9,7 @@
 
 #include "CEDirectXThreadSafeQueue.h"
 
-namespace ConceptEngine::GraphicsEngine::DirectX {
+namespace ConceptEngine::GraphicsEngine::Direct3D12 {
 	class CEDirectXDevice;
 	class CEDirectXCommandList;
 	namespace wrl = Microsoft::WRL;

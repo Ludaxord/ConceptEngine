@@ -5,7 +5,7 @@
 
 #include "CEDirectXDescriptorAllocation.h"
 
-namespace ConceptEngine::GraphicsEngine::DirectX {
+namespace ConceptEngine::GraphicsEngine::Direct3D12 {
 	class CEDirectXDevice;
 	class CEDirectXConstantBuffer;
 	namespace wrl = Microsoft::WRL;
