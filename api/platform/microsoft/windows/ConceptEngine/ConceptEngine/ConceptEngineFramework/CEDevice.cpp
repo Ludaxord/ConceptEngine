@@ -2,13 +2,24 @@
 
 
 #include "CEAdapter.h"
+#include "CEByteAddressBuffer.h"
 #include "CECommandQueue.h"
+#include "CEConstantBuffer.h"
+#include "CEConstantBufferView.h"
 #include "CEDescriptorAllocator.h"
 #include "CEDX12Libs.h"
 #include "CEGUI.h"
 
 #include "CEHelper.h"
+#include "CEIndexBuffer.h"
+#include "CEPipelineStateObject.h"
+#include "CERootSignature.h"
+#include "CEShaderResourceView.h"
+#include "CEStructuredBuffer.h"
 #include "CESwapChain.h"
+#include "CETexture.h"
+#include "CEUnorderedAccessView.h"
+#include "CEVertexBuffer.h"
 using namespace ConceptEngine::GraphicsEngine::Direct3D;
 
 #pragma region Adapters for shared pointers
@@ -65,6 +76,164 @@ public:
 	}
 
 	virtual ~CEGUIInstance() {
+
+	}
+};
+
+class CEByteAddressBufferInstance : public CEByteAddressBuffer {
+
+public:
+	CEByteAddressBufferInstance(CEDevice& device, const D3D12_RESOURCE_DESC& resDesc)
+		: CEByteAddressBuffer(device, resDesc) {
+	}
+
+	CEByteAddressBufferInstance(CEDevice& device, const wrl::ComPtr<ID3D12Resource>& resource)
+		: CEByteAddressBuffer(device, resource) {
+	}
+
+	virtual ~CEByteAddressBufferInstance() {
+
+	}
+};
+
+class CEConstantBufferInstance : public CEConstantBuffer {
+
+public:
+	CEConstantBufferInstance(CEDevice& device, const wrl::ComPtr<ID3D12Resource>& resource)
+		: CEConstantBuffer(device, resource) {
+	}
+
+	virtual ~CEConstantBufferInstance() {
+
+	}
+};
+
+class CEIndexBufferInstance : public CEIndexBuffer {
+
+public:
+	CEIndexBufferInstance(CEDevice& device, size_t numIndices, DXGI_FORMAT indexFormat)
+		: CEIndexBuffer(device, numIndices, indexFormat) {
+	}
+
+	CEIndexBufferInstance(CEDevice& device, const wrl::ComPtr<ID3D12Resource>& resource, DXGI_FORMAT indexFormat)
+		: CEIndexBuffer(device, resource, indexFormat) {
+	}
+
+	virtual ~CEIndexBufferInstance() {
+
+	}
+};
+
+class CEVertexBufferInstance : public CEVertexBuffer {
+
+public:
+	CEVertexBufferInstance(CEDevice& device, size_t numVertices, size_t vertexStride)
+		: CEVertexBuffer(device, numVertices, vertexStride) {
+	}
+
+	CEVertexBufferInstance(CEDevice& device, const wrl::ComPtr<ID3D12Resource>& resource, size_t numVertices,
+	                       size_t vertexStride)
+		: CEVertexBuffer(device, resource, numVertices, vertexStride) {
+	}
+
+	virtual ~CEVertexBufferInstance() {
+
+	}
+};
+
+class CEStructuredBufferInstance : public CEStructuredBuffer {
+public:
+	CEStructuredBufferInstance(CEDevice& device, size_t numElements, size_t elementSize)
+		: CEStructuredBuffer(device, numElements, elementSize) {
+	}
+
+	CEStructuredBufferInstance(CEDevice& device, const wrl::ComPtr<ID3D12Resource>& resource, size_t numElements,
+	                           size_t elementSize)
+		: CEStructuredBuffer(device, resource, numElements, elementSize) {
+	}
+
+	virtual ~CEStructuredBufferInstance() {
+
+	}
+};
+
+class CETextureInstance : public CETexture {
+
+public:
+	CETextureInstance(CEDevice& device, const D3D12_RESOURCE_DESC& resourceDesc, D3D12_CLEAR_VALUE* clearValue)
+		: CETexture(device, resourceDesc, clearValue) {
+	}
+
+	CETextureInstance(CEDevice& device, const wrl::ComPtr<ID3D12Resource>& resource,
+	                  const D3D12_CLEAR_VALUE* clearValue)
+		: CETexture(device, resource, clearValue) {
+	}
+
+	virtual ~CETextureInstance() {
+
+	}
+};
+
+class CERootSignatureInstance : public CERootSignature {
+
+public:
+	CERootSignatureInstance(CERootSignature& device, const D3D12_ROOT_SIGNATURE_DESC1& rootSignatureDesc)
+		: CERootSignature(device, rootSignatureDesc) {
+	}
+
+	virtual ~CERootSignatureInstance() {
+
+	}
+};
+
+class CEPipelineStateObjectInstance : public CEPipelineStateObject {
+
+public:
+	CEPipelineStateObjectInstance(CEDevice& device, const D3D12_PIPELINE_STATE_STREAM_DESC& desc)
+		: CEPipelineStateObject(device, desc) {
+	}
+
+	virtual ~CEPipelineStateObjectInstance() {
+
+	}
+};
+
+class CEConstantBufferViewInstance : public CEConstantBufferView {
+
+public:
+	CEConstantBufferViewInstance(CEDevice& device, const std::shared_ptr<CEConstantBuffer>& constantBuffer,
+	                             size_t offset)
+		: CEConstantBufferView(device, constantBuffer, offset) {
+	}
+
+	virtual ~CEConstantBufferViewInstance() {
+
+	}
+};
+
+class CEShaderResourceViewInstance : public CEShaderResourceView {
+
+public:
+	CEShaderResourceViewInstance(CEDevice& device, const std::shared_ptr<CEResource>& resource,
+	                             const D3D12_SHADER_RESOURCE_VIEW_DESC* srv)
+		: CEShaderResourceView(device, resource, srv) {
+	}
+
+	virtual ~CEShaderResourceViewInstance() {
+
+	}
+};
+
+class CEUnorderedAccessViewInstance : public CEUnorderedAccessView {
+
+public:
+	CEUnorderedAccessViewInstance(CEDevice& device, const std::shared_ptr<CEResource>& resource,
+	                              const std::shared_ptr<CEResource>& counterResource,
+	                              const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav)
+		: CEUnorderedAccessView(device, resource, counterResource, uav) {
+	}
+
+	virtual ~CEUnorderedAccessViewInstance() {
 
 	}
 };
