@@ -6,7 +6,7 @@
 #include <magic_enum.hpp>
 
 #include "CEDirect3DGraphics.h"
-#include "CEGUI.h"
+#include "CEImGUI.h"
 #include "CEMetalGraphics.h"
 #include "CEOpenGLGraphics.h"
 #include "CETools.h"
@@ -22,7 +22,7 @@ CEGraphics::CEGraphics(HWND hWnd, CEOSTools::CEGraphicsApiTypes apiType, int wid
 	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
 	m_assetsPath = assetsPath;
 	m_aspectRatio = static_cast<float>(width) / static_cast<float>(height);
-	CEGUI::Create(CEOSTools::CEGUITypes::ImGUI, apiType);
+	CEImGUI::Create(CEOSTools::CEGUITypes::ImGUI, apiType);
 }
 
 std::wstring CEGraphics::ExePath() {

@@ -1,56 +1,58 @@
 #pragma once
-#include <wrl.h>
-#include <d3d12.h>
-
-/*
- * ImGUI
- */
+#include <imgui.h>
 #include <memory>
+#include <wrl.h>
 
-#include "imgui.h"
-#include "imgui_impl_win32.h"
-#include "imgui_impl_dx12.h"
+namespace ConceptEngine::GraphicsEngine::Direct3D {
+	class CEPipelineStateObject;
+	class CERootSignature;
+	class CEShaderResourceView;
+	class CETexture;
+	class CEDevice;
+	class CERenderTarget;
+	class CECommandList;
+	namespace wrl = Microsoft::WRL;
 
-#include "CEOSTools.h"
+	class CEGUI {
 
-namespace wrl = Microsoft::WRL;
-using CEGraphicsApiType = CEOSTools::CEGraphicsApiTypes;
-using CEGUIType = CEOSTools::CEGUITypes;
+	public:
+		/*
+		 * Window message handler. Need to be called by application to allow ImGui to handle input messages.
+		 */
+		LRESULT WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-class CEGUI {
+		/*
+		 * Begin new ImGui frame. Do this before calling any ImGui functions that modifies ImGui's render context;
+		 */
+		void NewFrame();
 
-public:
-	CEGUI(CEGUIType guiType, CEGraphicsApiType apiType);
-	CEGUI(const CEGUI&) = delete;
-	virtual CEGUI& operator=(const CEGUI&) = delete;
-	virtual ~CEGUI() = default;
+		/*
+		 * Render ImGui to given render target;
+		 */
+		void Render(const std::shared_ptr<CECommandList>& commandList,
+		            const CERenderTarget& renderTarget);
 
-public:
-	static CEGUI* Create(CEGUIType guiType, CEGraphicsApiType apiType);
+		/*
+		 * Destroy ImGui context.
+		 */
+		void Destroy();
 
-public:
-	void InitDirect3D12ImGUI(HWND hWnd,
-	                         ID3D12Device* device,
-	                         ID3D12DescriptorHeap* heap,
-	                         D3D12_CPU_DESCRIPTOR_HANDLE imGuiCPUSrvHandle,
-	                         D3D12_GPU_DESCRIPTOR_HANDLE imGuiGPUSrvHandle,
-	                         int frameCount,
-	                         DXGI_FORMAT format);
+		/*
+		 * Set font scaling for ImGui (this should be called when window DPI scaling changes).
+		 */
+		void SetScaling(float scale);
 
-	void CreateSystemInfoWindow(CEOSTools::CESystemInfo systemInfo);
-	void CreateTopMenu();
-	void CreateSceneEditorWindow();
-	ImVec4 GetBgColor() const;
-	bool showCube1 = true;
-	bool showCube2 = true;
-	bool drawFPSCounter = true;
-private:
-	ImGuiContext* context;
-	CEGUIType guiType_;
-	CEGraphicsApiType apiType_;
+	protected:
+		CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget);
+		virtual ~CEGUI();
 
-	bool systemInfoWindow = true;
-	bool sceneEditorWindow = true;
-	ImVec4 bgColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-};
+	private:
+		CEDevice& m_device;
+		HWND m_hWnd;
+		ImGuiContext* m_ImGuiContext;
+		std::shared_ptr<CETexture> m_fontTexture;
+		std::shared_ptr<CEShaderResourceView> m_fontSRV;
+		std::shared_ptr<CERootSignature> m_rootSignature;
+		std::shared_ptr<CEPipelineStateObject> m_pipelineState;
+	};
+}

@@ -4,7 +4,7 @@
 #include <complex>
 
 
-#include "CEGUI.h"
+#include "CEImGUI.h"
 #include "CEOSTools.h"
 
 class CEGraphics {

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <magic_enum.hpp>
 
-#include "CEGUI.h"
+#include "CEImGUI.h"
 #include "CEHelper.h"
 #include "CETools.h"
 #include "CEWindow.h"
@@ -1849,8 +1849,8 @@ void CEDirect3DGraphics::RenderText(Font font, std::wstring text, XMFLOAT2 pos, 
 }
 
 void CEDirect3DGraphics::InitImGui() {
-	const auto gui = CEGUI::Create(CEOSTools::CEGUITypes::ImGUI, graphicsApiType);
-	std::unique_ptr<CEGUI> guiInstance(gui);
+	const auto gui = CEImGUI::Create(CEOSTools::CEGUITypes::ImGUI, graphicsApiType);
+	std::unique_ptr<CEImGUI> guiInstance(gui);
 	m_Gui = std::move(guiInstance);
 
 	auto imGuiSrvHandleSize = m_device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);

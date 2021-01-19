@@ -370,7 +370,7 @@ private:
 	DXGI_ADAPTER_DESC adapterDescription_;
 	// create an instance of timer
 	Timer timer;
-	std::unique_ptr<CEGUI> m_Gui;
+	std::unique_ptr<CEImGUI> m_Gui;
 	CEOSTools::CESystemInfo systemInfo_;
 	float mTheta = 1.5f * XM_PI;
 	float mPhi = XM_PIDIV4;
