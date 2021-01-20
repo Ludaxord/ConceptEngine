@@ -50,7 +50,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Free command list that are finished processing on the command queue
 		 */
-		void ProcessCommandLists();
+		void ProcessInUseCommandLists();
 
 		/**
 		 * Keep track of command allocators that are in use,

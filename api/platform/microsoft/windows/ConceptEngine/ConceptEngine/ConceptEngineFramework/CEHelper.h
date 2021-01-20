@@ -29,6 +29,50 @@ inline void GetDesktopResolution(int& horizontal, int& vertical) {
 }
 
 /*
+ * Set the name of an std::thread.
+ * Useful for debugging.
+ */
+const DWORD MS_VC_EXCEPTION = 0x406D1388;
+
+/*
+ * Set name of running thread
+ */
+#pragma pack(push, 8)
+typedef struct tagTHREAADNAME_INFO {
+	/*
+	 * Must be 0x1000
+	 */
+	DWORD dwType;
+	/*
+	 * Pointer to name
+	 */
+	LPCSTR szName;
+	/*
+	 * Thread ID
+	 */
+	DWORD dwThreadID;
+	/*
+	 * Reserver for future use, must be zero.
+	 */
+	DWORD dwFlags;
+} THREADNAME_INFO;
+#pragma pack(pop)
+
+inline void SetThreadName(std::thread& thread, const char* threadName) {
+	THREADNAME_INFO info;
+	info.dwType = 0x1000;
+	info.szName = threadName;
+	info.dwThreadID = ::GetThreadId(reinterpret_cast<HANDLE>(thread.native_handle()));
+	info.dwFlags = 0;
+
+	__try {
+		::RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER) {
+	}
+}
+
+/*
  * 
  */
 
