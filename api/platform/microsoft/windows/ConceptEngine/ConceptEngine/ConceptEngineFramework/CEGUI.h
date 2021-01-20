@@ -3,7 +3,7 @@
 #include <memory>
 #include <wrl.h>
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEPipelineStateObject;
 	class CERootSignature;
 	class CEShaderResourceView;

@@ -7,7 +7,7 @@
 
 #include "CERenderTarget.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CECommandQueue;
 	class CEDevice;
 	class CETexture;

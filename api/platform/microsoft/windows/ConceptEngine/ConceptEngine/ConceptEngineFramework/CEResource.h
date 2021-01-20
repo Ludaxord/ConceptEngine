@@ -4,7 +4,7 @@
 #include <string>
 #include <wrl.h>
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 	namespace wrl = Microsoft::WRL;
 

@@ -12,7 +12,7 @@ class aiMesh;
 class aiNode;
 class aiScene;
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 	class CEMesh;
 	class CEMaterial;

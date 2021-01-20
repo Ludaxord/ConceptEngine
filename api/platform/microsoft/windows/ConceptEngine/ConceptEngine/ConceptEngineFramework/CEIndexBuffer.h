@@ -4,7 +4,7 @@
 
 #include "CEBuffer.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CEIndexBuffer : public CEBuffer {
@@ -26,7 +26,8 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	protected:
 		CEIndexBuffer(CEDevice& device, size_t numIndices, DXGI_FORMAT indexFormat);
-		CEIndexBuffer(CEDevice& device, wrl::ComPtr<ID3D12Resource> resource, DXGI_FORMAT indexFormat);
+		CEIndexBuffer(CEDevice& device, wrl::ComPtr<ID3D12Resource> resource, size_t numIndices,
+		              DXGI_FORMAT indexFormat);
 		virtual ~CEIndexBuffer() = default;
 
 		void CreateIndexBufferView();

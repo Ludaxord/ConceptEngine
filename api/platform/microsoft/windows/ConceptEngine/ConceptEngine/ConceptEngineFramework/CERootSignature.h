@@ -5,7 +5,7 @@
 #include <memory>
 #include <wrl.h>
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 	namespace wrl = Microsoft::WRL;
 
@@ -24,7 +24,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	protected:
 		friend class std::default_delete<CERootSignature>;
-		CERootSignature(CERootSignature& device, const D3D12_ROOT_SIGNATURE_DESC1& rootSignatureDesc);
+		CERootSignature(CEDevice& device, const D3D12_ROOT_SIGNATURE_DESC1& rootSignatureDesc);
 		virtual ~CERootSignature();
 
 	private:

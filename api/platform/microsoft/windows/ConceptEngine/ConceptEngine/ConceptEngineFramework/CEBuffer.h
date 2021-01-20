@@ -4,7 +4,7 @@
 
 #include "CEResource.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CEBuffer : public CEResource {

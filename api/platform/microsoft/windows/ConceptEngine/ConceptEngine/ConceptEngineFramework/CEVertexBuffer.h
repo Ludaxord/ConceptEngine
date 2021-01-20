@@ -3,7 +3,7 @@
 
 #include "CEBuffer.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CEVertexBuffer : public CEBuffer {

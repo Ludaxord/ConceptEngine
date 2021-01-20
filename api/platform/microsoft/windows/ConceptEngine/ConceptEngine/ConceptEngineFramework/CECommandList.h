@@ -13,7 +13,7 @@
 
 class CEDirectXBuffer;
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEDirectXPanoToCubemapPSO;
 	class CEDirectXGenerateMipsPSO;
 	class CEResourceStateTracker;

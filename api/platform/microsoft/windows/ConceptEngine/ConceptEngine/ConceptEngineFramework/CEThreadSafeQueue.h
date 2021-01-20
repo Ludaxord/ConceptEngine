@@ -2,7 +2,7 @@
 #include <queue>
 #include <wrl.h>
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	template <typename T>

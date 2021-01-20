@@ -6,7 +6,7 @@
 
 #include "CEDescriptorAllocation.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CEGUI;
@@ -127,7 +127,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 		 * Create Root Signature
 		 */
 		std::shared_ptr<CERootSignature> CreateRootSignature(
-			const D3D12_ROOT_SIGNATURE_DESC1& rootSignature);
+			const D3D12_ROOT_SIGNATURE_DESC1& rootSignatureDesc);
 
 		/**
 		 * Create Pipeline State Object based on passed template PipelineStateStream

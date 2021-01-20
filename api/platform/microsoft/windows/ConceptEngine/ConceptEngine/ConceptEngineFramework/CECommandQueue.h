@@ -9,7 +9,7 @@
 
 #include "CEThreadSafeQueue.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 	class CECommandList;
 	namespace wrl = Microsoft::WRL;

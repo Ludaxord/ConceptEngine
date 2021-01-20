@@ -4,7 +4,7 @@
 #include <memory>
 
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CEDescriptorAllocatorPage;
 
 	class CEDescriptorAllocation {

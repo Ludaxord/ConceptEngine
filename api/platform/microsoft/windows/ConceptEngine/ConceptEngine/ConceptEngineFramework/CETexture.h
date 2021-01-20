@@ -4,7 +4,7 @@
 #include "CEDescriptorAllocation.h"
 #include "CEResource.h"
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CETexture : public CEResource {
@@ -81,7 +81,7 @@ namespace ConceptEngine::GraphicsEngine::Direct3D {
 
 	protected:
 		CETexture(CEDevice& device, const D3D12_RESOURCE_DESC& resourceDesc,
-		                 D3D12_CLEAR_VALUE* clearValue = nullptr);
+		                 const D3D12_CLEAR_VALUE* clearValue = nullptr);
 		CETexture(CEDevice& device, wrl::ComPtr<ID3D12Resource> resource,
 		                 const D3D12_CLEAR_VALUE* clearValue = nullptr);
 		virtual ~CETexture();

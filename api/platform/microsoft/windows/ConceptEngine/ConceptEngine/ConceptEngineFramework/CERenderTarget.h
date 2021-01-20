@@ -5,7 +5,7 @@
 #include <vector>
 #include <wrl.h>
 
-namespace ConceptEngine::GraphicsEngine::Direct3D {
+namespace Concept::GraphicsEngine::Direct3D {
 	class CETexture;
 	namespace wrl = Microsoft::WRL;
 
