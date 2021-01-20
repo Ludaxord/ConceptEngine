@@ -10,7 +10,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 	namespace wrl = Microsoft::WRL;
 
-	class CEDirectXUploadBuffer {
+	class CEUploadBuffer {
 	public:
 		/**
 		 * Use to upload data to GPU
@@ -41,12 +41,12 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void Reset();
 
 	protected:
-		friend class std::default_delete<CEDirectXUploadBuffer>;
+		friend class std::default_delete<CEUploadBuffer>;
 
 		/**
 		 * @param pageSize, size to use to allocate new pages in GPU memory.
 		 */
-		explicit CEDirectXUploadBuffer(CEDevice& device, size_t pageSize = _2MB);
+		explicit CEUploadBuffer(CEDevice& device, size_t pageSize = _2MB);
 
 	private:
 		/**

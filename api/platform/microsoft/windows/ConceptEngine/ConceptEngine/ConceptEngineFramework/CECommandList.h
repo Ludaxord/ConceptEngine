@@ -11,13 +11,15 @@
 
 #include "CEVertexTypes.h"
 
-class CEDirectXBuffer;
+class CEBuffer;
 
 namespace Concept::GraphicsEngine::Direct3D {
-	class CEDirectXPanoToCubemapPSO;
-	class CEDirectXGenerateMipsPSO;
+	class CEStructuredBuffer;
+	class CEByteAddressBuffer;
+	class CEPanoToCubemapPSO;
+	class CEGenerateMipsPSO;
 	class CEResourceStateTracker;
-	class CEDirectXUploadBuffer;
+	class CEUploadBuffer;
 	class CERenderTarget;
 	class CEUnorderedAccessView;
 	class CEConstantBufferView;
@@ -82,7 +84,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param [beforeResource] resource that currently occupies heap (can be null)
 		 * @param [afterResource] resource that will occupy space in heap (can be null)
 		 */
-		void AliasingBarrier(const std::shared_ptr<CEResource>& = nullptr,
+		void AliasingBarrier(const std::shared_ptr<CEResource>& beforeResource = nullptr,
 		                     const std::shared_ptr<CEResource>& afterResource = nullptr,
 		                     bool flushBarriers = false);
 		void AliasingBarrier(wrl::ComPtr<ID3D12Resource> beforeResource,
@@ -103,19 +105,67 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Resolve multi-sampled resource into non-multisampled resource.
 		 */
-		void ResolveSubResource(const std::shared_ptr<CEResource>&, const std::shared_ptr<CEResource>&,
+		void ResolveSubResource(const std::shared_ptr<CEResource>& destinationResource,
+		                        const std::shared_ptr<CEResource>& sourceResource,
 		                        uint32_t destinationSubResource = 0, uint32_t sourceSubResource = 0);
 
 		/**
 		 * Copy content to a vertex buffer in GPU Memory;
 		 */
 		std::shared_ptr<CEVertexBuffer> CopyVertexBuffer(size_t numVertices, size_t vertexStride,
-		                                                        const void* vertexBufferData);
+		                                                 const void* vertexBufferData);
 
 		template <typename T>
 		std::shared_ptr<CEVertexBuffer> CopyVertexBuffer(const std::vector<T>& vertexBufferData) {
 			return CopyVertexBuffer(vertexBufferData.size(), sizeof(T), vertexBufferData.data());
 		}
+
+		/**
+		 * Copy content to a index buffer in GPU Memory;
+		 */
+		std::shared_ptr<CEIndexBuffer> CopyIndexBuffer(size_t numIndices, DXGI_FORMAT indexFormat,
+		                                               const void* indexBufferData);
+
+		template <typename T>
+		std::shared_ptr<CEIndexBuffer> CopyIndexBuffer(const std::vector<T>& indexBufferData) {
+			assert(sizeof(T) == 2 || sizeof(T) == 4);
+			DXGI_FORMAT indexFormat = (sizeof(T) == 2) ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
+			return CopyIndexBuffer(indexBufferData.size(), indexFormat, indexBufferData.data());
+		}
+
+		/**
+		 * Copy content to a constant buffer in GPU Memory;
+		 */
+		std::shared_ptr<CEConstantBuffer> CopyConstantBuffer(size_t bufferSize,
+		                                                     const void* bufferData);
+
+		template <typename T>
+		std::shared_ptr<CEConstantBuffer> CopyConstantBuffer(const T& bufferData) {
+			return CopyConstantBuffer(sizeof(T), bufferData);
+		}
+
+		/**
+		 * Copy content to a byte address buffer in GPU Memory;
+		 */
+		std::shared_ptr<CEByteAddressBuffer> CopyByteAddressBuffer(size_t bufferSize,
+		                                                           const void* bufferData);
+
+		template <typename T>
+		std::shared_ptr<CEByteAddressBuffer> CopyByteAddressBuffer(const T& bufferData) {
+			return CopyByteAddressBuffer(sizeof(T), &bufferData);
+		}
+
+		/**
+		 * Copy content to a structured buffer in GPU Memory;
+		 */
+		std::shared_ptr<CEStructuredBuffer> CopyStructuredBuffer(size_t numElements, size_t elementSize,
+		                                                         const void* bufferData);
+
+		template <typename T>
+		std::shared_ptr<CEStructuredBuffer> CopyStructuredBuffer(const std::vector<T>& bufferData) {
+			return CopyStructuredBuffer(bufferData.size(), sizeof(T), bufferData.data());
+		}
+
 
 		/**
 		 * Set current primitive topology for rendering pipeline.
@@ -134,8 +184,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param [loadingProgress] optional callback function that can be used to report loading progress
 		 */
 		std::shared_ptr<CEScene> LoadSceneFromFile(const std::wstring& fileName,
-		                                                  const std::function<bool(float)>& loadingProgress =
-			                                                  std::function<bool(float)>());
+		                                           const std::function<bool(float)>& loadingProgress =
+			                                           std::function<bool(float)>());
 		/**
 		 * Load Scene from string.
 		 *
@@ -165,7 +215,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param reverseWinding, whether to reverse winding order of triangles (useful for sydomes)
 		 */
 		std::shared_ptr<CEScene> CreateSphere(float radius = 0.5f, uint32_t tesselation = 16,
-		                                             bool reverseWinding = false);
+		                                      bool reverseWinding = false);
 
 		/**
 		 * Create Cylinder
@@ -176,7 +226,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param reverseWinding, whether to reverse winding order of triangles
 		 */
 		std::shared_ptr<CEScene> CreateCylinder(float radius = 0.5f, float height = 1.0f,
-		                                               uint32_t tessellation = 32, bool reverseWinding = false);
+		                                        uint32_t tessellation = 32, bool reverseWinding = false);
 
 		/**
 		 * Create Cone
@@ -187,7 +237,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param reverseWinding, Whether to reverse winding order of triangles.
 		 */
 		std::shared_ptr<CEScene> CreateCone(float radius = 0.5f, float height = 1.0f, uint32_t tessellation = 32,
-		                                           bool reverseWinding = false);
+		                                    bool reverseWinding = false);
 
 		/**
 		 * Create Quad
@@ -214,7 +264,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param reverseWinding, reverse winding order of vertices.
 		 */
 		std::shared_ptr<CEScene> CreateTorus(float radius = 0.5f, float thickness = 0.333f,
-		                                            uint32_t tessellation = 32, bool reverseWinding = false);
+		                                     uint32_t tessellation = 32, bool reverseWinding = false);
 
 		/**
 		 * Create Plane
@@ -224,7 +274,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param reverseWinding whether to reverse winding order of plane.
 		 */
 		std::shared_ptr<CEScene> CreatePlane(float width = 1.0f, float height = 1.0f,
-		                                            bool reverseWinding = false);
+		                                     bool reverseWinding = false);
 
 		/**
 		 * Create Car
@@ -234,7 +284,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param reverseWinding whether to reverse winding order of Car.
 		 */
 		std::shared_ptr<CEScene> CreateCar(float width = 1.0f, float height = 1.0f,
-		                                          bool reverseWinding = false);
+		                                   bool reverseWinding = false);
 
 		/**
 		 * Clear texture
@@ -258,7 +308,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Generate cubeMap texture from panoramic (EquiRectangular) texture;
 		 */
 		void PanoToCubeMap(const std::shared_ptr<CETexture>& cubeMapTexture,
-		                   const std::shared_ptr<CETexture>* panoTexture);
+		                   const std::shared_ptr<CETexture>& panoTexture);
 
 		/**
 		 * Copy SubResource data to texture;
@@ -285,6 +335,17 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void SetGraphics32BitConstants(uint32_t rootParameterIndex, const T& constants) {
 			static_assert(sizeof(T) % sizeof(uint32_t) == 0, "Size of given type must be a multiple of 4 bytes");
 			SetGraphics32BitConstants(rootParameterIndex, sizeof(T) / sizeof(uint32_t), &constants);
+		}
+
+		/*
+		 * Set of 32-bit constants on compute pipeline
+		 */
+		void SetCompute32BitConstants(uint32_t rootParameterIndex, uint32_t numConstants, const void* constants);
+
+		template <typename T>
+		void SetCompute32BitConstants(uint32_t rootParameterIndex, const T& constants) {
+			static_assert(sizeof(T) % sizeof(uint32_t) == 0, "Size of type must be multiple of 4 bytes");
+			SetCompute32BitConstants(rootParameterIndex, sizeof(T) / sizeof(uint32_t), &constants);
 		}
 
 		/**
@@ -374,7 +435,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 *
 		 * Note: Only Buffer resources can be used with SRV
 		 */
-		void SetShaderResourceView(uint32_t rootParameterIndex, const std::shared_ptr<CEDirectXBuffer>& buffer,
+		void SetShaderResourceView(uint32_t rootParameterIndex, const std::shared_ptr<CEBuffer>& buffer,
 		                           D3D12_RESOURCE_STATES stateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE |
 			                           D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
 		                           uint32_t bufferOffset = 0);
@@ -384,7 +445,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 *
 		 * Note: Only Buffer resources can be used with inline UAV
 		 */
-		void SetUnorderedAccessView(uint32_t rootParameterIndex, const std::shared_ptr<CEDirectXBuffer>& buffer,
+		void SetUnorderedAccessView(uint32_t rootParameterIndex, const std::shared_ptr<CEBuffer>& buffer,
 		                            D3D12_RESOURCE_STATES stateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 		                            size_t bufferOffset = 0);
 
@@ -504,7 +565,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Create a scene that contains single node with a single mesh
 		 */
 		std::shared_ptr<CEScene> CreateScene(const VertexCollection& vertices,
-		                                            const IndexCollection& indices);
+		                                     const IndexCollection& indices);
 
 		/**
 		 * Helper function for flipping winding of geometric primitives for LH vs. RH coordinates.
@@ -584,7 +645,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Resource created in upload heap. Useful for drawing of dynamic geometry or
 		 * for uploading constant buffer data that changes every draw call
 		 */
-		std::unique_ptr<CEDirectXUploadBuffer> m_uploadBuffer;
+		std::unique_ptr<CEUploadBuffer> m_uploadBuffer;
 
 		/**
 		 * Resource state tracker is used by command list to track (per command list)
@@ -608,12 +669,12 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Pipeline state object for mip map generation.
 		 */
-		std::unique_ptr<CEDirectXGenerateMipsPSO> m_generateMipsPSO;
+		std::unique_ptr<CEGenerateMipsPSO> m_generateMipsPSO;
 
 		/**
 		 * Pipeline state object for converting panorama (quirectangular) to cubemaps
 		 */
-		std::unique_ptr<CEDirectXPanoToCubemapPSO> m_panoToCubemapPSO;
+		std::unique_ptr<CEPanoToCubemapPSO> m_panoToCubemapPSO;
 
 		using TrackedObjects = std::vector<wrl::ComPtr<ID3D12Object>>;
 

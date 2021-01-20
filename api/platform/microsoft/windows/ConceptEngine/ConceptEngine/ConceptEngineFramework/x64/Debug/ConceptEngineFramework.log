@@ -1,22 +1,141 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
 cl : command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
-  CEVisitor.cpp
-  CEVertexTypes.cpp
-  CEVertexBuffer.cpp
-  CEUploadBuffer.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44,58): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDirectXUploadBuffer>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDirectXUploadBuffer>'
-  CEUnorderedAccessView.cpp
-  CETexture.cpp
-  CESwapChain.cpp
-  CEStructuredBuffer.cpp
-  CEShaderResourceView.cpp
-  CESceneNode.cpp
-  CEScene.cpp
-  CERootSignature.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CERootSignature.h(26,52): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CERootSignature>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CERootSignature.h(26): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CERootSignature>'
   CEResourceStateTracker.cpp
+  CECommandQueue.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CECommandQueue.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CECommandList.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CECommandList.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>': type name first seen using 'struct' now seen using 'class'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2536,1): error C2027: use of undefined type 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(19): message : see declaration of 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2535): message : while compiling class template member function 'void std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>::operator ()(_Ty *) noexcept const'
+          with
+          [
+              _Ty=Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2647): message : see reference to function template instantiation 'void std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>::operator ()(_Ty *) noexcept const' being compiled
+          with
+          [
+              _Ty=Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2574): message : see reference to class template instantiation 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>' being compiled
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(666): message : see reference to class template instantiation 'std::unique_ptr<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO,std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2536,25): error C2338: can't delete an incomplete type
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2537,1): warning C4150: deletion of pointer to incomplete type 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'; no destructor called
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(19): message : see declaration of 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'
+  Generating Code...
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEResourceStateTracker.cpp(28): error C4716: 'Concept::GraphicsEngine::Direct3D::CEResourceStateTracker::FlushPendingResourceBarriers': must return a value
+  Compiling...
+  CEWindow.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEWindow.cpp : message : see previous definition of 'NOMINMAX'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(68,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+CEWindow.cpp(287): message : see reference to function template instantiation 'std::_Optional_destruct_base<_Ty,true>::_Optional_destruct_base<size_t&>(std::in_place_t,size_t &)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+CEWindow.cpp(287): message : see reference to function template instantiation 'std::_Optional_destruct_base<_Ty,true>::_Optional_destruct_base<size_t&>(std::in_place_t,size_t &)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(185): message : see reference to function template instantiation 'std::_Optional_construct_base<_Ty>::_Optional_construct_base<size_t&>(std::in_place_t,size_t &)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(185): message : see reference to function template instantiation 'std::_Optional_construct_base<_Ty>::_Optional_construct_base<size_t&>(std::in_place_t,size_t &)' being compiled
+          with
+          [
+              _Ty=int
+          ]
+CEWindow.cpp(107): message : see reference to function template instantiation 'std::optional<int>::optional<WPARAM&,0>(_Ty2)' being compiled
+          with
+          [
+              _Ty2=WPARAM &
+          ]
+CEWindow.cpp(107): message : see reference to function template instantiation 'std::optional<int>::optional<WPARAM&,0>(_Ty2)' being compiled
+          with
+          [
+              _Ty2=WPARAM &
+          ]
   CEResource.cpp
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
@@ -43,160 +162,286 @@ C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(35
           ]
 C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
 C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CERenderTarget.cpp
-  CEPipelineStateObject.cpp
-  CEPanoToCubemapPSO.cpp
-  CEMesh.cpp
-  CEMaterial.cpp
-  CEIndexBuffer.cpp
+  CEGraphics.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEGraphics.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+CEGraphics.cpp(58,8): warning C4101: 'buffer': unreferenced local variable
+CEGraphics.cpp(96,18): warning C4244: '=': conversion from 'float' to 'uint32_t', possible loss of data
+CEGraphics.cpp(97,19): warning C4244: '=': conversion from 'float' to 'uint32_t', possible loss of data
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEDirect3DNode.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEDirect3DNode.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEDirect3DGraphics.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEDirect3DGraphics.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(280,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1278,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(1279,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
+CEDirect3DGraphics.cpp(1217,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
+CEDirect3DGraphics.cpp(1338,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1339,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1340,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1359,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1360,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1361,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1606,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1611,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1620,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1624,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1629,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1634,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1645,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1650,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1655,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1660,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1670,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1678,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1687,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1692,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1697,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1702,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1709,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1716,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1721,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1726,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1736,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1745,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1750,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1755,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1756,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+CEDirect3DGraphics.cpp(1907,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1911,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+CEDirect3DGraphics.cpp(1915,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+CEDirect3DGraphics.cpp(278): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+CEDirect3DGraphics.cpp(278): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+  CEDirect3DCube.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEDirect3DCube.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEDevice.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDescriptorAllocator.h(30,58): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDescriptorAllocator>': type name first seen using 'struct' now seen using 'class'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDescriptorAllocator>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEDevice.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CERootSignature.h(26,52): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CERootSignature>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CERootSignature.h(26): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CERootSignature>'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CED3D12Utils.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CED3D12Utils.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEAdapter.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CEAdapter.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
   Generating Code...
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(191): warning C4715: 'CEDirect3DGraphics::OnInit': not all control paths return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(1594): warning C4715: 'CEDirect3DGraphics::GetDXGIFormatBitsPerPixel': not all control paths return a value
   Compiling...
   CEGenerateMipsPSO.cpp
-  CEGUI.cpp
-  CEDynamicDescriptorHeap.cpp
-  CEDescriptorAllocatorPage.cpp
-  CEDescriptorAllocator.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDescriptorAllocator.h(30,58): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDescriptorAllocator>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDescriptorAllocator.h(30): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDescriptorAllocator>'
-  CEDescriptorAllocation.cpp
-  CEConstantBufferView.cpp
-  CEConstantBuffer.cpp
-  CECommandQueue.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
-  CECommandList.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(456,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(456): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
-  CEByteAddressBuffer.cpp
-  CEBuffer.cpp
   Generating Code...
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowShouldClose already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHintString already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWindowHint already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWaitEventsTimeout already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwWaitEvents already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwVulkanSupported already defined in glfw3.lib(vulkan.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwUpdateGamepadMappings already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwTerminate already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSwapInterval already defined in glfw3.lib(context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSwapBuffers already defined in glfw3.lib(context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwShowWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowUserPointer already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowTitle already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowSizeLimits already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowSizeCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowSize already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowShouldClose already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowRefreshCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowPosCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowPos already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowOpacity already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowMonitor already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowMaximizeCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowIconifyCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowIcon already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowFocusCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowContentScaleCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowCloseCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowAttrib already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetWindowAspectRatio already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetTime already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetScrollCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetMouseButtonCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetMonitorUserPointer already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetMonitorCallback already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetKeyCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetJoystickUserPointer already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetJoystickCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetInputMode already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetGammaRamp already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetGamma already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetFramebufferSizeCallback already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetErrorCallback already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetDropCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetCursorPosCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetCursorPos already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetCursorEnterCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetCursor already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetClipboardString already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetCharModsCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwSetCharCallback already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwRestoreWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwRequestWindowAttention already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwRawMouseMotionSupported already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwPostEmptyEvent already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwPollEvents already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwMaximizeWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwMakeContextCurrent already defined in glfw3.lib(context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwJoystickPresent already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwJoystickIsGamepad already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwInitHint already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwInit already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwIconifyWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwHideWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowUserPointer already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowSize already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowPos already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowOpacity already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowMonitor already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowFrameSize already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowContentScale already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWindowAttrib already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWin32Window already defined in glfw3.lib(win32_window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWin32Monitor already defined in glfw3.lib(win32_monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWin32Adapter already defined in glfw3.lib(win32_monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetWGLContext already defined in glfw3.lib(wgl_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetVideoModes already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetVideoMode already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetVersionString already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetVersion already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetTimerValue already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetTimerFrequency already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetTime already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetRequiredInstanceExtensions already defined in glfw3.lib(vulkan.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetProcAddress already defined in glfw3.lib(context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetPrimaryMonitor already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetPhysicalDevicePresentationSupport already defined in glfw3.lib(vulkan.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetOSMesaDepthBuffer already defined in glfw3.lib(osmesa_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetOSMesaContext already defined in glfw3.lib(osmesa_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetOSMesaColorBuffer already defined in glfw3.lib(osmesa_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMouseButton already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitors already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitorWorkarea already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitorUserPointer already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitorPos already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitorPhysicalSize already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitorName already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetMonitorContentScale already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetKeyScancode already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetKeyName already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetKey already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetJoystickUserPointer already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetJoystickName already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetJoystickHats already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetJoystickGUID already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetJoystickButtons already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetJoystickAxes already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetInstanceProcAddress already defined in glfw3.lib(vulkan.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetInputMode already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetGammaRamp already defined in glfw3.lib(monitor.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetGamepadState already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetGamepadName already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetFramebufferSize already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetError already defined in glfw3.lib(init.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetEGLSurface already defined in glfw3.lib(egl_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetEGLDisplay already defined in glfw3.lib(egl_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetEGLContext already defined in glfw3.lib(egl_context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetCursorPos already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetCurrentContext already defined in glfw3.lib(context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwGetClipboardString already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwFocusWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwExtensionSupported already defined in glfw3.lib(context.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwDestroyWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwDestroyCursor already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwDefaultWindowHints already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwCreateWindowSurface already defined in glfw3.lib(vulkan.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwCreateWindow already defined in glfw3.lib(window.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwCreateStandardCursor already defined in glfw3.lib(input.obj); second definition ignored
-glfw3dll.lib(glfw3.dll) : warning LNK4006: glfwCreateCursor already defined in glfw3.lib(input.obj); second definition ignored
-  ConceptEngineFramework.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineFramework.lib
+  Compiling...
+  CEUploadBuffer.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>'
+  Generating Code...

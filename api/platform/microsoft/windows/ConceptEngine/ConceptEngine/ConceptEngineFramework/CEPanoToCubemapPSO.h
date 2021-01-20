@@ -36,33 +36,33 @@ namespace Concept::GraphicsEngine::Direct3D {
 			DstMips,
 			NumRootParameters
 		};
-
-		class CEPanoToCubemapPSO {
-		public:
-			CEPanoToCubemapPSO(CEDevice& device);
-
-			std::shared_ptr<CERootSignature> GetRootSignature() const {
-				return m_rootSignature;
-			}
-
-			std::shared_ptr<CEPipelineStateObject> GetPipelineState() const {
-				return m_pipelineState;
-			}
-
-			D3D12_CPU_DESCRIPTOR_HANDLE GetDefaultUAV() const {
-				return m_defaultUAV.GetDescriptorHandle();
-			}
-
-		private:
-			std::shared_ptr<CERootSignature> m_rootSignature;
-			std::shared_ptr<CEPipelineStateObject> m_pipelineState;
-
-			/**
-			 * Default (no resource) UAV to pad unused UAV descriptors.
-			 * If generating less than 5 mip map levels, unused mip maps
-			 * need to be padded with default UAV.
-			 */
-			CEDescriptorAllocation m_defaultUAV;
-		};
 	}
+
+	class CEPanoToCubemapPSO {
+	public:
+		CEPanoToCubemapPSO(CEDevice& device);
+
+		std::shared_ptr<CERootSignature> GetRootSignature() const {
+			return m_rootSignature;
+		}
+
+		std::shared_ptr<CEPipelineStateObject> GetPipelineState() const {
+			return m_pipelineState;
+		}
+
+		D3D12_CPU_DESCRIPTOR_HANDLE GetDefaultUAV() const {
+			return m_defaultUAV.GetDescriptorHandle();
+		}
+
+	private:
+		std::shared_ptr<CERootSignature> m_rootSignature;
+		std::shared_ptr<CEPipelineStateObject> m_pipelineState;
+
+		/**
+		 * Default (no resource) UAV to pad unused UAV descriptors.
+		 * If generating less than 5 mip map levels, unused mip maps
+		 * need to be padded with default UAV.
+		 */
+		CEDescriptorAllocation m_defaultUAV;
+	};
 }
