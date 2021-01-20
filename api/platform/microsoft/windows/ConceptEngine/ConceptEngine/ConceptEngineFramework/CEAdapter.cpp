@@ -80,11 +80,11 @@ std::shared_ptr<CEAdapter> CEAdapter::Create(DXGI_GPU_PREFERENCE gpuPreference, 
 }
 
 const std::wstring CEAdapter::GetDescription() const {
-	return m_Desc.Description;
+	return m_desc.Description;
 }
 
-CEAdapter::CEAdapter(wrl::ComPtr<IDXGIAdapter4> dxgiAdapter) : m_dxgiAdapter(dxgiAdapter), m_Desc{0} {
+CEAdapter::CEAdapter(wrl::ComPtr<IDXGIAdapter4> dxgiAdapter) : m_dxgiAdapter(dxgiAdapter), m_desc{0} {
 	if (m_dxgiAdapter) {
-		ThrowIfFailed(m_dxgiAdapter->GetDesc3(&m_Desc));
+		ThrowIfFailed(m_dxgiAdapter->GetDesc3(&m_desc));
 	}
 }

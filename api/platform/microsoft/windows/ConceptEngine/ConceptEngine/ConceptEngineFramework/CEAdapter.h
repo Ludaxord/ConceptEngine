@@ -52,7 +52,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 	private:
 		wrl::ComPtr<IDXGIAdapter4> m_dxgiAdapter;
-		DXGI_ADAPTER_DESC3 m_Desc;
+		DXGI_ADAPTER_DESC3 m_desc;
 
 	};
 }
