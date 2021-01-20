@@ -6,12 +6,17 @@
 #include "CEDevice.h"
 #include "CEDynamicDescriptorHeap.h"
 #include "CEHelper.h"
+#include "CEIndexBuffer.h"
+#include "CEMaterial.h"
+#include "CEMesh.h"
 #include "CEPanoToCubemapPSO.h"
 #include "CEResource.h"
 #include "CEResourceStateTracker.h"
 #include "CEScene.h"
+#include "CESceneNode.h"
 #include "CETexture.h"
 #include "CEUploadBuffer.h"
+#include "CEVertexBuffer.h"
 
 
 using namespace Concept::GraphicsEngine::Direct3D;
@@ -578,52 +583,151 @@ void CECommandList::PanoToCubeMap(const std::shared_ptr<CETexture>& cubeMapTextu
 void CECommandList::CopyTextureSubResource(const std::shared_ptr<CETexture>& texture,
                                            uint32_t firstSubResource, uint32_t numSubResources,
                                            D3D12_SUBRESOURCE_DATA* subResourceData) {
+	assert(texture);
+	auto d3d12Device = m_device.GetDevice();
+	auto destinationResource = texture->GetD3D12Resource();
+
+	if (destinationResource) {
+		/*
+		 * Resource must be in copy-destination state
+		 */
+		TransitionBarrier(texture, D3D12_RESOURCE_STATE_COPY_DEST);
+		FlushResourceBarriers();
+
+		UINT64 requiredSize = GetRequiredIntermediateSize(destinationResource.Get(), firstSubResource, numSubResources);
+
+		/*
+		 * Create temporary (intermediate) resource for uploading subResources
+		 */
+		wrl::ComPtr<ID3D12Resource> intermediateResource;
+		ThrowIfFailed(d3d12Device->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(requiredSize),
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&intermediateResource)
+		));
+		UpdateSubresources(m_commandList.Get(),
+		                   destinationResource.Get(),
+		                   intermediateResource.Get(),
+		                   0,
+		                   firstSubResource,
+		                   numSubResources,
+		                   subResourceData);
+
+		TrackResource(intermediateResource);
+		TrackResource(destinationResource);
+	}
 }
 
 void CECommandList::SetGraphicsDynamicConstantBuffer(uint32_t rootParameterIndex, size_t sizeInBytes,
                                                      const void* bufferData) {
+	/*
+	 * Constant buffers must be 256-byte aligned.
+	 */
+	auto heapAllocation = m_uploadBuffer->Allocate(sizeInBytes, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
+	memcpy(heapAllocation.CPU, bufferData, sizeInBytes);
+
+	m_commandList->SetGraphicsRootConstantBufferView(rootParameterIndex, heapAllocation.GPU);
 }
 
 void CECommandList::SetGraphics32BitConstants(uint32_t rootParameterIndex, uint32_t numConstants,
                                               const void* constants) {
+	m_commandList->SetGraphicsRoot32BitConstants(rootParameterIndex, numConstants, constants, 0);
 }
 
 void CECommandList::SetCompute32BitConstants(uint32_t rootParameterIndex, uint32_t numConstants,
                                              const void* constants) {
+	m_commandList->SetComputeRoot32BitConstants(rootParameterIndex, numConstants, constants, 0);
 }
 
 void CECommandList::SetVertexBuffers(uint32_t startSlot,
-                                     const std::vector<std::shared_ptr<CEVertexBuffer>>& vertexBufferViews) {
+                                     const std::vector<std::shared_ptr<CEVertexBuffer>>& vertexBuffers) {
+	std::vector<D3D12_VERTEX_BUFFER_VIEW> views;
+	views.reserve(vertexBuffers.size());
+
+	for (auto vertexBuffer : vertexBuffers) {
+		if (vertexBuffer) {
+			TransitionBarrier(vertexBuffer, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+			TrackResource(vertexBuffer);
+
+			views.push_back(vertexBuffer->GetVertexBufferView());
+		}
+	}
+
+	m_commandList->IASetVertexBuffers(startSlot, views.size(), views.data());
 }
 
-void CECommandList::SetVertexBuffer(uint32_t slot, const std::shared_ptr<CEVertexBuffer>& vertexBufferView) {
+void CECommandList::SetVertexBuffer(uint32_t slot, const std::shared_ptr<CEVertexBuffer>& vertexBuffer) {
+	SetVertexBuffers(slot, {vertexBuffer});
 }
 
 void CECommandList::SetDynamicVertexBuffer(uint32_t slot, size_t numVertices, size_t vertexSize,
                                            const void* vertexBufferData) {
+	size_t bufferSize = numVertices * vertexSize;
+
+	auto heapAllocation = m_uploadBuffer->Allocate(bufferSize, vertexSize);
+	memcpy(heapAllocation.CPU, vertexBufferData, bufferSize);
+
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = {};
+	vertexBufferView.BufferLocation = heapAllocation.GPU;
+	vertexBufferView.SizeInBytes = static_cast<UINT>(bufferSize);
+	vertexBufferView.StrideInBytes = static_cast<UINT>(vertexSize);
+
+	m_commandList->IASetVertexBuffers(slot, 1, &vertexBufferView);
 }
 
 void CECommandList::SetIndexBuffer(const std::shared_ptr<CEIndexBuffer>& indexBuffer) {
+	if (indexBuffer) {
+		TransitionBarrier(indexBuffer, D3D12_RESOURCE_STATE_INDEX_BUFFER);
+		TrackResource(indexBuffer);
+		m_commandList->IASetIndexBuffer(&(indexBuffer->GetIndexBufferView()));
+	}
 }
 
 void CECommandList::SetDynamicIndexBuffer(size_t numIndicates, DXGI_FORMAT indexFormat,
                                           const void* indexBufferData) {
+	size_t indexSizeInBytes = indexFormat == DXGI_FORMAT_R16_UINT ? 2 : 4;
+	size_t bufferSize = numIndicates * indexSizeInBytes;
+
+	auto heapAllocation = m_uploadBuffer->Allocate(bufferSize, indexSizeInBytes);
+	memcpy(heapAllocation.CPU, indexBufferData, bufferSize);
+
+	D3D12_INDEX_BUFFER_VIEW indexBufferView = {};
+	indexBufferView.BufferLocation = heapAllocation.GPU;
+	indexBufferView.SizeInBytes = static_cast<UINT>(bufferSize);
+	indexBufferView.Format = indexFormat;
+
+	m_commandList->IASetIndexBuffer(&indexBufferView);
 }
 
 void CECommandList::SetGraphicsDynamicStructuredBuffer(uint32_t slot, size_t numElements, size_t elementSize,
                                                        const void* bufferData) {
+	size_t bufferSize = numElements * elementSize;
+
+	auto heapAllocation = m_uploadBuffer->Allocate(bufferSize, elementSize);
+	memcpy(heapAllocation.CPU, bufferData, bufferSize);
+
+	m_commandList->SetGraphicsRootShaderResourceView(slot, heapAllocation.GPU);
 }
 
 void CECommandList::SetViewport(const D3D12_VIEWPORT& viewport) {
+	SetViewports({viewport});
 }
 
 void CECommandList::SetViewports(const std::vector<D3D12_VIEWPORT>& viewports) {
+	assert(viewports.size() < D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE);
+	m_commandList->RSSetViewports(static_cast<UINT>(viewports.size()), viewports.data());
 }
 
 void CECommandList::SetScissorRect(const D3D12_RECT& scissorRect) {
+	SetScissorRects({scissorRect});
 }
 
 void CECommandList::SetScissorRects(const std::vector<D3D12_RECT>& scissorRects) {
+	assert(scissorRects.size() < D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE);
+	m_commandList->RSSetScissorRects(static_cast<UINT>(scissorRects.size()), scissorRects.data());
 }
 
 void CECommandList::SetPipelineState(const std::shared_ptr<CEPipelineStateObject>& pipelineState) {
@@ -640,13 +744,11 @@ void CECommandList::SetConstantBufferView(uint32_t rootParameterIndex,
                                           D3D12_RESOURCE_STATES stateAfter, uint32_t bufferOffset) {
 }
 
-void CECommandList::SetShaderResourceView(uint32_t rootParameterIndex,
-                                          const std::shared_ptr<CEBuffer>& buffer,
+void CECommandList::SetShaderResourceView(uint32_t rootParameterIndex, const std::shared_ptr<::CEBuffer>& buffer,
                                           D3D12_RESOURCE_STATES stateAfter, uint32_t bufferOffset) {
 }
 
-void CECommandList::SetUnorderedAccessView(uint32_t rootParameterIndex,
-                                           const std::shared_ptr<CEBuffer>& buffer,
+void CECommandList::SetUnorderedAccessView(uint32_t rootParameterIndex, const std::shared_ptr<::CEBuffer>& buffer,
                                            D3D12_RESOURCE_STATES stateAfter, size_t bufferOffset) {
 }
 
@@ -732,6 +834,29 @@ void CECommandList::SetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, ID3D1
 
 std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vertices,
                                                     const IndexCollection& indices) {
+	if (vertices.empty()) {
+		return nullptr;
+	}
+	auto vertexBuffer = CopyVertexBuffer(vertices);
+	auto indexBuffer = CopyIndexBuffer(indices);
+
+	auto mesh = std::make_shared<CEMesh>();
+	/*
+	 * Create default white material for new mesh
+	 */
+	auto material = std::make_shared<CEMaterial>(CEMaterial::White);
+
+	mesh->SetVertexBuffer(0, vertexBuffer);
+	mesh->SetIndexBuffer(indexBuffer);
+	mesh->SetMaterial(material);
+
+	auto node = std::make_shared<CESceneNode>();
+	node->AddMesh(mesh);
+
+	auto scene = std::make_shared<CEScene>();
+	scene->SetRootNode(node);
+
+	return scene;
 }
 
 void CECommandList::CreateCylinderCap(VertexCollection& vertices, IndexCollection& indices,

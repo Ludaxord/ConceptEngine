@@ -1,11 +1,68 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
 cl : command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
   CEResourceStateTracker.cpp
+  CEGenerateMipsPSO.cpp
+  CECommandList.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(517,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(517): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
+CECommandList.cpp : message : see previous definition of 'NOMINMAX'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEScene.h(10,17): warning C4099: 'aiMaterial': type name first seen using 'struct' now seen using 'class'
+C:\src\vcpkg\installed\x64-windows-static\include\assimp\material.h(660): message : see declaration of 'aiMaterial'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEScene.h(11,13): warning C4099: 'aiMesh': type name first seen using 'struct' now seen using 'class'
+C:\src\vcpkg\installed\x64-windows-static\include\assimp/mesh.h(571): message : see declaration of 'aiMesh'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEScene.h(12,13): warning C4099: 'aiNode': type name first seen using 'struct' now seen using 'class'
+C:\src\vcpkg\installed\x64-windows-static\include\assimp/scene.h(80): message : see declaration of 'aiNode'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEScene.h(13,14): warning C4099: 'aiScene': type name first seen using 'struct' now seen using 'class'
+C:\src\vcpkg\installed\x64-windows-static\include\assimp/scene.h(242): message : see declaration of 'aiScene'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>': type name first seen using 'struct' now seen using 'class'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>'
+CECommandList.cpp(659,73): warning C4267: 'argument': conversion from 'size_t' to 'UINT', possible loss of data
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  Generating Code...
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(173): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CopyStructuredBuffer': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(296): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateCube': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(299): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateSphere': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(303): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateCylinder': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(310): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateQuad': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(307): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateCone': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(313): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateTriangle': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(317): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateTorus': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(320): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreatePlane': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(323): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::CreateCar': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.cpp(821): error C4716: 'Concept::GraphicsEngine::Direct3D::CECommandList::Close': must return a value
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEResourceStateTracker.cpp(28): error C4716: 'Concept::GraphicsEngine::Direct3D::CEResourceStateTracker::FlushPendingResourceBarriers': must return a value
+  Compiling...
+  CEPanoToCubemapPSO.cpp
   CECommandQueue.cpp
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(517,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(517): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
 F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
@@ -31,417 +88,6 @@ C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(35
           ]
 C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
 C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CECommandList.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506,50): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(506): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandList>'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CECommandList.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>': type name first seen using 'struct' now seen using 'class'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>'
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2536,1): error C2027: use of undefined type 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(19): message : see declaration of 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2535): message : while compiling class template member function 'void std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>::operator ()(_Ty *) noexcept const'
-          with
-          [
-              _Ty=Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2647): message : see reference to function template instantiation 'void std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>::operator ()(_Ty *) noexcept const' being compiled
-          with
-          [
-              _Ty=Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2574): message : see reference to class template instantiation 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>' being compiled
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(666): message : see reference to class template instantiation 'std::unique_ptr<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO,std::default_delete<Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO>>' being compiled
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2536,25): error C2338: can't delete an incomplete type
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(2537,1): warning C4150: deletion of pointer to incomplete type 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'; no destructor called
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandList.h(19): message : see declaration of 'Concept::GraphicsEngine::Direct3D::CEPanoToCubemapPSO'
   Generating Code...
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEResourceStateTracker.cpp(28): error C4716: 'Concept::GraphicsEngine::Direct3D::CEResourceStateTracker::FlushPendingResourceBarriers': must return a value
-  Compiling...
-  CEWindow.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEWindow.cpp : message : see previous definition of 'NOMINMAX'
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(68,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-CEWindow.cpp(287): message : see reference to function template instantiation 'std::_Optional_destruct_base<_Ty,true>::_Optional_destruct_base<size_t&>(std::in_place_t,size_t &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-CEWindow.cpp(287): message : see reference to function template instantiation 'std::_Optional_destruct_base<_Ty,true>::_Optional_destruct_base<size_t&>(std::in_place_t,size_t &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(185): message : see reference to function template instantiation 'std::_Optional_construct_base<_Ty>::_Optional_construct_base<size_t&>(std::in_place_t,size_t &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\optional(185): message : see reference to function template instantiation 'std::_Optional_construct_base<_Ty>::_Optional_construct_base<size_t&>(std::in_place_t,size_t &)' being compiled
-          with
-          [
-              _Ty=int
-          ]
-CEWindow.cpp(107): message : see reference to function template instantiation 'std::optional<int>::optional<WPARAM&,0>(_Ty2)' being compiled
-          with
-          [
-              _Ty2=WPARAM &
-          ]
-CEWindow.cpp(107): message : see reference to function template instantiation 'std::optional<int>::optional<WPARAM&,0>(_Ty2)' being compiled
-          with
-          [
-              _Ty2=WPARAM &
-          ]
-  CEResource.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEResource.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CEGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEGraphics.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-CEGraphics.cpp(58,8): warning C4101: 'buffer': unreferenced local variable
-CEGraphics.cpp(96,18): warning C4244: '=': conversion from 'float' to 'uint32_t', possible loss of data
-CEGraphics.cpp(97,19): warning C4244: '=': conversion from 'float' to 'uint32_t', possible loss of data
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CEDirect3DNode.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEDirect3DNode.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CEDirect3DGraphics.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEDirect3DGraphics.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(280,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1278,21): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1279,22): warning C4244: '=': conversion from 'uint32_t' to 'FLOAT', possible loss of data
-CEDirect3DGraphics.cpp(1217,19): warning C4101: 'vBufferUploadHeap': unreferenced local variable
-CEDirect3DGraphics.cpp(1338,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1339,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1340,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1359,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1360,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1361,38): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1606,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1611,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1620,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1624,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1629,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1634,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1645,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1650,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1655,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1660,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1670,33): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1678,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1687,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1692,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1697,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1702,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1709,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1716,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1721,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1726,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1736,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1745,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1750,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1755,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1756,9): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-CEDirect3DGraphics.cpp(1907,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1911,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-CEDirect3DGraphics.cpp(1915,85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-CEDirect3DGraphics.cpp(278): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-CEDirect3DGraphics.cpp(278): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-  CEDirect3DCube.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEDirect3DCube.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.h(242,16): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CEDevice.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CECommandQueue.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>': type name first seen using 'struct' now seen using 'class'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CECommandQueue>'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDescriptorAllocator.h(30,58): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDescriptorAllocator>': type name first seen using 'struct' now seen using 'class'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(753): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEDescriptorAllocator>'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEDevice.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CERootSignature.h(26,52): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CERootSignature>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CERootSignature.h(26): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CERootSignature>'
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CED3D12Utils.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CED3D12Utils.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  CEAdapter.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(2,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(40,1): warning C4005: 'NOMINMAX': macro redefinition
-CEAdapter.cpp : message : see previous definition of 'NOMINMAX'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CELib.h(42,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
-          with
-          [
-              T=gainput::uint32_t
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
-          with
-          [
-              K=gainput::DeviceId,
-              V=bool
-          ]
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/recorder/GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
-C:\src\vcpkg\installed\x64-windows-static\include\gainput/GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
-  Generating Code...
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(191): warning C4715: 'CEDirect3DGraphics::OnInit': not all control paths return a value
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEDirect3DGraphics.cpp(1594): warning C4715: 'CEDirect3DGraphics::GetDXGIFormatBitsPerPixel': not all control paths return a value
-  Compiling...
-  CEGenerateMipsPSO.cpp
-  Generating Code...
-  Compiling...
-  CEUploadBuffer.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44,51): warning C4099: 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineFramework\CEUploadBuffer.h(44): message : see declaration of 'std::default_delete<Concept::GraphicsEngine::Direct3D::CEUploadBuffer>'
-  Generating Code...
+  Skipping... (no relevant changes detected)
+  CEMesh.cpp

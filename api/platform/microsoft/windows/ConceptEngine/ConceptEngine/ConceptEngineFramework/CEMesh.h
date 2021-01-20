@@ -23,6 +23,14 @@ namespace Concept::GraphicsEngine::Direct3D {
 		D3D12_PRIMITIVE_TOPOLOGY GetPrimitiveTopology() const;
 
 		void SetVertexBuffer(uint32_t slotID, const std::shared_ptr<CEVertexBuffer>& vertexBuffer);
+		std::shared_ptr<CEVertexBuffer> GetVertexBuffer(uint32_t slotID) const;
+
+		const BufferMap& GetVertexBuffers() const {
+			return m_vertexBuffers;
+		}
+
+		void SetIndexBuffer(const std::shared_ptr<CEIndexBuffer>& indexBuffer);
+		std::shared_ptr<CEIndexBuffer> GetIndexBuffer();
 
 		/**
 		 * Get number if indices are in index buffer
