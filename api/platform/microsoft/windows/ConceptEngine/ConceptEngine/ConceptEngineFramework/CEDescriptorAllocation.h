@@ -10,8 +10,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 	class CEDescriptorAllocation {
 	public:
 		CEDescriptorAllocation();
-		CEDescriptorAllocation(D3D12_CPU_DESCRIPTOR_HANDLE descriptor, uint32_t numHandles,
-		                              std::shared_ptr<CEDescriptorAllocatorPage> page);
+		CEDescriptorAllocation(D3D12_CPU_DESCRIPTOR_HANDLE descriptor, uint32_t numHandles, uint32_t descriptorSize,
+		                       std::shared_ptr<CEDescriptorAllocatorPage> page);
 		~CEDescriptorAllocation();
 
 		//Copies are not allowed
@@ -20,7 +20,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 		//Move is allowed
 		CEDescriptorAllocation(CEDescriptorAllocation&& allocation) noexcept;
-		CEDescriptorAllocation& operator=(CEDescriptorAllocation other) noexcept;
+		CEDescriptorAllocation& operator=(CEDescriptorAllocation&& other) noexcept;
 
 		bool IsNull() const;
 

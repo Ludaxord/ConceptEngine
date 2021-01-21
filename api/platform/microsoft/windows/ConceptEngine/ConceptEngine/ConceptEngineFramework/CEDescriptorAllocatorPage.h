@@ -46,7 +46,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 	protected:
 		CEDescriptorAllocatorPage(CEDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE type,
-		                                 uint32_t numDescriptors);
+		                          uint32_t numDescriptors);
 		virtual ~CEDescriptorAllocatorPage() = default;
 
 		/**
@@ -92,7 +92,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 			}
 
 			SizeType Size;
-			FreeListBySize::iterator FreeListBySize;
+			FreeListBySize::iterator FreeListBySizeIt;
 		};
 
 		struct StaleDescriptorInfo {
@@ -120,6 +120,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		CD3DX12_CPU_DESCRIPTOR_HANDLE m_baseDescriptor;
 
 		uint32_t m_descriptorHandleIncrementSize;
+		uint32_t m_numDescriptorsInHeap;
 		uint32_t m_numFreeHandles;
 
 		std::mutex m_allocationMutex;

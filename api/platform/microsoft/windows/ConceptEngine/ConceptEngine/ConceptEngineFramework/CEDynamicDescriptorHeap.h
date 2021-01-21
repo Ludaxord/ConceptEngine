@@ -17,7 +17,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 	class CEDynamicDescriptorHeap {
 	public:
 		CEDynamicDescriptorHeap(CEDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE heapType,
-		                               uint32_t numDescriptorsPerHeap = 1024);
+		                        uint32_t numDescriptorsPerHeap = 1024);
 		virtual ~CEDynamicDescriptorHeap();
 
 		/**
@@ -97,7 +97,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Since DynamicDescriptorHeap can not know which function will be used, it must be passed as an argument to function
 		 */
 		void CommitDescriptorTables(CECommandList& commandList,
-		                            std::function<void*(ID3D12GraphicsCommandList*, UINT, D3D12_GPU_DESCRIPTOR_HANDLE)>
+		                            std::function<void(ID3D12GraphicsCommandList*, UINT, D3D12_GPU_DESCRIPTOR_HANDLE)>
 		                            setFunction);
 		void CommitInlineDescriptors(CECommandList& commandList,
 		                             const D3D12_GPU_VIRTUAL_ADDRESS* bufferLocations, uint32_t& bitMask,

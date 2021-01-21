@@ -109,6 +109,9 @@
     <Filter Include="GraphicsEngine\DirectX\Libs">
       <UniqueIdentifier>{90123c61-23ce-431c-b300-1a6071e038bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Shaders\Compiled">
+      <UniqueIdentifier>{50606c2c-8798-4249-8176-6b3a3765f7c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -311,6 +314,15 @@
     </ClInclude>
     <ClInclude Include="CEDX12Libs.h">
       <Filter>GraphicsEngine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI_PS.h">
+      <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGenerateMips_CS.h">
+      <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI_VS.h">
+      <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

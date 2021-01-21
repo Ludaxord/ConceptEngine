@@ -5,6 +5,7 @@
 
 #include "CEDescriptorAllocation.h"
 
+
 namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 	class CEConstantBuffer;
