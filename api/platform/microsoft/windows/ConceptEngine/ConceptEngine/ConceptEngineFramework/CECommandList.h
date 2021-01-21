@@ -11,9 +11,9 @@
 
 #include "CEVertexTypes.h"
 
-class CEBuffer;
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEBuffer;
 	class CEStructuredBuffer;
 	class CEByteAddressBuffer;
 	class CEPanoToCubemapPSO;
@@ -214,7 +214,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param tessellation, determines how smooth sphere is.
 		 * @param reverseWinding, whether to reverse winding order of triangles (useful for sydomes)
 		 */
-		std::shared_ptr<CEScene> CreateSphere(float radius = 0.5f, uint32_t tesselation = 16,
+		std::shared_ptr<CEScene> CreateSphere(float radius = 0.5f, uint32_t tessellation = 16,
 		                                      bool reverseWinding = false);
 
 		/**
@@ -240,22 +240,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		                                    bool reverseWinding = false);
 
 		/**
-		 * Create Quad
-		 *
-		 * @param size The size of Quad.
-		 * @param reverseWinding Whether to reverse the winding order of the triangles.
-		 */
-		std::shared_ptr<CEScene> CreateQuad(float size = 1.0, bool reverseWinding = false);
-
-		/**
-		 * Create Triangle
-		 * 
-		 * @param size The size of triangle.
-		 * @param reverseWinding Whether to reverse the winding order of the triangle.
-		 */
-		std::shared_ptr<CEScene> CreateTriangle(float size = 1.0, bool reverseWinding = false);
-
-		/**
 		 * Create Torus
 		 *
 		 * @param radius, radius of torus.
@@ -275,16 +259,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		std::shared_ptr<CEScene> CreatePlane(float width = 1.0f, float height = 1.0f,
 		                                     bool reverseWinding = false);
-
-		/**
-		 * Create Car
-		 * 
-		 * @param width, width of Car,
-		 * @param height, height of Car,
-		 * @param reverseWinding whether to reverse winding order of Car.
-		 */
-		std::shared_ptr<CEScene> CreateCar(float width = 1.0f, float height = 1.0f,
-		                                   bool reverseWinding = false);
 
 		/**
 		 * Clear texture

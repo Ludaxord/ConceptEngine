@@ -2,6 +2,7 @@
 
 #include "CEGenerateMipsPSO.h"
 #include "CECommandQueue.h"
+#include "CEConstantBuffer.h"
 #include "CEDX12Libs.h"
 #include "CEDevice.h"
 #include "CEDynamicDescriptorHeap.h"
@@ -10,13 +11,20 @@
 #include "CEMaterial.h"
 #include "CEMesh.h"
 #include "CEPanoToCubemapPSO.h"
+#include "CEPipelineStateObject.h"
 #include "CEResource.h"
 #include "CEResourceStateTracker.h"
+#include "CERootSignature.h"
 #include "CEScene.h"
 #include "CESceneNode.h"
 #include "CETexture.h"
 #include "CEUploadBuffer.h"
 #include "CEVertexBuffer.h"
+#include "CEBuffer.h"
+#include "CEConstantBufferView.h"
+#include "CERenderTarget.h"
+#include "CEShaderResourceView.h"
+#include "CEUnorderedAccessView.h"
 
 
 using namespace Concept::GraphicsEngine::Direct3D;
@@ -170,6 +178,7 @@ std::shared_ptr<CEStructuredBuffer> CECommandList::CopyStructuredBuffer(size_t n
 	auto d3d12Resource = CopyBuffer(numElements * elementSize, bufferData, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
 	std::shared_ptr<CEStructuredBuffer> structuredBuffer = m_device.CreateStructuredBuffer(
 		d3d12Resource, numElements, elementSize);
+	return structuredBuffer;
 }
 
 void CECommandList::SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY primitiveTopology) {
@@ -293,40 +302,362 @@ std::shared_ptr<CEScene> CECommandList::LoadSceneFromString(const std::string& s
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateCube(float size, bool reverseWinding) {
+	/*
+	 * Cube is centered at 0,0,0
+	 */
+	float s = size * 0.5f;
+
+	/*
+	 * 8 edges of cube
+	 */
+	XMFLOAT3 p[8] = {
+	};
+
+	/*
+	 * 6 face normals
+	 */
+	XMFLOAT3 n[6] = {
+	};
+
+	/*
+	 * 4 unique texture coordinates
+	 */
+	XMFLOAT3 t[4] = {
+	};
+
+	/*
+	 * indices for vertex positions
+	 */
+	uint16_t i[24] = {
+	};
+
+	VertexCollection vertices;
+	IndexCollection indices;
+
+	/*
+	 * Each face of cube.
+	 */
+	for (uint16_t f = 0; f < 6; ++f) {
+		/*
+		 * Four vertices per face
+		 */
+		vertices.emplace_back(p[i[f * 4 + 0]], n[f], t[0]);
+		vertices.emplace_back(p[i[f * 4 + 1]], n[f], t[1]);
+		vertices.emplace_back(p[i[f * 4 + 2]], n[f], t[2]);
+		vertices.emplace_back(p[i[f * 4 + 3]], n[f], t[3]);
+
+		/*
+		 * First triangle.
+		 */
+		indices.emplace_back(f * 4 + 0);
+		indices.emplace_back(f * 4 + 1);
+		indices.emplace_back(f * 4 + 2);
+
+		/*
+		 * Second triangle. 
+		 */
+		indices.emplace_back(f * 4 + 2);
+		indices.emplace_back(f * 4 + 3);
+		indices.emplace_back(f * 4 + 0);
+	}
+
+	if (reverseWinding) {
+		ReverseWinding(indices, vertices);
+	}
+
+	return CreateScene(vertices, indices);
 }
 
-std::shared_ptr<CEScene> CECommandList::CreateSphere(float radius, uint32_t tesselation, bool reverseWinding) {
+std::shared_ptr<CEScene> CECommandList::CreateSphere(float radius, uint32_t tessellation, bool reverseWinding) {
+	if (tessellation < 3) {
+		throw std::out_of_range("tessellation parameter out of range");
+	}
+
+	VertexCollection vertices;
+	IndexCollection indices;
+
+	size_t verticalSegments = tessellation;
+	size_t horizontalSegments = tessellation * 2;
+
+	/*
+	 * Create rings of vertices at progressively higher latitudes.
+	 */
+	for (size_t i = 0; i <= verticalSegments; i++) {
+		float v = 1 - (float)i / verticalSegments;
+		float latitude = (i * XM_PI / verticalSegments) - XM_PIDIV2;
+
+		float dy, dxz;
+		XMScalarSinCos(&dy, &dxz, latitude);
+
+		/*
+		 * Create single ring of vertices at latitude;
+		 */
+		for (size_t j = 0; j <= horizontalSegments; j++) {
+			float u = (float)j / horizontalSegments;
+
+			float longitude = j * XM_2PI / horizontalSegments;
+			float dx, dz;
+
+			XMScalarSinCos(&dx, &dz, longitude);
+
+			dx *= dxz;
+			dz *= dxz;
+
+			auto normal = XMVectorSet(dx, dy, dz, 0);
+			auto textureCoordinate = XMVectorSet(u, v, 0, 0);
+			auto position = normal * radius;
+
+			vertices.emplace_back(position, normal, textureCoordinate);
+		}
+	}
+
+	/*
+	 * Fill index buffer with triangles joining each pair of latitude rings.
+	 */
+	size_t stride = horizontalSegments + 1;
+
+	for (size_t i = 0; i < verticalSegments; i++) {
+		for (size_t j = 0; j <= horizontalSegments; j++) {
+			size_t nextI = i + 1;
+			size_t nextJ = (j + 1) % stride;
+
+			indices.push_back(i * stride + nextJ);
+			indices.push_back(nextI * stride + j);
+			indices.push_back(i * stride + j);
+
+			indices.push_back(nextI * stride + nextJ);
+			indices.push_back(nextI * stride + j);
+			indices.push_back(i * stride + nextJ);
+		}
+	}
+
+	if (reverseWinding) {
+		ReverseWinding(indices, vertices);
+	}
+
+	return CreateScene(vertices, indices);
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateCylinder(float radius, float height, uint32_t tessellation,
                                                        bool reverseWinding) {
+	if (tessellation < 3) {
+		throw std::out_of_range("tessellation parameter out of range");
+	}
+
+	VertexCollection vertices;
+	IndexCollection indices;
+
+	height /= 2;
+
+	XMVECTOR topOffset = XMVectorScale(g_XMIdentityR1, height);
+	size_t stride = tessellation + 1;
+
+	/*
+	 * Create ring of triangles around outside of cylinder
+	 */
+	for (size_t i = 0; i <= tessellation; i++) {
+		XMVECTOR normal = GetCircleVector(i, tessellation);
+		XMVECTOR sideOffset = XMVectorScale(normal, radius);
+
+		float u = float(i) / float(tessellation);
+
+		XMVECTOR textureCoordinate = XMLoadFloat(&u);
+
+		vertices.emplace_back(XMVectorAdd(sideOffset, topOffset), normal, textureCoordinate);
+		vertices.emplace_back(XMVectorSubtract(sideOffset, topOffset), normal,
+		                      XMVectorAdd(textureCoordinate, g_XMIdentityR1));
+
+		indices.push_back(i * 2 + 1);
+		indices.push_back((i * 2 + 2) % (stride * 2));
+		indices.push_back(i * 2);
+
+		indices.push_back((i * 2 + 3) % (stride * 2));
+		indices.push_back((i * 2 + 2) % (stride * 2));
+		indices.push_back(i * 2 + 1);
+	}
+
+	/*
+	 * Create flat triangle fan caps to seal top and bottom;
+	 */
+	CreateCylinderCap(vertices, indices, tessellation, height, radius, true);
+	CreateCylinderCap(vertices, indices, tessellation, height, radius, false);
+
+	/*
+	 * Build RH above
+	 */
+	if (reverseWinding) {
+		ReverseWinding(indices, vertices);
+	}
+
+	return CreateScene(vertices, indices);
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateCone(float radius, float height, uint32_t tessellation,
                                                    bool reverseWinding) {
-}
+	if (tessellation < 3) {
+		throw std::out_of_range("tessellation parameter out of range");
+	}
 
-std::shared_ptr<CEScene> CECommandList::CreateQuad(float size, bool reverseWinding) {
-}
+	VertexCollection vertices;
+	IndexCollection indices;
 
-std::shared_ptr<CEScene> CECommandList::CreateTriangle(float size, bool reverseWinding) {
+	height /= 2;
+
+	XMVECTOR topOffset = XMVectorScale(g_XMIdentityR1, height);
+	size_t stride = tessellation + 1;
+
+	/*
+	 * Create ring of triangles around outside of crone
+	 */
+	for (size_t i = 0; i <= tessellation; i++) {
+		XMVECTOR circleVec = GetCircleVector(i, tessellation);
+		XMVECTOR sideOffset = XMVectorScale(circleVec, radius);
+
+		float u = float(i) / float(tessellation);
+
+		XMVECTOR textureCoordinate = XMLoadFloat(&u);
+		XMVECTOR pt = XMVectorSubtract(sideOffset, topOffset);
+
+		XMVECTOR normal = XMVector3Cross(GetCircleTangent(i, tessellation), XMVectorSubtract(topOffset, pt));
+		normal = XMVector3Normalize(normal);
+
+		/*
+		 * Duplicate top vertex for distinct normals
+		 */
+		vertices.emplace_back(topOffset, normal, g_XMZero);
+		vertices.emplace_back(pt, normal, XMVectorAdd(textureCoordinate, g_XMIdentityR1));
+
+		indices.push_back((i * 2 + 1) % (stride * 2));
+		indices.push_back((i * 2 + 3) % (stride * 2));
+		indices.push_back(i * 2);
+	}
+
+	/*
+	 * Create flat triangle fan caps to seal bottom;
+	 */
+	CreateCylinderCap(vertices, indices, tessellation, height, radius, false);
+
+	/*
+	 * Build RH above
+	 */
+	if (reverseWinding) {
+		ReverseWinding(indices, vertices);
+	}
+
+	return CreateScene(vertices, indices);
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateTorus(float radius, float thickness, uint32_t tessellation,
                                                     bool reverseWinding) {
+	if (tessellation < 3) {
+		throw std::out_of_range("tessellation parameter out of range");
+	}
+
+	VertexCollection vertices;
+	IndexCollection indices;
+
+	size_t stride = tessellation + 1;
+
+	/*
+	 * loop around main ring of torus
+	 */
+	for (size_t i = 0; i <= tessellation; i++) {
+		float u = (float)i / tessellation;
+
+		float outerAngle = i * XM_2PI / tessellation - XM_PIDIV2;
+
+		/*
+		 * Create transform matrix that will align geometry to
+		 * slice perpendicularly though current ring position.
+		 */
+		XMMATRIX transform = XMMatrixTranslation(radius, 0, 0) * XMMatrixRotationY(outerAngle);
+
+		/*
+		 * Loop along other axis, around side of tube.
+		 */
+		for (size_t j = 0; j <= tessellation; j++) {
+			float v = 1 - (float)j / tessellation;
+
+			float innerAngle = j * XM_2PI / tessellation + XM_PI;
+			float dx, dy;
+
+			XMScalarSinCos(&dy, &dx, innerAngle);
+
+			/*
+			 * Create vertex
+			 */
+			auto normal = XMVectorSet(dx, dy, 0, 0);
+			auto position = normal * thickness / 2;
+			auto textureCoordinate = XMVectorSet(u, v, 0, 0);
+
+			position = XMVector3Transform(position, transform);
+			normal = XMVector3TransformNormal(normal, transform);
+
+			vertices.emplace_back(position, normal, textureCoordinate);
+
+			/*
+			 * Create indices for two triangles
+			 */
+			size_t nextI = (i + 1) % stride;
+			size_t nextJ = (j + 1) % stride;
+
+			indices.push_back(nextI * stride + j);
+			indices.push_back(i * stride + nextJ);
+			indices.push_back(i * stride + j);
+
+			indices.push_back(nextI * stride + j);
+			indices.push_back(nextI * stride + nextJ);
+			indices.push_back(i * stride + nextJ);
+		}
+	}
+
+	if (reverseWinding) {
+		ReverseWinding(indices, vertices);
+	}
+
+	return CreateScene(vertices, indices);
 }
 
 std::shared_ptr<CEScene> CECommandList::CreatePlane(float width, float height, bool reverseWinding) {
+	using Vertex = CEVertexPositionNormalTangentBitangentTexture;
+
+	/*
+	 * Define plane that is aligned with X-Z plane ant normal is facing up in Y-axis
+	 */
+	VertexCollection vertices = {
+		Vertex(XMFLOAT3(-0.5f * width, 0.0f, 0.5f * height), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f)),
+		//0
+		Vertex(XMFLOAT3(0.5f * width, 0.0f, 0.5f * height), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)),
+		//1
+		Vertex(XMFLOAT3(0.5f * width, 0.0f, -0.5f * height), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(1.0f, 1.0f, 0.0f)),
+		//2
+		Vertex(XMFLOAT3(-0.5f * width, 0.0f, -0.5f * height), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)),
+		//3
+	};
+
+	IndexCollection indices = {1, 3, 0, 2, 3, 1};
+
+	if (reverseWinding) {
+		ReverseWinding(indices, vertices);
+	}
+
+	return CreateScene(vertices, indices);
 }
 
-std::shared_ptr<CEScene> CECommandList::CreateCar(float width, float height, bool reverseWinding) {
-}
 
 void CECommandList::ClearTexture(const std::shared_ptr<CETexture>& texture, const float clearColor[4]) {
+	assert(texture);
+	TransitionBarrier(texture, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES, true);
+	m_commandList->ClearRenderTargetView(texture->GetRenderTargetView(), clearColor, 0, nullptr);
+	TrackResource(texture);
 }
 
 void CECommandList::ClearDepthStencilTexture(const std::shared_ptr<CETexture>& texture,
                                              D3D12_CLEAR_FLAGS clearFlags, float depth, uint8_t stencil) {
+	assert(texture);
+	TransitionBarrier(texture, D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES, true);
+	m_commandList->ClearDepthStencilView(texture->GetDepthStencilView(), clearFlags, depth, stencil, 0, nullptr);
+	TrackResource(texture);
 }
 
 void CECommandList::GenerateMips(const std::shared_ptr<CETexture> texture) {
@@ -409,8 +740,7 @@ void CECommandList::GenerateMips(const std::shared_ptr<CETexture> texture) {
 		D3D12_HEAP_DESC heapDesc = {};
 		heapDesc.SizeInBytes = allocationInfo.SizeInBytes;
 		heapDesc.Alignment = allocationInfo.Alignment;
-		heapDesc.Flags = D3D12_HEAP_FLAG_ALLOW_ALL_BUFFERS_AND_TEXTURES;
-		// heapDesc.Flags = D3D12_HEAP_FLAG_ALLOW_ONLY_NON_RT_DS_TEXTURES;
+		heapDesc.Flags = D3D12_HEAP_FLAG_ALLOW_ONLY_NON_RT_DS_TEXTURES;
 		heapDesc.Properties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
 		heapDesc.Properties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 		heapDesc.Properties.Type = D3D12_HEAP_TYPE_DEFAULT;
@@ -731,68 +1061,232 @@ void CECommandList::SetScissorRects(const std::vector<D3D12_RECT>& scissorRects)
 }
 
 void CECommandList::SetPipelineState(const std::shared_ptr<CEPipelineStateObject>& pipelineState) {
+	assert(pipelineState);
+	auto d3d12PipelineStateObject = pipelineState->GetD3D12PipelineState().Get();
+	if (m_pipelineState != d3d12PipelineStateObject) {
+		m_pipelineState = d3d12PipelineStateObject;
+		m_commandList->SetPipelineState(d3d12PipelineStateObject);
+		TrackResource(d3d12PipelineStateObject);
+	}
 }
 
 void CECommandList::SetGraphicsRootSignature(const std::shared_ptr<CERootSignature>& rootSignature) {
+	assert(rootSignature);
+	auto d3d12RootSignature = rootSignature->GetD3D12RootSignature().Get();
+	if (m_rootSignature != d3d12RootSignature) {
+		m_rootSignature = d3d12RootSignature;
+		for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i) {
+			m_dynamicDescriptorHeap[i]->ParseRootSignature(rootSignature);
+		}
+		m_commandList->SetGraphicsRootSignature(m_rootSignature);
+		TrackResource(m_rootSignature);
+	}
 }
 
 void CECommandList::SetComputeRootSignature(const std::shared_ptr<CERootSignature>& rootSignature) {
+	assert(rootSignature);
+	auto d3d12RootSignature = rootSignature->GetD3D12RootSignature().Get();
+	if (m_rootSignature != d3d12RootSignature) {
+		m_rootSignature = d3d12RootSignature;
+		for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i) {
+			m_dynamicDescriptorHeap[i]->ParseRootSignature(rootSignature);
+		}
+		m_commandList->SetComputeRootSignature(m_rootSignature);
+		TrackResource(m_rootSignature);
+	}
 }
 
 void CECommandList::SetConstantBufferView(uint32_t rootParameterIndex,
                                           const std::shared_ptr<CEConstantBuffer>& buffer,
                                           D3D12_RESOURCE_STATES stateAfter, uint32_t bufferOffset) {
+	if (buffer) {
+		auto d3d12Resource = buffer->GetD3D12Resource();
+		TransitionBarrier(d3d12Resource, stateAfter);
+		m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageInlineCBV(
+			rootParameterIndex, d3d12Resource->GetGPUVirtualAddress() + bufferOffset);
+		TrackResource(buffer);
+	}
 }
 
-void CECommandList::SetShaderResourceView(uint32_t rootParameterIndex, const std::shared_ptr<::CEBuffer>& buffer,
+void CECommandList::SetShaderResourceView(uint32_t rootParameterIndex, const std::shared_ptr<CEBuffer>& buffer,
                                           D3D12_RESOURCE_STATES stateAfter, uint32_t bufferOffset) {
+	if (buffer) {
+		auto d3d12Resource = buffer->GetD3D12Resource();
+		TransitionBarrier(d3d12Resource, stateAfter);
+
+		m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageInlineCBV(
+			rootParameterIndex, d3d12Resource->GetGPUVirtualAddress() + bufferOffset);
+		TrackResource(buffer);
+	}
 }
 
 void CECommandList::SetUnorderedAccessView(uint32_t rootParameterIndex, const std::shared_ptr<::CEBuffer>& buffer,
                                            D3D12_RESOURCE_STATES stateAfter, size_t bufferOffset) {
+	if (buffer) {
+		auto d3d12Resource = buffer->GetD3D12Resource();
+		TransitionBarrier(d3d12Resource, stateAfter);
+		m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageInlineUAV(
+			rootParameterIndex, d3d12Resource->GetGPUVirtualAddress() + bufferOffset);
+		TrackResource(buffer);
+	}
 }
 
 void CECommandList::SetConstantBufferView(uint32_t rootParameterIndex, uint32_t descriptorOffset,
                                           const std::shared_ptr<CEConstantBufferView>& cbv,
                                           D3D12_RESOURCE_STATES stateAfter) {
+	assert(cbv);
+	auto constantBuffer = cbv->GetConstantBuffer();
+	if (constantBuffer) {
+		TransitionBarrier(constantBuffer, stateAfter);
+		TrackResource(constantBuffer);
+	}
+
+	m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageDescriptors(
+		rootParameterIndex, descriptorOffset, 1, cbv->GetDescriptorHandle());
 }
 
 void CECommandList::SetShaderResourceView(uint32_t rootParameterIndex, uint32_t descriptorOffset,
                                           const std::shared_ptr<CEShaderResourceView>& srv,
                                           D3D12_RESOURCE_STATES stateAfter, UINT firstSubResource,
                                           UINT numSubResources) {
+	assert(srv);
+	auto resource = srv->GetResource();
+	if (resource) {
+		if (numSubResources < D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES) {
+			for (uint32_t i = 0; i < numSubResources; ++i) {
+				TransitionBarrier(resource, stateAfter, firstSubResource + i);
+			}
+		}
+		else {
+			TransitionBarrier(resource, stateAfter);
+		}
+		TrackResource(resource);
+	}
+
+	m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageDescriptors(
+		rootParameterIndex, descriptorOffset, 1, srv->GetDescriptorHandle());
 }
 
 void CECommandList::SetShaderResourceView(int32_t rootParameterIndex, uint32_t descriptorOffset,
                                           const std::shared_ptr<CETexture>& texture, D3D12_RESOURCE_STATES stateAfter,
                                           UINT firstSubResource,
                                           UINT numSubResources) {
+	if (texture) {
+		if (numSubResources < D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES) {
+			for (uint32_t i = 0; i < numSubResources; ++i) {
+				TransitionBarrier(texture, stateAfter, firstSubResource + i);
+			}
+		}
+		else {
+			TransitionBarrier(texture, stateAfter);
+		}
+
+		TrackResource(texture);
+		m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageDescriptors(
+			rootParameterIndex, descriptorOffset, 1, texture->GetShaderResourceView());
+	}
 }
 
 void CECommandList::SetUnorderedAccessView(uint32_t rootParameterIndex, uint32_t descriptorOffset,
                                            const std::shared_ptr<CEUnorderedAccessView>& uav,
                                            D3D12_RESOURCE_STATES stateAfter, UINT firstSubResource,
                                            UINT numSubResources) {
+	assert(uav);
+	auto resource = uav->GetResource();
+	if (resource) {
+		if (numSubResources < D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES) {
+			for (uint32_t i = 0; i < numSubResources; ++i) {
+				TransitionBarrier(resource, stateAfter, firstSubResource + i);
+			}
+		}
+		else {
+			TransitionBarrier(resource, stateAfter);
+		}
+		TrackResource(resource);
+	}
+
+	m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageDescriptors(
+		rootParameterIndex, descriptorOffset, 1, uav->GetDescriptorHandle());
 }
 
 void CECommandList::SetUnorderedAccessView(uint32_t rootParameterIndex, uint32_t descriptorOffset,
                                            const std::shared_ptr<CETexture>& texture, UINT mip,
                                            D3D12_RESOURCE_STATES stateAfter, UINT firstSubResource,
                                            UINT numSubResources) {
+	if (texture) {
+		if (numSubResources < D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES) {
+			for (uint32_t i = 0; i < numSubResources; ++i) {
+				TransitionBarrier(texture, stateAfter, firstSubResource + i);
+			}
+		}
+		else {
+			TransitionBarrier(texture, stateAfter);
+		}
+		TrackResource(texture);
+		m_dynamicDescriptorHeap[D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV]->StageDescriptors(
+			rootParameterIndex, descriptorOffset, 1, texture->GetUnorderedAccessView(mip));
+	}
 }
 
 void CECommandList::SetRenderTarget(const CERenderTarget& renderTarget) {
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> renderTargetDescriptors;
+	renderTargetDescriptors.reserve(AttachmentPoint::NumAttachmentPoints);
+	const auto& textures = renderTarget.GetTextures();
+	/*
+	 * bind color targets (max of 8 render targets can be bound to rendering pipeline).
+	 */
+	for (int i = 0; i < 8; ++i) {
+		auto texture = textures[i];
+		if (texture) {
+			TransitionBarrier(texture, D3D12_RESOURCE_STATE_RENDER_TARGET);
+			renderTargetDescriptors.push_back(texture->GetRenderTargetView());
+			TrackResource(texture);
+		}
+	}
+
+	auto depthTexture = renderTarget.GetTexture(AttachmentPoint::DepthStencil);
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE depthStencilDescriptor(D3D12_DEFAULT);
+	if (depthTexture) {
+		TransitionBarrier(depthTexture, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+		depthStencilDescriptor = depthTexture->GetDepthStencilView();
+	}
+
+	D3D12_CPU_DESCRIPTOR_HANDLE* pDSV = depthStencilDescriptor.ptr != 0 ? &depthStencilDescriptor : nullptr;
+	m_commandList->OMSetRenderTargets(static_cast<UINT>(renderTargetDescriptors.size()), renderTargetDescriptors.data(),
+	                                  FALSE, pDSV);
 }
 
 void CECommandList::Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t startVertex,
                          uint32_t startInstance) {
+	FlushResourceBarriers();
+
+	for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i) {
+		m_dynamicDescriptorHeap[i]->CommitStagedDescriptorsForDraw(*this);
+	}
+
+	m_commandList->DrawInstanced(vertexCount, instanceCount, startVertex, startInstance);
 }
 
 void CECommandList::DrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t startIndex,
                                 int32_t baseVertex, uint32_t startInstance) {
+	FlushResourceBarriers();
+
+	for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i) {
+		m_dynamicDescriptorHeap[i]->CommitStagedDescriptorsForDraw(*this);
+	}
+
+	m_commandList->DrawIndexedInstanced(indexCount, instanceCount, startIndex, baseVertex, startInstance);
 }
 
 void CECommandList::Dispatch(uint32_t numGroupsX, uint32_t numGroupsY, uint32_t numGroupsZ) {
+	FlushResourceBarriers();
+
+	for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i) {
+		m_dynamicDescriptorHeap[i]->CommitStagedDescriptorsForDispatch(*this);
+	}
+
+	m_commandList->Dispatch(numGroupsX, numGroupsY, numGroupsZ);
 }
 
 CECommandList::CECommandList(CEDevice& device, D3D12_COMMAND_LIST_TYPE type) : m_device(device),
@@ -818,18 +1312,57 @@ CECommandList::~CECommandList() {
 }
 
 bool CECommandList::Close(const std::shared_ptr<CECommandList>& pendingCommandList) {
+	/*
+	 * Flush any remaining barriers;
+	 */
+	FlushResourceBarriers();
+
+	m_commandList->Close();
+
+	/*
+	 * Flush pending resource barriers
+	 */
+	uint32_t numPendingBarriers = m_resourceStateTracker->FlushPendingResourceBarriers(pendingCommandList);
+	/*
+	 * commit final resource state to global state
+	 */
+	m_resourceStateTracker->CommitFinalResourceStates();
+
+	return numPendingBarriers > 0;
 }
 
 void CECommandList::Close() {
+	FlushResourceBarriers();
+	m_commandList->Close();
 }
 
 void CECommandList::Reset() {
+	ThrowIfFailed(m_commandAllocator->Reset());
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), nullptr));
+
+	m_resourceStateTracker->Reset();
+	m_uploadBuffer->Reset();
+
+	ReleaseTrackedObjects();
+	for (int i = 0; i < D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES; ++i) {
+		m_dynamicDescriptorHeap[i]->Reset();
+		m_descriptorHeaps[i] = nullptr;
+	}
+
+	m_rootSignature = nullptr;
+	m_pipelineState = nullptr;
+	m_computeCommandList = nullptr;
 }
 
 void CECommandList::ReleaseTrackedObjects() {
+	m_trackedObjects.clear();
 }
 
 void CECommandList::SetDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, ID3D12DescriptorHeap* heap) {
+	if (m_descriptorHeaps[heapType] != heap) {
+		m_descriptorHeaps[heapType] = heap;
+		BindDescriptorHeaps();
+	}
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vertices,
@@ -861,12 +1394,50 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 
 void CECommandList::CreateCylinderCap(VertexCollection& vertices, IndexCollection& indices,
                                       size_t tessellation, float height, float radius, bool isTop) {
+	/*
+	 * Create cap indices;
+	 */
+	for (size_t i = 0; i < tessellation - 2; i++) {
+		size_t i1 = (i + 1) % tessellation;
+		size_t i2 = (i + 2) % tessellation;
+
+		if (isTop) {
+			std::swap(i1, i2);
+		}
+
+		size_t vBase = vertices.size();
+		indices.push_back(vBase + i2);
+		indices.push_back(vBase + i1);
+		indices.push_back(vBase);
+	}
+
+	XMVECTOR normal = g_XMIdentityR1;
+	XMVECTOR textureScale = g_XMNegativeOneHalf;
+
+	if (!isTop) {
+		normal = XMVectorNegate(normal);
+		textureScale = XMVectorMultiply(textureScale, g_XMNegateX);
+	}
+
+	/*
+	 * Create cap vertices.
+	 */
+	for (size_t i = 0; i < tessellation; i++) {
+		XMVECTOR circleVector = GetCircleVector(i, tessellation);
+		XMVECTOR position = XMVectorAdd(XMVectorScale(circleVector, radius), XMVectorScale(normal, height));
+		XMVECTOR textureCoordinate = XMVectorMultiplyAdd(XMVectorSwizzle<0, 2, 3, 3>(circleVector), textureScale,
+		                                                 g_XMOneHalf);
+		vertices.emplace_back(position, normal, textureCoordinate);
+	}
 }
 
 void CECommandList::TrackResource(wrl::ComPtr<ID3D12Object> object) {
+	m_trackedObjects.push_back(object);
 }
 
 void CECommandList::TrackResource(const std::shared_ptr<CEResource>& res) {
+	assert(res);
+	TrackResource(res->GetD3D12Resource());
 }
 
 void CECommandList::GenerateMipsUAV(const std::shared_ptr<CETexture>& texture, bool isSRGB) {
