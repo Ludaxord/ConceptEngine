@@ -324,6 +324,9 @@
     <ClInclude Include="ImGUI_VS.h">
       <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
     </ClInclude>
+    <ClInclude Include="PanoToCubemap_CS.h">
+      <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">

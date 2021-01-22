@@ -64,7 +64,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void ImportScene(CECommandList& commandList, const aiScene& scene, std::filesystem::path parentPath);
 		void ImportMaterial(CECommandList& commandList, const aiMaterial& material,
 		                    std::filesystem::path parentPath);
-		void ImportMesh(CECommandList& commandList, const aiMaterial& mesh);
+		void ImportMesh(CECommandList& commandList, const aiMesh& mesh);
 		std::shared_ptr<CESceneNode> ImportSceneNode(CECommandList& commandList,
 		                                                    std::shared_ptr<CESceneNode> parent,
 		                                                    const aiNode* aiNode);
