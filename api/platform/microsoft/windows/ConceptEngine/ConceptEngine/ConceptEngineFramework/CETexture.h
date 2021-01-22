@@ -77,7 +77,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Return sRGB format in same format family.
 		 */
 		static DXGI_FORMAT GetSRGBFormat(DXGI_FORMAT format);
-		static DXGI_FORMAT GetUAVComatibleFormat(DXGI_FORMAT format);
+		static DXGI_FORMAT GetUAVCompatibleFormat(DXGI_FORMAT format);
 
 	protected:
 		CETexture(CEDevice& device, const D3D12_RESOURCE_DESC& resourceDesc,
@@ -89,6 +89,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Create SRV and UAV for resource.
 		 */
+		void CreateViews();
 	private:
 		CEDescriptorAllocation m_renderTargetView;
 		CEDescriptorAllocation m_depthStencilView;

@@ -47,7 +47,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param pageSize, size to use to allocate new pages in GPU memory.
 		 */
 		explicit CEUploadBuffer(CEDevice& device, size_t pageSize = _2MB);
-
+		virtual ~CEUploadBuffer();
 	private:
 		/**
 		 * single page for allocator
