@@ -112,6 +112,12 @@
     <Filter Include="GraphicsEngine\DirectX\Shaders\Compiled">
       <UniqueIdentifier>{50606c2c-8798-4249-8176-6b3a3765f7c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Headers">
+      <UniqueIdentifier>{7b922426-c34f-420f-a572-baf7de424a96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Source">
+      <UniqueIdentifier>{8a56c006-539d-4b4b-81b4-b156c8cabf5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -204,116 +210,8 @@
     <ClInclude Include="CEDefinitions.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="CEResource.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEResourceStateTracker.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CERootSignature.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEScene.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CESceneNode.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEShaderResourceView.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEStructuredBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CESwapChain.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CETexture.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEThreadSafeQueue.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEUnorderedAccessView.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEUploadBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="CEImGUI.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CEVertexBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEVisitor.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEAdapter.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEByteAddressBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CECommandList.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CECommandQueue.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEConstantBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEConstantBufferView.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDescriptorAllocation.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDescriptorAllocator.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDescriptorAllocatorPage.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDevice.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDynamicDescriptorHeap.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEGenerateMipsPSO.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEGUI.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEIndexBuffer.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEMaterial.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEMesh.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEPanoToCubemapPSO.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEPipelineStateObject.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CERenderTarget.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEVertexTypes.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDX12Libs.h">
-      <Filter>GraphicsEngine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="ImGUI_PS.h">
       <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
@@ -326,6 +224,114 @@
     </ClInclude>
     <ClInclude Include="PanoToCubemap_CS.h">
       <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
+    </ClInclude>
+    <ClInclude Include="CEAdapter.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEByteAddressBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CECommandList.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CECommandQueue.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEConstantBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEConstantBufferView.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDescriptorAllocation.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDescriptorAllocator.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDescriptorAllocatorPage.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDevice.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDX12Libs.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDynamicDescriptorHeap.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGenerateMipsPSO.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGUI.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEIndexBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEMaterial.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEMesh.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEPanoToCubemapPSO.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEPipelineStateObject.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CERenderTarget.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEResource.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEResourceStateTracker.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CERootSignature.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEScene.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CESceneNode.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEShaderResourceView.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEStructuredBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CESwapChain.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CETexture.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEThreadSafeQueue.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEUnorderedAccessView.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEUploadBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEVertexBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEVertexTypes.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEVisitor.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,110 +404,107 @@
     <ClCompile Include="CEDirectXGraphics.cpp">
       <Filter>GraphicsEngine\DirectX\Main</Filter>
     </ClCompile>
-    <ClCompile Include="CEResource.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CEResourceStateTracker.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CERootSignature.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CEScene.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CESceneNode.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CEShaderResourceView.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CEStructuredBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CESwapChain.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CETexture.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CEUnorderedAccessView.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="CEImGUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CEVertexBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="CEVisitor.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="CEAdapter.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEByteAddressBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CECommandList.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CECommandQueue.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEConstantBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEConstantBufferView.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEDescriptorAllocation.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEDescriptorAllocator.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEDescriptorAllocatorPage.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEDevice.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEDynamicDescriptorHeap.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEGenerateMipsPSO.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEGUI.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEIndexBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEMaterial.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEMesh.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEPanoToCubemapPSO.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEPipelineStateObject.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CERenderTarget.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEResource.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEResourceStateTracker.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CERootSignature.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEScene.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CESceneNode.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEShaderResourceView.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEStructuredBuffer.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CESwapChain.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CETexture.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEUnorderedAccessView.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEUploadBuffer.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEVertexBuffer.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEVertexTypes.cpp">
-      <Filter>GraphicsEngine\DirectX</Filter>
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

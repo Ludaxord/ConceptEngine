@@ -2,6 +2,7 @@
 
 
 #include "CEAdapter.h"
+#include "CECommandList.h"
 #include "CECommandQueue.h"
 #include "CEDevice.h"
 #include "CEHelper.h"
@@ -53,6 +54,34 @@ const CERenderTarget& CESwapChain::GetRenderTarget() const {
 }
 
 UINT CESwapChain::Present(const std::shared_ptr<CETexture>& texture) {
+	auto commandList = m_commandQueue.GetCommandList();
+	auto backBuffer = m_backBufferTextures[m_currentBackBufferIndex];
+
+	if (texture) {
+		if (texture->GetD3D12ResourceDesc().SampleDesc.Count > 1) {
+			commandList->ResolveSubResource(backBuffer, texture);
+		}
+		else {
+			commandList->CopyResource(backBuffer, texture);
+		}
+	}
+
+	commandList->TransitionBarrier(backBuffer, D3D12_RESOURCE_STATE_PRESENT);
+	m_commandQueue.ExecuteCommandList(commandList);
+
+	UINT syncInterval = m_vSync ? 1 : 0;
+	UINT presentFlags = m_tearingSupported && !m_fullscreen && !m_vSync ? DXGI_PRESENT_ALLOW_TEARING : 0;
+
+	ThrowIfFailed(m_dxgiSwapChain->Present(syncInterval, presentFlags));
+	m_fenceValues[m_currentBackBufferIndex] = m_commandQueue.Signal();
+	m_currentBackBufferIndex = m_dxgiSwapChain->GetCurrentBackBufferIndex();
+
+	auto fenceValue = m_fenceValues[m_currentBackBufferIndex];
+	m_commandQueue.WaitForFenceValue(fenceValue);
+
+	m_device.ReleaseStaleDescriptors();
+
+	return m_currentBackBufferIndex;
 }
 
 CESwapChain::CESwapChain(CEDevice& device, HWND hWnd, DXGI_FORMAT renderTargetFormat):
