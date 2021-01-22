@@ -538,6 +538,18 @@
     <FxCompile Include="CETextPixelShader.hlsl">
       <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="CEGenerateMips_CS.hlsl">
+      <Filter>GraphicsEngine\DirectX\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEPanoToCubemap_CS.hlsl">
+      <Filter>GraphicsEngine\DirectX\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ImGUI_PS.hlsl">
+      <Filter>GraphicsEngine\DirectX\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ImGUI_VS.hlsl">
+      <Filter>GraphicsEngine\DirectX\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders.hlsl">
