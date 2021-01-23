@@ -199,7 +199,7 @@ void main(ComputeShaderInput IN) {
 		 * Use 4 bilinear samples to guarantee it will not be undersampled when downsizing by more than 2x in both directions.
 		 */
 		float2 UV1 = TexelSize * (IN.DispatchThreadID.xy + float2(0.25, 0.5));
-		float Off = TexelSize * 0.5;
+		float2 Off = TexelSize * 0.5;
 
 		Src1 = SrcMip.SampleLevel(LinearClampSampler, UV1, SrcMipLevel);
 		Src1 += SrcMip.SampleLevel(LinearClampSampler, UV1 + float2(Off.x, 0.0), SrcMipLevel);
