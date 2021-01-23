@@ -1,6 +1,8 @@
 #include "../ConceptEngineFramework/CETools.h"
 #include "../ConceptEngineFramework/ConceptEngine.h"
 
+using namespace Concept;
+
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
 	try {
@@ -8,28 +10,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return engine.Run();
 	}
 	catch (const std::exception& e) {
-		std::wstringstream wssx;
-		wssx << "std::exception: " << e.what() << " FILE: " << __FILE__ << " LINE: " << __LINE__ << std::endl;
-		OutputDebugStringW(wssx.str().c_str());
-
-		MessageBox(
-			nullptr,
-			CETools::ConvertCharArrayToLPCWSTR(e.what()),
-			CETools::ConvertCharArrayToLPCWSTR("Exception"),
-			MB_OK | MB_ICONEXCLAMATION
-		);
+		MessageBox(nullptr, CETools::ConvertCharArrayToLPCWSTR(e.what()), L"Exception",MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (...) {
-		std::wstringstream wssx;
-		wssx << "...: " << "No error details" << std::endl;
-		OutputDebugStringW(wssx.str().c_str());
-
-		MessageBox(
-			nullptr,
-			CETools::ConvertCharArrayToLPCWSTR("No error details"),
-			CETools::ConvertCharArrayToLPCWSTR("Exception"),
-			MB_OK | MB_ICONEXCLAMATION
-		);
+		MessageBox(nullptr, L"No error details", L"Exception",MB_OK | MB_ICONEXCLAMATION);
 	}
 	return -1;
 }

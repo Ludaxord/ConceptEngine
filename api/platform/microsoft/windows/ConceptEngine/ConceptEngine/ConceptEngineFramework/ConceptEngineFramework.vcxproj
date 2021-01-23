@@ -40,8 +40,9 @@
     <ClInclude Include="CEDX12Libs.h" />
     <ClInclude Include="CEDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDevice.h" />
+    <ClInclude Include="CEEvents.h" />
+    <ClInclude Include="CEGame.h" />
     <ClInclude Include="CEGenerateMipsPSO.h" />
-    <ClInclude Include="CEDirectXGraphics.h" />
     <ClInclude Include="CEGenerateMips_CS.h" />
     <ClInclude Include="CEGUI.h" />
     <ClInclude Include="CEIndexBuffer.h" />
@@ -85,11 +86,15 @@
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="CEWindowMessage.h" />
     <ClInclude Include="ConceptEngine.h" />
+    <ClInclude Include="CThreadSafeQueue.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="ImGUI_PS.h" />
     <ClInclude Include="ImGUI_VS.h" />
+    <ClInclude Include="optional.hpp" />
     <ClInclude Include="PanoToCubemap_CS.h" />
+    <ClInclude Include="ReadDirectoryChanges.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="signals.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEAudio.cpp" />
@@ -110,8 +115,9 @@
     <ClCompile Include="CEDescriptorAllocatorPage.cpp" />
     <ClCompile Include="CEDynamicDescriptorHeap.cpp" />
     <ClCompile Include="CEDevice.cpp" />
+    <ClCompile Include="CEEvents.cpp" />
+    <ClCompile Include="CEGame.cpp" />
     <ClCompile Include="CEGenerateMipsPSO.cpp" />
-    <ClCompile Include="CEDirectXGraphics.cpp" />
     <ClCompile Include="CEGUI.cpp" />
     <ClCompile Include="CEIndexBuffer.cpp" />
     <ClCompile Include="CEMaterial.cpp" />

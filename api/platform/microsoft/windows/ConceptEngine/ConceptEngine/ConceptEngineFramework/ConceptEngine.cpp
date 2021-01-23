@@ -1,5 +1,6 @@
 #include "ConceptEngine.h"
 
+using namespace Concept;
 
 ConceptEngine::ConceptEngine(): apiType_(CEOSTools::CEGraphicsApiTypes::direct3d12) {
 	Init();
@@ -23,6 +24,15 @@ void ConceptEngine::Init() {
 }
 
 int ConceptEngine::Run() {
+	return RunGraphics();
+	return RunGameEngine();
+}
+
+int ConceptEngine::RunGameEngine() {
+	return 0;
+}
+
+int ConceptEngine::RunGraphics() {
 	window_->GetGraphics().LogSystemInfo();
 	isAppRunning_ = true;
 	while (true) {
@@ -50,7 +60,7 @@ Logger ConceptEngine::CreateLogger(const std::string& name) const {
 }
 
 void ConceptEngine::InitInput() {
-	inputs_ = std::shared_ptr<CEInput>();
+	inputs_ = std::shared_ptr<GameEngine::CEInput>();
 }
 
 Input ConceptEngine::GetInput() {

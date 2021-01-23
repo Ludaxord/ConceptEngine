@@ -26,48 +26,56 @@
 #include "CETimer.h"
 #include "CEWindow.h"
 
-using Logger = std::shared_ptr<spdlog::logger>;
-using Input = std::shared_ptr<CEInput>;
 
-class ConceptEngine {
-public:
-	ConceptEngine();
-	ConceptEngine(int width, int height, const char* name);
-	ConceptEngine(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType);
+namespace Concept {
 
-	void Init();
-	int Run();
-	void MakeFrame();
+	using Logger = std::shared_ptr<spdlog::logger>;
+	using Input = std::shared_ptr<GameEngine::CEInput>;
 
-	Logger CreateLogger(const std::string& name) const;
-	void InitInput();
+	class ConceptEngine {
+	public:
+		ConceptEngine();
+		ConceptEngine(int width, int height, const char* name);
+		ConceptEngine(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType);
 
-	static Input GetInput();
-	static Logger GetLogger();
+		void Init();
+		int Run();
+		void MakeFrame();
 
-protected:
-	void InitSpdLog();
-	static void CreateConsoleWindow();
+		int RunGameEngine();
+		int RunGraphics();
+
+		Logger CreateLogger(const std::string& name) const;
+		void InitInput();
+
+		static Input GetInput();
+		static Logger GetLogger();
+
+	protected:
+		void InitSpdLog();
+		static void CreateConsoleWindow();
 
 
-private:
-	/**
-	 * Global engine state variables:
-	 */
+	private:
+		/**
+		 * Global engine state variables:
+		 */
 
-	std::atomic_bool isAppRunning_;
-	std::atomic_bool appShouldQuit_;
+		std::atomic_bool isAppRunning_;
+		std::atomic_bool appShouldQuit_;
 
-	/**
-	 * Input struct variable
-	 */
-	inline static Input inputs_ = nullptr;
-	/**
-	 * Global Engine objects variables:
-	 */
-	inline static Logger static_logger_ = nullptr;
-	CEOSTools::CEGraphicsApiTypes apiType_;
-	std::unique_ptr<CEWindow> window_ = nullptr;
-	CETimer timer_;
-	Logger logger_;
-};
+		/**
+		 * Input struct variable
+		 */
+		inline static Input inputs_ = nullptr;
+		/**
+		 * Global Engine objects variables:
+		 */
+		inline static Logger static_logger_ = nullptr;
+		CEOSTools::CEGraphicsApiTypes apiType_;
+		std::unique_ptr<CEWindow> window_ = nullptr;
+		CETimer timer_;
+		Logger logger_;
+	};
+
+}

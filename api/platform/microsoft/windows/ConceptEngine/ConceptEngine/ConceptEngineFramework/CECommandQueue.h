@@ -65,8 +65,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		wrl::ComPtr<ID3D12Fence> m_fence;
 		std::atomic_uint64_t m_fenceValue;
 
-		CEThreadSafeQueue<CommandListEntry> m_inUseCommandLists;
-		CEThreadSafeQueue<std::shared_ptr<CECommandList>> m_availableCommandLists;
+		GameEngine::CEThreadSafeQueue<CommandListEntry> m_inUseCommandLists;
+		GameEngine::CEThreadSafeQueue<std::shared_ptr<CECommandList>> m_availableCommandLists;
 
 		std::thread m_processInUseCommandListsThread;
 		std::atomic_bool m_boolProcessInUseCommandLists;

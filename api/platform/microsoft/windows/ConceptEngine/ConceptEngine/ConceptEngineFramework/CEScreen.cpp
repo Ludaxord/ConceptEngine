@@ -1,5 +1,7 @@
 #include "CEScreen.h"
 
+using namespace Concept::GameEngine;
+
 CEScreen::CEScreen(int vertical, int horizontal): vertical(vertical), horizontal(horizontal) {
 	aspectRatio = CalculateAspectRatio(horizontal, vertical);
 	refreshRate = GetRefreshRate();

@@ -1,5 +1,7 @@
 #include "CEInput.h"
 
+using namespace Concept::GameEngine;
+
 CEInput::CEInput() {
 	keyboardDevice_ = inputManager_.CreateDevice<gainput::InputDeviceKeyboard>();
 	mouseDevice_ = inputManager_.CreateDevice<gainput::InputDeviceMouse>();

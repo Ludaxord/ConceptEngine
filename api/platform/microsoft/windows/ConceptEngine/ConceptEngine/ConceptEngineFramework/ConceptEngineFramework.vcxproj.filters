@@ -100,9 +100,6 @@
     <Filter Include="GraphicsEngine\DirectX">
       <UniqueIdentifier>{8ebc95e6-ec48-4bca-9069-1610dd11e665}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GraphicsEngine\DirectX\Main">
-      <UniqueIdentifier>{532cf808-dc93-4e6b-89a7-a49e6ff44bed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GraphicsEngine\DirectX\Shaders">
       <UniqueIdentifier>{f1eb2703-5c3b-4e6c-8726-ba3bafaa422d}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,12 @@
     </Filter>
     <Filter Include="GraphicsEngine\DirectX\Source">
       <UniqueIdentifier>{8a56c006-539d-4b4b-81b4-b156c8cabf5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Source">
+      <UniqueIdentifier>{0b4f58de-1827-4d63-a21f-33832d43b37c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Headers">
+      <UniqueIdentifier>{42a060a8-23ca-471c-9286-f14dca5d97c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -194,15 +197,6 @@
     </ClInclude>
     <ClInclude Include="CEAudio.h">
       <Filter>AudioEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="CEInput.h">
-      <Filter>GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="CEScreen.h">
-      <Filter>GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="CEDirectXGraphics.h">
-      <Filter>GraphicsEngine\DirectX\Main</Filter>
     </ClInclude>
     <ClInclude Include="d3dx12.h">
       <Filter>GraphicsEngine\DirectX\Libs</Filter>
@@ -315,9 +309,6 @@
     <ClInclude Include="CETexture.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CEThreadSafeQueue.h">
-      <Filter>GraphicsEngine\DirectX\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="CEUnorderedAccessView.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
@@ -332,6 +323,33 @@
     </ClInclude>
     <ClInclude Include="CEVisitor.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGame.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEInput.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEScreen.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEEvents.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadDirectoryChanges.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEThreadSafeQueue.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CThreadSafeQueue.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="signals.hpp">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="optional.hpp">
+      <Filter>Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -394,15 +412,6 @@
     </ClCompile>
     <ClCompile Include="CEAudio.cpp">
       <Filter>AudioEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="CEInput.cpp">
-      <Filter>GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="CEScreen.cpp">
-      <Filter>GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="CEDirectXGraphics.cpp">
-      <Filter>GraphicsEngine\DirectX\Main</Filter>
     </ClCompile>
     <ClCompile Include="CEImGUI.cpp">
       <Filter>Source Files</Filter>
@@ -505,6 +514,18 @@
     </ClCompile>
     <ClCompile Include="CEVertexTypes.cpp">
       <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEGame.cpp">
+      <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEInput.cpp">
+      <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEScreen.cpp">
+      <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEEvents.cpp">
+      <Filter>GameEngine\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

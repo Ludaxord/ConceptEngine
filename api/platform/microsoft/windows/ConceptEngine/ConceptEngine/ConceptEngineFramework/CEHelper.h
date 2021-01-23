@@ -6,6 +6,8 @@
 #include <Windows.h> // For HRESULT
 #include "ConceptEngine.h"
 
+using namespace Concept;
+
 inline void ThrowIfFailed(HRESULT hr) {
 	if (FAILED(hr)) {
 		_com_error err(hr);
