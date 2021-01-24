@@ -354,6 +354,9 @@
     <ClInclude Include="CEScreen.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CEWinLib.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">

@@ -86,6 +86,7 @@
     <ClInclude Include="CEVulkanGraphics.h" />
     <ClInclude Include="CEWindow.h" />
     <ClInclude Include="CEWindowMessage.h" />
+    <ClInclude Include="CEWinLib.h" />
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="CThreadSafeQueue.h" />
     <ClInclude Include="d3dx12.h" />

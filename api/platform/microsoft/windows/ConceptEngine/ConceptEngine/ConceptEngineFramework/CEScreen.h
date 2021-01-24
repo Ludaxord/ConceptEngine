@@ -154,6 +154,11 @@ public:
 	Event KeyboardBlur;
 
 	/*
+	 * Invoked when mouse is moved over the window.
+	 */
+	MouseMotionEvent MouseMoved;
+	
+	/*
 	 * Invoked when mouse enters client area
 	 */
 	MouseMotionEvent MouseEnter;
