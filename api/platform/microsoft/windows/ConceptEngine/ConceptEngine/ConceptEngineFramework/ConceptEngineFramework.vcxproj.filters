@@ -351,6 +351,9 @@
     <ClInclude Include="optional.hpp">
       <Filter>Tools</Filter>
     </ClInclude>
+    <ClInclude Include="CEKeyCodes.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">

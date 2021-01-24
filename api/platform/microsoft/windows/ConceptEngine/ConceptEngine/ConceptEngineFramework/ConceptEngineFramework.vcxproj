@@ -46,6 +46,7 @@
     <ClInclude Include="CEGenerateMips_CS.h" />
     <ClInclude Include="CEGUI.h" />
     <ClInclude Include="CEIndexBuffer.h" />
+    <ClInclude Include="CEKeyCodes.h" />
     <ClInclude Include="CEMaterial.h" />
     <ClInclude Include="CEMesh.h" />
     <ClInclude Include="CEPanoToCubemapPSO.h" />
