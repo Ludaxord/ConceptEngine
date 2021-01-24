@@ -20,7 +20,6 @@ ConceptEngine::ConceptEngine(int width, int height, const char* name,
 void ConceptEngine::Init() {
 	InitSpdLog();
 	static_logger_ = CreateLogger("ConceptEngine");
-	InitInput();
 }
 
 int ConceptEngine::Run() {
@@ -57,14 +56,6 @@ Logger ConceptEngine::CreateLogger(const std::string& name) const {
 	}
 
 	return logger;
-}
-
-void ConceptEngine::InitInput() {
-	inputs_ = std::shared_ptr<GameEngine::CEInput>();
-}
-
-Input ConceptEngine::GetInput() {
-	return inputs_;
 }
 
 Logger ConceptEngine::GetLogger() {

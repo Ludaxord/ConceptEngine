@@ -327,12 +327,6 @@
     <ClInclude Include="CEGame.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CEInput.h">
-      <Filter>GameEngine\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="CEScreen.h">
-      <Filter>GameEngine\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="CEEvents.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
@@ -352,6 +346,12 @@
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="CEKeyCodes.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGameTimer.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEScreen.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -521,13 +521,13 @@
     <ClCompile Include="CEGame.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="CEInput.cpp">
+    <ClCompile Include="CEEvents.cpp">
+      <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEGameTimer.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEScreen.cpp">
-      <Filter>GameEngine\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CEEvents.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
   </ItemGroup>

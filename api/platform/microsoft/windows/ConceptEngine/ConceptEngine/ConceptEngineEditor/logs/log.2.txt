@@ -1,11 +1,8 @@
-[2021-01-23 20:50:56.702] [ConceptEngine] [info] VSync Enabled: true
-[2021-01-23 20:50:56.799] [ConceptEngine] [info] ===== SYSTEM_INFO ======
-[2021-01-23 20:50:56.799] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-23 20:50:56.799] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
-[2021-01-23 20:50:56.799] [ConceptEngine] [info] Threads: 24
-[2021-01-23 20:50:56.799] [ConceptEngine] [info] RAM: 32689.00 MB
-[2021-01-23 20:50:56.799] [ConceptEngine] [info] ========================
-[2021-01-23 20:50:57.801] [ConceptEngine] [info] FPS: 1456.413
-[2021-01-23 20:50:58.801] [ConceptEngine] [info] FPS: 2040.478
-[2021-01-23 20:50:59.801] [ConceptEngine] [info] FPS: 2186.701
-[2021-01-23 20:51:00.801] [ConceptEngine] [info] FPS: 1940.246
+[2021-01-24 16:30:42.583] [ConceptEngine] [info] VSync Enabled: true
+[2021-01-24 16:30:42.692] [ConceptEngine] [info] ===== SYSTEM_INFO ======
+[2021-01-24 16:30:42.692] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
+[2021-01-24 16:30:42.692] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
+[2021-01-24 16:30:42.692] [ConceptEngine] [info] Threads: 24
+[2021-01-24 16:30:42.692] [ConceptEngine] [info] RAM: 32689.00 MB
+[2021-01-24 16:30:42.692] [ConceptEngine] [info] ========================
+[2021-01-24 16:30:43.693] [ConceptEngine] [info] FPS: 1110.538

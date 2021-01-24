@@ -31,34 +31,34 @@ inline void GetDesktopResolution(int& horizontal, int& vertical) {
 }
 
 /*
- * Set the name of an std::thread.
- * Useful for debugging.
+ * Set name of an std::thread
+ * for Debug reasons
  */
 const DWORD MS_VC_EXCEPTION = 0x406D1388;
 
 /*
- * Set name of running thread
+ * Set name of running thread (for debugging)
  */
-#pragma pack(push, 8)
-typedef struct tagTHREAADNAME_INFO {
+#pragma pack( push, 8 )
+typedef struct tagTHREADNAME_INFO {
 	/*
 	 * Must be 0x1000
 	 */
 	DWORD dwType;
 	/*
-	 * Pointer to name
+	 * Pointer to name (in user address space);
 	 */
 	LPCSTR szName;
 	/*
-	 * Thread ID
+	 * Thread ID (-1=caller thread).
 	 */
 	DWORD dwThreadID;
 	/*
-	 * Reserver for future use, must be zero.
+	 * Reserved for future use, must be zero.
 	 */
 	DWORD dwFlags;
 } THREADNAME_INFO;
-#pragma pack(pop)
+#pragma pack( pop )
 
 inline void SetThreadName(std::thread& thread, const char* threadName) {
 	THREADNAME_INFO info;
@@ -73,10 +73,6 @@ inline void SetThreadName(std::thread& thread, const char* threadName) {
 	__except (EXCEPTION_EXECUTE_HANDLER) {
 	}
 }
-
-/*
- * 
- */
 
 namespace Concept::Math {
 	constexpr float PI = 3.1415926535897932384626433832795f;

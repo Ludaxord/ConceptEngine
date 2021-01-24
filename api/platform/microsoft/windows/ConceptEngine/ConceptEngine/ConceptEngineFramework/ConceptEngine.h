@@ -21,7 +21,6 @@
 #include <gainput/gainput.h>
 
 
-#include "CEInput.h"
 #include "CEOSTools.h"
 #include "CETimer.h"
 #include "CEWindow.h"
@@ -30,7 +29,6 @@
 namespace Concept {
 
 	using Logger = std::shared_ptr<spdlog::logger>;
-	using Input = std::shared_ptr<GameEngine::CEInput>;
 
 	class ConceptEngine {
 	public:
@@ -46,9 +44,7 @@ namespace Concept {
 		int RunGraphics();
 
 		Logger CreateLogger(const std::string& name) const;
-		void InitInput();
 
-		static Input GetInput();
 		static Logger GetLogger();
 
 	protected:
@@ -64,10 +60,6 @@ namespace Concept {
 		std::atomic_bool isAppRunning_;
 		std::atomic_bool appShouldQuit_;
 
-		/**
-		 * Input struct variable
-		 */
-		inline static Input inputs_ = nullptr;
 		/**
 		 * Global Engine objects variables:
 		 */

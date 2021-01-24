@@ -1,39 +1,346 @@
 #pragma once
-#include "CEWindow.h"
+#include <activation.h>
+#include <string>
 
-namespace Concept::GameEngine {
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 
-	enum class CEWindowState {
-		Restored = 0,
-		// The window has been resized.
-		Minimized = 1,
-		// The window has been minimized.
-		Maximized = 2,
-		// The window has been maximized.
-	};
-
-	enum class CEScreenTypes {
-		Primary,
-		AllCombined,
-		WorkingArea,
-		Specific
-	};
+#include "CEEvents.h"
+#include "CEGameTimer.h"
 
 
-	struct CEScreen {
-		CEScreen(int vertical, int horizontal);
+// namespace Concept::GameEngine {
 
-	private:
-		int horizontal = 0;
-		int vertical = 0;
-		double aspectRatio = 0;
-		double refreshRate = 0;
+/*
+ * Forward declarations
+ */
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-	public:
-		double CalculateAspectRatio(int horizontal = 0, int vertical = 0);
-		int GetRefreshRate();
+class CEScreen {
+public:
+	/*
+	 * Get handle to OS window instance.
+	 *
+	 * @returns handle to Os Window instance.
+	 */
+	HWND GetWindowHandle() const;
 
-		static CEScreen GetScreen(CEScreenTypes type = CEScreenTypes::Primary);
-		static CEWindowState DecodeWindowState(WPARAM wParam);
-	};
-}
+	/*
+	 * Get current (normalized) DPI scaling for this window
+	 *
+	 * @returns (normalized) DPI scaling for window
+	 */
+	float GetDPIScaling() const;
+
+	/*
+	 * Get name that was used to create window.
+	 *
+	 * @returns name that was used to create window.
+	 */
+	const std::wstring& GetWindowName() const;
+
+	/*
+	 * Set window title.
+	 *
+	 * @param title, new title of window
+	 */
+	void SetWindowTitle(const std::wstring& windowTitle);
+
+	/*
+	 * Get current title of window.
+	 *
+	 * @returns current title of window
+	 */
+	const std::wstring& GetWindowTitle() const;
+
+	/*
+	 * Get width of window client area
+	 *
+	 * @returns width of window client area (in pixels)
+	 */
+	int GetClientWidth() const {
+		return m_clientWidth;
+	}
+
+	/*
+	 * Get height of window client area.
+	 *
+	 * @returns height of window client area (in pixels)
+	 */
+	int GetClientHeight() const {
+		return m_clientHeight;
+	}
+
+	/*
+	 * Check to see if window is in fullscreen mode
+	 */
+	bool IsFullscreen() const;
+
+	/*
+	 * Set window to fullscreen state
+	 *
+	 * @param fullscreen true to set window to fullscreen, false to set windowed mode.
+	 */
+	void SetFullscreen(bool fullscreen);
+
+	/*
+	 * Toggle current fullscreen state of window
+	 */
+	void ToggleFullscreen();
+
+
+	/*
+	 * Show window
+	 */
+	void Show();
+
+	/*
+	 * Hide window.
+	 */
+	void Hide();
+
+	/*
+	 * Invoked when game should be updated.
+	 */
+	UpdateEvent Update;
+
+	/*
+	 * DPI scaling of window has changed.
+	 */
+	DPIScaleEvent DPIScaleChanged;
+
+	/*
+	 * Window close event, run when window is about to be closed.
+	 */
+	WindowCloseEvent Close;
+
+	/*
+	 * Invoked when window is resized
+	 */
+	ResizeEvent Resize;
+
+	/*
+	 * Invoked when window is minimized
+	 */
+	ResizeEvent Minimized;
+
+	/*
+	 * Invoked when window is maximized
+	 */
+	ResizeEvent Maximized;
+
+	/*
+	 * Invoked when window is restored
+	 */
+	ResizeEvent Restored;
+
+	/*
+	 * Invoked when keyboard key is pressed while window has focus
+	 */
+	KeyboardEvent KeyPressed;
+
+	/*
+	 * Invoked when keyboard key is released while window has focus.
+	 */
+	KeyboardEvent KeyReleased;
+
+	/*
+	 * Invoked when window gains keyboard focus
+	 */
+	Event KeyboardFocus;
+
+	/*
+	 * Invoked when window loses keyboard focus
+	 */
+	Event KeyboardBlur;
+
+	/*
+	 * Invoked when mouse enters client area
+	 */
+	MouseMotionEvent MouseEnter;
+
+	/*
+	 * Invoke when mouse button is pressed over window
+	 */
+	MouseButtonEvent MouseButtonPressed;
+
+	/*
+	 * Invoked when mouse button is released over window
+	 */
+	MouseButtonEvent MouseButtonReleased;
+
+	/*
+	 * Invoked when mouse wheel is scrolled over window
+	 */
+	MouseWheelEvent MouseWheel;
+
+	/*
+	 * Invoked when mouse cursor leaves client area.
+	 */
+	Event MouseLeave;
+
+	/*
+	 * Invoked when window gains mouse focus.
+	 */
+	Event MouseFocus;
+
+	/*
+	 * Invoked when window looses mouse focus
+	 */
+	Event MouseBlur;
+protected:
+	friend class CEGame;
+	/*
+	 * It is required to allow WndProc function to call event callbacks on window
+	 */
+	friend LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
+	/*
+	 * Only Application can create windows.
+	 */
+	CEScreen(HWND hWnd, const std::wstring& windowName, int clientWidth, int clientHeight);
+
+	virtual ~CEScreen();
+
+	/*
+	 * Update game
+	 */
+	virtual void OnUpdate(UpdateEventArgs& e);
+
+	/*
+	 * DPI scaling of window has changed
+	 */
+	virtual void OnDPIScaleChanged(DPIScaleEventArgs& e);
+
+	/*
+	 * Window was closed
+	 */
+	virtual void OnClose(WindowCloseEventArgs& e);
+
+	/*
+	 * Window was resized
+	 */
+	virtual void OnResize(ResizeEventArgs& e);
+
+	/*
+	 * Window was minimized
+	 */
+	virtual void OnMinimized(ResizeEventArgs& e);
+
+	/*
+	 * Window was maximized
+	 */
+	virtual void OnMaximized(ResizeEventArgs& e);
+
+	/*
+	 * Window was restored
+	 */
+	virtual void OnRestored(ResizeEventArgs& e);
+
+	/*
+	 * Keyboard key was pressed
+	 */
+	virtual void OnKeyPressed(KeyEventArgs& e);
+
+	/*
+	 * Keyboard key was released
+	 */
+	virtual void OnKeyReleased(KeyEventArgs& e);
+
+	/*
+	 * Window gained keyboard focus
+	 */
+	virtual void OnKeyboardFocus(EventArgs& e);
+
+	/*
+	 * Window lost keyboard focus
+	 */
+	virtual void OnKeyboardBlur(EventArgs& e);
+
+	/*
+	 * Mouse was moved
+	 */
+	virtual void OnMouseMoved(MouseMotionEventArgs& e);
+
+	/*
+	 * Mouse button was pressed
+	 */
+	virtual void OnMouseButtonPressed(MouseButtonEventArgs& e);
+
+	/*
+	 * Mouse button was released
+	 */
+	virtual void OnMouseButtonReleased(MouseButtonEventArgs& e);
+
+	/*
+	 * Mouse wheel was moved
+	 */
+	virtual void OnMouseWheel(MouseWheelEventArgs& e);
+
+	/*
+	 * Mouse entered client area
+	 */
+	virtual void OnMouseEnter(MouseMotionEventArgs& e);
+
+	/*
+	 * Mouse left client area of window
+	 */
+	virtual void OnMouseLeave(EventArgs& e);
+
+	/*
+	 * Window gain mouse focus
+	 */
+	virtual void OnMouseFocus(EventArgs& e);
+
+	/*
+	 * Window lost mouse focus
+	 */
+	virtual void OnMouseBlur(EventArgs& e);
+
+private:
+	HWND m_hWnd;
+
+	std::wstring m_name;
+	std::wstring m_title;
+
+	uint32_t m_clientWidth;
+	uint32_t m_clientHeight;
+
+	int32_t m_previousMouseX;
+	int32_t m_previousMouseY;
+
+	/*
+	 * Get current dpi scaling of window
+	 */
+	float m_DPIScaling;
+
+	/*
+	 * Current fullscreen state of window
+	 */
+	bool m_isFullscreen;
+
+	/*
+	 * Check if window is minimized
+	 */
+	bool m_isMinimized;
+
+	/*
+	 * Check if window is maximized
+	 */
+	bool m_isMaximized;
+
+	/*
+	 * Check if mouse is inside window client rect
+	 */
+	bool m_bInClientRect;
+
+	RECT m_windowRect;
+
+	/*
+	 * Check if window receives keyboard focus
+	 */
+	bool m_bHasKeyboardFocus;
+	CEGameTimer m_timer;
+};
+
+// }

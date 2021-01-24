@@ -42,6 +42,7 @@
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEEvents.h" />
     <ClInclude Include="CEGame.h" />
+    <ClInclude Include="CEGameTimer.h" />
     <ClInclude Include="CEGenerateMipsPSO.h" />
     <ClInclude Include="CEGenerateMips_CS.h" />
     <ClInclude Include="CEGUI.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="CERootSignature.h" />
     <ClInclude Include="CEScene.h" />
     <ClInclude Include="CESceneNode.h" />
+    <ClInclude Include="CEScreen.h" />
     <ClInclude Include="CEShaderResourceView.h" />
     <ClInclude Include="CEStructuredBuffer.h" />
     <ClInclude Include="CESwapChain.h" />
@@ -70,7 +72,6 @@
     <ClInclude Include="CEGraphics.h" />
     <ClInclude Include="CEImGUI.h" />
     <ClInclude Include="CEHelper.h" />
-    <ClInclude Include="CEInput.h" />
     <ClInclude Include="CEKeyboard.h" />
     <ClInclude Include="CELib.h" />
     <ClInclude Include="CEMath.h" />
@@ -79,7 +80,6 @@
     <ClInclude Include="CENode.h" />
     <ClInclude Include="CEOpenGLGraphics.h" />
     <ClInclude Include="CEOSTools.h" />
-    <ClInclude Include="CEScreen.h" />
     <ClInclude Include="CETimer.h" />
     <ClInclude Include="CETools.h" />
     <ClInclude Include="CEVulkan.h" />
@@ -118,6 +118,7 @@
     <ClCompile Include="CEDevice.cpp" />
     <ClCompile Include="CEEvents.cpp" />
     <ClCompile Include="CEGame.cpp" />
+    <ClCompile Include="CEGameTimer.cpp" />
     <ClCompile Include="CEGenerateMipsPSO.cpp" />
     <ClCompile Include="CEGUI.cpp" />
     <ClCompile Include="CEIndexBuffer.cpp" />
@@ -131,6 +132,7 @@
     <ClCompile Include="CERootSignature.cpp" />
     <ClCompile Include="CEScene.cpp" />
     <ClCompile Include="CESceneNode.cpp" />
+    <ClCompile Include="CEScreen.cpp" />
     <ClCompile Include="CEShaderResourceView.cpp" />
     <ClCompile Include="CEStructuredBuffer.cpp" />
     <ClCompile Include="CESwapChain.cpp" />
@@ -140,14 +142,12 @@
     <ClCompile Include="CEVertexBuffer.cpp" />
     <ClCompile Include="CEVertexTypes.cpp" />
     <ClCompile Include="CEGraphics.cpp" />
-    <ClCompile Include="CEInput.cpp" />
     <ClCompile Include="CEKeyboard.cpp" />
     <ClCompile Include="CEMath.cpp" />
     <ClCompile Include="CEMetalGraphics.cpp" />
     <ClCompile Include="CEMouse.cpp" />
     <ClCompile Include="CEOpenGLGraphics.cpp" />
     <ClCompile Include="CEOSTools.cpp" />
-    <ClCompile Include="CEScreen.cpp" />
     <ClCompile Include="CETimer.cpp" />
     <ClCompile Include="CETools.cpp" />
     <ClCompile Include="CEVulkan.cpp" />
