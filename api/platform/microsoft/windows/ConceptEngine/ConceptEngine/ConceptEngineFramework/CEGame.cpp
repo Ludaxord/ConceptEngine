@@ -6,12 +6,11 @@
 #include "CETools.h"
 #include "../ConceptEngineEditor/resource.h"
 
-// using namespace Concept::GameEngine;
+using namespace Concept::GameEngine;
 
 static CEGame* g_pGameSingleton = nullptr;
 constexpr wchar_t WINDOW_CLASS_NAME[] = L"RenderConceptEngineWindowClass";
 
-static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 constexpr int MAX_CONSOLE_LINES = 500;
 

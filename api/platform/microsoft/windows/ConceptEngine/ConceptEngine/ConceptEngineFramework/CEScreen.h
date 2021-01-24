@@ -8,13 +8,12 @@
 #include "CEEvents.h"
 #include "CEGameTimer.h"
 
-
-// namespace Concept::GameEngine {
-
 /*
  * Forward declarations
  */
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
+namespace Concept::GameEngine {
 
 class CEScreen {
 public:
@@ -193,7 +192,7 @@ protected:
 	/*
 	 * It is required to allow WndProc function to call event callbacks on window
 	 */
-	friend LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+	friend LRESULT CALLBACK ::WndProc(HWND, UINT, WPARAM, LPARAM);
 
 	/*
 	 * Only Application can create windows.
@@ -343,4 +342,4 @@ private:
 	CEGameTimer m_timer;
 };
 
-// }
+}

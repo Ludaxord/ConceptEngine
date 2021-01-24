@@ -3,7 +3,7 @@
 #include "CEKeyCodes.h"
 #include "signals.hpp"
 
-// namespace Concept::GameEngine {
+namespace Concept::GameEngine {
 /*
  * Delegate holds function callbacks
  */
@@ -509,4 +509,4 @@ private:
 };
 
 using FileChangeEvent = Delegate<void(FileChangedEventArgs&)>;
-// }
+}

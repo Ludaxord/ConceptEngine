@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-// namespace Concept::GameEngine {
+namespace Concept::GameEngine {
 	class CEGameTimer {
 	public:
 		CEGameTimer();
@@ -39,4 +39,4 @@
 		std::unique_ptr<impl> pImpl;
 
 	};
-// }
+}
