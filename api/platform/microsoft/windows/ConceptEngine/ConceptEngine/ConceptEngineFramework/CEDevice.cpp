@@ -48,7 +48,7 @@ class CEDescriptorAllocatorInstance : public CEDescriptorAllocator {
 
 public:
 	CEDescriptorAllocatorInstance(CEDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE type,
-		uint32_t numDescriptorsPerHeap = 256)
+	                              uint32_t numDescriptorsPerHeap = 256)
 		: CEDescriptorAllocator(device, type, numDescriptorsPerHeap) {
 	}
 
@@ -116,7 +116,7 @@ public:
 	}
 
 	CEIndexBufferInstance(CEDevice& device, const ComPtr<ID3D12Resource>& resource, size_t numIndices,
-		DXGI_FORMAT indexFormat)
+	                      DXGI_FORMAT indexFormat)
 		: CEIndexBuffer(device, resource, numIndices, indexFormat) {
 	}
 
@@ -133,7 +133,7 @@ public:
 	}
 
 	CEVertexBufferInstance(CEDevice& device, const ComPtr<ID3D12Resource>& resource, size_t numVertices,
-		size_t vertexStride)
+	                       size_t vertexStride)
 		: CEVertexBuffer(device, resource, numVertices, vertexStride) {
 	}
 
@@ -149,7 +149,7 @@ public:
 	}
 
 	CEStructuredBufferInstance(CEDevice& device, const ComPtr<ID3D12Resource>& resource, size_t numElements,
-		size_t elementSize)
+	                           size_t elementSize)
 		: CEStructuredBuffer(device, resource, numElements, elementSize) {
 	}
 
@@ -166,7 +166,7 @@ public:
 	}
 
 	CETextureInstance(CEDevice& device, const ComPtr<ID3D12Resource>& resource,
-		const D3D12_CLEAR_VALUE* clearValue)
+	                  const D3D12_CLEAR_VALUE* clearValue)
 		: CETexture(device, resource, clearValue) {
 	}
 
@@ -203,7 +203,7 @@ class CEConstantBufferViewInstance : public CEConstantBufferView {
 
 public:
 	CEConstantBufferViewInstance(CEDevice& device, const std::shared_ptr<CEConstantBuffer>& constantBuffer,
-		size_t offset)
+	                             size_t offset)
 		: CEConstantBufferView(device, constantBuffer, offset) {
 	}
 
@@ -216,7 +216,7 @@ class CEShaderResourceViewInstance : public CEShaderResourceView {
 
 public:
 	CEShaderResourceViewInstance(CEDevice& device, const std::shared_ptr<CEResource>& resource,
-		const D3D12_SHADER_RESOURCE_VIEW_DESC* srv)
+	                             const D3D12_SHADER_RESOURCE_VIEW_DESC* srv)
 		: CEShaderResourceView(device, resource, srv) {
 	}
 
@@ -229,8 +229,8 @@ class CEUnorderedAccessViewInstance : public CEUnorderedAccessView {
 
 public:
 	CEUnorderedAccessViewInstance(CEDevice& device, const std::shared_ptr<CEResource>& resource,
-		const std::shared_ptr<CEResource>& counterResource,
-		const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav)
+	                              const std::shared_ptr<CEResource>& counterResource,
+	                              const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav)
 		: CEUnorderedAccessView(device, resource, counterResource, uav) {
 	}
 
@@ -258,7 +258,13 @@ std::shared_ptr<CEDevice> CEDevice::Create(std::shared_ptr<CEAdapter> adapter) {
 	return std::make_shared<CEDeviceInstance>(adapter);
 }
 
-std::wstring CEDevice::GetDescription() const {
+std::string CEDevice::GetDescription() const {
+	auto wDesc = GetWDescription();
+	std::string sDesc(wDesc.begin(), wDesc.end());
+	return sDesc;
+}
+
+std::wstring CEDevice::GetWDescription() const {
 	return m_adapter->GetDescription();
 }
 
@@ -288,7 +294,7 @@ std::shared_ptr<CEByteAddressBuffer> CEDevice::CreateByteAddressBuffer(size_t bu
 	bufferSize = Math::AlignUp(bufferSize, 4);
 	std::shared_ptr<CEByteAddressBuffer> byteAddressBuffer = std::make_shared<CEByteAddressBufferInstance>(
 		*this, CD3DX12_RESOURCE_DESC::Buffer(bufferSize, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS)
-		);
+	);
 	return byteAddressBuffer;
 }
 
@@ -305,20 +311,20 @@ std::shared_ptr<CEStructuredBuffer> CEDevice::CreateStructuredBuffer(size_t numE
 }
 
 std::shared_ptr<CEStructuredBuffer> CEDevice::CreateStructuredBuffer(wrl::ComPtr<ID3D12Resource> resource,
-	size_t numElements, size_t elementSize) {
+                                                                     size_t numElements, size_t elementSize) {
 	std::shared_ptr<CEStructuredBuffer> structuredBuffer = std::make_shared<CEStructuredBufferInstance>(
 		*this, resource, numElements, elementSize);
 	return structuredBuffer;
 }
 
 std::shared_ptr<CETexture> CEDevice::CreateTexture(const D3D12_RESOURCE_DESC& resourceDesc,
-	const D3D12_CLEAR_VALUE* clearValue) {
+                                                   const D3D12_CLEAR_VALUE* clearValue) {
 	std::shared_ptr<CETexture> texture = std::make_shared<CETextureInstance>(*this, resourceDesc, clearValue);
 	return texture;
 }
 
 std::shared_ptr<CETexture> CEDevice::CreateTexture(wrl::ComPtr<ID3D12Resource> resource,
-	const D3D12_CLEAR_VALUE* clearValue) {
+                                                   const D3D12_CLEAR_VALUE* clearValue) {
 	std::shared_ptr<CETexture> texture = std::make_shared<CETextureInstance>(*this, resource, clearValue);
 	return texture;
 }
@@ -330,7 +336,7 @@ std::shared_ptr<CEIndexBuffer> CEDevice::CreateIndexBuffer(size_t numIndicies, D
 }
 
 std::shared_ptr<CEIndexBuffer> CEDevice::CreateIndexBuffer(wrl::ComPtr<ID3D12Resource> resource, size_t numIndicies,
-	DXGI_FORMAT indexFormat) {
+                                                           DXGI_FORMAT indexFormat) {
 	std::shared_ptr<CEIndexBuffer> indexBuffer = std::make_shared<CEIndexBufferInstance>(
 		*this, resource, numIndicies, indexFormat);
 	return indexBuffer;
@@ -343,7 +349,7 @@ std::shared_ptr<CEVertexBuffer> CEDevice::CreateVertexBuffer(size_t numVertices,
 }
 
 std::shared_ptr<CEVertexBuffer> CEDevice::CreateVertexBuffer(wrl::ComPtr<ID3D12Resource> resource, size_t numVertices,
-	size_t vertexStride) {
+                                                             size_t vertexStride) {
 	std::shared_ptr<CEVertexBuffer> vertexBuffer = std::make_shared<CEVertexBufferInstance>(
 		*this, resource, numVertices, vertexStride);
 	return vertexBuffer;
@@ -363,17 +369,17 @@ std::shared_ptr<CEConstantBufferView> CEDevice::CreateConstantBufferView(
 }
 
 std::shared_ptr<CEShaderResourceView> CEDevice::CreateShaderResourceView(const std::shared_ptr<CEResource>& resource,
-	const D3D12_SHADER_RESOURCE_VIEW_DESC* srv) {
+                                                                         const D3D12_SHADER_RESOURCE_VIEW_DESC* srv) {
 	std::shared_ptr<CEShaderResourceView> shaderResourceView = std::make_shared<CEShaderResourceViewInstance>(
 		*this, resource, srv);
 	return shaderResourceView;
 }
 
 std::shared_ptr<CEUnorderedAccessView> CEDevice::CreateUnorderedAccessView(const std::shared_ptr<CEResource>& resource,
-	const std::shared_ptr<CEResource>
-	counterResource,
-	const D3D12_UNORDERED_ACCESS_VIEW_DESC*
-	uav) {
+                                                                           const std::shared_ptr<CEResource>
+                                                                           counterResource,
+                                                                           const D3D12_UNORDERED_ACCESS_VIEW_DESC*
+                                                                           uav) {
 	std::shared_ptr<CEUnorderedAccessView> unorderedAccessView = std::make_shared<CEUnorderedAccessViewInstance>(
 		*this, resource, counterResource, uav);
 	return unorderedAccessView;
@@ -410,8 +416,8 @@ CECommandQueue& CEDevice::GetCommandQueue(D3D12_COMMAND_LIST_TYPE type) {
 }
 
 DXGI_SAMPLE_DESC CEDevice::GetMultiSampleQualityLevels(DXGI_FORMAT format, UINT numSamples,
-	D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS flags) const {
-	DXGI_SAMPLE_DESC sampleDesc = { 1, 0 };
+                                                       D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS flags) const {
+	DXGI_SAMPLE_DESC sampleDesc = {1, 0};
 	D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS qualityLevels;
 	qualityLevels.Format = format;
 	qualityLevels.SampleCount = 1;
@@ -450,12 +456,12 @@ CEDevice::CEDevice(std::shared_ptr<CEAdapter> adapter) : m_adapter(adapter) {
 		/**
 		 * Suppress whole categories of messages
 		 */
-		 //D3D12_MESSAGE_CATEGORY Categories[] = {}
+		//D3D12_MESSAGE_CATEGORY Categories[] = {}
 
-		 /**
-		  * Suppress messages based on their severity level
-		  */
-		D3D12_MESSAGE_SEVERITY Severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		/**
+		 * Suppress messages based on their severity level
+		 */
+		D3D12_MESSAGE_SEVERITY Severities[] = {D3D12_MESSAGE_SEVERITY_INFO};
 
 		/**
 		 * Suppress individual messages by their ID
@@ -491,9 +497,9 @@ CEDevice::CEDevice(std::shared_ptr<CEAdapter> adapter) : m_adapter(adapter) {
 	 * Check features
 	 */
 
-	 /**
-	  * Check highest version of Root Signature
-	  */
+	/**
+	 * Check highest version of Root Signature
+	 */
 	{
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE featureData;
 		featureData.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;

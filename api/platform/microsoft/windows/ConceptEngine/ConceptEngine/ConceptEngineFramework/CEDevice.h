@@ -47,7 +47,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Get adapter description that Device is using.
 		 */
-		std::wstring GetDescription() const;
+		std::wstring GetWDescription() const;
+		/**
+		 * Get adapter description that Device is using as a std::string.
+		 */
+		std::string GetDescription() const;
 
 		/**
 		 * Allocate a number of CPU visible descriptors.

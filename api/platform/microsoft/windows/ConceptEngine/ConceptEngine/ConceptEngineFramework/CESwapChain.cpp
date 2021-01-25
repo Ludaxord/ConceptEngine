@@ -135,6 +135,57 @@ CESwapChain::CESwapChain(CEDevice& device, HWND hWnd, DXGI_FORMAT renderTargetFo
 	 */
 	RECT windowRect;
 	::GetClientRect(hWnd, &windowRect);
+
+	m_width = windowRect.right - windowRect.left;
+	m_height = windowRect.bottom - windowRect.top;
+
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+	swapChainDesc.Width = m_width;
+	swapChainDesc.Height = m_height;
+	swapChainDesc.Format = m_renderTargetFormat;
+	swapChainDesc.Stereo = FALSE;
+	swapChainDesc.SampleDesc = {1, 0};
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount = BufferCount;
+	swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+	swapChainDesc.Flags = m_tearingSupported ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+	swapChainDesc.Flags |= DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
+
+	/*
+	 * Create Swap Chain
+	 */
+	wrl::ComPtr<IDXGISwapChain1> dxgiSwapChain1;
+	ThrowIfFailed(dxgiFactory5->CreateSwapChainForHwnd(d3d12CommandQueue.Get(), m_hWnd, &swapChainDesc, nullptr,
+	                                                   nullptr, &dxgiSwapChain1));
+
+	/*
+	 * Cast to swapChain4
+	 */
+	ThrowIfFailed(dxgiSwapChain1.As(&m_dxgiSwapChain));
+
+	/*
+	 * Disable alt+enter fullscreen toggle feature.
+	 */
+	ThrowIfFailed(dxgiFactory5->MakeWindowAssociation(m_hWnd, DXGI_MWA_NO_ALT_ENTER));
+
+	/*
+	 * Initialize current back buffer index.
+	 */
+	m_currentBackBufferIndex = m_dxgiSwapChain->GetCurrentBackBufferIndex();
+
+	/*
+	 * Set maximum frame, latency to reduce input latency.
+	 */
+	m_dxgiSwapChain->SetMaximumFrameLatency(BufferCount - 1);
+
+	/*
+	 * Get Swap Chain waitable objects
+	 */
+	m_handleFrameLatencyWaitableObject = m_dxgiSwapChain->GetFrameLatencyWaitableObject();
+
+	UpdateRenderTargetViews();
 }
 
 CESwapChain::~CESwapChain() {

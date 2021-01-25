@@ -22,25 +22,60 @@
 
 
 #include "CEOSTools.h"
-#include "CETimer.h"
 #include "CEWindow.h"
 
+#include "CEGame.h"
+
+#include "CEDevice.h"
+#include "CEEvents.h"
+#include "CEScreen.h"
+#include "CETimer.h"
+
+using namespace Concept::GameEngine;
+using namespace Concept::GraphicsEngine::Direct3D;
+
+void OnUpdate(UpdateEventArgs& e);
+void OnKeyPressed(KeyEventArgs& e);
+void OnWindowResized(ResizeEventArgs& e);
+void OnWindowClose(WindowCloseEventArgs& e);
+
+inline std::shared_ptr<CEScreen> pGameWindow = nullptr;
+inline std::shared_ptr<CEDevice> pDevice = nullptr;
+inline std::shared_ptr<CESwapChain> pSwapChain = nullptr;
+
+inline Logger logger;
 
 namespace Concept {
 
-	using Logger = std::shared_ptr<spdlog::logger>;
 
 	class ConceptEngine {
 	public:
-		ConceptEngine();
+		ConceptEngine(HINSTANCE hInstance);
+
+		virtual ~ConceptEngine() {
+		}
+
+		int Run();
+
+
+	protected:
+		int RunEngine();
+
+
+	private:
+
+		/** =========================================================================
+		 *  ========== Deprecated - will be removed in upcoming versions ============
+		 *  =========================================================================
+		 */
+	public:
+		ConceptEngine(CEOSTools::CEGraphicsApiTypes graphicsApiType);
 		ConceptEngine(int width, int height, const char* name);
 		ConceptEngine(int width, int height, const char* name, CEOSTools::CEGraphicsApiTypes graphicsApiType);
 
 		void Init();
-		int Run();
 		void MakeFrame();
 
-		int RunGameEngine();
 		int RunGraphics();
 
 		Logger CreateLogger(const std::string& name) const;
@@ -54,17 +89,10 @@ namespace Concept {
 
 	private:
 		/**
-		 * Global engine state variables:
-		 */
-
-		std::atomic_bool isAppRunning_;
-		std::atomic_bool appShouldQuit_;
-
-		/**
 		 * Global Engine objects variables:
 		 */
 		inline static Logger static_logger_ = nullptr;
-		CEOSTools::CEGraphicsApiTypes apiType_;
+		CEOSTools::CEGraphicsApiTypes apiType_ = CEOSTools::CEGraphicsApiTypes::direct3d12;
 		std::unique_ptr<CEWindow> window_ = nullptr;
 		CETimer timer_;
 		Logger logger_;

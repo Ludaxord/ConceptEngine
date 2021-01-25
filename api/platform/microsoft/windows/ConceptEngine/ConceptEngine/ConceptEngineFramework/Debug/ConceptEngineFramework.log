@@ -1,3 +1,4 @@
-﻿  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\CEPixelShader.cso
-  compilation object save succeeded; see F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\CEVertexShader.cso
-  ConceptEngineFramework.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\Debug\ConceptEngineFramework.lib
+﻿  Performing Custom Build Tools
+TRACKER : error TRK0005: Failed to locate: "fxc.exe". Nie można odnaleźć określonego pliku.
+  
+  

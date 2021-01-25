@@ -1,8 +1,4 @@
-[2021-01-24 21:06:48.007] [ConceptEngine] [info] VSync Enabled: true
-[2021-01-24 21:06:48.172] [ConceptEngine] [info] ===== SYSTEM_INFO ======
-[2021-01-24 21:06:48.172] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-24 21:06:48.172] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
-[2021-01-24 21:06:48.172] [ConceptEngine] [info] Threads: 24
-[2021-01-24 21:06:48.172] [ConceptEngine] [info] RAM: 32689.00 MB
-[2021-01-24 21:06:48.172] [ConceptEngine] [info] ========================
-[2021-01-24 21:06:49.174] [ConceptEngine] [info] FPS: 945.5784
+[2021-01-25 23:16:17.532] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-25 23:16:17.941] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-25 23:16:17.947] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-25 23:16:17.978] [Concept Engine] [info] Window Resize: 1920, 1080

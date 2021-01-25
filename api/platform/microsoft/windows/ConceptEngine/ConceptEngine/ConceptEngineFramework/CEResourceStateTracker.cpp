@@ -229,46 +229,10 @@ void CEResourceStateTracker::AddGlobalResourceState(ID3D12Resource* resource, D3
 	}
 }
 
-void CEResourceStateTracker::RemoveGlobalResourceState(ID3D12Resource* resource, bool immediate) {
-	if (resource != nullptr) {
-		std::lock_guard<std::mutex> lock(m_globalMutex);
-		if (immediate) {
-			/*
-			 * perform immediate removal of resource in resource state tracker.
-			 */
-			m_globalResourceState.erase(resource);
-		}
-		else {
-			/*
-			 * defer removal until all resources are no longer being referenced.
-			 */
-			resource->AddRef();
-			m_garbageResources.push_back(resource);
-		}
-	}
-}
-
 /**
  * Check if resource is unique (only single strong reference)
  */
 inline bool IsUnique(ID3D12Resource* resource) {
 	resource->AddRef();
 	return resource->Release() == 1;
-}
-
-void CEResourceStateTracker::RemoveGarbageResources() {
-	std::lock_guard<std::mutex> lock(m_globalMutex);
-	ResourceList::iterator iter = m_garbageResources.begin();
-
-	while (iter != m_garbageResources.end()) {
-		auto res = *iter;
-		if (IsUnique(res)) {
-			res->Release();
-			m_globalResourceState.erase(res);
-			iter = m_garbageResources.erase(iter);
-		}
-		else {
-			++iter;
-		}
-	}
 }

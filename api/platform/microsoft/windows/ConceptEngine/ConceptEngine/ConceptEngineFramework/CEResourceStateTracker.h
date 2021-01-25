@@ -98,17 +98,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		static void AddGlobalResourceState(ID3D12Resource* resource, D3D12_RESOURCE_STATES state);
 
-		/**
-		 * Remove resource from global resource state array (map).
-		 * should be done when resource is destroyed.
-		 */
-		static void RemoveGlobalResourceState(ID3D12Resource* resource, bool immediate = false);
-
-		/**
-		 * Remove garbage resources.
-		 */
-		static void RemoveGarbageResources();
-
 	protected:
 	private:
 		/**
@@ -189,11 +178,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * between command list execution.
 		 */
 		static ResourceStateMap m_globalResourceState;
-
-		/**
-		 * Resources that should be cleaned up when they are no longer being used.
-		 */
-		static ResourceList m_garbageResources;
 
 		/**
 		 * mutex protects shared access to GlobalResourceState map

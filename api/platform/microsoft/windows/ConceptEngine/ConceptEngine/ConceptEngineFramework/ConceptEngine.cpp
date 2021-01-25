@@ -1,8 +1,155 @@
 #include "ConceptEngine.h"
 
+
+#include "CECommandList.h"
+#include "CECommandQueue.h"
+#include "CESwapChain.h"
+
 using namespace Concept;
 
-ConceptEngine::ConceptEngine(): apiType_(CEOSTools::CEGraphicsApiTypes::direct3d12) {
+ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
+#if defined(_DEBUG)
+	CEDevice::EnableDebugLayer();
+#endif
+	auto& pGame = CEGame::Create(hInstance);
+	{
+		/*
+		 * Create logger for logging messages
+		 */
+		logger = pGame.CreateLogger("Concept Engine");
+
+		/*
+		 * Create GPU device using default adapter selection
+		 */
+		pDevice = CEDevice::Create();
+
+		auto description = pDevice->GetDescription();
+		logger->info("Device Created: {}", description);
+
+		/*
+		 * Create window
+		 */
+		pGameWindow = pGame.CreateWindow(L"Concept Engine Editor", 1920, 1080);
+		spdlog::info("Concept Engine Screen class created.");
+
+		/*
+		 * Create Swap chain for window
+		 */
+		pSwapChain = pDevice->CreateSwapChain(pGameWindow->GetWindowHandle());
+		pSwapChain->SetVSync(false);
+
+		/*
+		 * Register events.
+		 */
+		pGameWindow->KeyPressed += &OnKeyPressed;
+		pGameWindow->Resize += &OnWindowResized;
+		pGameWindow->Update += &OnUpdate;
+		pGameWindow->Close += &OnWindowClose;
+
+		pGameWindow->Show();
+	}
+}
+
+int ConceptEngine::Run() {
+	// return RunGraphics();
+	return RunEngine();
+}
+
+int ConceptEngine::RunEngine() {
+	int returnCode = 0;
+	{
+		returnCode = CEGame::Get().Run();
+		/*
+		 * Release global variables
+		 */
+		pSwapChain.reset();
+		pGameWindow.reset();
+		pDevice.reset();
+	}
+
+	/*
+	 * Destroy CEGame resource.
+	 */
+	CEGame::Destroy();
+
+	atexit(&CEDevice::ReportLiveObjects);
+
+	return returnCode;
+}
+
+void OnUpdate(UpdateEventArgs& e) {
+	static uint64_t frameCount = 0;
+	static double totalTime = 0.0;
+
+	totalTime += e.DeltaTime;
+	++frameCount;
+
+	if (totalTime > 1.0) {
+		auto fps = frameCount / totalTime;
+		frameCount = 0;
+		totalTime = 0.0;
+
+		logger->info("FPS: {:.7}", fps);
+
+		wchar_t buffer[256];
+		::swprintf_s(buffer, L"Concept Engine [FPS: %f]", fps);
+		pGameWindow->SetWindowTitle(buffer);
+	}
+
+	auto& commandQueue = pDevice->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+	auto commandList = commandQueue.GetCommandList();
+
+	auto& renderTarget = pSwapChain->GetRenderTarget();
+
+	const FLOAT clearColor[] = {0.4f, 0.6f, 0.9f, 1.0f};
+	commandList->ClearTexture(renderTarget.GetTexture(AttachmentPoint::Color0), clearColor);
+
+	commandQueue.ExecuteCommandList(commandList);
+	pSwapChain->Present();
+}
+
+void OnKeyPressed(KeyEventArgs& e) {
+	// logger->info(L"KeyPressed: {}", (wchar_t)e.Char);
+
+	switch (e.Key) {
+	case KeyCode::V:
+		pSwapChain->ToggleVSync();
+		break;
+	case KeyCode::Escape:
+		/*
+		 * Stop application if Escape key is pressed.
+		 */
+		CEGame::Get().Stop();
+		break;
+	case KeyCode::Enter:
+		if (e.Alt) {
+			[[fallthrough]];
+		case KeyCode::F11:
+			pGameWindow->ToggleFullscreen();
+			break;
+		}
+	}
+}
+
+void OnWindowResized(ResizeEventArgs& e) {
+	logger->info("Window Resize: {}, {}", e.Width, e.Height);
+	pSwapChain->Resize(e.Width, e.Height);
+}
+
+void OnWindowClose(WindowCloseEventArgs& e) {
+	/*
+	 * Stop application if window is closed
+	 */
+	CEGame::Get().Stop();
+}
+
+
+/** =========================================================================
+ *  ========== Deprecated - will be removed in upcoming versions ============
+ *  =========================================================================
+ */
+
+ConceptEngine::ConceptEngine(CEOSTools::CEGraphicsApiTypes graphicsApiType): apiType_(graphicsApiType) {
 	Init();
 	window_ = std::make_unique<CEWindow>(1920, 1080, "Concept Engine Editor", apiType_);
 }
@@ -22,18 +169,8 @@ void ConceptEngine::Init() {
 	static_logger_ = CreateLogger("ConceptEngine");
 }
 
-int ConceptEngine::Run() {
-	return RunGraphics();
-	return RunGameEngine();
-}
-
-int ConceptEngine::RunGameEngine() {
-	return 0;
-}
-
 int ConceptEngine::RunGraphics() {
 	window_->GetGraphics().LogSystemInfo();
-	isAppRunning_ = true;
 	while (true) {
 		if (const auto ecode = CEWindow::ProcessMessages()) {
 			return *ecode;
@@ -61,7 +198,6 @@ Logger ConceptEngine::CreateLogger(const std::string& name) const {
 Logger ConceptEngine::GetLogger() {
 	return static_logger_;
 }
-
 
 void ConceptEngine::InitSpdLog() {
 

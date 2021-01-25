@@ -49,6 +49,7 @@ void CEResource::CheckFeatureSupport() {
 	auto d3d12Device = m_device.GetDevice();
 
 	auto desc = m_resource->GetDesc();
+	m_formatSupport.Format = desc.Format;
 	ThrowIfFailed(d3d12Device->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &m_formatSupport,
 	                                               sizeof(D3D12_FEATURE_DATA_FORMAT_SUPPORT)));
 }

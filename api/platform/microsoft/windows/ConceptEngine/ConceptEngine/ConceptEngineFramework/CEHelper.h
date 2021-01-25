@@ -13,12 +13,10 @@ inline void ThrowIfFailed(HRESULT hr) {
 		_com_error err(hr);
 		const auto* errorMessage = err.ErrorMessage();
 		OutputDebugString(errorMessage);
-		if (ConceptEngine::GetLogger() != nullptr) {
-			std::wstringstream wss;
-			wss << errorMessage << std::endl;
-			// ConceptEngine::GetLogger()->error(wss.str().c_str());
-		}
-		throw std::exception();
+		std::stringstream wss;
+		wss << errorMessage << std::endl;
+		spdlog::error(wss.str().c_str());
+		throw std::exception(wss.str().c_str());
 	}
 }
 

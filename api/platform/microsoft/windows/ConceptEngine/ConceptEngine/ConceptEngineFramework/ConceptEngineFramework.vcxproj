@@ -95,6 +95,7 @@
     <ClInclude Include="optional.hpp" />
     <ClInclude Include="PanoToCubemap_CS.h" />
     <ClInclude Include="ReadDirectoryChanges.h" />
+    <ClInclude Include="ReadDirectoryChangesPrivate.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="signals.hpp" />
   </ItemGroup>
@@ -117,7 +118,6 @@
     <ClCompile Include="CEDescriptorAllocatorPage.cpp" />
     <ClCompile Include="CEDynamicDescriptorHeap.cpp" />
     <ClCompile Include="CEDevice.cpp" />
-    <ClCompile Include="CEEvents.cpp" />
     <ClCompile Include="CEGame.cpp" />
     <ClCompile Include="CEGameTimer.cpp" />
     <ClCompile Include="CEGenerateMipsPSO.cpp" />
@@ -157,6 +157,8 @@
     <ClCompile Include="CEWindowMessage.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />
     <ClCompile Include="CEImGUI.cpp" />
+    <ClCompile Include="ReadDirectoryChanges.cpp" />
+    <ClCompile Include="ReadDirectoryChangesPrivate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngineFramework.rc" />
@@ -363,6 +365,9 @@
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>false</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -478,8 +483,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
     </Lib>
     <FxCompile>

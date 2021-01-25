@@ -357,6 +357,9 @@
     <ClInclude Include="CEWinLib.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ReadDirectoryChangesPrivate.h">
+      <Filter>GameEngine\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -524,13 +527,16 @@
     <ClCompile Include="CEGame.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="CEEvents.cpp">
-      <Filter>GameEngine\Source</Filter>
-    </ClCompile>
     <ClCompile Include="CEGameTimer.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEScreen.cpp">
+      <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadDirectoryChangesPrivate.cpp">
+      <Filter>GameEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadDirectoryChanges.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
   </ItemGroup>

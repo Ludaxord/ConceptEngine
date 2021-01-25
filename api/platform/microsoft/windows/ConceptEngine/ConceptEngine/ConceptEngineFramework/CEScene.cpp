@@ -1,8 +1,8 @@
 #include "CEScene.h"
+#include "CEDX12Libs.h"
 
 
 #include "CECommandList.h"
-#include "CEDX12Libs.h"
 #include "CEMaterial.h"
 #include "CEMesh.h"
 #include "CESceneNode.h"
@@ -69,6 +69,11 @@ void CEScene::Accept(CEVisitor& visitor) {
 	}
 }
 
+/*
+ * TODO: FIX IN First possible time
+ * unresolved external symbol, reason probably: https://github.com/assimp/assimp/issues/1243
+ * http://kimkulling.de/2016/05/02/build-asset-importer-lib-for-64bit-with-visual-studio-from-source-repo/
+ */
 bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
                                 const std::function<bool(float)>& loadingProgress) {
 	fs::path filePath = fileName;
@@ -91,7 +96,7 @@ bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& 
 	 * Check if preprocessed file exists.
 	 */
 	if (fs::exists(exportPath) && fs::is_regular_file(exportPath)) {
-		scene = importer.ReadFile(exportPath.string(), aiProcess_GenBoundingBoxes);
+		// scene = importer.ReadFile(exportPath.string(), aiProcess_GenBoundingBoxes);
 	}
 	else {
 		/*
@@ -102,26 +107,31 @@ bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& 
 
 		unsigned int preprocessFlags = aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_OptimizeGraph |
 			aiProcess_ConvertToLeftHanded | aiProcess_GenBoundingBoxes;
-		scene = importer.ReadFile(filePath.string(), preprocessFlags);
+		// scene = importer.ReadFile(filePath.string(), preprocessFlags);
 
-		if (scene) {
-			/*
-			 * Export preprocessed scene file for faster loading next time.
-			 */
-			Assimp::Exporter exporter;
-			exporter.Export(scene, "assbin", exportPath.string(), 0);
-		}
+		// if (scene) {
+		/*
+		 * Export preprocessed scene file for faster loading next time.
+		 */
+		// Assimp::Exporter exporter;
+		// exporter.Export(scene, "assbin", exportPath.string(), 0);
+		// }
 	}
 
-	if (!scene) {
-		return false;
-	}
+	// if (!scene) {
+	// 	return false;
+	// }
 
-	ImportScene(commandList, *scene, parentPath);
+	// ImportScene(commandList, *scene, parentPath);
 
-	return true;
+	return false;
 }
 
+/*
+ * TODO: FIX IN First possible time
+ * unresolved external symbol, reason probably: https://github.com/assimp/assimp/issues/1243
+ * http://kimkulling.de/2016/05/02/build-asset-importer-lib-for-64bit-with-visual-studio-from-source-repo/
+ */
 bool CEScene::LoadSceneFromString(CECommandList& commandList, const std::string& sceneString,
                                   const std::string& format) {
 	Assimp::Importer importer;
@@ -133,15 +143,15 @@ bool CEScene::LoadSceneFromString(CECommandList& commandList, const std::string&
 	unsigned int preprocessFlags = aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded |
 		aiProcess_GenBoundingBoxes;
 
-	scene = importer.ReadFileFromMemory(sceneString.data(), sceneString.size(), preprocessFlags, format.c_str());
+	// scene = importer.ReadFileFromMemory(sceneString.data(), sceneString.size(), preprocessFlags, format.c_str());
+	//
+	// if (!scene) {
+	// 	return false;
+	// }
+	//
+	// ImportScene(commandList, *scene, fs::current_path());
 
-	if (!scene) {
-		return false;
-	}
-
-	ImportScene(commandList, *scene, fs::current_path());
-
-	return true;
+	return false;
 }
 
 void CEScene::ImportScene(CECommandList& commandList, const aiScene& scene, std::filesystem::path parentPath) {
