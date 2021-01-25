@@ -18,7 +18,14 @@ api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramewor
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/imgui
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/Nuklear
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/portaudio
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/lib/DxErr
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/x64/Debug
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug/ConceptEngineEditor.pdb
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug/ConceptEngineFramework.lib
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug/*
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/x64/Debug/*
 
 .vs/
 .vs

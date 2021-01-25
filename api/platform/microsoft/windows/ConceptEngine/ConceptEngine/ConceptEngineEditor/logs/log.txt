@@ -1,5 +1,5 @@
-[2021-01-25 23:22:26.776] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-25 23:22:27.158] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-25 23:22:27.165] [ConceptEngine] [info] Concept Engine Screen class created.
-[2021-01-25 23:22:27.199] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-25 23:22:28.458] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-01-25 23:50:35.398] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-25 23:50:35.938] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-25 23:50:35.946] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-25 23:50:36.013] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-25 23:50:38.681] [ConceptEngine] [info] Concept Engine Game class destroyed.
