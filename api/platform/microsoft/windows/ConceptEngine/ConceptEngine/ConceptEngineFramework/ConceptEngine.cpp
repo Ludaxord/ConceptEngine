@@ -83,7 +83,7 @@ void OnUpdate(UpdateEventArgs& e) {
 
 	totalTime += e.DeltaTime;
 	++frameCount;
-
+	
 	if (totalTime > 1.0) {
 		auto fps = frameCount / totalTime;
 		frameCount = 0;

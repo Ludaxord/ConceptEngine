@@ -487,7 +487,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			 * Delta and total time will be filled in by Window.
 			 */
 			UpdateEventArgs updateEventArgs(0.0, 0.0);
-			pWindow->Update(updateEventArgs);
+			pWindow->OnUpdate(updateEventArgs);
 		}
 		break;
 		case WM_SYSKEYDOWN:
