@@ -13,80 +13,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{b00948fb-6095-4500-ad6f-88f4ad776eaa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools">
-      <UniqueIdentifier>{f727d2c6-71ad-45b8-aa51-da043573a15b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Direct3D">
-      <UniqueIdentifier>{31b462af-6fe4-42fd-84d7-959fef176db4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Vulkan">
-      <UniqueIdentifier>{1b0af38f-07d5-4d02-bbd0-c7123c6f1281}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\OpenGL">
-      <UniqueIdentifier>{5e02fbd2-cd57-4f41-bf75-3bfc36b6eff5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Metal">
-      <UniqueIdentifier>{7223c8f6-4cde-4247-940b-f376218f7d98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Global">
-      <UniqueIdentifier>{abad678f-7f13-4968-9664-3897b10ecaec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Direct3D\Shaders">
-      <UniqueIdentifier>{8dfbaf3f-7ead-46ba-9594-17a3ef1e3dd9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Metal\Shaders">
-      <UniqueIdentifier>{cd5d16f5-0f70-4104-a3ed-dfe5338b8cf7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\OpenGL\Shaders">
-      <UniqueIdentifier>{68853d94-5800-4b07-979b-fe1550f2d4de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Vulkan\Shaders">
-      <UniqueIdentifier>{f216c63a-9426-484d-8025-b51f937920ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Direct3D\GraphicsObjects">
-      <UniqueIdentifier>{489cd813-be38-4e32-9c76-d0f76ff2fd49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Global\GraphicsObjects">
-      <UniqueIdentifier>{18f10044-b795-408e-bf56-7e5634b4f390}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Direct3D\GraphicsManagers">
-      <UniqueIdentifier>{c9ca8100-11fa-45b3-b806-9f1ba64567e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Global\GraphicsManagers">
-      <UniqueIdentifier>{55006643-69e7-4f4b-96a8-96f7411c999c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Metal\GraphicsManagers">
-      <UniqueIdentifier>{000d473e-f231-4572-b474-bfc43ee9b249}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\OpenGL\GraphicsManagers">
-      <UniqueIdentifier>{dddff937-c7ae-4acd-93a0-0b17a3c86517}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Vulkan\GraphicsManagers">
-      <UniqueIdentifier>{9be93230-900d-41e3-bf5c-d06634e7119a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Vulkan\GraphicsObjects">
-      <UniqueIdentifier>{7b86a43b-930b-4c72-886f-4ef863d25ec2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\OpenGL\GraphicsObjects">
-      <UniqueIdentifier>{078e2660-6201-493c-a223-8bcc352f47f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\GraphicsTools\Metal\GraphicsObjects">
-      <UniqueIdentifier>{5d5c0abb-b0f7-4d24-be80-ab637f58ecd0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tools">
       <UniqueIdentifier>{ff94b88d-4291-41c6-b1b3-e7414055e692}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Objects">
-      <UniqueIdentifier>{ee1aaa87-2ba6-4a0a-a775-5580e01d4fe5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Objects\Direct3D">
-      <UniqueIdentifier>{8ec87a52-e89f-4bd2-b7ab-8c36d955ce49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Objects\Direct3D\Basic">
-      <UniqueIdentifier>{ea2ee018-3353-4a14-95f2-534e8d9803e9}</UniqueIdentifier>
     </Filter>
     <Filter Include="GraphicsEngine">
       <UniqueIdentifier>{a8af5c69-b1a4-4338-8edc-947133305fd3}</UniqueIdentifier>
@@ -121,6 +49,84 @@
     <Filter Include="GameEngine\Headers">
       <UniqueIdentifier>{42a060a8-23ca-471c-9286-f14dca5d97c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\Main">
+      <UniqueIdentifier>{4b58f2b6-0985-4ccc-b2b2-f7ba425a21b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Objects">
+      <UniqueIdentifier>{993180b7-e97b-49d9-99c5-643e70a21cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes">
+      <UniqueIdentifier>{b00948fb-6095-4500-ad6f-88f4ad776eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools">
+      <UniqueIdentifier>{f727d2c6-71ad-45b8-aa51-da043573a15b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Direct3D">
+      <UniqueIdentifier>{31b462af-6fe4-42fd-84d7-959fef176db4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Direct3D\Shaders">
+      <UniqueIdentifier>{8dfbaf3f-7ead-46ba-9594-17a3ef1e3dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Direct3D\GraphicsObjects">
+      <UniqueIdentifier>{489cd813-be38-4e32-9c76-d0f76ff2fd49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Direct3D\GraphicsManagers">
+      <UniqueIdentifier>{c9ca8100-11fa-45b3-b806-9f1ba64567e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Vulkan">
+      <UniqueIdentifier>{1b0af38f-07d5-4d02-bbd0-c7123c6f1281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Vulkan\Shaders">
+      <UniqueIdentifier>{f216c63a-9426-484d-8025-b51f937920ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Vulkan\GraphicsManagers">
+      <UniqueIdentifier>{9be93230-900d-41e3-bf5c-d06634e7119a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Vulkan\GraphicsObjects">
+      <UniqueIdentifier>{7b86a43b-930b-4c72-886f-4ef863d25ec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\OpenGL">
+      <UniqueIdentifier>{5e02fbd2-cd57-4f41-bf75-3bfc36b6eff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\OpenGL\Shaders">
+      <UniqueIdentifier>{68853d94-5800-4b07-979b-fe1550f2d4de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\OpenGL\GraphicsManagers">
+      <UniqueIdentifier>{dddff937-c7ae-4acd-93a0-0b17a3c86517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\OpenGL\GraphicsObjects">
+      <UniqueIdentifier>{078e2660-6201-493c-a223-8bcc352f47f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Metal">
+      <UniqueIdentifier>{7223c8f6-4cde-4247-940b-f376218f7d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Metal\Shaders">
+      <UniqueIdentifier>{cd5d16f5-0f70-4104-a3ed-dfe5338b8cf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Metal\GraphicsManagers">
+      <UniqueIdentifier>{000d473e-f231-4572-b474-bfc43ee9b249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Metal\GraphicsObjects">
+      <UniqueIdentifier>{5d5c0abb-b0f7-4d24-be80-ab637f58ecd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Global">
+      <UniqueIdentifier>{abad678f-7f13-4968-9664-3897b10ecaec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Global\GraphicsObjects">
+      <UniqueIdentifier>{18f10044-b795-408e-bf56-7e5634b4f390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\GraphicsTools\Global\GraphicsManagers">
+      <UniqueIdentifier>{55006643-69e7-4f4b-96a8-96f7411c999c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\Objects">
+      <UniqueIdentifier>{ee1aaa87-2ba6-4a0a-a775-5580e01d4fe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\Objects\Direct3D">
+      <UniqueIdentifier>{8ec87a52-e89f-4bd2-b7ab-8c36d955ce49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Prototypes\Objects\Direct3D\Basic">
+      <UniqueIdentifier>{ea2ee018-3353-4a14-95f2-534e8d9803e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -142,10 +148,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CEOpenGLGraphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClInclude>
     <ClInclude Include="CEVulkanGraphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClInclude>
     <ClInclude Include="CEController.h">
       <Filter>Header Files</Filter>
@@ -160,10 +166,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CEMetalGraphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClInclude>
     <ClInclude Include="CEDirect3DGraphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClInclude>
     <ClInclude Include="CETools.h">
       <Filter>Tools</Filter>
@@ -172,25 +178,25 @@
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="CEVulkan.h">
-      <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
+      <Filter>Prototypes\GraphicsTools\Vulkan\GraphicsObjects</Filter>
     </ClInclude>
     <ClInclude Include="CEHelper.h">
       <Filter>Tools</Filter>
     </ClInclude>
     <ClInclude Include="CENode.h">
-      <Filter>Graphics\GraphicsTools\Global\GraphicsObjects</Filter>
+      <Filter>Prototypes\GraphicsTools\Global\GraphicsObjects</Filter>
     </ClInclude>
     <ClInclude Include="CEDirect3DNode.h">
-      <Filter>Graphics\Objects\Direct3D</Filter>
+      <Filter>Prototypes\Objects\Direct3D</Filter>
     </ClInclude>
     <ClInclude Include="CEDirect3DCube.h">
-      <Filter>Graphics\Objects\Direct3D\Basic</Filter>
+      <Filter>Prototypes\Objects\Direct3D\Basic</Filter>
     </ClInclude>
     <ClInclude Include="CED3D12UploadBuffer.h">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClInclude>
     <ClInclude Include="CED3D12Utils.h">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClInclude>
     <ClInclude Include="CEMath.h">
       <Filter>Tools</Filter>
@@ -360,6 +366,21 @@
     <ClInclude Include="ReadDirectoryChangesPrivate.h">
       <Filter>GameEngine\Source</Filter>
     </ClInclude>
+    <ClInclude Include="CEObject.h">
+      <Filter>GraphicsEngine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CEEngine.h">
+      <Filter>GraphicsEngine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CED3DObject.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEDirect3DEngine.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CED3DCubeObject.h">
+      <Filter>GraphicsEngine\DirectX\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -384,19 +405,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEOpenGLGraphics.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClCompile>
     <ClCompile Include="CEDirect3DGraphics.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClCompile>
     <ClCompile Include="CEVulkanGraphics.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClCompile>
     <ClCompile Include="CEWindowMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CEMetalGraphics.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Prototypes</Filter>
     </ClCompile>
     <ClCompile Include="CETools.cpp">
       <Filter>Tools</Filter>
@@ -405,19 +426,19 @@
       <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="CEVulkan.cpp">
-      <Filter>Graphics\GraphicsTools\Vulkan\GraphicsObjects</Filter>
+      <Filter>Prototypes\GraphicsTools\Vulkan\GraphicsObjects</Filter>
     </ClCompile>
     <ClCompile Include="CEDirect3DCube.cpp">
-      <Filter>Graphics\Objects\Direct3D\Basic</Filter>
+      <Filter>Prototypes\Objects\Direct3D\Basic</Filter>
     </ClCompile>
     <ClCompile Include="CEDirect3DNode.cpp">
-      <Filter>Graphics\Objects\Direct3D</Filter>
+      <Filter>Prototypes\Objects\Direct3D</Filter>
     </ClCompile>
     <ClCompile Include="CEMath.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
     <ClCompile Include="CED3D12Utils.cpp">
-      <Filter>Graphics\GraphicsTools\Direct3D\GraphicsObjects</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\GraphicsObjects</Filter>
     </ClCompile>
     <ClCompile Include="CEAudio.cpp">
       <Filter>AudioEngine</Filter>
@@ -550,7 +571,7 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="colors.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -563,16 +584,16 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="CEVertexShader.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CEPixelShader.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CETextVertexShader.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CETextPixelShader.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CEGenerateMips_CS.hlsl">
       <Filter>GraphicsEngine\DirectX\Shaders</Filter>
@@ -589,7 +610,7 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders.hlsl">
-      <Filter>Graphics\GraphicsTools\Direct3D\Shaders</Filter>
+      <Filter>Prototypes\GraphicsTools\Direct3D\Shaders</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

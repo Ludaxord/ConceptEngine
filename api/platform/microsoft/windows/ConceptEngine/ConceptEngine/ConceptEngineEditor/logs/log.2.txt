@@ -1,17 +1,5 @@
-<<<<<<< HEAD
-[2021-01-25 23:22:26.776] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-25 23:22:27.158] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-25 23:22:27.165] [ConceptEngine] [info] Concept Engine Screen class created.
-[2021-01-25 23:22:27.199] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-25 23:22:28.458] [ConceptEngine] [info] Concept Engine Game class destroyed.
-=======
-[2021-01-25 17:28:12.344] [ConceptEngine] [info] VSync Enabled: true
-[2021-01-25 17:28:12.474] [ConceptEngine] [info] ===== SYSTEM_INFO ======
-[2021-01-25 17:28:12.474] [ConceptEngine] [info] GPU: NVIDIA GeForce RTX 3070, Video Memory: 8433 MB
-[2021-01-25 17:28:12.474] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            
-[2021-01-25 17:28:12.474] [ConceptEngine] [info] Threads: 24
-[2021-01-25 17:28:12.474] [ConceptEngine] [info] RAM: 32689.00 MB
-[2021-01-25 17:28:12.474] [ConceptEngine] [info] ========================
-[2021-01-25 17:28:13.474] [ConceptEngine] [info] FPS: 1356.464
-[2021-01-25 17:28:14.475] [ConceptEngine] [info] FPS: 1686.439
->>>>>>> 2e8e7cc (add implementations to another game engine classes)
+[2021-01-26 00:03:54.366] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-26 00:03:54.891] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-26 00:03:54.900] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-26 00:03:54.926] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-26 00:03:56.572] [ConceptEngine] [info] Concept Engine Game class destroyed.

@@ -23,6 +23,8 @@
     <ClInclude Include="CEController.h" />
     <ClInclude Include="CED3D12UploadBuffer.h" />
     <ClInclude Include="CED3D12Utils.h" />
+    <ClInclude Include="CED3DCubeObject.h" />
+    <ClInclude Include="CED3DObject.h" />
     <ClInclude Include="CEDefinitions.h" />
     <ClInclude Include="CEBuffer.h" />
     <ClInclude Include="CEByteAddressBuffer.h" />
@@ -40,6 +42,7 @@
     <ClInclude Include="CEDX12Libs.h" />
     <ClInclude Include="CEDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDevice.h" />
+    <ClInclude Include="CEEngine.h" />
     <ClInclude Include="CEEvents.h" />
     <ClInclude Include="CEGame.h" />
     <ClInclude Include="CEGameTimer.h" />
@@ -50,6 +53,7 @@
     <ClInclude Include="CEKeyCodes.h" />
     <ClInclude Include="CEMaterial.h" />
     <ClInclude Include="CEMesh.h" />
+    <ClInclude Include="CEObject.h" />
     <ClInclude Include="CEPanoToCubemapPSO.h" />
     <ClInclude Include="CEPipelineStateObject.h" />
     <ClInclude Include="CERenderTarget.h" />
@@ -90,6 +94,7 @@
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="CThreadSafeQueue.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="CEDirect3DEngine.h" />
     <ClInclude Include="ImGUI_PS.h" />
     <ClInclude Include="ImGUI_VS.h" />
     <ClInclude Include="optional.hpp" />
