@@ -10,6 +10,7 @@
 #include "CEIndexBuffer.h"
 #include "CERootSignature.h"
 #include "CESwapChain.h"
+#include "CETools.h"
 #include "d3dx12.h"
 
 using namespace Concept;
@@ -132,18 +133,28 @@ ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
 
 		pRootSignature = pDevice->CreateRootSignature(rootSignatureDescription.Desc_1_1);
 
+		WCHAR assetsPath[512];
+		CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
+		std::wstring m_assetsPath = assetsPath;
+		std::wstring vs_assetsPath = m_assetsPath + L"CEGEBasicVertexShader.cso";
+		std::string vsDesc(vs_assetsPath.begin(), vs_assetsPath.end());
+		logger->info("Vertex Shader Path: {}", vsDesc);
 		/*
 		 * Load shaders
 		 * Load vertex shader.
 		 */
 		Microsoft::WRL::ComPtr<ID3DBlob> vertexShaderBlob;
-		ThrowIfFailed(D3DReadFileToBlob(L"CEGEBasicVertexShader.cso", &vertexShaderBlob));
+		ThrowIfFailed(D3DReadFileToBlob(vs_assetsPath.c_str(), &vertexShaderBlob));
 
 		/*
 		 * Load index shader.
 		 */
+
+		std::wstring ps_assetsPath = m_assetsPath + L"CEGEBasicPixelShader.cso";
+		std::string psDesc(ps_assetsPath.begin(), ps_assetsPath.end());
+		logger->info("Pixel Shader Path: {}", psDesc);
 		Microsoft::WRL::ComPtr<ID3DBlob> pixelShaderBlob;
-		ThrowIfFailed(D3DReadFileToBlob(L"CEGEBasicPixelShader.cso", &pixelShaderBlob));
+		ThrowIfFailed(D3DReadFileToBlob(ps_assetsPath.c_str(), &pixelShaderBlob));
 
 		/*
 		 * Create pipeline state object
