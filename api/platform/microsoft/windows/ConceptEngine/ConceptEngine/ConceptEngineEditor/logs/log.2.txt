@@ -1,4 +1,14 @@
-[2021-01-27 23:34:55.713] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-27 23:34:56.148] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-27 23:34:56.158] [ConceptEngine] [info] Concept Engine Screen class created.
-[2021-01-27 23:34:56.166] [Concept Engine] [info] Vertex Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicVertexShader.cso
+[2021-01-27 23:48:14.898] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-27 23:48:15.280] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-27 23:48:15.290] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-27 23:48:15.298] [Concept Engine] [info] Vertex Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicVertexShader.cso
+[2021-01-27 23:48:15.299] [Concept Engine] [info] Pixel Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicPixelShader.cso
+[2021-01-27 23:48:15.326] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-27 23:48:16.290] [Concept Engine] [info] FPS: 1404.544
+[2021-01-27 23:48:17.290] [Concept Engine] [info] FPS: 1598.774
+[2021-01-27 23:48:18.291] [Concept Engine] [info] FPS: 1711.611
+[2021-01-27 23:48:19.292] [Concept Engine] [info] FPS: 1797.318
+[2021-01-27 23:48:20.292] [Concept Engine] [info] FPS: 1876.216
+[2021-01-27 23:48:21.292] [Concept Engine] [info] FPS: 1883.732
+[2021-01-27 23:48:22.292] [Concept Engine] [info] FPS: 1695.774
+[2021-01-27 23:48:23.030] [ConceptEngine] [info] Concept Engine Game class destroyed.
