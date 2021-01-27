@@ -21,6 +21,9 @@ namespace Concept::GraphicsEngine::Direct3D::Objects {
 		MainIndexList GetVertexIndices() override;
 
 	protected:
+	/*
+	 * TODO: Add friend connection between CommandList and Objects to call only one object 
+	 */
 	private:
 
 	};

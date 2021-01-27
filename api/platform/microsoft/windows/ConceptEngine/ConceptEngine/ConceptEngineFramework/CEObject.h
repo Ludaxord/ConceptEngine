@@ -40,6 +40,14 @@ namespace Concept::GraphicsEngine {
 			return g_indices;
 		};
 
+		size_t GetVertexStride() {
+			return sizeof(Vertices);
+		};
+
+		size_t GetIndexStride() {
+			return sizeof(Indices);
+		};
+
 		FieldOfView GetFieldOfView() const {
 			return g_fieldOfView;
 		};

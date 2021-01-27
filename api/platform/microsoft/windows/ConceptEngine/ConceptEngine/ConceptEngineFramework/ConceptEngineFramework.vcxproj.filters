@@ -127,6 +127,9 @@
     <Filter Include="Prototypes\Objects\Direct3D\Basic">
       <UniqueIdentifier>{ea2ee018-3353-4a14-95f2-534e8d9803e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Objects\Shaders">
+      <UniqueIdentifier>{fad47197-2e45-40ed-bfa2-72a809d3a335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -606,6 +609,12 @@
     </FxCompile>
     <FxCompile Include="ImGUI_VS.hlsl">
       <Filter>GraphicsEngine\DirectX\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicVertexShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Objects\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Objects\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
