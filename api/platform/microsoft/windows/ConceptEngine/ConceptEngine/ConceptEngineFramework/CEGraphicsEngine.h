@@ -1,6 +1,6 @@
 #pragma once
 namespace Concept::GraphicsEngine {
-	class CEEngine {
+	class CEGraphicsEngine {
 	public:
 	protected:
 	private:

@@ -42,7 +42,7 @@
     <ClInclude Include="CEDX12Libs.h" />
     <ClInclude Include="CEDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDevice.h" />
-    <ClInclude Include="CEEngine.h" />
+    <ClInclude Include="CEGraphicsEngine.h" />
     <ClInclude Include="CEEvents.h" />
     <ClInclude Include="CEGame.h" />
     <ClInclude Include="CEGameTimer.h" />

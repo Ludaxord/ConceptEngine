@@ -1,17 +1,89 @@
-[2021-01-27 23:48:27.409] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-27 23:48:27.756] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-27 23:48:27.767] [ConceptEngine] [info] Concept Engine Screen class created.
-[2021-01-27 23:48:27.776] [Concept Engine] [info] Vertex Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicVertexShader.cso
-[2021-01-27 23:48:27.776] [Concept Engine] [info] Pixel Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicPixelShader.cso
-[2021-01-27 23:48:27.797] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-27 23:48:28.768] [Concept Engine] [info] FPS: 1160.351
-[2021-01-27 23:48:29.768] [Concept Engine] [info] FPS: 1708.934
-[2021-01-27 23:48:30.768] [Concept Engine] [info] FPS: 1789.650
-[2021-01-27 23:48:31.768] [Concept Engine] [info] FPS: 1868.911
-[2021-01-27 23:48:32.769] [Concept Engine] [info] FPS: 1781.693
-[2021-01-27 23:48:33.769] [Concept Engine] [info] FPS: 1693.835
-[2021-01-27 23:48:34.770] [Concept Engine] [info] FPS: 1753.074
-[2021-01-27 23:48:35.770] [Concept Engine] [info] FPS: 1807.940
-[2021-01-27 23:48:36.770] [Concept Engine] [info] FPS: 1782.734
-[2021-01-27 23:48:37.771] [Concept Engine] [info] FPS: 1610.255
-[2021-01-27 23:48:38.771] [Concept Engine] [info] FPS: 1677.682
+[2021-01-28 15:30:26.938] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-28 15:30:27.329] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-28 15:30:27.337] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-28 15:30:27.378] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-28 15:30:28.254] [Concept Engine] [info] Field of View: 46 
+[2021-01-28 15:30:28.275] [Concept Engine] [info] Field of View: 47 
+[2021-01-28 15:30:28.296] [Concept Engine] [info] Field of View: 48 
+[2021-01-28 15:30:28.316] [Concept Engine] [info] Field of View: 49 
+[2021-01-28 15:30:28.336] [Concept Engine] [info] Field of View: 50 
+[2021-01-28 15:30:28.337] [Concept Engine] [info] FPS: 1181.656
+[2021-01-28 15:30:28.377] [Concept Engine] [info] Field of View: 53 
+[2021-01-28 15:30:28.399] [Concept Engine] [info] Field of View: 54 
+[2021-01-28 15:30:28.562] [Concept Engine] [info] Field of View: 56 
+[2021-01-28 15:30:29.075] [Concept Engine] [info] Field of View: 63 
+[2021-01-28 15:30:29.116] [Concept Engine] [info] Field of View: 66 
+[2021-01-28 15:30:29.135] [Concept Engine] [info] Field of View: 67 
+[2021-01-28 15:30:29.338] [Concept Engine] [info] FPS: 1626.032
+[2021-01-28 15:30:29.463] [Concept Engine] [info] Field of View: 68 
+[2021-01-28 15:30:29.504] [Concept Engine] [info] Field of View: 71 
+[2021-01-28 15:30:29.524] [Concept Engine] [info] Field of View: 73 
+[2021-01-28 15:30:29.566] [Concept Engine] [info] Field of View: 76 
+[2021-01-28 15:30:29.587] [Concept Engine] [info] Field of View: 77 
+[2021-01-28 15:30:29.606] [Concept Engine] [info] Field of View: 78 
+[2021-01-28 15:30:29.647] [Concept Engine] [info] Field of View: 79 
+[2021-01-28 15:30:29.976] [Concept Engine] [info] Field of View: 80 
+[2021-01-28 15:30:30.016] [Concept Engine] [info] Field of View: 83 
+[2021-01-28 15:30:30.036] [Concept Engine] [info] Field of View: 84 
+[2021-01-28 15:30:30.057] [Concept Engine] [info] Field of View: 86 
+[2021-01-28 15:30:30.077] [Concept Engine] [info] Field of View: 87 
+[2021-01-28 15:30:30.139] [Concept Engine] [info] Field of View: 90 
+[2021-01-28 15:30:30.338] [Concept Engine] [info] FPS: 1864.332
+[2021-01-28 15:30:31.338] [Concept Engine] [info] FPS: 1872.797
+[2021-01-28 15:30:32.105] [Concept Engine] [info] Field of View: 88 
+[2021-01-28 15:30:32.126] [Concept Engine] [info] Field of View: 86 
+[2021-01-28 15:30:32.167] [Concept Engine] [info] Field of View: 82 
+[2021-01-28 15:30:32.188] [Concept Engine] [info] Field of View: 81 
+[2021-01-28 15:30:32.339] [Concept Engine] [info] FPS: 1921.566
+[2021-01-28 15:30:32.412] [Concept Engine] [info] Field of View: 80 
+[2021-01-28 15:30:32.432] [Concept Engine] [info] Field of View: 78 
+[2021-01-28 15:30:32.453] [Concept Engine] [info] Field of View: 74 
+[2021-01-28 15:30:32.494] [Concept Engine] [info] Field of View: 71 
+[2021-01-28 15:30:32.720] [Concept Engine] [info] Field of View: 68 
+[2021-01-28 15:30:32.740] [Concept Engine] [info] Field of View: 64 
+[2021-01-28 15:30:32.781] [Concept Engine] [info] Field of View: 61 
+[2021-01-28 15:30:33.026] [Concept Engine] [info] Field of View: 59 
+[2021-01-28 15:30:33.047] [Concept Engine] [info] Field of View: 55 
+[2021-01-28 15:30:33.067] [Concept Engine] [info] Field of View: 52 
+[2021-01-28 15:30:33.089] [Concept Engine] [info] Field of View: 51 
+[2021-01-28 15:30:33.108] [Concept Engine] [info] Field of View: 50 
+[2021-01-28 15:30:33.339] [Concept Engine] [info] FPS: 1863.643
+[2021-01-28 15:30:33.354] [Concept Engine] [info] Field of View: 49 
+[2021-01-28 15:30:33.374] [Concept Engine] [info] Field of View: 46 
+[2021-01-28 15:30:33.395] [Concept Engine] [info] Field of View: 43 
+[2021-01-28 15:30:33.436] [Concept Engine] [info] Field of View: 40 
+[2021-01-28 15:30:33.702] [Concept Engine] [info] Field of View: 39 
+[2021-01-28 15:30:33.724] [Concept Engine] [info] Field of View: 38 
+[2021-01-28 15:30:33.743] [Concept Engine] [info] Field of View: 35 
+[2021-01-28 15:30:33.764] [Concept Engine] [info] Field of View: 32 
+[2021-01-28 15:30:33.784] [Concept Engine] [info] Field of View: 30 
+[2021-01-28 15:30:33.805] [Concept Engine] [info] Field of View: 29 
+[2021-01-28 15:30:33.866] [Concept Engine] [info] Field of View: 28 
+[2021-01-28 15:30:34.092] [Concept Engine] [info] Field of View: 26 
+[2021-01-28 15:30:34.132] [Concept Engine] [info] Field of View: 19 
+[2021-01-28 15:30:34.153] [Concept Engine] [info] Field of View: 18 
+[2021-01-28 15:30:34.214] [Concept Engine] [info] Field of View: 17 
+[2021-01-28 15:30:34.339] [Concept Engine] [info] FPS: 1836.481
+[2021-01-28 15:30:34.398] [Concept Engine] [info] Field of View: 15 
+[2021-01-28 15:30:34.419] [Concept Engine] [info] Field of View: 12 
+[2021-01-28 15:30:34.480] [Concept Engine] [info] Field of View: 12 
+[2021-01-28 15:30:34.726] [Concept Engine] [info] Field of View: 12 
+[2021-01-28 15:30:34.748] [Concept Engine] [info] Field of View: 12 
+[2021-01-28 15:30:34.809] [Concept Engine] [info] Field of View: 12 
+[2021-01-28 15:30:35.320] [Concept Engine] [info] Field of View: 13 
+[2021-01-28 15:30:35.339] [Concept Engine] [info] FPS: 1812.967
+[2021-01-28 15:30:35.341] [Concept Engine] [info] Field of View: 14 
+[2021-01-28 15:30:35.381] [Concept Engine] [info] Field of View: 16 
+[2021-01-28 15:30:35.402] [Concept Engine] [info] Field of View: 17 
+[2021-01-28 15:30:35.422] [Concept Engine] [info] Field of View: 18 
+[2021-01-28 15:30:35.443] [Concept Engine] [info] Field of View: 19 
+[2021-01-28 15:30:35.463] [Concept Engine] [info] Field of View: 20 
+[2021-01-28 15:30:35.484] [Concept Engine] [info] Field of View: 21 
+[2021-01-28 15:30:35.832] [Concept Engine] [info] Field of View: 22 
+[2021-01-28 15:30:35.853] [Concept Engine] [info] Field of View: 23 
+[2021-01-28 15:30:35.873] [Concept Engine] [info] Field of View: 24 
+[2021-01-28 15:30:35.914] [Concept Engine] [info] Field of View: 25 
+[2021-01-28 15:30:36.339] [Concept Engine] [info] FPS: 1854.817
+[2021-01-28 15:30:37.339] [Concept Engine] [info] FPS: 1744.496
+[2021-01-28 15:30:38.340] [Concept Engine] [info] FPS: 1599.865
+[2021-01-28 15:30:38.843] [ConceptEngine] [info] Concept Engine Game class destroyed.

@@ -1,8 +1,8 @@
 #pragma once
-#include "CEEngine.h"
+#include "CEGraphicsEngine.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
-	class CEDirect3DEngine : public CEEngine {
+	class CEDirect3DEngine : public CEGraphicsEngine {
 	public:
 	protected:
 	private:

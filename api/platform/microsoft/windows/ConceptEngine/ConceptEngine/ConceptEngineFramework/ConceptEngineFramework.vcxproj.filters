@@ -372,9 +372,6 @@
     <ClInclude Include="CEObject.h">
       <Filter>GraphicsEngine\Main</Filter>
     </ClInclude>
-    <ClInclude Include="CEEngine.h">
-      <Filter>GraphicsEngine\Main</Filter>
-    </ClInclude>
     <ClInclude Include="CED3DObject.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
@@ -383,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="CED3DCubeObject.h">
       <Filter>GraphicsEngine\DirectX\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGraphicsEngine.h">
+      <Filter>GraphicsEngine\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

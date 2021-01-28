@@ -20,10 +20,10 @@ namespace Concept::GraphicsEngine::Direct3D::Objects {
 		MainVertexList GetVertexPosColor() override;
 		MainIndexList GetVertexIndices() override;
 
-	protected:
 	/*
-	 * TODO: Add friend connection between CommandList and Objects to call only one object 
+	 * TODO: Add friend connection between CommandList and Objects to call only one object
 	 */
+	protected:
 	private:
 
 	};

@@ -51,6 +51,10 @@ namespace Concept::GraphicsEngine {
 		FieldOfView GetFieldOfView() const {
 			return g_fieldOfView;
 		};
+
+		void SetFieldOfView(FieldOfView fieldOfView) {
+			g_fieldOfView = fieldOfView;
+		};
 	protected:
 
 		CEObject(VertexList& vertices, IndexList& indices, FieldOfView fieldOfView):

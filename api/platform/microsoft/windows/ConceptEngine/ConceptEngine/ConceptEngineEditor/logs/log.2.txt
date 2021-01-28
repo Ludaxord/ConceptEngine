@@ -1,14 +1,26 @@
-[2021-01-27 23:48:14.898] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-27 23:48:15.280] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-27 23:48:15.290] [ConceptEngine] [info] Concept Engine Screen class created.
-[2021-01-27 23:48:15.298] [Concept Engine] [info] Vertex Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicVertexShader.cso
-[2021-01-27 23:48:15.299] [Concept Engine] [info] Pixel Shader Path: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicPixelShader.cso
-[2021-01-27 23:48:15.326] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-27 23:48:16.290] [Concept Engine] [info] FPS: 1404.544
-[2021-01-27 23:48:17.290] [Concept Engine] [info] FPS: 1598.774
-[2021-01-27 23:48:18.291] [Concept Engine] [info] FPS: 1711.611
-[2021-01-27 23:48:19.292] [Concept Engine] [info] FPS: 1797.318
-[2021-01-27 23:48:20.292] [Concept Engine] [info] FPS: 1876.216
-[2021-01-27 23:48:21.292] [Concept Engine] [info] FPS: 1883.732
-[2021-01-27 23:48:22.292] [Concept Engine] [info] FPS: 1695.774
-[2021-01-27 23:48:23.030] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-01-28 15:29:39.765] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-28 15:29:40.260] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-28 15:29:40.270] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-28 15:29:40.309] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-28 15:29:41.271] [Concept Engine] [info] FPS: 1110.949
+[2021-01-28 15:29:41.969] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.011] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.153] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.215] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.270] [Concept Engine] [info] FPS: 1276.896
+[2021-01-28 15:29:42.276] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 47 Wheel delta: -2
+[2021-01-28 15:29:42.317] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.358] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.379] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.440] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
+[2021-01-28 15:29:42.747] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 43 Wheel delta: 2
+[2021-01-28 15:29:42.768] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:42.788] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:42.871] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 43 Wheel delta: 2
+[2021-01-28 15:29:42.891] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:42.953] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:42.973] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:43.014] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:43.076] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
+[2021-01-28 15:29:43.271] [Concept Engine] [info] FPS: 1787.415
+[2021-01-28 15:29:44.316] [ConceptEngine] [info] Concept Engine Game class destroyed.

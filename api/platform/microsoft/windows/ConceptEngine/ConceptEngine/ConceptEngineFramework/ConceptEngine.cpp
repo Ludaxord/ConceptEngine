@@ -138,7 +138,6 @@ ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
 		std::wstring m_assetsPath = assetsPath;
 		std::wstring vs_assetsPath = m_assetsPath + L"CEGEBasicVertexShader.cso";
 		std::string vsDesc(vs_assetsPath.begin(), vs_assetsPath.end());
-		logger->info("Vertex Shader Path: {}", vsDesc);
 		/*
 		 * Load shaders
 		 * Load vertex shader.
@@ -152,7 +151,6 @@ ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
 
 		std::wstring ps_assetsPath = m_assetsPath + L"CEGEBasicPixelShader.cso";
 		std::string psDesc(ps_assetsPath.begin(), ps_assetsPath.end());
-		logger->info("Pixel Shader Path: {}", psDesc);
 		Microsoft::WRL::ComPtr<ID3DBlob> pixelShaderBlob;
 		ThrowIfFailed(D3DReadFileToBlob(ps_assetsPath.c_str(), &pixelShaderBlob));
 
@@ -342,7 +340,11 @@ void OnKeyPressed(KeyEventArgs& e) {
 }
 
 void OnMouseWheel(MouseWheelEventArgs& e) {
+	auto tempFieldOfView = pCube->GetFieldOfView();
+	tempFieldOfView -= e.WheelDelta;
+	pCube->SetFieldOfView(std::clamp(tempFieldOfView, 12.0f, 90.0f));
 
+	logger->info("Field of View: {}", pCube->GetFieldOfView());
 }
 
 void OnMouseButtonPress(MouseButtonEventArgs& e) {
