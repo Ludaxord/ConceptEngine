@@ -52,9 +52,6 @@
     <Filter Include="GraphicsEngine\Main">
       <UniqueIdentifier>{4b58f2b6-0985-4ccc-b2b2-f7ba425a21b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GraphicsEngine\DirectX\Objects">
-      <UniqueIdentifier>{993180b7-e97b-49d9-99c5-643e70a21cd1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Prototypes">
       <UniqueIdentifier>{b00948fb-6095-4500-ad6f-88f4ad776eaa}</UniqueIdentifier>
     </Filter>
@@ -127,8 +124,32 @@
     <Filter Include="Prototypes\Objects\Direct3D\Basic">
       <UniqueIdentifier>{ea2ee018-3353-4a14-95f2-534e8d9803e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GraphicsEngine\DirectX\Objects\Shaders">
+    <Filter Include="GraphicsEngine\DirectX\Elements">
+      <UniqueIdentifier>{d14456af-77bf-4ec7-b330-fa5a47d79091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Objects">
+      <UniqueIdentifier>{993180b7-e97b-49d9-99c5-643e70a21cd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Lighting">
+      <UniqueIdentifier>{acb16d2d-60f6-4320-8dbc-9a10d08554a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Visitors">
+      <UniqueIdentifier>{1f3c1add-807d-48a2-be18-95fcfa685f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Cameras">
+      <UniqueIdentifier>{cee89fab-e42d-4fef-a2ef-f7071baf4ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Shaders">
       <UniqueIdentifier>{fad47197-2e45-40ed-bfa2-72a809d3a335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Playgrounds">
+      <UniqueIdentifier>{971be02d-b65f-474b-a22d-bc178039fc1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Playgrounds\Headers">
+      <UniqueIdentifier>{80cc70f0-271d-48fc-956a-d53ed892cf9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Playgrounds\Source">
+      <UniqueIdentifier>{28174522-52e4-444b-a2bd-a0d640754106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -336,9 +357,6 @@
     <ClInclude Include="CEGame.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CEEvents.h">
-      <Filter>GameEngine\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ReadDirectoryChanges.h">
       <Filter>GameEngine\Headers</Filter>
     </ClInclude>
@@ -369,9 +387,6 @@
     <ClInclude Include="ReadDirectoryChangesPrivate.h">
       <Filter>GameEngine\Source</Filter>
     </ClInclude>
-    <ClInclude Include="CEObject.h">
-      <Filter>GraphicsEngine\Main</Filter>
-    </ClInclude>
     <ClInclude Include="CED3DObject.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
@@ -379,10 +394,46 @@
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
     <ClInclude Include="CED3DCubeObject.h">
-      <Filter>GraphicsEngine\DirectX\Objects</Filter>
+      <Filter>GraphicsEngine\DirectX\Elements\Objects</Filter>
     </ClInclude>
     <ClInclude Include="CEGraphicsEngine.h">
       <Filter>GraphicsEngine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CECamera.h">
+      <Filter>GraphicsEngine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CEEvents.h">
+      <Filter>GameEngine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEObject.h">
+      <Filter>GraphicsEngine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CELight.h">
+      <Filter>GraphicsEngine\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CEPlayground.h">
+      <Filter>GameEngine\Playgrounds</Filter>
+    </ClInclude>
+    <ClInclude Include="CEBasicLightingPlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CECubePlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEEditorPlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEGamePlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEHDRPlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CEModelsPlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CERTXPlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,6 +614,9 @@
     <ClCompile Include="ReadDirectoryChanges.cpp">
       <Filter>GameEngine\Source</Filter>
     </ClCompile>
+    <ClCompile Include="CECubePlayground.cpp">
+      <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngineFramework.rc">
@@ -611,10 +665,10 @@
       <Filter>GraphicsEngine\DirectX\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CEGEBasicVertexShader.hlsl">
-      <Filter>GraphicsEngine\DirectX\Objects\Shaders</Filter>
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CEGEBasicPixelShader.hlsl">
-      <Filter>GraphicsEngine\DirectX\Objects\Shaders</Filter>
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

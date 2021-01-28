@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEAudio.h" />
+    <ClInclude Include="CEBasicLightingPlayground.h" />
+    <ClInclude Include="CECamera.h" />
     <ClInclude Include="CEController.h" />
+    <ClInclude Include="CECubePlayground.h" />
     <ClInclude Include="CED3D12UploadBuffer.h" />
     <ClInclude Include="CED3D12Utils.h" />
     <ClInclude Include="CED3DCubeObject.h" />
@@ -42,6 +45,8 @@
     <ClInclude Include="CEDX12Libs.h" />
     <ClInclude Include="CEDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDevice.h" />
+    <ClInclude Include="CEEditorPlayground.h" />
+    <ClInclude Include="CEGamePlayground.h" />
     <ClInclude Include="CEGraphicsEngine.h" />
     <ClInclude Include="CEEvents.h" />
     <ClInclude Include="CEGame.h" />
@@ -49,17 +54,22 @@
     <ClInclude Include="CEGenerateMipsPSO.h" />
     <ClInclude Include="CEGenerateMips_CS.h" />
     <ClInclude Include="CEGUI.h" />
+    <ClInclude Include="CEHDRPlayground.h" />
     <ClInclude Include="CEIndexBuffer.h" />
     <ClInclude Include="CEKeyCodes.h" />
+    <ClInclude Include="CELight.h" />
     <ClInclude Include="CEMaterial.h" />
     <ClInclude Include="CEMesh.h" />
+    <ClInclude Include="CEModelsPlayground.h" />
     <ClInclude Include="CEObject.h" />
     <ClInclude Include="CEPanoToCubemapPSO.h" />
     <ClInclude Include="CEPipelineStateObject.h" />
+    <ClInclude Include="CEPlayground.h" />
     <ClInclude Include="CERenderTarget.h" />
     <ClInclude Include="CEResource.h" />
     <ClInclude Include="CEResourceStateTracker.h" />
     <ClInclude Include="CERootSignature.h" />
+    <ClInclude Include="CERTXPlayground.h" />
     <ClInclude Include="CEScene.h" />
     <ClInclude Include="CESceneNode.h" />
     <ClInclude Include="CEScreen.h" />
@@ -107,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="CEAudio.cpp" />
     <ClCompile Include="CEController.cpp" />
+    <ClCompile Include="CECubePlayground.cpp" />
     <ClCompile Include="CED3D12Utils.cpp" />
     <ClCompile Include="CEBuffer.cpp" />
     <ClCompile Include="CEByteAddressBuffer.cpp" />

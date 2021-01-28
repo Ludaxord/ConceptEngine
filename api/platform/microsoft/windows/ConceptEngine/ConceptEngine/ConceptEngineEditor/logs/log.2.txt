@@ -1,26 +1,17 @@
-[2021-01-28 15:29:39.765] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-28 15:29:40.260] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-28 15:29:40.270] [ConceptEngine] [info] Concept Engine Screen class created.
-[2021-01-28 15:29:40.309] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-28 15:29:41.271] [Concept Engine] [info] FPS: 1110.949
-[2021-01-28 15:29:41.969] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.011] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.153] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.215] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.270] [Concept Engine] [info] FPS: 1276.896
-[2021-01-28 15:29:42.276] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 47 Wheel delta: -2
-[2021-01-28 15:29:42.317] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.358] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.379] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.440] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 46 Wheel delta: -1
-[2021-01-28 15:29:42.747] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 43 Wheel delta: 2
-[2021-01-28 15:29:42.768] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:42.788] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:42.871] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 43 Wheel delta: 2
-[2021-01-28 15:29:42.891] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:42.953] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:42.973] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:43.014] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:43.076] [Concept Engine] [info] Field of View: 45 tempFieldOfView: 44 Wheel delta: 1
-[2021-01-28 15:29:43.271] [Concept Engine] [info] FPS: 1787.415
-[2021-01-28 15:29:44.316] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-01-28 16:58:31.621] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-28 16:58:32.062] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-28 16:58:32.071] [ConceptEngine] [info] Concept Engine Screen class created.
+[2021-01-28 16:58:32.101] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-28 16:58:33.078] [Concept Engine] [info] FPS: 1157.835
+[2021-01-28 16:58:34.078] [Concept Engine] [info] FPS: 1519.758
+[2021-01-28 16:58:35.078] [Concept Engine] [info] FPS: 1629.436
+[2021-01-28 16:58:35.172] [Concept Engine] [info] Window Resize: 3440, 1440
+[2021-01-28 16:58:35.181] [Concept Engine] [info] Window Resize: 3440, 1440
+[2021-01-28 16:58:36.078] [Concept Engine] [info] FPS: 1405.850
+[2021-01-28 16:58:37.078] [Concept Engine] [info] FPS: 1356.599
+[2021-01-28 16:58:38.079] [Concept Engine] [info] FPS: 1454.943
+[2021-01-28 16:58:39.079] [Concept Engine] [info] FPS: 1450.312
+[2021-01-28 16:58:40.079] [Concept Engine] [info] FPS: 1522.626
+[2021-01-28 16:58:41.080] [Concept Engine] [info] FPS: 1550.465
+[2021-01-28 16:58:42.080] [Concept Engine] [info] FPS: 1899.674
+[2021-01-28 16:58:42.489] [ConceptEngine] [info] Concept Engine Game class destroyed.

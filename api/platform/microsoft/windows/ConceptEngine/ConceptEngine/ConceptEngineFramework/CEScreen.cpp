@@ -85,6 +85,7 @@ void CEScreen::SetFullscreen(bool fullscreen) {
 			               monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
 			               monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top, SWP_FRAMECHANGED | SWP_NOACTIVATE);
 			::ShowWindow(m_hWnd, SW_MAXIMIZE);
+			ShowCursor(false);
 		}
 		else {
 			/*
@@ -95,6 +96,7 @@ void CEScreen::SetFullscreen(bool fullscreen) {
 			               m_windowRect.right - m_windowRect.left, m_windowRect.bottom - m_windowRect.top,
 			               SWP_FRAMECHANGED | SWP_NOACTIVATE);
 			::ShowWindow(m_hWnd, SW_NORMAL);
+			ShowCursor(true);
 		}
 	}
 }

@@ -5,7 +5,7 @@
 
 #include "CEObject.h"
 
-namespace Concept::GraphicsEngine::Direct3D::Objects {
+namespace Concept::GraphicsEngine::Direct3D::Object {
 	struct CED3DVertexPosColor {
 		DirectX::XMFLOAT3 Position;
 		DirectX::XMFLOAT3 Color;
@@ -21,7 +21,7 @@ namespace Concept::GraphicsEngine::Direct3D::Objects {
 		MainIndexList GetVertexIndices() override;
 
 	/*
-	 * TODO: Add friend connection between CommandList and Objects to call only one object
+	 * TODO: Add friend connection between CommandList and Object to call only one object
 	 */
 	protected:
 	private:
