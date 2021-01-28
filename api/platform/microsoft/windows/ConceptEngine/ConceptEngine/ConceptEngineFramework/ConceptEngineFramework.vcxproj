@@ -26,8 +26,11 @@
     <ClInclude Include="CECubePlayground.h" />
     <ClInclude Include="CED3D12UploadBuffer.h" />
     <ClInclude Include="CED3D12Utils.h" />
+    <ClInclude Include="CED3DCamera.h" />
     <ClInclude Include="CED3DCubeObject.h" />
+    <ClInclude Include="CED3DLight.h" />
     <ClInclude Include="CED3DObject.h" />
+    <ClInclude Include="CED3DSceneVisitor.h" />
     <ClInclude Include="CEDefinitions.h" />
     <ClInclude Include="CEBuffer.h" />
     <ClInclude Include="CEByteAddressBuffer.h" />
@@ -121,6 +124,7 @@
     <ClCompile Include="CED3D12Utils.cpp" />
     <ClCompile Include="CEBuffer.cpp" />
     <ClCompile Include="CEByteAddressBuffer.cpp" />
+    <ClCompile Include="CED3DCamera.cpp" />
     <ClCompile Include="CEDescriptorAllocation.cpp" />
     <ClCompile Include="CEDirect3DCube.cpp" />
     <ClCompile Include="CEDirect3DGraphics.cpp" />

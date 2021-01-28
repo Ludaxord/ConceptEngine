@@ -151,6 +151,24 @@
     <Filter Include="GameEngine\Playgrounds\Source">
       <UniqueIdentifier>{28174522-52e4-444b-a2bd-a0d640754106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Lighting\Headers">
+      <UniqueIdentifier>{e26293e4-60ac-4bb1-b4cc-0c67fed28d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Lighting\Source">
+      <UniqueIdentifier>{9fd05ee0-e1c5-40c4-a5b0-ef457957dbac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Cameras\Headers">
+      <UniqueIdentifier>{f5276d5e-ae5a-4ca5-93ac-4af16d15d9fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Cameras\Source">
+      <UniqueIdentifier>{39028334-d82b-4c24-9564-73c2d6462201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Visitors\Headers">
+      <UniqueIdentifier>{e038397d-5de4-4dec-b332-c944aa8a09ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\DirectX\Elements\Visitors\Source">
+      <UniqueIdentifier>{c2ef9141-50d3-4a89-b73d-51a3e84b7e54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h">
@@ -435,6 +453,15 @@
     <ClInclude Include="CERTXPlayground.h">
       <Filter>GameEngine\Playgrounds\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CED3DLight.h">
+      <Filter>GraphicsEngine\DirectX\Elements\Lighting\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CED3DCamera.h">
+      <Filter>GraphicsEngine\DirectX\Elements\Cameras\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CED3DSceneVisitor.h">
+      <Filter>GraphicsEngine\DirectX\Elements\Visitors\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -616,6 +643,9 @@
     </ClCompile>
     <ClCompile Include="CECubePlayground.cpp">
       <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CED3DCamera.cpp">
+      <Filter>GraphicsEngine\DirectX\Elements\Cameras\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
