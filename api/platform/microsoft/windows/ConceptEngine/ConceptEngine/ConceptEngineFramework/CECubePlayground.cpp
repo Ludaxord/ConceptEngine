@@ -179,24 +179,7 @@ void CECubePlayground::UnloadContent() {
 }
 
 void CECubePlayground::OnUpdate(UpdateEventArgs& e) {
-	static uint64_t frameCount = 0;
-	static double totalTime = 0.0;
-
-	totalTime += e.DeltaTime;
-	++frameCount;
-
-	if (totalTime > 1.0) {
-		auto fps = frameCount / totalTime;
-		frameCount = 0;
-		totalTime = 0.0;
-
-		m_logger->info("FPS: {:.7}", fps);
-
-		wchar_t buffer[256];
-		::swprintf_s(buffer, L"Concept Engine [FPS: %f]", fps);
-		m_window->SetWindowTitle(buffer);
-	}
-
+	DisplayDebugFPSOnUpdate(e);
 
 	/*
 	 * Use render target from swapchain
@@ -251,7 +234,7 @@ void CECubePlayground::OnUpdate(UpdateEventArgs& e) {
 	 */
 	commandList->SetGraphics32BitConstants(0, mvpMatrix);
 
-	const FLOAT clearColor[] = { 0.4f, 0.6f, 0.9f, 1.0f };
+	const FLOAT clearColor[] = {0.4f, 0.6f, 0.9f, 1.0f};
 	commandList->ClearTexture(renderTarget.GetTexture(AttachmentPoint::Color0), clearColor);
 	commandList->ClearDepthStencilTexture(m_depthTexture, D3D12_CLEAR_FLAG_DEPTH);
 
@@ -273,15 +256,12 @@ void CECubePlayground::OnUpdate(UpdateEventArgs& e) {
 	 * Present image to window
 	 */
 	m_swapChain->Present();
-	
+
 	OnRender();
 }
 
 void CECubePlayground::OnRender() {
 
-}
-
-void CECubePlayground::OnGUI() {
 }
 
 void CECubePlayground::OnKeyPressed(KeyEventArgs& e) {

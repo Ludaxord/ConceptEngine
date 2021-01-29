@@ -56,7 +56,6 @@ namespace Concept::GameEngine {
 			 */
 			virtual void OnUpdate(UpdateEventArgs& e) = 0;
 			virtual void OnRender() = 0;
-			virtual void OnGUI() = 0;
 
 			/*
 			 * Invoked by registered window when key is pressed
@@ -84,6 +83,26 @@ namespace Concept::GameEngine {
 			 */
 			virtual void OnResize(ResizeEventArgs& e) = 0;
 
+			void DisplayDebugFPSOnUpdate(UpdateEventArgs& e) const {
+				static uint64_t frameCount = 0;
+				static double totalTime = 0.0;
+
+				totalTime += e.DeltaTime;
+				++frameCount;
+
+				if (totalTime > 1.0) {
+					auto fps = frameCount / totalTime;
+					frameCount = 0;
+					totalTime = 0.0;
+
+					m_logger->info("FPS: {:.7}", fps);
+
+					wchar_t buffer[256];
+					::swprintf_s(buffer, L"Concept Engine [FPS: %f]", fps);
+					m_window->SetWindowTitle(buffer);
+				}
+			}
+			
 			/*
 			 * Setters
 			 */

@@ -119,12 +119,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEAudio.cpp" />
+    <ClCompile Include="CEBasicLightingPlayground.cpp" />
     <ClCompile Include="CEController.cpp" />
     <ClCompile Include="CECubePlayground.cpp" />
     <ClCompile Include="CED3D12Utils.cpp" />
     <ClCompile Include="CEBuffer.cpp" />
     <ClCompile Include="CEByteAddressBuffer.cpp" />
     <ClCompile Include="CED3DCamera.cpp" />
+    <ClCompile Include="CED3DSceneVisitor.cpp" />
     <ClCompile Include="CEDescriptorAllocation.cpp" />
     <ClCompile Include="CEDirect3DCube.cpp" />
     <ClCompile Include="CEDirect3DGraphics.cpp" />
@@ -191,6 +193,24 @@
     <Library Include="glfw3dll.lib" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="CEGEBasicLightingPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicLightingUnlitPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicLightingVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="CEGEBasicPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

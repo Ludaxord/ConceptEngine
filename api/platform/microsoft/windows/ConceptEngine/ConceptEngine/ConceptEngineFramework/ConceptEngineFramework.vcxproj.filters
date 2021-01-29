@@ -647,6 +647,12 @@
     <ClCompile Include="CED3DCamera.cpp">
       <Filter>GraphicsEngine\DirectX\Elements\Cameras\Source</Filter>
     </ClCompile>
+    <ClCompile Include="CEBasicLightingPlayground.cpp">
+      <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CED3DSceneVisitor.cpp">
+      <Filter>GraphicsEngine\DirectX\Elements\Visitors\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngineFramework.rc">
@@ -698,6 +704,15 @@
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CEGEBasicPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicLightingVertexShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicLightingPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEBasicLightingUnlitPixelShader.hlsl">
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

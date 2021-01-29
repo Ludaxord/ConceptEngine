@@ -1,33 +1,5 @@
-[2021-01-28 23:09:52.819] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-28 23:09:53.276] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-28 23:09:53.318] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-28 23:09:53.829] [Concept Engine] [info] FPS: 479.8828
-[2021-01-28 23:09:54.830] [Concept Engine] [info] FPS: 1517.434
-[2021-01-28 23:09:55.830] [Concept Engine] [info] FPS: 1819.681
-[2021-01-28 23:09:56.830] [Concept Engine] [info] FPS: 1648.329
-[2021-01-28 23:09:57.383] [Concept Engine] [info] Window Resize: 3440, 1440
-[2021-01-28 23:09:57.391] [Concept Engine] [info] Window Resize: 3440, 1440
-[2021-01-28 23:09:57.831] [Concept Engine] [info] FPS: 1742.316
-[2021-01-28 23:09:58.831] [Concept Engine] [info] FPS: 1816.869
-[2021-01-28 23:09:59.831] [Concept Engine] [info] FPS: 1863.650
-[2021-01-28 23:10:00.615] [Concept Engine] [info] Field of View: 42
-[2021-01-28 23:10:00.635] [Concept Engine] [info] Field of View: 41
-[2021-01-28 23:10:00.758] [Concept Engine] [info] Field of View: 39
-[2021-01-28 23:10:00.798] [Concept Engine] [info] Field of View: 38
-[2021-01-28 23:10:00.831] [Concept Engine] [info] FPS: 1775.333
-[2021-01-28 23:10:00.839] [Concept Engine] [info] Field of View: 37
-[2021-01-28 23:10:00.880] [Concept Engine] [info] Field of View: 36
-[2021-01-28 23:10:00.941] [Concept Engine] [info] Field of View: 35
-[2021-01-28 23:10:01.187] [Concept Engine] [info] Field of View: 33
-[2021-01-28 23:10:01.209] [Concept Engine] [info] Field of View: 30
-[2021-01-28 23:10:01.248] [Concept Engine] [info] Field of View: 26
-[2021-01-28 23:10:01.290] [Concept Engine] [info] Field of View: 25
-[2021-01-28 23:10:01.331] [Concept Engine] [info] Field of View: 24
-[2021-01-28 23:10:01.832] [Concept Engine] [info] FPS: 1866.038
-[2021-01-28 23:10:02.832] [Concept Engine] [info] FPS: 1852.879
-[2021-01-28 23:10:03.832] [Concept Engine] [info] FPS: 1872.453
-[2021-01-28 23:10:04.834] [Concept Engine] [info] FPS: 1862.188
-[2021-01-28 23:10:05.834] [Concept Engine] [info] FPS: 143.9313
-[2021-01-28 23:10:06.834] [Concept Engine] [info] FPS: 143.9818
-[2021-01-28 23:10:07.835] [Concept Engine] [info] FPS: 1893.187
-[2021-01-28 23:10:08.398] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-01-29 20:56:42.313] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-29 20:56:42.748] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-29 20:56:42.785] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-29 20:56:43.318] [Concept Engine] [info] FPS: 441.9209
+[2021-01-29 20:56:44.361] [ConceptEngine] [info] Concept Engine Game class destroyed.

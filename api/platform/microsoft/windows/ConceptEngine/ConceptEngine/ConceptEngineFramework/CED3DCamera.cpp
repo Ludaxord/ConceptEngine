@@ -60,6 +60,10 @@ DirectX::XMVECTOR CED3DCamera::get_Translation() const {
 	return pData->m_translation;
 }
 
+void CED3DCamera::set_Rotation(DirectX::XMVECTOR rotation) const {
+	pData->m_rotation = rotation;
+}
+
 DirectX::XMVECTOR CED3DCamera::get_Rotation() const {
 	return pData->m_rotation;
 }

@@ -7,6 +7,15 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicLightingPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicLightingUnlitPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicLightingVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicPixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>

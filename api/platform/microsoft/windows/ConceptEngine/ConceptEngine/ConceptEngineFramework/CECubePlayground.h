@@ -34,7 +34,6 @@ namespace Concept {
 		protected:
 			void OnUpdate(UpdateEventArgs& e) override;
 			void OnRender() override;
-			void OnGUI() override;
 			void OnKeyPressed(KeyEventArgs& e) override;
 			void OnKeyReleased(KeyEventArgs& e) override;
 			void OnMouseMoved(MouseMotionEventArgs& e) override;

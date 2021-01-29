@@ -26,6 +26,7 @@ namespace Concept::GraphicsEngine::Direct3D::Camera {
 		 * Set camera rotation in world space
 		 * @param rotation, rotation quaternion
 		 */
+		void XM_CALLCONV set_Rotation(DirectX::XMVECTOR rotation) const;
 		DirectX::XMVECTOR get_Rotation() const;
 
 		void XM_CALLCONV Translate(DirectX::FXMVECTOR translation, Space space = Space::Local);
