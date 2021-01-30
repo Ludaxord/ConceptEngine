@@ -1,25 +1,5 @@
-[2021-01-29 00:24:16.699] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-29 00:24:17.052] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-29 00:24:17.096] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-29 00:24:17.706] [Concept Engine] [info] FPS: 651.5580
-[2021-01-29 00:24:18.707] [Concept Engine] [info] FPS: 1354.392
-[2021-01-29 00:24:19.707] [Concept Engine] [info] FPS: 1770.903
-[2021-01-29 00:24:20.707] [Concept Engine] [info] FPS: 1787.448
-[2021-01-29 00:24:21.707] [Concept Engine] [info] FPS: 1774.768
-[2021-01-29 00:24:22.707] [Concept Engine] [info] FPS: 1853.790
-[2021-01-29 00:24:23.707] [Concept Engine] [info] FPS: 1858.470
-[2021-01-29 00:24:24.708] [Concept Engine] [info] FPS: 1724.109
-[2021-01-29 00:24:25.708] [Concept Engine] [info] FPS: 1812.824
-[2021-01-29 00:24:26.708] [Concept Engine] [info] FPS: 1843.263
-[2021-01-29 00:24:27.709] [Concept Engine] [info] FPS: 1834.257
-[2021-01-29 00:24:28.709] [Concept Engine] [info] FPS: 1858.757
-[2021-01-29 00:24:29.709] [Concept Engine] [info] FPS: 1844.249
-[2021-01-29 00:24:30.710] [Concept Engine] [info] FPS: 1842.511
-[2021-01-29 00:24:31.710] [Concept Engine] [info] FPS: 1843.824
-[2021-01-29 00:24:32.710] [Concept Engine] [info] FPS: 1852.814
-[2021-01-29 00:24:33.710] [Concept Engine] [info] FPS: 1830.149
-[2021-01-29 00:24:34.710] [Concept Engine] [info] FPS: 1830.747
-[2021-01-29 00:24:35.711] [Concept Engine] [info] FPS: 1837.727
-[2021-01-29 00:24:36.711] [Concept Engine] [info] FPS: 1831.597
-[2021-01-29 00:24:37.711] [Concept Engine] [info] FPS: 1820.604
-[2021-01-29 00:24:38.734] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-01-29 20:56:42.313] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-29 20:56:42.748] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-01-29 20:56:42.785] [Concept Engine] [info] Window Resize: 1920, 1080
+[2021-01-29 20:56:43.318] [Concept Engine] [info] FPS: 441.9209
+[2021-01-29 20:56:44.361] [ConceptEngine] [info] Concept Engine Game class destroyed.
