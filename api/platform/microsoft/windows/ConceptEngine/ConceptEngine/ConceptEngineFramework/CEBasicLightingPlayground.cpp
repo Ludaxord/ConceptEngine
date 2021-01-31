@@ -39,31 +39,14 @@ struct LightProperties {
  * Enum for root signature parameters
  * not using scoped enums to avoid explicit cat that would be required to use root indices in root signature.
  */
-enum RootParameters {
-	/*
-	 * ConstantBuffer<Mat> MatCB : register(b0);
-	 */
-	MatricesCB,
-	/*
-	 * ConstantBuffer<Material> MaterialCB : register(b0, space1);
-	 */
-	MaterialCB,
-	/*
-	 * ConstantBuffer<LightProperties> LightPropertiesCB : register(b1);
-	 */
-	LightPropertiesCB,
-	/*
-	 * StructuredBuffer<PointLight> PointLights : register(t0);
-	 */
-	PointLights,
-	/*
-	 * StructuredBuffer<SpotLight> SpotLights : register(t1);
-	 */
-	SpotLights,
-	/*
-	 * Texture2D DiffuseTexture : register(t2);
-	 */
-	Textures,
+enum RootParameters
+{
+	MatricesCB,         // ConstantBuffer<Mat> MatCB : register(b0);
+	MaterialCB,         // ConstantBuffer<Material> MaterialCB : register( b0, space1 );
+	LightPropertiesCB,  // ConstantBuffer<LightProperties> LightPropertiesCB : register( b1 );
+	PointLights,        // StructuredBuffer<PointLight> PointLights : register( t0 );
+	SpotLights,         // StructuredBuffer<SpotLight> SpotLights : register( t1 );
+	Textures,           // Texture2D DiffuseTexture : register( t2 );
 	NumRootParameters
 };
 
@@ -136,29 +119,24 @@ bool CEBasicLightingPlayground::LoadContent() {
 	m_torus = commandList->CreateTorus();
 	m_plane = commandList->CreatePlane();
 
+	WCHAR assetsPath[512];
+	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
+	std::wstring m_assetsPath = assetsPath;
 	// Load some textures
-	m_defaultTexture = commandList->LoadTextureFromFile(
-		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/DefaultWhite.bmp", true);
-	m_directXTexture = commandList->LoadTextureFromFile(
-		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Directx9.png", true);
-	m_earthTexture = commandList->LoadTextureFromFile(
-		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/earth.dds", true);
-	m_monaLisaTexture = commandList->LoadTextureFromFile(
-		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Mona_Lisa.jpg", true);
+	m_defaultTexture = commandList->LoadTextureFromFile(m_assetsPath + L"DefaultWhite.bmp", true);
+	m_directXTexture = commandList->LoadTextureFromFile(m_assetsPath + L"Directx9.png", true);
+	m_earthTexture = commandList->LoadTextureFromFile(m_assetsPath + L"earth.dds", true);
+	m_monaLisaTexture = commandList->LoadTextureFromFile(m_assetsPath + L"Mona_Lisa.jpg", true);
 
 	// Start loading resources...
 	commandQueue.ExecuteCommandList(commandList);
 	/*
 	 * Load shaders
 	 */
-	WCHAR assetsPath[512];
-	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
-	std::wstring m_assetsPath = assetsPath;
-	std::wstring vs_assetsPath = m_assetsPath + L"CEGEBasicLightingVertexShader.cso";
-	std::string vsDesc(vs_assetsPath.begin(), vs_assetsPath.end());
 	/*
 	 * Load vertex shader.
 	 */
+	std::wstring vs_assetsPath = m_assetsPath + L"CEGEBasicLightingVertexShader.cso";
 	Microsoft::WRL::ComPtr<ID3DBlob> vertexShaderBlob;
 	ThrowIfFailed(D3DReadFileToBlob(vs_assetsPath.c_str(), &vertexShaderBlob));
 
@@ -166,7 +144,6 @@ bool CEBasicLightingPlayground::LoadContent() {
 	 * Load pixel shader.
 	 */
 	std::wstring ps_assetsPath = m_assetsPath + L"CEGEBasicLightingPixelShader.cso";
-	std::string psDesc(ps_assetsPath.begin(), ps_assetsPath.end());
 	Microsoft::WRL::ComPtr<ID3DBlob> pixelShaderBlob;
 	ThrowIfFailed(D3DReadFileToBlob(ps_assetsPath.c_str(), &pixelShaderBlob));
 
@@ -174,7 +151,6 @@ bool CEBasicLightingPlayground::LoadContent() {
 	 * Load pixel shader for unlit geometry (geometric shapes representing light sources, should be unlit)
 	 */
 	std::wstring ups_assetsPath = m_assetsPath + L"CEGEBasicLightingPixelShader.cso";
-	std::string upsDesc(ps_assetsPath.begin(), ps_assetsPath.end());
 	Microsoft::WRL::ComPtr<ID3DBlob> unlitPixelShaderBlob;
 	ThrowIfFailed(D3DReadFileToBlob(ups_assetsPath.c_str(), &unlitPixelShaderBlob));
 
@@ -185,7 +161,7 @@ bool CEBasicLightingPlayground::LoadContent() {
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
 
-	CD3DX12_DESCRIPTOR_RANGE1 descriptorRage(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
+	CD3DX12_DESCRIPTOR_RANGE1 descriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
 
 	CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
 	rootParameters[RootParameters::MatricesCB].InitAsConstantBufferView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
@@ -198,7 +174,7 @@ bool CEBasicLightingPlayground::LoadContent() {
 	                                                                     D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::SpotLights].InitAsShaderResourceView(1, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
 	                                                                    D3D12_SHADER_VISIBILITY_PIXEL);
-	rootParameters[RootParameters::Textures].InitAsDescriptorTable(1, &descriptorRage, D3D12_SHADER_VISIBILITY_PIXEL);
+	rootParameters[RootParameters::Textures].InitAsDescriptorTable(1, &descriptorRange, D3D12_SHADER_VISIBILITY_PIXEL);
 
 	CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR);
 	CD3DX12_STATIC_SAMPLER_DESC anisotropicSampler(0, D3D12_FILTER_ANISOTROPIC);
@@ -488,7 +464,7 @@ void CEBasicLightingPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
 	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -539,7 +515,7 @@ void CEBasicLightingPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Red);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
 	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -554,7 +530,7 @@ void CEBasicLightingPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Blue);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
 
 	// Render the plane using the SceneVisitor.
 	m_plane->Accept(visitor);
@@ -590,7 +566,7 @@ void CEBasicLightingPlayground::OnRender() {
 		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, lightMaterial);
 
-		m_cone->Accept(visitor);
+		m_sphere->Accept(visitor);
 	}
 
 	// Resolve the MSAA render target to the swapchain's backbuffer.
@@ -699,7 +675,7 @@ void CEBasicLightingPlayground::OnKeyReleased(KeyEventArgs& e) {
 		break;
 	case KeyCode::Down:
 	case KeyCode::S:
-		m_down = 0.0f;
+		m_backward = 0.0f;
 		break;
 	case KeyCode::Right:
 	case KeyCode::D:

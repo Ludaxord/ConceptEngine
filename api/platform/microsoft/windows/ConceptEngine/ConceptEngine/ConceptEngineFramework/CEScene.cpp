@@ -54,6 +54,7 @@ inline DirectX::BoundingBox CreateBoundingBox(const aiAABB& aabb) {
 
 bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
                                 const std::function<bool(float)>& loadingProgress) {
+	spdlog::warn("LoadSceneFromFile");
 
 	fs::path filePath = fileName;
 	fs::path exportPath = fs::path(filePath).replace_extension("assbin");

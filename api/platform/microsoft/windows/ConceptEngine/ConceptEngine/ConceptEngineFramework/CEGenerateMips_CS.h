@@ -1,4 +1,2520 @@
-#pragma once
+#if 0
+;
+; Input signature :
+;
+; Name                 Index   Mask Register SysValue  Format   Used
+; -------------------- ---- - ------ -------- -------- ------ - ------
+; no parameters
+;
+; Output signature :
+;
+; Name                 Index   Mask Register SysValue  Format   Used
+; -------------------- ---- - ------ -------- -------- ------ - ------
+; no parameters
+; shader debug name : f79e0f451225221a968d3b90cc06f422.pdb
+; shader hash : f79e0f451225221a968d3b90cc06f422
+;
+; Pipeline Runtime Information :
+;
+;
+;
+; Buffer Definitions :
+;
+; cbuffer GenerateMipsCB
+; {
+    ;
+    ;   struct GenerateMipsCB
+        ; {
+        ;
+        ;       uint SrcMipLevel; ; Offset:    0
+            ;       uint NumMipLevels; ; Offset:    4
+            ;       uint SrcDimension; ; Offset:    8
+            ;       bool IsSRGB; ; Offset:   12
+            ;       float2 TexelSize; ; Offset:   16
+            ;
+        ;   } GenerateMipsCB; ; Offset:    0 Size : 24
+        ;
+        ; }
+;
+;
+; Resource Bindings :
+;
+; Name                                 Type  Format         Dim      ID      HLSL Bind  Count
+; ------------------------------ ---------- ------ - ---------- - ------ - -------------- ------
+; GenerateMipsCB                    cbuffer      NA          NA     CB0            cb0     1
+; LinearClampSampler                sampler      NA          NA      S0             s0     1
+; SrcMip                            texture     f32          2d      T0             t0     1
+; OutMip1                               UAV     f32          2d      U0             u0     1
+; OutMip2                               UAV     f32          2d      U1             u1     1
+; OutMip3                               UAV     f32          2d      U2             u2     1
+; OutMip4                               UAV     f32          2d      U3             u3     1
+;
+target datalayout = "e-m:e-p:32:32-i1:32-i8:32-i16:32-i32:32-i64:64-f16:32-f32:32-f64:64-n8:16:32:64"
+target triple = "dxil-ms-dx"
+
+% "class.Texture2D<vector<float, 4> >" = type{ <4 x float>,% "class.Texture2D<vector<float, 4> >::mips_type" }
+% "class.Texture2D<vector<float, 4> >::mips_type" = type{ i32 }
+% "class.RWTexture2D<vector<float, 4> >" = type{ <4 x float> }
+% struct.SamplerState = type{ i32 }
+% GenerateMipsCB = type{ i32, i32, i32, i32, <2 x float> }
+% dx.types.Handle = type{ i8* }
+% dx.types.CBufRet.i32 = type{ i32, i32, i32, i32 }
+% dx.types.CBufRet.f32 = type{ float, float, float, float }
+% dx.types.ResRet.f32 = type{ float, float, float, float, i32 }
+% struct.ComputeShaderInput = type{ <3 x i32>, <3 x i32>, <3 x i32>, i32 }
+
+@"\01?SrcMip@@3V?$Texture2D@V?$vector@M$03@@@@A" = external constant % "class.Texture2D<vector<float, 4> >", align 4
+@"\01?OutMip1@@3V?$RWTexture2D@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2D<vector<float, 4> >", align 4
+@"\01?OutMip2@@3V?$RWTexture2D@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2D<vector<float, 4> >", align 4
+@"\01?OutMip3@@3V?$RWTexture2D@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2D<vector<float, 4> >", align 4
+@"\01?OutMip4@@3V?$RWTexture2D@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2D<vector<float, 4> >", align 4
+@"\01?LinearClampSampler@@3USamplerState@@A" = external constant % struct.SamplerState, align 4
+@"\01?gs_R@@3PAMA" = external addrspace(3) global[64 x float], align 4
+@"\01?gs_G@@3PAMA" = external addrspace(3) global[64 x float], align 4
+@"\01?gs_B@@3PAMA" = external addrspace(3) global[64 x float], align 4
+@"\01?gs_A@@3PAMA" = external addrspace(3) global[64 x float], align 4
+@GenerateMipsCB = external constant % GenerateMipsCB
+
+; Function Attrs : nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
+define void @main() {
+    % OutMip4_UAV_2d = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 3, i32 3, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % OutMip3_UAV_2d = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 2, i32 2, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % OutMip2_UAV_2d = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 1, i32 1, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % OutMip1_UAV_2d = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 0, i32 0, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % SrcMip_texture_2d = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 0, i32 0, i32 0, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % LinearClampSampler_sampler = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 3, i32 0, i32 0, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % GenerateMipsCB_cbuffer = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 2, i32 0, i32 0, i1 false); CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+        % 1 = call i32 @dx.op.groupId.i32(i32 94, i32 0); GroupId(component)
+        % 2 = call i32 @dx.op.groupId.i32(i32 94, i32 1); GroupId(component)
+        % 3 = call i32 @dx.op.groupId.i32(i32 94, i32 2); GroupId(component)
+        % 4 = call i32 @dx.op.threadIdInGroup.i32(i32 95, i32 0); ThreadIdInGroup(component)
+        % 5 = call i32 @dx.op.threadIdInGroup.i32(i32 95, i32 1); ThreadIdInGroup(component)
+        % 6 = call i32 @dx.op.threadIdInGroup.i32(i32 95, i32 2); ThreadIdInGroup(component)
+        % 7 = call i32 @dx.op.threadId.i32(i32 93, i32 0); ThreadId(component)
+        % 8 = call i32 @dx.op.threadId.i32(i32 93, i32 1); ThreadId(component)
+        % 9 = call i32 @dx.op.threadId.i32(i32 93, i32 2); ThreadId(component)
+        % 10 = call i32 @dx.op.flattenedThreadIdInGroup.i32(i32 96); FlattenedThreadIdInGroup()
+        % 11 = alloca i32
+        call void @llvm.dbg.declare(metadata i32 * %11, metadata !128, metadata !129), !dbg !130
+        store i32 % 10, i32*% 11
+        % 12 = alloca[3 x i32]
+        call void @llvm.dbg.declare(metadata[3 x i32] * %12, metadata !128, metadata !131), !dbg !130
+        % 13 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0
+        store i32 % 7, i32*% 13
+        % 14 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1
+        store i32 % 8, i32*% 14
+        % 15 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 2
+        store i32 % 9, i32*% 15
+        % 16 = alloca[3 x i32]
+        call void @llvm.dbg.declare(metadata[3 x i32] * %16, metadata !128, metadata !132), !dbg !130
+        % 17 = getelementptr inbounds[3 x i32], [3 x i32] * %16, i32 0, i32 0
+        store i32 % 4, i32*% 17
+        % 18 = getelementptr inbounds[3 x i32], [3 x i32] * %16, i32 0, i32 1
+        store i32 % 5, i32*% 18
+        % 19 = getelementptr inbounds[3 x i32], [3 x i32] * %16, i32 0, i32 2
+        store i32 % 6, i32*% 19
+        % 20 = alloca[3 x i32]
+        call void @llvm.dbg.declare(metadata[3 x i32] * %20, metadata !128, metadata !133), !dbg !130
+        % 21 = getelementptr inbounds[3 x i32], [3 x i32] * %20, i32 0, i32 0
+        store i32 % 1, i32*% 21
+        % 22 = getelementptr inbounds[3 x i32], [3 x i32] * %20, i32 0, i32 1
+        store i32 % 2, i32*% 22
+        % 23 = getelementptr inbounds[3 x i32], [3 x i32] * %20, i32 0, i32 2
+        store i32 % 3, i32*% 23
+        % 24 = alloca[4 x float]
+        % 25 = alloca i32, align 4
+        % 26 = alloca[4 x float]
+        % 27 = alloca i32, align 4
+        % 28 = alloca[4 x float]
+        % 29 = alloca i32, align 4
+        % 30 = alloca[4 x float]
+        % 31 = alloca i32, align 4
+        % 32 = alloca[3 x float]
+        % 33 = alloca[3 x float]
+        % 34 = alloca[4 x float]
+        % 35 = alloca[4 x float]
+        % 36 = alloca[3 x float]
+        % 37 = alloca[3 x float]
+        % 38 = alloca[4 x float]
+        % 39 = alloca[4 x float]
+        % 40 = alloca[4 x float]
+        % 41 = alloca i32, align 4
+        % 42 = alloca[4 x float]
+        % 43 = alloca i32, align 4
+        % 44 = alloca[4 x float]
+        % 45 = alloca i32, align 4
+        % 46 = alloca[4 x float]
+        % 47 = alloca i32, align 4
+        % 48 = alloca[3 x float]
+        % 49 = alloca[3 x float]
+        % 50 = alloca[4 x float]
+        % 51 = alloca[4 x float]
+        % 52 = alloca[4 x float]
+        % 53 = alloca i32, align 4
+        % 54 = alloca[4 x float]
+        % 55 = alloca i32, align 4
+        % 56 = alloca[4 x float]
+        % 57 = alloca i32, align 4
+        % 58 = alloca[4 x float]
+        % 59 = alloca i32, align 4
+        % 60 = alloca[3 x float]
+        % 61 = alloca[3 x float]
+        % 62 = alloca[4 x float]
+        % 63 = alloca[4 x float]
+        call void @llvm.dbg.declare(metadata i32 * %11, metadata !128, metadata !129), !dbg !130
+        % 64 = alloca[4 x float]
+        % 65 = alloca[2 x float]
+        % 66 = alloca[2 x float]
+        % 67 = alloca[2 x float]
+        % 68 = alloca[2 x float]
+        % 69 = alloca[2 x float]
+        % 70 = alloca[2 x float]
+        % 71 = alloca[2 x float]
+        % 72 = alloca[4 x float]
+        % 73 = alloca[4 x float]
+        % 74 = alloca[4 x float]
+        % 75 = alloca[4 x float]
+        % 76 = alloca[4 x float]
+        % 77 = alloca[4 x float]
+        % 78 = alloca[4 x float]
+        % 79 = alloca[4 x float]
+        % 80 = alloca[4 x float]
+        call void @llvm.dbg.declare(metadata[4 x float] * %64, metadata !134, metadata !135), !dbg !136
+        % 81 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !136
+        store float 0.000000e+00, float*% 81, !dbg !136
+        % 82 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !136
+        store float 0.000000e+00, float*% 82, !dbg !136
+        % 83 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !136
+        store float 0.000000e+00, float*% 83, !dbg !136
+        % 84 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !136
+        store float 0.000000e+00, float*% 84, !dbg !136
+        % 85 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !137; CBufferLoadLegacy(handle, regIndex)
+        % 86 = extractvalue % dx.types.CBufRet.i32 % 85, 2, !dbg !137
+        call void @llvm.dbg.declare(metadata[3 x float] * %61, metadata !138, metadata !135), !dbg !139
+        call void @llvm.dbg.declare(metadata[4 x float] * %63, metadata !144, metadata !135), !dbg !145
+        call void @llvm.dbg.declare(metadata[4 x float] * %58, metadata !146, metadata !135), !dbg !147
+        call void @llvm.dbg.declare(metadata i32 * %59, metadata !149, metadata !135), !dbg !150
+        call void @llvm.dbg.declare(metadata i32 * %57, metadata !151, metadata !135), !dbg !152
+        call void @llvm.dbg.declare(metadata i32 * %55, metadata !151, metadata !135), !dbg !156
+        call void @llvm.dbg.declare(metadata i32 * %53, metadata !151, metadata !135), !dbg !158
+        call void @llvm.dbg.declare(metadata[3 x float] * %49, metadata !138, metadata !135), !dbg !160
+        call void @llvm.dbg.declare(metadata[4 x float] * %51, metadata !144, metadata !135), !dbg !163
+        call void @llvm.dbg.declare(metadata[4 x float] * %46, metadata !146, metadata !135), !dbg !164
+        call void @llvm.dbg.declare(metadata i32 * %47, metadata !149, metadata !135), !dbg !166
+        call void @llvm.dbg.declare(metadata i32 * %45, metadata !151, metadata !135), !dbg !167
+        call void @llvm.dbg.declare(metadata i32 * %43, metadata !151, metadata !135), !dbg !171
+        call void @llvm.dbg.declare(metadata i32 * %41, metadata !151, metadata !135), !dbg !173
+        call void @llvm.dbg.declare(metadata[3 x float] * %37, metadata !138, metadata !135), !dbg !175
+        call void @llvm.dbg.declare(metadata[4 x float] * %39, metadata !144, metadata !135), !dbg !180
+        call void @llvm.dbg.declare(metadata[3 x float] * %33, metadata !138, metadata !135), !dbg !181
+        call void @llvm.dbg.declare(metadata[4 x float] * %35, metadata !144, metadata !135), !dbg !184
+        call void @llvm.dbg.declare(metadata[4 x float] * %30, metadata !146, metadata !135), !dbg !185
+        call void @llvm.dbg.declare(metadata i32 * %31, metadata !149, metadata !135), !dbg !187
+        call void @llvm.dbg.declare(metadata i32 * %29, metadata !151, metadata !135), !dbg !188
+        call void @llvm.dbg.declare(metadata i32 * %27, metadata !151, metadata !135), !dbg !190
+        call void @llvm.dbg.declare(metadata i32 * %25, metadata !151, metadata !135), !dbg !192
+        switch i32 % 86, label % 328[
+            i32 0, label % 87
+                i32 1, label % 113
+                i32 2, label % 159
+                i32 3, label % 205
+        ], !dbg !194
+
+            ; <label>:87; preds = % 0
+                call void @llvm.dbg.declare(metadata[2 x float] * %65, metadata !195, metadata !135), !dbg !198
+                % 88 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !199; CBufferLoadLegacy(handle, regIndex)
+                % 89 = extractvalue % dx.types.CBufRet.f32 % 88, 0, !dbg !199
+                % 90 = extractvalue % dx.types.CBufRet.f32 % 88, 1, !dbg !199
+                % 91 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !200
+                % 92 = load i32, i32 * %91, !dbg !200
+                % 93 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !200
+                % 94 = load i32, i32 * %93, !dbg !200
+                % .i0 = uitofp i32 % 92 to float, !dbg !200
+                % .i1 = uitofp i32 % 94 to float, !dbg !200
+                % .i038 = fadd fast float% .i0, 5.000000e-01, !dbg !201
+                % .i139 = fadd fast float% .i1, 5.000000e-01, !dbg !201
+                % .i040 = fmul fast float% 89, % .i038, !dbg !202
+                % .i141 = fmul fast float% 90, % .i139, !dbg !202
+                % 95 = getelementptr inbounds[2 x float], [2 x float] * %65, i32 0, i32 0, !dbg !198
+                store float% .i040, float*% 95, !dbg !198
+                % 96 = getelementptr inbounds[2 x float], [2 x float] * %65, i32 0, i32 1, !dbg !198
+                store float% .i141, float*% 96, !dbg !198
+                % 97 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !203; CBufferLoadLegacy(handle, regIndex)
+                % 98 = extractvalue % dx.types.CBufRet.i32 % 97, 0, !dbg !203
+                % 99 = uitofp i32 % 98 to float, !dbg !203
+                % 100 = getelementptr inbounds[2 x float], [2 x float] * %65, i32 0, i32 0, !dbg !204
+                % 101 = load float, float*% 100, !dbg !204
+                % 102 = getelementptr inbounds[2 x float], [2 x float] * %65, i32 0, i32 1, !dbg !204
+                % 103 = load float, float*% 102, !dbg !204
+                % 104 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% 101, float% 103, float undef, float undef, i32 0, i32 0, i32 undef, float% 99), !dbg !205; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 105 = extractvalue % dx.types.ResRet.f32 % 104, 0, !dbg !205
+                % 106 = extractvalue % dx.types.ResRet.f32 % 104, 1, !dbg !205
+                % 107 = extractvalue % dx.types.ResRet.f32 % 104, 2, !dbg !205
+                % 108 = extractvalue % dx.types.ResRet.f32 % 104, 3, !dbg !205
+                % 109 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !206
+                store float% 105, float*% 109, !dbg !206
+                % 110 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !206
+                store float% 106, float*% 110, !dbg !206
+                % 111 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !206
+                store float% 107, float*% 111, !dbg !206
+                % 112 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !206
+                store float% 108, float*% 112, !dbg !206
+                br label % 328, !dbg !207
+
+                ; <label>:113; preds = % 0
+                call void @llvm.dbg.declare(metadata[2 x float] * %66, metadata !208, metadata !135), !dbg !210
+                % 114 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !211; CBufferLoadLegacy(handle, regIndex)
+                % 115 = extractvalue % dx.types.CBufRet.f32 % 114, 0, !dbg !211
+                % 116 = extractvalue % dx.types.CBufRet.f32 % 114, 1, !dbg !211
+                % 117 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !212
+                % 118 = load i32, i32 * %117, !dbg !212
+                % 119 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !212
+                % 120 = load i32, i32 * %119, !dbg !212
+                % .i042 = uitofp i32 % 118 to float, !dbg !212
+                % .i143 = uitofp i32 % 120 to float, !dbg !212
+                % .i044 = fadd fast float% .i042, 2.500000e-01, !dbg !213
+                % .i145 = fadd fast float% .i143, 5.000000e-01, !dbg !213
+                % .i046 = fmul fast float% 115, % .i044, !dbg !214
+                % .i147 = fmul fast float% 116, % .i145, !dbg !214
+                % 121 = getelementptr inbounds[2 x float], [2 x float] * %66, i32 0, i32 0, !dbg !210
+                store float% .i046, float*% 121, !dbg !210
+                % 122 = getelementptr inbounds[2 x float], [2 x float] * %66, i32 0, i32 1, !dbg !210
+                store float% .i147, float*% 122, !dbg !210
+                call void @llvm.dbg.declare(metadata[2 x float] * %67, metadata !215, metadata !135), !dbg !216
+                % 123 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !217; CBufferLoadLegacy(handle, regIndex)
+                % 124 = extractvalue % dx.types.CBufRet.f32 % 123, 0, !dbg !217
+                % .i048 = fmul fast float% 124, 5.000000e-01, !dbg !218
+                % 125 = getelementptr inbounds[2 x float], [2 x float] * %67, i32 0, i32 0, !dbg !216
+                store float% .i048, float*% 125, !dbg !216
+                % 126 = getelementptr inbounds[2 x float], [2 x float] * %67, i32 0, i32 1, !dbg !216
+                store float 0.000000e+00, float*% 126, !dbg !216
+                % 127 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !219; CBufferLoadLegacy(handle, regIndex)
+                % 128 = extractvalue % dx.types.CBufRet.i32 % 127, 0, !dbg !219
+                % 129 = uitofp i32 % 128 to float, !dbg !219
+                % 130 = getelementptr inbounds[2 x float], [2 x float] * %66, i32 0, i32 0, !dbg !220
+                % 131 = load float, float*% 130, !dbg !220
+                % 132 = getelementptr inbounds[2 x float], [2 x float] * %66, i32 0, i32 1, !dbg !220
+                % 133 = load float, float*% 132, !dbg !220
+                % 134 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% 131, float% 133, float undef, float undef, i32 0, i32 0, i32 undef, float% 129), !dbg !221; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 135 = extractvalue % dx.types.ResRet.f32 % 134, 0, !dbg !221
+                % 136 = extractvalue % dx.types.ResRet.f32 % 134, 1, !dbg !221
+                % 137 = extractvalue % dx.types.ResRet.f32 % 134, 2, !dbg !221
+                % 138 = extractvalue % dx.types.ResRet.f32 % 134, 3, !dbg !221
+                % 139 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !222; CBufferLoadLegacy(handle, regIndex)
+                % 140 = extractvalue % dx.types.CBufRet.i32 % 139, 0, !dbg !222
+                % 141 = uitofp i32 % 140 to float, !dbg !222
+                % 142 = getelementptr inbounds[2 x float], [2 x float] * %66, i32 0, i32 0, !dbg !223
+                % 143 = load float, float*% 142, !dbg !223
+                % 144 = getelementptr inbounds[2 x float], [2 x float] * %66, i32 0, i32 1, !dbg !223
+                % 145 = load float, float*% 144, !dbg !223
+                % 146 = getelementptr inbounds[2 x float], [2 x float] * %67, i32 0, i32 0, !dbg !224
+                % 147 = load float, float*% 146, !dbg !224
+                % 148 = getelementptr inbounds[2 x float], [2 x float] * %67, i32 0, i32 1, !dbg !224
+                % 149 = load float, float*% 148, !dbg !224
+                % .i050 = fadd fast float% 143, % 147, !dbg !225
+                % .i151 = fadd fast float% 145, % 149, !dbg !225
+                % 150 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% .i050, float% .i151, float undef, float undef, i32 0, i32 0, i32 undef, float% 141), !dbg !226; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 151 = extractvalue % dx.types.ResRet.f32 % 150, 0, !dbg !226
+                % 152 = extractvalue % dx.types.ResRet.f32 % 150, 1, !dbg !226
+                % 153 = extractvalue % dx.types.ResRet.f32 % 150, 2, !dbg !226
+                % 154 = extractvalue % dx.types.ResRet.f32 % 150, 3, !dbg !226
+                % .i052 = fadd fast float% 135, % 151, !dbg !227
+                % .i153 = fadd fast float% 136, % 152, !dbg !227
+                % .i2 = fadd fast float% 137, % 153, !dbg !227
+                % .i3 = fadd fast float% 138, % 154, !dbg !227
+                % .i054 = fmul fast float 5.000000e-01, % .i052, !dbg !228
+                % .i155 = fmul fast float 5.000000e-01, % .i153, !dbg !228
+                % .i256 = fmul fast float 5.000000e-01, % .i2, !dbg !228
+                % .i357 = fmul fast float 5.000000e-01, % .i3, !dbg !228
+                % 155 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !229
+                store float% .i054, float*% 155, !dbg !229
+                % 156 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !229
+                store float% .i155, float*% 156, !dbg !229
+                % 157 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !229
+                store float% .i256, float*% 157, !dbg !229
+                % 158 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !229
+                store float% .i357, float*% 158, !dbg !229
+                br label % 328, !dbg !230
+
+                ; <label>:159; preds = % 0
+                call void @llvm.dbg.declare(metadata[2 x float] * %68, metadata !231, metadata !135), !dbg !233
+                % 160 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !234; CBufferLoadLegacy(handle, regIndex)
+                % 161 = extractvalue % dx.types.CBufRet.f32 % 160, 0, !dbg !234
+                % 162 = extractvalue % dx.types.CBufRet.f32 % 160, 1, !dbg !234
+                % 163 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !235
+                % 164 = load i32, i32 * %163, !dbg !235
+                % 165 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !235
+                % 166 = load i32, i32 * %165, !dbg !235
+                % .i058 = uitofp i32 % 164 to float, !dbg !235
+                % .i159 = uitofp i32 % 166 to float, !dbg !235
+                % .i060 = fadd fast float% .i058, 5.000000e-01, !dbg !236
+                % .i161 = fadd fast float% .i159, 2.500000e-01, !dbg !236
+                % .i062 = fmul fast float% 161, % .i060, !dbg !237
+                % .i163 = fmul fast float% 162, % .i161, !dbg !237
+                % 167 = getelementptr inbounds[2 x float], [2 x float] * %68, i32 0, i32 0, !dbg !233
+                store float% .i062, float*% 167, !dbg !233
+                % 168 = getelementptr inbounds[2 x float], [2 x float] * %68, i32 0, i32 1, !dbg !233
+                store float% .i163, float*% 168, !dbg !233
+                call void @llvm.dbg.declare(metadata[2 x float] * %69, metadata !238, metadata !135), !dbg !239
+                % 169 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !240; CBufferLoadLegacy(handle, regIndex)
+                % 170 = extractvalue % dx.types.CBufRet.f32 % 169, 1, !dbg !240
+                % .i165 = fmul fast float% 170, 5.000000e-01, !dbg !241
+                % 171 = getelementptr inbounds[2 x float], [2 x float] * %69, i32 0, i32 0, !dbg !239
+                store float 0.000000e+00, float*% 171, !dbg !239
+                % 172 = getelementptr inbounds[2 x float], [2 x float] * %69, i32 0, i32 1, !dbg !239
+                store float% .i165, float*% 172, !dbg !239
+                % 173 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !242; CBufferLoadLegacy(handle, regIndex)
+                % 174 = extractvalue % dx.types.CBufRet.i32 % 173, 0, !dbg !242
+                % 175 = uitofp i32 % 174 to float, !dbg !242
+                % 176 = getelementptr inbounds[2 x float], [2 x float] * %68, i32 0, i32 0, !dbg !243
+                % 177 = load float, float*% 176, !dbg !243
+                % 178 = getelementptr inbounds[2 x float], [2 x float] * %68, i32 0, i32 1, !dbg !243
+                % 179 = load float, float*% 178, !dbg !243
+                % 180 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% 177, float% 179, float undef, float undef, i32 0, i32 0, i32 undef, float% 175), !dbg !244; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 181 = extractvalue % dx.types.ResRet.f32 % 180, 0, !dbg !244
+                % 182 = extractvalue % dx.types.ResRet.f32 % 180, 1, !dbg !244
+                % 183 = extractvalue % dx.types.ResRet.f32 % 180, 2, !dbg !244
+                % 184 = extractvalue % dx.types.ResRet.f32 % 180, 3, !dbg !244
+                % 185 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !245; CBufferLoadLegacy(handle, regIndex)
+                % 186 = extractvalue % dx.types.CBufRet.i32 % 185, 0, !dbg !245
+                % 187 = uitofp i32 % 186 to float, !dbg !245
+                % 188 = getelementptr inbounds[2 x float], [2 x float] * %68, i32 0, i32 0, !dbg !246
+                % 189 = load float, float*% 188, !dbg !246
+                % 190 = getelementptr inbounds[2 x float], [2 x float] * %68, i32 0, i32 1, !dbg !246
+                % 191 = load float, float*% 190, !dbg !246
+                % 192 = getelementptr inbounds[2 x float], [2 x float] * %69, i32 0, i32 0, !dbg !247
+                % 193 = load float, float*% 192, !dbg !247
+                % 194 = getelementptr inbounds[2 x float], [2 x float] * %69, i32 0, i32 1, !dbg !247
+                % 195 = load float, float*% 194, !dbg !247
+                % .i066 = fadd fast float% 189, % 193, !dbg !248
+                % .i167 = fadd fast float% 191, % 195, !dbg !248
+                % 196 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% .i066, float% .i167, float undef, float undef, i32 0, i32 0, i32 undef, float% 187), !dbg !249; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 197 = extractvalue % dx.types.ResRet.f32 % 196, 0, !dbg !249
+                % 198 = extractvalue % dx.types.ResRet.f32 % 196, 1, !dbg !249
+                % 199 = extractvalue % dx.types.ResRet.f32 % 196, 2, !dbg !249
+                % 200 = extractvalue % dx.types.ResRet.f32 % 196, 3, !dbg !249
+                % .i068 = fadd fast float% 181, % 197, !dbg !250
+                % .i169 = fadd fast float% 182, % 198, !dbg !250
+                % .i270 = fadd fast float% 183, % 199, !dbg !250
+                % .i371 = fadd fast float% 184, % 200, !dbg !250
+                % .i072 = fmul fast float 5.000000e-01, % .i068, !dbg !251
+                % .i173 = fmul fast float 5.000000e-01, % .i169, !dbg !251
+                % .i274 = fmul fast float 5.000000e-01, % .i270, !dbg !251
+                % .i375 = fmul fast float 5.000000e-01, % .i371, !dbg !251
+                % 201 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !252
+                store float% .i072, float*% 201, !dbg !252
+                % 202 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !252
+                store float% .i173, float*% 202, !dbg !252
+                % 203 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !252
+                store float% .i274, float*% 203, !dbg !252
+                % 204 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !252
+                store float% .i375, float*% 204, !dbg !252
+                br label % 328, !dbg !253
+
+                ; <label>:205; preds = % 0
+                call void @llvm.dbg.declare(metadata[2 x float] * %70, metadata !254, metadata !135), !dbg !256
+                % 206 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !257; CBufferLoadLegacy(handle, regIndex)
+                % 207 = extractvalue % dx.types.CBufRet.f32 % 206, 0, !dbg !257
+                % 208 = extractvalue % dx.types.CBufRet.f32 % 206, 1, !dbg !257
+                % 209 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !258
+                % 210 = load i32, i32 * %209, !dbg !258
+                % 211 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !258
+                % 212 = load i32, i32 * %211, !dbg !258
+                % .i076 = uitofp i32 % 210 to float, !dbg !258
+                % .i177 = uitofp i32 % 212 to float, !dbg !258
+                % .i078 = fadd fast float% .i076, 2.500000e-01, !dbg !259
+                % .i179 = fadd fast float% .i177, 2.500000e-01, !dbg !259
+                % .i080 = fmul fast float% 207, % .i078, !dbg !260
+                % .i181 = fmul fast float% 208, % .i179, !dbg !260
+                % 213 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 0, !dbg !256
+                store float% .i080, float*% 213, !dbg !256
+                % 214 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 1, !dbg !256
+                store float% .i181, float*% 214, !dbg !256
+                call void @llvm.dbg.declare(metadata[2 x float] * %71, metadata !261, metadata !135), !dbg !262
+                % 215 = call % dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 1), !dbg !263; CBufferLoadLegacy(handle, regIndex)
+                % 216 = extractvalue % dx.types.CBufRet.f32 % 215, 0, !dbg !263
+                % 217 = extractvalue % dx.types.CBufRet.f32 % 215, 1, !dbg !263
+                % .i082 = fmul fast float% 216, 5.000000e-01, !dbg !264
+                % .i183 = fmul fast float% 217, 5.000000e-01, !dbg !264
+                % 218 = getelementptr inbounds[2 x float], [2 x float] * %71, i32 0, i32 0, !dbg !262
+                store float% .i082, float*% 218, !dbg !262
+                % 219 = getelementptr inbounds[2 x float], [2 x float] * %71, i32 0, i32 1, !dbg !262
+                store float% .i183, float*% 219, !dbg !262
+                % 220 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !265; CBufferLoadLegacy(handle, regIndex)
+                % 221 = extractvalue % dx.types.CBufRet.i32 % 220, 0, !dbg !265
+                % 222 = uitofp i32 % 221 to float, !dbg !265
+                % 223 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 0, !dbg !266
+                % 224 = load float, float*% 223, !dbg !266
+                % 225 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 1, !dbg !266
+                % 226 = load float, float*% 225, !dbg !266
+                % 227 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% 224, float% 226, float undef, float undef, i32 0, i32 0, i32 undef, float% 222), !dbg !267; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 228 = extractvalue % dx.types.ResRet.f32 % 227, 0, !dbg !267
+                % 229 = extractvalue % dx.types.ResRet.f32 % 227, 1, !dbg !267
+                % 230 = extractvalue % dx.types.ResRet.f32 % 227, 2, !dbg !267
+                % 231 = extractvalue % dx.types.ResRet.f32 % 227, 3, !dbg !267
+                % 232 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !268
+                store float% 228, float*% 232, !dbg !268
+                % 233 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !268
+                store float% 229, float*% 233, !dbg !268
+                % 234 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !268
+                store float% 230, float*% 234, !dbg !268
+                % 235 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !268
+                store float% 231, float*% 235, !dbg !268
+                % 236 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !269; CBufferLoadLegacy(handle, regIndex)
+                % 237 = extractvalue % dx.types.CBufRet.i32 % 236, 0, !dbg !269
+                % 238 = uitofp i32 % 237 to float, !dbg !269
+                % 239 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 0, !dbg !270
+                % 240 = load float, float*% 239, !dbg !270
+                % 241 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 1, !dbg !270
+                % 242 = load float, float*% 241, !dbg !270
+                % 243 = getelementptr inbounds[2 x float], [2 x float] * %71, i32 0, i32 0, !dbg !271
+                % 244 = load float, float*% 243, !dbg !271
+                % .i084 = fadd fast float% 240, % 244, !dbg !272
+                % 245 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% .i084, float% 242, float undef, float undef, i32 0, i32 0, i32 undef, float% 238), !dbg !273; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 246 = extractvalue % dx.types.ResRet.f32 % 245, 0, !dbg !273
+                % 247 = extractvalue % dx.types.ResRet.f32 % 245, 1, !dbg !273
+                % 248 = extractvalue % dx.types.ResRet.f32 % 245, 2, !dbg !273
+                % 249 = extractvalue % dx.types.ResRet.f32 % 245, 3, !dbg !273
+                % 250 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !274
+                % 251 = load float, float*% 250, !dbg !274
+                % 252 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !274
+                % 253 = load float, float*% 252, !dbg !274
+                % 254 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !274
+                % 255 = load float, float*% 254, !dbg !274
+                % 256 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !274
+                % 257 = load float, float*% 256, !dbg !274
+                % .i086 = fadd fast float% 251, % 246, !dbg !274
+                % .i187 = fadd fast float% 253, % 247, !dbg !274
+                % .i288 = fadd fast float% 255, % 248, !dbg !274
+                % .i389 = fadd fast float% 257, % 249, !dbg !274
+                % 258 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !274
+                store float% .i086, float*% 258, !dbg !274
+                % 259 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !274
+                store float% .i187, float*% 259, !dbg !274
+                % 260 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !274
+                store float% .i288, float*% 260, !dbg !274
+                % 261 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !274
+                store float% .i389, float*% 261, !dbg !274
+                % 262 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !275; CBufferLoadLegacy(handle, regIndex)
+                % 263 = extractvalue % dx.types.CBufRet.i32 % 262, 0, !dbg !275
+                % 264 = uitofp i32 % 263 to float, !dbg !275
+                % 265 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 0, !dbg !276
+                % 266 = load float, float*% 265, !dbg !276
+                % 267 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 1, !dbg !276
+                % 268 = load float, float*% 267, !dbg !276
+                % 269 = getelementptr inbounds[2 x float], [2 x float] * %71, i32 0, i32 1, !dbg !277
+                % 270 = load float, float*% 269, !dbg !277
+                % .i191 = fadd fast float% 268, % 270, !dbg !278
+                % 271 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% 266, float% .i191, float undef, float undef, i32 0, i32 0, i32 undef, float% 264), !dbg !279; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 272 = extractvalue % dx.types.ResRet.f32 % 271, 0, !dbg !279
+                % 273 = extractvalue % dx.types.ResRet.f32 % 271, 1, !dbg !279
+                % 274 = extractvalue % dx.types.ResRet.f32 % 271, 2, !dbg !279
+                % 275 = extractvalue % dx.types.ResRet.f32 % 271, 3, !dbg !279
+                % 276 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !280
+                % 277 = load float, float*% 276, !dbg !280
+                % 278 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !280
+                % 279 = load float, float*% 278, !dbg !280
+                % 280 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !280
+                % 281 = load float, float*% 280, !dbg !280
+                % 282 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !280
+                % 283 = load float, float*% 282, !dbg !280
+                % .i092 = fadd fast float% 277, % 272, !dbg !280
+                % .i193 = fadd fast float% 279, % 273, !dbg !280
+                % .i294 = fadd fast float% 281, % 274, !dbg !280
+                % .i395 = fadd fast float% 283, % 275, !dbg !280
+                % 284 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !280
+                store float% .i092, float*% 284, !dbg !280
+                % 285 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !280
+                store float% .i193, float*% 285, !dbg !280
+                % 286 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !280
+                store float% .i294, float*% 286, !dbg !280
+                % 287 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !280
+                store float% .i395, float*% 287, !dbg !280
+                % 288 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !281; CBufferLoadLegacy(handle, regIndex)
+                % 289 = extractvalue % dx.types.CBufRet.i32 % 288, 0, !dbg !281
+                % 290 = uitofp i32 % 289 to float, !dbg !281
+                % 291 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 0, !dbg !282
+                % 292 = load float, float*% 291, !dbg !282
+                % 293 = getelementptr inbounds[2 x float], [2 x float] * %70, i32 0, i32 1, !dbg !282
+                % 294 = load float, float*% 293, !dbg !282
+                % 295 = getelementptr inbounds[2 x float], [2 x float] * %71, i32 0, i32 0, !dbg !283
+                % 296 = load float, float*% 295, !dbg !283
+                % 297 = getelementptr inbounds[2 x float], [2 x float] * %71, i32 0, i32 1, !dbg !284
+                % 298 = load float, float*% 297, !dbg !284
+                % .i096 = fadd fast float% 292, % 296, !dbg !285
+                % .i197 = fadd fast float% 294, % 298, !dbg !285
+                % 299 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcMip_texture_2d, % dx.types.Handle % LinearClampSampler_sampler, float% .i096, float% .i197, float undef, float undef, i32 0, i32 0, i32 undef, float% 290), !dbg !286; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+                % 300 = extractvalue % dx.types.ResRet.f32 % 299, 0, !dbg !286
+                % 301 = extractvalue % dx.types.ResRet.f32 % 299, 1, !dbg !286
+                % 302 = extractvalue % dx.types.ResRet.f32 % 299, 2, !dbg !286
+                % 303 = extractvalue % dx.types.ResRet.f32 % 299, 3, !dbg !286
+                % 304 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !287
+                % 305 = load float, float*% 304, !dbg !287
+                % 306 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !287
+                % 307 = load float, float*% 306, !dbg !287
+                % 308 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !287
+                % 309 = load float, float*% 308, !dbg !287
+                % 310 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !287
+                % 311 = load float, float*% 310, !dbg !287
+                % .i098 = fadd fast float% 305, % 300, !dbg !287
+                % .i199 = fadd fast float% 307, % 301, !dbg !287
+                % .i2100 = fadd fast float% 309, % 302, !dbg !287
+                % .i3101 = fadd fast float% 311, % 303, !dbg !287
+                % 312 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !287
+                store float% .i098, float*% 312, !dbg !287
+                % 313 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !287
+                store float% .i199, float*% 313, !dbg !287
+                % 314 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !287
+                store float% .i2100, float*% 314, !dbg !287
+                % 315 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !287
+                store float% .i3101, float*% 315, !dbg !287
+                % 316 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !288
+                % 317 = load float, float*% 316, !dbg !288
+                % 318 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !288
+                % 319 = load float, float*% 318, !dbg !288
+                % 320 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !288
+                % 321 = load float, float*% 320, !dbg !288
+                % 322 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !288
+                % 323 = load float, float*% 322, !dbg !288
+                % .i0102 = fmul fast float% 317, 2.500000e-01, !dbg !288
+                % .i1103 = fmul fast float% 319, 2.500000e-01, !dbg !288
+                % .i2104 = fmul fast float% 321, 2.500000e-01, !dbg !288
+                % .i3105 = fmul fast float% 323, 2.500000e-01, !dbg !288
+                % 324 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !288
+                store float% .i0102, float*% 324, !dbg !288
+                % 325 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !288
+                store float% .i1103, float*% 325, !dbg !288
+                % 326 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !288
+                store float% .i2104, float*% 326, !dbg !288
+                % 327 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !288
+                store float% .i3105, float*% 327, !dbg !288
+                br label % 328, !dbg !289
+
+                ; <label>:328; preds = % 0, % 205, % 159, % 113, % 87
+                % 329 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !290
+                % 330 = load float, float*% 329, !dbg !290
+                % 331 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !290
+                % 332 = load float, float*% 331, !dbg !290
+                % 333 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !290
+                % 334 = load float, float*% 333, !dbg !290
+                % 335 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !290
+                % 336 = load float, float*% 335, !dbg !290
+                % 337 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 0, !dbg !291
+                store float% 330, float*% 337, !dbg !291
+                % 338 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 1, !dbg !291
+                store float% 332, float*% 338, !dbg !291
+                % 339 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 2, !dbg !291
+                store float% 334, float*% 339, !dbg !291
+                % 340 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 3, !dbg !291
+                store float% 336, float*% 340, !dbg !291
+                % 341 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !292; CBufferLoadLegacy(handle, regIndex)
+                % 342 = extractvalue % dx.types.CBufRet.i32 % 341, 3, !dbg !292
+                % 343 = icmp ne i32 % 342, 0, !dbg !292
+                br i1 % 343, label % 344, label % 390, !dbg !293
+
+                ; <label>:344; preds = % 328
+                % 345 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 0, !dbg !294
+                % 346 = load float, float*% 345, !dbg !294
+                % 347 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 1, !dbg !294
+                % 348 = load float, float*% 347, !dbg !294
+                % 349 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 2, !dbg !294
+                % 350 = load float, float*% 349, !dbg !294
+                % 351 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 0, !dbg !295
+                store float% 346, float*% 351, !dbg !295
+                % 352 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 1, !dbg !295
+                store float% 348, float*% 352, !dbg !295
+                % 353 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 2, !dbg !295
+                store float% 350, float*% 353, !dbg !295
+                % 354 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 0, !dbg !296
+                % 355 = load float, float*% 354, !dbg !296
+                % 356 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 1, !dbg !296
+                % 357 = load float, float*% 356, !dbg !296
+                % 358 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 2, !dbg !296
+                % 359 = load float, float*% 358, !dbg !296
+                % .i0106 = fcmp fast olt float% 355, 0x3F69A5C380000000, !dbg !297
+                % .i1107 = fcmp fast olt float% 357, 0x3F69A5C380000000, !dbg !297
+                % .i2108 = fcmp fast olt float% 359, 0x3F69A5C380000000, !dbg !297
+                % 360 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 0, !dbg !298
+                % 361 = load float, float*% 360, !dbg !298
+                % 362 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 1, !dbg !298
+                % 363 = load float, float*% 362, !dbg !298
+                % 364 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 2, !dbg !298
+                % 365 = load float, float*% 364, !dbg !298
+                % .i0109 = fmul fast float 0x4029D70A40000000, % 361, !dbg !299
+                % .i1110 = fmul fast float 0x4029D70A40000000, % 363, !dbg !299
+                % .i2111 = fmul fast float 0x4029D70A40000000, % 365, !dbg !299
+                % 366 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 0, !dbg !300
+                % 367 = load float, float*% 366, !dbg !300
+                % 368 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 1, !dbg !300
+                % 369 = load float, float*% 368, !dbg !300
+                % 370 = getelementptr inbounds[3 x float], [3 x float] * %61, i32 0, i32 2, !dbg !300
+                % 371 = load float, float*% 370, !dbg !300
+                % FAbs31 = call float @dx.op.unary.f32(i32 6, float% 367), !dbg !301; FAbs(value)
+                % FAbs32 = call float @dx.op.unary.f32(i32 6, float% 369), !dbg !301; FAbs(value)
+                % FAbs33 = call float @dx.op.unary.f32(i32 6, float% 371), !dbg !301; FAbs(value)
+                % Log17 = call float @dx.op.unary.f32(i32 23, float% FAbs31), !dbg !302; Log(value)
+                % Log18 = call float @dx.op.unary.f32(i32 23, float% FAbs32), !dbg !302; Log(value)
+                % Log19 = call float @dx.op.unary.f32(i32 23, float% FAbs33), !dbg !302; Log(value)
+                % .i0112 = fmul fast float% Log17, 0x3FDAAAAAA0000000, !dbg !302
+                % .i1113 = fmul fast float% Log18, 0x3FDAAAAAA0000000, !dbg !302
+                % .i2114 = fmul fast float% Log19, 0x3FDAAAAAA0000000, !dbg !302
+                % Exp20 = call float @dx.op.unary.f32(i32 21, float% .i0112), !dbg !302; Exp(value)
+                % Exp21 = call float @dx.op.unary.f32(i32 21, float% .i1113), !dbg !302; Exp(value)
+                % Exp22 = call float @dx.op.unary.f32(i32 21, float% .i2114), !dbg !302; Exp(value)
+                % .i0115 = fmul fast float 0x3FF0E147A0000000, % Exp20, !dbg !303
+                % .i1116 = fmul fast float 0x3FF0E147A0000000, % Exp21, !dbg !303
+                % .i2117 = fmul fast float 0x3FF0E147A0000000, % Exp22, !dbg !303
+                % .i0118 = fsub fast float% .i0115, 0x3FAC28F5C0000000, !dbg !304
+                % .i1119 = fsub fast float% .i1116, 0x3FAC28F5C0000000, !dbg !304
+                % .i2120 = fsub fast float% .i2117, 0x3FAC28F5C0000000, !dbg !304
+                % 372 = select i1 % .i0106, float% .i0109, float% .i0118, !dbg !296
+                % 373 = select i1 % .i1107, float% .i1110, float% .i1119, !dbg !296
+                % 374 = select i1 % .i2108, float% .i2111, float% .i2120, !dbg !296
+                % 375 = getelementptr inbounds[3 x float], [3 x float] * %60, i32 0, i32 0, !dbg !305
+                store float% 372, float*% 375, !dbg !305
+                % 376 = getelementptr inbounds[3 x float], [3 x float] * %60, i32 0, i32 1, !dbg !305
+                store float% 373, float*% 376, !dbg !305
+                % 377 = getelementptr inbounds[3 x float], [3 x float] * %60, i32 0, i32 2, !dbg !305
+                store float% 374, float*% 377, !dbg !305
+                % 378 = getelementptr inbounds[3 x float], [3 x float] * %60, i32 0, i32 0, !dbg !305
+                % 379 = load float, float*% 378, !dbg !305
+                % 380 = getelementptr inbounds[3 x float], [3 x float] * %60, i32 0, i32 1, !dbg !305
+                % 381 = load float, float*% 380, !dbg !305
+                % 382 = getelementptr inbounds[3 x float], [3 x float] * %60, i32 0, i32 2, !dbg !305
+                % 383 = load float, float*% 382, !dbg !305
+                % 384 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 3, !dbg !306
+                % 385 = load float, float*% 384, !dbg !306
+                % 386 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 0, !dbg !307
+                store float% 379, float*% 386, !dbg !307
+                % 387 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 1, !dbg !307
+                store float% 381, float*% 387, !dbg !307
+                % 388 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 2, !dbg !307
+                store float% 383, float*% 388, !dbg !307
+                % 389 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 3, !dbg !307
+                store float% 385, float*% 389, !dbg !307
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit", !dbg !307
+
+                ; <label>:390; preds = % 328
+                % 391 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 0, !dbg !308
+                % 392 = load float, float*% 391, !dbg !308
+                % 393 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 1, !dbg !308
+                % 394 = load float, float*% 393, !dbg !308
+                % 395 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 2, !dbg !308
+                % 396 = load float, float*% 395, !dbg !308
+                % 397 = getelementptr inbounds[4 x float], [4 x float] * %63, i32 0, i32 3, !dbg !308
+                % 398 = load float, float*% 397, !dbg !308
+                % 399 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 0, !dbg !310
+                store float% 392, float*% 399, !dbg !310
+                % 400 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 1, !dbg !310
+                store float% 394, float*% 400, !dbg !310
+                % 401 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 2, !dbg !310
+                store float% 396, float*% 401, !dbg !310
+                % 402 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 3, !dbg !310
+                store float% 398, float*% 402, !dbg !310
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit", !dbg !310
+
+                "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit":; preds = % 344, % 390
+                % 403 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 0, !dbg !311
+                % 404 = load float, float*% 403, !dbg !311
+                % 405 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 1, !dbg !311
+                % 406 = load float, float*% 405, !dbg !311
+                % 407 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 2, !dbg !311
+                % 408 = load float, float*% 407, !dbg !311
+                % 409 = getelementptr inbounds[4 x float], [4 x float] * %62, i32 0, i32 3, !dbg !311
+                % 410 = load float, float*% 409, !dbg !311
+                % 411 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !312
+                % 412 = load i32, i32 * %411, !dbg !312
+                % 413 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !312
+                % 414 = load i32, i32 * %413, !dbg !312
+                call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % OutMip1_UAV_2d, i32 % 412, i32 % 414, i32 undef, float% 404, float% 406, float% 408, float% 410, i8 15), !dbg !313; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+                % 415 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !314; CBufferLoadLegacy(handle, regIndex)
+                % 416 = extractvalue % dx.types.CBufRet.i32 % 415, 1, !dbg !314
+                % 417 = icmp eq i32 % 416, 1, !dbg !316
+                br i1 % 417, label % 1163, label % 418, !dbg !317
+
+                ; <label>:418; preds = % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit"
+                % 419 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !318
+                % 420 = load float, float*% 419, !dbg !318
+                % 421 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !318
+                % 422 = load float, float*% 421, !dbg !318
+                % 423 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !318
+                % 424 = load float, float*% 423, !dbg !318
+                % 425 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !318
+                % 426 = load float, float*% 425, !dbg !318
+                % 427 = load i32, i32 * %11, align 4, !dbg !319
+                % 428 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 0, !dbg !320
+                store float% 420, float*% 428, !dbg !320
+                % 429 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 1, !dbg !320
+                store float% 422, float*% 429, !dbg !320
+                % 430 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 2, !dbg !320
+                store float% 424, float*% 430, !dbg !320
+                % 431 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 3, !dbg !320
+                store float% 426, float*% 431, !dbg !320
+                store i32 % 427, i32*% 59, align 4, !dbg !320
+                % 432 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 0, !dbg !321
+                % 433 = load float, float*% 432, !dbg !321
+                % 434 = load i32, i32 * %59, align 4, !dbg !322
+                % 435 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 434, !dbg !323
+                store float% 433, float addrspace(3)*% 435, align 4, !dbg !324
+                % 436 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 1, !dbg !325
+                % 437 = load float, float*% 436, !dbg !325
+                % 438 = load i32, i32 * %59, align 4, !dbg !326
+                % 439 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 438, !dbg !327
+                store float% 437, float addrspace(3)*% 439, align 4, !dbg !328
+                % 440 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 2, !dbg !329
+                % 441 = load float, float*% 440, !dbg !329
+                % 442 = load i32, i32 * %59, align 4, !dbg !330
+                % 443 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 442, !dbg !331
+                store float% 441, float addrspace(3)*% 443, align 4, !dbg !332
+                % 444 = getelementptr inbounds[4 x float], [4 x float] * %58, i32 0, i32 3, !dbg !333
+                % 445 = load float, float*% 444, !dbg !333
+                % 446 = load i32, i32 * %59, align 4, !dbg !334
+                % 447 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 446, !dbg !335
+                store float% 445, float addrspace(3)*% 447, align 4, !dbg !336
+                call void @dx.op.barrier(i32 80, i32 9), !dbg !337; Barrier(barrierMode)
+                % 448 = load i32, i32 * %11, align 4, !dbg !338
+                % 449 = and i32 % 448, 9, !dbg !339
+                % 450 = icmp eq i32 % 449, 0, !dbg !340
+                br i1 % 450, label % 451, label % 693, !dbg !341
+
+                ; <label>:451; preds = % 418
+                call void @llvm.dbg.declare(metadata[4 x float] * %72, metadata !342, metadata !135), !dbg !343
+                % 452 = load i32, i32 * %11, align 4, !dbg !344
+                % 453 = add i32 % 452, 1, !dbg !345
+                store i32 % 453, i32*% 57, align 4, !dbg !346
+                % 454 = load i32, i32 * %57, align 4, !dbg !347
+                % 455 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 454, !dbg !348
+                % 456 = load float, float addrspace(3) * %455, align 4, !dbg !348
+                % 457 = load i32, i32 * %57, align 4, !dbg !349
+                % 458 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 457, !dbg !350
+                % 459 = load float, float addrspace(3) * %458, align 4, !dbg !350
+                % 460 = load i32, i32 * %57, align 4, !dbg !351
+                % 461 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 460, !dbg !352
+                % 462 = load float, float addrspace(3) * %461, align 4, !dbg !352
+                % 463 = load i32, i32 * %57, align 4, !dbg !353
+                % 464 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 463, !dbg !354
+                % 465 = load float, float addrspace(3) * %464, align 4, !dbg !354
+                % 466 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 0, !dbg !355
+                store float% 456, float*% 466, !dbg !355
+                % 467 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 1, !dbg !355
+                store float% 459, float*% 467, !dbg !355
+                % 468 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 2, !dbg !355
+                store float% 462, float*% 468, !dbg !355
+                % 469 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 3, !dbg !355
+                store float% 465, float*% 469, !dbg !355
+                % 470 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 0, !dbg !355
+                % 471 = load float, float*% 470, !dbg !355
+                % 472 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 1, !dbg !355
+                % 473 = load float, float*% 472, !dbg !355
+                % 474 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 2, !dbg !355
+                % 475 = load float, float*% 474, !dbg !355
+                % 476 = getelementptr inbounds[4 x float], [4 x float] * %56, i32 0, i32 3, !dbg !355
+                % 477 = load float, float*% 476, !dbg !355
+                % 478 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 0, !dbg !343
+                store float% 471, float*% 478, !dbg !343
+                % 479 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 1, !dbg !343
+                store float% 473, float*% 479, !dbg !343
+                % 480 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 2, !dbg !343
+                store float% 475, float*% 480, !dbg !343
+                % 481 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 3, !dbg !343
+                store float% 477, float*% 481, !dbg !343
+                call void @llvm.dbg.declare(metadata[4 x float] * %73, metadata !356, metadata !135), !dbg !357
+                % 482 = load i32, i32 * %11, align 4, !dbg !358
+                % 483 = add i32 % 482, 8, !dbg !359
+                store i32 % 483, i32*% 55, align 4, !dbg !360
+                % 484 = load i32, i32 * %55, align 4, !dbg !361
+                % 485 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 484, !dbg !362
+                % 486 = load float, float addrspace(3) * %485, align 4, !dbg !362
+                % 487 = load i32, i32 * %55, align 4, !dbg !363
+                % 488 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 487, !dbg !364
+                % 489 = load float, float addrspace(3) * %488, align 4, !dbg !364
+                % 490 = load i32, i32 * %55, align 4, !dbg !365
+                % 491 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 490, !dbg !366
+                % 492 = load float, float addrspace(3) * %491, align 4, !dbg !366
+                % 493 = load i32, i32 * %55, align 4, !dbg !367
+                % 494 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 493, !dbg !368
+                % 495 = load float, float addrspace(3) * %494, align 4, !dbg !368
+                % 496 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 0, !dbg !369
+                store float% 486, float*% 496, !dbg !369
+                % 497 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 1, !dbg !369
+                store float% 489, float*% 497, !dbg !369
+                % 498 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 2, !dbg !369
+                store float% 492, float*% 498, !dbg !369
+                % 499 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 3, !dbg !369
+                store float% 495, float*% 499, !dbg !369
+                % 500 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 0, !dbg !369
+                % 501 = load float, float*% 500, !dbg !369
+                % 502 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 1, !dbg !369
+                % 503 = load float, float*% 502, !dbg !369
+                % 504 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 2, !dbg !369
+                % 505 = load float, float*% 504, !dbg !369
+                % 506 = getelementptr inbounds[4 x float], [4 x float] * %54, i32 0, i32 3, !dbg !369
+                % 507 = load float, float*% 506, !dbg !369
+                % 508 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 0, !dbg !357
+                store float% 501, float*% 508, !dbg !357
+                % 509 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 1, !dbg !357
+                store float% 503, float*% 509, !dbg !357
+                % 510 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 2, !dbg !357
+                store float% 505, float*% 510, !dbg !357
+                % 511 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 3, !dbg !357
+                store float% 507, float*% 511, !dbg !357
+                call void @llvm.dbg.declare(metadata[4 x float] * %74, metadata !370, metadata !135), !dbg !371
+                % 512 = load i32, i32 * %11, align 4, !dbg !372
+                % 513 = add i32 % 512, 9, !dbg !373
+                store i32 % 513, i32*% 53, align 4, !dbg !374
+                % 514 = load i32, i32 * %53, align 4, !dbg !375
+                % 515 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 514, !dbg !376
+                % 516 = load float, float addrspace(3) * %515, align 4, !dbg !376
+                % 517 = load i32, i32 * %53, align 4, !dbg !377
+                % 518 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 517, !dbg !378
+                % 519 = load float, float addrspace(3) * %518, align 4, !dbg !378
+                % 520 = load i32, i32 * %53, align 4, !dbg !379
+                % 521 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 520, !dbg !380
+                % 522 = load float, float addrspace(3) * %521, align 4, !dbg !380
+                % 523 = load i32, i32 * %53, align 4, !dbg !381
+                % 524 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 523, !dbg !382
+                % 525 = load float, float addrspace(3) * %524, align 4, !dbg !382
+                % 526 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 0, !dbg !383
+                store float% 516, float*% 526, !dbg !383
+                % 527 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 1, !dbg !383
+                store float% 519, float*% 527, !dbg !383
+                % 528 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 2, !dbg !383
+                store float% 522, float*% 528, !dbg !383
+                % 529 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 3, !dbg !383
+                store float% 525, float*% 529, !dbg !383
+                % 530 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 0, !dbg !383
+                % 531 = load float, float*% 530, !dbg !383
+                % 532 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 1, !dbg !383
+                % 533 = load float, float*% 532, !dbg !383
+                % 534 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 2, !dbg !383
+                % 535 = load float, float*% 534, !dbg !383
+                % 536 = getelementptr inbounds[4 x float], [4 x float] * %52, i32 0, i32 3, !dbg !383
+                % 537 = load float, float*% 536, !dbg !383
+                % 538 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 0, !dbg !371
+                store float% 531, float*% 538, !dbg !371
+                % 539 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 1, !dbg !371
+                store float% 533, float*% 539, !dbg !371
+                % 540 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 2, !dbg !371
+                store float% 535, float*% 540, !dbg !371
+                % 541 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 3, !dbg !371
+                store float% 537, float*% 541, !dbg !371
+                % 542 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !384
+                % 543 = load float, float*% 542, !dbg !384
+                % 544 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !384
+                % 545 = load float, float*% 544, !dbg !384
+                % 546 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !384
+                % 547 = load float, float*% 546, !dbg !384
+                % 548 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !384
+                % 549 = load float, float*% 548, !dbg !384
+                % 550 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 0, !dbg !385
+                % 551 = load float, float*% 550, !dbg !385
+                % 552 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 1, !dbg !385
+                % 553 = load float, float*% 552, !dbg !385
+                % 554 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 2, !dbg !385
+                % 555 = load float, float*% 554, !dbg !385
+                % 556 = getelementptr inbounds[4 x float], [4 x float] * %72, i32 0, i32 3, !dbg !385
+                % 557 = load float, float*% 556, !dbg !385
+                % .i0121 = fadd fast float% 543, % 551, !dbg !386
+                % .i1122 = fadd fast float% 545, % 553, !dbg !386
+                % .i2123 = fadd fast float% 547, % 555, !dbg !386
+                % .i3124 = fadd fast float% 549, % 557, !dbg !386
+                % 558 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 0, !dbg !387
+                % 559 = load float, float*% 558, !dbg !387
+                % 560 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 1, !dbg !387
+                % 561 = load float, float*% 560, !dbg !387
+                % 562 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 2, !dbg !387
+                % 563 = load float, float*% 562, !dbg !387
+                % 564 = getelementptr inbounds[4 x float], [4 x float] * %73, i32 0, i32 3, !dbg !387
+                % 565 = load float, float*% 564, !dbg !387
+                % .i0125 = fadd fast float% .i0121, % 559, !dbg !388
+                % .i1126 = fadd fast float% .i1122, % 561, !dbg !388
+                % .i2127 = fadd fast float% .i2123, % 563, !dbg !388
+                % .i3128 = fadd fast float% .i3124, % 565, !dbg !388
+                % 566 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 0, !dbg !389
+                % 567 = load float, float*% 566, !dbg !389
+                % 568 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 1, !dbg !389
+                % 569 = load float, float*% 568, !dbg !389
+                % 570 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 2, !dbg !389
+                % 571 = load float, float*% 570, !dbg !389
+                % 572 = getelementptr inbounds[4 x float], [4 x float] * %74, i32 0, i32 3, !dbg !389
+                % 573 = load float, float*% 572, !dbg !389
+                % .i0129 = fadd fast float% .i0125, % 567, !dbg !390
+                % .i1130 = fadd fast float% .i1126, % 569, !dbg !390
+                % .i2131 = fadd fast float% .i2127, % 571, !dbg !390
+                % .i3132 = fadd fast float% .i3128, % 573, !dbg !390
+                % .i0133 = fmul fast float 2.500000e-01, % .i0129, !dbg !391
+                % .i1134 = fmul fast float 2.500000e-01, % .i1130, !dbg !391
+                % .i2135 = fmul fast float 2.500000e-01, % .i2131, !dbg !391
+                % .i3136 = fmul fast float 2.500000e-01, % .i3132, !dbg !391
+                % 574 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !392
+                store float% .i0133, float*% 574, !dbg !392
+                % 575 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !392
+                store float% .i1134, float*% 575, !dbg !392
+                % 576 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !392
+                store float% .i2135, float*% 576, !dbg !392
+                % 577 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !392
+                store float% .i3136, float*% 577, !dbg !392
+                % 578 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !393
+                % 579 = load float, float*% 578, !dbg !393
+                % 580 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !393
+                % 581 = load float, float*% 580, !dbg !393
+                % 582 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !393
+                % 583 = load float, float*% 582, !dbg !393
+                % 584 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !393
+                % 585 = load float, float*% 584, !dbg !393
+                % 586 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 0, !dbg !394
+                store float% 579, float*% 586, !dbg !394
+                % 587 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 1, !dbg !394
+                store float% 581, float*% 587, !dbg !394
+                % 588 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 2, !dbg !394
+                store float% 583, float*% 588, !dbg !394
+                % 589 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 3, !dbg !394
+                store float% 585, float*% 589, !dbg !394
+                % 590 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !395; CBufferLoadLegacy(handle, regIndex)
+                % 591 = extractvalue % dx.types.CBufRet.i32 % 590, 3, !dbg !395
+                % 592 = icmp ne i32 % 591, 0, !dbg !395
+                br i1 % 592, label % 593, label % 639, !dbg !396
+
+                ; <label>:593; preds = % 451
+                % 594 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 0, !dbg !397
+                % 595 = load float, float*% 594, !dbg !397
+                % 596 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 1, !dbg !397
+                % 597 = load float, float*% 596, !dbg !397
+                % 598 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 2, !dbg !397
+                % 599 = load float, float*% 598, !dbg !397
+                % 600 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 0, !dbg !398
+                store float% 595, float*% 600, !dbg !398
+                % 601 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 1, !dbg !398
+                store float% 597, float*% 601, !dbg !398
+                % 602 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 2, !dbg !398
+                store float% 599, float*% 602, !dbg !398
+                % 603 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 0, !dbg !399
+                % 604 = load float, float*% 603, !dbg !399
+                % 605 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 1, !dbg !399
+                % 606 = load float, float*% 605, !dbg !399
+                % 607 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 2, !dbg !399
+                % 608 = load float, float*% 607, !dbg !399
+                % .i0137 = fcmp fast olt float% 604, 0x3F69A5C380000000, !dbg !400
+                % .i1138 = fcmp fast olt float% 606, 0x3F69A5C380000000, !dbg !400
+                % .i2139 = fcmp fast olt float% 608, 0x3F69A5C380000000, !dbg !400
+                % 609 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 0, !dbg !401
+                % 610 = load float, float*% 609, !dbg !401
+                % 611 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 1, !dbg !401
+                % 612 = load float, float*% 611, !dbg !401
+                % 613 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 2, !dbg !401
+                % 614 = load float, float*% 613, !dbg !401
+                % .i0140 = fmul fast float 0x4029D70A40000000, % 610, !dbg !402
+                % .i1141 = fmul fast float 0x4029D70A40000000, % 612, !dbg !402
+                % .i2142 = fmul fast float 0x4029D70A40000000, % 614, !dbg !402
+                % 615 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 0, !dbg !403
+                % 616 = load float, float*% 615, !dbg !403
+                % 617 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 1, !dbg !403
+                % 618 = load float, float*% 617, !dbg !403
+                % 619 = getelementptr inbounds[3 x float], [3 x float] * %49, i32 0, i32 2, !dbg !403
+                % 620 = load float, float*% 619, !dbg !403
+                % FAbs28 = call float @dx.op.unary.f32(i32 6, float% 616), !dbg !404; FAbs(value)
+                % FAbs29 = call float @dx.op.unary.f32(i32 6, float% 618), !dbg !404; FAbs(value)
+                % FAbs30 = call float @dx.op.unary.f32(i32 6, float% 620), !dbg !404; FAbs(value)
+                % Log11 = call float @dx.op.unary.f32(i32 23, float% FAbs28), !dbg !405; Log(value)
+                % Log12 = call float @dx.op.unary.f32(i32 23, float% FAbs29), !dbg !405; Log(value)
+                % Log13 = call float @dx.op.unary.f32(i32 23, float% FAbs30), !dbg !405; Log(value)
+                % .i0143 = fmul fast float% Log11, 0x3FDAAAAAA0000000, !dbg !405
+                % .i1144 = fmul fast float% Log12, 0x3FDAAAAAA0000000, !dbg !405
+                % .i2145 = fmul fast float% Log13, 0x3FDAAAAAA0000000, !dbg !405
+                % Exp14 = call float @dx.op.unary.f32(i32 21, float% .i0143), !dbg !405; Exp(value)
+                % Exp15 = call float @dx.op.unary.f32(i32 21, float% .i1144), !dbg !405; Exp(value)
+                % Exp16 = call float @dx.op.unary.f32(i32 21, float% .i2145), !dbg !405; Exp(value)
+                % .i0146 = fmul fast float 0x3FF0E147A0000000, % Exp14, !dbg !406
+                % .i1147 = fmul fast float 0x3FF0E147A0000000, % Exp15, !dbg !406
+                % .i2148 = fmul fast float 0x3FF0E147A0000000, % Exp16, !dbg !406
+                % .i0149 = fsub fast float% .i0146, 0x3FAC28F5C0000000, !dbg !407
+                % .i1150 = fsub fast float% .i1147, 0x3FAC28F5C0000000, !dbg !407
+                % .i2151 = fsub fast float% .i2148, 0x3FAC28F5C0000000, !dbg !407
+                % 621 = select i1 % .i0137, float% .i0140, float% .i0149, !dbg !399
+                % 622 = select i1 % .i1138, float% .i1141, float% .i1150, !dbg !399
+                % 623 = select i1 % .i2139, float% .i2142, float% .i2151, !dbg !399
+                % 624 = getelementptr inbounds[3 x float], [3 x float] * %48, i32 0, i32 0, !dbg !408
+                store float% 621, float*% 624, !dbg !408
+                % 625 = getelementptr inbounds[3 x float], [3 x float] * %48, i32 0, i32 1, !dbg !408
+                store float% 622, float*% 625, !dbg !408
+                % 626 = getelementptr inbounds[3 x float], [3 x float] * %48, i32 0, i32 2, !dbg !408
+                store float% 623, float*% 626, !dbg !408
+                % 627 = getelementptr inbounds[3 x float], [3 x float] * %48, i32 0, i32 0, !dbg !408
+                % 628 = load float, float*% 627, !dbg !408
+                % 629 = getelementptr inbounds[3 x float], [3 x float] * %48, i32 0, i32 1, !dbg !408
+                % 630 = load float, float*% 629, !dbg !408
+                % 631 = getelementptr inbounds[3 x float], [3 x float] * %48, i32 0, i32 2, !dbg !408
+                % 632 = load float, float*% 631, !dbg !408
+                % 633 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 3, !dbg !409
+                % 634 = load float, float*% 633, !dbg !409
+                % 635 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 0, !dbg !410
+                store float% 628, float*% 635, !dbg !410
+                % 636 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 1, !dbg !410
+                store float% 630, float*% 636, !dbg !410
+                % 637 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 2, !dbg !410
+                store float% 632, float*% 637, !dbg !410
+                % 638 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 3, !dbg !410
+                store float% 634, float*% 638, !dbg !410
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.11", !dbg !410
+
+                ; <label>:639; preds = % 451
+                % 640 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 0, !dbg !411
+                % 641 = load float, float*% 640, !dbg !411
+                % 642 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 1, !dbg !411
+                % 643 = load float, float*% 642, !dbg !411
+                % 644 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 2, !dbg !411
+                % 645 = load float, float*% 644, !dbg !411
+                % 646 = getelementptr inbounds[4 x float], [4 x float] * %51, i32 0, i32 3, !dbg !411
+                % 647 = load float, float*% 646, !dbg !411
+                % 648 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 0, !dbg !412
+                store float% 641, float*% 648, !dbg !412
+                % 649 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 1, !dbg !412
+                store float% 643, float*% 649, !dbg !412
+                % 650 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 2, !dbg !412
+                store float% 645, float*% 650, !dbg !412
+                % 651 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 3, !dbg !412
+                store float% 647, float*% 651, !dbg !412
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.11", !dbg !412
+
+                "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.11":; preds = % 593, % 639
+                % 652 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 0, !dbg !413
+                % 653 = load float, float*% 652, !dbg !413
+                % 654 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 1, !dbg !413
+                % 655 = load float, float*% 654, !dbg !413
+                % 656 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 2, !dbg !413
+                % 657 = load float, float*% 656, !dbg !413
+                % 658 = getelementptr inbounds[4 x float], [4 x float] * %50, i32 0, i32 3, !dbg !413
+                % 659 = load float, float*% 658, !dbg !413
+                % 660 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !414
+                % 661 = load i32, i32 * %660, !dbg !414
+                % 662 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !414
+                % 663 = load i32, i32 * %662, !dbg !414
+                % .i0152 = udiv i32 % 661, 2, !dbg !415
+                % .i1153 = udiv i32 % 663, 2, !dbg !415
+                call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % OutMip2_UAV_2d, i32 % .i0152, i32 % .i1153, i32 undef, float% 653, float% 655, float% 657, float% 659, i8 15), !dbg !416; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+                % 664 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !417
+                % 665 = load float, float*% 664, !dbg !417
+                % 666 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !417
+                % 667 = load float, float*% 666, !dbg !417
+                % 668 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !417
+                % 669 = load float, float*% 668, !dbg !417
+                % 670 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !417
+                % 671 = load float, float*% 670, !dbg !417
+                % 672 = load i32, i32 * %11, align 4, !dbg !418
+                % 673 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 0, !dbg !419
+                store float% 665, float*% 673, !dbg !419
+                % 674 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 1, !dbg !419
+                store float% 667, float*% 674, !dbg !419
+                % 675 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 2, !dbg !419
+                store float% 669, float*% 675, !dbg !419
+                % 676 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 3, !dbg !419
+                store float% 671, float*% 676, !dbg !419
+                store i32 % 672, i32*% 47, align 4, !dbg !419
+                % 677 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 0, !dbg !420
+                % 678 = load float, float*% 677, !dbg !420
+                % 679 = load i32, i32 * %47, align 4, !dbg !421
+                % 680 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 679, !dbg !422
+                store float% 678, float addrspace(3)*% 680, align 4, !dbg !423
+                % 681 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 1, !dbg !424
+                % 682 = load float, float*% 681, !dbg !424
+                % 683 = load i32, i32 * %47, align 4, !dbg !425
+                % 684 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 683, !dbg !426
+                store float% 682, float addrspace(3)*% 684, align 4, !dbg !427
+                % 685 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 2, !dbg !428
+                % 686 = load float, float*% 685, !dbg !428
+                % 687 = load i32, i32 * %47, align 4, !dbg !429
+                % 688 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 687, !dbg !430
+                store float% 686, float addrspace(3)*% 688, align 4, !dbg !431
+                % 689 = getelementptr inbounds[4 x float], [4 x float] * %46, i32 0, i32 3, !dbg !432
+                % 690 = load float, float*% 689, !dbg !432
+                % 691 = load i32, i32 * %47, align 4, !dbg !433
+                % 692 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 691, !dbg !434
+                store float% 690, float addrspace(3)*% 692, align 4, !dbg !435
+                br label % 693, !dbg !436
+
+                ; <label>:693; preds = % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.11", % 418
+                % 694 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !437; CBufferLoadLegacy(handle, regIndex)
+                % 695 = extractvalue % dx.types.CBufRet.i32 % 694, 1, !dbg !437
+                % 696 = icmp eq i32 % 695, 2, !dbg !439
+                br i1 % 696, label % 1163, label % 697, !dbg !440
+
+                ; <label>:697; preds = % 693
+                call void @dx.op.barrier(i32 80, i32 9), !dbg !441; Barrier(barrierMode)
+                % 698 = load i32, i32 * %11, align 4, !dbg !442
+                % 699 = and i32 % 698, 27, !dbg !443
+                % 700 = icmp eq i32 % 699, 0, !dbg !444
+                br i1 % 700, label % 701, label % 943, !dbg !445
+
+                ; <label>:701; preds = % 697
+                call void @llvm.dbg.declare(metadata[4 x float] * %75, metadata !446, metadata !135), !dbg !447
+                % 702 = load i32, i32 * %11, align 4, !dbg !448
+                % 703 = add i32 % 702, 2, !dbg !449
+                store i32 % 703, i32*% 45, align 4, !dbg !450
+                % 704 = load i32, i32 * %45, align 4, !dbg !451
+                % 705 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 704, !dbg !452
+                % 706 = load float, float addrspace(3) * %705, align 4, !dbg !452
+                % 707 = load i32, i32 * %45, align 4, !dbg !453
+                % 708 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 707, !dbg !454
+                % 709 = load float, float addrspace(3) * %708, align 4, !dbg !454
+                % 710 = load i32, i32 * %45, align 4, !dbg !455
+                % 711 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 710, !dbg !456
+                % 712 = load float, float addrspace(3) * %711, align 4, !dbg !456
+                % 713 = load i32, i32 * %45, align 4, !dbg !457
+                % 714 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 713, !dbg !458
+                % 715 = load float, float addrspace(3) * %714, align 4, !dbg !458
+                % 716 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 0, !dbg !459
+                store float% 706, float*% 716, !dbg !459
+                % 717 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 1, !dbg !459
+                store float% 709, float*% 717, !dbg !459
+                % 718 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 2, !dbg !459
+                store float% 712, float*% 718, !dbg !459
+                % 719 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 3, !dbg !459
+                store float% 715, float*% 719, !dbg !459
+                % 720 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 0, !dbg !459
+                % 721 = load float, float*% 720, !dbg !459
+                % 722 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 1, !dbg !459
+                % 723 = load float, float*% 722, !dbg !459
+                % 724 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 2, !dbg !459
+                % 725 = load float, float*% 724, !dbg !459
+                % 726 = getelementptr inbounds[4 x float], [4 x float] * %44, i32 0, i32 3, !dbg !459
+                % 727 = load float, float*% 726, !dbg !459
+                % 728 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 0, !dbg !447
+                store float% 721, float*% 728, !dbg !447
+                % 729 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 1, !dbg !447
+                store float% 723, float*% 729, !dbg !447
+                % 730 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 2, !dbg !447
+                store float% 725, float*% 730, !dbg !447
+                % 731 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 3, !dbg !447
+                store float% 727, float*% 731, !dbg !447
+                call void @llvm.dbg.declare(metadata[4 x float] * %76, metadata !460, metadata !135), !dbg !461
+                % 732 = load i32, i32 * %11, align 4, !dbg !462
+                % 733 = add i32 % 732, 16, !dbg !463
+                store i32 % 733, i32*% 43, align 4, !dbg !464
+                % 734 = load i32, i32 * %43, align 4, !dbg !465
+                % 735 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 734, !dbg !466
+                % 736 = load float, float addrspace(3) * %735, align 4, !dbg !466
+                % 737 = load i32, i32 * %43, align 4, !dbg !467
+                % 738 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 737, !dbg !468
+                % 739 = load float, float addrspace(3) * %738, align 4, !dbg !468
+                % 740 = load i32, i32 * %43, align 4, !dbg !469
+                % 741 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 740, !dbg !470
+                % 742 = load float, float addrspace(3) * %741, align 4, !dbg !470
+                % 743 = load i32, i32 * %43, align 4, !dbg !471
+                % 744 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 743, !dbg !472
+                % 745 = load float, float addrspace(3) * %744, align 4, !dbg !472
+                % 746 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 0, !dbg !473
+                store float% 736, float*% 746, !dbg !473
+                % 747 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 1, !dbg !473
+                store float% 739, float*% 747, !dbg !473
+                % 748 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 2, !dbg !473
+                store float% 742, float*% 748, !dbg !473
+                % 749 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 3, !dbg !473
+                store float% 745, float*% 749, !dbg !473
+                % 750 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 0, !dbg !473
+                % 751 = load float, float*% 750, !dbg !473
+                % 752 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 1, !dbg !473
+                % 753 = load float, float*% 752, !dbg !473
+                % 754 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 2, !dbg !473
+                % 755 = load float, float*% 754, !dbg !473
+                % 756 = getelementptr inbounds[4 x float], [4 x float] * %42, i32 0, i32 3, !dbg !473
+                % 757 = load float, float*% 756, !dbg !473
+                % 758 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 0, !dbg !461
+                store float% 751, float*% 758, !dbg !461
+                % 759 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 1, !dbg !461
+                store float% 753, float*% 759, !dbg !461
+                % 760 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 2, !dbg !461
+                store float% 755, float*% 760, !dbg !461
+                % 761 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 3, !dbg !461
+                store float% 757, float*% 761, !dbg !461
+                call void @llvm.dbg.declare(metadata[4 x float] * %77, metadata !474, metadata !135), !dbg !475
+                % 762 = load i32, i32 * %11, align 4, !dbg !476
+                % 763 = add i32 % 762, 18, !dbg !477
+                store i32 % 763, i32*% 41, align 4, !dbg !478
+                % 764 = load i32, i32 * %41, align 4, !dbg !479
+                % 765 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 764, !dbg !480
+                % 766 = load float, float addrspace(3) * %765, align 4, !dbg !480
+                % 767 = load i32, i32 * %41, align 4, !dbg !481
+                % 768 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 767, !dbg !482
+                % 769 = load float, float addrspace(3) * %768, align 4, !dbg !482
+                % 770 = load i32, i32 * %41, align 4, !dbg !483
+                % 771 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 770, !dbg !484
+                % 772 = load float, float addrspace(3) * %771, align 4, !dbg !484
+                % 773 = load i32, i32 * %41, align 4, !dbg !485
+                % 774 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 773, !dbg !486
+                % 775 = load float, float addrspace(3) * %774, align 4, !dbg !486
+                % 776 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 0, !dbg !487
+                store float% 766, float*% 776, !dbg !487
+                % 777 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 1, !dbg !487
+                store float% 769, float*% 777, !dbg !487
+                % 778 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 2, !dbg !487
+                store float% 772, float*% 778, !dbg !487
+                % 779 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 3, !dbg !487
+                store float% 775, float*% 779, !dbg !487
+                % 780 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 0, !dbg !487
+                % 781 = load float, float*% 780, !dbg !487
+                % 782 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 1, !dbg !487
+                % 783 = load float, float*% 782, !dbg !487
+                % 784 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 2, !dbg !487
+                % 785 = load float, float*% 784, !dbg !487
+                % 786 = getelementptr inbounds[4 x float], [4 x float] * %40, i32 0, i32 3, !dbg !487
+                % 787 = load float, float*% 786, !dbg !487
+                % 788 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 0, !dbg !475
+                store float% 781, float*% 788, !dbg !475
+                % 789 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 1, !dbg !475
+                store float% 783, float*% 789, !dbg !475
+                % 790 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 2, !dbg !475
+                store float% 785, float*% 790, !dbg !475
+                % 791 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 3, !dbg !475
+                store float% 787, float*% 791, !dbg !475
+                % 792 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !488
+                % 793 = load float, float*% 792, !dbg !488
+                % 794 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !488
+                % 795 = load float, float*% 794, !dbg !488
+                % 796 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !488
+                % 797 = load float, float*% 796, !dbg !488
+                % 798 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !488
+                % 799 = load float, float*% 798, !dbg !488
+                % 800 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 0, !dbg !489
+                % 801 = load float, float*% 800, !dbg !489
+                % 802 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 1, !dbg !489
+                % 803 = load float, float*% 802, !dbg !489
+                % 804 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 2, !dbg !489
+                % 805 = load float, float*% 804, !dbg !489
+                % 806 = getelementptr inbounds[4 x float], [4 x float] * %75, i32 0, i32 3, !dbg !489
+                % 807 = load float, float*% 806, !dbg !489
+                % .i0154 = fadd fast float% 793, % 801, !dbg !490
+                % .i1155 = fadd fast float% 795, % 803, !dbg !490
+                % .i2156 = fadd fast float% 797, % 805, !dbg !490
+                % .i3157 = fadd fast float% 799, % 807, !dbg !490
+                % 808 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 0, !dbg !491
+                % 809 = load float, float*% 808, !dbg !491
+                % 810 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 1, !dbg !491
+                % 811 = load float, float*% 810, !dbg !491
+                % 812 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 2, !dbg !491
+                % 813 = load float, float*% 812, !dbg !491
+                % 814 = getelementptr inbounds[4 x float], [4 x float] * %76, i32 0, i32 3, !dbg !491
+                % 815 = load float, float*% 814, !dbg !491
+                % .i0158 = fadd fast float% .i0154, % 809, !dbg !492
+                % .i1159 = fadd fast float% .i1155, % 811, !dbg !492
+                % .i2160 = fadd fast float% .i2156, % 813, !dbg !492
+                % .i3161 = fadd fast float% .i3157, % 815, !dbg !492
+                % 816 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 0, !dbg !493
+                % 817 = load float, float*% 816, !dbg !493
+                % 818 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 1, !dbg !493
+                % 819 = load float, float*% 818, !dbg !493
+                % 820 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 2, !dbg !493
+                % 821 = load float, float*% 820, !dbg !493
+                % 822 = getelementptr inbounds[4 x float], [4 x float] * %77, i32 0, i32 3, !dbg !493
+                % 823 = load float, float*% 822, !dbg !493
+                % .i0162 = fadd fast float% .i0158, % 817, !dbg !494
+                % .i1163 = fadd fast float% .i1159, % 819, !dbg !494
+                % .i2164 = fadd fast float% .i2160, % 821, !dbg !494
+                % .i3165 = fadd fast float% .i3161, % 823, !dbg !494
+                % .i0166 = fmul fast float 2.500000e-01, % .i0162, !dbg !495
+                % .i1167 = fmul fast float 2.500000e-01, % .i1163, !dbg !495
+                % .i2168 = fmul fast float 2.500000e-01, % .i2164, !dbg !495
+                % .i3169 = fmul fast float 2.500000e-01, % .i3165, !dbg !495
+                % 824 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !496
+                store float% .i0166, float*% 824, !dbg !496
+                % 825 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !496
+                store float% .i1167, float*% 825, !dbg !496
+                % 826 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !496
+                store float% .i2168, float*% 826, !dbg !496
+                % 827 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !496
+                store float% .i3169, float*% 827, !dbg !496
+                % 828 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !497
+                % 829 = load float, float*% 828, !dbg !497
+                % 830 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !497
+                % 831 = load float, float*% 830, !dbg !497
+                % 832 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !497
+                % 833 = load float, float*% 832, !dbg !497
+                % 834 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !497
+                % 835 = load float, float*% 834, !dbg !497
+                % 836 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 0, !dbg !498
+                store float% 829, float*% 836, !dbg !498
+                % 837 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 1, !dbg !498
+                store float% 831, float*% 837, !dbg !498
+                % 838 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 2, !dbg !498
+                store float% 833, float*% 838, !dbg !498
+                % 839 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 3, !dbg !498
+                store float% 835, float*% 839, !dbg !498
+                % 840 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !499; CBufferLoadLegacy(handle, regIndex)
+                % 841 = extractvalue % dx.types.CBufRet.i32 % 840, 3, !dbg !499
+                % 842 = icmp ne i32 % 841, 0, !dbg !499
+                br i1 % 842, label % 843, label % 889, !dbg !500
+
+                ; <label>:843; preds = % 701
+                % 844 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 0, !dbg !501
+                % 845 = load float, float*% 844, !dbg !501
+                % 846 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 1, !dbg !501
+                % 847 = load float, float*% 846, !dbg !501
+                % 848 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 2, !dbg !501
+                % 849 = load float, float*% 848, !dbg !501
+                % 850 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 0, !dbg !502
+                store float% 845, float*% 850, !dbg !502
+                % 851 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 1, !dbg !502
+                store float% 847, float*% 851, !dbg !502
+                % 852 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 2, !dbg !502
+                store float% 849, float*% 852, !dbg !502
+                % 853 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 0, !dbg !503
+                % 854 = load float, float*% 853, !dbg !503
+                % 855 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 1, !dbg !503
+                % 856 = load float, float*% 855, !dbg !503
+                % 857 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 2, !dbg !503
+                % 858 = load float, float*% 857, !dbg !503
+                % .i0170 = fcmp fast olt float% 854, 0x3F69A5C380000000, !dbg !504
+                % .i1171 = fcmp fast olt float% 856, 0x3F69A5C380000000, !dbg !504
+                % .i2172 = fcmp fast olt float% 858, 0x3F69A5C380000000, !dbg !504
+                % 859 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 0, !dbg !505
+                % 860 = load float, float*% 859, !dbg !505
+                % 861 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 1, !dbg !505
+                % 862 = load float, float*% 861, !dbg !505
+                % 863 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 2, !dbg !505
+                % 864 = load float, float*% 863, !dbg !505
+                % .i0173 = fmul fast float 0x4029D70A40000000, % 860, !dbg !506
+                % .i1174 = fmul fast float 0x4029D70A40000000, % 862, !dbg !506
+                % .i2175 = fmul fast float 0x4029D70A40000000, % 864, !dbg !506
+                % 865 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 0, !dbg !507
+                % 866 = load float, float*% 865, !dbg !507
+                % 867 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 1, !dbg !507
+                % 868 = load float, float*% 867, !dbg !507
+                % 869 = getelementptr inbounds[3 x float], [3 x float] * %33, i32 0, i32 2, !dbg !507
+                % 870 = load float, float*% 869, !dbg !507
+                % FAbs = call float @dx.op.unary.f32(i32 6, float% 866), !dbg !508; FAbs(value)
+                % FAbs23 = call float @dx.op.unary.f32(i32 6, float% 868), !dbg !508; FAbs(value)
+                % FAbs24 = call float @dx.op.unary.f32(i32 6, float% 870), !dbg !508; FAbs(value)
+                % Log = call float @dx.op.unary.f32(i32 23, float% FAbs), !dbg !509; Log(value)
+                % Log1 = call float @dx.op.unary.f32(i32 23, float% FAbs23), !dbg !509; Log(value)
+                % Log2 = call float @dx.op.unary.f32(i32 23, float% FAbs24), !dbg !509; Log(value)
+                % .i0176 = fmul fast float% Log, 0x3FDAAAAAA0000000, !dbg !509
+                % .i1177 = fmul fast float% Log1, 0x3FDAAAAAA0000000, !dbg !509
+                % .i2178 = fmul fast float% Log2, 0x3FDAAAAAA0000000, !dbg !509
+                % Exp = call float @dx.op.unary.f32(i32 21, float% .i0176), !dbg !509; Exp(value)
+                % Exp3 = call float @dx.op.unary.f32(i32 21, float% .i1177), !dbg !509; Exp(value)
+                % Exp4 = call float @dx.op.unary.f32(i32 21, float% .i2178), !dbg !509; Exp(value)
+                % .i0179 = fmul fast float 0x3FF0E147A0000000, % Exp, !dbg !510
+                % .i1180 = fmul fast float 0x3FF0E147A0000000, % Exp3, !dbg !510
+                % .i2181 = fmul fast float 0x3FF0E147A0000000, % Exp4, !dbg !510
+                % .i0182 = fsub fast float% .i0179, 0x3FAC28F5C0000000, !dbg !511
+                % .i1183 = fsub fast float% .i1180, 0x3FAC28F5C0000000, !dbg !511
+                % .i2184 = fsub fast float% .i2181, 0x3FAC28F5C0000000, !dbg !511
+                % 871 = select i1 % .i0170, float% .i0173, float% .i0182, !dbg !503
+                % 872 = select i1 % .i1171, float% .i1174, float% .i1183, !dbg !503
+                % 873 = select i1 % .i2172, float% .i2175, float% .i2184, !dbg !503
+                % 874 = getelementptr inbounds[3 x float], [3 x float] * %32, i32 0, i32 0, !dbg !512
+                store float% 871, float*% 874, !dbg !512
+                % 875 = getelementptr inbounds[3 x float], [3 x float] * %32, i32 0, i32 1, !dbg !512
+                store float% 872, float*% 875, !dbg !512
+                % 876 = getelementptr inbounds[3 x float], [3 x float] * %32, i32 0, i32 2, !dbg !512
+                store float% 873, float*% 876, !dbg !512
+                % 877 = getelementptr inbounds[3 x float], [3 x float] * %32, i32 0, i32 0, !dbg !512
+                % 878 = load float, float*% 877, !dbg !512
+                % 879 = getelementptr inbounds[3 x float], [3 x float] * %32, i32 0, i32 1, !dbg !512
+                % 880 = load float, float*% 879, !dbg !512
+                % 881 = getelementptr inbounds[3 x float], [3 x float] * %32, i32 0, i32 2, !dbg !512
+                % 882 = load float, float*% 881, !dbg !512
+                % 883 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 3, !dbg !513
+                % 884 = load float, float*% 883, !dbg !513
+                % 885 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 0, !dbg !514
+                store float% 878, float*% 885, !dbg !514
+                % 886 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 1, !dbg !514
+                store float% 880, float*% 886, !dbg !514
+                % 887 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 2, !dbg !514
+                store float% 882, float*% 887, !dbg !514
+                % 888 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 3, !dbg !514
+                store float% 884, float*% 888, !dbg !514
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.13", !dbg !514
+
+                ; <label>:889; preds = % 701
+                % 890 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 0, !dbg !515
+                % 891 = load float, float*% 890, !dbg !515
+                % 892 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 1, !dbg !515
+                % 893 = load float, float*% 892, !dbg !515
+                % 894 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 2, !dbg !515
+                % 895 = load float, float*% 894, !dbg !515
+                % 896 = getelementptr inbounds[4 x float], [4 x float] * %35, i32 0, i32 3, !dbg !515
+                % 897 = load float, float*% 896, !dbg !515
+                % 898 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 0, !dbg !516
+                store float% 891, float*% 898, !dbg !516
+                % 899 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 1, !dbg !516
+                store float% 893, float*% 899, !dbg !516
+                % 900 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 2, !dbg !516
+                store float% 895, float*% 900, !dbg !516
+                % 901 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 3, !dbg !516
+                store float% 897, float*% 901, !dbg !516
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.13", !dbg !516
+
+                "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.13":; preds = % 843, % 889
+                % 902 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 0, !dbg !517
+                % 903 = load float, float*% 902, !dbg !517
+                % 904 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 1, !dbg !517
+                % 905 = load float, float*% 904, !dbg !517
+                % 906 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 2, !dbg !517
+                % 907 = load float, float*% 906, !dbg !517
+                % 908 = getelementptr inbounds[4 x float], [4 x float] * %34, i32 0, i32 3, !dbg !517
+                % 909 = load float, float*% 908, !dbg !517
+                % 910 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !518
+                % 911 = load i32, i32 * %910, !dbg !518
+                % 912 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !518
+                % 913 = load i32, i32 * %912, !dbg !518
+                % .i0185 = udiv i32 % 911, 4, !dbg !519
+                % .i1186 = udiv i32 % 913, 4, !dbg !519
+                call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % OutMip3_UAV_2d, i32 % .i0185, i32 % .i1186, i32 undef, float% 903, float% 905, float% 907, float% 909, i8 15), !dbg !520; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+                % 914 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !521
+                % 915 = load float, float*% 914, !dbg !521
+                % 916 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !521
+                % 917 = load float, float*% 916, !dbg !521
+                % 918 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !521
+                % 919 = load float, float*% 918, !dbg !521
+                % 920 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !521
+                % 921 = load float, float*% 920, !dbg !521
+                % 922 = load i32, i32 * %11, align 4, !dbg !522
+                % 923 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 0, !dbg !523
+                store float% 915, float*% 923, !dbg !523
+                % 924 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 1, !dbg !523
+                store float% 917, float*% 924, !dbg !523
+                % 925 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 2, !dbg !523
+                store float% 919, float*% 925, !dbg !523
+                % 926 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 3, !dbg !523
+                store float% 921, float*% 926, !dbg !523
+                store i32 % 922, i32*% 31, align 4, !dbg !523
+                % 927 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 0, !dbg !524
+                % 928 = load float, float*% 927, !dbg !524
+                % 929 = load i32, i32 * %31, align 4, !dbg !525
+                % 930 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 929, !dbg !526
+                store float% 928, float addrspace(3)*% 930, align 4, !dbg !527
+                % 931 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 1, !dbg !528
+                % 932 = load float, float*% 931, !dbg !528
+                % 933 = load i32, i32 * %31, align 4, !dbg !529
+                % 934 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 933, !dbg !530
+                store float% 932, float addrspace(3)*% 934, align 4, !dbg !531
+                % 935 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 2, !dbg !532
+                % 936 = load float, float*% 935, !dbg !532
+                % 937 = load i32, i32 * %31, align 4, !dbg !533
+                % 938 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 937, !dbg !534
+                store float% 936, float addrspace(3)*% 938, align 4, !dbg !535
+                % 939 = getelementptr inbounds[4 x float], [4 x float] * %30, i32 0, i32 3, !dbg !536
+                % 940 = load float, float*% 939, !dbg !536
+                % 941 = load i32, i32 * %31, align 4, !dbg !537
+                % 942 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 941, !dbg !538
+                store float% 940, float addrspace(3)*% 942, align 4, !dbg !539
+                br label % 943, !dbg !540
+
+                ; <label>:943; preds = % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.13", % 697
+                % 944 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !541; CBufferLoadLegacy(handle, regIndex)
+                % 945 = extractvalue % dx.types.CBufRet.i32 % 944, 1, !dbg !541
+                % 946 = icmp eq i32 % 945, 3, !dbg !543
+                br i1 % 946, label % 1163, label % 947, !dbg !544
+
+                ; <label>:947; preds = % 943
+                call void @dx.op.barrier(i32 80, i32 9), !dbg !545; Barrier(barrierMode)
+                % 948 = load i32, i32 * %11, align 4, !dbg !546
+                % 949 = icmp eq i32 % 948, 0, !dbg !547
+                br i1 % 949, label % 950, label % 1163, !dbg !548
+
+                ; <label>:950; preds = % 947
+                call void @llvm.dbg.declare(metadata[4 x float] * %78, metadata !549, metadata !135), !dbg !550
+                % 951 = load i32, i32 * %11, align 4, !dbg !551
+                % 952 = add i32 % 951, 4, !dbg !552
+                store i32 % 952, i32*% 29, align 4, !dbg !553
+                % 953 = load i32, i32 * %29, align 4, !dbg !554
+                % 954 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 953, !dbg !555
+                % 955 = load float, float addrspace(3) * %954, align 4, !dbg !555
+                % 956 = load i32, i32 * %29, align 4, !dbg !556
+                % 957 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 956, !dbg !557
+                % 958 = load float, float addrspace(3) * %957, align 4, !dbg !557
+                % 959 = load i32, i32 * %29, align 4, !dbg !558
+                % 960 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 959, !dbg !559
+                % 961 = load float, float addrspace(3) * %960, align 4, !dbg !559
+                % 962 = load i32, i32 * %29, align 4, !dbg !560
+                % 963 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 962, !dbg !561
+                % 964 = load float, float addrspace(3) * %963, align 4, !dbg !561
+                % 965 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 0, !dbg !562
+                store float% 955, float*% 965, !dbg !562
+                % 966 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 1, !dbg !562
+                store float% 958, float*% 966, !dbg !562
+                % 967 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 2, !dbg !562
+                store float% 961, float*% 967, !dbg !562
+                % 968 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 3, !dbg !562
+                store float% 964, float*% 968, !dbg !562
+                % 969 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 0, !dbg !562
+                % 970 = load float, float*% 969, !dbg !562
+                % 971 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 1, !dbg !562
+                % 972 = load float, float*% 971, !dbg !562
+                % 973 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 2, !dbg !562
+                % 974 = load float, float*% 973, !dbg !562
+                % 975 = getelementptr inbounds[4 x float], [4 x float] * %28, i32 0, i32 3, !dbg !562
+                % 976 = load float, float*% 975, !dbg !562
+                % 977 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 0, !dbg !550
+                store float% 970, float*% 977, !dbg !550
+                % 978 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 1, !dbg !550
+                store float% 972, float*% 978, !dbg !550
+                % 979 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 2, !dbg !550
+                store float% 974, float*% 979, !dbg !550
+                % 980 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 3, !dbg !550
+                store float% 976, float*% 980, !dbg !550
+                call void @llvm.dbg.declare(metadata[4 x float] * %79, metadata !563, metadata !135), !dbg !564
+                % 981 = load i32, i32 * %11, align 4, !dbg !565
+                % 982 = add i32 % 981, 32, !dbg !566
+                store i32 % 982, i32*% 27, align 4, !dbg !567
+                % 983 = load i32, i32 * %27, align 4, !dbg !568
+                % 984 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 983, !dbg !569
+                % 985 = load float, float addrspace(3) * %984, align 4, !dbg !569
+                % 986 = load i32, i32 * %27, align 4, !dbg !570
+                % 987 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 986, !dbg !571
+                % 988 = load float, float addrspace(3) * %987, align 4, !dbg !571
+                % 989 = load i32, i32 * %27, align 4, !dbg !572
+                % 990 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 989, !dbg !573
+                % 991 = load float, float addrspace(3) * %990, align 4, !dbg !573
+                % 992 = load i32, i32 * %27, align 4, !dbg !574
+                % 993 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 992, !dbg !575
+                % 994 = load float, float addrspace(3) * %993, align 4, !dbg !575
+                % 995 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 0, !dbg !576
+                store float% 985, float*% 995, !dbg !576
+                % 996 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 1, !dbg !576
+                store float% 988, float*% 996, !dbg !576
+                % 997 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 2, !dbg !576
+                store float% 991, float*% 997, !dbg !576
+                % 998 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 3, !dbg !576
+                store float% 994, float*% 998, !dbg !576
+                % 999 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 0, !dbg !576
+                % 1000 = load float, float*% 999, !dbg !576
+                % 1001 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 1, !dbg !576
+                % 1002 = load float, float*% 1001, !dbg !576
+                % 1003 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 2, !dbg !576
+                % 1004 = load float, float*% 1003, !dbg !576
+                % 1005 = getelementptr inbounds[4 x float], [4 x float] * %26, i32 0, i32 3, !dbg !576
+                % 1006 = load float, float*% 1005, !dbg !576
+                % 1007 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 0, !dbg !564
+                store float% 1000, float*% 1007, !dbg !564
+                % 1008 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 1, !dbg !564
+                store float% 1002, float*% 1008, !dbg !564
+                % 1009 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 2, !dbg !564
+                store float% 1004, float*% 1009, !dbg !564
+                % 1010 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 3, !dbg !564
+                store float% 1006, float*% 1010, !dbg !564
+                call void @llvm.dbg.declare(metadata[4 x float] * %80, metadata !577, metadata !135), !dbg !578
+                % 1011 = load i32, i32 * %11, align 4, !dbg !579
+                % 1012 = add i32 % 1011, 36, !dbg !580
+                store i32 % 1012, i32*% 25, align 4, !dbg !581
+                % 1013 = load i32, i32 * %25, align 4, !dbg !582
+                % 1014 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA", i32 0, i32 % 1013, !dbg !583
+                % 1015 = load float, float addrspace(3) * %1014, align 4, !dbg !583
+                % 1016 = load i32, i32 * %25, align 4, !dbg !584
+                % 1017 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA", i32 0, i32 % 1016, !dbg !585
+                % 1018 = load float, float addrspace(3) * %1017, align 4, !dbg !585
+                % 1019 = load i32, i32 * %25, align 4, !dbg !586
+                % 1020 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA", i32 0, i32 % 1019, !dbg !587
+                % 1021 = load float, float addrspace(3) * %1020, align 4, !dbg !587
+                % 1022 = load i32, i32 * %25, align 4, !dbg !588
+                % 1023 = getelementptr[64 x float], [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA", i32 0, i32 % 1022, !dbg !589
+                % 1024 = load float, float addrspace(3) * %1023, align 4, !dbg !589
+                % 1025 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 0, !dbg !590
+                store float% 1015, float*% 1025, !dbg !590
+                % 1026 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 1, !dbg !590
+                store float% 1018, float*% 1026, !dbg !590
+                % 1027 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 2, !dbg !590
+                store float% 1021, float*% 1027, !dbg !590
+                % 1028 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 3, !dbg !590
+                store float% 1024, float*% 1028, !dbg !590
+                % 1029 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 0, !dbg !590
+                % 1030 = load float, float*% 1029, !dbg !590
+                % 1031 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 1, !dbg !590
+                % 1032 = load float, float*% 1031, !dbg !590
+                % 1033 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 2, !dbg !590
+                % 1034 = load float, float*% 1033, !dbg !590
+                % 1035 = getelementptr inbounds[4 x float], [4 x float] * %24, i32 0, i32 3, !dbg !590
+                % 1036 = load float, float*% 1035, !dbg !590
+                % 1037 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 0, !dbg !578
+                store float% 1030, float*% 1037, !dbg !578
+                % 1038 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 1, !dbg !578
+                store float% 1032, float*% 1038, !dbg !578
+                % 1039 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 2, !dbg !578
+                store float% 1034, float*% 1039, !dbg !578
+                % 1040 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 3, !dbg !578
+                store float% 1036, float*% 1040, !dbg !578
+                % 1041 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !591
+                % 1042 = load float, float*% 1041, !dbg !591
+                % 1043 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !591
+                % 1044 = load float, float*% 1043, !dbg !591
+                % 1045 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !591
+                % 1046 = load float, float*% 1045, !dbg !591
+                % 1047 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !591
+                % 1048 = load float, float*% 1047, !dbg !591
+                % 1049 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 0, !dbg !592
+                % 1050 = load float, float*% 1049, !dbg !592
+                % 1051 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 1, !dbg !592
+                % 1052 = load float, float*% 1051, !dbg !592
+                % 1053 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 2, !dbg !592
+                % 1054 = load float, float*% 1053, !dbg !592
+                % 1055 = getelementptr inbounds[4 x float], [4 x float] * %78, i32 0, i32 3, !dbg !592
+                % 1056 = load float, float*% 1055, !dbg !592
+                % .i0187 = fadd fast float% 1042, % 1050, !dbg !593
+                % .i1188 = fadd fast float% 1044, % 1052, !dbg !593
+                % .i2189 = fadd fast float% 1046, % 1054, !dbg !593
+                % .i3190 = fadd fast float% 1048, % 1056, !dbg !593
+                % 1057 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 0, !dbg !594
+                % 1058 = load float, float*% 1057, !dbg !594
+                % 1059 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 1, !dbg !594
+                % 1060 = load float, float*% 1059, !dbg !594
+                % 1061 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 2, !dbg !594
+                % 1062 = load float, float*% 1061, !dbg !594
+                % 1063 = getelementptr inbounds[4 x float], [4 x float] * %79, i32 0, i32 3, !dbg !594
+                % 1064 = load float, float*% 1063, !dbg !594
+                % .i0191 = fadd fast float% .i0187, % 1058, !dbg !595
+                % .i1192 = fadd fast float% .i1188, % 1060, !dbg !595
+                % .i2193 = fadd fast float% .i2189, % 1062, !dbg !595
+                % .i3194 = fadd fast float% .i3190, % 1064, !dbg !595
+                % 1065 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 0, !dbg !596
+                % 1066 = load float, float*% 1065, !dbg !596
+                % 1067 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 1, !dbg !596
+                % 1068 = load float, float*% 1067, !dbg !596
+                % 1069 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 2, !dbg !596
+                % 1070 = load float, float*% 1069, !dbg !596
+                % 1071 = getelementptr inbounds[4 x float], [4 x float] * %80, i32 0, i32 3, !dbg !596
+                % 1072 = load float, float*% 1071, !dbg !596
+                % .i0195 = fadd fast float% .i0191, % 1066, !dbg !597
+                % .i1196 = fadd fast float% .i1192, % 1068, !dbg !597
+                % .i2197 = fadd fast float% .i2193, % 1070, !dbg !597
+                % .i3198 = fadd fast float% .i3194, % 1072, !dbg !597
+                % .i0199 = fmul fast float 2.500000e-01, % .i0195, !dbg !598
+                % .i1200 = fmul fast float 2.500000e-01, % .i1196, !dbg !598
+                % .i2201 = fmul fast float 2.500000e-01, % .i2197, !dbg !598
+                % .i3202 = fmul fast float 2.500000e-01, % .i3198, !dbg !598
+                % 1073 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !599
+                store float% .i0199, float*% 1073, !dbg !599
+                % 1074 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !599
+                store float% .i1200, float*% 1074, !dbg !599
+                % 1075 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !599
+                store float% .i2201, float*% 1075, !dbg !599
+                % 1076 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !599
+                store float% .i3202, float*% 1076, !dbg !599
+                % 1077 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 0, !dbg !600
+                % 1078 = load float, float*% 1077, !dbg !600
+                % 1079 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 1, !dbg !600
+                % 1080 = load float, float*% 1079, !dbg !600
+                % 1081 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 2, !dbg !600
+                % 1082 = load float, float*% 1081, !dbg !600
+                % 1083 = getelementptr inbounds[4 x float], [4 x float] * %64, i32 0, i32 3, !dbg !600
+                % 1084 = load float, float*% 1083, !dbg !600
+                % 1085 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 0, !dbg !601
+                store float% 1078, float*% 1085, !dbg !601
+                % 1086 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 1, !dbg !601
+                store float% 1080, float*% 1086, !dbg !601
+                % 1087 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 2, !dbg !601
+                store float% 1082, float*% 1087, !dbg !601
+                % 1088 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 3, !dbg !601
+                store float% 1084, float*% 1088, !dbg !601
+                % 1089 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % GenerateMipsCB_cbuffer, i32 0), !dbg !602; CBufferLoadLegacy(handle, regIndex)
+                % 1090 = extractvalue % dx.types.CBufRet.i32 % 1089, 3, !dbg !602
+                % 1091 = icmp ne i32 % 1090, 0, !dbg !602
+                br i1 % 1091, label % 1092, label % 1138, !dbg !603
+
+                ; <label>:1092; preds = % 950
+                % 1093 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 0, !dbg !604
+                % 1094 = load float, float*% 1093, !dbg !604
+                % 1095 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 1, !dbg !604
+                % 1096 = load float, float*% 1095, !dbg !604
+                % 1097 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 2, !dbg !604
+                % 1098 = load float, float*% 1097, !dbg !604
+                % 1099 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 0, !dbg !605
+                store float% 1094, float*% 1099, !dbg !605
+                % 1100 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 1, !dbg !605
+                store float% 1096, float*% 1100, !dbg !605
+                % 1101 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 2, !dbg !605
+                store float% 1098, float*% 1101, !dbg !605
+                % 1102 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 0, !dbg !606
+                % 1103 = load float, float*% 1102, !dbg !606
+                % 1104 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 1, !dbg !606
+                % 1105 = load float, float*% 1104, !dbg !606
+                % 1106 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 2, !dbg !606
+                % 1107 = load float, float*% 1106, !dbg !606
+                % .i0203 = fcmp fast olt float% 1103, 0x3F69A5C380000000, !dbg !607
+                % .i1204 = fcmp fast olt float% 1105, 0x3F69A5C380000000, !dbg !607
+                % .i2205 = fcmp fast olt float% 1107, 0x3F69A5C380000000, !dbg !607
+                % 1108 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 0, !dbg !608
+                % 1109 = load float, float*% 1108, !dbg !608
+                % 1110 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 1, !dbg !608
+                % 1111 = load float, float*% 1110, !dbg !608
+                % 1112 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 2, !dbg !608
+                % 1113 = load float, float*% 1112, !dbg !608
+                % .i0206 = fmul fast float 0x4029D70A40000000, % 1109, !dbg !609
+                % .i1207 = fmul fast float 0x4029D70A40000000, % 1111, !dbg !609
+                % .i2208 = fmul fast float 0x4029D70A40000000, % 1113, !dbg !609
+                % 1114 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 0, !dbg !610
+                % 1115 = load float, float*% 1114, !dbg !610
+                % 1116 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 1, !dbg !610
+                % 1117 = load float, float*% 1116, !dbg !610
+                % 1118 = getelementptr inbounds[3 x float], [3 x float] * %37, i32 0, i32 2, !dbg !610
+                % 1119 = load float, float*% 1118, !dbg !610
+                % FAbs25 = call float @dx.op.unary.f32(i32 6, float% 1115), !dbg !611; FAbs(value)
+                % FAbs26 = call float @dx.op.unary.f32(i32 6, float% 1117), !dbg !611; FAbs(value)
+                % FAbs27 = call float @dx.op.unary.f32(i32 6, float% 1119), !dbg !611; FAbs(value)
+                % Log5 = call float @dx.op.unary.f32(i32 23, float% FAbs25), !dbg !612; Log(value)
+                % Log6 = call float @dx.op.unary.f32(i32 23, float% FAbs26), !dbg !612; Log(value)
+                % Log7 = call float @dx.op.unary.f32(i32 23, float% FAbs27), !dbg !612; Log(value)
+                % .i0209 = fmul fast float% Log5, 0x3FDAAAAAA0000000, !dbg !612
+                % .i1210 = fmul fast float% Log6, 0x3FDAAAAAA0000000, !dbg !612
+                % .i2211 = fmul fast float% Log7, 0x3FDAAAAAA0000000, !dbg !612
+                % Exp8 = call float @dx.op.unary.f32(i32 21, float% .i0209), !dbg !612; Exp(value)
+                % Exp9 = call float @dx.op.unary.f32(i32 21, float% .i1210), !dbg !612; Exp(value)
+                % Exp10 = call float @dx.op.unary.f32(i32 21, float% .i2211), !dbg !612; Exp(value)
+                % .i0212 = fmul fast float 0x3FF0E147A0000000, % Exp8, !dbg !613
+                % .i1213 = fmul fast float 0x3FF0E147A0000000, % Exp9, !dbg !613
+                % .i2214 = fmul fast float 0x3FF0E147A0000000, % Exp10, !dbg !613
+                % .i0215 = fsub fast float% .i0212, 0x3FAC28F5C0000000, !dbg !614
+                % .i1216 = fsub fast float% .i1213, 0x3FAC28F5C0000000, !dbg !614
+                % .i2217 = fsub fast float% .i2214, 0x3FAC28F5C0000000, !dbg !614
+                % 1120 = select i1 % .i0203, float% .i0206, float% .i0215, !dbg !606
+                % 1121 = select i1 % .i1204, float% .i1207, float% .i1216, !dbg !606
+                % 1122 = select i1 % .i2205, float% .i2208, float% .i2217, !dbg !606
+                % 1123 = getelementptr inbounds[3 x float], [3 x float] * %36, i32 0, i32 0, !dbg !615
+                store float% 1120, float*% 1123, !dbg !615
+                % 1124 = getelementptr inbounds[3 x float], [3 x float] * %36, i32 0, i32 1, !dbg !615
+                store float% 1121, float*% 1124, !dbg !615
+                % 1125 = getelementptr inbounds[3 x float], [3 x float] * %36, i32 0, i32 2, !dbg !615
+                store float% 1122, float*% 1125, !dbg !615
+                % 1126 = getelementptr inbounds[3 x float], [3 x float] * %36, i32 0, i32 0, !dbg !615
+                % 1127 = load float, float*% 1126, !dbg !615
+                % 1128 = getelementptr inbounds[3 x float], [3 x float] * %36, i32 0, i32 1, !dbg !615
+                % 1129 = load float, float*% 1128, !dbg !615
+                % 1130 = getelementptr inbounds[3 x float], [3 x float] * %36, i32 0, i32 2, !dbg !615
+                % 1131 = load float, float*% 1130, !dbg !615
+                % 1132 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 3, !dbg !616
+                % 1133 = load float, float*% 1132, !dbg !616
+                % 1134 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 0, !dbg !617
+                store float% 1127, float*% 1134, !dbg !617
+                % 1135 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 1, !dbg !617
+                store float% 1129, float*% 1135, !dbg !617
+                % 1136 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 2, !dbg !617
+                store float% 1131, float*% 1136, !dbg !617
+                % 1137 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 3, !dbg !617
+                store float% 1133, float*% 1137, !dbg !617
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.12", !dbg !617
+
+                ; <label>:1138; preds = % 950
+                % 1139 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 0, !dbg !618
+                % 1140 = load float, float*% 1139, !dbg !618
+                % 1141 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 1, !dbg !618
+                % 1142 = load float, float*% 1141, !dbg !618
+                % 1143 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 2, !dbg !618
+                % 1144 = load float, float*% 1143, !dbg !618
+                % 1145 = getelementptr inbounds[4 x float], [4 x float] * %39, i32 0, i32 3, !dbg !618
+                % 1146 = load float, float*% 1145, !dbg !618
+                % 1147 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 0, !dbg !619
+                store float% 1140, float*% 1147, !dbg !619
+                % 1148 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 1, !dbg !619
+                store float% 1142, float*% 1148, !dbg !619
+                % 1149 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 2, !dbg !619
+                store float% 1144, float*% 1149, !dbg !619
+                % 1150 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 3, !dbg !619
+                store float% 1146, float*% 1150, !dbg !619
+                br label % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.12", !dbg !619
+
+                "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.12":; preds = % 1092, % 1138
+                % 1151 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 0, !dbg !620
+                % 1152 = load float, float*% 1151, !dbg !620
+                % 1153 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 1, !dbg !620
+                % 1154 = load float, float*% 1153, !dbg !620
+                % 1155 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 2, !dbg !620
+                % 1156 = load float, float*% 1155, !dbg !620
+                % 1157 = getelementptr inbounds[4 x float], [4 x float] * %38, i32 0, i32 3, !dbg !620
+                % 1158 = load float, float*% 1157, !dbg !620
+                % 1159 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !621
+                % 1160 = load i32, i32 * %1159, !dbg !621
+                % 1161 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !621
+                % 1162 = load i32, i32 * %1161, !dbg !621
+                % .i0218 = udiv i32 % 1160, 8, !dbg !622
+                % .i1219 = udiv i32 % 1162, 8, !dbg !622
+                call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % OutMip4_UAV_2d, i32 % .i0218, i32 % .i1219, i32 undef, float% 1152, float% 1154, float% 1156, float% 1158, i8 15), !dbg !623; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+                br label % 1163, !dbg !624
+
+                ; <label>:1163; preds = % 943, % 693, % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit", % "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z.exit.12", % 947
+                ret void, !dbg !625
+}
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.groupId.i32(i32, i32) #0
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.threadIdInGroup.i32(i32, i32) #0
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.threadId.i32(i32, i32) #0
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.flattenedThreadIdInGroup.i32(i32) #0
+
+; Function Attrs : nounwind readonly
+declare% dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32, % dx.types.Handle, i32) #1
+
+; Function Attrs : nounwind readonly
+declare% dx.types.CBufRet.f32 @dx.op.cbufferLoadLegacy.f32(i32, % dx.types.Handle, i32) #1
+
+; Function Attrs : nounwind readonly
+declare% dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32, % dx.types.Handle, % dx.types.Handle, float, float, float, float, i32, i32, i32, float) #1
+
+; Function Attrs : nounwind
+declare void @dx.op.textureStore.f32(i32, % dx.types.Handle, i32, i32, i32, float, float, float, float, i8) #2
+
+; Function Attrs : noduplicate nounwind
+declare void @dx.op.barrier(i32, i32) #3
+
+; Function Attrs : nounwind readnone
+declare float @dx.op.unary.f32(i32, float) #0
+
+; Function Attrs : nounwind readonly
+declare% dx.types.Handle @dx.op.createHandle(i32, i8, i32, i32, i1) #1
+
+attributes #0 = { nounwind readnone }
+attributes #1 = { nounwind readonly }
+attributes #2 = { nounwind }
+attributes #3 = { noduplicate nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!82, !83}
+!llvm.ident = !{!84}
+!dx.source.contents = !{!85}
+!dx.source.defines = !{!2}
+!dx.source.mainFileName = !{!86}
+!dx.source.args = !{!87}
+!dx.version = !{!88}
+!dx.valver = !{!89}
+!dx.shaderModel = !{!90}
+!dx.resources = !{!91}
+!dx.typeAnnotations = !{!104, !122}
+!dx.entryPoints = !{!125}
+
+!0 = distinct !DICompileUnit(language: DW_LANG_C_plus_plus, file : !1, producer : "dxc 1.2", isOptimized : false, runtimeVersion : 0, emissionKind : 1, enums : !2, retainedTypes : !3, subprograms : !23, globals : !63)
+!1 = !DIFile(filename: "F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5CDX12Lib\5CResources\5CShaders\5CGenerateMips_CS.hlsl", directory : "")
+!2 = !{}
+!3 = !{!4, !16}
+!4 = !DIDerivedType(tag: DW_TAG_typedef, name : "float4", file : !1, line : 112, baseType : !5)
+!5 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<float, 4>", file : !1, line : 112, size : 128, align : 32, elements : !6, templateParams : !12)
+!6 = !{!7, !9, !10, !11}
+!7 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !5, file : !1, line : 112, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!8 = !DIBasicType(name: "float", size : 32, align : 32, encoding : DW_ATE_float)
+!9 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !5, file : !1, line : 112, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!10 = !DIDerivedType(tag: DW_TAG_member, name : "z", scope : !5, file : !1, line : 112, baseType : !8, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!11 = !DIDerivedType(tag: DW_TAG_member, name : "w", scope : !5, file : !1, line : 112, baseType : !8, size : 32, align : 32, offset : 96, flags : DIFlagPublic)
+!12 = !{!13, !14}
+!13 = !DITemplateTypeParameter(name: "element", type : !8)
+!14 = !DITemplateValueParameter(name: "element_count", type : !15, value : i32 4)
+!15 = !DIBasicType(name: "int", size : 32, align : 32, encoding : DW_ATE_signed)
+!16 = !DIDerivedType(tag: DW_TAG_typedef, name : "float2", file : !1, line : 131, baseType : !17)
+!17 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<float, 2>", file : !1, line : 131, size : 64, align : 32, elements : !18, templateParams : !21)
+!18 = !{!19, !20}
+!19 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !17, file : !1, line : 131, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!20 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !17, file : !1, line : 131, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!21 = !{!13, !22}
+!22 = !DITemplateValueParameter(name: "element_count", type : !15, value : i32 2)
+!23 = !{!24, !44, !47, !57, !60}
+!24 = !DISubprogram(name: "main", scope : !1, file : !1, line : 110, type : !25, isLocal : false, isDefinition : true, scopeLine : 111, flags : DIFlagPrototyped, isOptimized : false, function : void() * @main)
+!25 = !DISubroutineType(types: !26)
+!26 = !{null, !27}
+!27 = !DICompositeType(tag: DW_TAG_structure_type, name : "ComputeShaderInput", file : !1, line : 21, size : 320, align : 32, elements : !28)
+!28 = !{!29, !40, !41, !42}
+!29 = !DIDerivedType(tag: DW_TAG_member, name : "GroupID", scope : !27, file : !1, line : 23, baseType : !30, size : 96, align : 32)
+!30 = !DIDerivedType(tag: DW_TAG_typedef, name : "uint3", file : !1, line : 67, baseType : !31)
+!31 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<unsigned int, 3>", file : !1, line : 67, size : 96, align : 32, elements : !32, templateParams : !37)
+!32 = !{!33, !35, !36}
+!33 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !31, file : !1, line : 67, baseType : !34, size : 32, align : 32, flags : DIFlagPublic)
+!34 = !DIBasicType(name: "unsigned int", size : 32, align : 32, encoding : DW_ATE_unsigned)
+!35 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !31, file : !1, line : 67, baseType : !34, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!36 = !DIDerivedType(tag: DW_TAG_member, name : "z", scope : !31, file : !1, line : 67, baseType : !34, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!37 = !{!38, !39}
+!38 = !DITemplateTypeParameter(name: "element", type : !34)
+!39 = !DITemplateValueParameter(name: "element_count", type : !15, value : i32 3)
+!40 = !DIDerivedType(tag: DW_TAG_member, name : "GroupThreadID", scope : !27, file : !1, line : 24, baseType : !30, size : 96, align : 32, offset : 96)
+!41 = !DIDerivedType(tag: DW_TAG_member, name : "DispatchThreadID", scope : !27, file : !1, line : 25, baseType : !30, size : 96, align : 32, offset : 192)
+!42 = !DIDerivedType(tag: DW_TAG_member, name : "GroupIndex", scope : !27, file : !1, line : 26, baseType : !43, size : 32, align : 32, offset : 288)
+!43 = !DIDerivedType(tag: DW_TAG_typedef, name : "uint", file : !1, line : 67, baseType : !34)
+!44 = !DISubprogram(name: "PackColor", linkageName : "\01?PackColor@@YA?AV?$vector@M$03@@V1@@Z", scope : !1, file : !1, line : 96, type : !45, isLocal : false, isDefinition : true, scopeLine : 97, flags : DIFlagPrototyped, isOptimized : false)
+!45 = !DISubroutineType(types: !46)
+!46 = !{!4, !4}
+!47 = !DISubprogram(name: "ConvertToSRGB", linkageName : "\01?ConvertToSRGB@@YA?AV?$vector@M$02@@V1@@Z", scope : !1, file : !1, line : 89, type : !48, isLocal : false, isDefinition : true, scopeLine : 90, flags : DIFlagPrototyped, isOptimized : false)
+!48 = !DISubroutineType(types: !49)
+!49 = !{!50, !50}
+!50 = !DIDerivedType(tag: DW_TAG_typedef, name : "float3", file : !1, line : 106, baseType : !51)
+!51 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<float, 3>", file : !1, line : 106, size : 96, align : 32, elements : !52, templateParams : !56)
+!52 = !{!53, !54, !55}
+!53 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !51, file : !1, line : 106, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!54 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !51, file : !1, line : 106, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!55 = !DIDerivedType(tag: DW_TAG_member, name : "z", scope : !51, file : !1, line : 106, baseType : !8, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!56 = !{!13, !39}
+!57 = !DISubprogram(name: "StoreColor", linkageName : "\01?StoreColor@@YAXIV?$vector@M$03@@@Z", scope : !1, file : !1, line : 69, type : !58, isLocal : false, isDefinition : true, scopeLine : 70, flags : DIFlagPrototyped, isOptimized : false)
+!58 = !DISubroutineType(types: !59)
+!59 = !{null, !43, !4}
+!60 = !DISubprogram(name: "LoadColor", linkageName : "\01?LoadColor@@YA?AV?$vector@M$03@@I@Z", scope : !1, file : !1, line : 77, type : !61, isLocal : false, isDefinition : true, scopeLine : 78, flags : DIFlagPrototyped, isOptimized : false)
+!61 = !DISubroutineType(types: !62)
+!62 = !{!4, !43}
+!63 = !{!64, !68, !69, !70, !71, !75, !77, !78, !79, !80}
+!64 = !DIGlobalVariable(name: "gs_R", linkageName : "\01?gs_R@@3PAMA", scope : !0, file : !1, line : 64, type : !65, isLocal : false, isDefinition : true, variable : [64 x float] addrspace(3) * @"\01?gs_R@@3PAMA")
+!65 = !DICompositeType(tag: DW_TAG_array_type, baseType : !8, size : 2048, align : 32, elements : !66)
+!66 = !{!67}
+!67 = !DISubrange(count: 64)
+!68 = !DIGlobalVariable(name: "gs_G", linkageName : "\01?gs_G@@3PAMA", scope : !0, file : !1, line : 65, type : !65, isLocal : false, isDefinition : true, variable : [64 x float] addrspace(3) * @"\01?gs_G@@3PAMA")
+!69 = !DIGlobalVariable(name: "gs_B", linkageName : "\01?gs_B@@3PAMA", scope : !0, file : !1, line : 66, type : !65, isLocal : false, isDefinition : true, variable : [64 x float] addrspace(3) * @"\01?gs_B@@3PAMA")
+!70 = !DIGlobalVariable(name: "gs_A", linkageName : "\01?gs_A@@3PAMA", scope : !0, file : !1, line : 67, type : !65, isLocal : false, isDefinition : true, variable : [64 x float] addrspace(3) * @"\01?gs_A@@3PAMA")
+!71 = !DIGlobalVariable(name: "SrcMip", linkageName : "\01?SrcMip@@3V?$Texture2D@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 39, type : !72, isLocal : false, isDefinition : true, variable : % "class.Texture2D<vector<float, 4> >" * @"\01?SrcMip@@3V?$Texture2D@V?$vector@M$03@@@@A")
+!72 = !DICompositeType(tag: DW_TAG_class_type, name : "Texture2D<vector<float, 4> >", file : !1, line : 39, size : 160, align : 32, elements : !2, templateParams : !73)
+!73 = !{!74}
+!74 = !DITemplateTypeParameter(name: "element", type : !5)
+!75 = !DIGlobalVariable(name: "OutMip1", linkageName : "\01?OutMip1@@3V?$RWTexture2D@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 42, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2D<vector<float, 4> >" * @"\01?OutMip1@@3V?$RWTexture2D@V?$vector@M$03@@@@A")
+!76 = !DICompositeType(tag: DW_TAG_class_type, name : "RWTexture2D<vector<float, 4> >", file : !1, line : 42, size : 128, align : 32, elements : !2, templateParams : !73)
+!77 = !DIGlobalVariable(name: "OutMip2", linkageName : "\01?OutMip2@@3V?$RWTexture2D@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 43, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2D<vector<float, 4> >" * @"\01?OutMip2@@3V?$RWTexture2D@V?$vector@M$03@@@@A")
+!78 = !DIGlobalVariable(name: "OutMip3", linkageName : "\01?OutMip3@@3V?$RWTexture2D@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 44, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2D<vector<float, 4> >" * @"\01?OutMip3@@3V?$RWTexture2D@V?$vector@M$03@@@@A")
+!79 = !DIGlobalVariable(name: "OutMip4", linkageName : "\01?OutMip4@@3V?$RWTexture2D@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 45, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2D<vector<float, 4> >" * @"\01?OutMip4@@3V?$RWTexture2D@V?$vector@M$03@@@@A")
+!80 = !DIGlobalVariable(name: "LinearClampSampler", linkageName : "\01?LinearClampSampler@@3USamplerState@@A", scope : !0, file : !1, line : 48, type : !81, isLocal : false, isDefinition : true, variable : % struct.SamplerState * @"\01?LinearClampSampler@@3USamplerState@@A")
+!81 = !DICompositeType(tag: DW_TAG_structure_type, name : "SamplerState", file : !1, line : 48, size : 32, align : 32, elements : !2)
+!82 = !{i32 2, !"Dwarf Version", i32 4}
+!83 = !{i32 2, !"Debug Info Version", i32 3}
+!84 = !{!"dxc 1.2"}
+!85 = !{!"F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5CDX12Lib\5CResources\5CShaders\5CGenerateMips_CS.hlsl", !"/**\0D\0A * Compute shader to generate mipmaps for a given texture.\0D\0A * Source: https://github.com/Microsoft/DirectX-Graphics-Samples/blob/master/MiniEngine/Core/Shaders/GenerateMipsCS.hlsli\0D\0A */\0D\0A\0D\0A#define BLOCK_SIZE 8\0D\0A\0D\0A // When reducing the size of a texture, it could be that downscaling the texture \0D\0A // will result in a less than exactly 50% (1/2) of the original texture size.\0D\0A // This happens if either the width, or the height (or both) dimensions of the texture\0D\0A // are odd. For example, downscaling a 5x3 texture will result in a 2x1 texture which\0D\0A // has a 60% reduction in the texture width and 66% reduction in the height.\0D\0A // When this happens, we need to take more samples from the source texture to \0D\0A // determine the pixel value in the destination texture.\0D\0A\0D\0A#define WIDTH_HEIGHT_EVEN 0     // Both the width and the height of the texture are even.\0D\0A#define WIDTH_ODD_HEIGHT_EVEN 1 // The texture width is odd and the height is even.\0D\0A#define WIDTH_EVEN_HEIGHT_ODD 2 // The texture width is even and teh height is odd.\0D\0A#define WIDTH_HEIGHT_ODD 3      // Both the width and height of the texture are odd.\0D\0A\0D\0Astruct ComputeShaderInput\0D\0A{\0D\0A    uint3 GroupID           : SV_GroupID;           // 3D index of the thread group in the dispatch.\0D\0A    uint3 GroupThreadID     : SV_GroupThreadID;     // 3D index of local thread ID in a thread group.\0D\0A    uint3 DispatchThreadID  : SV_DispatchThreadID;  // 3D index of global thread ID in the dispatch.\0D\0A    uint  GroupIndex        : SV_GroupIndex;        // Flattened local index of the thread within a thread group.\0D\0A};\0D\0A\0D\0Acbuffer GenerateMipsCB : register( b0 )\0D\0A{\0D\0A    uint SrcMipLevel;\09// Texture level of source mip\0D\0A    uint NumMipLevels;\09// Number of OutMips to write: [1-4]\0D\0A    uint SrcDimension;  // Width and height of the source texture are even or odd.\0D\0A    bool IsSRGB;        // Must apply gamma correction to sRGB textures.\0D\0A    float2 TexelSize;\09// 1.0 / OutMip1.Dimensions\0D\0A}\0D\0A\0D\0A// Source mip map.\0D\0ATexture2D<float4> SrcMip : register( t0 );\0D\0A\0D\0A// Write up to 4 mip map levels.\0D\0ARWTexture2D<float4> OutMip1 : register( u0 );\0D\0ARWTexture2D<float4> OutMip2 : register( u1 );\0D\0ARWTexture2D<float4> OutMip3 : register( u2 );\0D\0ARWTexture2D<float4> OutMip4 : register( u3 );\0D\0A\0D\0A// Linear clamp sampler.\0D\0ASamplerState LinearClampSampler : register( s0 );\0D\0A\0D\0A#define GenerateMips_RootSignature \5C\0D\0A    \22RootFlags(0), \22 \5C\0D\0A    \22RootConstants(b0, num32BitConstants = 6), \22 \5C\0D\0A    \22DescriptorTable( SRV(t0, numDescriptors = 1) ),\22 \5C\0D\0A    \22DescriptorTable( UAV(u0, numDescriptors = 4) ),\22 \5C\0D\0A    \22StaticSampler(s0,\22 \5C\0D\0A        \22addressU = TEXTURE_ADDRESS_CLAMP,\22 \5C\0D\0A        \22addressV = TEXTURE_ADDRESS_CLAMP,\22 \5C\0D\0A        \22addressW = TEXTURE_ADDRESS_CLAMP,\22 \5C\0D\0A        \22filter = FILTER_MIN_MAG_MIP_LINEAR)\22\0D\0A\0D\0A// The reason for separating channels is to reduce bank conflicts in the\0D\0A// local data memory controller.  A large stride will cause more threads\0D\0A// to collide on the same memory bank.\0D\0Agroupshared float gs_R[64];\0D\0Agroupshared float gs_G[64];\0D\0Agroupshared float gs_B[64];\0D\0Agroupshared float gs_A[64];\0D\0A\0D\0Avoid StoreColor( uint Index, float4 Color )\0D\0A{\0D\0A    gs_R[Index] = Color.r;\0D\0A    gs_G[Index] = Color.g;\0D\0A    gs_B[Index] = Color.b;\0D\0A    gs_A[Index] = Color.a;\0D\0A}\0D\0A\0D\0Afloat4 LoadColor( uint Index )\0D\0A{\0D\0A    return float4( gs_R[Index], gs_G[Index], gs_B[Index], gs_A[Index] );\0D\0A}\0D\0A\0D\0A// Source: https://en.wikipedia.org/wiki/SRGB#The_reverse_transformation\0D\0Afloat3 ConvertToLinear(float3 x)\0D\0A{\0D\0A    return x < 0.04045f ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4);\0D\0A}\0D\0A\0D\0A// Source: https://en.wikipedia.org/wiki/SRGB#The_forward_transformation_(CIE_XYZ_to_sRGB)\0D\0Afloat3 ConvertToSRGB( float3 x )\0D\0A{\0D\0A    return x < 0.0031308 ? 12.92 * x : 1.055 * pow(abs(x), 1.0 / 2.4) - 0.055;\0D\0A}\0D\0A\0D\0A// Convert linear color to sRGB before storing if the original source is \0D\0A// an sRGB texture.\0D\0Afloat4 PackColor(float4 x)\0D\0A{\0D\0A    if (IsSRGB)\0D\0A    {\0D\0A        return float4(ConvertToSRGB(x.rgb), x.a);\0D\0A    }\0D\0A    else\0D\0A    {\0D\0A        return x;\0D\0A    }\0D\0A}\0D\0A\0D\0A[RootSignature( GenerateMips_RootSignature )]\0D\0A[numthreads( BLOCK_SIZE, BLOCK_SIZE, 1 )]\0D\0Avoid main( ComputeShaderInput IN )\0D\0A{\0D\0A    float4 Src1 = (float4)0;\0D\0A\0D\0A    // One bilinear sample is insufficient when scaling down by more than 2x.\0D\0A    // You will slightly undersample in the case where the source dimension\0D\0A    // is odd.  This is why it's a really good idea to only generate mips on\0D\0A    // power-of-two sized textures.  Trying to handle the undersampling case\0D\0A    // will force this shader to be slower and more complicated as it will\0D\0A    // have to take more source texture samples.\0D\0A\0D\0A    // Determine the path to use based on the dimension of the \0D\0A    // source texture.\0D\0A    // 0b00(0): Both width and height are even.\0D\0A    // 0b01(1): Width is odd, height is even.\0D\0A    // 0b10(2): Width is even, height is odd.\0D\0A    // 0b11(3): Both width and height are odd.\0D\0A    switch ( SrcDimension )\0D\0A    {\0D\0A        case WIDTH_HEIGHT_EVEN:\0D\0A        {\0D\0A            float2 UV = TexelSize * ( IN.DispatchThreadID.xy + 0.5 );\0D\0A\0D\0A            Src1 = SrcMip.SampleLevel( LinearClampSampler, UV, SrcMipLevel );\0D\0A        }\0D\0A        break;\0D\0A        case WIDTH_ODD_HEIGHT_EVEN:\0D\0A        {\0D\0A            // > 2:1 in X dimension\0D\0A            // Use 2 bilinear samples to guarantee we don't undersample when downsizing by more than 2x\0D\0A            // horizontally.\0D\0A            float2 UV1 = TexelSize * ( IN.DispatchThreadID.xy + float2( 0.25, 0.5 ) );\0D\0A            float2 Off = TexelSize * float2( 0.5, 0.0 );\0D\0A\0D\0A            Src1 = 0.5 * ( SrcMip.SampleLevel( LinearClampSampler, UV1, SrcMipLevel ) +\0D\0A                           SrcMip.SampleLevel( LinearClampSampler, UV1 + Off, SrcMipLevel ) );\0D\0A        }\0D\0A        break;\0D\0A        case WIDTH_EVEN_HEIGHT_ODD:\0D\0A        {\0D\0A            // > 2:1 in Y dimension\0D\0A            // Use 2 bilinear samples to guarantee we don't undersample when downsizing by more than 2x\0D\0A            // vertically.\0D\0A            float2 UV1 = TexelSize * ( IN.DispatchThreadID.xy + float2( 0.5, 0.25 ) );\0D\0A            float2 Off = TexelSize * float2( 0.0, 0.5 );\0D\0A\0D\0A            Src1 = 0.5 * ( SrcMip.SampleLevel( LinearClampSampler, UV1, SrcMipLevel ) +\0D\0A                           SrcMip.SampleLevel( LinearClampSampler, UV1 + Off, SrcMipLevel ) );\0D\0A        }\0D\0A        break;\0D\0A        case WIDTH_HEIGHT_ODD:\0D\0A        {\0D\0A            // > 2:1 in in both dimensions\0D\0A            // Use 4 bilinear samples to guarantee we don't undersample when downsizing by more than 2x\0D\0A            // in both directions.\0D\0A            float2 UV1 = TexelSize * ( IN.DispatchThreadID.xy + float2( 0.25, 0.25 ) );\0D\0A            float2 Off = TexelSize * 0.5;\0D\0A\0D\0A            Src1 =  SrcMip.SampleLevel( LinearClampSampler, UV1, SrcMipLevel );\0D\0A            Src1 += SrcMip.SampleLevel( LinearClampSampler, UV1 + float2( Off.x, 0.0   ), SrcMipLevel );\0D\0A            Src1 += SrcMip.SampleLevel( LinearClampSampler, UV1 + float2( 0.0,   Off.y ), SrcMipLevel );\0D\0A            Src1 += SrcMip.SampleLevel( LinearClampSampler, UV1 + float2( Off.x, Off.y ), SrcMipLevel );\0D\0A            Src1 *= 0.25;\0D\0A        }\0D\0A        break;\0D\0A    }\0D\0A\0D\0A    OutMip1[IN.DispatchThreadID.xy] = PackColor( Src1 );\0D\0A\0D\0A    // A scalar (constant) branch can exit all threads coherently.\0D\0A    if ( NumMipLevels == 1 )\0D\0A        return;\0D\0A\0D\0A    // Without lane swizzle operations, the only way to share data with other\0D\0A    // threads is through LDS.\0D\0A    StoreColor( IN.GroupIndex, Src1 );\0D\0A\0D\0A    // This guarantees all LDS writes are complete and that all threads have\0D\0A    // executed all instructions so far (and therefore have issued their LDS\0D\0A    // write instructions.)\0D\0A    GroupMemoryBarrierWithGroupSync();\0D\0A\0D\0A    // With low three bits for X and high three bits for Y, this bit mask\0D\0A    // (binary: 001001) checks that X and Y are even.\0D\0A    if ( ( IN.GroupIndex & 0x9 ) == 0 )\0D\0A    {\0D\0A        float4 Src2 = LoadColor( IN.GroupIndex + 0x01 );\0D\0A        float4 Src3 = LoadColor( IN.GroupIndex + 0x08 );\0D\0A        float4 Src4 = LoadColor( IN.GroupIndex + 0x09 );\0D\0A        Src1 = 0.25 * ( Src1 + Src2 + Src3 + Src4 );\0D\0A\0D\0A        OutMip2[IN.DispatchThreadID.xy / 2] = PackColor( Src1 );\0D\0A        StoreColor( IN.GroupIndex, Src1 );\0D\0A    }\0D\0A\0D\0A    if ( NumMipLevels == 2 )\0D\0A        return;\0D\0A\0D\0A    GroupMemoryBarrierWithGroupSync();\0D\0A\0D\0A    // This bit mask (binary: 011011) checks that X and Y are multiples of four.\0D\0A    if ( ( IN.GroupIndex & 0x1B ) == 0 )\0D\0A    {\0D\0A        float4 Src2 = LoadColor( IN.GroupIndex + 0x02 );\0D\0A        float4 Src3 = LoadColor( IN.GroupIndex + 0x10 );\0D\0A        float4 Src4 = LoadColor( IN.GroupIndex + 0x12 );\0D\0A        Src1 = 0.25 * ( Src1 + Src2 + Src3 + Src4 );\0D\0A\0D\0A        OutMip3[IN.DispatchThreadID.xy / 4] = PackColor( Src1 );\0D\0A        StoreColor( IN.GroupIndex, Src1 );\0D\0A    }\0D\0A\0D\0A    if ( NumMipLevels == 3 )\0D\0A        return;\0D\0A\0D\0A    GroupMemoryBarrierWithGroupSync();\0D\0A\0D\0A    // This bit mask would be 111111 (X & Y multiples of 8), but only one\0D\0A    // thread fits that criteria.\0D\0A    if ( IN.GroupIndex == 0 )\0D\0A    {\0D\0A        float4 Src2 = LoadColor( IN.GroupIndex + 0x04 );\0D\0A        float4 Src3 = LoadColor( IN.GroupIndex + 0x20 );\0D\0A        float4 Src4 = LoadColor( IN.GroupIndex + 0x24 );\0D\0A        Src1 = 0.25 * ( Src1 + Src2 + Src3 + Src4 );\0D\0A\0D\0A        OutMip4[IN.DispatchThreadID.xy / 8] = PackColor( Src1 );\0D\0A    }\0D\0A}\0D\0A\0D\0A"}
+!86 = !{!"F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5CDX12Lib\5CResources\5CShaders\5CGenerateMips_CS.hlsl"}
+!87 = !{!"/E", !"main", !"/T", !"cs_6_0", !"/Fo", !"F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5Cbuild_vs2019\5Clib\5CDebug\5CGenerateMips_CS.cso", !"/Od", !"/Zi"}
+!88 = !{i32 1, i32 0}
+!89 = !{i32 1, i32 5}
+!90 = !{!"cs", i32 6, i32 0}
+!91 = !{!92, !95, !100, !102}
+!92 = !{!93}
+!93 = !{i32 0, % "class.Texture2D<vector<float, 4> >" * undef, !"SrcMip", i32 0, i32 0, i32 1, i32 2, i32 0, !94}
+!94 = !{i32 0, i32 9}
+!95 = !{!96, !97, !98, !99}
+!96 = !{i32 0, % "class.RWTexture2D<vector<float, 4> >" * undef, !"OutMip1", i32 0, i32 0, i32 1, i32 2, i1 false, i1 false, i1 false, !94}
+!97 = !{i32 1, % "class.RWTexture2D<vector<float, 4> >" * undef, !"OutMip2", i32 0, i32 1, i32 1, i32 2, i1 false, i1 false, i1 false, !94}
+!98 = !{i32 2, % "class.RWTexture2D<vector<float, 4> >" * undef, !"OutMip3", i32 0, i32 2, i32 1, i32 2, i1 false, i1 false, i1 false, !94}
+!99 = !{i32 3, % "class.RWTexture2D<vector<float, 4> >" * undef, !"OutMip4", i32 0, i32 3, i32 1, i32 2, i1 false, i1 false, i1 false, !94}
+!100 = !{!101}
+!101 = !{i32 0, % GenerateMipsCB* undef, !"GenerateMipsCB", i32 0, i32 0, i32 1, i32 24, null}
+!102 = !{!103}
+!103 = !{i32 0, % struct.SamplerState* undef, !"LinearClampSampler", i32 0, i32 0, i32 1, i32 0, null}
+!104 = !{i32 0, % "class.Texture2D<vector<float, 4> >" undef, !105, % "class.Texture2D<vector<float, 4> >::mips_type" undef, !108, % "class.RWTexture2D<vector<float, 4> >" undef, !110, % struct.ComputeShaderInput undef, !111, % GenerateMipsCB undef, !116}
+!105 = !{i32 20, !106, !107}
+!106 = !{i32 6, !"h", i32 3, i32 0, i32 7, i32 9}
+!107 = !{i32 6, !"mips", i32 3, i32 16}
+!108 = !{i32 4, !109}
+!109 = !{i32 6, !"handle", i32 3, i32 0, i32 7, i32 5}
+!110 = !{i32 16, !106}
+!111 = !{i32 48, !112, !113, !114, !115}
+!112 = !{i32 6, !"GroupID", i32 3, i32 0, i32 4, !"SV_GroupID", i32 7, i32 5}
+!113 = !{i32 6, !"GroupThreadID", i32 3, i32 16, i32 4, !"SV_GroupThreadID", i32 7, i32 5}
+!114 = !{i32 6, !"DispatchThreadID", i32 3, i32 32, i32 4, !"SV_DispatchThreadID", i32 7, i32 5}
+!115 = !{i32 6, !"GroupIndex", i32 3, i32 44, i32 4, !"SV_GroupIndex", i32 7, i32 5}
+!116 = !{i32 24, !117, !118, !119, !120, !121}
+!117 = !{i32 6, !"SrcMipLevel", i32 3, i32 0, i32 7, i32 5}
+!118 = !{i32 6, !"NumMipLevels", i32 3, i32 4, i32 7, i32 5}
+!119 = !{i32 6, !"SrcDimension", i32 3, i32 8, i32 7, i32 5}
+!120 = !{i32 6, !"IsSRGB", i32 3, i32 12, i32 7, i32 1}
+!121 = !{i32 6, !"TexelSize", i32 3, i32 16, i32 7, i32 9}
+!122 = !{i32 1, void()* @main, !123}
+!123 = !{!124}
+!124 = !{i32 0, !2, !2}
+!125 = !{void()* @main, !"main", null, !91, !126}
+!126 = !{i32 0, i64 1, i32 4, !127}
+!127 = !{i32 8, i32 8, i32 1}
+!128 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "IN", arg : 1, scope : !24, file : !1, line : 110, type : !27)
+!129 = !DIExpression(DW_OP_bit_piece, 288, 32)
+!130 = !DILocation(line: 110, column : 31, scope : !24)
+!131 = !DIExpression(DW_OP_bit_piece, 192, 96)
+!132 = !DIExpression(DW_OP_bit_piece, 96, 96)
+!133 = !DIExpression(DW_OP_bit_piece, 0, 96)
+!134 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src1", scope : !24, file : !1, line : 112, type : !4)
+!135 = !DIExpression()
+!136 = !DILocation(line: 112, column : 12, scope : !24)
+!137 = !DILocation(line: 127, column : 14, scope : !24)
+!138 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "x", arg : 1, scope : !47, file : !1, line : 89, type : !50)
+!139 = !DILocation(line: 89, column : 30, scope : !47, inlinedAt : !140)
+!140 = distinct !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !143)
+!141 = distinct !DILexicalBlock(scope: !142, file : !1, line : 99, column : 5)
+!142 = distinct !DILexicalBlock(scope: !44, file : !1, line : 98, column : 9)
+!143 = distinct !DILocation(line: 177, column : 39, scope : !24)
+!144 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "x", arg : 1, scope : !44, file : !1, line : 96, type : !4)
+!145 = !DILocation(line: 96, column : 25, scope : !44, inlinedAt : !143)
+!146 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "Color", arg : 2, scope : !57, file : !1, line : 69, type : !4)
+!147 = !DILocation(line: 69, column : 37, scope : !57, inlinedAt : !148)
+!148 = distinct !DILocation(line: 185, column : 5, scope : !24)
+!149 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "Index", arg : 1, scope : !57, file : !1, line : 69, type : !43)
+!150 = !DILocation(line: 69, column : 23, scope : !57, inlinedAt : !148)
+!151 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "Index", arg : 1, scope : !60, file : !1, line : 77, type : !43)
+!152 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !153)
+!153 = distinct !DILocation(line: 196, column : 23, scope : !154)
+!154 = distinct !DILexicalBlock(scope: !155, file : !1, line : 195, column : 5)
+!155 = distinct !DILexicalBlock(scope: !24, file : !1, line : 194, column : 10)
+!156 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !157)
+!157 = distinct !DILocation(line: 197, column : 23, scope : !154)
+!158 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !159)
+!159 = distinct !DILocation(line: 198, column : 23, scope : !154)
+!160 = !DILocation(line: 89, column : 30, scope : !47, inlinedAt : !161)
+!161 = distinct !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !162)
+!162 = distinct !DILocation(line: 201, column : 47, scope : !154)
+!163 = !DILocation(line: 96, column : 25, scope : !44, inlinedAt : !162)
+!164 = !DILocation(line: 69, column : 37, scope : !57, inlinedAt : !165)
+!165 = distinct !DILocation(line: 202, column : 9, scope : !154)
+!166 = !DILocation(line: 69, column : 23, scope : !57, inlinedAt : !165)
+!167 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !168)
+!168 = distinct !DILocation(line: 213, column : 23, scope : !169)
+!169 = distinct !DILexicalBlock(scope: !170, file : !1, line : 212, column : 5)
+!170 = distinct !DILexicalBlock(scope: !24, file : !1, line : 211, column : 10)
+!171 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !172)
+!172 = distinct !DILocation(line: 214, column : 23, scope : !169)
+!173 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !174)
+!174 = distinct !DILocation(line: 215, column : 23, scope : !169)
+!175 = !DILocation(line: 89, column : 30, scope : !47, inlinedAt : !176)
+!176 = distinct !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !177)
+!177 = distinct !DILocation(line: 236, column : 47, scope : !178)
+!178 = distinct !DILexicalBlock(scope: !179, file : !1, line : 230, column : 5)
+!179 = distinct !DILexicalBlock(scope: !24, file : !1, line : 229, column : 10)
+!180 = !DILocation(line: 96, column : 25, scope : !44, inlinedAt : !177)
+!181 = !DILocation(line: 89, column : 30, scope : !47, inlinedAt : !182)
+!182 = distinct !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !183)
+!183 = distinct !DILocation(line: 218, column : 47, scope : !169)
+!184 = !DILocation(line: 96, column : 25, scope : !44, inlinedAt : !183)
+!185 = !DILocation(line: 69, column : 37, scope : !57, inlinedAt : !186)
+!186 = distinct !DILocation(line: 219, column : 9, scope : !169)
+!187 = !DILocation(line: 69, column : 23, scope : !57, inlinedAt : !186)
+!188 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !189)
+!189 = distinct !DILocation(line: 231, column : 23, scope : !178)
+!190 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !191)
+!191 = distinct !DILocation(line: 232, column : 23, scope : !178)
+!192 = !DILocation(line: 77, column : 24, scope : !60, inlinedAt : !193)
+!193 = distinct !DILocation(line: 233, column : 23, scope : !178)
+!194 = !DILocation(line: 127, column : 5, scope : !24)
+!195 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "UV", scope : !196, file : !1, line : 131, type : !16)
+!196 = distinct !DILexicalBlock(scope: !197, file : !1, line : 130, column : 9)
+!197 = distinct !DILexicalBlock(scope: !24, file : !1, line : 128, column : 5)
+!198 = !DILocation(line: 131, column : 20, scope : !196)
+!199 = !DILocation(line: 131, column : 25, scope : !196)
+!200 = !DILocation(line: 131, column : 39, scope : !196)
+!201 = !DILocation(line: 131, column : 62, scope : !196)
+!202 = !DILocation(line: 131, column : 35, scope : !196)
+!203 = !DILocation(line: 133, column : 64, scope : !196)
+!204 = !DILocation(line: 133, column : 60, scope : !196)
+!205 = !DILocation(line: 133, column : 20, scope : !196)
+!206 = !DILocation(line: 133, column : 18, scope : !196)
+!207 = !DILocation(line: 135, column : 9, scope : !197)
+!208 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "UV1", scope : !209, file : !1, line : 141, type : !16)
+!209 = distinct !DILexicalBlock(scope: !197, file : !1, line : 137, column : 9)
+!210 = !DILocation(line: 141, column : 20, scope : !209)
+!211 = !DILocation(line: 141, column : 26, scope : !209)
+!212 = !DILocation(line: 141, column : 40, scope : !209)
+!213 = !DILocation(line: 141, column : 63, scope : !209)
+!214 = !DILocation(line: 141, column : 36, scope : !209)
+!215 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Off", scope : !209, file : !1, line : 142, type : !16)
+!216 = !DILocation(line: 142, column : 20, scope : !209)
+!217 = !DILocation(line: 142, column : 26, scope : !209)
+!218 = !DILocation(line: 142, column : 36, scope : !209)
+!219 = !DILocation(line: 144, column : 73, scope : !209)
+!220 = !DILocation(line: 144, column : 68, scope : !209)
+!221 = !DILocation(line: 144, column : 28, scope : !209)
+!222 = !DILocation(line: 145, column : 79, scope : !209)
+!223 = !DILocation(line: 145, column : 68, scope : !209)
+!224 = !DILocation(line: 145, column : 74, scope : !209)
+!225 = !DILocation(line: 145, column : 72, scope : !209)
+!226 = !DILocation(line: 145, column : 28, scope : !209)
+!227 = !DILocation(line: 144, column : 87, scope : !209)
+!228 = !DILocation(line: 144, column : 24, scope : !209)
+!229 = !DILocation(line: 144, column : 18, scope : !209)
+!230 = !DILocation(line: 147, column : 9, scope : !197)
+!231 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "UV1", scope : !232, file : !1, line : 153, type : !16)
+!232 = distinct !DILexicalBlock(scope: !197, file : !1, line : 149, column : 9)
+!233 = !DILocation(line: 153, column : 20, scope : !232)
+!234 = !DILocation(line: 153, column : 26, scope : !232)
+!235 = !DILocation(line: 153, column : 40, scope : !232)
+!236 = !DILocation(line: 153, column : 63, scope : !232)
+!237 = !DILocation(line: 153, column : 36, scope : !232)
+!238 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Off", scope : !232, file : !1, line : 154, type : !16)
+!239 = !DILocation(line: 154, column : 20, scope : !232)
+!240 = !DILocation(line: 154, column : 26, scope : !232)
+!241 = !DILocation(line: 154, column : 36, scope : !232)
+!242 = !DILocation(line: 156, column : 73, scope : !232)
+!243 = !DILocation(line: 156, column : 68, scope : !232)
+!244 = !DILocation(line: 156, column : 28, scope : !232)
+!245 = !DILocation(line: 157, column : 79, scope : !232)
+!246 = !DILocation(line: 157, column : 68, scope : !232)
+!247 = !DILocation(line: 157, column : 74, scope : !232)
+!248 = !DILocation(line: 157, column : 72, scope : !232)
+!249 = !DILocation(line: 157, column : 28, scope : !232)
+!250 = !DILocation(line: 156, column : 87, scope : !232)
+!251 = !DILocation(line: 156, column : 24, scope : !232)
+!252 = !DILocation(line: 156, column : 18, scope : !232)
+!253 = !DILocation(line: 159, column : 9, scope : !197)
+!254 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "UV1", scope : !255, file : !1, line : 165, type : !16)
+!255 = distinct !DILexicalBlock(scope: !197, file : !1, line : 161, column : 9)
+!256 = !DILocation(line: 165, column : 20, scope : !255)
+!257 = !DILocation(line: 165, column : 26, scope : !255)
+!258 = !DILocation(line: 165, column : 40, scope : !255)
+!259 = !DILocation(line: 165, column : 63, scope : !255)
+!260 = !DILocation(line: 165, column : 36, scope : !255)
+!261 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Off", scope : !255, file : !1, line : 166, type : !16)
+!262 = !DILocation(line: 166, column : 20, scope : !255)
+!263 = !DILocation(line: 166, column : 26, scope : !255)
+!264 = !DILocation(line: 166, column : 36, scope : !255)
+!265 = !DILocation(line: 168, column : 66, scope : !255)
+!266 = !DILocation(line: 168, column : 61, scope : !255)
+!267 = !DILocation(line: 168, column : 21, scope : !255)
+!268 = !DILocation(line: 168, column : 18, scope : !255)
+!269 = !DILocation(line: 169, column : 91, scope : !255)
+!270 = !DILocation(line: 169, column : 61, scope : !255)
+!271 = !DILocation(line: 169, column : 75, scope : !255)
+!272 = !DILocation(line: 169, column : 65, scope : !255)
+!273 = !DILocation(line: 169, column : 21, scope : !255)
+!274 = !DILocation(line: 169, column : 18, scope : !255)
+!275 = !DILocation(line: 170, column : 91, scope : !255)
+!276 = !DILocation(line: 170, column : 61, scope : !255)
+!277 = !DILocation(line: 170, column : 82, scope : !255)
+!278 = !DILocation(line: 170, column : 65, scope : !255)
+!279 = !DILocation(line: 170, column : 21, scope : !255)
+!280 = !DILocation(line: 170, column : 18, scope : !255)
+!281 = !DILocation(line: 171, column : 91, scope : !255)
+!282 = !DILocation(line: 171, column : 61, scope : !255)
+!283 = !DILocation(line: 171, column : 75, scope : !255)
+!284 = !DILocation(line: 171, column : 82, scope : !255)
+!285 = !DILocation(line: 171, column : 65, scope : !255)
+!286 = !DILocation(line: 171, column : 21, scope : !255)
+!287 = !DILocation(line: 171, column : 18, scope : !255)
+!288 = !DILocation(line: 172, column : 18, scope : !255)
+!289 = !DILocation(line: 174, column : 9, scope : !197)
+!290 = !DILocation(line: 177, column : 50, scope : !24)
+!291 = !DILocation(line: 177, column : 39, scope : !24)
+!292 = !DILocation(line: 98, column : 9, scope : !142, inlinedAt : !143)
+!293 = !DILocation(line: 98, column : 9, scope : !44, inlinedAt : !143)
+!294 = !DILocation(line: 100, column : 37, scope : !141, inlinedAt : !143)
+!295 = !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !143)
+!296 = !DILocation(line: 91, column : 12, scope : !47, inlinedAt : !140)
+!297 = !DILocation(line: 91, column : 14, scope : !47, inlinedAt : !140)
+!298 = !DILocation(line: 91, column : 36, scope : !47, inlinedAt : !140)
+!299 = !DILocation(line: 91, column : 34, scope : !47, inlinedAt : !140)
+!300 = !DILocation(line: 91, column : 56, scope : !47, inlinedAt : !140)
+!301 = !DILocation(line: 91, column : 52, scope : !47, inlinedAt : !140)
+!302 = !DILocation(line: 91, column : 48, scope : !47, inlinedAt : !140)
+!303 = !DILocation(line: 91, column : 46, scope : !47, inlinedAt : !140)
+!304 = !DILocation(line: 91, column : 71, scope : !47, inlinedAt : !140)
+!305 = !DILocation(line: 91, column : 5, scope : !47, inlinedAt : !140)
+!306 = !DILocation(line: 100, column : 45, scope : !141, inlinedAt : !143)
+!307 = !DILocation(line: 100, column : 9, scope : !141, inlinedAt : !143)
+!308 = !DILocation(line: 104, column : 16, scope : !309, inlinedAt : !143)
+!309 = distinct !DILexicalBlock(scope: !142, file : !1, line : 103, column : 5)
+!310 = !DILocation(line: 104, column : 9, scope : !309, inlinedAt : !143)
+!311 = !DILocation(line: 106, column : 1, scope : !44, inlinedAt : !143)
+!312 = !DILocation(line: 177, column : 13, scope : !24)
+!313 = !DILocation(line: 177, column : 37, scope : !24)
+!314 = !DILocation(line: 180, column : 10, scope : !315)
+!315 = distinct !DILexicalBlock(scope: !24, file : !1, line : 180, column : 10)
+!316 = !DILocation(line: 180, column : 23, scope : !315)
+!317 = !DILocation(line: 180, column : 10, scope : !24)
+!318 = !DILocation(line: 185, column : 32, scope : !24)
+!319 = !DILocation(line: 185, column : 20, scope : !24)
+!320 = !DILocation(line: 185, column : 5, scope : !24)
+!321 = !DILocation(line: 71, column : 19, scope : !57, inlinedAt : !148)
+!322 = !DILocation(line: 71, column : 10, scope : !57, inlinedAt : !148)
+!323 = !DILocation(line: 71, column : 5, scope : !57, inlinedAt : !148)
+!324 = !DILocation(line: 71, column : 17, scope : !57, inlinedAt : !148)
+!325 = !DILocation(line: 72, column : 19, scope : !57, inlinedAt : !148)
+!326 = !DILocation(line: 72, column : 10, scope : !57, inlinedAt : !148)
+!327 = !DILocation(line: 72, column : 5, scope : !57, inlinedAt : !148)
+!328 = !DILocation(line: 72, column : 17, scope : !57, inlinedAt : !148)
+!329 = !DILocation(line: 73, column : 19, scope : !57, inlinedAt : !148)
+!330 = !DILocation(line: 73, column : 10, scope : !57, inlinedAt : !148)
+!331 = !DILocation(line: 73, column : 5, scope : !57, inlinedAt : !148)
+!332 = !DILocation(line: 73, column : 17, scope : !57, inlinedAt : !148)
+!333 = !DILocation(line: 74, column : 19, scope : !57, inlinedAt : !148)
+!334 = !DILocation(line: 74, column : 10, scope : !57, inlinedAt : !148)
+!335 = !DILocation(line: 74, column : 5, scope : !57, inlinedAt : !148)
+!336 = !DILocation(line: 74, column : 17, scope : !57, inlinedAt : !148)
+!337 = !DILocation(line: 190, column : 5, scope : !24)
+!338 = !DILocation(line: 194, column : 15, scope : !155)
+!339 = !DILocation(line: 194, column : 26, scope : !155)
+!340 = !DILocation(line: 194, column : 34, scope : !155)
+!341 = !DILocation(line: 194, column : 10, scope : !24)
+!342 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src2", scope : !154, file : !1, line : 196, type : !4)
+!343 = !DILocation(line: 196, column : 16, scope : !154)
+!344 = !DILocation(line: 196, column : 37, scope : !154)
+!345 = !DILocation(line: 196, column : 48, scope : !154)
+!346 = !DILocation(line: 196, column : 23, scope : !154)
+!347 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !153)
+!348 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !153)
+!349 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !153)
+!350 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !153)
+!351 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !153)
+!352 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !153)
+!353 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !153)
+!354 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !153)
+!355 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !153)
+!356 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src3", scope : !154, file : !1, line : 197, type : !4)
+!357 = !DILocation(line: 197, column : 16, scope : !154)
+!358 = !DILocation(line: 197, column : 37, scope : !154)
+!359 = !DILocation(line: 197, column : 48, scope : !154)
+!360 = !DILocation(line: 197, column : 23, scope : !154)
+!361 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !157)
+!362 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !157)
+!363 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !157)
+!364 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !157)
+!365 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !157)
+!366 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !157)
+!367 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !157)
+!368 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !157)
+!369 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !157)
+!370 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src4", scope : !154, file : !1, line : 198, type : !4)
+!371 = !DILocation(line: 198, column : 16, scope : !154)
+!372 = !DILocation(line: 198, column : 37, scope : !154)
+!373 = !DILocation(line: 198, column : 48, scope : !154)
+!374 = !DILocation(line: 198, column : 23, scope : !154)
+!375 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !159)
+!376 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !159)
+!377 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !159)
+!378 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !159)
+!379 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !159)
+!380 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !159)
+!381 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !159)
+!382 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !159)
+!383 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !159)
+!384 = !DILocation(line: 199, column : 25, scope : !154)
+!385 = !DILocation(line: 199, column : 32, scope : !154)
+!386 = !DILocation(line: 199, column : 30, scope : !154)
+!387 = !DILocation(line: 199, column : 39, scope : !154)
+!388 = !DILocation(line: 199, column : 37, scope : !154)
+!389 = !DILocation(line: 199, column : 46, scope : !154)
+!390 = !DILocation(line: 199, column : 44, scope : !154)
+!391 = !DILocation(line: 199, column : 21, scope : !154)
+!392 = !DILocation(line: 199, column : 14, scope : !154)
+!393 = !DILocation(line: 201, column : 58, scope : !154)
+!394 = !DILocation(line: 201, column : 47, scope : !154)
+!395 = !DILocation(line: 98, column : 9, scope : !142, inlinedAt : !162)
+!396 = !DILocation(line: 98, column : 9, scope : !44, inlinedAt : !162)
+!397 = !DILocation(line: 100, column : 37, scope : !141, inlinedAt : !162)
+!398 = !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !162)
+!399 = !DILocation(line: 91, column : 12, scope : !47, inlinedAt : !161)
+!400 = !DILocation(line: 91, column : 14, scope : !47, inlinedAt : !161)
+!401 = !DILocation(line: 91, column : 36, scope : !47, inlinedAt : !161)
+!402 = !DILocation(line: 91, column : 34, scope : !47, inlinedAt : !161)
+!403 = !DILocation(line: 91, column : 56, scope : !47, inlinedAt : !161)
+!404 = !DILocation(line: 91, column : 52, scope : !47, inlinedAt : !161)
+!405 = !DILocation(line: 91, column : 48, scope : !47, inlinedAt : !161)
+!406 = !DILocation(line: 91, column : 46, scope : !47, inlinedAt : !161)
+!407 = !DILocation(line: 91, column : 71, scope : !47, inlinedAt : !161)
+!408 = !DILocation(line: 91, column : 5, scope : !47, inlinedAt : !161)
+!409 = !DILocation(line: 100, column : 45, scope : !141, inlinedAt : !162)
+!410 = !DILocation(line: 100, column : 9, scope : !141, inlinedAt : !162)
+!411 = !DILocation(line: 104, column : 16, scope : !309, inlinedAt : !162)
+!412 = !DILocation(line: 104, column : 9, scope : !309, inlinedAt : !162)
+!413 = !DILocation(line: 106, column : 1, scope : !44, inlinedAt : !162)
+!414 = !DILocation(line: 201, column : 17, scope : !154)
+!415 = !DILocation(line: 201, column : 40, scope : !154)
+!416 = !DILocation(line: 201, column : 45, scope : !154)
+!417 = !DILocation(line: 202, column : 36, scope : !154)
+!418 = !DILocation(line: 202, column : 24, scope : !154)
+!419 = !DILocation(line: 202, column : 9, scope : !154)
+!420 = !DILocation(line: 71, column : 19, scope : !57, inlinedAt : !165)
+!421 = !DILocation(line: 71, column : 10, scope : !57, inlinedAt : !165)
+!422 = !DILocation(line: 71, column : 5, scope : !57, inlinedAt : !165)
+!423 = !DILocation(line: 71, column : 17, scope : !57, inlinedAt : !165)
+!424 = !DILocation(line: 72, column : 19, scope : !57, inlinedAt : !165)
+!425 = !DILocation(line: 72, column : 10, scope : !57, inlinedAt : !165)
+!426 = !DILocation(line: 72, column : 5, scope : !57, inlinedAt : !165)
+!427 = !DILocation(line: 72, column : 17, scope : !57, inlinedAt : !165)
+!428 = !DILocation(line: 73, column : 19, scope : !57, inlinedAt : !165)
+!429 = !DILocation(line: 73, column : 10, scope : !57, inlinedAt : !165)
+!430 = !DILocation(line: 73, column : 5, scope : !57, inlinedAt : !165)
+!431 = !DILocation(line: 73, column : 17, scope : !57, inlinedAt : !165)
+!432 = !DILocation(line: 74, column : 19, scope : !57, inlinedAt : !165)
+!433 = !DILocation(line: 74, column : 10, scope : !57, inlinedAt : !165)
+!434 = !DILocation(line: 74, column : 5, scope : !57, inlinedAt : !165)
+!435 = !DILocation(line: 74, column : 17, scope : !57, inlinedAt : !165)
+!436 = !DILocation(line: 203, column : 5, scope : !154)
+!437 = !DILocation(line: 205, column : 10, scope : !438)
+!438 = distinct !DILexicalBlock(scope: !24, file : !1, line : 205, column : 10)
+!439 = !DILocation(line: 205, column : 23, scope : !438)
+!440 = !DILocation(line: 205, column : 10, scope : !24)
+!441 = !DILocation(line: 208, column : 5, scope : !24)
+!442 = !DILocation(line: 211, column : 15, scope : !170)
+!443 = !DILocation(line: 211, column : 26, scope : !170)
+!444 = !DILocation(line: 211, column : 35, scope : !170)
+!445 = !DILocation(line: 211, column : 10, scope : !24)
+!446 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src2", scope : !169, file : !1, line : 213, type : !4)
+!447 = !DILocation(line: 213, column : 16, scope : !169)
+!448 = !DILocation(line: 213, column : 37, scope : !169)
+!449 = !DILocation(line: 213, column : 48, scope : !169)
+!450 = !DILocation(line: 213, column : 23, scope : !169)
+!451 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !168)
+!452 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !168)
+!453 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !168)
+!454 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !168)
+!455 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !168)
+!456 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !168)
+!457 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !168)
+!458 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !168)
+!459 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !168)
+!460 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src3", scope : !169, file : !1, line : 214, type : !4)
+!461 = !DILocation(line: 214, column : 16, scope : !169)
+!462 = !DILocation(line: 214, column : 37, scope : !169)
+!463 = !DILocation(line: 214, column : 48, scope : !169)
+!464 = !DILocation(line: 214, column : 23, scope : !169)
+!465 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !172)
+!466 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !172)
+!467 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !172)
+!468 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !172)
+!469 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !172)
+!470 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !172)
+!471 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !172)
+!472 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !172)
+!473 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !172)
+!474 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src4", scope : !169, file : !1, line : 215, type : !4)
+!475 = !DILocation(line: 215, column : 16, scope : !169)
+!476 = !DILocation(line: 215, column : 37, scope : !169)
+!477 = !DILocation(line: 215, column : 48, scope : !169)
+!478 = !DILocation(line: 215, column : 23, scope : !169)
+!479 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !174)
+!480 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !174)
+!481 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !174)
+!482 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !174)
+!483 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !174)
+!484 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !174)
+!485 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !174)
+!486 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !174)
+!487 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !174)
+!488 = !DILocation(line: 216, column : 25, scope : !169)
+!489 = !DILocation(line: 216, column : 32, scope : !169)
+!490 = !DILocation(line: 216, column : 30, scope : !169)
+!491 = !DILocation(line: 216, column : 39, scope : !169)
+!492 = !DILocation(line: 216, column : 37, scope : !169)
+!493 = !DILocation(line: 216, column : 46, scope : !169)
+!494 = !DILocation(line: 216, column : 44, scope : !169)
+!495 = !DILocation(line: 216, column : 21, scope : !169)
+!496 = !DILocation(line: 216, column : 14, scope : !169)
+!497 = !DILocation(line: 218, column : 58, scope : !169)
+!498 = !DILocation(line: 218, column : 47, scope : !169)
+!499 = !DILocation(line: 98, column : 9, scope : !142, inlinedAt : !183)
+!500 = !DILocation(line: 98, column : 9, scope : !44, inlinedAt : !183)
+!501 = !DILocation(line: 100, column : 37, scope : !141, inlinedAt : !183)
+!502 = !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !183)
+!503 = !DILocation(line: 91, column : 12, scope : !47, inlinedAt : !182)
+!504 = !DILocation(line: 91, column : 14, scope : !47, inlinedAt : !182)
+!505 = !DILocation(line: 91, column : 36, scope : !47, inlinedAt : !182)
+!506 = !DILocation(line: 91, column : 34, scope : !47, inlinedAt : !182)
+!507 = !DILocation(line: 91, column : 56, scope : !47, inlinedAt : !182)
+!508 = !DILocation(line: 91, column : 52, scope : !47, inlinedAt : !182)
+!509 = !DILocation(line: 91, column : 48, scope : !47, inlinedAt : !182)
+!510 = !DILocation(line: 91, column : 46, scope : !47, inlinedAt : !182)
+!511 = !DILocation(line: 91, column : 71, scope : !47, inlinedAt : !182)
+!512 = !DILocation(line: 91, column : 5, scope : !47, inlinedAt : !182)
+!513 = !DILocation(line: 100, column : 45, scope : !141, inlinedAt : !183)
+!514 = !DILocation(line: 100, column : 9, scope : !141, inlinedAt : !183)
+!515 = !DILocation(line: 104, column : 16, scope : !309, inlinedAt : !183)
+!516 = !DILocation(line: 104, column : 9, scope : !309, inlinedAt : !183)
+!517 = !DILocation(line: 106, column : 1, scope : !44, inlinedAt : !183)
+!518 = !DILocation(line: 218, column : 17, scope : !169)
+!519 = !DILocation(line: 218, column : 40, scope : !169)
+!520 = !DILocation(line: 218, column : 45, scope : !169)
+!521 = !DILocation(line: 219, column : 36, scope : !169)
+!522 = !DILocation(line: 219, column : 24, scope : !169)
+!523 = !DILocation(line: 219, column : 9, scope : !169)
+!524 = !DILocation(line: 71, column : 19, scope : !57, inlinedAt : !186)
+!525 = !DILocation(line: 71, column : 10, scope : !57, inlinedAt : !186)
+!526 = !DILocation(line: 71, column : 5, scope : !57, inlinedAt : !186)
+!527 = !DILocation(line: 71, column : 17, scope : !57, inlinedAt : !186)
+!528 = !DILocation(line: 72, column : 19, scope : !57, inlinedAt : !186)
+!529 = !DILocation(line: 72, column : 10, scope : !57, inlinedAt : !186)
+!530 = !DILocation(line: 72, column : 5, scope : !57, inlinedAt : !186)
+!531 = !DILocation(line: 72, column : 17, scope : !57, inlinedAt : !186)
+!532 = !DILocation(line: 73, column : 19, scope : !57, inlinedAt : !186)
+!533 = !DILocation(line: 73, column : 10, scope : !57, inlinedAt : !186)
+!534 = !DILocation(line: 73, column : 5, scope : !57, inlinedAt : !186)
+!535 = !DILocation(line: 73, column : 17, scope : !57, inlinedAt : !186)
+!536 = !DILocation(line: 74, column : 19, scope : !57, inlinedAt : !186)
+!537 = !DILocation(line: 74, column : 10, scope : !57, inlinedAt : !186)
+!538 = !DILocation(line: 74, column : 5, scope : !57, inlinedAt : !186)
+!539 = !DILocation(line: 74, column : 17, scope : !57, inlinedAt : !186)
+!540 = !DILocation(line: 220, column : 5, scope : !169)
+!541 = !DILocation(line: 222, column : 10, scope : !542)
+!542 = distinct !DILexicalBlock(scope: !24, file : !1, line : 222, column : 10)
+!543 = !DILocation(line: 222, column : 23, scope : !542)
+!544 = !DILocation(line: 222, column : 10, scope : !24)
+!545 = !DILocation(line: 225, column : 5, scope : !24)
+!546 = !DILocation(line: 229, column : 13, scope : !179)
+!547 = !DILocation(line: 229, column : 24, scope : !179)
+!548 = !DILocation(line: 229, column : 10, scope : !24)
+!549 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src2", scope : !178, file : !1, line : 231, type : !4)
+!550 = !DILocation(line: 231, column : 16, scope : !178)
+!551 = !DILocation(line: 231, column : 37, scope : !178)
+!552 = !DILocation(line: 231, column : 48, scope : !178)
+!553 = !DILocation(line: 231, column : 23, scope : !178)
+!554 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !189)
+!555 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !189)
+!556 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !189)
+!557 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !189)
+!558 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !189)
+!559 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !189)
+!560 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !189)
+!561 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !189)
+!562 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !189)
+!563 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src3", scope : !178, file : !1, line : 232, type : !4)
+!564 = !DILocation(line: 232, column : 16, scope : !178)
+!565 = !DILocation(line: 232, column : 37, scope : !178)
+!566 = !DILocation(line: 232, column : 48, scope : !178)
+!567 = !DILocation(line: 232, column : 23, scope : !178)
+!568 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !191)
+!569 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !191)
+!570 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !191)
+!571 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !191)
+!572 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !191)
+!573 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !191)
+!574 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !191)
+!575 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !191)
+!576 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !191)
+!577 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "Src4", scope : !178, file : !1, line : 233, type : !4)
+!578 = !DILocation(line: 233, column : 16, scope : !178)
+!579 = !DILocation(line: 233, column : 37, scope : !178)
+!580 = !DILocation(line: 233, column : 48, scope : !178)
+!581 = !DILocation(line: 233, column : 23, scope : !178)
+!582 = !DILocation(line: 79, column : 25, scope : !60, inlinedAt : !193)
+!583 = !DILocation(line: 79, column : 20, scope : !60, inlinedAt : !193)
+!584 = !DILocation(line: 79, column : 38, scope : !60, inlinedAt : !193)
+!585 = !DILocation(line: 79, column : 33, scope : !60, inlinedAt : !193)
+!586 = !DILocation(line: 79, column : 51, scope : !60, inlinedAt : !193)
+!587 = !DILocation(line: 79, column : 46, scope : !60, inlinedAt : !193)
+!588 = !DILocation(line: 79, column : 64, scope : !60, inlinedAt : !193)
+!589 = !DILocation(line: 79, column : 59, scope : !60, inlinedAt : !193)
+!590 = !DILocation(line: 79, column : 5, scope : !60, inlinedAt : !193)
+!591 = !DILocation(line: 234, column : 25, scope : !178)
+!592 = !DILocation(line: 234, column : 32, scope : !178)
+!593 = !DILocation(line: 234, column : 30, scope : !178)
+!594 = !DILocation(line: 234, column : 39, scope : !178)
+!595 = !DILocation(line: 234, column : 37, scope : !178)
+!596 = !DILocation(line: 234, column : 46, scope : !178)
+!597 = !DILocation(line: 234, column : 44, scope : !178)
+!598 = !DILocation(line: 234, column : 21, scope : !178)
+!599 = !DILocation(line: 234, column : 14, scope : !178)
+!600 = !DILocation(line: 236, column : 58, scope : !178)
+!601 = !DILocation(line: 236, column : 47, scope : !178)
+!602 = !DILocation(line: 98, column : 9, scope : !142, inlinedAt : !177)
+!603 = !DILocation(line: 98, column : 9, scope : !44, inlinedAt : !177)
+!604 = !DILocation(line: 100, column : 37, scope : !141, inlinedAt : !177)
+!605 = !DILocation(line: 100, column : 23, scope : !141, inlinedAt : !177)
+!606 = !DILocation(line: 91, column : 12, scope : !47, inlinedAt : !176)
+!607 = !DILocation(line: 91, column : 14, scope : !47, inlinedAt : !176)
+!608 = !DILocation(line: 91, column : 36, scope : !47, inlinedAt : !176)
+!609 = !DILocation(line: 91, column : 34, scope : !47, inlinedAt : !176)
+!610 = !DILocation(line: 91, column : 56, scope : !47, inlinedAt : !176)
+!611 = !DILocation(line: 91, column : 52, scope : !47, inlinedAt : !176)
+!612 = !DILocation(line: 91, column : 48, scope : !47, inlinedAt : !176)
+!613 = !DILocation(line: 91, column : 46, scope : !47, inlinedAt : !176)
+!614 = !DILocation(line: 91, column : 71, scope : !47, inlinedAt : !176)
+!615 = !DILocation(line: 91, column : 5, scope : !47, inlinedAt : !176)
+!616 = !DILocation(line: 100, column : 45, scope : !141, inlinedAt : !177)
+!617 = !DILocation(line: 100, column : 9, scope : !141, inlinedAt : !177)
+!618 = !DILocation(line: 104, column : 16, scope : !309, inlinedAt : !177)
+!619 = !DILocation(line: 104, column : 9, scope : !309, inlinedAt : !177)
+!620 = !DILocation(line: 106, column : 1, scope : !44, inlinedAt : !177)
+!621 = !DILocation(line: 236, column : 17, scope : !178)
+!622 = !DILocation(line: 236, column : 40, scope : !178)
+!623 = !DILocation(line: 236, column : 45, scope : !178)
+!624 = !DILocation(line: 237, column : 5, scope : !178)
+!625 = !DILocation(line: 238, column : 1, scope : !24)
+
+#endif
 
 const unsigned char g_GenerateMips_CS[] = {
   0x44, 0x58, 0x42, 0x43, 0xbe, 0x0f, 0x76, 0xea, 0xbf, 0x88, 0x5c, 0x9c,

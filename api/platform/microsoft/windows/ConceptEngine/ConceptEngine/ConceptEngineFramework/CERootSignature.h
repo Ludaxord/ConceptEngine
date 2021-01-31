@@ -40,8 +40,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * maximum of 32 descriptor tables are supported
 		 * (since 32-bit mask is used to represent descriptor tables in root signature)
 		 */
-		static const int m_descriptorTablesMask = 32;
-		uint32_t m_numDescriptorsPerTable[m_descriptorTablesMask];
+		uint32_t m_numDescriptorsPerTable[32];
 
 		/**
 		 * bit mask that represents root parameter indices that are descrptor tables for samplers;

@@ -231,8 +231,8 @@ CEGame::CEGame(HINSTANCE hInst) : m_hInstance(hInst), m_bIsRunning(false), m_req
 	/*
 	 * Create thread to listen fo file changes
 	 */
-	m_directoryChangerListenerThread = std::thread(&CEGame::CheckFileChanges, this);
-	SetThreadName(m_directoryChangerListenerThread, "Check file Change");
+	m_directoryChangeListenerThread = std::thread(&CEGame::CheckFileChanges, this);
+	SetThreadName(m_directoryChangeListenerThread, "Check file Change");
 }
 
 CEGame::~CEGame() {
@@ -240,8 +240,8 @@ CEGame::~CEGame() {
 	 * Close thread listening for file changes
 	 */
 	m_bTerminateDirectoryChangeThread = true;
-	if (m_directoryChangerListenerThread.joinable()) {
-		m_directoryChangerListenerThread.join();
+	if (m_directoryChangeListenerThread.joinable()) {
+		m_directoryChangeListenerThread.join();
 	}
 
 	gs_windowMap.clear();

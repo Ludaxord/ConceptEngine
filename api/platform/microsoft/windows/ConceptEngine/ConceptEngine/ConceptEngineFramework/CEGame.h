@@ -223,7 +223,7 @@ namespace Concept::GameEngine {
 		/*
 		 * Thread to run directory change listener
 		 */
-		std::thread m_directoryChangerListenerThread;
+		std::thread m_directoryChangeListenerThread;
 		std::mutex m_directoryChangeMutex;
 
 		/*

@@ -1,4 +1,820 @@
-#pragma once
+#if 0
+;
+; Input signature :
+;
+; Name                 Index   Mask Register SysValue  Format   Used
+; -------------------- ---- - ------ -------- -------- ------ - ------
+; no parameters
+;
+; Output signature :
+;
+; Name                 Index   Mask Register SysValue  Format   Used
+; -------------------- ---- - ------ -------- -------- ------ - ------
+; no parameters
+; shader debug name : 12678137c995e9441b653513f93bed62.pdb
+; shader hash : 12678137c995e9441b653513f93bed62
+;
+; Pipeline Runtime Information :
+;
+;
+;
+; Buffer Definitions :
+;
+; cbuffer PanoToCubemapCB
+; {
+	;
+	;   struct PanoToCubemapCB
+		; {
+		;
+		;       struct struct.PanoToCubemap
+			; {
+			;
+			;           uint CubemapSize; ; Offset:    0
+				;           uint FirstMip; ; Offset:    4
+				;           uint NumMips; ; Offset:    8
+				;
+			;       } PanoToCubemapCB; ; Offset:    0
+			;
+			;
+			;   } PanoToCubemapCB; ; Offset:    0 Size : 12
+		;
+			; }
+;
+;
+; Resource Bindings :
+;
+; Name                                 Type  Format         Dim      ID      HLSL Bind  Count
+; ------------------------------ ---------- ------ - ---------- - ------ - -------------- ------
+; PanoToCubemapCB                   cbuffer      NA          NA     CB0            cb0     1
+; LinearRepeatSampler               sampler      NA          NA      S0             s0     1
+; SrcTexture                        texture     f32          2d      T0             t0     1
+; DstMip1                               UAV     f32     2darray      U0             u0     1
+; DstMip2                               UAV     f32     2darray      U1             u1     1
+; DstMip3                               UAV     f32     2darray      U2             u2     1
+; DstMip4                               UAV     f32     2darray      U3             u3     1
+; DstMip5                               UAV     f32     2darray      U4             u4     1
+;
+target datalayout = "e-m:e-p:32:32-i1:32-i8:32-i16:32-i32:32-i64:64-f16:32-f32:32-f64:64-n8:16:32:64"
+target triple = "dxil-ms-dx"
+
+% "class.Texture2D<vector<float, 4> >" = type{ <4 x float>,% "class.Texture2D<vector<float, 4> >::mips_type" }
+% "class.Texture2D<vector<float, 4> >::mips_type" = type{ i32 }
+% "class.RWTexture2DArray<vector<float, 4> >" = type{ <4 x float> }
+% struct.SamplerState = type{ i32 }
+% PanoToCubemapCB = type{ % struct.PanoToCubemap }
+% struct.PanoToCubemap = type{ i32, i32, i32 }
+% dx.types.Handle = type{ i8* }
+% dx.types.CBufRet.i32 = type{ i32, i32, i32, i32 }
+% dx.types.ResRet.f32 = type{ float, float, float, float, i32 }
+% struct.ComputeShaderInput = type{ <3 x i32>, <3 x i32>, <3 x i32>, i32 }
+
+@"\01?SrcTexture@@3V?$Texture2D@V?$vector@M$03@@@@A" = external constant % "class.Texture2D<vector<float, 4> >", align 4
+@"\01?DstMip1@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2DArray<vector<float, 4> >", align 4
+@"\01?DstMip2@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2DArray<vector<float, 4> >", align 4
+@"\01?DstMip3@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2DArray<vector<float, 4> >", align 4
+@"\01?DstMip4@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2DArray<vector<float, 4> >", align 4
+@"\01?DstMip5@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A" = external constant % "class.RWTexture2DArray<vector<float, 4> >", align 4
+@"\01?LinearRepeatSampler@@3USamplerState@@A" = external constant % struct.SamplerState, align 4
+@PanoToCubemapCB = external constant % PanoToCubemapCB
+@RotateUV.v.v.1dim = internal global[54 x float] undef
+
+; Function Attrs : nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata, metadata) #0
+
+define void @main() {
+	% DstMip5_UAV_2darray = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 4, i32 4, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% DstMip4_UAV_2darray = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 3, i32 3, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% DstMip3_UAV_2darray = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 2, i32 2, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% DstMip2_UAV_2darray = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 1, i32 1, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% DstMip1_UAV_2darray = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 1, i32 0, i32 0, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% SrcTexture_texture_2d = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 0, i32 0, i32 0, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% LinearRepeatSampler_sampler = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 3, i32 0, i32 0, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% PanoToCubemapCB_cbuffer = call % dx.types.Handle @dx.op.createHandle(i32 57, i8 2, i32 0, i32 0, i1 false), !dbg !144; CreateHandle(resourceClass, rangeId, index, nonUniformIndex)
+		% 1 = call i32 @dx.op.groupId.i32(i32 94, i32 0), !dbg !144; GroupId(component)
+		% 2 = call i32 @dx.op.groupId.i32(i32 94, i32 1), !dbg !144; GroupId(component)
+		% 3 = call i32 @dx.op.groupId.i32(i32 94, i32 2), !dbg !144; GroupId(component)
+		% 4 = call i32 @dx.op.threadIdInGroup.i32(i32 95, i32 0), !dbg !144; ThreadIdInGroup(component)
+		% 5 = call i32 @dx.op.threadIdInGroup.i32(i32 95, i32 1), !dbg !144; ThreadIdInGroup(component)
+		% 6 = call i32 @dx.op.threadIdInGroup.i32(i32 95, i32 2), !dbg !144; ThreadIdInGroup(component)
+		% 7 = call i32 @dx.op.threadId.i32(i32 93, i32 0), !dbg !144; ThreadId(component)
+		% 8 = call i32 @dx.op.threadId.i32(i32 93, i32 1), !dbg !144; ThreadId(component)
+		% 9 = call i32 @dx.op.threadId.i32(i32 93, i32 2), !dbg !144; ThreadId(component)
+		% 10 = call i32 @dx.op.flattenedThreadIdInGroup.i32(i32 96), !dbg !144; FlattenedThreadIdInGroup()
+		% 11 = alloca i32, !dbg !144
+		call void @llvm.dbg.declare(metadata i32 * %11, metadata !146, metadata !147), !dbg !148
+		store i32 % 10, i32*% 11, !dbg !144
+		% 12 = alloca[3 x i32], !dbg !144
+		call void @llvm.dbg.declare(metadata[3 x i32] * %12, metadata !146, metadata !149), !dbg !148
+		% 13 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !144
+		store i32 % 7, i32*% 13, !dbg !144
+		% 14 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !144
+		store i32 % 8, i32*% 14, !dbg !144
+		% 15 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 2, !dbg !144
+		store i32 % 9, i32*% 15, !dbg !144
+		% 16 = alloca[3 x i32], !dbg !144
+		call void @llvm.dbg.declare(metadata[3 x i32] * %16, metadata !146, metadata !150), !dbg !148
+		% 17 = getelementptr inbounds[3 x i32], [3 x i32] * %16, i32 0, i32 0, !dbg !144
+		store i32 % 4, i32*% 17, !dbg !144
+		% 18 = getelementptr inbounds[3 x i32], [3 x i32] * %16, i32 0, i32 1, !dbg !144
+		store i32 % 5, i32*% 18, !dbg !144
+		% 19 = getelementptr inbounds[3 x i32], [3 x i32] * %16, i32 0, i32 2, !dbg !144
+		store i32 % 6, i32*% 19, !dbg !144
+		% 20 = alloca[3 x i32], !dbg !144
+		call void @llvm.dbg.declare(metadata[3 x i32] * %20, metadata !146, metadata !151), !dbg !148
+		% 21 = getelementptr inbounds[3 x i32], [3 x i32] * %20, i32 0, i32 0, !dbg !144
+		store i32 % 1, i32*% 21, !dbg !144
+		% 22 = getelementptr inbounds[3 x i32], [3 x i32] * %20, i32 0, i32 1, !dbg !144
+		store i32 % 2, i32*% 22, !dbg !144
+		% 23 = getelementptr inbounds[3 x i32], [3 x i32] * %20, i32 0, i32 2, !dbg !144
+		store i32 % 3, i32*% 23, !dbg !144
+		call void @llvm.dbg.declare(metadata i32 * %11, metadata !146, metadata !147), !dbg !148
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 0), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 1), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 2), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 3), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 4), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 5), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 6), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 7), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 8), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 9), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 10), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 11), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 12), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 13), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 14), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 15), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 16), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 17), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 18), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 19), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 20), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 21), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 22), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 23), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 24), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 25), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 26), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 27), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 28), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 29), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 30), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 31), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 32), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 33), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 34), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 35), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 36), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 37), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 38), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 39), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 40), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 41), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 42), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 43), !dbg !152
+		store float 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 44), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 45), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 46), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 47), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 48), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 49), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 50), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 51), !dbg !152
+		store float 0.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 52), !dbg !152
+		store float - 1.000000e+00, float* getelementptr inbounds([54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 53), !dbg !152
+		% 24 = alloca[3 x i32]
+		% 25 = alloca[3 x float]
+		% 26 = alloca[2 x float]
+		call void @llvm.dbg.declare(metadata[3 x i32] * %24, metadata !153, metadata !154), !dbg !155
+		% 27 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 0, !dbg !156
+		% 28 = load i32, i32 * %27, !dbg !156
+		% 29 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 1, !dbg !156
+		% 30 = load i32, i32 * %29, !dbg !156
+		% 31 = getelementptr inbounds[3 x i32], [3 x i32] * %12, i32 0, i32 2, !dbg !156
+		% 32 = load i32, i32 * %31, !dbg !156
+		% 33 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !155
+		store i32 % 28, i32*% 33, !dbg !155
+		% 34 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !155
+		store i32 % 30, i32*% 34, !dbg !155
+		% 35 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !155
+		store i32 % 32, i32*% 35, !dbg !155
+		% 36 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !157
+		% 37 = load i32, i32 * %36, !dbg !157
+		% 38 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !159; CBufferLoadLegacy(handle, regIndex)
+		% 39 = extractvalue % dx.types.CBufRet.i32 % 38, 0, !dbg !159
+		% 40 = icmp uge i32 % 37, % 39, !dbg !160
+		% 41 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !161
+		% 42 = load i32, i32 * %41, !dbg !161
+		% 43 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !162; CBufferLoadLegacy(handle, regIndex)
+		% 44 = extractvalue % dx.types.CBufRet.i32 % 43, 0, !dbg !162
+		% 45 = icmp uge i32 % 42, % 44, !dbg !163
+		% 46 = or i1 % 40, % 45, !dbg !164
+		br i1 % 46, label % 263, label % 47, !dbg !165
+
+		; <label>:47; preds = % 0
+		call void @llvm.dbg.declare(metadata[3 x float] * %25, metadata !166, metadata !154), !dbg !167
+		% 48 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !168
+		% 49 = load i32, i32 * %48, !dbg !168
+		% 50 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !168
+		% 51 = load i32, i32 * %50, !dbg !168
+		% .i0 = uitofp i32 % 49 to float, !dbg !168
+		% .i1 = uitofp i32 % 51 to float, !dbg !168
+		% 52 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !169; CBufferLoadLegacy(handle, regIndex)
+		% 53 = extractvalue % dx.types.CBufRet.i32 % 52, 0, !dbg !169
+		% 54 = uitofp i32 % 53 to float, !dbg !170
+		% .i08 = fdiv fast float% .i0, % 54, !dbg !171
+		% .i19 = fdiv fast float% .i1, % 54, !dbg !171
+		% .i010 = fsub fast float% .i08, 5.000000e-01, !dbg !172
+		% .i111 = fsub fast float% .i19, 5.000000e-01, !dbg !172
+		% 55 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 0, !dbg !167
+		store float% .i010, float*% 55, !dbg !167
+		% 56 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 1, !dbg !167
+		store float% .i111, float*% 56, !dbg !167
+		% 57 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 2, !dbg !167
+		store float 5.000000e-01, float*% 57, !dbg !167
+		% 58 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 0, !dbg !173
+		% 59 = load float, float*% 58, !dbg !173
+		% 60 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 1, !dbg !173
+		% 61 = load float, float*% 60, !dbg !173
+		% 62 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 2, !dbg !173
+		% 63 = load float, float*% 62, !dbg !173
+		% 64 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !174
+		% 65 = load i32, i32 * %64, !dbg !174
+		% 66 = mul i32 % 65, 9, !dbg !175
+		% 67 = add i32 0, % 66, !dbg !175
+		% 68 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 67, !dbg !175
+		% 69 = load float, float*% 68, !dbg !175
+		% 70 = mul i32 % 65, 9, !dbg !175
+		% 71 = add i32 1, % 70, !dbg !175
+		% 72 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 71, !dbg !175
+		% 73 = load float, float*% 72, !dbg !175
+		% 74 = mul i32 % 65, 9, !dbg !175
+		% 75 = add i32 2, % 74, !dbg !175
+		% 76 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 75, !dbg !175
+		% 77 = load float, float*% 76, !dbg !175
+		% 78 = mul i32 % 65, 9, !dbg !175
+		% 79 = add i32 3, % 78, !dbg !175
+		% 80 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 79, !dbg !175
+		% 81 = load float, float*% 80, !dbg !175
+		% 82 = mul i32 % 65, 9, !dbg !175
+		% 83 = add i32 4, % 82, !dbg !175
+		% 84 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 83, !dbg !175
+		% 85 = load float, float*% 84, !dbg !175
+		% 86 = mul i32 % 65, 9, !dbg !175
+		% 87 = add i32 5, % 86, !dbg !175
+		% 88 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 87, !dbg !175
+		% 89 = load float, float*% 88, !dbg !175
+		% 90 = mul i32 % 65, 9, !dbg !175
+		% 91 = add i32 6, % 90, !dbg !175
+		% 92 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 91, !dbg !175
+		% 93 = load float, float*% 92, !dbg !175
+		% 94 = mul i32 % 65, 9, !dbg !175
+		% 95 = add i32 7, % 94, !dbg !175
+		% 96 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 95, !dbg !175
+		% 97 = load float, float*% 96, !dbg !175
+		% 98 = mul i32 % 65, 9, !dbg !175
+		% 99 = add i32 8, % 98, !dbg !175
+		% 100 = getelementptr[54 x float], [54 x float] * @RotateUV.v.v.1dim, i32 0, i32 % 99, !dbg !175
+		% 101 = load float, float*% 100, !dbg !175
+		% 102 = fmul fast float% 69, % 59, !dbg !176
+		% FMad7 = call float @dx.op.tertiary.f32(i32 46, float% 81, float% 61, float% 102), !dbg !176; FMad(a, b, c)
+		% FMad6 = call float @dx.op.tertiary.f32(i32 46, float% 93, float% 63, float% FMad7), !dbg !176; FMad(a, b, c)
+		% 103 = fmul fast float% 73, % 59, !dbg !176
+		% FMad5 = call float @dx.op.tertiary.f32(i32 46, float% 85, float% 61, float% 103), !dbg !176; FMad(a, b, c)
+		% FMad4 = call float @dx.op.tertiary.f32(i32 46, float% 97, float% 63, float% FMad5), !dbg !176; FMad(a, b, c)
+		% 104 = fmul fast float% 77, % 59, !dbg !176
+		% FMad3 = call float @dx.op.tertiary.f32(i32 46, float% 89, float% 61, float% 104), !dbg !176; FMad(a, b, c)
+		% FMad = call float @dx.op.tertiary.f32(i32 46, float% 101, float% 63, float% FMad3), !dbg !176; FMad(a, b, c)
+		% 105 = call float @dx.op.dot3.f32(i32 55, float% FMad6, float% FMad4, float% FMad, float% FMad6, float% FMad4, float% FMad), !dbg !177; Dot3(ax, ay, az, bx, by, bz)
+		% Rsqrt = call float @dx.op.unary.f32(i32 25, float% 105), !dbg !177; Rsqrt(value)
+		% .i012 = fmul fast float% FMad6, % Rsqrt, !dbg !177
+		% .i113 = fmul fast float% FMad4, % Rsqrt, !dbg !177
+		% .i2 = fmul fast float% FMad, % Rsqrt, !dbg !177
+		% 106 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 0, !dbg !178
+		store float% .i012, float*% 106, !dbg !178
+		% 107 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 1, !dbg !178
+		store float% .i113, float*% 107, !dbg !178
+		% 108 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 2, !dbg !178
+		store float% .i2, float*% 108, !dbg !178
+		call void @llvm.dbg.declare(metadata[2 x float] * %26, metadata !179, metadata !154), !dbg !180
+		% 109 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 2, !dbg !181
+		% 110 = load float, float*% 109, !dbg !181
+		% 111 = fsub fast float - 0.000000e+00, % 110, !dbg !182
+		% 112 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 0, !dbg !183
+		% 113 = load float, float*% 112, !dbg !183
+		% 114 = fsub fast float - 0.000000e+00, % 113, !dbg !184
+		% 115 = fdiv fast float% 114, % 111, !dbg !185
+		% Atan = call float @dx.op.unary.f32(i32 17, float% 115), !dbg !185; Atan(value)
+		% 116 = fadd fast float% Atan, 0x400921FB60000000, !dbg !185
+		% 117 = fsub fast float% Atan, 0x400921FB60000000, !dbg !185
+		% 118 = fcmp fast olt float% 111, 0.000000e+00, !dbg !185
+		% 119 = fcmp fast oeq float% 111, 0.000000e+00, !dbg !185
+		% 120 = fcmp fast oge float% 114, 0.000000e+00, !dbg !185
+		% 121 = fcmp fast olt float% 114, 0.000000e+00, !dbg !185
+		% 122 = and i1 % 118, % 120, !dbg !185
+		% 123 = select i1 % 122, float% 116, float% Atan, !dbg !185
+		% 124 = and i1 % 118, % 121, !dbg !185
+		% 125 = select i1 % 124, float% 117, float% 123, !dbg !185
+		% 126 = and i1 % 119, % 121, !dbg !185
+		% 127 = select i1 % 126, float 0xBFF921FB60000000, float% 125, !dbg !185
+		% 128 = and i1 % 119, % 120, !dbg !185
+		% 129 = select i1 % 128, float 0x3FF921FB60000000, float% 127, !dbg !185
+		% 130 = getelementptr inbounds[3 x float], [3 x float] * %25, i32 0, i32 1, !dbg !186
+		% 131 = load float, float*% 130, !dbg !186
+		% Acos = call float @dx.op.unary.f32(i32 15, float% 131), !dbg !187; Acos(value)
+		% .i014 = fmul fast float% 129, 0x3FC45F3060000000, !dbg !188
+		% .i115 = fmul fast float% Acos, 0x3FD45F3060000000, !dbg !188
+		% 132 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 0, !dbg !180
+		store float% .i014, float*% 132, !dbg !180
+		% 133 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 1, !dbg !180
+		store float% .i115, float*% 133, !dbg !180
+		% 134 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !189; CBufferLoadLegacy(handle, regIndex)
+		% 135 = extractvalue % dx.types.CBufRet.i32 % 134, 1, !dbg !189
+		% 136 = uitofp i32 % 135 to float, !dbg !190
+		% 137 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 0, !dbg !191
+		% 138 = load float, float*% 137, !dbg !191
+		% 139 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 1, !dbg !191
+		% 140 = load float, float*% 139, !dbg !191
+		% 141 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcTexture_texture_2d, % dx.types.Handle % LinearRepeatSampler_sampler, float% 138, float% 140, float undef, float undef, i32 0, i32 0, i32 undef, float% 136), !dbg !192; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+		% 142 = extractvalue % dx.types.ResRet.f32 % 141, 0, !dbg !192
+		% 143 = extractvalue % dx.types.ResRet.f32 % 141, 1, !dbg !192
+		% 144 = extractvalue % dx.types.ResRet.f32 % 141, 2, !dbg !192
+		% 145 = extractvalue % dx.types.ResRet.f32 % 141, 3, !dbg !192
+		% 146 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !193
+		% 147 = load i32, i32 * %146, !dbg !193
+		% 148 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !193
+		% 149 = load i32, i32 * %148, !dbg !193
+		% 150 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !193
+		% 151 = load i32, i32 * %150, !dbg !193
+		call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % DstMip1_UAV_2darray, i32 % 147, i32 % 149, i32 % 151, float% 142, float% 143, float% 144, float% 145, i8 15), !dbg !194; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+		% 152 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !195; CBufferLoadLegacy(handle, regIndex)
+		% 153 = extractvalue % dx.types.CBufRet.i32 % 152, 2, !dbg !195
+		% 154 = icmp ugt i32 % 153, 1, !dbg !197
+		% 155 = load i32, i32 * %11, align 4, !dbg !198
+		% 156 = and i32 % 155, 17, !dbg !199
+		% 157 = icmp eq i32 % 156, 0, !dbg !200
+		% 158 = and i1 % 154, % 157, !dbg !201
+		br i1 % 158, label % 159, label % 179, !dbg !202
+
+		; <label>:159; preds = % 47
+		% 160 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !203; CBufferLoadLegacy(handle, regIndex)
+		% 161 = extractvalue % dx.types.CBufRet.i32 % 160, 1, !dbg !203
+		% 162 = add i32 % 161, 1, !dbg !205
+		% 163 = uitofp i32 % 162 to float, !dbg !206
+		% 164 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 0, !dbg !207
+		% 165 = load float, float*% 164, !dbg !207
+		% 166 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 1, !dbg !207
+		% 167 = load float, float*% 166, !dbg !207
+		% 168 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcTexture_texture_2d, % dx.types.Handle % LinearRepeatSampler_sampler, float% 165, float% 167, float undef, float undef, i32 0, i32 0, i32 undef, float% 163), !dbg !208; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+		% 169 = extractvalue % dx.types.ResRet.f32 % 168, 0, !dbg !208
+		% 170 = extractvalue % dx.types.ResRet.f32 % 168, 1, !dbg !208
+		% 171 = extractvalue % dx.types.ResRet.f32 % 168, 2, !dbg !208
+		% 172 = extractvalue % dx.types.ResRet.f32 % 168, 3, !dbg !208
+		% 173 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !209
+		% 174 = load i32, i32 * %173, !dbg !209
+		% 175 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !209
+		% 176 = load i32, i32 * %175, !dbg !209
+		% .i016 = udiv i32 % 174, 2, !dbg !210
+		% .i117 = udiv i32 % 176, 2, !dbg !210
+		% 177 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !211
+		% 178 = load i32, i32 * %177, !dbg !211
+		call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % DstMip2_UAV_2darray, i32 % .i016, i32 % .i117, i32 % 178, float% 169, float% 170, float% 171, float% 172, i8 15), !dbg !212; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+		br label % 179, !dbg !213
+
+		; <label>:179; preds = % 159, % 47
+		% 180 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !214; CBufferLoadLegacy(handle, regIndex)
+		% 181 = extractvalue % dx.types.CBufRet.i32 % 180, 2, !dbg !214
+		% 182 = icmp ugt i32 % 181, 2, !dbg !216
+		% 183 = load i32, i32 * %11, align 4, !dbg !217
+		% 184 = and i32 % 183, 51, !dbg !218
+		% 185 = icmp eq i32 % 184, 0, !dbg !219
+		% 186 = and i1 % 182, % 185, !dbg !220
+		br i1 % 186, label % 187, label % 207, !dbg !221
+
+		; <label>:187; preds = % 179
+		% 188 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !222; CBufferLoadLegacy(handle, regIndex)
+		% 189 = extractvalue % dx.types.CBufRet.i32 % 188, 1, !dbg !222
+		% 190 = add i32 % 189, 2, !dbg !224
+		% 191 = uitofp i32 % 190 to float, !dbg !225
+		% 192 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 0, !dbg !226
+		% 193 = load float, float*% 192, !dbg !226
+		% 194 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 1, !dbg !226
+		% 195 = load float, float*% 194, !dbg !226
+		% 196 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcTexture_texture_2d, % dx.types.Handle % LinearRepeatSampler_sampler, float% 193, float% 195, float undef, float undef, i32 0, i32 0, i32 undef, float% 191), !dbg !227; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+		% 197 = extractvalue % dx.types.ResRet.f32 % 196, 0, !dbg !227
+		% 198 = extractvalue % dx.types.ResRet.f32 % 196, 1, !dbg !227
+		% 199 = extractvalue % dx.types.ResRet.f32 % 196, 2, !dbg !227
+		% 200 = extractvalue % dx.types.ResRet.f32 % 196, 3, !dbg !227
+		% 201 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !228
+		% 202 = load i32, i32 * %201, !dbg !228
+		% 203 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !228
+		% 204 = load i32, i32 * %203, !dbg !228
+		% .i018 = udiv i32 % 202, 4, !dbg !229
+		% .i119 = udiv i32 % 204, 4, !dbg !229
+		% 205 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !230
+		% 206 = load i32, i32 * %205, !dbg !230
+		call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % DstMip3_UAV_2darray, i32 % .i018, i32 % .i119, i32 % 206, float% 197, float% 198, float% 199, float% 200, i8 15), !dbg !231; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+		br label % 207, !dbg !232
+
+		; <label>:207; preds = % 187, % 179
+		% 208 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !233; CBufferLoadLegacy(handle, regIndex)
+		% 209 = extractvalue % dx.types.CBufRet.i32 % 208, 2, !dbg !233
+		% 210 = icmp ugt i32 % 209, 3, !dbg !235
+		% 211 = load i32, i32 * %11, align 4, !dbg !236
+		% 212 = and i32 % 211, 119, !dbg !237
+		% 213 = icmp eq i32 % 212, 0, !dbg !238
+		% 214 = and i1 % 210, % 213, !dbg !239
+		br i1 % 214, label % 215, label % 235, !dbg !240
+
+		; <label>:215; preds = % 207
+		% 216 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !241; CBufferLoadLegacy(handle, regIndex)
+		% 217 = extractvalue % dx.types.CBufRet.i32 % 216, 1, !dbg !241
+		% 218 = add i32 % 217, 3, !dbg !243
+		% 219 = uitofp i32 % 218 to float, !dbg !244
+		% 220 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 0, !dbg !245
+		% 221 = load float, float*% 220, !dbg !245
+		% 222 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 1, !dbg !245
+		% 223 = load float, float*% 222, !dbg !245
+		% 224 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcTexture_texture_2d, % dx.types.Handle % LinearRepeatSampler_sampler, float% 221, float% 223, float undef, float undef, i32 0, i32 0, i32 undef, float% 219), !dbg !246; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+		% 225 = extractvalue % dx.types.ResRet.f32 % 224, 0, !dbg !246
+		% 226 = extractvalue % dx.types.ResRet.f32 % 224, 1, !dbg !246
+		% 227 = extractvalue % dx.types.ResRet.f32 % 224, 2, !dbg !246
+		% 228 = extractvalue % dx.types.ResRet.f32 % 224, 3, !dbg !246
+		% 229 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !247
+		% 230 = load i32, i32 * %229, !dbg !247
+		% 231 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !247
+		% 232 = load i32, i32 * %231, !dbg !247
+		% .i020 = udiv i32 % 230, 8, !dbg !248
+		% .i121 = udiv i32 % 232, 8, !dbg !248
+		% 233 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !249
+		% 234 = load i32, i32 * %233, !dbg !249
+		call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % DstMip4_UAV_2darray, i32 % .i020, i32 % .i121, i32 % 234, float% 225, float% 226, float% 227, float% 228, i8 15), !dbg !250; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+		br label % 235, !dbg !251
+
+		; <label>:235; preds = % 215, % 207
+		% 236 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !252; CBufferLoadLegacy(handle, regIndex)
+		% 237 = extractvalue % dx.types.CBufRet.i32 % 236, 2, !dbg !252
+		% 238 = icmp ugt i32 % 237, 4, !dbg !254
+		% 239 = load i32, i32 * %11, align 4, !dbg !255
+		% 240 = and i32 % 239, 255, !dbg !256
+		% 241 = icmp eq i32 % 240, 0, !dbg !257
+		% 242 = and i1 % 238, % 241, !dbg !258
+		br i1 % 242, label % 243, label % 263, !dbg !259
+
+		; <label>:243; preds = % 235
+		% 244 = call % dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32 59, % dx.types.Handle % PanoToCubemapCB_cbuffer, i32 0), !dbg !260; CBufferLoadLegacy(handle, regIndex)
+		% 245 = extractvalue % dx.types.CBufRet.i32 % 244, 1, !dbg !260
+		% 246 = add i32 % 245, 4, !dbg !262
+		% 247 = uitofp i32 % 246 to float, !dbg !263
+		% 248 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 0, !dbg !264
+		% 249 = load float, float*% 248, !dbg !264
+		% 250 = getelementptr inbounds[2 x float], [2 x float] * %26, i32 0, i32 1, !dbg !264
+		% 251 = load float, float*% 250, !dbg !264
+		% 252 = call % dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32 62, % dx.types.Handle % SrcTexture_texture_2d, % dx.types.Handle % LinearRepeatSampler_sampler, float% 249, float% 251, float undef, float undef, i32 0, i32 0, i32 undef, float% 247), !dbg !265; SampleLevel(srv, sampler, coord0, coord1, coord2, coord3, offset0, offset1, offset2, LOD)
+		% 253 = extractvalue % dx.types.ResRet.f32 % 252, 0, !dbg !265
+		% 254 = extractvalue % dx.types.ResRet.f32 % 252, 1, !dbg !265
+		% 255 = extractvalue % dx.types.ResRet.f32 % 252, 2, !dbg !265
+		% 256 = extractvalue % dx.types.ResRet.f32 % 252, 3, !dbg !265
+		% 257 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 0, !dbg !266
+		% 258 = load i32, i32 * %257, !dbg !266
+		% 259 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 1, !dbg !266
+		% 260 = load i32, i32 * %259, !dbg !266
+		% .i022 = udiv i32 % 258, 16, !dbg !267
+		% .i123 = udiv i32 % 260, 16, !dbg !267
+		% 261 = getelementptr inbounds[3 x i32], [3 x i32] * %24, i32 0, i32 2, !dbg !268
+		% 262 = load i32, i32 * %261, !dbg !268
+		call void @dx.op.textureStore.f32(i32 67, % dx.types.Handle % DstMip5_UAV_2darray, i32 % .i022, i32 % .i123, i32 % 262, float% 253, float% 254, float% 255, float% 256, i8 15), !dbg !269; TextureStore(srv, coord0, coord1, coord2, value0, value1, value2, value3, mask)
+		br label % 263, !dbg !270
+
+		; <label>:263; preds = % 0, % 243, % 235
+		ret void, !dbg !271
+}
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.groupId.i32(i32, i32) #0
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.threadIdInGroup.i32(i32, i32) #0
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.threadId.i32(i32, i32) #0
+
+; Function Attrs : nounwind readnone
+declare i32 @dx.op.flattenedThreadIdInGroup.i32(i32) #0
+
+; Function Attrs : nounwind readonly
+declare% dx.types.CBufRet.i32 @dx.op.cbufferLoadLegacy.i32(i32, % dx.types.Handle, i32) #1
+
+; Function Attrs : nounwind readnone
+declare float @dx.op.dot3.f32(i32, float, float, float, float, float, float) #0
+
+; Function Attrs : nounwind readnone
+declare float @dx.op.unary.f32(i32, float) #0
+
+; Function Attrs : nounwind readonly
+declare% dx.types.ResRet.f32 @dx.op.sampleLevel.f32(i32, % dx.types.Handle, % dx.types.Handle, float, float, float, float, i32, i32, i32, float) #1
+
+; Function Attrs : nounwind
+declare void @dx.op.textureStore.f32(i32, % dx.types.Handle, i32, i32, i32, float, float, float, float, i8) #2
+
+; Function Attrs : nounwind readnone
+declare float @dx.op.tertiary.f32(i32, float, float, float) #0
+
+; Function Attrs : nounwind readonly
+declare% dx.types.Handle @dx.op.createHandle(i32, i8, i32, i32, i1) #1
+
+attributes #0 = { nounwind readnone }
+attributes #1 = { nounwind readonly }
+attributes #2 = { nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!97, !98}
+!llvm.ident = !{!99}
+!dx.source.contents = !{!100}
+!dx.source.defines = !{!2}
+!dx.source.mainFileName = !{!101}
+!dx.source.args = !{!102}
+!dx.version = !{!103}
+!dx.valver = !{!104}
+!dx.shaderModel = !{!105}
+!dx.resources = !{!106}
+!dx.typeAnnotations = !{!120, !138}
+!dx.entryPoints = !{!141}
+
+!0 = distinct !DICompileUnit(language: DW_LANG_C_plus_plus, file : !1, producer : "dxc 1.2", isOptimized : false, runtimeVersion : 0, emissionKind : 1, enums : !2, retainedTypes : !3, subprograms : !46, globals : !62)
+!1 = !DIFile(filename: "F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5CDX12Lib\5CResources\5CShaders\5CPanoToCubemap_CS.hlsl", directory : "")
+!2 = !{}
+!3 = !{!4, !8, !15, !22, !31}
+!4 = !DIDerivedType(tag: DW_TAG_typedef, name : "float3", file : !1, line : 98, baseType : !5)
+!5 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<float, 3>", file : !1, line : 98, size : 96, align : 32, elements : !6, templateParams : !11)
+!6 = !{!7, !9, !10}
+!7 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !5, file : !1, line : 98, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!8 = !DIBasicType(name: "float", size : 32, align : 32, encoding : DW_ATE_float)
+!9 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !5, file : !1, line : 98, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!10 = !DIDerivedType(tag: DW_TAG_member, name : "z", scope : !5, file : !1, line : 98, baseType : !8, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!11 = !{!12, !13}
+!12 = !DITemplateTypeParameter(name: "element", type : !8)
+!13 = !DITemplateValueParameter(name: "element_count", type : !14, value : i32 3)
+!14 = !DIBasicType(name: "int", size : 32, align : 32, encoding : DW_ATE_signed)
+!15 = !DIDerivedType(tag: DW_TAG_typedef, name : "float2", file : !1, line : 105, baseType : !16)
+!16 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<float, 2>", file : !1, line : 105, size : 64, align : 32, elements : !17, templateParams : !20)
+!17 = !{!18, !19}
+!18 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !16, file : !1, line : 105, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!19 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !16, file : !1, line : 105, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!20 = !{!12, !21}
+!21 = !DITemplateValueParameter(name: "element_count", type : !14, value : i32 2)
+!22 = !DIDerivedType(tag: DW_TAG_typedef, name : "uint3", file : !1, baseType : !23)
+!23 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<unsigned int, 3>", file : !1, size : 96, align : 32, elements : !24, templateParams : !29)
+!24 = !{!25, !27, !28}
+!25 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !23, file : !1, baseType : !26, size : 32, align : 32, flags : DIFlagPublic)
+!26 = !DIBasicType(name: "unsigned int", size : 32, align : 32, encoding : DW_ATE_unsigned)
+!27 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !23, file : !1, baseType : !26, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!28 = !DIDerivedType(tag: DW_TAG_member, name : "z", scope : !23, file : !1, baseType : !26, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!29 = !{!30, !13}
+!30 = !DITemplateTypeParameter(name: "element", type : !26)
+!31 = !DIDerivedType(tag: DW_TAG_typedef, name : "float3x3", file : !1, line : 61, baseType : !32)
+!32 = !DICompositeType(tag: DW_TAG_class_type, name : "matrix<float, 3, 3>", file : !1, line : 61, size : 288, align : 32, elements : !33, templateParams : !43)
+!33 = !{!34, !35, !36, !37, !38, !39, !40, !41, !42}
+!34 = !DIDerivedType(tag: DW_TAG_member, name : "_11", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!35 = !DIDerivedType(tag: DW_TAG_member, name : "_12", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!36 = !DIDerivedType(tag: DW_TAG_member, name : "_13", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!37 = !DIDerivedType(tag: DW_TAG_member, name : "_21", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 96, flags : DIFlagPublic)
+!38 = !DIDerivedType(tag: DW_TAG_member, name : "_22", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 128, flags : DIFlagPublic)
+!39 = !DIDerivedType(tag: DW_TAG_member, name : "_23", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 160, flags : DIFlagPublic)
+!40 = !DIDerivedType(tag: DW_TAG_member, name : "_31", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 192, flags : DIFlagPublic)
+!41 = !DIDerivedType(tag: DW_TAG_member, name : "_32", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 224, flags : DIFlagPublic)
+!42 = !DIDerivedType(tag: DW_TAG_member, name : "_33", scope : !32, file : !1, line : 61, baseType : !8, size : 32, align : 32, offset : 256, flags : DIFlagPublic)
+!43 = !{!12, !44, !45}
+!44 = !DITemplateValueParameter(name: "row_count", type : !14, value : i32 3)
+!45 = !DITemplateValueParameter(name: "col_count", type : !14, value : i32 3)
+!46 = !{!47, !57, !60}
+!47 = !DISubprogram(name: "main", scope : !1, file : !1, line : 88, type : !48, isLocal : false, isDefinition : true, scopeLine : 89, flags : DIFlagPrototyped, isOptimized : false, function : void() * @main)
+!48 = !DISubroutineType(types: !49)
+!49 = !{null, !50}
+!50 = !DICompositeType(tag: DW_TAG_structure_type, name : "ComputeShaderInput", file : !1, line : 7, size : 320, align : 32, elements : !51)
+!51 = !{!52, !53, !54, !55}
+!52 = !DIDerivedType(tag: DW_TAG_member, name : "GroupID", scope : !50, file : !1, line : 9, baseType : !22, size : 96, align : 32)
+!53 = !DIDerivedType(tag: DW_TAG_member, name : "GroupThreadID", scope : !50, file : !1, line : 10, baseType : !22, size : 96, align : 32, offset : 96)
+!54 = !DIDerivedType(tag: DW_TAG_member, name : "DispatchThreadID", scope : !50, file : !1, line : 11, baseType : !22, size : 96, align : 32, offset : 192)
+!55 = !DIDerivedType(tag: DW_TAG_member, name : "GroupIndex", scope : !50, file : !1, line : 12, baseType : !56, size : 32, align : 32, offset : 288)
+!56 = !DIDerivedType(tag: DW_TAG_typedef, name : "uint", file : !1, baseType : !26)
+!57 = !DISubprogram(name: "??__ERotateUV@@YAXXZ", scope : !1, file : !1, line : 59, type : !58, isLocal : true, isDefinition : true, scopeLine : 59, flags : DIFlagPrototyped, isOptimized : false)
+!58 = !DISubroutineType(types: !59)
+!59 = !{null}
+!60 = !DISubprogram(linkageName: "_GLOBAL__sub_I_PanoToCubemap_CS.hlsl", scope : !1, file : !1, type : !61, isLocal : true, isDefinition : true, flags : DIFlagArtificial, isOptimized : false)
+!61 = !DISubroutineType(types: !2)
+!62 = !{!63, !75, !77, !78, !79, !80, !81, !83, !85, !86, !88, !90, !92}
+!63 = !DIGlobalVariable(name: "SrcTexture", linkageName : "\01?SrcTexture@@3V?$Texture2D@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 29, type : !64, isLocal : false, isDefinition : true, variable : % "class.Texture2D<vector<float, 4> >" * @"\01?SrcTexture@@3V?$Texture2D@V?$vector@M$03@@@@A")
+!64 = !DICompositeType(tag: DW_TAG_class_type, name : "Texture2D<vector<float, 4> >", file : !1, line : 29, size : 160, align : 32, elements : !2, templateParams : !65)
+!65 = !{!66}
+!66 = !DITemplateTypeParameter(name: "element", type : !67)
+!67 = !DICompositeType(tag: DW_TAG_class_type, name : "vector<float, 4>", file : !1, line : 29, size : 128, align : 32, elements : !68, templateParams : !73)
+!68 = !{!69, !70, !71, !72}
+!69 = !DIDerivedType(tag: DW_TAG_member, name : "x", scope : !67, file : !1, line : 29, baseType : !8, size : 32, align : 32, flags : DIFlagPublic)
+!70 = !DIDerivedType(tag: DW_TAG_member, name : "y", scope : !67, file : !1, line : 29, baseType : !8, size : 32, align : 32, offset : 32, flags : DIFlagPublic)
+!71 = !DIDerivedType(tag: DW_TAG_member, name : "z", scope : !67, file : !1, line : 29, baseType : !8, size : 32, align : 32, offset : 64, flags : DIFlagPublic)
+!72 = !DIDerivedType(tag: DW_TAG_member, name : "w", scope : !67, file : !1, line : 29, baseType : !8, size : 32, align : 32, offset : 96, flags : DIFlagPublic)
+!73 = !{!12, !74}
+!74 = !DITemplateValueParameter(name: "element_count", type : !14, value : i32 4)
+!75 = !DIGlobalVariable(name: "DstMip1", linkageName : "\01?DstMip1@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 32, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2DArray<vector<float, 4> >" * @"\01?DstMip1@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A")
+!76 = !DICompositeType(tag: DW_TAG_class_type, name : "RWTexture2DArray<vector<float, 4> >", file : !1, line : 32, size : 128, align : 32, elements : !2, templateParams : !65)
+!77 = !DIGlobalVariable(name: "DstMip2", linkageName : "\01?DstMip2@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 33, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2DArray<vector<float, 4> >" * @"\01?DstMip2@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A")
+!78 = !DIGlobalVariable(name: "DstMip3", linkageName : "\01?DstMip3@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 34, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2DArray<vector<float, 4> >" * @"\01?DstMip3@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A")
+!79 = !DIGlobalVariable(name: "DstMip4", linkageName : "\01?DstMip4@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 35, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2DArray<vector<float, 4> >" * @"\01?DstMip4@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A")
+!80 = !DIGlobalVariable(name: "DstMip5", linkageName : "\01?DstMip5@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A", scope : !0, file : !1, line : 36, type : !76, isLocal : false, isDefinition : true, variable : % "class.RWTexture2DArray<vector<float, 4> >" * @"\01?DstMip5@@3V?$RWTexture2DArray@V?$vector@M$03@@@@A")
+!81 = !DIGlobalVariable(name: "LinearRepeatSampler", linkageName : "\01?LinearRepeatSampler@@3USamplerState@@A", scope : !0, file : !1, line : 39, type : !82, isLocal : false, isDefinition : true, variable : % struct.SamplerState * @"\01?LinearRepeatSampler@@3USamplerState@@A")
+!82 = !DICompositeType(tag: DW_TAG_structure_type, name : "SamplerState", file : !1, line : 39, size : 32, align : 32, elements : !2)
+!83 = !DIGlobalVariable(name: "InvPI", scope : !0, file : !1, line : 54, type : !84, isLocal : true, isDefinition : true)
+!84 = !DIDerivedType(tag: DW_TAG_const_type, baseType : !8)
+!85 = !DIGlobalVariable(name: "Inv2PI", scope : !0, file : !1, line : 55, type : !84, isLocal : true, isDefinition : true)
+!86 = !DIGlobalVariable(name: "InvAtan", scope : !0, file : !1, line : 56, type : !87, isLocal : true, isDefinition : true)
+!87 = !DIDerivedType(tag: DW_TAG_const_type, baseType : !15)
+!88 = !DIGlobalVariable(name: "InvAtan.0", linkageName : "InvAtan.0", scope : !0, file : !1, line : 56, type : !89, isLocal : false, isDefinition : true)
+!89 = !DIDerivedType(tag: DW_TAG_member, name : ".0", baseType : !87, size : 32, align : 4)
+!90 = !DIGlobalVariable(name: "InvAtan.1", linkageName : "InvAtan.1", scope : !0, file : !1, line : 56, type : !91, isLocal : false, isDefinition : true)
+!91 = !DIDerivedType(tag: DW_TAG_member, name : ".1", baseType : !87, size : 32, align : 4, offset : 32)
+!92 = !DIGlobalVariable(name: "RotateUV", linkageName : "RotateUV.v.v.1dim", scope : !0, file : !1, line : 59, type : !93, isLocal : false, isDefinition : true, variable : [54 x float] * @RotateUV.v.v.1dim)
+!93 = !DICompositeType(tag: DW_TAG_array_type, baseType : !94, size : 1728, align : 32, elements : !95)
+!94 = !DIDerivedType(tag: DW_TAG_const_type, baseType : !31)
+!95 = !{!96}
+!96 = !DISubrange(count: 6)
+!97 = !{i32 2, !"Dwarf Version", i32 4}
+!98 = !{i32 2, !"Debug Info Version", i32 3}
+!99 = !{!"dxc 1.2"}
+!100 = !{!"F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5CDX12Lib\5CResources\5CShaders\5CPanoToCubemap_CS.hlsl", !"/**\0D\0A * This compute shader is used to convert a panoramic (equirectangular) image into a cubemap.\0D\0A */\0D\0A\0D\0A#define BLOCK_SIZE 16\0D\0A\0D\0Astruct ComputeShaderInput\0D\0A{\0D\0A    uint3 GroupID           : SV_GroupID;           // 3D index of the thread group in the dispatch.\0D\0A    uint3 GroupThreadID     : SV_GroupThreadID;     // 3D index of local thread ID in a thread group.\0D\0A    uint3 DispatchThreadID  : SV_DispatchThreadID;  // 3D index of global thread ID in the dispatch.\0D\0A    uint  GroupIndex        : SV_GroupIndex;        // Flattened local index of the thread within a thread group.\0D\0A};\0D\0A\0D\0Astruct PanoToCubemap\0D\0A{\0D\0A    // Size of the cubemap face in pixels at the current mipmap level.\0D\0A    uint CubemapSize;\0D\0A    // The first mip level to generate.\0D\0A    uint FirstMip;\0D\0A    // The number of mips to generate.\0D\0A    uint NumMips;\0D\0A};\0D\0A\0D\0AConstantBuffer<PanoToCubemap> PanoToCubemapCB : register(b0);\0D\0A\0D\0A// Source texture as an equirectangular panoramic image.\0D\0A// It is assumed that the src texture has a full mipmap chain.\0D\0ATexture2D<float4> SrcTexture : register(t0);\0D\0A\0D\0A// Destination texture as a mip slice in the cubemap texture (texture array with 6 elements).\0D\0ARWTexture2DArray<float4> DstMip1 : register(u0);\0D\0ARWTexture2DArray<float4> DstMip2 : register(u1);\0D\0ARWTexture2DArray<float4> DstMip3 : register(u2);\0D\0ARWTexture2DArray<float4> DstMip4 : register(u3);\0D\0ARWTexture2DArray<float4> DstMip5 : register(u4);\0D\0A\0D\0A// Linear repeat sampler.\0D\0ASamplerState LinearRepeatSampler : register(s0);\0D\0A\0D\0A#define GenerateMips_RootSignature \5C\0D\0A    \22RootFlags(0), \22 \5C\0D\0A    \22RootConstants(b0, num32BitConstants = 3), \22 \5C\0D\0A    \22DescriptorTable( SRV(t0, numDescriptors = 1) ),\22 \5C\0D\0A    \22DescriptorTable( UAV(u0, numDescriptors = 5) ),\22 \5C\0D\0A    \22StaticSampler(s0,\22 \5C\0D\0A        \22addressU = TEXTURE_ADDRESS_WRAP,\22 \5C\0D\0A        \22addressV = TEXTURE_ADDRESS_WRAP,\22 \5C\0D\0A        \22addressW = TEXTURE_ADDRESS_WRAP,\22 \5C\0D\0A        \22filter = FILTER_MIN_MAG_LINEAR_MIP_POINT )\22\0D\0A\0D\0A\0D\0A// 1 / PI\0D\0Astatic const float InvPI = 0.31830988618379067153776752674503f;\0D\0Astatic const float Inv2PI = 0.15915494309189533576888376337251f;\0D\0Astatic const float2 InvAtan = float2(Inv2PI, InvPI);\0D\0A\0D\0A// Transform from dispatch ID to cubemap face direction\0D\0Astatic const float3x3 RotateUV[6] = {\0D\0A    // +X\0D\0A    float3x3(  0,  0,  1,\0D\0A               0, -1,  0,\0D\0A              -1,  0,  0 ),\0D\0A    // -X\0D\0A    float3x3(  0,  0, -1,\0D\0A               0, -1,  0,\0D\0A               1,  0,  0 ),\0D\0A    // +Y\0D\0A    float3x3(  1,  0,  0,\0D\0A               0,  0,  1,\0D\0A               0,  1,  0 ),\0D\0A    // -Y\0D\0A    float3x3(  1,  0,  0,\0D\0A               0,  0, -1,\0D\0A               0, -1,  0 ),\0D\0A    // +Z\0D\0A    float3x3(  1,  0,  0,\0D\0A               0, -1,  0,\0D\0A               0,  0,  1 ),\0D\0A    // -Z\0D\0A    float3x3( -1,  0,  0,\0D\0A               0, -1,  0,\0D\0A               0,  0, -1 )\0D\0A};\0D\0A\0D\0A[RootSignature(GenerateMips_RootSignature)]\0D\0A[numthreads(BLOCK_SIZE, BLOCK_SIZE, 1)]\0D\0Avoid main( ComputeShaderInput IN )\0D\0A{\0D\0A    // Cubemap texture coords.\0D\0A    uint3 texCoord = IN.DispatchThreadID;\0D\0A\0D\0A    // First check if the thread is in the cubemap dimensions.\0D\0A    if (texCoord.x >= PanoToCubemapCB.CubemapSize || texCoord.y >= PanoToCubemapCB.CubemapSize) return;\0D\0A\0D\0A    // Map the UV coords of the cubemap face to a direction\0D\0A    // [(0, 0), (1, 1)] => [(-0.5, -0.5), (0.5, 0.5)]\0D\0A    float3 dir = float3( texCoord.xy / float(PanoToCubemapCB.CubemapSize) - 0.5f, 0.5f);\0D\0A\0D\0A    // Rotate to cubemap face\0D\0A    dir = normalize( mul( RotateUV[texCoord.z], dir ) );\0D\0A\0D\0A    // Convert the world space direction into U,V texture coordinates in the panoramic texture.\0D\0A    // Source: http://gl.ict.usc.edu/Data/HighResProbes/\0D\0A    float2 panoUV = float2(atan2(-dir.x, -dir.z), acos(dir.y)) * InvAtan;\0D\0A\0D\0A    DstMip1[texCoord] = SrcTexture.SampleLevel(LinearRepeatSampler, panoUV, PanoToCubemapCB.FirstMip);\0D\0A\0D\0A    // Only perform on threads that are a multiple of 2.\0D\0A    if (PanoToCubemapCB.NumMips > 1 && (IN.GroupIndex & 0x11) == 0)\0D\0A    {\0D\0A        DstMip2[uint3(texCoord.xy / 2, texCoord.z)] = SrcTexture.SampleLevel(LinearRepeatSampler, panoUV, PanoToCubemapCB.FirstMip + 1);\0D\0A    }\0D\0A\0D\0A    // Only perform on threads that are a multiple of 4.\0D\0A    if (PanoToCubemapCB.NumMips > 2 && (IN.GroupIndex & 0x33) == 0)\0D\0A    {\0D\0A        DstMip3[uint3(texCoord.xy / 4, texCoord.z)] = SrcTexture.SampleLevel(LinearRepeatSampler, panoUV, PanoToCubemapCB.FirstMip + 2);\0D\0A    }\0D\0A\0D\0A    // Only perform on threads that are a multiple of 8.\0D\0A    if (PanoToCubemapCB.NumMips > 3 && (IN.GroupIndex & 0x77) == 0)\0D\0A    {\0D\0A        DstMip4[uint3(texCoord.xy / 8, texCoord.z)] = SrcTexture.SampleLevel(LinearRepeatSampler, panoUV, PanoToCubemapCB.FirstMip + 3);\0D\0A    }\0D\0A\0D\0A    // Only perform on threads that are a multiple of 16.\0D\0A    // This should only be thread 0 in this group.\0D\0A    if (PanoToCubemapCB.NumMips > 4 && (IN.GroupIndex & 0xFF) == 0)\0D\0A    {\0D\0A        DstMip5[uint3(texCoord.xy / 16, texCoord.z)] = SrcTexture.SampleLevel(LinearRepeatSampler, panoUV, PanoToCubemapCB.FirstMip + 4);\0D\0A    }\0D\0A}"}
+!101 = !{!"F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5CDX12Lib\5CResources\5CShaders\5CPanoToCubemap_CS.hlsl"}
+!102 = !{!"/E", !"main", !"/T", !"cs_6_0", !"/Fo", !"F:\5CProjects\5CSamples\5C3DGEP-DirectX12-Tutorial\5CLearningDirectX12\5Cbuild_vs2019\5Clib\5CDebug\5CPanoToCubemap_CS.cso", !"/Od", !"/Zi"}
+!103 = !{i32 1, i32 0}
+!104 = !{i32 1, i32 5}
+!105 = !{!"cs", i32 6, i32 0}
+!106 = !{!107, !110, !116, !118}
+!107 = !{!108}
+!108 = !{i32 0, % "class.Texture2D<vector<float, 4> >" * undef, !"SrcTexture", i32 0, i32 0, i32 1, i32 2, i32 0, !109}
+!109 = !{i32 0, i32 9}
+!110 = !{!111, !112, !113, !114, !115}
+!111 = !{i32 0, % "class.RWTexture2DArray<vector<float, 4> >" * undef, !"DstMip1", i32 0, i32 0, i32 1, i32 7, i1 false, i1 false, i1 false, !109}
+!112 = !{i32 1, % "class.RWTexture2DArray<vector<float, 4> >" * undef, !"DstMip2", i32 0, i32 1, i32 1, i32 7, i1 false, i1 false, i1 false, !109}
+!113 = !{i32 2, % "class.RWTexture2DArray<vector<float, 4> >" * undef, !"DstMip3", i32 0, i32 2, i32 1, i32 7, i1 false, i1 false, i1 false, !109}
+!114 = !{i32 3, % "class.RWTexture2DArray<vector<float, 4> >" * undef, !"DstMip4", i32 0, i32 3, i32 1, i32 7, i1 false, i1 false, i1 false, !109}
+!115 = !{i32 4, % "class.RWTexture2DArray<vector<float, 4> >" * undef, !"DstMip5", i32 0, i32 4, i32 1, i32 7, i1 false, i1 false, i1 false, !109}
+!116 = !{!117}
+!117 = !{i32 0, % PanoToCubemapCB* undef, !"PanoToCubemapCB", i32 0, i32 0, i32 1, i32 12, null}
+!118 = !{!119}
+!119 = !{i32 0, % struct.SamplerState* undef, !"LinearRepeatSampler", i32 0, i32 0, i32 1, i32 0, null}
+!120 = !{i32 0, % struct.PanoToCubemap undef, !121, % "class.Texture2D<vector<float, 4> >" undef, !125, % "class.Texture2D<vector<float, 4> >::mips_type" undef, !128, % "class.RWTexture2DArray<vector<float, 4> >" undef, !130, % struct.ComputeShaderInput undef, !131, % PanoToCubemapCB undef, !136}
+!121 = !{i32 12, !122, !123, !124}
+!122 = !{i32 6, !"CubemapSize", i32 3, i32 0, i32 7, i32 5}
+!123 = !{i32 6, !"FirstMip", i32 3, i32 4, i32 7, i32 5}
+!124 = !{i32 6, !"NumMips", i32 3, i32 8, i32 7, i32 5}
+!125 = !{i32 20, !126, !127}
+!126 = !{i32 6, !"h", i32 3, i32 0, i32 7, i32 9}
+!127 = !{i32 6, !"mips", i32 3, i32 16}
+!128 = !{i32 4, !129}
+!129 = !{i32 6, !"handle", i32 3, i32 0, i32 7, i32 5}
+!130 = !{i32 16, !126}
+!131 = !{i32 48, !132, !133, !134, !135}
+!132 = !{i32 6, !"GroupID", i32 3, i32 0, i32 4, !"SV_GroupID", i32 7, i32 5}
+!133 = !{i32 6, !"GroupThreadID", i32 3, i32 16, i32 4, !"SV_GroupThreadID", i32 7, i32 5}
+!134 = !{i32 6, !"DispatchThreadID", i32 3, i32 32, i32 4, !"SV_DispatchThreadID", i32 7, i32 5}
+!135 = !{i32 6, !"GroupIndex", i32 3, i32 44, i32 4, !"SV_GroupIndex", i32 7, i32 5}
+!136 = !{i32 12, !137}
+!137 = !{i32 6, !"PanoToCubemapCB", i32 3, i32 0}
+!138 = !{i32 1, void()* @main, !139}
+!139 = !{!140}
+!140 = !{i32 0, !2, !2}
+!141 = !{void()* @main, !"main", null, !106, !142}
+!142 = !{i32 0, i64 1, i32 4, !143}
+!143 = !{i32 16, i32 16, i32 1}
+!144 = !DILocation(line: 61, column : 16, scope : !57, inlinedAt : !145)
+!145 = distinct !DILocation(line: 0, scope : !47)
+!146 = !DILocalVariable(tag: DW_TAG_arg_variable, name : "IN", arg : 1, scope : !47, file : !1, line : 88, type : !50)
+!147 = !DIExpression(DW_OP_bit_piece, 288, 32)
+!148 = !DILocation(line: 88, column : 31, scope : !47)
+!149 = !DIExpression(DW_OP_bit_piece, 192, 96)
+!150 = !DIExpression(DW_OP_bit_piece, 96, 96)
+!151 = !DIExpression(DW_OP_bit_piece, 0, 96)
+!152 = !DILocation(line: 59, column : 37, scope : !57, inlinedAt : !145)
+!153 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "texCoord", scope : !47, file : !1, line : 91, type : !22)
+!154 = !DIExpression()
+!155 = !DILocation(line: 91, column : 11, scope : !47)
+!156 = !DILocation(line: 91, column : 25, scope : !47)
+!157 = !DILocation(line: 94, column : 9, scope : !158)
+!158 = distinct !DILexicalBlock(scope: !47, file : !1, line : 94, column : 9)
+!159 = !DILocation(line: 94, column : 39, scope : !158)
+!160 = !DILocation(line: 94, column : 20, scope : !158)
+!161 = !DILocation(line: 94, column : 54, scope : !158)
+!162 = !DILocation(line: 94, column : 84, scope : !158)
+!163 = !DILocation(line: 94, column : 65, scope : !158)
+!164 = !DILocation(line: 94, column : 51, scope : !158)
+!165 = !DILocation(line: 94, column : 9, scope : !47)
+!166 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "dir", scope : !47, file : !1, line : 98, type : !4)
+!167 = !DILocation(line: 98, column : 12, scope : !47)
+!168 = !DILocation(line: 98, column : 26, scope : !47)
+!169 = !DILocation(line: 98, column : 62, scope : !47)
+!170 = !DILocation(line: 98, column : 40, scope : !47)
+!171 = !DILocation(line: 98, column : 38, scope : !47)
+!172 = !DILocation(line: 98, column : 75, scope : !47)
+!173 = !DILocation(line: 101, column : 49, scope : !47)
+!174 = !DILocation(line: 101, column : 36, scope : !47)
+!175 = !DILocation(line: 101, column : 27, scope : !47)
+!176 = !DILocation(line: 101, column : 22, scope : !47)
+!177 = !DILocation(line: 101, column : 11, scope : !47)
+!178 = !DILocation(line: 101, column : 9, scope : !47)
+!179 = !DILocalVariable(tag: DW_TAG_auto_variable, name : "panoUV", scope : !47, file : !1, line : 105, type : !15)
+!180 = !DILocation(line: 105, column : 12, scope : !47)
+!181 = !DILocation(line: 105, column : 43, scope : !47)
+!182 = !DILocation(line: 105, column : 42, scope : !47)
+!183 = !DILocation(line: 105, column : 35, scope : !47)
+!184 = !DILocation(line: 105, column : 34, scope : !47)
+!185 = !DILocation(line: 105, column : 28, scope : !47)
+!186 = !DILocation(line: 105, column : 56, scope : !47)
+!187 = !DILocation(line: 105, column : 51, scope : !47)
+!188 = !DILocation(line: 105, column : 64, scope : !47)
+!189 = !DILocation(line: 107, column : 93, scope : !47)
+!190 = !DILocation(line: 107, column : 77, scope : !47)
+!191 = !DILocation(line: 107, column : 69, scope : !47)
+!192 = !DILocation(line: 107, column : 25, scope : !47)
+!193 = !DILocation(line: 107, column : 13, scope : !47)
+!194 = !DILocation(line: 107, column : 23, scope : !47)
+!195 = !DILocation(line: 110, column : 25, scope : !196)
+!196 = distinct !DILexicalBlock(scope: !47, file : !1, line : 110, column : 9)
+!197 = !DILocation(line: 110, column : 33, scope : !196)
+!198 = !DILocation(line: 110, column : 44, scope : !196)
+!199 = !DILocation(line: 110, column : 55, scope : !196)
+!200 = !DILocation(line: 110, column : 63, scope : !196)
+!201 = !DILocation(line: 110, column : 37, scope : !196)
+!202 = !DILocation(line: 110, column : 9, scope : !47)
+!203 = !DILocation(line: 112, column : 123, scope : !204)
+!204 = distinct !DILexicalBlock(scope: !196, file : !1, line : 111, column : 5)
+!205 = !DILocation(line: 112, column : 132, scope : !204)
+!206 = !DILocation(line: 112, column : 107, scope : !204)
+!207 = !DILocation(line: 112, column : 99, scope : !204)
+!208 = !DILocation(line: 112, column : 55, scope : !204)
+!209 = !DILocation(line: 112, column : 23, scope : !204)
+!210 = !DILocation(line: 112, column : 35, scope : !204)
+!211 = !DILocation(line: 112, column : 40, scope : !204)
+!212 = !DILocation(line: 112, column : 53, scope : !204)
+!213 = !DILocation(line: 113, column : 5, scope : !204)
+!214 = !DILocation(line: 116, column : 25, scope : !215)
+!215 = distinct !DILexicalBlock(scope: !47, file : !1, line : 116, column : 9)
+!216 = !DILocation(line: 116, column : 33, scope : !215)
+!217 = !DILocation(line: 116, column : 44, scope : !215)
+!218 = !DILocation(line: 116, column : 55, scope : !215)
+!219 = !DILocation(line: 116, column : 63, scope : !215)
+!220 = !DILocation(line: 116, column : 37, scope : !215)
+!221 = !DILocation(line: 116, column : 9, scope : !47)
+!222 = !DILocation(line: 118, column : 123, scope : !223)
+!223 = distinct !DILexicalBlock(scope: !215, file : !1, line : 117, column : 5)
+!224 = !DILocation(line: 118, column : 132, scope : !223)
+!225 = !DILocation(line: 118, column : 107, scope : !223)
+!226 = !DILocation(line: 118, column : 99, scope : !223)
+!227 = !DILocation(line: 118, column : 55, scope : !223)
+!228 = !DILocation(line: 118, column : 23, scope : !223)
+!229 = !DILocation(line: 118, column : 35, scope : !223)
+!230 = !DILocation(line: 118, column : 40, scope : !223)
+!231 = !DILocation(line: 118, column : 53, scope : !223)
+!232 = !DILocation(line: 119, column : 5, scope : !223)
+!233 = !DILocation(line: 122, column : 25, scope : !234)
+!234 = distinct !DILexicalBlock(scope: !47, file : !1, line : 122, column : 9)
+!235 = !DILocation(line: 122, column : 33, scope : !234)
+!236 = !DILocation(line: 122, column : 44, scope : !234)
+!237 = !DILocation(line: 122, column : 55, scope : !234)
+!238 = !DILocation(line: 122, column : 63, scope : !234)
+!239 = !DILocation(line: 122, column : 37, scope : !234)
+!240 = !DILocation(line: 122, column : 9, scope : !47)
+!241 = !DILocation(line: 124, column : 123, scope : !242)
+!242 = distinct !DILexicalBlock(scope: !234, file : !1, line : 123, column : 5)
+!243 = !DILocation(line: 124, column : 132, scope : !242)
+!244 = !DILocation(line: 124, column : 107, scope : !242)
+!245 = !DILocation(line: 124, column : 99, scope : !242)
+!246 = !DILocation(line: 124, column : 55, scope : !242)
+!247 = !DILocation(line: 124, column : 23, scope : !242)
+!248 = !DILocation(line: 124, column : 35, scope : !242)
+!249 = !DILocation(line: 124, column : 40, scope : !242)
+!250 = !DILocation(line: 124, column : 53, scope : !242)
+!251 = !DILocation(line: 125, column : 5, scope : !242)
+!252 = !DILocation(line: 129, column : 25, scope : !253)
+!253 = distinct !DILexicalBlock(scope: !47, file : !1, line : 129, column : 9)
+!254 = !DILocation(line: 129, column : 33, scope : !253)
+!255 = !DILocation(line: 129, column : 44, scope : !253)
+!256 = !DILocation(line: 129, column : 55, scope : !253)
+!257 = !DILocation(line: 129, column : 63, scope : !253)
+!258 = !DILocation(line: 129, column : 37, scope : !253)
+!259 = !DILocation(line: 129, column : 9, scope : !47)
+!260 = !DILocation(line: 131, column : 124, scope : !261)
+!261 = distinct !DILexicalBlock(scope: !253, file : !1, line : 130, column : 5)
+!262 = !DILocation(line: 131, column : 133, scope : !261)
+!263 = !DILocation(line: 131, column : 108, scope : !261)
+!264 = !DILocation(line: 131, column : 100, scope : !261)
+!265 = !DILocation(line: 131, column : 56, scope : !261)
+!266 = !DILocation(line: 131, column : 23, scope : !261)
+!267 = !DILocation(line: 131, column : 35, scope : !261)
+!268 = !DILocation(line: 131, column : 41, scope : !261)
+!269 = !DILocation(line: 131, column : 54, scope : !261)
+!270 = !DILocation(line: 132, column : 5, scope : !261)
+!271 = !DILocation(line: 133, column : 1, scope : !47)
+
+#endif
 
 const unsigned char g_PanoToCubemap_CS[] = {
   0x44, 0x58, 0x42, 0x43, 0x6d, 0x4a, 0xf9, 0xba, 0xf3, 0x53, 0xde, 0x21,

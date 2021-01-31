@@ -1,6 +1,8 @@
 #include "CEResourceStateTracker.h"
 
 #include <cassert>
+#include <spdlog/spdlog.h>
+
 
 
 #include "CECommandList.h"
@@ -100,6 +102,7 @@ void CEResourceStateTracker::FlushResourceBarriers(const std::shared_ptr<CEComma
 	assert(commandList);
 
 	UINT numBarriers = static_cast<UINT>(m_resourceBarriers.size());
+	spdlog::warn("Num Barriers: {}", numBarriers);
 	if (numBarriers > 0) {
 		auto d3d12CommandList = commandList->GetCommandList();
 		d3d12CommandList->ResourceBarrier(numBarriers, m_resourceBarriers.data());
