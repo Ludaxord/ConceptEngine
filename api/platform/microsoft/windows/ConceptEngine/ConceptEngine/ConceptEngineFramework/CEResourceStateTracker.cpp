@@ -102,8 +102,8 @@ void CEResourceStateTracker::FlushResourceBarriers(const std::shared_ptr<CEComma
 	assert(commandList);
 
 	UINT numBarriers = static_cast<UINT>(m_resourceBarriers.size());
-	spdlog::warn("Num Barriers: {}", numBarriers);
 	if (numBarriers > 0) {
+		// spdlog::warn("Num Barriers: {}", numBarriers);
 		auto d3d12CommandList = commandList->GetCommandList();
 		d3d12CommandList->ResourceBarrier(numBarriers, m_resourceBarriers.data());
 		m_resourceBarriers.clear();

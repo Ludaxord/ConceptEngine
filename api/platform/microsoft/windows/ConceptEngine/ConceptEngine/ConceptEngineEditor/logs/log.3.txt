@@ -1,1 +1,11 @@
-[2021-01-31 19:40:22.096] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-31 20:18:47.243] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-31 20:18:47.705] [ConceptEngine] [error] Texture: ImGui Font Texture requiredSize: 131072
+[2021-01-31 20:18:47.742] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\DefaultWhite.bmp requiredSize: 2
+[2021-01-31 20:18:47.747] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Directx9.png requiredSize: 125068
+[2021-01-31 20:18:47.750] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\earth.dds requiredSize: 353288
+[2021-01-31 20:18:48.068] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Mona_Lisa.jpg requiredSize: 49409100
+[2021-01-31 20:18:48.152] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-01-31 20:18:48.192] [Concept Engine] [info] Concept Engine Window Presented
+[2021-01-31 20:18:48.268] [Concept Engine] [info] FPS: 18.99989
+[2021-01-31 20:18:49.268] [Concept Engine] [info] FPS: 574.8308
+[2021-01-31 20:18:49.804] [ConceptEngine] [info] Concept Engine Game class destroyed.

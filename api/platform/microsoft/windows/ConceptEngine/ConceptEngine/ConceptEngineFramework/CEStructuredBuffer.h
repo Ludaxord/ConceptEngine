@@ -5,6 +5,7 @@
 
 namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
+	class CEDevice;
 
 	class CEStructuredBuffer : public CEBuffer {
 	public:

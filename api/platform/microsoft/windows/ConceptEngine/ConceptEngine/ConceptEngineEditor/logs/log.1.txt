@@ -1,25 +1,28 @@
-[2021-01-31 19:44:53.760] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-31 19:45:03.468] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-01-31 19:45:03.503] [Concept Engine] [info] Concept Engine Window Presented
-[2021-01-31 19:45:03.504] [Concept Engine] [info] FPS: 0.1026936
-[2021-01-31 19:45:04.504] [Concept Engine] [info] FPS: 615.7328
-[2021-01-31 19:45:05.505] [Concept Engine] [info] FPS: 913.1699
-[2021-01-31 19:45:06.506] [Concept Engine] [info] FPS: 914.0620
-[2021-01-31 19:45:07.507] [Concept Engine] [info] FPS: 863.2127
-[2021-01-31 19:45:08.507] [Concept Engine] [info] FPS: 896.8340
-[2021-01-31 19:45:09.507] [Concept Engine] [info] FPS: 931.9905
-[2021-01-31 19:45:10.508] [Concept Engine] [info] FPS: 969.5257
-[2021-01-31 19:45:11.508] [Concept Engine] [info] FPS: 915.1776
-[2021-01-31 19:45:12.509] [Concept Engine] [info] FPS: 914.2155
-[2021-01-31 19:45:13.510] [Concept Engine] [info] FPS: 903.7542
-[2021-01-31 19:45:14.510] [Concept Engine] [info] FPS: 948.6113
-[2021-01-31 19:45:15.510] [Concept Engine] [info] FPS: 943.9748
-[2021-01-31 19:45:16.510] [Concept Engine] [info] FPS: 956.9233
-[2021-01-31 19:45:17.510] [Concept Engine] [info] FPS: 904.8742
-[2021-01-31 19:45:18.511] [Concept Engine] [info] FPS: 942.8743
-[2021-01-31 19:45:19.512] [Concept Engine] [info] FPS: 951.8610
-[2021-01-31 19:45:20.512] [Concept Engine] [info] FPS: 894.5512
-[2021-01-31 19:45:21.513] [Concept Engine] [info] FPS: 908.6125
-[2021-01-31 19:45:22.513] [Concept Engine] [info] FPS: 956.4639
-[2021-01-31 19:45:23.514] [Concept Engine] [info] FPS: 856.4421
-[2021-01-31 19:45:24.514] [Concept Engine] [info] FPS: 885.8568
+[2021-01-31 21:20:49.764] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-31 21:20:50.284] [ConceptEngine] [error] Texture: ImGui Font Texture requiredSize: 131072
+[2021-01-31 21:20:50.330] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\DefaultWhite.bmp requiredSize: 2
+[2021-01-31 21:20:50.334] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Directx9.png requiredSize: 125068
+[2021-01-31 21:20:50.338] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\earth.dds requiredSize: 353288
+[2021-01-31 21:20:50.619] [ConceptEngine] [error] Texture: F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Mona_Lisa.jpg requiredSize: 49409100
+[2021-01-31 21:20:51.026] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-01-31 21:20:51.059] [Concept Engine] [info] Concept Engine Window Presented
+[2021-01-31 21:20:51.061] [Concept Engine] [info] FPS: 0.7759221
+[2021-01-31 21:20:52.062] [Concept Engine] [info] FPS: 671.5335
+[2021-01-31 21:20:53.062] [Concept Engine] [info] FPS: 942.8112
+[2021-01-31 21:20:54.062] [Concept Engine] [info] FPS: 924.6208
+[2021-01-31 21:20:55.063] [Concept Engine] [info] FPS: 797.2366
+[2021-01-31 21:20:56.064] [Concept Engine] [info] FPS: 899.5951
+[2021-01-31 21:20:57.064] [Concept Engine] [info] FPS: 947.8098
+[2021-01-31 21:20:58.064] [Concept Engine] [info] FPS: 949.5757
+[2021-01-31 21:20:59.065] [Concept Engine] [info] FPS: 938.3555
+[2021-01-31 21:21:00.065] [Concept Engine] [info] FPS: 946.7644
+[2021-01-31 21:21:01.066] [Concept Engine] [info] FPS: 969.3439
+[2021-01-31 21:21:02.066] [Concept Engine] [info] FPS: 962.5948
+[2021-01-31 21:21:03.067] [Concept Engine] [info] FPS: 976.3638
+[2021-01-31 21:21:04.068] [Concept Engine] [info] FPS: 974.9738
+[2021-01-31 21:21:05.069] [Concept Engine] [info] FPS: 966.3613
+[2021-01-31 21:21:06.069] [Concept Engine] [info] FPS: 975.6733
+[2021-01-31 21:21:07.070] [Concept Engine] [info] FPS: 905.4487
+[2021-01-31 21:21:08.070] [Concept Engine] [info] FPS: 937.8086
+[2021-01-31 21:21:09.070] [Concept Engine] [info] FPS: 944.9813
+[2021-01-31 21:21:09.299] [ConceptEngine] [info] Concept Engine Game class destroyed.

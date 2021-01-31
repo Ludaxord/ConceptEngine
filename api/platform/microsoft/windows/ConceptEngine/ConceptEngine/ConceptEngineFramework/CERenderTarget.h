@@ -32,6 +32,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		CERenderTarget(const CERenderTarget& copy) = default;
 		CERenderTarget(CERenderTarget&& copy) = default;
 
+		CERenderTarget& operator=(const CERenderTarget& other) = default;
+		CERenderTarget& operator=(CERenderTarget&& other) = default;
 		/**
 		 * Attach texture to given attachment point.
 		 *

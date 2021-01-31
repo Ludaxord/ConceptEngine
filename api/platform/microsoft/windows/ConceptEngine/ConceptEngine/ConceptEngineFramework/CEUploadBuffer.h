@@ -7,8 +7,9 @@
 #include "CEDefinitions.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
-	class CEDevice;
 	namespace wrl = Microsoft::WRL;
+
+	class CEDevice;
 
 	class CEUploadBuffer {
 	public:

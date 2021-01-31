@@ -33,7 +33,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * 1.0 / OutMip1.Dimensions
 		 */
-		::DirectX::XMFLOAT2 TexelSize;
+		DirectX::XMFLOAT2 TexelSize;
 	};
 
 	namespace GenerateMips {

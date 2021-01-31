@@ -6,12 +6,13 @@
 #include <wrl.h>
 
 namespace Concept::GraphicsEngine::Direct3D {
+	namespace wrl = Microsoft::WRL;
+
 	class CEIndexBuffer;
 	class CEVisitor;
 	class CECommandList;
 	class CEMaterial;
 	class CEVertexBuffer;
-	namespace wrl = Microsoft::WRL;
 
 	class CEMesh {
 	public:
@@ -50,8 +51,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Set AABB bounding volume for geometry in mesh
 		 */
-		void SetAABB(const ::DirectX::BoundingBox& aabb);
-		const ::DirectX::BoundingBox& GetAABB() const;
+		void SetAABB(const DirectX::BoundingBox& aabb);
+		const DirectX::BoundingBox& GetAABB() const;
 
 		/**
 		 * Draw mesh to CommandList
@@ -72,6 +73,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEIndexBuffer> m_indexBuffer;
 		std::shared_ptr<CEMaterial> m_material;
 		D3D12_PRIMITIVE_TOPOLOGY m_primitiveTopology;
-		::DirectX::BoundingBox m_AABB;
+		DirectX::BoundingBox m_AABB;
 	};
 }

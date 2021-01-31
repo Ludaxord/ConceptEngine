@@ -8,10 +8,11 @@
 #include "CERenderTarget.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	namespace wrl = Microsoft::WRL;
+
 	class CECommandQueue;
 	class CEDevice;
 	class CETexture;
-	namespace wrl = Microsoft::WRL;
 
 	class CESwapChain {
 	public:

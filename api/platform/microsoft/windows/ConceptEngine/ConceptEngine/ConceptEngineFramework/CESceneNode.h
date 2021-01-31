@@ -15,7 +15,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 	class CESceneNode : public std::enable_shared_from_this<CESceneNode> {
 	public:
-		explicit CESceneNode(const ::DirectX::XMMATRIX& localTransform = ::DirectX::XMMatrixIdentity());
+		explicit CESceneNode(const ::DirectX::XMMATRIX& localTransform = DirectX::XMMatrixIdentity());
 		virtual ~CESceneNode();
 
 		/**
@@ -27,23 +27,23 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Get scene nodes local (relative to its parent's transform);
 		 */
-		::DirectX::XMMATRIX GetLocalTransform() const;
+		DirectX::XMMATRIX GetLocalTransform() const;
 		void SetLocalTransform(const ::DirectX::XMMATRIX& localTransform);
 
 		/**
 		 * Get inverse of local transform.
 		 */
-		::DirectX::XMMATRIX GetInverseLocalTransform() const;
+		DirectX::XMMATRIX GetInverseLocalTransform() const;
 
 		/**
 		 * Get scene node world transform (concatenated with its parents world transform);
 		 */
-		::DirectX::XMMATRIX GetWorldTransform() const;
+		DirectX::XMMATRIX GetWorldTransform() const;
 
 		/**
 		 * Get inverse of world transform (concatenated with its parent world transform)
 		 */
-		::DirectX::XMMATRIX GetInverseWorldTransform() const;
+		DirectX::XMMATRIX GetInverseWorldTransform() const;
 
 		/**
 		 * Add a child node to scene node.
@@ -71,7 +71,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Get AABB for called scene node.
 		 * AABB is formed from combination of all mesh AABB's
 		 */
-		const ::DirectX::BoundingBox& GetAABB() const;
+		const DirectX::BoundingBox& GetAABB() const;
 
 		/**
 		 * Accept a visitor.
@@ -79,7 +79,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void Accept(CEVisitor& visitor);
 
 	protected:
-		::DirectX::XMMATRIX GetParentWorldTransform() const;
+		DirectX::XMMATRIX GetParentWorldTransform() const;
 
 	private:
 		using NodePointer = std::shared_ptr<CESceneNode>;
@@ -94,8 +94,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * only way to guarantee alignment, is to allocate structure in aligned memory.
 		 */
 		struct alignas(16) AlignedData {
-			::DirectX::XMMATRIX m_localTransform;
-			::DirectX::XMMATRIX m_inverseTransform;
+			DirectX::XMMATRIX m_localTransform;
+			DirectX::XMMATRIX m_inverseTransform;
 		} * m_alignedData;
 
 		std::weak_ptr<CESceneNode> m_parentNode;
@@ -107,6 +107,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * AABB for this scene node.
 		 * Created by merge of AABB of meshes
 		 */
-		::DirectX::BoundingBox m_AABB;
+		DirectX::BoundingBox m_AABB;
 	};
 }

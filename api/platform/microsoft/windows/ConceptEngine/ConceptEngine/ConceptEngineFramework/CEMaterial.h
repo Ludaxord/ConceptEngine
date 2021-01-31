@@ -6,9 +6,10 @@
 #include <wrl.h>
 
 namespace Concept::GraphicsEngine::Direct3D {
-	class CETexture;
+
 	namespace wrl = Microsoft::WRL;
 
+	class CETexture;
 	/**
 	 * clang-format off
 	 */

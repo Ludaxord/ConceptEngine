@@ -199,6 +199,10 @@ namespace Concept::GraphicsEngine::Direct3D {
 			return m_highestRootSignatureVersion;
 		}
 
+		D3D12_RAYTRACING_TIER GetHighestRayTracingTier() const {
+			return m_highestRayTracingTier;
+		}
+
 		DXGI_SAMPLE_DESC GetMultiSampleQualityLevels(DXGI_FORMAT format,
 		                                             UINT numSamples = D3D12_MAX_MULTISAMPLE_SAMPLE_COUNT,
 		                                             D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS flags =

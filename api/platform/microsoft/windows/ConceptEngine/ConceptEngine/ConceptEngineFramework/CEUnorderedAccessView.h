@@ -6,9 +6,10 @@
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	namespace wrl = Microsoft::WRL;
+
 	class CEDevice;
 	class CEResource;
-	namespace wrl = Microsoft::WRL;
 
 	class CEUnorderedAccessView {
 	public:
@@ -26,9 +27,9 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 	protected:
 		CEUnorderedAccessView(CEDevice& device,
-		                             const std::shared_ptr<CEResource>& resource,
-		                             const std::shared_ptr<CEResource>& counterResource = nullptr,
-		                             const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav = nullptr);
+		                      const std::shared_ptr<CEResource>& resource,
+		                      const std::shared_ptr<CEResource>& counterResource = nullptr,
+		                      const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav = nullptr);
 		virtual ~CEUnorderedAccessView() = default;
 
 	private:
