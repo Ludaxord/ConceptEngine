@@ -18,6 +18,8 @@
 #include "CERootSignature.h"
 #include "CETexture.h"
 #include "d3dx12.h"
+#include "ImGUI_PS.h"
+#include "ImGUI_VS.h"
 
 using namespace Concept::GraphicsEngine::Direct3D;
 
@@ -41,56 +43,26 @@ enum RootParameters {
 void GetSurfaceInfo(_In_ size_t width, _In_ size_t height, _In_ DXGI_FORMAT fmt, size_t* outNumBytes,
                     _Out_opt_ size_t* outRowBytes, _Out_opt_ size_t* outNumRows);
 
-
 // Windows message handler for ImGui.
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
-LRESULT CEGUI::WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	return ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
-}
-
-void CEGUI::NewFrame() {
-	ImGui::SetCurrentContext(m_ImGuiContext);
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-}
-
-void CEGUI::Render(const std::shared_ptr<CECommandList>& commandList, const CERenderTarget& renderTarget) {
-	
-}
-
-void CEGUI::Destroy() {
-	ImGui::EndFrame();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext(m_ImGuiContext);
-	m_ImGuiContext = nullptr;
-}
-
-void CEGUI::SetScaling(float scale) {
-	ImGuiIO& io = ImGui::GetIO();
-	io.FontGlobalScale = scale;
-}
-
-CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget): m_device(device), m_hWnd(hWnd),
-                                                                               m_ImGuiContext(nullptr) {
+CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget)
+	: m_device(device)
+	  , m_hWnd(hWnd)
+	  , m_ImGuiContext(nullptr) {
 	m_ImGuiContext = ImGui::CreateContext();
 	ImGui::SetCurrentContext(m_ImGuiContext);
 	if (!ImGui_ImplWin32_Init(m_hWnd)) {
-		throw std::exception("Falied to initialize ImGui");
+		throw std::exception("Failed to initialize ImGui");
 	}
 
 	ImGuiIO& io = ImGui::GetIO();
 
-	/*
-	 * Allow user UI scaling using Ctrl+Mouse wheel scroll
-	 */
 	io.FontGlobalScale = ::GetDpiForWindow(m_hWnd) / 96.0f;
+	// Allow user UI scaling using CTRL+Mouse Wheel scrolling
 	io.FontAllowUserScaling = true;
 
-	/*
-	 * Build texture atlas
-	 */
+	// Build texture atlas
 	unsigned char* pixelData = nullptr;
 	int width, height;
 	io.Fonts->GetTexDataAsRGBA32(&pixelData, &width, &height);
@@ -101,7 +73,7 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget): m
 	auto fontTextureDesc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_R8G8B8A8_UNORM, width, height);
 
 	m_fontTexture = m_device.CreateTexture(fontTextureDesc);
-	m_fontTexture->SetName(L"ImGUI Font texture");
+	m_fontTexture->SetName(L"ImGui Font Texture");
 	m_fontSRV = m_device.CreateShaderResourceView(m_fontTexture);
 
 	size_t rowPitch, slicePitch;
@@ -119,34 +91,33 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget): m
 
 	auto d3d12Device = m_device.GetDevice();
 
-	/*
-	 * Create root signature for ImGUI shaders
-	 *
-	 * Allow input layout and deny unnecessary access to certain pipeline stages
-	 */
+	// Create the root signature for the ImGUI shaders.
+
+	// Allow input layout and deny unnecessary access to certain pipeline stages.
 	D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
 
-	CD3DX12_DESCRIPTOR_RANGE1 descriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+	CD3DX12_DESCRIPTOR_RANGE1 descriptorRage(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
 	CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
-	rootParameters[RootParameters::MatrixCB].InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0,
-	                                                         D3D12_ROOT_DESCRIPTOR_FLAG_NONE);
-	rootParameters[RootParameters::FontTexture].InitAsDescriptorTable(1, &descriptorRange,
+	rootParameters[RootParameters::MatrixCB].InitAsConstants(
+		sizeof(DirectX::XMMATRIX) / 4, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_VERTEX);
+	rootParameters[RootParameters::FontTexture].InitAsDescriptorTable(1, &descriptorRage,
 	                                                                  D3D12_SHADER_VISIBILITY_PIXEL);
 
 	CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_POINT);
 	linearRepeatSampler.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
 	linearRepeatSampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
-	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescriptor;
-	rootSignatureDescriptor.Init_1_1(RootParameters::NumRootParameters, rootParameters, 1, &linearRepeatSampler,
-	                                 rootSignatureFlags);
+	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
+	rootSignatureDescription.Init_1_1(RootParameters::NumRootParameters, rootParameters, 1, &linearRepeatSampler,
+	                                  rootSignatureFlags);
 
-	m_rootSignature = m_device.CreateRootSignature(rootSignatureDescriptor.Desc_1_1);
+	m_rootSignature = m_device.CreateRootSignature(rootSignatureDescription.Desc_1_1);
 
+	// clang-format off
 	const D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{
 			"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offsetof(ImDrawVert, pos),
@@ -160,8 +131,8 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget): m
 			"COLOR", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, offsetof(ImDrawVert, col),
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-
 	};
+	// clang-format on
 
 	D3D12_BLEND_DESC blendDesc = {};
 	blendDesc.RenderTarget[0].BlendEnable = true;
@@ -190,9 +161,7 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget): m
 	depthStencilDesc.DepthEnable = false;
 	depthStencilDesc.StencilEnable = false;
 
-	/*
-	 * Setup pipeline state
-	 */
+	// Setup the pipeline state.
 	struct PipelineStateStream {
 		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
 		CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT InputLayout;
@@ -209,8 +178,8 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget): m
 	pipelineStateStream.pRootSignature = m_rootSignature->GetD3D12RootSignature().Get();
 	pipelineStateStream.InputLayout = {inputLayout, 3};
 	pipelineStateStream.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	pipelineStateStream.VS = CEPipelineStateObject::CompileShaderFileToByteCode(L"ImGUI_VS.hlsl");
-	pipelineStateStream.PS = CEPipelineStateObject::CompileShaderFileToByteCode(L"ImGUI_PS.hlsl");
+	pipelineStateStream.VS = {g_ImGUI_VS, sizeof(g_ImGUI_VS)};
+	pipelineStateStream.PS = {g_ImGUI_PS, sizeof(g_ImGUI_PS)};
 	pipelineStateStream.RTVFormats = renderTarget.GetRenderTargetFormats();
 	pipelineStateStream.SampleDesc = renderTarget.GetSampleDesc();
 	pipelineStateStream.BlendDesc = CD3DX12_BLEND_DESC(blendDesc);
@@ -224,6 +193,113 @@ CEGUI::~CEGUI() {
 	Destroy();
 }
 
+void CEGUI::NewFrame() {
+	ImGui::SetCurrentContext(m_ImGuiContext);
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void CEGUI::Render(const std::shared_ptr<CECommandList>& commandList, const CERenderTarget& renderTarget) {
+	assert(commandList);
+
+	ImGui::SetCurrentContext(m_ImGuiContext);
+	ImGui::Render();
+
+	ImGuiIO& io = ImGui::GetIO();
+	ImDrawData* drawData = ImGui::GetDrawData();
+
+	// Check if there is anything to render.
+	if (!drawData || drawData->CmdListsCount == 0)
+		return;
+
+	ImVec2 displayPos = drawData->DisplayPos;
+
+	commandList->SetPipelineState(m_pipelineState);
+	commandList->SetGraphicsRootSignature(m_rootSignature);
+	commandList->SetRenderTarget(renderTarget);
+
+	// Set root arguments.
+	//    DirectX::XMMATRIX projectionMatrix = DirectX::XMMatrixOrthographicRH( drawData->DisplaySize.x,
+	//    drawData->DisplaySize.y, 0.0f, 1.0f );
+	float L = drawData->DisplayPos.x;
+	float R = drawData->DisplayPos.x + drawData->DisplaySize.x;
+	float T = drawData->DisplayPos.y;
+	float B = drawData->DisplayPos.y + drawData->DisplaySize.y;
+	float mvp[4][4] = {
+		{2.0f / (R - L), 0.0f, 0.0f, 0.0f},
+		{0.0f, 2.0f / (T - B), 0.0f, 0.0f},
+		{0.0f, 0.0f, 0.5f, 0.0f},
+		{(R + L) / (L - R), (T + B) / (B - T), 0.5f, 1.0f},
+	};
+
+	commandList->SetGraphics32BitConstants(RootParameters::MatrixCB, mvp);
+	commandList->SetShaderResourceView(RootParameters::FontTexture, 0, m_fontSRV,
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	D3D12_VIEWPORT viewport = {};
+	viewport.Width = drawData->DisplaySize.x;
+	viewport.Height = drawData->DisplaySize.y;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+
+	commandList->SetViewport(viewport);
+	commandList->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	const DXGI_FORMAT indexFormat = sizeof(ImDrawIdx) == 2 ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT;
+
+	// It may happen that ImGui doesn't actually render anything. In this case,
+	// any pending resource barriers in the commandList will not be flushed (since
+	// resource barriers are only flushed when a draw command is executed).
+	// In that case, manually flushing the resource barriers will ensure that
+	// they are properly flushed before exiting this function.
+	commandList->FlushResourceBarriers();
+
+	for (int i = 0; i < drawData->CmdListsCount; ++i) {
+		const ImDrawList* drawList = drawData->CmdLists[i];
+
+		commandList->SetDynamicVertexBuffer(0, drawList->VtxBuffer.size(), sizeof(ImDrawVert),
+		                                    drawList->VtxBuffer.Data);
+		commandList->SetDynamicIndexBuffer(drawList->IdxBuffer.size(), indexFormat, drawList->IdxBuffer.Data);
+
+		int indexOffset = 0;
+		for (int j = 0; j < drawList->CmdBuffer.size(); ++j) {
+			const ImDrawCmd& drawCmd = drawList->CmdBuffer[j];
+			if (drawCmd.UserCallback) {
+				drawCmd.UserCallback(drawList, &drawCmd);
+			}
+			else {
+				ImVec4 clipRect = drawCmd.ClipRect;
+				D3D12_RECT scissorRect;
+				scissorRect.left = static_cast<LONG>(clipRect.x - displayPos.x);
+				scissorRect.top = static_cast<LONG>(clipRect.y - displayPos.y);
+				scissorRect.right = static_cast<LONG>(clipRect.z - displayPos.x);
+				scissorRect.bottom = static_cast<LONG>(clipRect.w - displayPos.y);
+
+				if (scissorRect.right - scissorRect.left > 0.0f && scissorRect.bottom - scissorRect.top > 0.0) {
+					commandList->SetScissorRect(scissorRect);
+					commandList->DrawIndexed(drawCmd.ElemCount, 1, indexOffset);
+				}
+			}
+			indexOffset += drawCmd.ElemCount;
+		}
+	}
+}
+
+void CEGUI::Destroy() {
+	ImGui::EndFrame();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext(m_ImGuiContext);
+	m_ImGuiContext = nullptr;
+}
+
+void CEGUI::SetScaling(float scale) {
+	ImGuiIO& io = ImGui::GetIO();
+	io.FontGlobalScale = scale;
+}
+
+LRESULT CEGUI::WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	return ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
+}
 
 //--------------------------------------------------------------------------------------
 // Get surface information for a particular format

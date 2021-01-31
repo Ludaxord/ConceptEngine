@@ -29,12 +29,14 @@ std::shared_ptr<CECommandList> CECommandQueue::GetCommandList() {
 	 */
 	if (!m_availableCommandLists.Empty()) {
 		m_availableCommandLists.TryPop(commandList);
+		spdlog::warn("Pop command list");
 	}
 	else {
 		/*
 		 * If there are not any command lists available, create new one.
 		 */
 		commandList = std::make_shared<CECommandListInstance>(m_device, m_commandListType);
+		spdlog::warn("Create command list");
 	}
 
 	return commandList;
@@ -149,12 +151,10 @@ void CECommandQueue::Flush() {
 	std::unique_lock<std::mutex> lock(m_processInUseCommandListsThreadMutex);
 	m_processInUseCommandListsThreadConditionVariable.wait(lock, [this] { return m_inUseCommandLists.Empty(); });
 
-	/*
-	 * In case command queue was signaled directly
-	 * using CommandQueue::Signal method then
-	 * fence value of command queue might be higher than fence
-	 * value of any of executed command lists.
-	 */
+	// In case the command queue was signaled directly
+	// using the CommandQueue::Signal method then the
+	// fence value of the command queue might be higher than the fence
+	// value of any of the executed command lists.
 	WaitForFenceValue(m_fenceValue);
 }
 

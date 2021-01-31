@@ -1,61 +1,58 @@
 #include "CEMaterial.h"
 using namespace Concept::GraphicsEngine::Direct3D;
 
-/*
- * Material properties must be 16-byte aligned.
- * in order to ensure alignment, to material properties is allocated in aligned memory.
- */
+// Material properties must be 16-byte aligned.
+// In order to ensure alignment, the matierial properties is allocated in aligned memory.
 static MaterialProperties* NewMaterialProperties(const MaterialProperties& props) {
 	MaterialProperties* materialProperties = (MaterialProperties*)_aligned_malloc(sizeof(MaterialProperties), 16);
 	*materialProperties = props;
+
 	return materialProperties;
 }
 
-/*
- * Aligned memory must be deleted using _aligned_free method;
- */
-static void DeleteMaterialProperties(MaterialProperties* props) {
-	_aligned_free(props);
+// Aligned memory must be deleted using the _aligned_free method.
+static void DeleteMaterialProperties(MaterialProperties* p) {
+	_aligned_free(p);
 }
 
-CEMaterial::CEMaterial(const MaterialProperties& materialProperties): m_materialProperties(
-	NewMaterialProperties(materialProperties), &DeleteMaterialProperties) {
+CEMaterial::CEMaterial(const MaterialProperties& materialProperties)
+	: m_materialProperties(NewMaterialProperties(materialProperties), &DeleteMaterialProperties) {
 }
 
-CEMaterial::CEMaterial(const CEMaterial& copy): m_materialProperties(NewMaterialProperties(*copy.m_materialProperties),
-                                                                     &DeleteMaterialProperties),
-                                                m_textures(copy.m_textures) {
+CEMaterial::CEMaterial(const CEMaterial& copy)
+	: m_materialProperties(NewMaterialProperties(*copy.m_materialProperties), &DeleteMaterialProperties)
+	  , m_textures(copy.m_textures) {
 }
 
-const ::DirectX::XMFLOAT4& CEMaterial::GetAmbientColor() const {
+const DirectX::XMFLOAT4& CEMaterial::GetAmbientColor() const {
 	return m_materialProperties->Ambient;
 }
 
-void CEMaterial::SetAmbientColor(const ::DirectX::XMFLOAT4& ambient) {
+void CEMaterial::SetAmbientColor(const DirectX::XMFLOAT4& ambient) {
 	m_materialProperties->Ambient = ambient;
 }
 
-const ::DirectX::XMFLOAT4& CEMaterial::GetDiffuseColor() const {
+const DirectX::XMFLOAT4& CEMaterial::GetDiffuseColor() const {
 	return m_materialProperties->Diffuse;
 }
 
-void CEMaterial::SetDiffuseColor(const ::DirectX::XMFLOAT4& diffuse) {
+void CEMaterial::SetDiffuseColor(const DirectX::XMFLOAT4& diffuse) {
 	m_materialProperties->Diffuse = diffuse;
 }
 
-const ::DirectX::XMFLOAT4& CEMaterial::GetEmissiveColor() const {
+const DirectX::XMFLOAT4& CEMaterial::GetEmissiveColor() const {
 	return m_materialProperties->Emissive;
 }
 
-void CEMaterial::SetEmissiveColor(const ::DirectX::XMFLOAT4& emissive) {
+void CEMaterial::SetEmissiveColor(const DirectX::XMFLOAT4& emissive) {
 	m_materialProperties->Emissive = emissive;
 }
 
-const ::DirectX::XMFLOAT4& CEMaterial::GetSpecularColor() const {
+const DirectX::XMFLOAT4& CEMaterial::GetSpecularColor() const {
 	return m_materialProperties->Specular;
 }
 
-void CEMaterial::SetSpecularColor(const ::DirectX::XMFLOAT4& specular) {
+void CEMaterial::SetSpecularColor(const DirectX::XMFLOAT4& specular) {
 	m_materialProperties->Specular = specular;
 }
 
@@ -67,11 +64,11 @@ void CEMaterial::SetSpecularPower(float specularPower) {
 	m_materialProperties->SpecularPower = specularPower;
 }
 
-const ::DirectX::XMFLOAT4& CEMaterial::GetReflectance() const {
+const DirectX::XMFLOAT4& CEMaterial::GetReflectance() const {
 	return m_materialProperties->Reflectance;
 }
 
-void CEMaterial::SetReflectance(const ::DirectX::XMFLOAT4& reflectance) {
+void CEMaterial::SetReflectance(const DirectX::XMFLOAT4& reflectance) {
 	m_materialProperties->Reflectance = reflectance;
 }
 
@@ -104,11 +101,13 @@ std::shared_ptr<CETexture> CEMaterial::GetTexture(TextureType ID) const {
 	if (iter != m_textures.end()) {
 		return iter->second;
 	}
+
 	return nullptr;
 }
 
 void CEMaterial::SetTexture(TextureType type, std::shared_ptr<CETexture> texture) {
 	m_textures[type] = texture;
+
 	switch (type) {
 	case TextureType::Ambient: {
 		m_materialProperties->HasAmbientTexture = (texture != nullptr);
@@ -157,7 +156,7 @@ void CEMaterial::SetMaterialProperties(const MaterialProperties& materialPropert
 	*m_materialProperties = materialProperties;
 }
 
-
+// clang-format off
 const MaterialProperties CEMaterial::Zero = {
 	{0.0f, 0.0f, 0.0f, 1.0f},
 	{0.0f, 0.0f, 0.0f, 1.0f},
@@ -395,3 +394,4 @@ const MaterialProperties CEMaterial::YellowRubber = {
 	10.0f,
 	{0.05f, 0.05f, 0.0f, 1.0f}
 };
+// clang-format on

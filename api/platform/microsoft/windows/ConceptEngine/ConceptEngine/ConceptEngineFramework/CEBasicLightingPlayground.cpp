@@ -114,45 +114,36 @@ CEBasicLightingPlayground::~CEBasicLightingPlayground() {
 }
 
 bool CEBasicLightingPlayground::LoadContent() {
-	/*
-	 * Create DX12 device
-	 */
+	// Create the DX12 device.
 	m_device = CEDevice::Create();
 
-	/*
-	 * Create swap chain.
-	 */
+	// Create a swap chain.
 	m_swapChain = m_device->CreateSwapChain(m_window->GetWindowHandle(), DXGI_FORMAT_R8G8B8A8_UNORM);
 	m_swapChain->SetVSync(GetVSync());
 
 	m_gui = m_device->CreateGUI(m_window->GetWindowHandle(), m_swapChain->GetRenderTarget());
 
-	/*
-	 * Magic here allows ImGui to process window messages.
-	 */
+	// This magic here allows ImGui to process window messages.
 	CEGame::Get().WndProcHandler += CEWindowProcEvent::slot(&CEGUI::WndProcHandler, m_gui);
 
 	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
-	auto commandList = commandQueue.GetCommandList();
+	auto  commandList = commandQueue.GetCommandList();
 
-	/*
-	 * Create some geometry to render.
-	 */
+	// Create some geometry to render.
 	m_cube = commandList->CreateCube();
 	m_sphere = commandList->CreateSphere();
 	m_cone = commandList->CreateCone();
 	m_torus = commandList->CreateTorus();
 	m_plane = commandList->CreatePlane();
 
-	/*
-	 * Load some textures
-	 */
+	// Load some textures
+	m_defaultTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/DefaultWhite.bmp", true);
+	m_directXTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Directx9.png", true);
+	m_earthTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/earth.dds", true);
+	m_monaLisaTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Mona_Lisa.jpg", true);
 
-	/*
-	 * Load resources to commandQueue
-	 */
+	// Start loading resources...
 	commandQueue.ExecuteCommandList(commandList);
-
 	/*
 	 * Load shaders
 	 */
@@ -183,61 +174,55 @@ bool CEBasicLightingPlayground::LoadContent() {
 	Microsoft::WRL::ComPtr<ID3DBlob> unlitPixelShaderBlob;
 	ThrowIfFailed(D3DReadFileToBlob(ups_assetsPath.c_str(), &unlitPixelShaderBlob));
 
-	/*
-	 * Create root signature
-	 * allow input layout and deny unnecessary access to certain pipeline stages.
-	 */
+	// Create a root signature.
+	// Allow input layout and deny unnecessary access to certain pipeline stages.
 	D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
 
-	CD3DX12_DESCRIPTOR_RANGE1 descriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
+	CD3DX12_DESCRIPTOR_RANGE1 descriptorRage(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
 
 	CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
 	rootParameters[RootParameters::MatricesCB].InitAsConstantBufferView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-	                                                                    D3D12_SHADER_VISIBILITY_VERTEX);
+		D3D12_SHADER_VISIBILITY_VERTEX);
 	rootParameters[RootParameters::MaterialCB].InitAsConstantBufferView(0, 1, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-	                                                                    D3D12_SHADER_VISIBILITY_PIXEL);
+		D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::LightPropertiesCB].InitAsConstants(sizeof(LightProperties) / 4, 1, 0,
-	                                                                  D3D12_SHADER_VISIBILITY_PIXEL);
+		D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::PointLights].InitAsShaderResourceView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-	                                                                     D3D12_SHADER_VISIBILITY_PIXEL);
+		D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::SpotLights].InitAsShaderResourceView(1, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-	                                                                    D3D12_SHADER_VISIBILITY_PIXEL);
-	rootParameters[RootParameters::Textures].InitAsDescriptorTable(1, &descriptorRange, D3D12_SHADER_VISIBILITY_PIXEL);
+		D3D12_SHADER_VISIBILITY_PIXEL);
+	rootParameters[RootParameters::Textures].InitAsDescriptorTable(1, &descriptorRage, D3D12_SHADER_VISIBILITY_PIXEL);
 
 	CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR);
 	CD3DX12_STATIC_SAMPLER_DESC anisotropicSampler(0, D3D12_FILTER_ANISOTROPIC);
 
 	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
 	rootSignatureDescription.Init_1_1(RootParameters::NumRootParameters, rootParameters, 1, &linearRepeatSampler,
-	                                  rootSignatureFlags);
+		rootSignatureFlags);
+
 	m_rootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
 
-	/*
-	 * Setup pipeline state.
-	 */
-	struct PipelineStateStream {
-		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
-		CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT InputLayout;
-		CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY PrimitiveTopologyType;
-		CD3DX12_PIPELINE_STATE_STREAM_VS VS;
-		CD3DX12_PIPELINE_STATE_STREAM_PS PS;
-		CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT DSVFormat;
+	// Setup the pipeline state.
+	struct PipelineStateStream
+	{
+		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE        pRootSignature;
+		CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT          InputLayout;
+		CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY    PrimitiveTopologyType;
+		CD3DX12_PIPELINE_STATE_STREAM_VS                    VS;
+		CD3DX12_PIPELINE_STATE_STREAM_PS                    PS;
+		CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT  DSVFormat;
 		CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
-		CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_DESC SampleDesc;
+		CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_DESC           SampleDesc;
 	} pipelineStateStream;
 
-	/*
-	 * Create color buffer with sRGB for gamma correction.
-	 */
+	// Create a color buffer with sRGB for gamma correction.
 	DXGI_FORMAT backBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	DXGI_FORMAT depthBufferFormat = DXGI_FORMAT_D32_FLOAT;
 
-	/*
-	 * Check best Multi-Sample quality level that can be used for given back buffer format;
-	 */
+	// Check the best multisample quality level that can be used for the given back buffer format.
 	DXGI_SAMPLE_DESC sampleDesc = m_device->GetMultiSampleQualityLevels(backBufferFormat);
 
 	D3D12_RT_FORMAT_ARRAY rtvFormats = {};
@@ -255,19 +240,14 @@ bool CEBasicLightingPlayground::LoadContent() {
 
 	m_pipelineState = m_device->CreatePipelineStateObject(pipelineStateStream);
 
-	/*
-	 * For unlit PSO only pixel shader is different.
-	 */
+	// For the unlit PSO, only the pixel shader is different.
 	pipelineStateStream.PS = CD3DX12_SHADER_BYTECODE(unlitPixelShaderBlob.Get());
 
 	m_unlitPipelineState = m_device->CreatePipelineStateObject(pipelineStateStream);
 
-	/*
-	 * Create off-screen render target with single color buffer and depth buffer.
-	 */
-	auto colorDesc = CD3DX12_RESOURCE_DESC::Tex2D(backBufferFormat, GetScreenWidth(), GetScreenHeight(), 1, 1,
-	                                              sampleDesc.Count, sampleDesc.Quality,
-	                                              D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+	// Create an off-screen render target with a single color buffer and a depth buffer.
+	auto colorDesc = CD3DX12_RESOURCE_DESC::Tex2D(backBufferFormat, GetScreenWidth(), GetScreenHeight(), 1, 1, sampleDesc.Count,
+		sampleDesc.Quality, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 	D3D12_CLEAR_VALUE colorClearValue;
 	colorClearValue.Format = colorDesc.Format;
 	colorClearValue.Color[0] = 0.4f;
@@ -278,31 +258,24 @@ bool CEBasicLightingPlayground::LoadContent() {
 	auto colorTexture = m_device->CreateTexture(colorDesc, &colorClearValue);
 	colorTexture->SetName(L"Color Render Target");
 
-	/*
-	 * Create depth buffer
-	 */
-	auto depthDesc = CD3DX12_RESOURCE_DESC::Tex2D(depthBufferFormat, GetScreenWidth(), GetScreenHeight(), 1, 1,
-	                                              sampleDesc.Count, sampleDesc.Quality,
-	                                              D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
+	// Create a depth buffer.
+	auto depthDesc = CD3DX12_RESOURCE_DESC::Tex2D(depthBufferFormat, GetScreenWidth(), GetScreenHeight(), 1, 1, sampleDesc.Count,
+		sampleDesc.Quality, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 	D3D12_CLEAR_VALUE depthClearValue;
 	depthClearValue.Format = depthDesc.Format;
-	depthClearValue.DepthStencil = {1.0f, 0};
+	depthClearValue.DepthStencil = { 1.0f, 0 };
 
 	auto depthTexture = m_device->CreateTexture(depthDesc, &depthClearValue);
 	depthTexture->SetName(L"Depth Render Target");
 
-	/*
-	 * Attach textures to render target
-	 */
+	// Attach the textures to the render target.
 	m_renderTarget.AttachTexture(AttachmentPoint::Color0, colorTexture);
 	m_renderTarget.AttachTexture(AttachmentPoint::DepthStencil, depthTexture);
 
-	/*
-	 * Wait for loading opperations to complete before rendering first frame
-	 */
-	commandQueue.Flush();
+	commandQueue.Flush();  // Wait for loading operations to complete before rendering the first frame.
 
 	return true;
+	
 }
 
 void CEBasicLightingPlayground::UnloadContent() {
@@ -332,21 +305,18 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 
 	m_swapChain->WaitForSwapChain();
 
-	/*
-	 * Update camera
-	 */
-	float speedMultiPier = (GetShift() ? 16.0f : 4.0f);
+	// Update the camera.
+	float speedMultipler = (GetShift() ? 16.0f : 4.0f);
 
-	XMVECTOR cameraTranslate = XMVectorSet(GetCameraRight() - GetCameraLeft(), 0.0f,
-	                                       GetCameraForward() - GetCameraBackward(), 1.0f) * speedMultiPier *
+	XMVECTOR cameraTranslate = XMVectorSet(GetCameraRight() - GetCameraLeft(), 0.0f, GetCameraForward() - GetCameraBackward(), 1.0f) * speedMultipler *
 		static_cast<float>(e.DeltaTime);
-	XMVECTOR cameraPan = XMVectorSet(0.0f, GetCameraUp() - GetCameraDown(), 0.0f, 1.0f) * speedMultiPier * static_cast<
-		float>(e.DeltaTime);
+	XMVECTOR cameraPan =
+		XMVectorSet(0.0f, GetCameraUp() - GetCameraDown(), 0.0f, 1.0f) * speedMultipler * static_cast<float>(e.DeltaTime);
 	m_camera.Translate(cameraTranslate, GraphicsEngine::Space::Local);
 	m_camera.Translate(cameraPan, GraphicsEngine::Space::Local);
 
-	XMVECTOR cameraRotation = XMQuaternionRotationRollPitchYaw(XMConvertToRadians(GetPitch()),
-	                                                           XMConvertToRadians(GetYaw()), 0.0f);
+	XMVECTOR cameraRotation =
+		XMQuaternionRotationRollPitchYaw(XMConvertToRadians(GetPitch()), XMConvertToRadians(GetYaw()), 0.0f);
 	m_camera.set_Rotation(cameraRotation);
 
 	XMMATRIX viewMatrix = m_camera.get_ViewMatrix();
@@ -354,19 +324,12 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	const int numPointLights = 4;
 	const int numSpotLights = 4;
 
-	static const XMVECTORF32 LightColors[] = {
-		Colors::White,
-		Colors::Orange,
-		Colors::Yellow,
-		Colors::Green,
-		Colors::Blue,
-		Colors::Indigo,
-		Colors::Violet,
-		Colors::White
-	};
+	static const XMVECTORF32 LightColors[] = { Colors::White, Colors::Orange, Colors::Yellow, Colors::Green,
+											   Colors::Blue,  Colors::Indigo, Colors::Violet, Colors::White };
 
 	static float lightAnimTime = 0.0f;
-	if (GetAnimateLights()) {
+	if (GetAnimateLights())
+	{
 		lightAnimTime += static_cast<float>(e.DeltaTime) * 0.5f * XM_PI;
 	}
 
@@ -374,18 +337,14 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	const float offset = 2.0f * XM_PI / numPointLights;
 	const float offset2 = offset + (offset / 2.0f);
 
-	/*
-	 * Setup light buffers
-	 */
+	// Setup the light buffers.
 	m_pointLights.resize(numPointLights);
-	for (int i = 0; i < numPointLights; ++i) {
+	for (int i = 0; i < numPointLights; ++i)
+	{
 		Lighting::PointLight& l = m_pointLights[i];
-		l.PositionWS = {
-			static_cast<float>(std::sin(lightAnimTime + offset * i)) * radius,
-			9.0f,
-			static_cast<float>(std::cos(lightAnimTime + offset * i)) * radius,
-			1.0f
-		};
+
+		l.PositionWS = { static_cast<float>(std::sin(lightAnimTime + offset * i)) * radius, 9.0f,
+						 static_cast<float>(std::cos(lightAnimTime + offset * i)) * radius, 1.0f };
 		XMVECTOR positionWS = XMLoadFloat4(&l.PositionWS);
 		XMVECTOR positionVS = XMVector3TransformCoord(positionWS, viewMatrix);
 		XMStoreFloat4(&l.PositionVS, positionVS);
@@ -397,15 +356,12 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	}
 
 	m_spotLights.resize(numSpotLights);
-	for (int i = 0; i < numSpotLights; ++i) {
+	for (int i = 0; i < numSpotLights; ++i)
+	{
 		Lighting::SpotLight& l = m_spotLights[i];
 
-		l.PositionWS = {
-			static_cast<float>(std::sin(lightAnimTime + offset * i + offset2)) * radius,
-			9.0f,
-			static_cast<float>(std::cos(lightAnimTime + offset * i + offset2)) * radius,
-			1.0f
-		};
+		l.PositionWS = { static_cast<float>(std::sin(lightAnimTime + offset * i + offset2)) * radius, 9.0f,
+						 static_cast<float>(std::cos(lightAnimTime + offset * i + offset2)) * radius, 1.0f };
 		XMVECTOR positionWS = XMLoadFloat4(&l.PositionWS);
 		XMVECTOR positionVS = XMVector3TransformCoord(positionWS, viewMatrix);
 		XMStoreFloat4(&l.PositionVS, positionVS);
@@ -423,6 +379,7 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	}
 
 	OnRender();
+	debugLoop++;
 }
 
 void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat) {
@@ -434,34 +391,29 @@ void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX view
 
 void CEBasicLightingPlayground::OnRender() {
 	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	auto commandList = commandQueue.GetCommandList();
+	auto  commandList = commandQueue.GetCommandList();
 
-	/*
-	 * Create scene visitor that is used to perform actual rendering of meshes in scenes
-	 */
+	// Create a scene visitor that is used to perform the actual rendering of the meshes in the scenes.
 	Visitor::CED3DSceneVisitor visitor(*commandList);
 
-	/*
-	 * Clear render targets
-	 */
+	// Clear the render targets.
 	{
-		FLOAT clearColor[] = {0.4f, 0.6f, 0.9f, 1.0f};
+		FLOAT clearColor[] = { 0.4f, 0.6f, 0.9f, 1.0f };
+
 		commandList->ClearTexture(m_renderTarget.GetTexture(AttachmentPoint::Color0), clearColor);
 		commandList->ClearDepthStencilTexture(m_renderTarget.GetTexture(AttachmentPoint::DepthStencil),
-		                                      D3D12_CLEAR_FLAG_DEPTH);
+			D3D12_CLEAR_FLAG_DEPTH);
 	}
 
 	commandList->SetPipelineState(m_pipelineState);
 	commandList->SetGraphicsRootSignature(m_rootSignature);
 
-	/*
-	 * Upload Lights
-	 */
-	LightProperties lightProperties;
-	lightProperties.NumPointLights = static_cast<uint32_t>(m_pointLights.size());
-	lightProperties.NumSpotLights = static_cast<uint32_t>(m_spotLights.size());
+	// Upload lights
+	LightProperties lightProps;
+	lightProps.NumPointLights = static_cast<uint32_t>(m_pointLights.size());
+	lightProps.NumSpotLights = static_cast<uint32_t>(m_spotLights.size());
 
-	commandList->SetGraphics32BitConstants(RootParameters::LightPropertiesCB, lightProperties);
+	commandList->SetGraphics32BitConstants(RootParameters::LightPropertiesCB, lightProps);
 	commandList->SetGraphicsDynamicStructuredBuffer(RootParameters::PointLights, m_pointLights);
 	commandList->SetGraphicsDynamicStructuredBuffer(RootParameters::SpotLights, m_spotLights);
 
@@ -470,9 +422,7 @@ void CEBasicLightingPlayground::OnRender() {
 
 	commandList->SetRenderTarget(m_renderTarget);
 
-	/*
-	 * Draw earth sphere.
-	 */
+	// Draw the earth sphere
 	XMMATRIX translationMatrix = XMMatrixTranslation(-4.0f, 2.0f, -4.0f);
 	XMMATRIX rotationMatrix = XMMatrixIdentity();
 	XMMATRIX scaleMatrix = XMMatrixScaling(4.0f, 4.0f, 4.0f);
@@ -484,25 +434,133 @@ void CEBasicLightingPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
-	// commandList->SetShaderResourceView(RootParameters::Textures, 0, m_earthTexture, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_earthTexture,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	/*
-	 * Render earth sphere using SceneVisitor
-	 */
+	// Render the earth sphere using the SceneVisitor.
 	m_sphere->Accept(visitor);
 
-	/*
-	 * Add more elements to scene visitor by using Accept function
-	 */
+	// Draw a cube
+	translationMatrix = XMMatrixTranslation(4.0f, 4.0f, 4.0f);
+	rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
+	scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
-	/*
-	 * Draw shapes to visualize position of lights in scene using unlit pixel shader.
-	 */
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_monaLisaTexture,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// Render the Mona Lisa cube with the SceneVisitor.
+	m_cube->Accept(visitor);
+
+	// Draw a torus
+	translationMatrix = XMMatrixTranslation(4.0f, 0.6f, -4.0f);
+	rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
+	scaleMatrix = XMMatrixScaling(4.0f, 4.0f, 4.0f);
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Ruby);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	m_torus->Accept(visitor);
+
+	// Floor plane.
+	float scalePlane = 20.0f;
+	float translateOffset = scalePlane / 2.0f;
+
+	translationMatrix = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+	rotationMatrix = XMMatrixIdentity();
+	scaleMatrix = XMMatrixScaling(scalePlane, 1.0f, scalePlane);
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// Render the plane using the SceneVisitor.
+	m_plane->Accept(visitor);
+
+	// Back wall
+	translationMatrix = XMMatrixTranslation(0, translateOffset, translateOffset);
+	rotationMatrix = XMMatrixRotationX(XMConvertToRadians(-90));
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+
+	// Render the plane using the SceneVisitor.
+	m_plane->Accept(visitor);
+
+	// Ceiling plane
+	translationMatrix = XMMatrixTranslation(0, translateOffset * 2.0f, 0);
+	rotationMatrix = XMMatrixRotationX(XMConvertToRadians(180));
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+
+	// Render the plane using the SceneVisitor.
+	m_plane->Accept(visitor);
+
+	// Front wall
+	translationMatrix = XMMatrixTranslation(0, translateOffset, -translateOffset);
+	rotationMatrix = XMMatrixRotationX(XMConvertToRadians(90));
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+
+	// Render the plane using the SceneVisitor.
+	m_plane->Accept(visitor);
+
+	// Left wall
+	translationMatrix = XMMatrixTranslation(-translateOffset, translateOffset, 0);
+	rotationMatrix = XMMatrixRotationX(XMConvertToRadians(-90)) * XMMatrixRotationY(XMConvertToRadians(-90));
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Red);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	// Render the plane using the SceneVisitor.
+	m_plane->Accept(visitor);
+
+	// Right wall
+	translationMatrix = XMMatrixTranslation(translateOffset, translateOffset, 0);
+	rotationMatrix = XMMatrixRotationX(XMConvertToRadians(-90)) * XMMatrixRotationY(XMConvertToRadians(90));
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Blue);
+
+	// Render the plane using the SceneVisitor.
+	m_plane->Accept(visitor);
+
+	// Draw shapes to visualize the position of the lights in the scene using an unlit pixel shader.
 	commandList->SetPipelineState(m_unlitPipelineState);
 
 	MaterialProperties lightMaterial = CEMaterial::Zero;
-	for (const auto& l : m_pointLights) {
+	for (const auto& l : m_pointLights)
+	{
 		lightMaterial.Emissive = l.Color;
 		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
 		worldMatrix = XMMatrixTranslationFromVector(lightPos);
@@ -510,18 +568,18 @@ void CEBasicLightingPlayground::OnRender() {
 
 		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 		commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, lightMaterial);
+
 		m_sphere->Accept(visitor);
 	}
 
-	for (const auto& l : m_spotLights) {
+	for (const auto& l : m_spotLights)
+	{
 		lightMaterial.Emissive = l.Color;
 		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
-		XMVECTOR lightDir = XMLoadFloat4(&l.PositionVS);
+		XMVECTOR lightDir = XMLoadFloat4(&l.DirectionWS);
 		XMVECTOR up = XMVectorSet(0, 1, 0, 0);
 
-		/*
-		 * Rotate cone so it is facing Z axis
-		 */
+		// Rotate the cone so it is facing the Z axis.
 		rotationMatrix = XMMatrixRotationX(XMConvertToRadians(-90.0f));
 		worldMatrix = rotationMatrix * LookAtMatrix(lightPos, lightDir, up);
 
@@ -533,18 +591,14 @@ void CEBasicLightingPlayground::OnRender() {
 		m_cone->Accept(visitor);
 	}
 
-	/*
-	 * Resolve MSAA render target to swapchain back buffer
-	 */
+	// Resolve the MSAA render target to the swapchain's backbuffer.
 	auto& swapChainRT = m_swapChain->GetRenderTarget();
-	auto swapChainBackBuffer = swapChainRT.GetTexture(AttachmentPoint::Color0);
-	auto msaaRenderTarget = m_renderTarget.GetTexture(AttachmentPoint::Color0);
+	auto  swapChainBackBuffer = swapChainRT.GetTexture(AttachmentPoint::Color0);
+	auto  msaaRenderTarget = m_renderTarget.GetTexture(AttachmentPoint::Color0);
 
 	commandList->ResolveSubResource(swapChainBackBuffer, msaaRenderTarget);
 
-	/*
-	 * Render GUI directly to swap chain render target
-	 */
+	// Render the GUI directly to the swap chain's render target.
 	OnGUI(commandList, swapChainRT);
 
 	commandQueue.ExecuteCommandList(commandList);

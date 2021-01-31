@@ -84,11 +84,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param [beforeResource] resource that currently occupies heap (can be null)
 		 * @param [afterResource] resource that will occupy space in heap (can be null)
 		 */
-		void AliasingBarrier(const std::shared_ptr<CEResource>& beforeResource = nullptr,
-		                     const std::shared_ptr<CEResource>& afterResource = nullptr,
-		                     bool flushBarriers = false);
-		void AliasingBarrier(wrl::ComPtr<ID3D12Resource> beforeResource,
-		                     wrl::ComPtr<ID3D12Resource>& afterResource, bool flushBarriers = false);
+		void AliasingBarrier(const std::shared_ptr<CEResource>& = nullptr,
+		                     const std::shared_ptr<CEResource>& afterResource = nullptr, bool flushBarriers = false);
+		void AliasingBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> beforeResource,
+		                     Microsoft::WRL::ComPtr<ID3D12Resource> afterResource, bool flushBarriers = false);
+
 
 		/**
 		 * Flush any barriers that have been pushed to command list
@@ -276,12 +276,12 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * first subresource is used to generate mip chain.
 		 * Mips are automatically generated for textures loaded from files.
 		 */
-		void GenerateMips(const std::shared_ptr<CETexture> texture);
+		void GenerateMips(const std::shared_ptr<CETexture>& texture);
 
 		/**
 		 * Generate cubeMap texture from panoramic (EquiRectangular) texture;
 		 */
-		void PanoToCubeMap(const std::shared_ptr<CETexture>& cubeMapTexture,
+		void PanoToCubeMap(const std::shared_ptr<CETexture>& cubemapTexture,
 		                   const std::shared_ptr<CETexture>& panoTexture);
 
 		/**
@@ -402,7 +402,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		void SetConstantBufferView(uint32_t rootParameterIndex, const std::shared_ptr<CEConstantBuffer>& buffer,
 		                           D3D12_RESOURCE_STATES stateAfter = D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER,
-		                           uint32_t bufferOffset = 0);
+		                           size_t bufferOffset = 0);
 
 		/**
 		 * Set inline SRV
@@ -412,7 +412,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void SetShaderResourceView(uint32_t rootParameterIndex, const std::shared_ptr<CEBuffer>& buffer,
 		                           D3D12_RESOURCE_STATES stateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE |
 			                           D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
-		                           uint32_t bufferOffset = 0);
+		                           size_t bufferOffset = 0);
 
 		/**
 		 * Set inline UAV

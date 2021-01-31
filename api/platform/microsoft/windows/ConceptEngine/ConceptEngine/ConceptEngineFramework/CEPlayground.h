@@ -15,6 +15,8 @@ namespace Concept::GameEngine {
 
 		class CEPlayground {
 		public:
+			inline static int debugLoop = 0;
+
 			CEPlayground(const std::wstring& name, uint32_t width, uint32_t height, bool vSync = false) : m_forward(0),
 				m_backward(0), m_left(0), m_right(0), m_up(0), m_down(0), m_pitch(0), m_yaw(0), m_animateLights(false),
 				m_shift(false), m_width(width), m_height(height), m_vSync(vSync) {
@@ -35,7 +37,13 @@ namespace Concept::GameEngine {
 			 */
 			uint32_t Run() {
 				LoadContent();
+
+				m_logger->info("Concept Engine Playground Content Loaded");
+
 				m_window->Show();
+				
+				m_logger->info("Concept Engine Window Presented");
+
 				const uint32_t returnCode = CEGame::Get().Run();
 				UnloadContent();
 				return returnCode;
@@ -84,6 +92,8 @@ namespace Concept::GameEngine {
 			virtual void OnResize(ResizeEventArgs& e) = 0;
 
 			void DisplayDebugFPSOnUpdate(UpdateEventArgs& e) const {
+				m_logger->info("Update Loop: {}", debugLoop);
+
 				static uint64_t frameCount = 0;
 				static double totalTime = 0.0;
 
@@ -102,7 +112,7 @@ namespace Concept::GameEngine {
 					m_window->SetWindowTitle(buffer);
 				}
 			}
-			
+
 			/*
 			 * Setters
 			 */

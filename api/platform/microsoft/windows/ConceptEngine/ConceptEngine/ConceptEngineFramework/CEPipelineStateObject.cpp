@@ -38,8 +38,10 @@ D3D12_SHADER_BYTECODE CEPipelineStateObject::CompileShaderFileToByteCode(std::ws
 	return shaderBytecode;
 }
 
-CEPipelineStateObject::CEPipelineStateObject(CEDevice& device, const D3D12_PIPELINE_STATE_STREAM_DESC& desc): m_device(
-	device) {
+
+CEPipelineStateObject::CEPipelineStateObject(CEDevice& device, const D3D12_PIPELINE_STATE_STREAM_DESC& desc)
+	: m_device(device) {
 	auto d3d12Device = device.GetDevice();
+
 	ThrowIfFailed(d3d12Device->CreatePipelineState(&desc, IID_PPV_ARGS(&m_pipelineState)));
 }

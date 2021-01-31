@@ -7,11 +7,12 @@
 #include "CEVisitor.h"
 using namespace Concept::GraphicsEngine::Direct3D;
 
-CEMesh::CEMesh(): m_primitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST) {
+CEMesh::CEMesh()
+	: m_primitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST) {
 }
 
-void CEMesh::SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY primitiveTopology) {
-	m_primitiveTopology = primitiveTopology;
+void CEMesh::SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY primitiveToplogy) {
+	m_primitiveTopology = primitiveToplogy;
 }
 
 D3D12_PRIMITIVE_TOPOLOGY CEMesh::GetPrimitiveTopology() const {
@@ -42,18 +43,19 @@ size_t CEMesh::GetIndexCount() const {
 	if (m_indexBuffer) {
 		indexCount = m_indexBuffer->GetNumIndices();
 	}
+
 	return indexCount;
 }
 
 size_t CEMesh::GetVertexCount() const {
 	size_t vertexCount = 0;
-	/*
-	 * Count number of vertices in mesh, just take number of vertices in first vertex buffer;
-	 */
+
+	// To count the number of vertices in the mesh, just take the number of vertices in the first vertex buffer.
 	BufferMap::const_iterator iter = m_vertexBuffers.cbegin();
 	if (iter != m_vertexBuffers.cend()) {
 		vertexCount = iter->second->GetNumVertices();
 	}
+
 	return vertexCount;
 }
 
@@ -65,16 +67,9 @@ std::shared_ptr<CEMaterial> CEMesh::GetMaterial() const {
 	return m_material;
 }
 
-void CEMesh::SetAABB(const ::DirectX::BoundingBox& aabb) {
-	m_AABB = aabb;
-}
-
-const ::DirectX::BoundingBox& CEMesh::GetAABB() const {
-	return m_AABB;
-}
-
 void CEMesh::Draw(CECommandList& commandList, uint32_t instanceCount, uint32_t startInstance) {
 	commandList.SetPrimitiveTopology(GetPrimitiveTopology());
+
 	for (auto vertexBuffer : m_vertexBuffers) {
 		commandList.SetVertexBuffer(vertexBuffer.first, vertexBuffer.second);
 	}
@@ -93,4 +88,12 @@ void CEMesh::Draw(CECommandList& commandList, uint32_t instanceCount, uint32_t s
 
 void CEMesh::Accept(CEVisitor& visitor) {
 	visitor.Visit(*this);
+}
+
+void CEMesh::SetAABB(const DirectX::BoundingBox& aabb) {
+	m_AABB = aabb;
+}
+
+const DirectX::BoundingBox& CEMesh::GetAABB() const {
+	return m_AABB;
 }

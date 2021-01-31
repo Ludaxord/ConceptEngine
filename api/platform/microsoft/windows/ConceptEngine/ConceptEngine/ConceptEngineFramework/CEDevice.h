@@ -160,9 +160,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Create Unordered Access View
 		 */
-		std::shared_ptr<CEUnorderedAccessView> CreateUnorderedAccessView(
-			const std::shared_ptr<CEResource>& resource,
-			const std::shared_ptr<CEResource> counterResource = nullptr,
+		std::shared_ptr<CEUnorderedAccessView> CreateUnorderedAccessView(const std::shared_ptr<CEResource>& resource,
+			const std::shared_ptr<CEResource>& counterResource = nullptr,
 			const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav = nullptr);
 
 		/**

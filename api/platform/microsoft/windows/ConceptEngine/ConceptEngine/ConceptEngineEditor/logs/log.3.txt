@@ -1,5 +1,14 @@
-[2021-01-29 20:56:42.313] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-01-29 20:56:42.748] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-01-29 20:56:42.785] [Concept Engine] [info] Window Resize: 1920, 1080
-[2021-01-29 20:56:43.318] [Concept Engine] [info] FPS: 441.9209
-[2021-01-29 20:56:44.361] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-01-30 23:48:39.610] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-30 23:48:40.248] [ConceptEngine] [warning] Create command list
+[2021-01-30 23:48:40.250] [ConceptEngine] [warning] Create command list
+[2021-01-30 23:48:40.257] [ConceptEngine] [warning] Create command list
+[2021-01-30 23:48:40.258] [ConceptEngine] [warning] Create command list
+[2021-01-30 23:48:40.262] [ConceptEngine] [warning] Pop command list
+[2021-01-30 23:48:40.282] [ConceptEngine] [warning] Pop command list
+[2021-01-30 23:48:40.576] [ConceptEngine] [warning] Pop command list
+[2021-01-30 23:48:40.577] [ConceptEngine] [warning] Pop command list
+[2021-01-30 23:48:40.650] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-01-30 23:48:40.676] [Concept Engine] [info] Concept Engine Window Presented
+[2021-01-30 23:48:40.678] [Concept Engine] [info] Update Loop: 0
+[2021-01-30 23:48:40.679] [Concept Engine] [info] FPS: 0.9417681
+[2021-01-30 23:48:40.680] [ConceptEngine] [warning] Create command list

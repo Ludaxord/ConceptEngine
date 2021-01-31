@@ -1,0 +1,12 @@
+[2021-01-31 01:13:36.719] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-01-31 01:13:37.277] [ConceptEngine] [warning] Create command list
+[2021-01-31 01:13:37.279] [ConceptEngine] [warning] Create command list
+[2021-01-31 01:13:37.287] [ConceptEngine] [warning] Create command list
+[2021-01-31 01:13:37.288] [ConceptEngine] [warning] Create command list
+[2021-01-31 01:13:37.292] [ConceptEngine] [warning] Pop command list
+[2021-01-31 01:13:37.316] [ConceptEngine] [warning] Pop command list
+[2021-01-31 01:13:37.617] [ConceptEngine] [warning] Pop command list
+[2021-01-31 01:13:37.618] [ConceptEngine] [warning] Pop command list
+[2021-01-31 01:13:37.634] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-01-31 01:13:37.668] [Concept Engine] [info] Concept Engine Window Presented
+[2021-01-31 01:13:37.670] [Concept Engine] [info] Update Loop: 0
