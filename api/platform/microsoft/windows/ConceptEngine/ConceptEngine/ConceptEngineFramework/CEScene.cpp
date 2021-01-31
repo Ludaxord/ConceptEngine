@@ -52,30 +52,9 @@ inline DirectX::BoundingBox CreateBoundingBox(const aiAABB& aabb) {
 	return bb;
 }
 
-
-::DirectX::BoundingBox CEScene::GetAABB() const {
-	DirectX::BoundingBox aabb{{0, 0, 0}, {0, 0, 0}};
-	if (m_rootNode) {
-		aabb = m_rootNode->GetAABB();
-	}
-
-	return aabb;
-}
-
-void CEScene::Accept(CEVisitor& visitor) {
-	visitor.Visit(*this);
-	if (m_rootNode) {
-		m_rootNode->Accept(visitor);
-	}
-}
-
-/*
- * TODO: FIX IN First possible time
- * unresolved external symbol, reason probably: https://github.com/assimp/assimp/issues/1243
- * http://kimkulling.de/2016/05/02/build-asset-importer-lib-for-64bit-with-visual-studio-from-source-repo/
- */
 bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
                                 const std::function<bool(float)>& loadingProgress) {
+
 	fs::path filePath = fileName;
 	fs::path exportPath = fs::path(filePath).replace_extension("assbin");
 
@@ -87,44 +66,38 @@ bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& 
 		parentPath = fs::current_path();
 	}
 
-	Assimp::Importer importer;
-	const aiScene* scene;
+	// Assimp::Importer importer;
+	const aiScene* scene = nullptr;
 
-	importer.SetProgressHandler(new ProgressHandler(*this, loadingProgress));
+	// importer.SetProgressHandler(new ProgressHandler(*this, loadingProgress));
 
-	/*
-	 * Check if preprocessed file exists.
-	 */
+	// Check if a preprocessed file exists.
 	if (fs::exists(exportPath) && fs::is_regular_file(exportPath)) {
 		// scene = importer.ReadFile(exportPath.string(), aiProcess_GenBoundingBoxes);
 	}
 	else {
-		/*
-		 * File has not been preprocessed yet. Import and processes file
-		 */
-		importer.SetPropertyFloat(AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE, 80.0f);
-		importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE, aiPrimitiveType_POINT | aiPrimitiveType_LINE);
+		// File has not been preprocessed yet. Import and processes the file.
+		// importer.SetPropertyFloat(AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE, 80.0f);
+		// importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE, aiPrimitiveType_POINT | aiPrimitiveType_LINE);
 
 		unsigned int preprocessFlags = aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_OptimizeGraph |
 			aiProcess_ConvertToLeftHanded | aiProcess_GenBoundingBoxes;
 		// scene = importer.ReadFile(filePath.string(), preprocessFlags);
 
-		// if (scene) {
-		/*
-		 * Export preprocessed scene file for faster loading next time.
-		 */
-		// Assimp::Exporter exporter;
-		// exporter.Export(scene, "assbin", exportPath.string(), 0);
-		// }
+		if (scene) {
+			// Export the preprocessed scene file for faster loading next time.
+			// Assimp::Exporter exporter;
+			// exporter.Export(scene, "assbin", exportPath.string(), 0);
+		}
 	}
 
-	// if (!scene) {
-	// 	return false;
-	// }
+	if (!scene) {
+		return false;
+	}
 
-	// ImportScene(commandList, *scene, parentPath);
+	ImportScene(commandList, *scene, parentPath);
 
-	return false;
+	return true;
 }
 
 /*
@@ -132,53 +105,48 @@ bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& 
  * unresolved external symbol, reason probably: https://github.com/assimp/assimp/issues/1243
  * http://kimkulling.de/2016/05/02/build-asset-importer-lib-for-64bit-with-visual-studio-from-source-repo/
  */
-bool CEScene::LoadSceneFromString(CECommandList& commandList, const std::string& sceneString,
-                                  const std::string& format) {
-	Assimp::Importer importer;
+bool CEScene::LoadSceneFromString(CECommandList& commandList, const std::string& sceneStr, const std::string& format) {
+	spdlog::warn("LoadSceneFromString");
+	// Assimp::Importer importer;
 	const aiScene* scene = nullptr;
 
-	importer.SetPropertyFloat(AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE, 80.0f);
-	importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE, aiPrimitiveType_POINT | aiPrimitiveType_LINE);
+	// importer.SetPropertyFloat(AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE, 80.0f);
+	// importer.SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE, aiPrimitiveType_POINT | aiPrimitiveType_LINE);
 
-	unsigned int preprocessFlags = aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded |
-		aiProcess_GenBoundingBoxes;
+	unsigned int preprocessFlags =
+		aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded | aiProcess_GenBoundingBoxes;
 
-	// scene = importer.ReadFileFromMemory(sceneString.data(), sceneString.size(), preprocessFlags, format.c_str());
-	//
-	// if (!scene) {
-	// 	return false;
-	// }
-	//
-	// ImportScene(commandList, *scene, fs::current_path());
+	// scene = importer.ReadFileFromMemory(sceneStr.data(), sceneStr.size(), preprocessFlags, format.c_str());
 
-	return false;
+	if (!scene) {
+		return false;
+	}
+
+	ImportScene(commandList, *scene, fs::current_path());
+
+	return true;
 }
 
 void CEScene::ImportScene(CECommandList& commandList, const aiScene& scene, std::filesystem::path parentPath) {
+
 	if (m_rootNode) {
 		m_rootNode.reset();
 	}
+
 	m_materialMap.clear();
 	m_materialList.clear();
 	m_meshList.clear();
 
-	/*
-	 * Import scene materials
-	 */
+	// Import scene materials.
 	for (unsigned int i = 0; i < scene.mNumMaterials; ++i) {
 		ImportMaterial(commandList, *(scene.mMaterials[i]), parentPath);
 	}
-
-	/*
-	 * Import meshes
-	 */
+	// Import meshes
 	for (unsigned int i = 0; i < scene.mNumMeshes; ++i) {
 		ImportMesh(commandList, *(scene.mMeshes[i]));
 	}
 
-	/*
-	 * Import root node
-	 */
+	// Import the root node.
 	m_rootNode = ImportSceneNode(commandList, nullptr, scene.mRootNode);
 }
 
@@ -202,146 +170,115 @@ void CEScene::ImportMaterial(CECommandList& commandList, const aiMaterial& mater
 	if (material.Get(AI_MATKEY_COLOR_AMBIENT, ambientColor) == aiReturn_SUCCESS) {
 		pMaterial->SetAmbientColor(XMFLOAT4(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a));
 	}
-
 	if (material.Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor) == aiReturn_SUCCESS) {
 		pMaterial->SetEmissiveColor(XMFLOAT4(emissiveColor.r, emissiveColor.g, emissiveColor.b, emissiveColor.a));
 	}
-
 	if (material.Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS) {
 		pMaterial->SetDiffuseColor(XMFLOAT4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a));
 	}
-
 	if (material.Get(AI_MATKEY_COLOR_SPECULAR, specularColor) == aiReturn_SUCCESS) {
 		pMaterial->SetSpecularColor(XMFLOAT4(specularColor.r, specularColor.g, specularColor.b, specularColor.a));
 	}
-
-	if (material.Get(AI_MATKEY_COLOR_AMBIENT, ambientColor) == aiReturn_SUCCESS) {
-		pMaterial->SetAmbientColor(XMFLOAT4(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a));
-	}
-
 	if (material.Get(AI_MATKEY_SHININESS, shininess) == aiReturn_SUCCESS) {
 		pMaterial->SetSpecularPower(shininess);
 	}
-
 	if (material.Get(AI_MATKEY_OPACITY, opacity) == aiReturn_SUCCESS) {
 		pMaterial->SetOpacity(opacity);
 	}
-
-	if (material.Get(AI_MATKEY_REFRACTI, indexOfRefraction) == aiReturn_SUCCESS) {
+	if (material.Get(AI_MATKEY_REFRACTI, indexOfRefraction)) {
 		pMaterial->SetIndexOfRefraction(indexOfRefraction);
 	}
-
 	if (material.Get(AI_MATKEY_REFLECTIVITY, reflectivity) == aiReturn_SUCCESS) {
 		pMaterial->SetReflectance(XMFLOAT4(reflectivity, reflectivity, reflectivity, reflectivity));
 	}
-
 	if (material.Get(AI_MATKEY_BUMPSCALING, bumpIntensity) == aiReturn_SUCCESS) {
 		pMaterial->SetBumpIntensity(bumpIntensity);
 	}
 
-	/*
-	 * Load ambient textures
-	 */
-	if (material.GetTextureCount(aiTextureType_AMBIENT) > 0 && material.GetTexture(
-			aiTextureType_AMBIENT, 0, &aiTexturePath, nullptr, nullptr, &blendFactor, &aiBlendOperation) ==
-		aiReturn_SUCCESS
-	) {
+	// Load ambient textures.
+	if (material.GetTextureCount(aiTextureType_AMBIENT) > 0 &&
+		material.GetTexture(aiTextureType_AMBIENT, 0, &aiTexturePath, nullptr, nullptr, &blendFactor,
+		                    &aiBlendOperation) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, true);
 		pMaterial->SetTexture(CEMaterial::TextureType::Ambient, texture);
 	}
 
-	/*
-	 * Load emissive textures
-	 */
-	if (material.GetTextureCount(aiTextureType_EMISSIVE) > 0 && material.GetTexture(
-			aiTextureType_EMISSIVE, 0, &aiTexturePath, nullptr, nullptr, &blendFactor, &aiBlendOperation) ==
-		aiReturn_SUCCESS
-	) {
+	// Load emissive textures.
+	if (material.GetTextureCount(aiTextureType_EMISSIVE) > 0 &&
+		material.GetTexture(aiTextureType_EMISSIVE, 0, &aiTexturePath, nullptr, nullptr, &blendFactor,
+		                    &aiBlendOperation) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, true);
 		pMaterial->SetTexture(CEMaterial::TextureType::Emissive, texture);
 	}
 
-	/*
-	 * Load diffuse textures
-	 */
-	if (material.GetTextureCount(aiTextureType_DIFFUSE) > 0 && material.GetTexture(
-			aiTextureType_DIFFUSE, 0, &aiTexturePath, nullptr, nullptr, &blendFactor, &aiBlendOperation) ==
-		aiReturn_SUCCESS
-	) {
+	// Load diffuse textures.
+	if (material.GetTextureCount(aiTextureType_DIFFUSE) > 0 &&
+		material.GetTexture(aiTextureType_DIFFUSE, 0, &aiTexturePath, nullptr, nullptr, &blendFactor,
+		                    &aiBlendOperation) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, true);
 		pMaterial->SetTexture(CEMaterial::TextureType::Diffuse, texture);
 	}
 
-	/*
-	 * Load specular textures
-	 */
-	if (material.GetTextureCount(aiTextureType_SPECULAR) > 0 && material.GetTexture(
-			aiTextureType_SPECULAR, 0, &aiTexturePath, nullptr, nullptr, &blendFactor, &aiBlendOperation) ==
-		aiReturn_SUCCESS
-	) {
+	// Load specular texture.
+	if (material.GetTextureCount(aiTextureType_SPECULAR) > 0 &&
+		material.GetTexture(aiTextureType_SPECULAR, 0, &aiTexturePath, nullptr, nullptr, &blendFactor,
+		                    &aiBlendOperation) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, true);
 		pMaterial->SetTexture(CEMaterial::TextureType::Specular, texture);
 	}
 
-	/*
-	 * Load specular power textures
-	 */
-	if (material.GetTextureCount(aiTextureType_SHININESS) > 0 && material.GetTexture(
-			aiTextureType_SHININESS, 0, &aiTexturePath, nullptr, nullptr, &blendFactor, &aiBlendOperation) ==
-		aiReturn_SUCCESS
-	) {
+	// Load specular power texture.
+	if (material.GetTextureCount(aiTextureType_SHININESS) > 0 &&
+		material.GetTexture(aiTextureType_SHININESS, 0, &aiTexturePath, nullptr, nullptr, &blendFactor,
+		                    &aiBlendOperation) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
-		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, true);
+		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, false);
 		pMaterial->SetTexture(CEMaterial::TextureType::SpecularPower, texture);
 	}
 
-	if (material.GetTextureCount(aiTextureType_OPACITY) > 0 && material.GetTexture(
-			aiTextureType_OPACITY, 0, &aiTexturePath, nullptr, nullptr, &blendFactor, &aiBlendOperation) ==
-		aiReturn_SUCCESS
-	) {
+	if (material.GetTextureCount(aiTextureType_OPACITY) > 0 &&
+		material.GetTexture(aiTextureType_OPACITY, 0, &aiTexturePath, nullptr, nullptr, &blendFactor,
+		                    &aiBlendOperation) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, false);
 		pMaterial->SetTexture(CEMaterial::TextureType::Opacity, texture);
 	}
 
-	/*
-	 * Load ambient textures
-	 */
-	if (material.GetTextureCount(aiTextureType_NORMALS) > 0 && material.GetTexture(
-		aiTextureType_NORMALS, 0, &aiTexturePath) == aiReturn_SUCCESS) {
+	// Load normal map texture.
+	if (material.GetTextureCount(aiTextureType_NORMALS) > 0 &&
+		material.GetTexture(aiTextureType_NORMALS, 0, &aiTexturePath) == aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, false);
 		pMaterial->SetTexture(CEMaterial::TextureType::Normal, texture);
 	}
-		/*
-		 * Load bump map (only if there is no normal map). 
-		 */
-	else if (material.GetTextureCount(aiTextureType_HEIGHT) > 0 && material.GetTexture(
-		aiTextureType_HEIGHT, 0, &aiTexturePath, nullptr, nullptr, &blendFactor) == aiReturn_SUCCESS) {
-
+		// Load bump map (only if there is no normal map).
+	else if (material.GetTextureCount(aiTextureType_HEIGHT) > 0 &&
+		material.GetTexture(aiTextureType_HEIGHT, 0, &aiTexturePath, nullptr, nullptr, &blendFactor) ==
+		aiReturn_SUCCESS) {
 		fs::path texturePath(aiTexturePath.C_Str());
 		auto texture = commandList.LoadTextureFromFile(parentPath / texturePath, false);
-		/*
-		 * Some materals actually store normal maps in bump map slot.
-		 * Assimp can not tell difference between there two types of textures,
-		 * so there is need to make an assumption about whether texture is normal map or a map based on its pixel depth.
-		 * bump maps are usually 8BPP (grayscale) and normal maps are usually 24 BPP or higher
-		 */
-		CEMaterial::TextureType textureType = (texture->BitsPerPixel() >= 24)
-			                                      ? CEMaterial::TextureType::Normal
-			                                      : CEMaterial::TextureType::Bump;
+
+		// Some materials actually store normal maps in the bump map slot. Assimp can't tell the difference between
+		// these two texture types, so we try to make an assumption about whether the texture is a normal map or a bump
+		// map based on its pixel depth. Bump maps are usually 8 BPP (grayscale) and normal maps are usually 24 BPP or
+		// higher.
+		CEMaterial::TextureType textureType =
+			(texture->BitsPerPixel() >= 24) ? CEMaterial::TextureType::Normal : CEMaterial::TextureType::Bump;
+
 		pMaterial->SetTexture(textureType, texture);
 	}
 
+	// m_MaterialMap.insert( MaterialMap::value_type( materialName.C_Str(), pMaterial ) );
 	m_materialList.push_back(pMaterial);
 }
 
 void CEScene::ImportMesh(CECommandList& commandList, const aiMesh& aiMesh) {
 	auto mesh = std::make_shared<CEMesh>();
+
 	std::vector<CEVertexPositionNormalTangentBitangentTexture> vertexData(aiMesh.mNumVertices);
 
 	assert(aiMesh.mMaterialIndex < m_materialList.size());
@@ -363,16 +300,15 @@ void CEScene::ImportMesh(CECommandList& commandList, const aiMesh& aiMesh) {
 	if (aiMesh.HasTangentsAndBitangents()) {
 		for (i = 0; i < aiMesh.mNumVertices; ++i) {
 			vertexData[i].Tangent = {aiMesh.mTangents[i].x, aiMesh.mTangents[i].y, aiMesh.mTangents[i].z};
-			vertexData[i].Bitangent = {
-				aiMesh.mBitangents[i].x, aiMesh.mBitangents[i].y, aiMesh.mBitangents[i].z
-			};
+			vertexData[i].Bitangent = {aiMesh.mBitangents[i].x, aiMesh.mBitangents[i].y, aiMesh.mBitangents[i].z};
 		}
 	}
 
 	if (aiMesh.HasTextureCoords(0)) {
 		for (i = 0; i < aiMesh.mNumVertices; ++i) {
 			vertexData[i].TexCoord = {
-				aiMesh.mTextureCoords[0][i].x, aiMesh.mTextureCoords[0][i].y, aiMesh.mTextureCoords[0][i].z
+				aiMesh.mTextureCoords[0][i].x, aiMesh.mTextureCoords[0][i].y,
+				aiMesh.mTextureCoords[0][i].z
 			};
 		}
 	}
@@ -380,16 +316,13 @@ void CEScene::ImportMesh(CECommandList& commandList, const aiMesh& aiMesh) {
 	auto vertexBuffer = commandList.CopyVertexBuffer(vertexData);
 	mesh->SetVertexBuffer(0, vertexBuffer);
 
-	/*
-	 * Extract index buffer
-	 */
+	// Extract the index buffer.
 	if (aiMesh.HasFaces()) {
 		std::vector<unsigned int> indices;
 		for (i = 0; i < aiMesh.mNumFaces; ++i) {
 			const aiFace& face = aiMesh.mFaces[i];
-			/*
-			 * Only extract triangular faces
-			 */
+
+			// Only extract triangular faces
 			if (face.mNumIndices == 3) {
 				indices.push_back(face.mIndices[0]);
 				indices.push_back(face.mIndices[1]);
@@ -403,15 +336,13 @@ void CEScene::ImportMesh(CECommandList& commandList, const aiMesh& aiMesh) {
 		}
 	}
 
-	/*
-	 * Set AABB from AI Mesh's AABB.
-	 */
+	// Set the AABB from the AI Mesh's AABB.
 	mesh->SetAABB(CreateBoundingBox(aiMesh.mAABB));
+
 	m_meshList.push_back(mesh);
 }
 
-std::shared_ptr<CESceneNode> CEScene::ImportSceneNode(CECommandList& commandList,
-                                                      std::shared_ptr<CESceneNode> parent,
+std::shared_ptr<CESceneNode> CEScene::ImportSceneNode(CECommandList& commandList, std::shared_ptr<CESceneNode> parent,
                                                       const aiNode* aiNode) {
 	if (!aiNode) {
 		return nullptr;
@@ -423,23 +354,36 @@ std::shared_ptr<CESceneNode> CEScene::ImportSceneNode(CECommandList& commandList
 	if (aiNode->mName.length > 0) {
 		node->SetName(aiNode->mName.C_Str());
 	}
-
-	/*
-	 * Add meshes to scene node
-	 */
+	// Add meshes to scene node
 	for (unsigned int i = 0; i < aiNode->mNumMeshes; ++i) {
 		assert(aiNode->mMeshes[i] < m_meshList.size());
+
 		std::shared_ptr<CEMesh> pMesh = m_meshList[aiNode->mMeshes[i]];
 		node->AddMesh(pMesh);
 	}
 
-	/*
-	 * Recursively Import children
-	 */
+	// Recursively Import children
 	for (unsigned int i = 0; i < aiNode->mNumChildren; ++i) {
 		auto child = ImportSceneNode(commandList, node, aiNode->mChildren[i]);
 		node->AddChild(child);
 	}
 
 	return node;
+}
+
+void CEScene::Accept(CEVisitor& visitor) {
+	visitor.Visit(*this);
+	if (m_rootNode) {
+		m_rootNode->Accept(visitor);
+	}
+}
+
+DirectX::BoundingBox CEScene::GetAABB() const {
+	DirectX::BoundingBox aabb{{0, 0, 0}, {0, 0, 0}};
+
+	if (m_rootNode) {
+		aabb = m_rootNode->GetAABB();
+	}
+
+	return aabb;
 }

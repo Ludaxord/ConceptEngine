@@ -29,14 +29,12 @@ std::shared_ptr<CECommandList> CECommandQueue::GetCommandList() {
 	 */
 	if (!m_availableCommandLists.Empty()) {
 		m_availableCommandLists.TryPop(commandList);
-		spdlog::warn("Pop command list");
 	}
 	else {
 		/*
 		 * If there are not any command lists available, create new one.
 		 */
 		commandList = std::make_shared<CECommandListInstance>(m_device, m_commandListType);
-		spdlog::warn("Create command list");
 	}
 
 	return commandList;

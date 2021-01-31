@@ -448,7 +448,7 @@ void CECommandList::GenerateMips(const std::shared_ptr<CETexture>& texture)
         // Describe a UAV compatible resource that is used to perform
         // mipmapping of the original texture.
         auto uavDesc = aliasDesc;  // The flags for the UAV description must match that of the alias description.
-        uavDesc.Format = CETexture::GetUAVCompatibleFormat(resourceDesc.Format);
+        uavDesc.Format = CETexture::GetUAVCompatableFormat(resourceDesc.Format);
 
         D3D12_RESOURCE_DESC resourceDescs[] = { aliasDesc, uavDesc };
 
@@ -645,7 +645,7 @@ void CECommandList::PanoToCubeMap(const std::shared_ptr<CETexture>& cubemapTextu
         auto d3d12Device = m_device.GetDevice();
 
         auto stagingDesc = cubemapDesc;
-        stagingDesc.Format = CETexture::GetUAVCompatibleFormat(cubemapDesc.Format);
+        stagingDesc.Format = CETexture::GetUAVCompatableFormat(cubemapDesc.Format);
         stagingDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
         ThrowIfFailed(d3d12Device->CreateCommittedResource(
@@ -670,7 +670,7 @@ void CECommandList::PanoToCubeMap(const std::shared_ptr<CETexture>& cubemapTextu
     PanoToCubemapCB panoToCubemapCB;
 
     D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
-    uavDesc.Format = CETexture::GetUAVCompatibleFormat(cubemapDesc.Format);
+    uavDesc.Format = CETexture::GetUAVCompatableFormat(cubemapDesc.Format);
     uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
     uavDesc.Texture2DArray.FirstArraySlice = 0;
     uavDesc.Texture2DArray.ArraySize = 6;

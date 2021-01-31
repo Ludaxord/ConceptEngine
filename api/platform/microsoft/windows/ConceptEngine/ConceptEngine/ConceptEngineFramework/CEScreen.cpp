@@ -199,6 +199,9 @@ void CEScreen::OnMouseMoved(MouseMotionEventArgs& e) {
 	e.RelX = e.X - m_previousMouseX;
 	e.RelY = e.Y - m_previousMouseY;
 
+	m_previousMouseX = e.X;
+	m_previousMouseY = e.Y;
+
 	MouseMoved(e);
 }
 

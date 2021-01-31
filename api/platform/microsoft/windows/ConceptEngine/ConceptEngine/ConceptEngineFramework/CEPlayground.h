@@ -15,8 +15,6 @@ namespace Concept::GameEngine {
 
 		class CEPlayground {
 		public:
-			inline static int debugLoop = 0;
-
 			CEPlayground(const std::wstring& name, uint32_t width, uint32_t height, bool vSync = false) : m_forward(0),
 				m_backward(0), m_left(0), m_right(0), m_up(0), m_down(0), m_pitch(0), m_yaw(0), m_animateLights(false),
 				m_shift(false), m_width(width), m_height(height), m_vSync(vSync) {
@@ -41,7 +39,7 @@ namespace Concept::GameEngine {
 				m_logger->info("Concept Engine Playground Content Loaded");
 
 				m_window->Show();
-				
+
 				m_logger->info("Concept Engine Window Presented");
 
 				const uint32_t returnCode = CEGame::Get().Run();
@@ -92,8 +90,6 @@ namespace Concept::GameEngine {
 			virtual void OnResize(ResizeEventArgs& e) = 0;
 
 			void DisplayDebugFPSOnUpdate(UpdateEventArgs& e) const {
-				m_logger->info("Update Loop: {}", debugLoop);
-
 				static uint64_t frameCount = 0;
 				static double totalTime = 0.0;
 
@@ -119,103 +115,103 @@ namespace Concept::GameEngine {
 			void SetCameraForward(float forward) {
 				m_forward = forward;
 			}
-
+			
 			void SetCameraBackward(float backward) {
 				m_backward = backward;
 			}
-
+			
 			void SetCameraLeft(float left) {
 				m_left = left;
 			}
-
+			
 			void SetCameraRight(float right) {
 				m_right = right;
 			}
-
+			
 			void SetCameraUp(float up) {
 				m_up = up;
 			}
-
+			
 			void SetCameraDown(float down) {
 				m_down = down;
 			}
-
+			
 			void SetPitch(float pitch) {
 				m_pitch = pitch;
 			}
-
+			
 			void SetYaw(float yaw) {
 				m_yaw = yaw;
 			}
-
+			
 			void SetAnimateLights(bool animateLights) {
 				m_animateLights = animateLights;
 			}
-
+			
 			void SetShift(bool shift) {
 				m_shift = shift;
 			}
-
+			
 			void SetScreenResolution(int width, int height) {
 				m_width = width;
 				m_height = height;
 			}
-
+			
 			void SetVSync(bool vSync) {
 				m_vSync = vSync;
 			}
-
+			
 			/*
 			 * Getters
 			 */
 			float GetCameraForward() const {
 				return m_forward;
 			}
-
+			
 			float GetCameraBackward() const {
 				return m_backward;
 			}
-
+			
 			float GetCameraLeft() const {
 				return m_left;
 			}
-
+			
 			float GetCameraRight() const {
 				return m_right;
 			}
-
+			
 			float GetCameraUp() const {
 				return m_up;
 			}
-
+			
 			float GetCameraDown() const {
 				return m_down;
 			}
-
+			
 			float GetPitch() const {
 				return m_pitch;
 			}
-
+			
 			float GetYaw() const {
 				return m_yaw;
 			}
-
+			
 			bool GetAnimateLights() const {
 				return m_animateLights;
 			}
-
+			
 			bool GetShift() const {
 				return m_shift;
 			}
-
+			
 			int GetScreenWidth() const {
 				return m_width;
 			}
-
+			
 			int GetScreenHeight() const {
 				return m_height;
 			}
-
+			
 			bool GetVSync() const {
 				return m_vSync;
 			}
@@ -226,10 +222,10 @@ namespace Concept::GameEngine {
 			 * Logger for logging messages
 			 */
 			Logger m_logger;
-		private:
+
 			/*
-			 * Camera controller
-			 */
+			* Camera controller
+			*/
 			float m_forward;
 			float m_backward;
 			float m_left;
@@ -253,7 +249,7 @@ namespace Concept::GameEngine {
 			int m_width;
 			int m_height;
 			bool m_vSync;
-
+		private:
 		};
 	}
 }

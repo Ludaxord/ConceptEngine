@@ -587,13 +587,11 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 			int x = ((int)(short)LOWORD(lParam));
 			int y = ((int)(short)HIWORD(lParam));
 
-			/*
-			 * Capture mouse movement until button is released.
-			 */
+			// Capture mouse movement until the button is released.
 			SetCapture(hwnd);
 
 			MouseButtonEventArgs mouseButtonEventArgs(DecodeMouseButton(message), ButtonState::Pressed, lButton,
-			                                          mButton, rButton, control, shift, x, y);
+				mButton, rButton, control, shift, x, y);
 			pWindow->OnMouseButtonPressed(mouseButtonEventArgs);
 		}
 		break;

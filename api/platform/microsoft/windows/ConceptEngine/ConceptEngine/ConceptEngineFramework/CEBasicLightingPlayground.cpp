@@ -119,7 +119,7 @@ bool CEBasicLightingPlayground::LoadContent() {
 
 	// Create a swap chain.
 	m_swapChain = m_device->CreateSwapChain(m_window->GetWindowHandle(), DXGI_FORMAT_R8G8B8A8_UNORM);
-	m_swapChain->SetVSync(GetVSync());
+	m_swapChain->SetVSync(m_vSync);
 
 	m_gui = m_device->CreateGUI(m_window->GetWindowHandle(), m_swapChain->GetRenderTarget());
 
@@ -127,7 +127,7 @@ bool CEBasicLightingPlayground::LoadContent() {
 	CEGame::Get().WndProcHandler += CEWindowProcEvent::slot(&CEGUI::WndProcHandler, m_gui);
 
 	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
-	auto  commandList = commandQueue.GetCommandList();
+	auto commandList = commandQueue.GetCommandList();
 
 	// Create some geometry to render.
 	m_cube = commandList->CreateCube();
@@ -137,10 +137,14 @@ bool CEBasicLightingPlayground::LoadContent() {
 	m_plane = commandList->CreatePlane();
 
 	// Load some textures
-	m_defaultTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/DefaultWhite.bmp", true);
-	m_directXTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Directx9.png", true);
-	m_earthTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/earth.dds", true);
-	m_monaLisaTexture = commandList->LoadTextureFromFile(L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Mona_Lisa.jpg", true);
+	m_defaultTexture = commandList->LoadTextureFromFile(
+		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/DefaultWhite.bmp", true);
+	m_directXTexture = commandList->LoadTextureFromFile(
+		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Directx9.png", true);
+	m_earthTexture = commandList->LoadTextureFromFile(
+		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/earth.dds", true);
+	m_monaLisaTexture = commandList->LoadTextureFromFile(
+		L"F:/Projects/Samples/3DGEP-DirectX12-Tutorial/LearningDirectX12/Assets/Textures/Mona_Lisa.jpg", true);
 
 	// Start loading resources...
 	commandQueue.ExecuteCommandList(commandList);
@@ -185,15 +189,15 @@ bool CEBasicLightingPlayground::LoadContent() {
 
 	CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
 	rootParameters[RootParameters::MatricesCB].InitAsConstantBufferView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-		D3D12_SHADER_VISIBILITY_VERTEX);
+	                                                                    D3D12_SHADER_VISIBILITY_VERTEX);
 	rootParameters[RootParameters::MaterialCB].InitAsConstantBufferView(0, 1, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-		D3D12_SHADER_VISIBILITY_PIXEL);
+	                                                                    D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::LightPropertiesCB].InitAsConstants(sizeof(LightProperties) / 4, 1, 0,
-		D3D12_SHADER_VISIBILITY_PIXEL);
+	                                                                  D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::PointLights].InitAsShaderResourceView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-		D3D12_SHADER_VISIBILITY_PIXEL);
+	                                                                     D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::SpotLights].InitAsShaderResourceView(1, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-		D3D12_SHADER_VISIBILITY_PIXEL);
+	                                                                    D3D12_SHADER_VISIBILITY_PIXEL);
 	rootParameters[RootParameters::Textures].InitAsDescriptorTable(1, &descriptorRage, D3D12_SHADER_VISIBILITY_PIXEL);
 
 	CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR);
@@ -201,21 +205,20 @@ bool CEBasicLightingPlayground::LoadContent() {
 
 	CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
 	rootSignatureDescription.Init_1_1(RootParameters::NumRootParameters, rootParameters, 1, &linearRepeatSampler,
-		rootSignatureFlags);
+	                                  rootSignatureFlags);
 
 	m_rootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
 
 	// Setup the pipeline state.
-	struct PipelineStateStream
-	{
-		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE        pRootSignature;
-		CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT          InputLayout;
-		CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY    PrimitiveTopologyType;
-		CD3DX12_PIPELINE_STATE_STREAM_VS                    VS;
-		CD3DX12_PIPELINE_STATE_STREAM_PS                    PS;
-		CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT  DSVFormat;
+	struct PipelineStateStream {
+		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
+		CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT InputLayout;
+		CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY PrimitiveTopologyType;
+		CD3DX12_PIPELINE_STATE_STREAM_VS VS;
+		CD3DX12_PIPELINE_STATE_STREAM_PS PS;
+		CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT DSVFormat;
 		CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
-		CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_DESC           SampleDesc;
+		CD3DX12_PIPELINE_STATE_STREAM_SAMPLE_DESC SampleDesc;
 	} pipelineStateStream;
 
 	// Create a color buffer with sRGB for gamma correction.
@@ -246,8 +249,8 @@ bool CEBasicLightingPlayground::LoadContent() {
 	m_unlitPipelineState = m_device->CreatePipelineStateObject(pipelineStateStream);
 
 	// Create an off-screen render target with a single color buffer and a depth buffer.
-	auto colorDesc = CD3DX12_RESOURCE_DESC::Tex2D(backBufferFormat, GetScreenWidth(), GetScreenHeight(), 1, 1, sampleDesc.Count,
-		sampleDesc.Quality, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
+	auto colorDesc = CD3DX12_RESOURCE_DESC::Tex2D(backBufferFormat, m_width, m_height, 1, 1, sampleDesc.Count,
+	                                              sampleDesc.Quality, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET);
 	D3D12_CLEAR_VALUE colorClearValue;
 	colorClearValue.Format = colorDesc.Format;
 	colorClearValue.Color[0] = 0.4f;
@@ -259,11 +262,11 @@ bool CEBasicLightingPlayground::LoadContent() {
 	colorTexture->SetName(L"Color Render Target");
 
 	// Create a depth buffer.
-	auto depthDesc = CD3DX12_RESOURCE_DESC::Tex2D(depthBufferFormat, GetScreenWidth(), GetScreenHeight(), 1, 1, sampleDesc.Count,
-		sampleDesc.Quality, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
+	auto depthDesc = CD3DX12_RESOURCE_DESC::Tex2D(depthBufferFormat, m_width, m_height, 1, 1, sampleDesc.Count,
+	                                              sampleDesc.Quality, D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL);
 	D3D12_CLEAR_VALUE depthClearValue;
 	depthClearValue.Format = depthDesc.Format;
-	depthClearValue.DepthStencil = { 1.0f, 0 };
+	depthClearValue.DepthStencil = {1.0f, 0};
 
 	auto depthTexture = m_device->CreateTexture(depthDesc, &depthClearValue);
 	depthTexture->SetName(L"Depth Render Target");
@@ -272,10 +275,10 @@ bool CEBasicLightingPlayground::LoadContent() {
 	m_renderTarget.AttachTexture(AttachmentPoint::Color0, colorTexture);
 	m_renderTarget.AttachTexture(AttachmentPoint::DepthStencil, depthTexture);
 
-	commandQueue.Flush();  // Wait for loading operations to complete before rendering the first frame.
+	commandQueue.Flush(); // Wait for loading operations to complete before rendering the first frame.
 
 	return true;
-	
+
 }
 
 void CEBasicLightingPlayground::UnloadContent() {
@@ -306,17 +309,17 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	m_swapChain->WaitForSwapChain();
 
 	// Update the camera.
-	float speedMultipler = (GetShift() ? 16.0f : 4.0f);
+	float speedMultipler = (m_shift ? 16.0f : 4.0f);
 
-	XMVECTOR cameraTranslate = XMVectorSet(GetCameraRight() - GetCameraLeft(), 0.0f, GetCameraForward() - GetCameraBackward(), 1.0f) * speedMultipler *
+	XMVECTOR cameraTranslate = XMVectorSet(m_right - m_left, 0.0f, m_forward - m_backward, 1.0f) * speedMultipler *
 		static_cast<float>(e.DeltaTime);
 	XMVECTOR cameraPan =
-		XMVectorSet(0.0f, GetCameraUp() - GetCameraDown(), 0.0f, 1.0f) * speedMultipler * static_cast<float>(e.DeltaTime);
+		XMVectorSet(0.0f, m_up - m_down, 0.0f, 1.0f) * speedMultipler * static_cast<float>(e.DeltaTime);
 	m_camera.Translate(cameraTranslate, GraphicsEngine::Space::Local);
 	m_camera.Translate(cameraPan, GraphicsEngine::Space::Local);
 
 	XMVECTOR cameraRotation =
-		XMQuaternionRotationRollPitchYaw(XMConvertToRadians(GetPitch()), XMConvertToRadians(GetYaw()), 0.0f);
+		XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_pitch), XMConvertToRadians(m_yaw), 0.0f);
 	m_camera.set_Rotation(cameraRotation);
 
 	XMMATRIX viewMatrix = m_camera.get_ViewMatrix();
@@ -324,27 +327,28 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	const int numPointLights = 4;
 	const int numSpotLights = 4;
 
-	static const XMVECTORF32 LightColors[] = { Colors::White, Colors::Orange, Colors::Yellow, Colors::Green,
-											   Colors::Blue,  Colors::Indigo, Colors::Violet, Colors::White };
+	static const XMVECTORF32 LightColors[] = {
+		Colors::White, Colors::Orange, Colors::Yellow, Colors::Green,
+		Colors::Blue, Colors::Indigo, Colors::Violet, Colors::White
+	};
 
 	static float lightAnimTime = 0.0f;
-	if (GetAnimateLights())
-	{
+	if (m_animateLights) {
 		lightAnimTime += static_cast<float>(e.DeltaTime) * 0.5f * XM_PI;
 	}
 
 	const float radius = 8.0f;
 	const float offset = 2.0f * XM_PI / numPointLights;
 	const float offset2 = offset + (offset / 2.0f);
-
 	// Setup the light buffers.
 	m_pointLights.resize(numPointLights);
-	for (int i = 0; i < numPointLights; ++i)
-	{
+	for (int i = 0; i < numPointLights; ++i) {
 		Lighting::PointLight& l = m_pointLights[i];
 
-		l.PositionWS = { static_cast<float>(std::sin(lightAnimTime + offset * i)) * radius, 9.0f,
-						 static_cast<float>(std::cos(lightAnimTime + offset * i)) * radius, 1.0f };
+		l.PositionWS = {
+			static_cast<float>(std::sin(lightAnimTime + offset * i)) * radius, 9.0f,
+			static_cast<float>(std::cos(lightAnimTime + offset * i)) * radius, 1.0f
+		};
 		XMVECTOR positionWS = XMLoadFloat4(&l.PositionWS);
 		XMVECTOR positionVS = XMVector3TransformCoord(positionWS, viewMatrix);
 		XMStoreFloat4(&l.PositionVS, positionVS);
@@ -356,12 +360,13 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	}
 
 	m_spotLights.resize(numSpotLights);
-	for (int i = 0; i < numSpotLights; ++i)
-	{
+	for (int i = 0; i < numSpotLights; ++i) {
 		Lighting::SpotLight& l = m_spotLights[i];
 
-		l.PositionWS = { static_cast<float>(std::sin(lightAnimTime + offset * i + offset2)) * radius, 9.0f,
-						 static_cast<float>(std::cos(lightAnimTime + offset * i + offset2)) * radius, 1.0f };
+		l.PositionWS = {
+			static_cast<float>(std::sin(lightAnimTime + offset * i + offset2)) * radius, 9.0f,
+			static_cast<float>(std::cos(lightAnimTime + offset * i + offset2)) * radius, 1.0f
+		};
 		XMVECTOR positionWS = XMLoadFloat4(&l.PositionWS);
 		XMVECTOR positionVS = XMVector3TransformCoord(positionWS, viewMatrix);
 		XMStoreFloat4(&l.PositionVS, positionVS);
@@ -379,7 +384,6 @@ void CEBasicLightingPlayground::OnUpdate(UpdateEventArgs& e) {
 	}
 
 	OnRender();
-	debugLoop++;
 }
 
 void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX viewProjection, Mat& mat) {
@@ -391,18 +395,18 @@ void XM_CALLCONV ComputeMatrices(FXMMATRIX model, CXMMATRIX view, CXMMATRIX view
 
 void CEBasicLightingPlayground::OnRender() {
 	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	auto  commandList = commandQueue.GetCommandList();
+	auto commandList = commandQueue.GetCommandList();
 
 	// Create a scene visitor that is used to perform the actual rendering of the meshes in the scenes.
 	Visitor::CED3DSceneVisitor visitor(*commandList);
 
 	// Clear the render targets.
 	{
-		FLOAT clearColor[] = { 0.4f, 0.6f, 0.9f, 1.0f };
+		FLOAT clearColor[] = {0.4f, 0.6f, 0.9f, 1.0f};
 
 		commandList->ClearTexture(m_renderTarget.GetTexture(AttachmentPoint::Color0), clearColor);
 		commandList->ClearDepthStencilTexture(m_renderTarget.GetTexture(AttachmentPoint::DepthStencil),
-			D3D12_CLEAR_FLAG_DEPTH);
+		                                      D3D12_CLEAR_FLAG_DEPTH);
 	}
 
 	commandList->SetPipelineState(m_pipelineState);
@@ -436,7 +440,7 @@ void CEBasicLightingPlayground::OnRender() {
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_earthTexture,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// Render the earth sphere using the SceneVisitor.
 	m_sphere->Accept(visitor);
@@ -452,7 +456,7 @@ void CEBasicLightingPlayground::OnRender() {
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_monaLisaTexture,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// Render the Mona Lisa cube with the SceneVisitor.
 	m_cube->Accept(visitor);
@@ -468,7 +472,7 @@ void CEBasicLightingPlayground::OnRender() {
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Ruby);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	m_torus->Accept(visitor);
 
@@ -486,7 +490,7 @@ void CEBasicLightingPlayground::OnRender() {
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// Render the plane using the SceneVisitor.
 	m_plane->Accept(visitor);
@@ -537,7 +541,7 @@ void CEBasicLightingPlayground::OnRender() {
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Red);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// Render the plane using the SceneVisitor.
 	m_plane->Accept(visitor);
@@ -559,8 +563,7 @@ void CEBasicLightingPlayground::OnRender() {
 	commandList->SetPipelineState(m_unlitPipelineState);
 
 	MaterialProperties lightMaterial = CEMaterial::Zero;
-	for (const auto& l : m_pointLights)
-	{
+	for (const auto& l : m_pointLights) {
 		lightMaterial.Emissive = l.Color;
 		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
 		worldMatrix = XMMatrixTranslationFromVector(lightPos);
@@ -572,8 +575,7 @@ void CEBasicLightingPlayground::OnRender() {
 		m_sphere->Accept(visitor);
 	}
 
-	for (const auto& l : m_spotLights)
-	{
+	for (const auto& l : m_spotLights) {
 		lightMaterial.Emissive = l.Color;
 		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
 		XMVECTOR lightDir = XMLoadFloat4(&l.DirectionWS);
@@ -593,8 +595,8 @@ void CEBasicLightingPlayground::OnRender() {
 
 	// Resolve the MSAA render target to the swapchain's backbuffer.
 	auto& swapChainRT = m_swapChain->GetRenderTarget();
-	auto  swapChainBackBuffer = swapChainRT.GetTexture(AttachmentPoint::Color0);
-	auto  msaaRenderTarget = m_renderTarget.GetTexture(AttachmentPoint::Color0);
+	auto swapChainBackBuffer = swapChainRT.GetTexture(AttachmentPoint::Color0);
+	auto msaaRenderTarget = m_renderTarget.GetTexture(AttachmentPoint::Color0);
 
 	commandList->ResolveSubResource(swapChainBackBuffer, msaaRenderTarget);
 
@@ -644,36 +646,36 @@ void CEBasicLightingPlayground::OnKeyPressed(KeyEventArgs& e) {
 			 */
 			m_camera.set_Translation(m_pAlignedCameraData->m_initialCamPos);
 			m_camera.set_Rotation(m_pAlignedCameraData->m_initialCamRot);
-			SetPitch(0.0f);
-			SetYaw(0.0f);
+			m_pitch = 0.0f;
+			m_yaw = 0.0f;
 			break;
 		case KeyCode::Up:
 		case KeyCode::W:
-			SetCameraForward(1.0f);
+			m_forward = 1.0f;
 			break;
 		case KeyCode::Left:
 		case KeyCode::A:
-			SetCameraLeft(1.0f);
+			m_left = 1.0f;
 			break;
 		case KeyCode::Down:
 		case KeyCode::S:
-			SetCameraBackward(1.0f);
+			m_backward = 1.0f;
 			break;
 		case KeyCode::Right:
 		case KeyCode::D:
-			SetCameraRight(1.0f);
+			m_right = 1.0f;
 			break;
 		case KeyCode::Q:
-			SetCameraDown(1.0f);
+			m_down = 1.0f;
 			break;
 		case KeyCode::E:
-			SetCameraUp(1.0f);
+			m_up = 1.0f;
 			break;
 		case KeyCode::Space:
-			SetAnimateLights(!GetAnimateLights());
+			m_animateLights = !m_animateLights;
 			break;
 		case KeyCode::ShiftKey:
-			SetShift(true);
+			m_shift = true;
 			break;
 		}
 	}
@@ -689,41 +691,42 @@ void CEBasicLightingPlayground::OnKeyReleased(KeyEventArgs& e) {
 		break;
 	case KeyCode::Up:
 	case KeyCode::W:
-		SetCameraForward(0.0f);
+		m_forward = 0.0f;
 		break;
 	case KeyCode::Left:
 	case KeyCode::A:
-		SetCameraLeft(0.0f);
+		m_left = 0.0f;
 		break;
 	case KeyCode::Down:
 	case KeyCode::S:
-		SetCameraBackward(0.0f);
+		m_down = 0.0f;
 		break;
 	case KeyCode::Right:
 	case KeyCode::D:
-		SetCameraRight(0.0f);
+		m_right = 0.0f;
 		break;
 	case KeyCode::Q:
-		SetCameraDown(0.0f);
+		m_down = 0.0f;
 		break;
 	case KeyCode::E:
-		SetCameraUp(0.0f);
+		m_up = 0.0f;
 		break;
 	case KeyCode::ShiftKey:
-		SetShift(false);
+		m_shift = false;
 		break;
 	}
 }
 
 void CEBasicLightingPlayground::OnMouseMoved(MouseMotionEventArgs& e) {
 	const float mouseSpeed = 0.1f;
+
 	if (!ImGui::GetIO().WantCaptureMouse) {
 		if (e.LeftButton) {
-			auto tempPitch = GetPitch() - e.RelY * mouseSpeed;
-			SetPitch(std::clamp(tempPitch, -90.0f, 90.0f));
+			m_pitch -= e.RelY * mouseSpeed;
 
-			auto tempYaw = GetYaw() - e.RelX * mouseSpeed;
-			SetYaw(tempYaw);
+			m_pitch = std::clamp(m_pitch, -90.0f, 90.0f);
+
+			m_yaw -= e.RelX * mouseSpeed;
 		}
 	}
 }
@@ -739,15 +742,15 @@ void CEBasicLightingPlayground::OnMouseWheel(MouseWheelEventArgs& e) {
 }
 
 void CEBasicLightingPlayground::OnResize(ResizeEventArgs& e) {
-	SetScreenResolution(std::max(1, e.Width), std::max(1, e.Height));
+	m_width = std::max(1, e.Width);
+	m_height = std::max(1, e.Height);
 
-	m_swapChain->Resize(GetScreenWidth(), GetScreenHeight());
+	m_swapChain->Resize(m_width, m_height);
 
-	float aspectRatio = GetScreenWidth() / (float)GetScreenHeight();
+	float aspectRatio = m_width / (float)m_height;
 	m_camera.set_Projection(45.0f, aspectRatio, 0.1f, 100.0f);
 
-	m_viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, static_cast<float>(GetScreenWidth()),
-	                              static_cast<float>(GetScreenHeight()));
+	m_viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, static_cast<float>(m_width), static_cast<float>(m_height));
 
-	m_renderTarget.Resize(GetScreenWidth(), GetScreenHeight());
+	m_renderTarget.Resize(m_width, m_height);
 }
