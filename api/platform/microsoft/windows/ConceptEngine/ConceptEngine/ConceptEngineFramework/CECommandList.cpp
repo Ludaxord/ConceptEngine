@@ -1208,8 +1208,6 @@ void CECommandList::CopyTextureSubResource(const std::shared_ptr<CETexture>& tex
 
 		UINT64 requiredSize =
 			GetRequiredIntermediateSize(destinationResource.Get(), firstSubresource, numSubresources);
-		std::string texName(texture->GetName().begin(), texture->GetName().end());
-		spdlog::error("Texture: {} requiredSize: {}", texName, requiredSize);
 
 		// Create a temporary (intermediate) resource for uploading the subresources
 		ComPtr<ID3D12Resource> intermediateResource;
