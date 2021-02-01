@@ -53,9 +53,9 @@ namespace Concept::GraphicsEngine::Direct3D {
 		}
 
 		/**
-		 * Get direct access to the ID3D12GraphicsCommandList2 interface.
+		 * Get direct access to the ID3D12GraphicsCommandList5 interface.
 		 */
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList2> GetCommandList() const {
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandList() const {
 			return m_commandList;
 		}
 
@@ -576,7 +576,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		// The device that is used to create this command list.
 		CEDevice& m_device;
 		D3D12_COMMAND_LIST_TYPE m_commandListType;
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList2> m_commandList;
+		//TODO: Create command lists depends on RTX Support
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> m_commandList;
 		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 
 		// For copy queues, it may be necessary to generate mips while loading textures.

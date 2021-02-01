@@ -12,7 +12,9 @@ namespace Concept::GameEngine {
 	class CEScreen;
 
 	namespace Playground {
-
+		/*
+		 * TODO: Create base container for playgrounds that gives possibility to change playgrounds with ImGUI
+		 */
 		class CEPlayground {
 		public:
 			CEPlayground(const std::wstring& name, uint32_t width, uint32_t height, bool vSync = false) : m_forward(0),

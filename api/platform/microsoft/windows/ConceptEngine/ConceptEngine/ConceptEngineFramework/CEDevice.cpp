@@ -351,7 +351,7 @@ CEDevice::CEDevice(std::shared_ptr<CEAdapter> adapter): m_adapter(adapter) {
 				D3D12_FEATURE_DATA_D3D12_OPTIONS5)))) {
 			featureData.RaytracingTier = D3D12_RAYTRACING_TIER_NOT_SUPPORTED;
 		}
-		m_highestRayTracingTier = featureData.RaytracingTier;
+		m_rayTracingTier = featureData.RaytracingTier;
 	}
 }
 

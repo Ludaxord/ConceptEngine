@@ -247,7 +247,7 @@ bool CEHDRPlayground::LoadContent() {
 	std::wstring m_assetsPath = assetsPath;
 	// Load some textures
 	m_defaultTexture = commandList->LoadTextureFromFile(m_assetsPath + L"DefaultWhite.bmp", true);
-	m_directXTexture = commandList->LoadTextureFromFile(m_assetsPath + L"Directx9.png", true);
+	m_directXTexture = commandList->LoadTextureFromFile(m_assetsPath + L"DirectX12Ultimate.png", true);
 	m_earthTexture = commandList->LoadTextureFromFile(m_assetsPath + L"earth.dds", true);
 	m_monaLisaTexture = commandList->LoadTextureFromFile(m_assetsPath + L"Mona_Lisa.jpg", true);
 	// m_GraceCathedralTexture = commandList->LoadTextureFromFile(m_assetsPath + L"grace-new.hdr", true);
@@ -775,8 +775,8 @@ void CEHDRPlayground::OnRender() {
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
-	// commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
-	//                                    D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
+	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	m_plane->Accept(visitor);
 
@@ -895,6 +895,7 @@ void CEHDRPlayground::OnRender() {
 }
 
 static bool g_allowFullscreenToggle = true;
+static bool g_allowMouseVisibleToggle = true;
 
 
 void CEHDRPlayground::OnKeyPressed(KeyEventArgs& e) {
@@ -914,6 +915,15 @@ void CEHDRPlayground::OnKeyPressed(KeyEventArgs& e) {
 				}
 				break;
 			}
+		case KeyCode::M: {
+			if (e.Control) {
+				if (g_allowMouseVisibleToggle) {
+					m_window->ToggleCursor();
+					g_allowMouseVisibleToggle = false;
+				}
+				break;
+			}
+		}
 		case KeyCode::V:
 			m_swapChain->ToggleVSync();
 			break;
@@ -966,6 +976,13 @@ void CEHDRPlayground::OnKeyReleased(KeyEventArgs& e) {
 				g_allowFullscreenToggle = true;
 			}
 			break;
+		case KeyCode::M: {
+			if (e.Control) {
+				g_allowMouseVisibleToggle = true;
+
+			}
+			break;
+		}
 		case KeyCode::Up:
 		case KeyCode::W:
 			m_forward = 0.0f;
@@ -1066,8 +1083,19 @@ void CEHDRPlayground::OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECo
 			}
 
 			bool cursorVisibility = m_window->IsCursorVisible();
-			if (ImGui::MenuItem("Show Cursor", nullptr, &cursorVisibility)) {
+			if (ImGui::MenuItem("Show Cursor", "Ctrl+M", &cursorVisibility)) {
 				m_window->SetCursor(cursorVisibility);
+			}
+
+			//TODO: Implement
+			bool rayTracingSupported = m_device->GetRayTracingTier();
+			if (rayTracingSupported != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
+				bool rayTracingEnabled = false;
+				auto rtxDesc = m_device->GetCurrentRayTracingSupportName();
+				std::string rtxDescription(rtxDesc.begin(), rtxDesc.end());
+				auto rdesc = "RTX " + rtxDescription;
+				if (ImGui::MenuItem(rdesc.c_str(), "Ctrl+X", &rayTracingEnabled)) {
+				}
 			}
 
 			ImGui::EndMenu();

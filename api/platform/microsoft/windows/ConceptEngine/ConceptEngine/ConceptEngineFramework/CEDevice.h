@@ -57,7 +57,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Allocate a number of CPU visible descriptors.
 		 */
 		CEDescriptorAllocation AllocateDescriptors(D3D12_DESCRIPTOR_HEAP_TYPE type,
-		                                                  uint32_t numDescriptors = 1);
+		                                           uint32_t numDescriptors = 1);
 
 		/**
 		 * Get size of handle increment for given type of descriptor heap;
@@ -97,7 +97,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEStructuredBuffer> CreateStructuredBuffer(
 			size_t numElements, size_t elementSize);
 		std::shared_ptr<CEStructuredBuffer> CreateStructuredBuffer(wrl::ComPtr<ID3D12Resource> resource,
-		                                                                  size_t numElements, size_t elementSize);
+		                                                           size_t numElements, size_t elementSize);
 
 		/**
 		 * Create Texture resource;
@@ -107,17 +107,17 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param [TextureUsage] Optional texture usage flag provides a hint about how the texture will be used;
 		 */
 		std::shared_ptr<CETexture> CreateTexture(const D3D12_RESOURCE_DESC& resourceDesc,
-		                                                const D3D12_CLEAR_VALUE* clearValue = nullptr);
+		                                         const D3D12_CLEAR_VALUE* clearValue = nullptr);
 		std::shared_ptr<CETexture> CreateTexture(wrl::ComPtr<ID3D12Resource> resource,
-		                                                const D3D12_CLEAR_VALUE* clearValue = nullptr);
+		                                         const D3D12_CLEAR_VALUE* clearValue = nullptr);
 
 		/**
 		 * Create Index Buffer resource;
 		 */
 		std::shared_ptr<CEIndexBuffer> CreateIndexBuffer(size_t numIndicies, DXGI_FORMAT indexFormat);
 		std::shared_ptr<CEIndexBuffer> CreateIndexBuffer(wrl::ComPtr<ID3D12Resource> resource,
-		                                                        size_t numIndicies,
-		                                                        DXGI_FORMAT indexFormat);
+		                                                 size_t numIndicies,
+		                                                 DXGI_FORMAT indexFormat);
 
 		/**
 		 * Create Vertex Buffer resource;
@@ -161,8 +161,10 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Create Unordered Access View
 		 */
 		std::shared_ptr<CEUnorderedAccessView> CreateUnorderedAccessView(const std::shared_ptr<CEResource>& resource,
-			const std::shared_ptr<CEResource>& counterResource = nullptr,
-			const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav = nullptr);
+		                                                                 const std::shared_ptr<CEResource>&
+			                                                                 counterResource = nullptr,
+		                                                                 const D3D12_UNORDERED_ACCESS_VIEW_DESC* uav =
+			                                                                 nullptr);
 
 		/**
 		 * Flush all command Queues;
@@ -199,8 +201,31 @@ namespace Concept::GraphicsEngine::Direct3D {
 			return m_highestRootSignatureVersion;
 		}
 
-		D3D12_RAYTRACING_TIER GetHighestRayTracingTier() const {
-			return m_highestRayTracingTier;
+		D3D12_RAYTRACING_TIER GetRayTracingTier() const {
+			return m_rayTracingTier;
+		}
+
+		std::wstring GetCurrentRayTracingSupportName() {
+			return GetRayTracingSupportName(m_rayTracingTier);
+		}
+
+		std::wstring GetRayTracingSupportName(D3D12_RAYTRACING_TIER rtxTier) {
+			std::wstring rtxSupportDescription;
+			switch (rtxTier) {
+			case D3D12_RAYTRACING_TIER_NOT_SUPPORTED:
+				rtxSupportDescription = L"Ray Tracing No Support";
+				break;
+			case D3D12_RAYTRACING_TIER_1_0:
+				rtxSupportDescription = L"Ray Tracing Support: 1.0";
+				break;
+			case D3D12_RAYTRACING_TIER_1_1:
+				rtxSupportDescription = L"Ray Tracing Support: 1.1";
+				break;
+			default:
+				rtxSupportDescription = L"Information Unavailable";
+				break;
+			};
+			return rtxSupportDescription;
 		}
 
 		DXGI_SAMPLE_DESC GetMultiSampleQualityLevels(DXGI_FORMAT format,
@@ -232,6 +257,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 		std::shared_ptr<CEAdapter> m_adapter;
 		D3D_ROOT_SIGNATURE_VERSION m_highestRootSignatureVersion;
-		D3D12_RAYTRACING_TIER m_highestRayTracingTier;
+		D3D12_RAYTRACING_TIER m_rayTracingTier;
 	};
 }
