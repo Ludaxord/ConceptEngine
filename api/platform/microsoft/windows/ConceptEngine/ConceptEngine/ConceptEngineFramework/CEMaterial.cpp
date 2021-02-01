@@ -164,6 +164,19 @@ const MaterialProperties CEMaterial::Zero = {
 	{0.0f, 0.0f, 0.0f, 1.0f}
 };
 
+const MaterialProperties CEMaterial::PianoBlack = {
+	{0.0f, 0.0f, 0.0f, 1.0f},
+	{1.0f, 1.0f, 1.0f, 1.0f},
+	128.0f,
+	{0.0f, 0.0f, 0.0f, 1.0f},
+	{0.0f, 0.0f, 0.0f, 0.0f},
+	{1.0f, 1.0f, 1.0f, 1.0f},
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f
+};
+
 const MaterialProperties CEMaterial::Red = {
 	{1.0f, 0.0f, 0.0f, 1.0f},
 	{1.0f, 1.0f, 1.0f, 1.0f},

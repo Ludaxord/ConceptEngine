@@ -4,6 +4,7 @@
 #include "CELight.h"
 
 namespace Concept::GraphicsEngine::Direct3D::Lighting {
+
 	struct PointLight {
 		PointLight()
 			: PositionWS(0.0f, 0.0f, 0.0f, 1.0f)

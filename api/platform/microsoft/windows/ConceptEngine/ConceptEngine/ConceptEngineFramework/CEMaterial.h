@@ -19,94 +19,61 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * To guarantee alignment, MaterialProperties structure will be allocated in aligned memory.
 		 */
 		MaterialProperties(
-			const ::DirectX::XMFLOAT4 diffuse = {1, 1, 1, 1},
-			const ::DirectX::XMFLOAT4 specular = {1, 1, 1, 1},
+			const DirectX::XMFLOAT4 diffuse = { 1, 1, 1, 1 },
+			const DirectX::XMFLOAT4 specular = { 1, 1, 1, 1 },
 			const float specularPower = 128.0f,
-			const ::DirectX::XMFLOAT4 ambient = {0, 0, 0, 1},
-			const ::DirectX::XMFLOAT4 emissive = {0, 0, 0, 1},
-			const ::DirectX::XMFLOAT4 reflectance = {0, 0, 0, 0},
-			const float opacity = 1.0f,
-			const float indexOfRefraction = 0.0f,
-			const float bumpIntensity = 1.0f,
+			const DirectX::XMFLOAT4 ambient = { 0, 0, 0, 1 },
+			const DirectX::XMFLOAT4 emissive = { 0, 0, 0, 1 },
+			const DirectX::XMFLOAT4 reflectance = { 0, 0, 0, 0 }, const float opacity = 1.0f,
+			const float indexOfRefraction = 0.0f, const float bumpIntensity = 1.0f,
 			const float alphaThreshold = 0.1f
 		)
-			: Diffuse(diffuse),
-			  Specular(specular),
-			  Emissive(emissive),
-			  Ambient(ambient),
-			  Reflectance(reflectance),
-			  Opacity(opacity),
-			  SpecularPower(specularPower),
-			  IndexOfRefraction(indexOfRefraction),
-			  BumpIntensity(bumpIntensity),
-			  HasAmbientTexture(false),
-			  HasEmissiveTexture(false),
-			  HasDiffuseTexture(false),
-			  HasSpecularTexture(false),
-			  HasSpecularPowerTexture(false),
-			  HasNormalTexture(false),
-			  HasBumpTexture(false),
-			  HasOpacityTexture(false) {
+			: Diffuse(diffuse)
+			, Specular(specular)
+			, Emissive(emissive)
+			, Ambient(ambient)
+			, Reflectance(reflectance)
+			, Opacity(opacity)
+			, SpecularPower(specularPower)
+			, IndexOfRefraction(indexOfRefraction)
+			, BumpIntensity(bumpIntensity)
+			, HasAmbientTexture(false)
+			, HasEmissiveTexture(false)
+			, HasDiffuseTexture(false)
+			, HasSpecularTexture(false)
+			, HasSpecularPowerTexture(false)
+			, HasNormalTexture(false)
+			, HasBumpTexture(false)
+			, HasOpacityTexture(false) {
 		}
 
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
-		::DirectX::XMFLOAT4 Diffuse;
-
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
-		::DirectX::XMFLOAT4 Specular;
-
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
-		::DirectX::XMFLOAT4 Emissive;
-
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
-		::DirectX::XMFLOAT4 Ambient;
-
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
-		::DirectX::XMFLOAT4 Reflectance;
-
-		/**
-		 * If Opacity < 1, then material is transparent.
-		 */
-		float Opacity;
+		DirectX::XMFLOAT4 Diffuse;
+		//------------------------------------ ( 16 bytes )
+		DirectX::XMFLOAT4 Specular;
+		//------------------------------------ ( 16 bytes )
+		DirectX::XMFLOAT4 Emissive;
+		//------------------------------------ ( 16 bytes )
+		DirectX::XMFLOAT4 Ambient;
+		//------------------------------------ ( 16 bytes )
+		DirectX::XMFLOAT4 Reflectance;
+		//------------------------------------ ( 16 bytes )
+		float Opacity;                       // If Opacity < 1, then the material is transparent.
 		float SpecularPower;
-		/**
-		 * For transparent materials, IOR > 0
-		 */
-		float IndexOfRefraction;
-		/**
-		 * When using bump textures (height maps) we need to scale height values so normals are visible;
-		 */
-		float BumpIntensity;
-
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
+		float IndexOfRefraction;             // For transparent materials, IOR > 0.
+		float BumpIntensity;                 // When using bump textures (height maps) we need
+											 // to scale the height values so the normals are visible.
+		//------------------------------------ ( 16 bytes )
 		uint32_t HasAmbientTexture;
 		uint32_t HasEmissiveTexture;
 		uint32_t HasDiffuseTexture;
 		uint32_t HasSpecularTexture;
-
-		/**
-		 * ---------------------------------- (16 bytes)
-		 */
+		//------------------------------------ ( 16 bytes )
 		uint32_t HasSpecularPowerTexture;
 		uint32_t HasNormalTexture;
 		uint32_t HasBumpTexture;
 		uint32_t HasOpacityTexture;
-
-		/**
-		 * Total: (16 * 8 = 128 Bytes)
-		 */
+		//------------------------------------ ( 16 bytes )
+		// Total:                              ( 16 * 8 = 128 bytes )
 	};
 
 	/**
@@ -182,6 +149,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * PreBuild materials
 		 */
 		static const MaterialProperties Zero;
+		static const MaterialProperties PianoBlack;
 		static const MaterialProperties Red;
 		static const MaterialProperties Green;
 		static const MaterialProperties Blue;

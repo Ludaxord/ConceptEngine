@@ -39,14 +39,19 @@ struct LightProperties {
  * Enum for root signature parameters
  * not using scoped enums to avoid explicit cat that would be required to use root indices in root signature.
  */
-enum RootParameters
-{
-	MatricesCB,         // ConstantBuffer<Mat> MatCB : register(b0);
-	MaterialCB,         // ConstantBuffer<Material> MaterialCB : register( b0, space1 );
-	LightPropertiesCB,  // ConstantBuffer<LightProperties> LightPropertiesCB : register( b1 );
-	PointLights,        // StructuredBuffer<PointLight> PointLights : register( t0 );
-	SpotLights,         // StructuredBuffer<SpotLight> SpotLights : register( t1 );
-	Textures,           // Texture2D DiffuseTexture : register( t2 );
+enum RootParameters {
+	MatricesCB,
+	// ConstantBuffer<Mat> MatCB : register(b0);
+	MaterialCB,
+	// ConstantBuffer<Material> MaterialCB : register( b0, space1 );
+	LightPropertiesCB,
+	// ConstantBuffer<LightProperties> LightPropertiesCB : register( b1 );
+	PointLights,
+	// StructuredBuffer<PointLight> PointLights : register( t0 );
+	SpotLights,
+	// StructuredBuffer<SpotLight> SpotLights : register( t1 );
+	Textures,
+	// Texture2D DiffuseTexture : register( t2 );
 	NumRootParameters
 };
 
@@ -446,7 +451,7 @@ void CEBasicLightingPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Ruby);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::PianoBlack);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
 	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -465,8 +470,8 @@ void CEBasicLightingPlayground::OnRender() {
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
-	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
-	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	// commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
+	//                                    D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// Render the plane using the SceneVisitor.
 	m_plane->Accept(visitor);
@@ -538,7 +543,7 @@ void CEBasicLightingPlayground::OnRender() {
 	// Draw shapes to visualize the position of the lights in the scene using an unlit pixel shader.
 	commandList->SetPipelineState(m_unlitPipelineState);
 
-	MaterialProperties lightMaterial = CEMaterial::Zero;
+	MaterialProperties lightMaterial = CEMaterial::PianoBlack;
 	for (const auto& l : m_pointLights) {
 		lightMaterial.Emissive = l.Color;
 		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
