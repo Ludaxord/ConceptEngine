@@ -250,7 +250,9 @@ bool CEHDRPlayground::LoadContent() {
 	m_directXTexture = commandList->LoadTextureFromFile(m_assetsPath + L"Directx9.png", true);
 	m_earthTexture = commandList->LoadTextureFromFile(m_assetsPath + L"earth.dds", true);
 	m_monaLisaTexture = commandList->LoadTextureFromFile(m_assetsPath + L"Mona_Lisa.jpg", true);
-	m_GraceCathedralTexture = commandList->LoadTextureFromFile(m_assetsPath + L"grace-new.hdr", true);
+	// m_GraceCathedralTexture = commandList->LoadTextureFromFile(m_assetsPath + L"grace-new.hdr", true);
+	// m_GraceCathedralTexture = commandList->LoadTextureFromFile(m_assetsPath + L"peppermint_powerplant_4k.hdr", true);
+	m_GraceCathedralTexture = commandList->LoadTextureFromFile(m_assetsPath + L"shanghai_bund_8k.hdr", true);
 
 	auto cubeMapDesc = m_GraceCathedralTexture->GetD3D12ResourceDesc();
 	cubeMapDesc.Width = cubeMapDesc.Height = 1024;
@@ -561,8 +563,6 @@ void CEHDRPlayground::UnloadContent() {
 	m_device.reset();
 }
 
-static double g_FPS = 0.0;
-
 void CEHDRPlayground::OnUpdate(UpdateEventArgs& e) {
 	DisplayDebugFPSOnUpdate(e);
 
@@ -774,9 +774,9 @@ void CEHDRPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::White);
-	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
-	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
+	// commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
+	//                                    D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	m_plane->Accept(visitor);
 
@@ -819,9 +819,10 @@ void CEHDRPlayground::OnRender() {
 	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
 
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Red);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
 	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -835,14 +836,14 @@ void CEHDRPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Blue);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
 
 	m_plane->Accept(visitor);
 
 	// Draw shapes to visualize the position of the lights in the scene.
 	commandList->SetPipelineState(m_UnlitPipelineState);
 
-	MaterialProperties lightMaterial = CEMaterial::Zero;
+	MaterialProperties lightMaterial = CEMaterial::PianoBlack;
 	for (const auto& l : m_pointLights) {
 		lightMaterial.Emissive = l.Color;
 		XMVECTOR lightPos = XMLoadFloat4(&l.PositionWS);
@@ -1035,8 +1036,7 @@ void CEHDRPlayground::OnResize(ResizeEventArgs& e) {
 
 void CEHDRPlayground::OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECommandList>& commandList,
                             const GraphicsEngine::Direct3D::CERenderTarget& renderTarget) {
-	static bool showDemoWindow = false;
-	static bool showOptions = true;
+	static bool toneMappingVisible = false;
 
 	m_gui->NewFrame();
 
@@ -1049,8 +1049,7 @@ void CEHDRPlayground::OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECo
 		}
 
 		if (ImGui::BeginMenu("View")) {
-			ImGui::MenuItem("ImGui Demo", nullptr, &showDemoWindow);
-			ImGui::MenuItem("Tonemapping", nullptr, &showOptions);
+			ImGui::MenuItem("Tonemapping", nullptr, &toneMappingVisible);
 
 			ImGui::EndMenu();
 		}
@@ -1064,8 +1063,11 @@ void CEHDRPlayground::OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECo
 			bool fullscreen = m_window->IsFullscreen();
 			if (ImGui::MenuItem("Full screen", "Alt+Enter", &fullscreen)) {
 				m_window->SetFullscreen(fullscreen);
-				// Defer the window resizing until the reference to the render target is released.
-				// m_Fullscreen = fullscreen;
+			}
+
+			bool cursorVisibility = m_window->IsCursorVisible();
+			if (ImGui::MenuItem("Show Cursor", nullptr, &cursorVisibility)) {
+				m_window->SetCursor(cursorVisibility);
 			}
 
 			ImGui::EndMenu();
@@ -1105,8 +1107,8 @@ void CEHDRPlayground::OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECo
 		ImGui::EndMainMenuBar();
 	}
 
-	if (showOptions) {
-		ImGui::Begin("Tonemapping", &showOptions);
+	if (toneMappingVisible) {
+		ImGui::Begin("Tonemapping", &toneMappingVisible);
 		{
 			ImGui::TextWrapped("Use the Exposure slider to adjust the overall exposure of the HDR scene.");
 			ImGui::SliderFloat("Exposure", &g_TonemapParameters.Exposure, -10.0f, 10.0f);

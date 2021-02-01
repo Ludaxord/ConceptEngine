@@ -49,6 +49,10 @@ bool CEScreen::IsFullscreen() const {
 	return m_isFullscreen;
 }
 
+bool CEScreen::IsCursorVisible() const {
+	return m_cursorVisible;
+}
+
 void CEScreen::SetFullscreen(bool fullscreen) {
 	if (m_isFullscreen != fullscreen) {
 		m_isFullscreen = fullscreen;
@@ -85,7 +89,6 @@ void CEScreen::SetFullscreen(bool fullscreen) {
 			               monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
 			               monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top, SWP_FRAMECHANGED | SWP_NOACTIVATE);
 			::ShowWindow(m_hWnd, SW_MAXIMIZE);
-			ShowCursor(false);
 		}
 		else {
 			/*
@@ -96,8 +99,19 @@ void CEScreen::SetFullscreen(bool fullscreen) {
 			               m_windowRect.right - m_windowRect.left, m_windowRect.bottom - m_windowRect.top,
 			               SWP_FRAMECHANGED | SWP_NOACTIVATE);
 			::ShowWindow(m_hWnd, SW_NORMAL);
-			ShowCursor(true);
+			SetCursor(true);
 		}
+	}
+}
+
+void CEScreen::ToggleCursor() {
+	SetCursor(!m_cursorVisible);
+}
+
+void CEScreen::SetCursor(bool cursorVisible) {
+	if (m_cursorVisible != cursorVisible) {
+		m_cursorVisible = cursorVisible;
+		ShowCursor(m_cursorVisible);
 	}
 }
 

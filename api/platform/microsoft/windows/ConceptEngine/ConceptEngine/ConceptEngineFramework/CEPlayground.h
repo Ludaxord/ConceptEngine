@@ -100,14 +100,14 @@ namespace Concept::GameEngine {
 				++frameCount;
 
 				if (totalTime > 1.0) {
-					auto fps = frameCount / totalTime;
+					g_FPS = frameCount / totalTime;
 					frameCount = 0;
 					totalTime = 0.0;
 
-					m_logger->info("FPS: {:.7}", fps);
+					m_logger->info("FPS: {:.7}", g_FPS);
 
 					wchar_t buffer[256];
-					::swprintf_s(buffer, L"Concept Engine [FPS: %f]", fps);
+					::swprintf_s(buffer, L"Concept Engine [FPS: %f]", g_FPS);
 					m_window->SetWindowTitle(buffer);
 				}
 			}
@@ -252,6 +252,8 @@ namespace Concept::GameEngine {
 			int m_width;
 			int m_height;
 			bool m_vSync;
+
+			inline static double g_FPS = 0.0;
 		private:
 		};
 	}
