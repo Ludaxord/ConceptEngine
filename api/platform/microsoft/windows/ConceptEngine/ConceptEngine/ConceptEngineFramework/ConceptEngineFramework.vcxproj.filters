@@ -653,6 +653,12 @@
     <ClCompile Include="CED3DSceneVisitor.cpp">
       <Filter>GraphicsEngine\DirectX\Elements\Visitors\Source</Filter>
     </ClCompile>
+    <ClCompile Include="CEEditorPlayground.cpp">
+      <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEHDRPlayground.cpp">
+      <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngineFramework.rc">
@@ -713,6 +719,27 @@
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="CEGEBasicLightingUnlitPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRSkyBoxVertexShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRSkyBoxPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRVertexShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRSDRPixelShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRSDRVertexShader.hlsl">
+      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="CEGEHDRUnlitPixelShader.hlsl">
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -22,6 +22,27 @@
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEBasicVertexShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRSDRPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRSDRVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRUnlitPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRSkyBoxPixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGEHDRSkyBoxVertexShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGenerateMips_CS.cso</FullPath>
     </ContentFile>
     <ContentFile>

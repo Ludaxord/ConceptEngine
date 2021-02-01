@@ -735,3 +735,6 @@ void CEBasicLightingPlayground::OnResize(ResizeEventArgs& e) {
 
 	m_renderTarget.Resize(m_width, m_height);
 }
+
+void CEBasicLightingPlayground::OnDPIScaleChanged(DPIScaleEventArgs& e) {
+}

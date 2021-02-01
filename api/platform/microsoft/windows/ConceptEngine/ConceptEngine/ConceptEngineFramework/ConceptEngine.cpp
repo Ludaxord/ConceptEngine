@@ -3,11 +3,12 @@
 #include <d3dcompiler.h>
 
 
-
 #include "CEBasicLightingPlayground.h"
 #include "CECubePlayground.h"
 
 #include "CECommandList.h"
+#include "CEEditorPlayground.h"
+#include "CEHDRPlayground.h"
 #include "CEHelper.h"
 #include "CESwapChain.h"
 
@@ -29,7 +30,9 @@ int ConceptEngine::RunEngine() {
 	int returnCode = 0;
 	{
 		// auto playground = std::make_unique<Playground::CECubePlayground>(L"Concept Engine Editor (Cube Playground)", 1920, 1080);
-		auto playground = std::make_unique<Playground::CEBasicLightingPlayground>(L"Concept Engine Editor (Basic Lighting Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEBasicLightingPlayground>(L"Concept Engine Editor (Basic Lighting Playground)", 1920, 1080);
+		auto playground = std::make_unique<Playground::CEHDRPlayground>(L"Concept Engine Editor (HDR Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEEditorPlayground>(L"Concept Engine Editor (Editor Playground)", 1920, 1080);
 		returnCode = playground->Run();
 	}
 

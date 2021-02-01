@@ -32,6 +32,7 @@ namespace Concept {
 			void OnMouseMoved(MouseMotionEventArgs& e) override;
 			void OnMouseWheel(MouseWheelEventArgs& e) override;
 			void OnResize(ResizeEventArgs& e) override;
+			void OnDPIScaleChanged(DPIScaleEventArgs& e) override;
 
 			void OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECommandList>& commandList, const GraphicsEngine::Direct3D::CERenderTarget& renderTarget);
 
