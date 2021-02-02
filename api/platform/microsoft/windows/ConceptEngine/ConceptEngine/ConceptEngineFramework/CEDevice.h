@@ -193,7 +193,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		CECommandQueue& GetCommandQueue(D3D12_COMMAND_LIST_TYPE type = D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		wrl::ComPtr<ID3D12Device5> GetDevice() const {
+		wrl::ComPtr<ID3D12Device2> GetDevice() const {
 			return m_device;
 		}
 
@@ -239,6 +239,12 @@ namespace Concept::GraphicsEngine::Direct3D {
 		*/
 		explicit CEDevice(std::shared_ptr<CEAdapter> adapter);
 		virtual ~CEDevice();
+
+		/*
+		 * Ray tracing Device interface
+		 */
+		void CreateRayTracingDevice();
+		
 		/**
 		 * Make Pipeline State Object
 		 */
@@ -246,7 +252,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 			const D3D12_PIPELINE_STATE_STREAM_DESC& pipelineStateStreamDesc);
 
 	private:
-		wrl::ComPtr<ID3D12Device5> m_device;
+		wrl::ComPtr<ID3D12Device2> m_device;
+		wrl::ComPtr<ID3D12Device5> m_rtxDevice;
 
 		std::unique_ptr<CECommandQueue> m_directCommandQueue;
 		std::unique_ptr<CECommandQueue> m_computeCommandQueue;

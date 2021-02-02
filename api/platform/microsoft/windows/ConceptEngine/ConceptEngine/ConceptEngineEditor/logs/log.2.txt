@@ -1,14 +1,2 @@
-[2021-02-02 15:15:34.868] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-02 15:15:41.566] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-02 15:15:41.593] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-02 15:15:41.596] [Concept Engine] [info] FPS: 0.1488110
-[2021-02-02 15:15:42.596] [Concept Engine] [info] FPS: 594.8443
-[2021-02-02 15:15:43.596] [Concept Engine] [info] FPS: 700.7420
-[2021-02-02 15:15:44.597] [Concept Engine] [info] FPS: 729.7566
-[2021-02-02 15:15:45.597] [Concept Engine] [info] FPS: 705.6316
-[2021-02-02 15:15:46.597] [Concept Engine] [info] FPS: 769.7233
-[2021-02-02 15:15:47.598] [Concept Engine] [info] FPS: 739.2655
-[2021-02-02 15:15:48.599] [Concept Engine] [info] FPS: 767.4678
-[2021-02-02 15:15:49.600] [Concept Engine] [info] FPS: 772.4476
-[2021-02-02 15:15:50.601] [Concept Engine] [info] FPS: 770.1397
-[2021-02-02 15:15:51.388] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-02 19:01:27.567] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-02 19:01:27.972] [ConceptEngine] [info] Device with Feature Level: 12.1 Created

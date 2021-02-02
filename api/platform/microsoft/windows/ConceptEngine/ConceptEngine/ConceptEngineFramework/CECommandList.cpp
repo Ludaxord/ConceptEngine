@@ -68,9 +68,18 @@ CECommandList::CECommandList(CEDevice& device, D3D12_COMMAND_LIST_TYPE type)
 			device, static_cast<D3D12_DESCRIPTOR_HEAP_TYPE>(i));
 		m_descriptorHeaps[i] = nullptr;
 	}
+
+	if (m_device.GetRayTracingTier() != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
+		CreateRayTracingCommandList();
+	}
 }
 
 CECommandList::~CECommandList() {
+}
+
+void CECommandList::CreateRayTracingCommandList() {
+	ThrowIfFailed(m_commandList->QueryInterface(IID_PPV_ARGS(&m_rtxCommandList)));
+	spdlog::info("Ray Tracing capable CECommandList created");
 }
 
 void CECommandList::TransitionBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES stateAfter,

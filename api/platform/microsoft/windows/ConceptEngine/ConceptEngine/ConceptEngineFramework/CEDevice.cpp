@@ -351,9 +351,18 @@ CEDevice::CEDevice(std::shared_ptr<CEAdapter> adapter): m_adapter(adapter) {
 		}
 		m_rayTracingTier = featureData.RaytracingTier;
 	}
+
+	if (GetRayTracingTier() != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
+		CreateRayTracingDevice();
+	}
 }
 
 CEDevice::~CEDevice() {
+}
+
+void CEDevice::CreateRayTracingDevice() {
+	ThrowIfFailed(m_device->QueryInterface(IID_PPV_ARGS(&m_rtxDevice)));
+	spdlog::info("Ray Tracing capable CEDevice created");
 }
 
 CECommandQueue& CEDevice::GetCommandQueue(D3D12_COMMAND_LIST_TYPE type) {

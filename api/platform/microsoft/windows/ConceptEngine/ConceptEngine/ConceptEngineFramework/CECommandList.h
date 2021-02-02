@@ -53,7 +53,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		}
 
 		/**
-		 * Get direct access to the ID3D12GraphicsCommandList5 interface.
+		 * Get direct access to the ID3D12GraphicsCommandList interface.
 		 */
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandList() const {
 			return m_commandList;
@@ -181,8 +181,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Load Image from filename
 		 */
 		int LoadImageDataFromFile(BYTE** imageData, D3D12_RESOURCE_DESC& resourceDescription, LPCWSTR filename,
-			int& bytesPerRow);
-		
+		                          int& bytesPerRow);
+
 		/**
 		 * Load a texture by a filename.
 		 */
@@ -503,6 +503,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		CECommandList(CEDevice& device, D3D12_COMMAND_LIST_TYPE type);
 		virtual ~CECommandList();
 
+		/*
+		 * Ray tracing Command List interface
+		 */
+		void CreateRayTracingCommandList();
+
 		/**
 		 * Close the command list.
 		 * Used by the command queue.
@@ -577,7 +582,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		CEDevice& m_device;
 		D3D12_COMMAND_LIST_TYPE m_commandListType;
 		//TODO: Create command lists depends on RTX Support
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> m_commandList;
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_commandList;
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> m_rtxCommandList;
 		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 
 		// For copy queues, it may be necessary to generate mips while loading textures.
