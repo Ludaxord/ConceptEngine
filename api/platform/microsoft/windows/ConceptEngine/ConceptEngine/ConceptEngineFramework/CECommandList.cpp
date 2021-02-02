@@ -79,7 +79,6 @@ CECommandList::~CECommandList() {
 
 void CECommandList::CreateRayTracingCommandList() {
 	ThrowIfFailed(m_commandList->QueryInterface(IID_PPV_ARGS(&m_rtxCommandList)));
-	spdlog::info("Ray Tracing capable CECommandList created");
 }
 
 void CECommandList::TransitionBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> resource, D3D12_RESOURCE_STATES stateAfter,
@@ -261,6 +260,7 @@ std::shared_ptr<CEByteAddressBuffer> CECommandList::CopyByteAddressBuffer(size_t
 
 	return byteAddressBuffer;
 }
+
 
 std::shared_ptr<CEStructuredBuffer> CECommandList::CopyStructuredBuffer(size_t numElements, size_t elementSize,
                                                                         const void* bufferData) {

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CEAccelerationStructuredBuffer.h" />
     <ClInclude Include="CEAudio.h" />
     <ClInclude Include="CEBasicLightingPlayground.h" />
     <ClInclude Include="CECamera.h" />
@@ -118,6 +119,7 @@
     <ClInclude Include="signals.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CEAccelerationStructuredBuffer.cpp" />
     <ClCompile Include="CEAudio.cpp" />
     <ClCompile Include="CEBasicLightingPlayground.cpp" />
     <ClCompile Include="CEController.cpp" />

@@ -362,7 +362,6 @@ CEDevice::~CEDevice() {
 
 void CEDevice::CreateRayTracingDevice() {
 	ThrowIfFailed(m_device->QueryInterface(IID_PPV_ARGS(&m_rtxDevice)));
-	spdlog::info("Ray Tracing capable CEDevice created");
 }
 
 CECommandQueue& CEDevice::GetCommandQueue(D3D12_COMMAND_LIST_TYPE type) {

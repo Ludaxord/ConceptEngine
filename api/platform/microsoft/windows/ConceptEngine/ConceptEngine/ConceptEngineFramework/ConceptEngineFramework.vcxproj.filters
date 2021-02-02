@@ -462,6 +462,9 @@
     <ClInclude Include="CED3DSceneVisitor.h">
       <Filter>GraphicsEngine\DirectX\Elements\Visitors\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CEAccelerationStructuredBuffer.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -658,6 +661,9 @@
     </ClCompile>
     <ClCompile Include="CEHDRPlayground.cpp">
       <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEAccelerationStructuredBuffer.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

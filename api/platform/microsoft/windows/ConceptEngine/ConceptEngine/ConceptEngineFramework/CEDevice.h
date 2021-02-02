@@ -197,6 +197,10 @@ namespace Concept::GraphicsEngine::Direct3D {
 			return m_device;
 		}
 
+		wrl::ComPtr<ID3D12Device5> GetRayTracingDevice() const {
+			return m_rtxDevice;
+		}
+
 		D3D_ROOT_SIGNATURE_VERSION GetHighestRootSignatureVersion() const {
 			return m_highestRootSignatureVersion;
 		}

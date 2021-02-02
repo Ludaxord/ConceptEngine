@@ -15,6 +15,7 @@
 namespace Concept::GraphicsEngine::Direct3D {
 
 	class CEBuffer;
+	class CEAccelerationStructuredBuffer;
 	class CEByteAddressBuffer;
 	class CEConstantBuffer;
 	class CEConstantBufferView;
@@ -159,6 +160,18 @@ namespace Concept::GraphicsEngine::Direct3D {
 		template <typename T>
 		std::shared_ptr<CEByteAddressBuffer> CopyByteAddressBuffer(const T& data) {
 			return CopyByteAddressBuffer(sizeof(T), &data);
+		}
+
+		/**
+		 * TODO: Implement
+		 * Copy the contents to a byte address buffer in GPU memory.
+		 */
+		std::shared_ptr<CEAccelerationStructuredBuffer> CopyAccelerationStructuredBuffer(
+			size_t bufferSize, const void* bufferData);
+
+		template <typename T>
+		std::shared_ptr<CEAccelerationStructuredBuffer> CopyAccelerationStructuredBuffer(const std::vector<T>& data) {
+			return CopyAccelerationStructuredBuffer(sizeof(T), data.data());
 		}
 
 		/**
