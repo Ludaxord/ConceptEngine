@@ -899,7 +899,7 @@ static bool g_allowMouseVisibleToggle = true;
 
 
 void CEHDRPlayground::OnKeyPressed(KeyEventArgs& e) {
-
+ 
 	if (!ImGui::GetIO().WantCaptureKeyboard) {
 		switch (e.Key) {
 		case KeyCode::Escape:

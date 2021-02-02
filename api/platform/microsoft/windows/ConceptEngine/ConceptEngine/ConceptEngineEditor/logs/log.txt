@@ -1,7 +1,0 @@
-[2021-02-01 21:31:18.252] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-01 21:31:25.072] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-01 21:31:25.104] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-01 21:31:25.104] [Concept Engine] [info] FPS: 0.1461209
-[2021-02-01 21:31:26.106] [Concept Engine] [info] FPS: 479.1831
-[2021-02-01 21:31:27.106] [Concept Engine] [info] FPS: 697.8903
-[2021-02-01 21:31:27.937] [ConceptEngine] [info] Concept Engine Game class destroyed.

@@ -3,7 +3,7 @@
 #include <sstream>
 #include <d3dcompiler.h>
 #include <iostream>
-#include <magic_enum.hpp>
+// #include <magic_enum.hpp>
 
 #include "CEDirect3DGraphics.h"
 #include "CEImGUI.h"

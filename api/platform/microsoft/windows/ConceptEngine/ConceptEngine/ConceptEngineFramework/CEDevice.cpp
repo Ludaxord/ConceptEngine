@@ -1,6 +1,5 @@
 #include "CEDevice.h"
 
-
 #include "CEAdapter.h"
 #include "CEByteAddressBuffer.h"
 #include "CECommandQueue.h"
@@ -240,15 +239,13 @@ public:
 };
 #pragma endregion
 
-void CEDevice::EnableDebugLayer()
-{
+void CEDevice::EnableDebugLayer() {
 	ComPtr<ID3D12Debug> debugInterface;
 	ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface)));
 	debugInterface->EnableDebugLayer();
 }
 
-void CEDevice::ReportLiveObjects()
-{
+void CEDevice::ReportLiveObjects() {
 
 	IDXGIDebug1* dxgiDebug;
 	DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug));
@@ -257,8 +254,7 @@ void CEDevice::ReportLiveObjects()
 	dxgiDebug->Release();
 }
 
-std::shared_ptr<CEDevice> CEDevice::Create(std::shared_ptr<CEAdapter> adapter)
-{
+std::shared_ptr<CEDevice> CEDevice::Create(std::shared_ptr<CEAdapter> adapter) {
 	return std::make_shared<CEDeviceInstance>(adapter);
 }
 
@@ -281,7 +277,9 @@ CEDevice::CEDevice(std::shared_ptr<CEAdapter> adapter): m_adapter(adapter) {
 
 	auto dxgiAdapter = m_adapter->GetDXGIAdapter();
 
-	ThrowIfFailed(D3D12CreateDevice(dxgiAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&m_device)));
+	ThrowIfFailed(D3D12CreateDevice(dxgiAdapter.Get(), m_adapter->GetFeatureLevel(), IID_PPV_ARGS(&m_device)));
+
+	spdlog::info("Device with Feature Level: {} Created", m_adapter->GetFeatureLevelName());
 
 	// Enable debug messages (only works if the debug layer has already been enabled).
 	ComPtr<ID3D12InfoQueue> pInfoQueue;

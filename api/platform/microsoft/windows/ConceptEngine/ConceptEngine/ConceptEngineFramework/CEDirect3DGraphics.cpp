@@ -1,7 +1,7 @@
 #include "CEDirect3DGraphics.h"
 
 #include <fstream>
-#include <magic_enum.hpp>
+// #include <magic_enum.hpp>
 
 #include "CEImGUI.h"
 #include "CEHelper.h"

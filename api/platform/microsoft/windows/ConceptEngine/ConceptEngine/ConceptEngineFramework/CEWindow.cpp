@@ -6,7 +6,7 @@
 #include "resource.h"
 
 #include "CEWindowMessage.h"
-#include <magic_enum.hpp>
+// #include <magic_enum.hpp>
 
 #include "CEHelper.h"
 #include "CEOSTools.h"
