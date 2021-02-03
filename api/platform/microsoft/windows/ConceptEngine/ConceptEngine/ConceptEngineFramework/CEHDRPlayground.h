@@ -59,6 +59,7 @@ namespace Concept {
 			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_cone;
 			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_torus;
 			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_plane;
+			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_cylinder;
 
 			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_skybox;
 

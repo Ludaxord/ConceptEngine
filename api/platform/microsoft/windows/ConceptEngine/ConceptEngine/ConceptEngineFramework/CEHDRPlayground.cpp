@@ -241,6 +241,7 @@ bool CEHDRPlayground::LoadContent() {
 	m_cone = commandList->CreateCone();
 	m_torus = commandList->CreateTorus();
 	m_plane = commandList->CreatePlane();
+	m_cylinder = commandList->CreateCylinder();
 
 	// Create an inverted (reverse winding order) cube so the insides are not clipped.
 	m_skybox = commandList->CreateCube(1.0f, true);
@@ -542,6 +543,7 @@ void CEHDRPlayground::UnloadContent() {
 	m_cone.reset();
 	m_torus.reset();
 	m_plane.reset();
+	m_cylinder.reset();
 	m_skybox.reset();
 
 	m_defaultTexture.reset();
@@ -751,19 +753,19 @@ void CEHDRPlayground::OnRender() {
 	m_torus->Accept(visitor);
 
 	// Draw a cylinder
-	// translationMatrix = XMMatrixTranslation(-4.0f, 4.0f, 4.0f);
-	// rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
-	// scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
-	// worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
-	//
-	// ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
-	//
-	// commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	// commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Gold);
-	// commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
-	// 	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	translationMatrix = XMMatrixTranslation(-4.0f, 4.0f, 4.0f);
+	rotationMatrix = XMMatrixRotationY(XMConvertToRadians(45.0f));
+	scaleMatrix = XMMatrixScaling(4.0f, 8.0f, 4.0f);
+	worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
+	
+	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
+	
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Gold);
+	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	// m_cylinder->Accept(visitor);
+	m_cylinder->Accept(visitor);
 
 	// Floor plane.
 	float scalePlane = 20.0f;
@@ -777,7 +779,7 @@ void CEHDRPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::BlackRubber);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_directXTexture,
 	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -825,7 +827,7 @@ void CEHDRPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::BlackRubber);
 	commandList->SetShaderResourceView(RootParameters::Textures, 0, m_defaultTexture,
 	                                   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -839,7 +841,7 @@ void CEHDRPlayground::OnRender() {
 	ComputeMatrices(worldMatrix, viewMatrix, viewProjectionMatrix, matrices);
 
 	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MatricesCB, matrices);
-	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::Chrome);
+	commandList->SetGraphicsDynamicConstantBuffer(RootParameters::MaterialCB, CEMaterial::BlackRubber);
 
 	m_plane->Accept(visitor);
 
