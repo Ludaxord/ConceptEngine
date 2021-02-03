@@ -665,6 +665,9 @@
     <ClCompile Include="CEAccelerationStructuredBuffer.cpp">
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
+    <ClCompile Include="CERTXPlayground.cpp">
+      <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ConceptEngineFramework.rc">

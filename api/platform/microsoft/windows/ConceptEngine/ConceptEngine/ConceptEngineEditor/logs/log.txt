@@ -1,21 +1,51 @@
-[2021-02-02 21:30:15.570] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-02 21:30:16.076] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-02 21:30:22.311] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-02 21:30:22.345] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-02 21:30:22.347] [Concept Engine] [info] FPS: 0.1477521
-[2021-02-02 21:30:23.348] [Concept Engine] [info] FPS: 521.2630
-[2021-02-02 21:30:24.349] [Concept Engine] [info] FPS: 602.3338
-[2021-02-02 21:30:25.350] [Concept Engine] [info] FPS: 621.8753
-[2021-02-02 21:30:26.350] [Concept Engine] [info] FPS: 640.5416
-[2021-02-02 21:30:27.351] [Concept Engine] [info] FPS: 585.6623
-[2021-02-02 21:30:28.352] [Concept Engine] [info] FPS: 598.1801
-[2021-02-02 21:30:29.352] [Concept Engine] [info] FPS: 588.9891
-[2021-02-02 21:30:30.353] [Concept Engine] [info] FPS: 628.7783
-[2021-02-02 21:30:31.354] [Concept Engine] [info] FPS: 681.2032
-[2021-02-02 21:30:32.355] [Concept Engine] [info] FPS: 677.1830
-[2021-02-02 21:30:33.356] [Concept Engine] [info] FPS: 659.6526
-[2021-02-02 21:30:34.357] [Concept Engine] [info] FPS: 694.1983
-[2021-02-02 21:30:35.357] [Concept Engine] [info] FPS: 707.6603
-[2021-02-02 21:30:36.358] [Concept Engine] [info] FPS: 711.4315
-[2021-02-02 21:30:37.359] [Concept Engine] [info] FPS: 585.1626
-[2021-02-02 21:30:37.721] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-03 18:45:57.236] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-03 18:45:57.640] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
+[2021-02-03 18:46:04.020] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-02-03 18:46:04.056] [Concept Engine] [info] Concept Engine Window Presented
+[2021-02-03 18:46:04.057] [Concept Engine] [info] FPS: 0.1467307
+[2021-02-03 18:46:05.058] [Concept Engine] [info] FPS: 584.5883
+[2021-02-03 18:46:06.058] [Concept Engine] [info] FPS: 804.7425
+[2021-02-03 18:46:07.059] [Concept Engine] [info] FPS: 804.7397
+[2021-02-03 18:46:08.059] [Concept Engine] [info] FPS: 812.4846
+[2021-02-03 18:46:09.060] [Concept Engine] [info] FPS: 815.5536
+[2021-02-03 18:46:10.061] [Concept Engine] [info] FPS: 819.0998
+[2021-02-03 18:46:11.062] [Concept Engine] [info] FPS: 815.3066
+[2021-02-03 18:46:12.062] [Concept Engine] [info] FPS: 813.9071
+[2021-02-03 18:46:13.063] [Concept Engine] [info] FPS: 804.9165
+[2021-02-03 18:46:14.064] [Concept Engine] [info] FPS: 809.1840
+[2021-02-03 18:46:15.064] [Concept Engine] [info] FPS: 810.9402
+[2021-02-03 18:46:16.064] [Concept Engine] [info] FPS: 808.9736
+[2021-02-03 18:46:17.065] [Concept Engine] [info] FPS: 812.1759
+[2021-02-03 18:46:18.065] [Concept Engine] [info] FPS: 808.9468
+[2021-02-03 18:46:19.067] [Concept Engine] [info] FPS: 818.0173
+[2021-02-03 18:46:20.067] [Concept Engine] [info] FPS: 805.9544
+[2021-02-03 18:46:21.068] [Concept Engine] [info] FPS: 819.1245
+[2021-02-03 18:46:22.068] [Concept Engine] [info] FPS: 806.8217
+[2021-02-03 18:46:23.069] [Concept Engine] [info] FPS: 824.1004
+[2021-02-03 18:46:24.069] [Concept Engine] [info] FPS: 802.6084
+[2021-02-03 18:46:25.070] [Concept Engine] [info] FPS: 815.1587
+[2021-02-03 18:46:26.071] [Concept Engine] [info] FPS: 809.7066
+[2021-02-03 18:46:27.071] [Concept Engine] [info] FPS: 815.9781
+[2021-02-03 18:46:28.072] [Concept Engine] [info] FPS: 807.2308
+[2021-02-03 18:46:29.073] [Concept Engine] [info] FPS: 802.3802
+[2021-02-03 18:46:30.073] [Concept Engine] [info] FPS: 816.6138
+[2021-02-03 18:46:31.074] [Concept Engine] [info] FPS: 812.5183
+[2021-02-03 18:46:32.075] [Concept Engine] [info] FPS: 800.2777
+[2021-02-03 18:46:33.075] [Concept Engine] [info] FPS: 805.7605
+[2021-02-03 18:46:34.075] [Concept Engine] [info] FPS: 806.8684
+[2021-02-03 18:46:35.075] [Concept Engine] [info] FPS: 798.9236
+[2021-02-03 18:46:36.076] [Concept Engine] [info] FPS: 817.5916
+[2021-02-03 18:46:37.076] [Concept Engine] [info] FPS: 803.8248
+[2021-02-03 18:46:38.077] [Concept Engine] [info] FPS: 820.3149
+[2021-02-03 18:46:39.078] [Concept Engine] [info] FPS: 818.0129
+[2021-02-03 18:46:40.079] [Concept Engine] [info] FPS: 805.3613
+[2021-02-03 18:46:41.080] [Concept Engine] [info] FPS: 729.0377
+[2021-02-03 18:46:42.081] [Concept Engine] [info] FPS: 727.5236
+[2021-02-03 18:46:43.081] [Concept Engine] [info] FPS: 776.7963
+[2021-02-03 18:46:44.081] [Concept Engine] [info] FPS: 811.8755
+[2021-02-03 18:46:45.081] [Concept Engine] [info] FPS: 806.8406
+[2021-02-03 18:46:46.082] [Concept Engine] [info] FPS: 810.6834
+[2021-02-03 18:46:47.082] [Concept Engine] [info] FPS: 803.8419
+[2021-02-03 18:46:48.082] [Concept Engine] [info] FPS: 802.6116
+[2021-02-03 18:46:49.083] [Concept Engine] [info] FPS: 812.4846
+[2021-02-03 18:46:49.271] [ConceptEngine] [info] Concept Engine Game class destroyed.

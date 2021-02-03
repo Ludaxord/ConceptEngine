@@ -221,6 +221,9 @@ CEHDRPlayground::~CEHDRPlayground() {
 }
 
 bool CEHDRPlayground::LoadContent() {
+	/*
+	 * Create devices
+	 */
 	m_device = CEDevice::Create();
 	m_swapChain = m_device->CreateSwapChain(m_window->GetWindowHandle(), DXGI_FORMAT_R8G8B8A8_UNORM);
 	m_swapChain->SetVSync(m_vSync);
