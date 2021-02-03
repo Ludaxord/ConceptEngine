@@ -67,9 +67,86 @@ bool CERTXPlayground::LoadContent() {
 			float specularPower = 50.0f,
 			float stepScale = 1.0f
 		) {
-			auto& attributes = m_aabb
+			auto& attributes = m_aabbMaterialCB[primitiveIndex];
+			attributes.albedo = albedo;
+			attributes.reflectanceCoef = reflectanceCoef;
+			attributes.diffuseCoef = diffuseCoef;
+			attributes.specularCoef = specularCoef;
+			attributes.specularPower = specularPower;
+			attributes.stepScale = stepScale;
 		};
+
+		m_planeMaterialCB = {XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f), 0.25f, 1, 0.4f, 50, 1};
+
+		/*
+		 * Albedos
+		 */
+		XMFLOAT4 green = XMFLOAT4(0.1f, 1.0f, 0.5f, 1.0f);
+		XMFLOAT4 red = XMFLOAT4(1.0f, 0.5f, 0.5f, 1.0f);
+		XMFLOAT4 yellow = XMFLOAT4(1.0f, 1.0f, 0.5f, 1.0f);
+
+		UINT offset = 0;
+		/*
+		 * Analytic primitives
+		 */
+		{
+			using namespace AnalyticPrimitive;
+			SetAttributes(offset + AABB, red);
+			SetAttributes(offset + Spheres, ChromiumReflectance, 1);
+			offset += AnalyticPrimitive::Count;
+		}
+
+		/*
+		 * Volumetric primitives
+		 */
+		{
+			using namespace VolumetricPrimitive;
+			SetAttributes(offset + Metaballs, ChromiumReflectance, 1);
+			offset += VolumetricPrimitive::Count;
+		}
+
+		/*
+		 * Signed distance primitives
+		 */
+		{
+			using namespace SignedDistancePrimitive;
+			using namespace SignedDistancePrimitive;
+			SetAttributes(offset + MiniSpheres, green);
+			SetAttributes(offset + IntersectedRoundCube, green);
+			SetAttributes(offset + SquareTorus, ChromiumReflectance, 1);
+			SetAttributes(offset + TwistedTorus, yellow, 0, 1.0f, 0.7f, 50, 0.5f);
+			SetAttributes(offset + Cog, yellow, 0, 1.0f, 0.1f, 2);
+			SetAttributes(offset + Cylinder, red);
+			SetAttributes(offset + FractalPyramid, green, 0, 1, 0.1f, 4, 0.8f);
+		}
+
+		/*
+		 * Camera setup in constructor
+		 */
+		{
+		}
+
+		/*
+		 * Setup lights
+		 */
+		{
+			XMFLOAT4 lightPosition;
+			XMFLOAT4 lightAmbientColor;
+			XMFLOAT4 lightDiffuseColor;
+
+			lightPosition = XMFLOAT4(0.0f, 18.0f, -20.0f, 0.0f);
+			m_sceneCB->lightPosition = XMLoadFloat4(&lightPosition);
+			
+			lightAmbientColor = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
+			m_sceneCB->lightAmbientColor = XMLoadFloat4(&lightAmbientColor);
+			
+			float d = 0.6f;
+			lightDiffuseColor = XMFLOAT4(d, d, d, 1.0f);
+			m_sceneCB->lightDiffuseColor = XMLoadFloat4(&lightDiffuseColor);
+		}
 	}
+
+	//TODO: Create Ray Tracing Resources
 
 	return true;
 }

@@ -465,6 +465,15 @@
     <ClInclude Include="CEAccelerationStructuredBuffer.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="RayTracingHlslCompat.h">
+      <Filter>GraphicsEngine\DirectX\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="RaytracingSceneDefines.h">
+      <Filter>GraphicsEngine\DirectX\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="DXSampleHelper.h">
+      <Filter>GraphicsEngine\DirectX\Libs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">

@@ -2,6 +2,13 @@
 #include "CED3DCamera.h"
 #include "CEPlayground.h"
 #include "CERenderTarget.h"
+#include "DXSampleHelper.h"
+#include "RayTracingHlslCompat.h"
+#include "RaytracingSceneDefines.h"
+
+/*
+ * TODO: Above structs just to test
+ */
 
 
 namespace Concept {
@@ -67,133 +74,16 @@ namespace Concept {
 			CameraData* m_pAlignedCameraData;
 
 			/*
-			 * TODO: Move to subclasses for now try to start
+			 * TODO: Move to subclasses for now try to start with ray tracing
 			 */
+			ConstantBuffer<SceneConstantBuffer> m_sceneCB;
 
 
-			struct ProceduralPrimitiveAttributes {
-				DirectX::XMFLOAT3 normal;
-			};
-
-			struct RayPayload {
-				DirectX::XMFLOAT4 color;
-				UINT recursionDepth;
-			};
-
-			struct ShadowRayPayload {
-				bool hit;
-			};
-
-			struct SceneConstantBuffer {
-				DirectX::XMMATRIX projectionToWorld;
-				DirectX::XMVECTOR cameraPosition;
-				DirectX::XMVECTOR lightPosition;
-				DirectX::XMVECTOR lightAmbientColor;
-				DirectX::XMVECTOR lightDiffuseColor;
-				float reflectance;
-				float elapsedTime; // Elapsed application time.
-			};
-
-			// Attributes per primitive type.
-			struct PrimitiveConstantBuffer {
-				DirectX::XMFLOAT4 albedo;
-				float reflectanceCoef;
-				float diffuseCoef;
-				float specularCoef;
-				float specularPower;
-				float stepScale; // Step scale for ray marching of signed distance primitives. 
-				// - Some object transformations don't preserve the distances and 
-				//   thus require shorter steps.
-				DirectX::XMFLOAT3 padding;
-			};
-
-			// Attributes per primitive instance.
-			struct PrimitiveInstanceConstantBuffer {
-				UINT instanceIndex;
-				UINT primitiveType; // Procedural primitive type
-			};
-
-			// Dynamic attributes per primitive instance.
-			struct PrimitiveInstancePerFrameBuffer {
-				DirectX::XMMATRIX localSpaceToBottomLevelAS;
-				// Matrix from local primitive space to bottom-level object space.
-				DirectX::XMMATRIX bottomLevelASToLocalSpace;
-				// Matrix from bottom-level object space to local primitive space.
-			};
-
-			struct Vertex {
-				DirectX::XMFLOAT3 position;
-				DirectX::XMFLOAT3 normal;
-			};
-
+			// Root constants
+			PrimitiveConstantBuffer m_planeMaterialCB;
+			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];
 		};
 	}
 
 }
 
-
-// Ray types traced in this sample.
-namespace RayType {
-	enum Enum {
-		Radiance = 0,
-		// ~ Primary, reflected camera/view rays calculating color for each hit.
-		Shadow,
-		// ~ Shadow/visibility rays, only testing for occlusion
-		Count
-	};
-}
-
-namespace TraceRayParameters {
-	static const UINT InstanceMask = ~0; // Everything is visible.
-	namespace HitGroup {
-		static const UINT Offset[RayType::Count] =
-		{
-			0, // Radiance ray
-			1 // Shadow ray
-		};
-		static const UINT GeometryStride = RayType::Count;
-	}
-
-	namespace MissShader {
-		static const UINT Offset[RayType::Count] =
-		{
-			0, // Radiance ray
-			1 // Shadow ray
-		};
-	}
-}
-
-
-// From: http://blog.selfshadow.com/publications/s2015-shading-course/hoffman/s2015_pbs_physics_math_slides.pdf
-static const DirectX::XMFLOAT4 ChromiumReflectance = DirectX::XMFLOAT4(0.549f, 0.556f, 0.554f, 1.0f);
-
-static const DirectX::XMFLOAT4 BackgroundColor = DirectX::XMFLOAT4(0.8f, 0.9f, 1.0f, 1.0f);
-static const float InShadowRadiance = 0.35f;
-
-namespace AnalyticPrimitive {
-	enum Enum {
-		AABB = 0,
-		Spheres,
-		Count
-	};
-}
-
-namespace VolumetricPrimitive {
-	enum Enum {
-		Metaballs = 0,
-		Count
-	};
-}
-
-namespace SignedDistancePrimitive {
-	enum Enum {
-		MiniSpheres = 0,
-		IntersectedRoundCube,
-		SquareTorus,
-		TwistedTorus,
-		Cog,
-		Cylinder,
-		FractalPyramid,
-		Count
-	};
-}

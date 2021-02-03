@@ -23,7 +23,9 @@ using namespace Concept::GameEngine::Playground;
 using namespace Concept::GraphicsEngine::Direct3D;
 using namespace DirectX;
 
-
+/*
+ * TODO: create separate class for all properties and helper functions, to get rid of copying same code in multiple places
+ */
 struct Mat {
 	DirectX::XMMATRIX ModelMatrix;
 	DirectX::XMMATRIX ModelViewMatrix;

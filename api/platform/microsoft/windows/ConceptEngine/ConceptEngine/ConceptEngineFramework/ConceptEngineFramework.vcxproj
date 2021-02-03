@@ -109,10 +109,13 @@
     <ClInclude Include="CThreadSafeQueue.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="CEDirect3DEngine.h" />
+    <ClInclude Include="DXSampleHelper.h" />
     <ClInclude Include="ImGUI_PS.h" />
     <ClInclude Include="ImGUI_VS.h" />
     <ClInclude Include="optional.hpp" />
     <ClInclude Include="PanoToCubemap_CS.h" />
+    <ClInclude Include="RayTracingHlslCompat.h" />
+    <ClInclude Include="RaytracingSceneDefines.h" />
     <ClInclude Include="ReadDirectoryChanges.h" />
     <ClInclude Include="ReadDirectoryChangesPrivate.h" />
     <ClInclude Include="resource.h" />
