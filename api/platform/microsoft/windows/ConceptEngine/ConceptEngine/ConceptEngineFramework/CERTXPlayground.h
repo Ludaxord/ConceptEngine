@@ -48,6 +48,9 @@ namespace Concept {
 			           const GraphicsEngine::Direct3D::CERenderTarget& renderTarget);
 
 			void RescaleHDRRenderTarget(float scale);
+			
+			template <class InstanceDescType, class BLASPtrType>
+			void BuildBotomLevelASInstanceDescs(BLASPtrType* bottomLevelASaddresses, ComPtr<ID3D12Resource>* instanceDescsResource);
 
 		private:
 			/*
@@ -97,10 +100,6 @@ namespace Concept {
 			StructuredBuffer<PrimitiveInstancePerFrameBuffer> m_aabbPrimitiveAttributeBuffer;
 			std::vector<D3D12_RAYTRACING_AABB> m_aabbs;
 
-			// Root constants
-			PrimitiveConstantBuffer m_planeMaterialCB;
-			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];
-
 			// Descriptors
 			ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
 			UINT m_descriptorsAllocated;
@@ -117,6 +116,10 @@ namespace Concept {
 			// Root constants
 			PrimitiveConstantBuffer m_planeMaterialCB;
 			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];
+			
+			// Acceleration structure
+			ComPtr<ID3D12Resource> m_bottomLevelAS[BottomLevelASType::Count];
+			ComPtr<ID3D12Resource> m_topLevelAS;
 		};
 	}
 

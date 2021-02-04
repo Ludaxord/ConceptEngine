@@ -59,6 +59,20 @@ namespace Concept::GraphicsEngine::Direct3D {
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandList() const {
 			return m_commandList;
 		}
+		/**
+		 * Get direct access to the ID3D12GraphicsCommandList5 interface.
+		 */
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> GetRayTracingCommandList() const {
+			return m_rtxCommandList;
+		}
+
+		/**
+		 * Get direct access to the ID3D12CommandAllocator interface.
+		 * NOTE: Temporary just for RTXPlayground
+		 */
+		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> GetCommandAllocator() const {
+			return m_commandAllocator;
+		}
 
 		/**
 		 * Transition a resource to a particular state.
