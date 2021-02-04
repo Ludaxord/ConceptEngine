@@ -766,9 +766,6 @@
     <FxCompile Include="CEGEHDRUnlitPixelShader.hlsl">
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Raytracing.hlsl">
-      <Filter>GraphicsEngine\DirectX\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders.hlsl">
