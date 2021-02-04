@@ -109,11 +109,13 @@
     <ClInclude Include="CThreadSafeQueue.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="CEDirect3DEngine.h" />
+    <ClInclude Include="DirectXRaytracingHelper.h" />
     <ClInclude Include="DXSampleHelper.h" />
     <ClInclude Include="ImGUI_PS.h" />
     <ClInclude Include="ImGUI_VS.h" />
     <ClInclude Include="optional.hpp" />
     <ClInclude Include="PanoToCubemap_CS.h" />
+    <ClInclude Include="Raytracing.hlsl.h" />
     <ClInclude Include="RayTracingHlslCompat.h" />
     <ClInclude Include="RaytracingSceneDefines.h" />
     <ClInclude Include="ReadDirectoryChanges.h" />
@@ -382,6 +384,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Raytracing.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Library</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
     </FxCompile>
     <None Include="colors.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

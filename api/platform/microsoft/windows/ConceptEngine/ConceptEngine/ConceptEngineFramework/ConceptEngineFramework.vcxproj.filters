@@ -474,6 +474,12 @@
     <ClInclude Include="DXSampleHelper.h">
       <Filter>GraphicsEngine\DirectX\Libs</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXRaytracingHelper.h">
+      <Filter>GraphicsEngine\DirectX\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="Raytracing.hlsl.h">
+      <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -759,6 +765,9 @@
     </FxCompile>
     <FxCompile Include="CEGEHDRUnlitPixelShader.hlsl">
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Raytracing.hlsl">
+      <Filter>GraphicsEngine\DirectX\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

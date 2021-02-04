@@ -57,6 +57,10 @@ namespace Concept {
 			std::shared_ptr<GraphicsEngine::Direct3D::CESwapChain> m_swapChain;
 			std::shared_ptr<GraphicsEngine::Direct3D::CEGUI> m_gui;
 
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_rayTracingGlobalSignature;
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_triangleRayTracingLocalSignature;
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_AABBRayTracingLocalSignature;
+
 			D3D12_VIEWPORT m_viewPort;
 			D3D12_RECT m_scissorRect;
 
@@ -76,8 +80,29 @@ namespace Concept {
 			/*
 			 * TODO: Move to subclasses for now try to start with ray tracing
 			 */
+			ComPtr<ID3D12StateObject> m_dxrStateObject;
+			
+			// Raytracing scene
 			ConstantBuffer<SceneConstantBuffer> m_sceneCB;
+			StructuredBuffer<PrimitiveInstancePerFrameBuffer> m_aabbPrimitiveAttributeBuffer;
+			std::vector<D3D12_RAYTRACING_AABB> m_aabbs;
 
+			// Root constants
+			PrimitiveConstantBuffer m_planeMaterialCB;
+			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];
+
+			// Descriptors
+			ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
+			UINT m_descriptorsAllocated;
+			UINT m_descriptorSize;
+
+			// Shader tables
+			static const wchar_t* c_hitGroupNames_TriangleGeometry[RayType::Count];
+			static const wchar_t* c_hitGroupNames_AABBGeometry[IntersectionShaderType::Count][RayType::Count];
+			static const wchar_t* c_raygenShaderName;
+			static const wchar_t* c_intersectionShaderNames[IntersectionShaderType::Count];
+			static const wchar_t* c_closestHitShaderNames[GeometryType::Count];
+			static const wchar_t* c_missShaderNames[RayType::Count];
 
 			// Root constants
 			PrimitiveConstantBuffer m_planeMaterialCB;
@@ -86,4 +111,3 @@ namespace Concept {
 	}
 
 }
-
