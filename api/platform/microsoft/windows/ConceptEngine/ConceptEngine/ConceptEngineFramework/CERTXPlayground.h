@@ -50,7 +50,7 @@ namespace Concept {
 			void RescaleHDRRenderTarget(float scale);
 			
 			template <class InstanceDescType, class BLASPtrType>
-			void BuildBotomLevelASInstanceDescs(BLASPtrType* bottomLevelASaddresses, ComPtr<ID3D12Resource>* instanceDescsResource);
+			void BuildBottomLevelASInstanceDescs(BLASPtrType* bottomLevelASaddresses, ComPtr<ID3D12Resource>* instanceDescsResource);
 
 		private:
 			/*
@@ -113,6 +113,12 @@ namespace Concept {
 			static const wchar_t* c_closestHitShaderNames[GeometryType::Count];
 			static const wchar_t* c_missShaderNames[RayType::Count];
 
+			ComPtr<ID3D12Resource> m_missShaderTable;
+			UINT m_missShaderTableStrideInBytes;
+			ComPtr<ID3D12Resource> m_hitGroupShaderTable;
+			UINT m_hitGroupShaderTableStrideInBytes;
+			ComPtr<ID3D12Resource> m_rayGenShaderTable;
+			
 			// Root constants
 			PrimitiveConstantBuffer m_planeMaterialCB;
 			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];

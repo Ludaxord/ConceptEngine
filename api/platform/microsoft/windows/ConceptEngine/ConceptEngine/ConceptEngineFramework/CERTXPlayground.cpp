@@ -212,6 +212,8 @@ bool CERTXPlayground::LoadContent() {
 	m_swapChain = m_device->CreateSwapChain(m_window->GetWindowHandle(), DXGI_FORMAT_R8G8B8A8_UNORM);
 	m_swapChain->SetVSync(m_vSync);
 
+	auto frameCount = m_swapChain->BufferCount;
+
 	m_gui = m_device->CreateGUI(m_window->GetWindowHandle(), m_swapChain->GetRenderTarget());
 
 	CEGame::Get().WndProcHandler += CEWindowProcEvent::slot(&CEGUI::WndProcHandler, m_gui);
@@ -490,7 +492,7 @@ bool CERTXPlayground::LoadContent() {
 		//Allocate heap for 6 descriptors:
 		//2 - vertex and index buffer SRVs
 		//1 - ray tracing output texture SRV;
-		descriptorHeapDesc.NumDescriptors = CESwapChain::BufferCount;
+		descriptorHeapDesc.NumDescriptors = frameCount;
 		descriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 		descriptorHeapDesc.NodeMask = 0;
@@ -874,17 +876,104 @@ bool CERTXPlayground::LoadContent() {
 
 		//Create constant buffers for geometry and scene
 		{
-			auto frameCount = m_swapChain->BufferCount;
-
 			m_sceneCB.Create(device.Get(), frameCount, L"Scene Constant Buffer");
 		}
 
 		//Create AABB primitive attribute buffers
 		{
+			m_aabbPrimitiveAttributeBuffer.Create(device.Get(), IntersectionShaderType::TotalPrimitiveCount, frameCount,
+			                                      L"AABB primitive attributes");
 		}
 
 		//Build shader tables, which define shaders and their local root arguments
 		{
+			void* rayGenShaderID;
+			void* missShaderIDs[RayType::Count];
+			void* hitGroupShaderIDs_TriangleGeometry[RayType::Count];
+			void* hitGroupShaderIDs_AABBGeometry[IntersectionShaderType::Count][RayType::Count];
+
+			// Shader name look-up table for shader table debug print out.
+			std::unordered_map<void*, std::wstring> shaderIdToStringMap;
+
+			auto GetShaderIDs = [&](auto* stateObjectProperties) {
+				rayGenShaderID = stateObjectProperties->GetShaderIdentifier(c_raygenShaderName);
+				shaderIdToStringMap[rayGenShaderID] = c_raygenShaderName;
+
+				for (UINT i = 0; i < RayType::Count; i++) {
+					missShaderIDs[i] = stateObjectProperties->GetShaderIdentifier(c_missShaderNames[i]);
+					shaderIdToStringMap[missShaderIDs[i]] = c_missShaderNames[i];
+				}
+				for (UINT i = 0; i < RayType::Count; i++) {
+					hitGroupShaderIDs_TriangleGeometry[i] = stateObjectProperties->GetShaderIdentifier(
+						c_hitGroupNames_TriangleGeometry[i]);
+					shaderIdToStringMap[hitGroupShaderIDs_TriangleGeometry[i]] = c_hitGroupNames_TriangleGeometry[i];
+				}
+				for (UINT r = 0; r < IntersectionShaderType::Count; r++)
+					for (UINT c = 0; c < RayType::Count; c++) {
+						hitGroupShaderIDs_AABBGeometry[r][c] = stateObjectProperties->GetShaderIdentifier(
+							c_hitGroupNames_AABBGeometry[r][c]);
+						shaderIdToStringMap[hitGroupShaderIDs_AABBGeometry[r][c]] = c_hitGroupNames_AABBGeometry[r][c];
+					}
+			};
+
+			//GetShader identifiers.
+			UINT shaderIDSize;
+			{
+				wrl::ComPtr<ID3D12StateObjectProperties> stateObjectProperties;
+				ThrowIfFailed(m_dxrStateObject.As(&stateObjectProperties));
+				GetShaderIDs(stateObjectProperties.Get());
+				shaderIDSize = D3D12_SHADER_IDENTIFIER_SIZE_IN_BYTES;
+			}
+
+
+			/*************--------- Shader table layout -------*******************
+			| --------------------------------------------------------------------
+			| Shader table - HitGroupShaderTable:
+			| [0] : MyHitGroup_Triangle
+			| [1] : MyHitGroup_Triangle_ShadowRay
+			| [2] : MyHitGroup_AABB_AnalyticPrimitive
+			| [3] : MyHitGroup_AABB_AnalyticPrimitive_ShadowRay
+			| ...
+			| [6] : MyHitGroup_AABB_VolumetricPrimitive
+			| [7] : MyHitGroup_AABB_VolumetricPrimitive_ShadowRay
+			| [8] : MyHitGroup_AABB_SignedDistancePrimitive
+			| [9] : MyHitGroup_AABB_SignedDistancePrimitive_ShadowRay,
+			| ...
+			| [20] : MyHitGroup_AABB_SignedDistancePrimitive
+			| [21] : MyHitGroup_AABB_SignedDistancePrimitive_ShadowRay
+			| --------------------------------------------------------------------
+			**********************************************************************/
+
+			// RayGen shader table.
+			{
+				UINT numShaderRecords = 1;
+				UINT shaderRecordSize = shaderIDSize; //No root arguments
+
+				ShaderTable rayGenShaderTable(device.Get(), numShaderRecords, shaderRecordSize, L"RayGenShaderTable");
+				rayGenShaderTable.push_back(ShaderRecord(rayGenShaderID, shaderRecordSize, nullptr, 0));
+				rayGenShaderTable.DebugPrint(shaderIdToStringMap);
+				m_rayGenShaderTable = rayGenShaderTable.GetResource();
+			}
+
+			//Miss shader table.
+			{
+				UINT numShaderRecords = RayType::Count;
+				UINT shaderRecordSize = shaderIDSize;
+
+				ShaderTable missShaderTable(device.Get(), numShaderRecords, shaderRecordSize, L"MissShaderTable");
+				for (UINT i = 0; i < RayType::Count; i++) {
+					missShaderTable.push_back(ShaderRecord(missShaderIDs[i], shaderIDSize, nullptr, 0));
+				}
+				missShaderTable.DebugPrint(shaderIdToStringMap);
+				m_missShaderTableStrideInBytes = missShaderTable.GetShaderRecordSize();
+				m_missShaderTable = missShaderTable.GetResource();
+			}
+
+			//TODO: Start from here!
+			//Hit group shader table.
+			{
+				UINT numShaderRecords = RayType::Count + IntersectionShaderType::TotalPrimitiveCount * RayType::Count;
+			}
 		}
 
 		//Create an output 2D texture to store rayTracing result to.
