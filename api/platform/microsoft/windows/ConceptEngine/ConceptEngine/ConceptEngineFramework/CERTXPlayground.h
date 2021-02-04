@@ -80,8 +80,18 @@ namespace Concept {
 			/*
 			 * TODO: Move to subclasses for now try to start with ray tracing
 			 */
+			// Constants.
+			const UINT NUM_BLAS = 2; // Triangle + AABB bottom-level AS.
+			const float c_aabbWidth = 2; // AABB width.
+			const float c_aabbDistance = 2; // Distance between AABBs.
+
+			// Geometry
+			D3DBuffer m_indexBuffer;
+			D3DBuffer m_vertexBuffer;
+			D3DBuffer m_aabbBuffer;
+
 			ComPtr<ID3D12StateObject> m_dxrStateObject;
-			
+
 			// Raytracing scene
 			ConstantBuffer<SceneConstantBuffer> m_sceneCB;
 			StructuredBuffer<PrimitiveInstancePerFrameBuffer> m_aabbPrimitiveAttributeBuffer;

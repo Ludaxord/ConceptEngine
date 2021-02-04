@@ -155,6 +155,26 @@ void PrintStateObjectDesc(const D3D12_STATE_OBJECT_DESC* desc) {
 	spdlog::info(wstr.str().c_str());
 }
 
+void AllocateUploadBuffer(wrl::ComPtr<ID3D12Device2> pDevice, void* pData, UINT64 datasize, ID3D12Resource** ppResource,
+                          const wchar_t* resourceName = nullptr) {
+	auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(datasize);
+	ThrowIfFailed(pDevice->CreateCommittedResource(
+		&uploadHeapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&bufferDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(ppResource)));
+	if (resourceName) {
+		(*ppResource)->SetName(resourceName);
+	}
+	void* pMappedData;
+	(*ppResource)->Map(0, nullptr, &pMappedData);
+	memcpy(pMappedData, pData, datasize);
+	(*ppResource)->Unmap(0, nullptr);
+}
+
 CERTXPlayground::CERTXPlayground(const std::wstring& name, uint32_t width, uint32_t height, bool vSync) : CEPlayground(
 		name, width, height, vSync),
 	m_viewPort(CD3DX12_VIEWPORT(
@@ -461,10 +481,6 @@ bool CERTXPlayground::LoadContent() {
 	}
 
 	// Create heap for descriptors;
-	{
-	}
-
-	//Build geometry to be used in sample
 	//TODO: Use CEDescriptorAllocatorPage in future
 	{
 		auto device = m_device->GetDevice();
@@ -480,6 +496,174 @@ bool CERTXPlayground::LoadContent() {
 		NAME_D3D12_OBJECT(m_descriptorHeap);
 
 		m_descriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	}
+
+	//Build geometry to be used in sample
+	{
+		// Build AABBs for procedural geometry within a bottom-level acceleration structure.
+		{
+			auto device = m_device->GetDevice();
+			// Set up AABBs on a grid
+			{
+				XMINT3 aabbGrid = XMINT3(4, 1, 4);
+				const XMFLOAT3 basePosition = {
+					-(aabbGrid.x * c_aabbWidth + (aabbGrid.x - 1) * c_aabbDistance) / 2.0f,
+					-(aabbGrid.y * c_aabbWidth + (aabbGrid.y - 1) * c_aabbDistance) / 2.0f,
+					-(aabbGrid.z * c_aabbWidth + (aabbGrid.z - 1) * c_aabbDistance) / 2.0f,
+				};
+
+				XMFLOAT3 stride = XMFLOAT3(c_aabbWidth + c_aabbDistance, c_aabbWidth + c_aabbDistance,
+				                           c_aabbWidth + c_aabbDistance);
+				auto InitializeAABB = [&](auto& offsetIndex, auto& size) {
+					return D3D12_RAYTRACING_AABB{
+						basePosition.x + offsetIndex.x * stride.x,
+						basePosition.y + offsetIndex.y * stride.y,
+						basePosition.z + offsetIndex.z * stride.z,
+						basePosition.x + offsetIndex.x * stride.x + size.x,
+						basePosition.y + offsetIndex.y * stride.y + size.y,
+						basePosition.z + offsetIndex.z * stride.z + size.z,
+					};
+				};
+				m_aabbs.resize(IntersectionShaderType::TotalPrimitiveCount);
+				UINT offset = 0;
+
+				//Analytic primitives
+				{
+					using namespace AnalyticPrimitive;
+					m_aabbs[offset + AABB] = InitializeAABB(XMINT3(3, 0, 0), XMFLOAT3(2, 3, 2));
+					m_aabbs[offset + Spheres] = InitializeAABB(XMFLOAT3(2.25f, 0, 0.75f), XMFLOAT3(3, 3, 3));
+					offset += AnalyticPrimitive::Count;
+				}
+
+				//Volumetric primitives
+				{
+					using namespace VolumetricPrimitive;
+					m_aabbs[offset + Metaballs] = InitializeAABB(XMINT3(0, 0, 0), XMFLOAT3(3, 3, 3));
+					offset += VolumetricPrimitive::Count;
+				}
+
+				//Signed distance primitives
+				{
+					using namespace SignedDistancePrimitive;
+					m_aabbs[offset + MiniSpheres] = InitializeAABB(XMINT3(2, 0, 0), XMFLOAT3(2, 2, 2));
+					m_aabbs[offset + TwistedTorus] = InitializeAABB(XMINT3(0, 0, 1), XMFLOAT3(2, 2, 2));
+					m_aabbs[offset + IntersectedRoundCube] = InitializeAABB(XMINT3(0, 0, 2), XMFLOAT3(2, 2, 2));
+					m_aabbs[offset + SquareTorus] = InitializeAABB(XMFLOAT3(0.75f, -0.1f, 2.25f), XMFLOAT3(3, 3, 3));
+					m_aabbs[offset + Cog] = InitializeAABB(XMINT3(1, 0, 0), XMFLOAT3(2, 2, 2));
+					m_aabbs[offset + Cylinder] = InitializeAABB(XMINT3(0, 0, 3), XMFLOAT3(2, 3, 2));
+					m_aabbs[offset + FractalPyramid] = InitializeAABB(XMINT3(2, 0, 2), XMFLOAT3(6, 6, 6));
+				}
+
+				AllocateUploadBuffer(device, m_aabbs.data(), m_aabbs.size() * sizeof(m_aabbs[0]),
+				                     &m_aabbBuffer.resource);
+			}
+		}
+		//Build Plane Geometry
+		{
+			auto device = m_device->GetDevice();
+			//Plane indices
+			Index indices[] = {
+				3, 1, 0,
+				2, 1, 3
+			};
+
+			// Cube vertices positions and corresponding triangle normals
+			Vertex vertices[] = {
+				{XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
+				{XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
+				{XMFLOAT3(1.0f, 0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
+				{XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
+			};
+
+			AllocateUploadBuffer(device, indices, sizeof(indices), &m_indexBuffer.resource);
+			AllocateUploadBuffer(device, vertices, sizeof(vertices), &m_indexBuffer.resource);
+			UINT descriptorIndexIB;
+			UINT descriptorIndexVB;
+			//Vertex Buffer is passed to shader along with index buffer as a descriptor range;
+			{
+				auto numElements = sizeof(indices) / 4;
+				auto elementSize = 0;
+				//SRV
+				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+				srvDesc.Buffer.NumElements = numElements;
+				if (elementSize == 0) {
+					srvDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+					srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_RAW;
+					srvDesc.Buffer.StructureByteStride = 0;
+				}
+				else {
+					srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+					srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+					srvDesc.Buffer.StructureByteStride = elementSize;
+				}
+				UINT descriptorIndexToUse = UINT_MAX;
+				D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor = &m_indexBuffer.cpuDescriptorHandle;
+				auto descriptorHeapCpuBase = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+				if (descriptorIndexToUse >= m_descriptorHeap->GetDesc().NumDescriptors) {
+					if (m_descriptorsAllocated < m_descriptorHeap->GetDesc().NumDescriptors) {
+						descriptorIndexToUse = m_descriptorsAllocated++;
+					}
+					else {
+						throw std::exception(
+							"ERROR: m_descriptorsAllocated < m_descriptorHeap->GetDesc().NumDescriptors");
+					}
+				}
+				*cpuDescriptor = CD3DX12_CPU_DESCRIPTOR_HANDLE(descriptorHeapCpuBase, descriptorIndexToUse,
+				                                               m_descriptorSize);
+				UINT descriptorIndex = descriptorIndexToUse;
+				device->CreateShaderResourceView(m_indexBuffer.resource.Get(), &srvDesc,
+				                                 m_indexBuffer.cpuDescriptorHandle);
+				m_indexBuffer.gpuDescriptorHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+					m_descriptorHeap->GetGPUDescriptorHandleForHeapStart(), descriptorIndex, m_descriptorSize);
+				descriptorIndexIB = descriptorIndex;
+			}
+
+			{
+				auto numElements = ARRAYSIZE(vertices);
+				auto elementSize = sizeof(vertices[0]);
+				//SRV
+				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+				srvDesc.Buffer.NumElements = numElements;
+				if (elementSize == 0) {
+					srvDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+					srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_RAW;
+					srvDesc.Buffer.StructureByteStride = 0;
+				}
+				else {
+					srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+					srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+					srvDesc.Buffer.StructureByteStride = elementSize;
+				}
+				UINT descriptorIndexToUse = UINT_MAX;
+				D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor = &m_vertexBuffer.cpuDescriptorHandle;
+				auto descriptorHeapCpuBase = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+				if (descriptorIndexToUse >= m_descriptorHeap->GetDesc().NumDescriptors) {
+					if (m_descriptorsAllocated < m_descriptorHeap->GetDesc().NumDescriptors) {
+						descriptorIndexToUse = m_descriptorsAllocated++;
+					}
+					else {
+						throw std::exception(
+							"ERROR: m_descriptorsAllocated < m_descriptorHeap->GetDesc().NumDescriptors");
+					}
+				}
+				*cpuDescriptor = CD3DX12_CPU_DESCRIPTOR_HANDLE(descriptorHeapCpuBase, descriptorIndexToUse,
+				                                               m_descriptorSize);
+				UINT descriptorIndex = descriptorIndexToUse;
+				device->CreateShaderResourceView(m_vertexBuffer.resource.Get(), &srvDesc,
+				                                 m_vertexBuffer.cpuDescriptorHandle);
+				m_vertexBuffer.gpuDescriptorHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+					m_descriptorHeap->GetGPUDescriptorHandleForHeapStart(), descriptorIndex, m_descriptorSize);
+				descriptorIndexVB = descriptorIndex;
+			}
+
+			if (descriptorIndexVB != descriptorIndexIB + 1) {
+				throw std::exception("Error: VertexBuffer Desc is not equal to IndexBuffer Desc");
+			}
+		}
 	}
 
 	//Build rayTracing acceleration structures from generated geometry
