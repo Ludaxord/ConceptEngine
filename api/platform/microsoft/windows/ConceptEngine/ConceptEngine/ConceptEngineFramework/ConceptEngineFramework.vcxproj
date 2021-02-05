@@ -73,7 +73,6 @@
     <ClInclude Include="CEResource.h" />
     <ClInclude Include="CEResourceStateTracker.h" />
     <ClInclude Include="CERootSignature.h" />
-    <ClInclude Include="CERTXPlayground.h" />
     <ClInclude Include="CEScene.h" />
     <ClInclude Include="CESceneNode.h" />
     <ClInclude Include="CEScreen.h" />
@@ -164,7 +163,6 @@
     <ClCompile Include="CEResource.cpp" />
     <ClCompile Include="CEResourceStateTracker.cpp" />
     <ClCompile Include="CERootSignature.cpp" />
-    <ClCompile Include="CERTXPlayground.cpp" />
     <ClCompile Include="CEScene.cpp" />
     <ClCompile Include="CESceneNode.cpp" />
     <ClCompile Include="CEScreen.cpp" />

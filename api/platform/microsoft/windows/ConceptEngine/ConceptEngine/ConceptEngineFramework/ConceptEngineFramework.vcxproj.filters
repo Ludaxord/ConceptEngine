@@ -450,9 +450,6 @@
     <ClInclude Include="CEModelsPlayground.h">
       <Filter>GameEngine\Playgrounds\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="CERTXPlayground.h">
-      <Filter>GameEngine\Playgrounds\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="CED3DLight.h">
       <Filter>GraphicsEngine\DirectX\Elements\Lighting\Headers</Filter>
     </ClInclude>
@@ -682,9 +679,6 @@
     </ClCompile>
     <ClCompile Include="CEAccelerationStructuredBuffer.cpp">
       <Filter>GraphicsEngine\DirectX\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="CERTXPlayground.cpp">
-      <Filter>GameEngine\Playgrounds\Source</Filter>
     </ClCompile>
     <ClCompile Include="CERayTracingPlayground.cpp">
       <Filter>GameEngine\Playgrounds\Source</Filter>
