@@ -117,6 +117,7 @@
     <ClInclude Include="PanoToCubemap_CS.h" />
     <ClInclude Include="Raytracing.hlsl.h" />
     <ClInclude Include="RayTracingHlslCompat.h" />
+    <ClInclude Include="CERayTracingPlayground.h" />
     <ClInclude Include="RaytracingSceneDefines.h" />
     <ClInclude Include="ReadDirectoryChanges.h" />
     <ClInclude Include="ReadDirectoryChangesPrivate.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="CEMesh.cpp" />
     <ClCompile Include="CEPanoToCubemapPSO.cpp" />
     <ClCompile Include="CEPipelineStateObject.cpp" />
+    <ClCompile Include="CERayTracingPlayground.cpp" />
     <ClCompile Include="CERenderTarget.cpp" />
     <ClCompile Include="CEResource.cpp" />
     <ClCompile Include="CEResourceStateTracker.cpp" />

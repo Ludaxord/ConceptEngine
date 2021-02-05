@@ -480,6 +480,9 @@
     <ClInclude Include="Raytracing.hlsl.h">
       <Filter>GraphicsEngine\DirectX\Shaders\Compiled</Filter>
     </ClInclude>
+    <ClInclude Include="CERayTracingPlayground.h">
+      <Filter>GameEngine\Playgrounds\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -681,6 +684,9 @@
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CERTXPlayground.cpp">
+      <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CERayTracingPlayground.cpp">
       <Filter>GameEngine\Playgrounds\Source</Filter>
     </ClCompile>
   </ItemGroup>

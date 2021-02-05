@@ -1067,7 +1067,7 @@ void CERTXPlayground::OnRender() {
 	{
 		auto DispatchRays = [&](auto* rayTracingCommandList, auto* stateObject, auto* dispatchDesc) {
 
-		}
+		};
 	}
 
 	commandQueue.ExecuteCommandList(commandList);
