@@ -1043,6 +1043,37 @@ void CERTXPlayground::OnUpdate(UpdateEventArgs& e) {
 }
 
 void CERTXPlayground::OnRender() {
+	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+	auto commandList = commandQueue.GetCommandList();
+
+	//TODO: remove functions when rtx implementation will be ready in graphics engine
+	auto commandAllocator = commandList->GetCommandAllocator();
+	auto backBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+
+	// Reset command list and allocator.
+	//TODO: Use ClearTexture from Graphics Engine
+
+	// ThrowIfFailed(m_commandAllocators[m_backBufferIndex]->Reset());
+	// ThrowIfFailed(m_commandList->Reset(m_commandAllocators[m_backBufferIndex].Get(), nullptr));
+	//
+	// if (beforeState != D3D12_RESOURCE_STATE_RENDER_TARGET)
+	// {
+	// 	// Transition the render target into the correct state to allow for drawing into it.
+	// 	D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(m_renderTargets[m_backBufferIndex].Get(), beforeState, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	// 	m_commandList->ResourceBarrier(1, &barrier);
+	// }
+
+	//Do RayTracing
+	{
+		auto DispatchRays = [&](auto* rayTracingCommandList, auto* stateObject, auto* dispatchDesc) {
+
+		}
+	}
+
+	commandQueue.ExecuteCommandList(commandList);
+
+	// Present
+	m_swapChain->Present();
 }
 
 void CERTXPlayground::OnKeyPressed(KeyEventArgs& e) {

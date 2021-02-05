@@ -101,6 +101,13 @@ namespace Concept::GraphicsEngine::Direct3D {
 			return m_dxgiSwapChain;
 		}
 
+		/*
+		 * To RTX Playground temporary
+		 */
+		UINT GetCurrentBackBufferIndex() const {
+			return m_currentBackBufferIndex;
+		}
+
 	protected:
 		CESwapChain(CEDevice& device, HWND hWnd,
 		                   DXGI_FORMAT renderTargetFormat = DXGI_FORMAT_R10G10B10A2_UNORM);
