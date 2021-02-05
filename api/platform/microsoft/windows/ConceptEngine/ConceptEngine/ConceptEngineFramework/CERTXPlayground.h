@@ -48,9 +48,10 @@ namespace Concept {
 			           const GraphicsEngine::Direct3D::CERenderTarget& renderTarget);
 
 			void RescaleHDRRenderTarget(float scale);
-			
+
 			template <class InstanceDescType, class BLASPtrType>
-			void BuildBottomLevelASInstanceDescs(BLASPtrType* bottomLevelASaddresses, ComPtr<ID3D12Resource>* instanceDescsResource);
+			void BuildBottomLevelASInstanceDescs(BLASPtrType* bottomLevelASaddresses,
+			                                     ComPtr<ID3D12Resource>* instanceDescsResource);
 
 		private:
 			/*
@@ -83,6 +84,10 @@ namespace Concept {
 			/*
 			 * TODO: Move to subclasses for now try to start with ray tracing
 			 */
+
+			float m_animateGeometryTime = 0.0f;
+			bool m_animateGeometry = true;
+
 			// Constants.
 			const UINT NUM_BLAS = 2; // Triangle + AABB bottom-level AS.
 			const float c_aabbWidth = 2; // AABB width.
@@ -127,7 +132,7 @@ namespace Concept {
 			// Root constants
 			PrimitiveConstantBuffer m_planeMaterialCB;
 			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];
-			
+
 			// Acceleration structure
 			ComPtr<ID3D12Resource> m_bottomLevelAS[BottomLevelASType::Count];
 			ComPtr<ID3D12Resource> m_topLevelAS;

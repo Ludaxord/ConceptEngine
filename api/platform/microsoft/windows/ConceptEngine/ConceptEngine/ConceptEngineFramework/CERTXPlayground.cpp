@@ -981,6 +981,65 @@ void CERTXPlayground::UnloadContent() {
 }
 
 void CERTXPlayground::OnUpdate(UpdateEventArgs& e) {
+	DisplayDebugFPSOnUpdate(e);
+	m_swapChain->WaitForSwapChain();
+
+	if (m_animateGeometry) {
+		m_animateGeometryTime += e.DeltaTime;
+	}
+	//Update AABB primitive attributes buffers passed into shader
+	{
+		XMMATRIX mIdentity = XMMatrixIdentity();
+		XMMATRIX mScale15y = XMMatrixScaling(1, 1.5, 1);
+		XMMATRIX mScale15 = XMMatrixScaling(1.5, 1.5, 1.5);
+		XMMATRIX mScale2 = XMMatrixScaling(2, 2, 2);
+		XMMATRIX mScale3 = XMMatrixScaling(3, 3, 3);
+
+		XMMATRIX mRotation = XMMatrixRotationY(-2 * m_animateGeometryTime);
+
+		//Apply scale, rotation and translation transforms.
+		//Intersection shader tests in this sample work with local space, so here
+		//We apply the BLAS object space translation that was passed to geometry descs.
+		auto SetTransformForAABB = [&](UINT primitiveIndex, XMMATRIX& mScale, XMMATRIX& mRotation) {
+			XMVECTOR vTranslation = 0.5f * (XMLoadFloat3(reinterpret_cast<XMFLOAT3*>(&m_aabbs[primitiveIndex].MinX)) +
+				XMLoadFloat3(reinterpret_cast<XMFLOAT3*>(&m_aabbs[primitiveIndex].MaxX)));
+			XMMATRIX mTranslation = XMMatrixTranslationFromVector(vTranslation);
+
+			XMMATRIX mTransform = mScale * mRotation * mTranslation;
+			m_aabbPrimitiveAttributeBuffer[primitiveIndex].localSpaceToBottomLevelAS = mTransform;
+			m_aabbPrimitiveAttributeBuffer[primitiveIndex].bottomLevelASToLocalSpace = XMMatrixInverse(
+				nullptr, mTransform);
+		};
+
+		UINT offset = 0;
+		//Analytic primitives
+		{
+			using namespace AnalyticPrimitive;
+			SetTransformForAABB(offset + AABB, mScale15y, mIdentity);
+			SetTransformForAABB(offset + Spheres, mScale15, mRotation);
+			offset += AnalyticPrimitive::Count;
+		}
+
+		//Volumetric primitives
+		{
+			using namespace VolumetricPrimitive;
+			SetTransformForAABB(offset + Metaballs, mScale15, mRotation);
+			offset += VolumetricPrimitive::Count;
+		}
+
+		//Signed distance primitives.
+		{
+			using namespace SignedDistancePrimitive;
+			SetTransformForAABB(offset + MiniSpheres, mIdentity, mIdentity);
+			SetTransformForAABB(offset + IntersectedRoundCube, mIdentity, mIdentity);
+			SetTransformForAABB(offset + SquareTorus, mScale15, mIdentity);
+			SetTransformForAABB(offset + TwistedTorus, mIdentity, mRotation);
+			SetTransformForAABB(offset + Cog, mIdentity, mRotation);
+			SetTransformForAABB(offset + Cylinder, mScale15y, mIdentity);
+			SetTransformForAABB(offset + FractalPyramid, mScale3, mIdentity);
+		}
+	}
+	m_sceneCB->elapsedTime = m_animateGeometryTime;
 }
 
 void CERTXPlayground::OnRender() {
