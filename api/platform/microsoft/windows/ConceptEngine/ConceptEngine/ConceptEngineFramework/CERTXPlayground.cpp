@@ -867,11 +867,93 @@ bool CERTXPlayground::LoadContent() {
 			//Hit group shader table.
 			{
 				UINT numShaderRecords = RayType::Count + IntersectionShaderType::TotalPrimitiveCount * RayType::Count;
+				UINT shaderRecordSize = shaderIDSize + LocalRootSignature::MaxRootArgumentsSize();
+				ShaderTable hitGroupShaderTable(device.Get(), numShaderRecords, shaderRecordSize,
+				                                L"HitGroupShaderTable");
+
+				//Triangle geometry hits groups
+				{
+					LocalRootSignature::Triangle::RootArguments rootArgs;
+					rootArgs.materialCb = m_planeMaterialCB;
+					for (auto& hitGroupShaderID : hitGroupShaderIDs_TriangleGeometry) {
+						hitGroupShaderTable.push_back(
+							ShaderRecord(hitGroupShaderID, shaderIDSize, &rootArgs, sizeof(rootArgs)));
+					}
+				}
+
+				//AABB geometry git groups
+				{
+					LocalRootSignature::AABB::RootArguments rootArgs;
+					UINT instanceIndex = 0;
+
+					//Create shader record for each primitive
+					for (UINT iShader = 0, instanceIndex = 0; iShader < IntersectionShaderType::Count; iShader++) {
+						UINT numPrimitiveTypes = IntersectionShaderType::PerPrimitiveTypeCount(
+							static_cast<IntersectionShaderType::Enum>(iShader));
+
+						//Primitive for each intersection shader.
+						for (UINT primitiveIndex = 0; primitiveIndex < numPrimitiveTypes; primitiveIndex++,
+						     instanceIndex++) {
+							rootArgs.materialCb = m_aabbMaterialCB[instanceIndex];
+							rootArgs.aabbCB.instanceIndex = instanceIndex;
+							rootArgs.aabbCB.primitiveType = primitiveIndex;
+
+							//Ray types
+							for (UINT r = 0; r < RayType::Count; r++) {
+								auto& hitGroupShaderID = hitGroupShaderIDs_AABBGeometry[iShader][r];
+								hitGroupShaderTable.push_back(
+									ShaderRecord(hitGroupShaderID, shaderIDSize, &rootArgs, sizeof(rootArgs)));
+							}
+						}
+					}
+				}
+
+				hitGroupShaderTable.DebugPrint(shaderIdToStringMap);
+				m_hitGroupShaderTableStrideInBytes = hitGroupShaderTable.GetShaderRecordSize();
+				m_hitGroupShaderTable = hitGroupShaderTable.GetResource();
 			}
 		}
 
 		//Create an output 2D texture to store rayTracing result to.
 		{
+			//Create output resource. Dimensions and format should match swap chain.
+			auto uavDesc = CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_R8G8B8A8_UNORM, m_width, m_height, 1, 1, 1, 0,
+			                                            D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+
+			auto defaultHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+			ThrowIfFailed(device->CreateCommittedResource(&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, &uavDesc,
+			                                              D3D12_RESOURCE_STATE_UNORDERED_ACCESS, nullptr,
+			                                              IID_PPV_ARGS(&m_raytracingOutput)));
+			NAME_D3D12_OBJECT(m_raytracingOutput);
+
+			D3D12_CPU_DESCRIPTOR_HANDLE uavDescriptorHandle;
+
+			auto descriptorHeapCpuBase = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+			if (m_raytracingOutputResourceUAVDescriptorHeapIndex >= m_descriptorHeap->GetDesc().NumDescriptors) {
+				ThrowIfFalse(m_descriptorsAllocated < m_descriptorHeap->GetDesc().NumDescriptors,
+				             L"Ran out of descriptors on the heap!");
+				m_raytracingOutputResourceUAVDescriptorHeapIndex = m_descriptorsAllocated++;
+			}
+			uavDescriptorHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(descriptorHeapCpuBase,
+			                                                    m_raytracingOutputResourceUAVDescriptorHeapIndex,
+			                                                    m_descriptorSize);
+
+			D3D12_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+			UAVDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+			device->CreateUnorderedAccessView(m_raytracingOutput.Get(), nullptr, &UAVDesc, uavDescriptorHandle);
+			m_raytracingOutputResourceUAVGpuDescriptor = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+				m_descriptorHeap->GetGPUDescriptorHandleForHeapStart());
+		}
+	}
+
+	{
+		//Create an output 2D texture to store rayTracing result to.
+		{
+		}
+
+		// Update camera matrices passed into the shader.
+		{
+
 		}
 	}
 

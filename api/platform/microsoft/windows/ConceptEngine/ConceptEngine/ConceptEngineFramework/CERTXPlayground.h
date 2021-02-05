@@ -118,7 +118,12 @@ namespace Concept {
 			ComPtr<ID3D12Resource> m_hitGroupShaderTable;
 			UINT m_hitGroupShaderTableStrideInBytes;
 			ComPtr<ID3D12Resource> m_rayGenShaderTable;
-			
+
+			// Raytracing output
+			ComPtr<ID3D12Resource> m_raytracingOutput;
+			D3D12_GPU_DESCRIPTOR_HANDLE m_raytracingOutputResourceUAVGpuDescriptor;
+			UINT m_raytracingOutputResourceUAVDescriptorHeapIndex;
+
 			// Root constants
 			PrimitiveConstantBuffer m_planeMaterialCB;
 			PrimitiveConstantBuffer m_aabbMaterialCB[IntersectionShaderType::TotalPrimitiveCount];
