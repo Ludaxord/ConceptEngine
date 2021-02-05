@@ -953,7 +953,6 @@ bool CERTXPlayground::LoadContent() {
 
 		// Update camera matrices passed into the shader.
 		{
-
 		}
 	}
 
@@ -961,6 +960,24 @@ bool CERTXPlayground::LoadContent() {
 }
 
 void CERTXPlayground::UnloadContent() {
+	m_device.reset();
+	m_swapChain.reset();
+	m_gui.reset();
+
+	m_rayTracingGlobalSignature.reset();
+	m_triangleRayTracingLocalSignature.reset();
+	m_AABBRayTracingLocalSignature.reset();
+
+	m_dxrStateObject.Reset();
+	m_descriptorHeap.Reset();
+	m_missShaderTable.Reset();
+	m_hitGroupShaderTable.Reset();
+	m_rayGenShaderTable.Reset();
+	m_raytracingOutput.Reset();
+	for (auto bottomLvlAs : m_bottomLevelAS) {
+		bottomLvlAs.Reset();
+	}
+	m_topLevelAS.Reset();
 }
 
 void CERTXPlayground::OnUpdate(UpdateEventArgs& e) {
