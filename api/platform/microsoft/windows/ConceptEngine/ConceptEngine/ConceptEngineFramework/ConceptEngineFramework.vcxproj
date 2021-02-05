@@ -77,6 +77,7 @@
     <ClInclude Include="CESceneNode.h" />
     <ClInclude Include="CEScreen.h" />
     <ClInclude Include="CEShaderResourceView.h" />
+    <ClInclude Include="CEStateObject.h" />
     <ClInclude Include="CEStructuredBuffer.h" />
     <ClInclude Include="CESwapChain.h" />
     <ClInclude Include="CETexture.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="CESceneNode.cpp" />
     <ClCompile Include="CEScreen.cpp" />
     <ClCompile Include="CEShaderResourceView.cpp" />
+    <ClCompile Include="CEStateObject.cpp" />
     <ClCompile Include="CEStructuredBuffer.cpp" />
     <ClCompile Include="CESwapChain.cpp" />
     <ClCompile Include="CETexture.cpp" />

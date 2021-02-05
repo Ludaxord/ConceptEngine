@@ -480,6 +480,9 @@
     <ClInclude Include="CERayTracingPlayground.h">
       <Filter>GameEngine\Playgrounds\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CEStateObject.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -682,6 +685,9 @@
     </ClCompile>
     <ClCompile Include="CERayTracingPlayground.cpp">
       <Filter>GameEngine\Playgrounds\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEStateObject.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

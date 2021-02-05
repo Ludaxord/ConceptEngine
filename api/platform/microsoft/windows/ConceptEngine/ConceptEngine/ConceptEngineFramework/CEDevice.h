@@ -7,6 +7,7 @@
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEStateObject;
 	namespace wrl = Microsoft::WRL;
 
 	class CEGUI;
@@ -146,6 +147,19 @@ namespace Concept::GraphicsEngine::Direct3D {
 		}
 
 		/**
+		 * Create State Object based on passed template PipelineStateStream
+		 */
+		template <class StateObject>
+		std::shared_ptr<CEStateObject> CreateStateObject(
+			StateObject& stateObject,
+			D3D12_STATE_OBJECT_TYPE type = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE) {
+			const D3D12_STATE_OBJECT_DESC stateStreamDesc = {
+				type, sizeof(StateObject), & stateObject
+			};
+			return MakeStateObject(stateStreamDesc);
+		}
+
+		/**
 		 * Create Constant Buffer View
 		 */
 		std::shared_ptr<CEConstantBufferView> CreateConstantBufferView(
@@ -248,12 +262,17 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Ray tracing Device interface
 		 */
 		void CreateRayTracingDevice();
-		
+
 		/**
 		 * Make Pipeline State Object
 		 */
 		std::shared_ptr<CEPipelineStateObject> MakePipelineStateObject(
 			const D3D12_PIPELINE_STATE_STREAM_DESC& pipelineStateStreamDesc);
+
+		/**
+		 * Make State Object
+		 */
+		std::shared_ptr<CEStateObject> MakeStateObject(const D3D12_STATE_OBJECT_DESC& stateStreamDesc);
 
 	private:
 		wrl::ComPtr<ID3D12Device2> m_device;

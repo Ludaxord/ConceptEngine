@@ -14,6 +14,7 @@
 #include "CEPipelineStateObject.h"
 #include "CERootSignature.h"
 #include "CEShaderResourceView.h"
+#include "CEStateObject.h"
 #include "CEStructuredBuffer.h"
 #include "CESwapChain.h"
 #include "CETexture.h"
@@ -194,6 +195,17 @@ public:
 	}
 
 	virtual ~CEPipelineStateObjectInstance() {
+
+	}
+};
+
+class CEStateObjectInstance : public CEStateObject {
+
+public:
+	CEStateObjectInstance(CEDevice& device, const D3D12_STATE_OBJECT_DESC& desc): CEStateObject(device, desc) {
+	}
+
+	virtual ~CEStateObjectInstance() {
 
 	}
 };
@@ -508,6 +520,13 @@ std::shared_ptr<CEPipelineStateObject> CEDevice::MakePipelineStateObject(
 	const D3D12_PIPELINE_STATE_STREAM_DESC& pipelineStateStreamDesc) {
 	std::shared_ptr<CEPipelineStateObject> pipelineStateObject =
 		std::make_shared<CEPipelineStateObjectInstance>(*this, pipelineStateStreamDesc);
+
+	return pipelineStateObject;
+}
+
+std::shared_ptr<CEStateObject> CEDevice::MakeStateObject(const D3D12_STATE_OBJECT_DESC& stateStreamDesc) {
+	std::shared_ptr<CEStateObject> pipelineStateObject = std::make_shared<CEStateObjectInstance
+	>(*this, stateStreamDesc);
 
 	return pipelineStateObject;
 }
