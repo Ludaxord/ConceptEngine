@@ -18,5 +18,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 	private:
 		CEDevice& m_device;
 		wrl::ComPtr<ID3D12StateObject> m_rtPipeline;
+		wrl::ComPtr<ID3D12StateObjectProperties> sop;
 	};
 }
