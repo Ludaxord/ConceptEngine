@@ -261,7 +261,7 @@ bool CEHDRPlayground::LoadContent() {
 	m_GraceCathedralTexture = commandList->LoadTextureFromFile(m_assetsPath + L"shanghai_bund_8k.hdr", true);
 
 	auto cubeMapDesc = m_GraceCathedralTexture->GetD3D12ResourceDesc();
-	cubeMapDesc.Width = cubeMapDesc.Height = 1024;
+	cubeMapDesc.Width = cubeMapDesc.Height = 1920;
 	cubeMapDesc.DepthOrArraySize = 6;
 	cubeMapDesc.MipLevels = 0;
 

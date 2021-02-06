@@ -44,6 +44,11 @@ namespace Concept {
 			std::shared_ptr<GraphicsEngine::Direct3D::CESwapChain> m_swapChain;
 			std::shared_ptr<GraphicsEngine::Direct3D::CEGUI> m_gui;
 
+			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_cube;
+
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_RTXRootSignature;
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_hitGroupRootSignature;
+
 			D3D12_VIEWPORT m_viewPort;
 			D3D12_RECT m_scissorRect;
 

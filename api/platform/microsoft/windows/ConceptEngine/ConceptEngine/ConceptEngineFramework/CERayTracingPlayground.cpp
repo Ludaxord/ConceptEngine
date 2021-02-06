@@ -1,6 +1,9 @@
 #include "CERayTracingPlayground.h"
 
 
+
+#include "CECommandList.h"
+#include "CECommandQueue.h"
 #include "CEDevice.h"
 #include "CEGUI.h"
 #include "CESwapChain.h"
@@ -10,6 +13,22 @@
 using namespace Concept::GameEngine::Playground;
 using namespace Concept::GraphicsEngine::Direct3D;
 using namespace DirectX;
+
+// An enum for root signature parameters.
+// I'm not using scoped enums to avoid the explicit cast that would be required
+// to use these as root indices in the root signature.
+enum RootParameters {
+	Buffer,
+	AccelerationStructure,
+	GeometryInputs,
+	GlobalConstants,
+	NumRootParameters
+};
+
+enum HitGroupParameters {
+	Constants,
+	NumParameters
+};
 
 CERayTracingPlayground::CERayTracingPlayground(const std::wstring& name,
                                                uint32_t width, uint32_t height, bool vSync): CEPlayground(name, width, height, vSync),
@@ -48,6 +67,49 @@ bool CERayTracingPlayground::LoadContent() {
 
 	CEGame::Get().WndProcHandler += CEWindowProcEvent::slot(&CEGUI::WndProcHandler, m_gui);
 
+
+	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
+	auto commandList = commandQueue.GetCommandList();
+
+	m_cube = commandList->CreateCube();
+	
+	commandQueue.ExecuteCommandList(commandList);
+
+	/*
+	 * Allow input layout and deny unnecessary access to certain pipeline stages
+	 * //TODO: Validate if it is correct
+	 */
+	{
+		D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
+
+		CD3DX12_DESCRIPTOR_RANGE1 descriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
+
+		CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
+		rootParameters[RootParameters::Buffer].InitAsUnorderedAccessView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
+		rootParameters[RootParameters::AccelerationStructure].InitAsShaderResourceView(0, 100, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
+		rootParameters[RootParameters::GeometryInputs].InitAsShaderResourceView(4, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
+		rootParameters[RootParameters::GlobalConstants].InitAsConstantBufferView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
+
+		CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR);
+
+
+		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
+		rootSignatureDescription.Init_1_1(RootParameters::NumRootParameters, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_NONE);
+
+		m_RTXRootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
+	}
+
+	{
+		CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
+		
+		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
+		rootSignatureDescription.Init_1_1(HitGroupParameters::NumParameters, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_NONE);
+		m_hitGroupRootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
+	}
+	
 	// Setup the Ray Tracing pipeline state.
 	struct RayTracingPipelineStateStream {
 		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
@@ -59,6 +121,9 @@ bool CERayTracingPlayground::LoadContent() {
 		CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
 	} rayTracingPipelineStateStream;
 
+
+
+	commandQueue.Flush();
 	
 	return true;
 }

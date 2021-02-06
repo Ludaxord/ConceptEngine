@@ -113,6 +113,7 @@ void CEScreen::SetCursor(bool cursorVisible) {
 		m_cursorVisible = cursorVisible;
 		ShowCursor(m_cursorVisible);
 	}
+	spdlog::info("Cursor Visible {}", m_cursorVisible);
 }
 
 void CEScreen::ToggleFullscreen() {
