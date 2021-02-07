@@ -8,6 +8,8 @@
 // #include "ImGUI_PS.h"
 // #include "ImGUI_VS.h"
 #include <imgui_impl_win32.h>
+#include <sstream>
+
 
 
 #include "CECommandList.h"
@@ -17,6 +19,7 @@
 #include "CERenderTarget.h"
 #include "CERootSignature.h"
 #include "CETexture.h"
+#include "CETools.h"
 #include "d3dx12.h"
 #include "ImGUI_PS.h"
 #include "ImGUI_VS.h"
@@ -61,11 +64,21 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget)
 	io.FontGlobalScale = ::GetDpiForWindow(m_hWnd) / 96.0f;
 	// Allow user UI scaling using CTRL+Mouse Wheel scrolling
 	io.FontAllowUserScaling = true;
+	
+	WCHAR assetsPath[512];
+	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
+	std::wstringstream wss;
+	wss << assetsPath << L"Fonts\\RobotoMono-Regular.ttf";
+	auto path = wss.str();
+	auto sPath = std::string(path.begin(), path.end());
+	OutputDebugStringA(sPath.c_str());
+	io.Fonts->AddFontFromFileTTF(sPath.c_str(), 15.0f);
 
 	// Build texture atlas
 	unsigned char* pixelData = nullptr;
 	int width, height;
 	io.Fonts->GetTexDataAsRGBA32(&pixelData, &width, &height);
+	// io.Fonts->Build();
 
 	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
 	auto commandList = commandQueue.GetCommandList();
