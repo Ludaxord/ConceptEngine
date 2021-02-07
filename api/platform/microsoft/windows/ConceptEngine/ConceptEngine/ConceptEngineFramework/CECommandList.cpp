@@ -840,11 +840,23 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 	mesh->SetIndexBuffer(indexBuffer);
 	mesh->SetMaterial(material);
 
+	//TODO: Move To proper place
 	if (m_device.GetRayTracingTier() != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
-		//TODO: Create all Acceleration Structures, RayTracing Pipeline State, RayTracing Shader Table
+
+		//TODO: Create all Acceleration Structures
+
 		// CreateBottomLevelAccelerationStructure(mesh);
-		CreateTopLevelAccelerationStructure();
-		CreateRayTracingOutput();
+		// CreateTopLevelAccelerationStructure();
+		// CreateRayTracingOutput();
+
+		//TODO: RayTracing Pipeline State
+
+		//TODO: RayTracing Shader Resources
+
+		//TODO: Create Constant Buffers
+
+		//TODO: RayTracing Shader Table
+
 	}
 
 	auto node = std::make_shared<CESceneNode>();
