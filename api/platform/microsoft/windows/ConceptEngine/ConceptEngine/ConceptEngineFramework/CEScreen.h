@@ -17,6 +17,16 @@ namespace Concept::GameEngine {
 
 	class CEScreen {
 	public:
+
+		static void SetWindowZOrderToTopMost(HWND hWnd, bool setToTopMost) {
+			RECT windowRect;
+			GetWindowRect(hWnd, &windowRect);
+
+			SetWindowPos(hWnd, (setToTopMost) ? HWND_TOPMOST : HWND_NOTOPMOST, windowRect.left, windowRect.top,
+			             windowRect.right - windowRect.left, windowRect.bottom - windowRect.top,
+			             SWP_FRAMECHANGED | SWP_NOACTIVATE);
+		}
+
 		/*
 		 * Get handle to OS window instance.
 		 *

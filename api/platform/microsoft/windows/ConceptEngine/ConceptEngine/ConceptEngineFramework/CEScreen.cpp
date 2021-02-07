@@ -53,6 +53,8 @@ bool CEScreen::IsCursorVisible() const {
 	return m_cursorVisible;
 }
 
+
+
 void CEScreen::SetFullscreen(bool fullscreen) {
 	if (m_isFullscreen != fullscreen) {
 		m_isFullscreen = fullscreen;

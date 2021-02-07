@@ -67,11 +67,25 @@ CESwapChain::CESwapChain(CEDevice& device, HWND hWnd, DXGI_FORMAT renderTargetFo
 	swapChainDesc.Flags = m_tearingSupported ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
 	swapChainDesc.Flags |= DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 
+	//Test version create full screen swap chain descriptor
+	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSwapChainDesc = {0};
+	fsSwapChainDesc.Windowed = TRUE;
+
+	//DXGI does not allo creating swap chain targeting window which has fullscreen styles(no border + topmost).
+	//Temporarily remove topmost property for creating swapchain
+	bool prevIsFullScreen = IsFullScreen();
+	if (prevIsFullScreen) {
+		CEScreen::SetWindowZOrderToTopMost(hWnd, false);
+	}
+
 	// Now create the swap chain.
 	wrl::ComPtr<IDXGISwapChain1> dxgiSwapChain1;
-	ThrowIfFailed(dxgiFactory5->CreateSwapChainForHwnd(d3d12CommandQueue.Get(), m_hWnd, &swapChainDesc, nullptr,
+	ThrowIfFailed(dxgiFactory5->CreateSwapChainForHwnd(d3d12CommandQueue.Get(), m_hWnd, &swapChainDesc, &fsSwapChainDesc,
 	                                                   nullptr, &dxgiSwapChain1));
 
+	if (prevIsFullScreen) {
+		CEScreen::SetWindowZOrderToTopMost(hWnd, true);
+	}
 	// Cast to swapchain4
 	ThrowIfFailed(dxgiSwapChain1.As(&m_dxgiSwapChain));
 
