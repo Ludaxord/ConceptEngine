@@ -12,72 +12,86 @@ class aiMesh;
 class aiNode;
 class aiScene;
 
-namespace Concept::GraphicsEngine::Direct3D {
-	class CEDevice;
-	class CEMesh;
-	class CEMaterial;
-	class CEVisitor;
-	class CESceneNode;
-	class CECommandList;
-	namespace wrl = Microsoft::WRL;
+namespace Concept::GraphicsEngine {
 
-	class CEScene {
-	public:
-		CEScene() = default;
-		~CEScene() = default;
+	namespace Models {
+		enum Library {
+			Assimp,
+			TinyObjLoader
+		};
+	}
 
-		void SetRootNode(std::shared_ptr<CESceneNode> node) {
-			m_rootNode = node;
-		}
+	namespace Direct3D {
+		class CEDevice;
+		class CEMesh;
+		class CEMaterial;
+		class CEVisitor;
+		class CESceneNode;
+		class CECommandList;
+		namespace wrl = Microsoft::WRL;
 
-		/**
-		 * Get AABB of scene
-		 * returns AABB of root node of scene.
-		 */
-		::DirectX::BoundingBox GetAABB() const;
+		class CEScene {
+		public:
+			CEScene() = default;
+			~CEScene() = default;
 
-		/**
-		 * Accept visitor.
-		 * This will visit scene, then will visit root node of scene.
-		 */
-		virtual void Accept(CEVisitor& visitor);
+			void SetRootNode(std::shared_ptr<CESceneNode> node) {
+				m_rootNode = node;
+			}
 
-	protected:
-		friend class CECommandList;
+			/**
+			 * Get AABB of scene
+			 * returns AABB of root node of scene.
+			 */
+			::DirectX::BoundingBox GetAABB() const;
 
-		/**
-		 * Load scene from file
-		 */
-		bool LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
-		                       const std::function<bool(float)>& loadingProgress);
+			/**
+			 * Accept visitor.
+			 * This will visit scene, then will visit root node of scene.
+			 */
+			virtual void Accept(CEVisitor& visitor);
 
-		/**
-		 * Load scene from string,
-		 * Scene can be preloaded into a byte array and scan can be loaded from loaded byte array,
-		 * @param scene, byte encoded scene file,
-		 * @param format, format of scene file.
-		 */
-		bool LoadSceneFromString(CECommandList& commandList, const std::string& sceneString,
-		                         const std::string& format);
+		protected:
+			friend class CECommandList;
 
-	private:
-		void ImportScene(CECommandList& commandList, const aiScene& scene, std::filesystem::path parentPath);
-		void ImportMaterial(CECommandList& commandList, const aiMaterial& material,
-		                    std::filesystem::path parentPath);
-		void ImportMesh(CECommandList& commandList, const aiMesh& mesh);
-		std::shared_ptr<CESceneNode> ImportSceneNode(CECommandList& commandList,
-		                                                    std::shared_ptr<CESceneNode> parent,
-		                                                    const aiNode* aiNode);
+			/**
+			 * Load scene from file
+			 */
+			bool LoadSceneFromFile(CECommandList& commandList,
+			                       const std::wstring& fileName,
+			                       const std::function<bool(float)>& loadingProgress,
+			                       Models::Library library = Models::TinyObjLoader);
 
-		using MaterialMap = std::map<std::string, std::shared_ptr<CEMaterial>>;
-		using MaterialList = std::vector<std::shared_ptr<CEMaterial>>;
-		using MeshList = std::vector<std::shared_ptr<CEMesh>>;
+			/**
+			 * Load scene from string,
+			 * Scene can be preloaded into a byte array and scan can be loaded from loaded byte array,
+			 * @param scene, byte encoded scene file,
+			 * @param format, format of scene file.
+			 */
+			bool LoadSceneFromString(CECommandList& commandList,
+			                         const std::string& sceneString,
+			                         const std::string& format,
+			                         Models::Library library = Models::TinyObjLoader);
+		
+		private:
+			void ImportScene(CECommandList& commandList, const aiScene& scene, std::filesystem::path parentPath);
+			void ImportMaterial(CECommandList& commandList, const aiMaterial& material,
+			                    std::filesystem::path parentPath);
+			void ImportMesh(CECommandList& commandList, const aiMesh& mesh);
+			std::shared_ptr<CESceneNode> ImportSceneNode(CECommandList& commandList,
+			                                             std::shared_ptr<CESceneNode> parent,
+			                                             const aiNode* aiNode);
 
-		MaterialMap m_materialMap;
-		MaterialList m_materialList;
-		MeshList m_meshList;
+			using MaterialMap = std::map<std::string, std::shared_ptr<CEMaterial>>;
+			using MaterialList = std::vector<std::shared_ptr<CEMaterial>>;
+			using MeshList = std::vector<std::shared_ptr<CEMesh>>;
 
-		std::shared_ptr<CESceneNode> m_rootNode;
-		std::wstring m_sceneFile;
-	};
+			MaterialMap m_materialMap;
+			MaterialList m_materialList;
+			MeshList m_meshList;
+
+			std::shared_ptr<CESceneNode> m_rootNode;
+			std::wstring m_sceneFile;
+		};
+	}
 }

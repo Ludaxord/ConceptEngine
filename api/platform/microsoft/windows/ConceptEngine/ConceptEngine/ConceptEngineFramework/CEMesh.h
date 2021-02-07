@@ -32,7 +32,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 		void SetIndexBuffer(const std::shared_ptr<CEIndexBuffer>& indexBuffer);
 		std::shared_ptr<CEIndexBuffer> GetIndexBuffer();
-
+		
 		/**
 		 * Get number if indices are in index buffer
 		 * if no index buffer is bound to mesh, function returns 0

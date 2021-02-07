@@ -3,10 +3,12 @@
 
 
 #include "CECommandList.h"
+#include "CEIndexBuffer.h"
 #include "CEMaterial.h"
 #include "CEMesh.h"
 #include "CESceneNode.h"
 #include "CETexture.h"
+#include "CEVertexBuffer.h"
 #include "CEVertexTypes.h"
 #include "CEVisitor.h"
 
@@ -53,7 +55,7 @@ inline DirectX::BoundingBox CreateBoundingBox(const aiAABB& aabb) {
 }
 
 bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
-                                const std::function<bool(float)>& loadingProgress) {
+                                const std::function<bool(float)>& loadingProgress, Models::Library library) {
 	spdlog::warn("LoadSceneFromFile");
 
 	fs::path filePath = fileName;
@@ -67,6 +69,12 @@ bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& 
 		parentPath = fs::current_path();
 	}
 
+	switch (library) {
+	case Models::Library::Assimp:
+		break;
+	case Models::Library::TinyObjLoader:
+		break;
+	}
 	// Assimp::Importer importer;
 	const aiScene* scene = nullptr;
 
@@ -106,8 +114,8 @@ bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& 
  * unresolved external symbol, reason probably: https://github.com/assimp/assimp/issues/1243
  * http://kimkulling.de/2016/05/02/build-asset-importer-lib-for-64bit-with-visual-studio-from-source-repo/
  */
-bool CEScene::LoadSceneFromString(CECommandList& commandList, const std::string& sceneStr, const std::string& format) {
-	spdlog::warn("LoadSceneFromString");
+bool CEScene::LoadSceneFromString(CECommandList& commandList, const std::string& sceneStr, const std::string& format,
+                                  Models::Library library) {
 	// Assimp::Importer importer;
 	const aiScene* scene = nullptr;
 

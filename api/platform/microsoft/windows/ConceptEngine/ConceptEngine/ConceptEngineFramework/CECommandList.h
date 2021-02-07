@@ -30,6 +30,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 	class CEResourceStateTracker;
 	class CERootSignature;
 	class CEScene;
+	class CEMesh;
 	class CEShaderResourceView;
 	class CEStructuredBuffer;
 	class CETexture;
@@ -203,7 +204,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Set the current primitive topology for the rendering pipeline.
 		 */
 		void SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY primitiveTopology);
-
+		
 		/*
 		 * Load Image from filename
 		 */
@@ -295,6 +296,21 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		std::shared_ptr<CEScene> CreatePlane(float width = 1.0f, float height = 1.0f, bool reverseWinding = false);
 
+		/*
+		 * Create Bottom Level Acceleration Structure
+		 */
+		void CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
+
+		/*
+		 * Create Top Level AccelerationStructure
+		 */
+		void CreateTopLevelAccelerationStructure();
+
+		/*
+		 * Create Ray Tracing Output
+		 */
+		void CreateRayTracingOutput();
+		
 		/**
 		 * Clear a texture.
 		 */

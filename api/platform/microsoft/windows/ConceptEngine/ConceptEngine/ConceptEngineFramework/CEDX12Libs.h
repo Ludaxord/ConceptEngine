@@ -56,5 +56,8 @@ namespace fs = std::experimental::filesystem;
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 
+//tiny object loader
+#include <tiny_obj_loader.h>
+
 // Helper functions
 #include "CEHelper.h"
