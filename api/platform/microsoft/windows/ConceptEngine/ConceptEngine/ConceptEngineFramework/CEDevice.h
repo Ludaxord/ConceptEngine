@@ -207,7 +207,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		CECommandQueue& GetCommandQueue(D3D12_COMMAND_LIST_TYPE type = D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		wrl::ComPtr<ID3D12Device2> GetDevice() const {
+		wrl::ComPtr<ID3D12Device5> GetDevice() const {
 			return m_device;
 		}
 
@@ -275,7 +275,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEStateObject> MakeStateObject(const D3D12_STATE_OBJECT_DESC& stateStreamDesc);
 
 	private:
-		wrl::ComPtr<ID3D12Device2> m_device;
+		wrl::ComPtr<ID3D12Device5> m_device;
 		wrl::ComPtr<ID3D12Device5> m_rtxDevice;
 
 		std::unique_ptr<CECommandQueue> m_directCommandQueue;

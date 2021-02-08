@@ -57,7 +57,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/**
 		 * Get direct access to the ID3D12GraphicsCommandList interface.
 		 */
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandList() const {
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> GetCommandList() const {
 			return m_commandList;
 		}
 		/**
@@ -625,7 +625,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		CEDevice& m_device;
 		D3D12_COMMAND_LIST_TYPE m_commandListType;
 		//TODO: Create command lists depends on RTX Support
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_commandList;
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> m_commandList;
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> m_rtxCommandList;
 		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 

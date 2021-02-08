@@ -845,7 +845,7 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 
 		//TODO: Create all Acceleration Structures
 
-		// CreateBottomLevelAccelerationStructure(mesh);
+		CreateBottomLevelAccelerationStructure(mesh);
 		// CreateTopLevelAccelerationStructure();
 		// CreateRayTracingOutput();
 
@@ -1206,137 +1206,89 @@ std::shared_ptr<CEScene> CECommandList::CreatePlane(float width, float height, b
 }
 
 //TODO: REFACTOR!!!
+//TODO: NOTE: Create return function CEAccelerationStructuredBuffer which contains:
+// ID3D12Resource pScratch
+// ID3D12Resource pResult
+// ID3D12Resource pInstanceDesc
+// Creates: D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC
 void CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
-	auto rtxDevice = m_device.GetRayTracingDevice();
-	auto rtxCommandList = GetRayTracingCommandList();
-
-	auto vertexBuffer = mesh->GetVertexBuffer(0);
+	auto rtxDevice = m_device.GetDevice();
+	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+	auto commandList = commandQueue.GetCommandList();
+	auto rtxCommandList = commandList->GetCommandList();
+	
+	auto vertexCount = mesh->GetVertexCount();
 	auto indexBuffer = mesh->GetIndexBuffer();
 
+	auto geometryDescSize = vertexCount;
+
+	std::vector<D3D12_RAYTRACING_GEOMETRY_DESC> geometryDesc;
+	geometryDesc.resize(vertexCount);
+
 	//Describe geometry that goes in bottom acceleration structures
-	D3D12_RAYTRACING_GEOMETRY_DESC geometryDesc;
-	geometryDesc.Type = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
-	geometryDesc.Triangles.VertexBuffer.StartAddress = vertexBuffer->GetD3D12Resource()->GetGPUVirtualAddress();
-	geometryDesc.Triangles.VertexBuffer.StrideInBytes = vertexBuffer->GetVertexStride();
-	geometryDesc.Triangles.VertexCount = static_cast<UINT>(vertexBuffer->GetNumVertices());
-	geometryDesc.Triangles.VertexFormat = DXGI_FORMAT_R32G32B32_FLOAT;
-	geometryDesc.Triangles.IndexBuffer = indexBuffer->GetD3D12Resource()->GetGPUVirtualAddress();
-	geometryDesc.Triangles.IndexFormat = indexBuffer->GetIndexBufferView().Format;
-	geometryDesc.Triangles.IndexCount = static_cast<UINT>(indexBuffer->GetNumIndices());
-	geometryDesc.Triangles.Transform3x4 = 0;
-	geometryDesc.Flags = D3D12_RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+	for (uint32_t i = 0; i < vertexCount; i++) {
+		const auto vertexBuffer = mesh->GetVertexBuffer(i);
+		if (vertexBuffer != nullptr) {
+			geometryDesc[i].Type = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
+			geometryDesc[i].Triangles.VertexBuffer.StartAddress = vertexBuffer->GetD3D12Resource()->
+				GetGPUVirtualAddress();
+			geometryDesc[i].Triangles.VertexBuffer.StrideInBytes = vertexBuffer->GetVertexStride();
+			geometryDesc[i].Triangles.VertexCount = static_cast<UINT>(vertexBuffer->GetNumVertices());
+			geometryDesc[i].Triangles.VertexFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+			geometryDesc[i].Triangles.IndexBuffer = indexBuffer->GetD3D12Resource()->GetGPUVirtualAddress();
+			geometryDesc[i].Triangles.IndexFormat = indexBuffer->GetIndexBufferView().Format;
+			geometryDesc[i].Triangles.IndexCount = static_cast<UINT>(indexBuffer->GetNumIndices());
+			geometryDesc[i].Triangles.Transform3x4 = 0;
+			geometryDesc[i].Flags = D3D12_RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+			geometryDescSize = i;
+		}
+	}
 
-	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS buildFlags =
-		D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_PREFER_FAST_TRACE;
+	geometryDesc.resize(geometryDescSize);
 
-	//Get size requirements for BLAS buffers
-	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS ASInputs = {};
-	ASInputs.Type = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_BOTTOM_LEVEL;
-	ASInputs.DescsLayout = D3D12_ELEMENTS_LAYOUT_ARRAY;
-	ASInputs.pGeometryDescs = &geometryDesc;
-	ASInputs.NumDescs = 1;
-	ASInputs.Flags = buildFlags;
+	//Get size requirements for scratch and Acceleration Structure Buffers
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS inputs = {};
+	inputs.DescsLayout = D3D12_ELEMENTS_LAYOUT_ARRAY;
+	inputs.Flags = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_NONE;
+	inputs.NumDescs = geometryDescSize;
+	inputs.pGeometryDescs = geometryDesc.data();
+	inputs.Type = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_BOTTOM_LEVEL;
 
-	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO ASPreBuildInfo = {};
-	rtxDevice->GetRaytracingAccelerationStructurePrebuildInfo(&ASInputs, &ASPreBuildInfo);
-
-	ASPreBuildInfo.ScratchDataSizeInBytes = ALIGN(D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BYTE_ALIGNMENT,
-	                                              ASPreBuildInfo.ScratchDataSizeInBytes);
-	ASPreBuildInfo.ResultDataMaxSizeInBytes = ALIGN(D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BYTE_ALIGNMENT,
-	                                                ASPreBuildInfo.ResultDataMaxSizeInBytes);
-
-	struct D3D12BufferCreateInfo {
-		UINT64 size;
-		UINT64 alignment;
-		D3D12_HEAP_TYPE heapType;
-		D3D12_RESOURCE_FLAGS flags;
-		D3D12_RESOURCE_STATES state;
-	} bufferInfo;
-
-	bufferInfo.size = ASPreBuildInfo.ScratchDataSizeInBytes;
-	bufferInfo.flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
-	bufferInfo.state = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
-	bufferInfo.alignment = max(D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BYTE_ALIGNMENT,
-	                           D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT);
-	bufferInfo.heapType = D3D12_HEAP_TYPE_DEFAULT;
-
-	//Create BLAS scratch buffer.
-	D3D12_HEAP_PROPERTIES BLASScratchHeapDesc = {};
-	BLASScratchHeapDesc.Type = bufferInfo.heapType;
-	BLASScratchHeapDesc.CreationNodeMask = 1;
-	BLASScratchHeapDesc.VisibleNodeMask = 1;
-
-	D3D12_RESOURCE_DESC BLASScratchResourceDesc = {};
-	BLASScratchResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	BLASScratchResourceDesc.Alignment = bufferInfo.alignment;
-	BLASScratchResourceDesc.Height = 1;
-	BLASScratchResourceDesc.DepthOrArraySize = 1;
-	BLASScratchResourceDesc.MipLevels = 1;
-	BLASScratchResourceDesc.Format = DXGI_FORMAT_UNKNOWN;
-	BLASScratchResourceDesc.SampleDesc.Count = 1;
-	BLASScratchResourceDesc.SampleDesc.Quality = 0;
-	BLASScratchResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	BLASScratchResourceDesc.Width = bufferInfo.size;
-	BLASScratchResourceDesc.Flags = bufferInfo.flags;
+	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO info;
+	rtxDevice->GetRaytracingAccelerationStructurePrebuildInfo(&inputs, &info);
 
 	wrl::ComPtr<ID3D12Resource> pScratch;
-	// Create the Scratch resource
-	ThrowIfFailed(rtxDevice->CreateCommittedResource(&BLASScratchHeapDesc,
-	                                                 D3D12_HEAP_FLAG_NONE,
-	                                                 &BLASScratchResourceDesc,
-	                                                 bufferInfo.state,
-	                                                 nullptr,
-	                                                 IID_PPV_ARGS(&pScratch)));
-	pScratch->SetName(L"Ray Tracing Scratch Resource");
+	ThrowIfFailed(rtxDevice->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(info.ScratchDataSizeInBytes, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		nullptr,
+		IID_PPV_ARGS(&pScratch)));
 
-	//Create BLAS buffer
-	bufferInfo.size = ASPreBuildInfo.ResultDataMaxSizeInBytes;
-	bufferInfo.state = D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE;
-
-	D3D12_HEAP_PROPERTIES BLASHeapDesc = {};
-	BLASHeapDesc.Type = bufferInfo.heapType;
-	BLASHeapDesc.CreationNodeMask = 1;
-	BLASHeapDesc.VisibleNodeMask = 1;
-
-	D3D12_RESOURCE_DESC BLASResourceDesc = {};
-	BLASResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	BLASResourceDesc.Alignment = bufferInfo.alignment;
-	BLASResourceDesc.Height = 1;
-	BLASResourceDesc.DepthOrArraySize = 1;
-	BLASResourceDesc.MipLevels = 1;
-	BLASResourceDesc.Format = DXGI_FORMAT_UNKNOWN;
-	BLASResourceDesc.SampleDesc.Count = 1;
-	BLASResourceDesc.SampleDesc.Quality = 0;
-	BLASResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	BLASResourceDesc.Width = bufferInfo.size;
-	BLASResourceDesc.Flags = bufferInfo.flags;
+	CEResourceStateTracker::AddGlobalResourceState(pScratch.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
 	wrl::ComPtr<ID3D12Resource> pResult;
-	// Create the Result resource
-	ThrowIfFailed(rtxDevice->CreateCommittedResource(&BLASHeapDesc,
-	                                                 D3D12_HEAP_FLAG_NONE,
-	                                                 &BLASResourceDesc,
-	                                                 bufferInfo.state,
-	                                                 nullptr,
-	                                                 IID_PPV_ARGS(&pResult)));
-	pResult->SetName(L"Ray Tracing Scratch Resource");
+	ThrowIfFailed(rtxDevice->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&CD3DX12_RESOURCE_DESC::Buffer(info.ResultDataMaxSizeInBytes, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+		D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE,
+		nullptr,
+		IID_PPV_ARGS(&pResult)));
 
-	//Describe and build bottom level acceleration structure
-	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC buildDesc = {};
-	buildDesc.Inputs = ASInputs;
-	buildDesc.ScratchAccelerationStructureData = pScratch->GetGPUVirtualAddress();
-	buildDesc.DestAccelerationStructureData = pResult->GetGPUVirtualAddress();
+	CEResourceStateTracker::AddGlobalResourceState(pResult.Get(), D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE);
 
-	rtxCommandList->BuildRaytracingAccelerationStructure(&buildDesc, 0, nullptr);
+	//Create bottom level AS
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC asDesc = {};
+	asDesc.Inputs = inputs;
+	asDesc.DestAccelerationStructureData = pResult->GetGPUVirtualAddress();
+	asDesc.ScratchAccelerationStructureData = pScratch->GetGPUVirtualAddress();
 
-	//Wait for BLAS build to complete
-	// UAVBarrier(pResult, true); //TODO: FIX
-	// Wait for the BLAS build to complete
-	D3D12_RESOURCE_BARRIER uavBarrier;
-	uavBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-	uavBarrier.UAV.pResource = pResult.Get();
-	uavBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	rtxCommandList->ResourceBarrier(1, &uavBarrier);
+	rtxCommandList->BuildRaytracingAccelerationStructure(&asDesc, 0, nullptr);
+
+	// //Wait for BLAS build to complete
+	commandList->UAVBarrier(pResult, true); 
 }
 
 void CECommandList::CreateTopLevelAccelerationStructure() {
