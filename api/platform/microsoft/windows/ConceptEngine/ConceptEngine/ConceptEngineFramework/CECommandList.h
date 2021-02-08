@@ -16,6 +16,12 @@
 
 namespace Concept::GraphicsEngine::Direct3D {
 
+	enum AccelerationStructureBuildMode {
+		ONLY_ONE_BLAS,
+		BLAS_PER_OBJECT_AND_BOTTOM_LEVEL_TRANSFORM,
+		BLAS_PER_OBJECT_AND_TOP_LEVEL_TRANSFORM
+	};
+
 	class CEBuffer;
 	class CEAccelerationStructuredBuffer;
 	class CEByteAddressBuffer;
@@ -306,12 +312,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/*
 		 * Create Top Level AccelerationStructure
 		 */
-		AccelerationStructureBuffers CreateTopLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
-
-		/*
-		 * Create Ray Tracing Output
-		 */
-		void CreateRayTracingOutput();
+		void CreateTopLevelAccelerationStructure(float rotation, bool update, AccelerationStructureBuffers& buffer, AccelerationStructureBuffers bottomLvlBuffers) const;
 		
 		/**
 		 * Clear a texture.
@@ -594,7 +595,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		using IndexCollection = std::vector<uint16_t>;
 
 		// Create a scene that contains a single node with a single mesh.
-		std::shared_ptr<CEScene> CreateScene(const VertexCollection& vertices, const IndexCollection& indicies);
+		std::shared_ptr<CEScene> CreateScene(const VertexCollection& vertices, const IndexCollection& indicies, std::string sceneName = "Scene");
 
 		// Helper function for flipping winding of geometric primitives for LH vs. RH coords
 		inline void ReverseWinding(IndexCollection& indices, VertexCollection& vertices);
@@ -623,6 +624,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		// Binds the current descriptor heaps to the command list.
 		void BindDescriptorHeaps();
 
+		AccelerationStructureBuildMode		buildMode =
+			//ONLY_ONE_BLAS;
+			//BLAS_PER_OBJECT_AND_BOTTOM_LEVEL_TRANSFORM;
+			BLAS_PER_OBJECT_AND_TOP_LEVEL_TRANSFORM;
+		
 		// The device that is used to create this command list.
 		CEDevice& m_device;
 		D3D12_COMMAND_LIST_TYPE m_commandListType;

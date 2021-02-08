@@ -38,12 +38,20 @@ std::shared_ptr<CEIndexBuffer> CEMesh::GetIndexBuffer() {
 	return m_indexBuffer;
 }
 
-void CEMesh::SetAccelerationStructureBuffer(AccelerationStructureBuffers buffers) {
-	m_ASBuffers = buffers;
+void CEMesh::SetBLASBuffer(AccelerationStructureBuffers buffers) {
+	m_BLASBuffers = buffers;
 }
 
-AccelerationStructureBuffers CEMesh::GetAccelerationStructureBuffer() const {
-	return m_ASBuffers;
+AccelerationStructureBuffers CEMesh::GetBLASBuffer() const {
+	return m_BLASBuffers;
+}
+
+void CEMesh::SetTLASBuffer(AccelerationStructureBuffers buffers) {
+	m_TLASBuffers = buffers;
+}
+
+AccelerationStructureBuffers CEMesh::GetTLASBuffer() const {
+	return m_TLASBuffers;
 }
 
 size_t CEMesh::GetIndexCount() const {

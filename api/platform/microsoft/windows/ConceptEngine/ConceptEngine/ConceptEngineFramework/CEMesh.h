@@ -13,6 +13,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		wrl::ComPtr<ID3D12Resource> pScratch;
 		wrl::ComPtr<ID3D12Resource> pResult;
 		wrl::ComPtr<ID3D12Resource> pInstanceDesc;
+		uint64_t mTlasSize = 0;
 	};
 	
 	class CEIndexBuffer;
@@ -40,8 +41,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void SetIndexBuffer(const std::shared_ptr<CEIndexBuffer>& indexBuffer);
 		std::shared_ptr<CEIndexBuffer> GetIndexBuffer();
 
-		void SetAccelerationStructureBuffer(AccelerationStructureBuffers buffers);
-		AccelerationStructureBuffers GetAccelerationStructureBuffer() const;
+		void SetBLASBuffer(AccelerationStructureBuffers buffers);
+		AccelerationStructureBuffers GetBLASBuffer() const;
+
+		void SetTLASBuffer(AccelerationStructureBuffers buffers);
+		AccelerationStructureBuffers GetTLASBuffer() const;
 		
 		/**
 		 * Get number if indices are in index buffer
@@ -84,6 +88,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEMaterial> m_material;
 		D3D12_PRIMITIVE_TOPOLOGY m_primitiveTopology;
 		DirectX::BoundingBox m_AABB;
-		AccelerationStructureBuffers m_ASBuffers;
+		AccelerationStructureBuffers m_BLASBuffers;
+		AccelerationStructureBuffers m_TLASBuffers;
 	};
 }

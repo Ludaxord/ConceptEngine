@@ -28,6 +28,8 @@
 #include "CEUnorderedAccessView.h"
 #include <wincodec.h>
 
+
+#include "CESwapChain.h"
 #include "RaytracingSceneDefines.h"
 
 
@@ -824,7 +826,7 @@ std::shared_ptr<CEScene> CECommandList::LoadSceneFromString(const std::string& s
 }
 
 // Helper function to create a Scene from an index and vertex buffer.
-std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vertices, const IndexCollection& indices) {
+std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vertices, const IndexCollection& indices, std::string sceneName) {
 	if (vertices.empty()) {
 		return nullptr;
 	}
@@ -842,12 +844,11 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 
 	//TODO: Move To proper place
 	if (m_device.GetRayTracingTier() != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
-
-		//TODO: Create all Acceleration Structures
-
-		CreateBottomLevelAccelerationStructure(mesh);
-		CreateTopLevelAccelerationStructure();
-		// CreateRayTracingOutput();
+		auto bottomLevelAS = CreateBottomLevelAccelerationStructure(mesh);
+		AccelerationStructureBuffers topLevelAS = {};
+		CreateTopLevelAccelerationStructure(0.0f, false, topLevelAS, bottomLevelAS);
+		mesh->SetBLASBuffer(bottomLevelAS);
+		mesh->SetTLASBuffer(topLevelAS);
 
 		//TODO: RayTracing Pipeline State
 
@@ -857,6 +858,7 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 
 		//TODO: RayTracing Shader Table
 
+		spdlog::info("Ray Tracing initialized for Scene: {}", sceneName);
 	}
 
 	auto node = std::make_shared<CESceneNode>();
@@ -1138,6 +1140,7 @@ std::shared_ptr<CEScene> CECommandList::CreateTorus(float radius, float thicknes
 
 		// Create a transform matrix that will align geometry to
 		// slice perpendicularly though the current ring position.
+
 		XMMATRIX transform = XMMatrixTranslation(radius, 0, 0) * XMMatrixRotationY(outerAngle);
 
 		// Now we loop along the other axis, around the side of the tube.
@@ -1219,8 +1222,7 @@ AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructu
 
 	auto vertexBuffers = mesh->GetVertexBuffers();
 	auto indexBuffer = mesh->GetIndexBuffer();
-
-	auto geometryDescSize = vertexBuffers.size();
+	auto geometryDescSize = (buildMode == ONLY_ONE_BLAS) ? 1 : vertexBuffers.size();
 
 	std::vector<D3D12_RAYTRACING_GEOMETRY_DESC> geometryDesc;
 	geometryDesc.resize(geometryDescSize);
@@ -1295,33 +1297,116 @@ AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructu
 	return ACBuffer;
 }
 
-void CECommandList::CreateTopLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
+void CECommandList::CreateTopLevelAccelerationStructure(float rotation,
+                                                        bool update,
+                                                        AccelerationStructureBuffers& buffer,
+                                                        AccelerationStructureBuffers bottomLvlBuffers) const {
 	auto rtxDevice = m_device.GetDevice();
 	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 	auto commandList = commandQueue.GetCommandList();
 	auto rtxCommandList = commandList->GetCommandList();
 
-	auto vertexBuffers = mesh->GetVertexBuffers();
-	auto indexBuffer = mesh->GetIndexBuffer();
-
-	auto geometryDescSize = vertexBuffers.size();
-
 	//Get size of Top Level Acceleration Structure and create them
 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS inputs = {};
 	inputs.DescsLayout = D3D12_ELEMENTS_LAYOUT_ARRAY;
-	inputs.Flags = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_NONE;
-	inputs.NumDescs = geometryDescSize;
+	inputs.Flags = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_ALLOW_UPDATE;
+	inputs.NumDescs = CESwapChain::BufferCount;
 	inputs.Type = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_TOP_LEVEL;
 
 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO info;
 	rtxDevice->GetRaytracingAccelerationStructurePrebuildInfo(&inputs, &info);
 
-	//Create buffers
+	if (update) {
+		//If structure is a request for update, then TLAS was already used in DispatchRay() call. We need a UAV barrier to make sure the read operation ends before updating the buffer
+		commandList->UAVBarrier(buffer.pResult, true);
+	}
+	else {
+		//If structure is not a request for update, then we need to create the buffers, otherwise we will refit in-place
+		wrl::ComPtr<ID3D12Resource> pScratch;
+		ThrowIfFailed(rtxDevice->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(info.ScratchDataSizeInBytes, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+			D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+			nullptr,
+			IID_PPV_ARGS(&pScratch)));
 
+		CEResourceStateTracker::AddGlobalResourceState(pScratch.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
-}
+		wrl::ComPtr<ID3D12Resource> pResult;
+		ThrowIfFailed(rtxDevice->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(info.ResultDataMaxSizeInBytes, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
+			D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE,
+			nullptr,
+			IID_PPV_ARGS(&pResult)));
 
-void CECommandList::CreateRayTracingOutput() {
+		wrl::ComPtr<ID3D12Resource> pInstanceDesc;
+		ThrowIfFailed(rtxDevice->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(sizeof(D3D12_RAYTRACING_INSTANCE_DESC) * 3,
+			                               D3D12_RESOURCE_FLAG_NONE),
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&pInstanceDesc)));
+
+		CEResourceStateTracker::AddGlobalResourceState(pResult.Get(),
+		                                               D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE);
+
+		buffer.pScratch = pScratch;
+		buffer.pResult = pResult;
+		buffer.pInstanceDesc = pInstanceDesc;
+		buffer.mTlasSize = info.ResultDataMaxSizeInBytes;
+	}
+
+	//Map instance desc buffer
+	D3D12_RAYTRACING_INSTANCE_DESC* instanceDescs;
+	buffer.pInstanceDesc->Map(0, nullptr, (void**)&instanceDescs);
+	ZeroMemory(instanceDescs, sizeof(D3D12_RAYTRACING_INSTANCE_DESC) * 3);
+
+	//transform matrices for instances
+	XMMATRIX transformation[3];
+	XMMATRIX rotationMat = XMMatrixRotationY(rotation);
+	transformation[0] = XMMatrixIdentity();
+	transformation[1] = XMMatrixTranslation(-2, 0, 0) * rotationMat;
+	transformation[2] = XMMatrixTranslation(2, 0, 0) * rotationMat;
+
+	//Instance Contribution To Hit Group Index is set based on shader table layout specified in create createShaderTable()
+	//Create descriptor for objects instance
+	for (uint32_t i = 1; i < 3; i++) {
+		instanceDescs[i].InstanceID = i; // This value will be exposed to the shader via InstanceID()
+		instanceDescs[i].InstanceContributionToHitGroupIndex = (i * 2) + 2;
+		// The indices are relative to to the start of the hit-table entries specified in Raytrace(), so we need 4 and 6
+		instanceDescs[i].Flags = D3D12_RAYTRACING_INSTANCE_FLAG_NONE;
+		XMMATRIX m = XMMatrixTranspose(transformation[i]);
+		memcpy(instanceDescs[i].Transform, &m, sizeof(instanceDescs[i].Transform));
+		instanceDescs[i].AccelerationStructure = bottomLvlBuffers.pResult->GetGPUVirtualAddress();
+		instanceDescs[i].InstanceMask = 0xFF;
+	}
+
+	buffer.pInstanceDesc->Unmap(0, nullptr);
+
+	//Create TLAS
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC asDesc = {};
+	asDesc.Inputs = inputs;
+	asDesc.Inputs.InstanceDescs = buffer.pInstanceDesc->GetGPUVirtualAddress();
+	asDesc.DestAccelerationStructureData = buffer.pResult->GetGPUVirtualAddress();
+	asDesc.ScratchAccelerationStructureData = buffer.pScratch->GetGPUVirtualAddress();
+
+	//If update operation, set source buffer and perform update flag
+	if (update) {
+		asDesc.Inputs.Flags |= D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_PERFORM_UPDATE;
+		asDesc.SourceAccelerationStructureData = buffer.pResult->GetGPUVirtualAddress();
+	}
+
+	rtxCommandList->BuildRaytracingAccelerationStructure(&asDesc, 0, nullptr);
+
+	commandList->UAVBarrier(buffer.pResult, true);
+
+	//Based on tutorial, not sure
+	commandQueue.Flush();
 }
 
 void CECommandList::ClearTexture(const std::shared_ptr<CETexture>& texture, const float clearColor[4]) {
