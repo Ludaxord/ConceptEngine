@@ -29,11 +29,23 @@
 #include <wincodec.h>
 
 
+#include "CEDXILLibrary.h"
 #include "CESwapChain.h"
 #include "RaytracingSceneDefines.h"
 
 
 using namespace Concept::GraphicsEngine::Direct3D;
+
+class CEDXIlLibraryInstance : public CEDXIlLibrary {
+public:
+	CEDXIlLibraryInstance(const Microsoft::WRL::ComPtr<ID3DBlob>& pBlob, const WCHAR* entryPoint[],
+	                      uint32_t entryPointCount)
+		: CEDXIlLibrary(pBlob, entryPoint, entryPointCount) {
+	}
+
+	virtual ~CEDXIlLibraryInstance() {
+	};
+};
 
 class CEUploadBufferInstance : public CEUploadBuffer {
 
@@ -825,8 +837,21 @@ std::shared_ptr<CEScene> CECommandList::LoadSceneFromString(const std::string& s
 	return scene;
 }
 
+std::shared_ptr<CEDXIlLibrary> CECommandList::LoadShaderLibrary(const std::wstring shaderFile) const {
+	wrl::ComPtr<ID3DBlob> pRayGenShader = CEDXIlLibrary::CreateLibrary(shaderFile, L"lib_6_3");
+	const WCHAR* entryPoints[] = {
+		CEDXIlLibrary::kRayGenShader, CEDXIlLibrary::kMissShader,
+		CEDXIlLibrary::kPlaneChs, CEDXIlLibrary::kTriangleChs,
+		CEDXIlLibrary::kShadowMiss, CEDXIlLibrary::kShadowChs
+	};
+	std::shared_ptr<CEDXIlLibraryInstance> lib = std::make_shared<CEDXIlLibraryInstance>(
+		pRayGenShader, entryPoints, arraysize(entryPoints));
+	return lib;
+}
+
 // Helper function to create a Scene from an index and vertex buffer.
-std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vertices, const IndexCollection& indices, std::string sceneName) {
+std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vertices, const IndexCollection& indices,
+                                                    std::string sceneName) {
 	if (vertices.empty()) {
 		return nullptr;
 	}
@@ -920,7 +945,7 @@ std::shared_ptr<CEScene> CECommandList::CreateCube(float size, bool reverseWindi
 		ReverseWinding(indices, vertices);
 	}
 
-	return CreateScene(vertices, indices);
+	return CreateScene(vertices, indices, "Cube");
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateSphere(float radius, uint32_t tessellation, bool reversWinding) {
@@ -985,7 +1010,7 @@ std::shared_ptr<CEScene> CECommandList::CreateSphere(float radius, uint32_t tess
 		ReverseWinding(indices, vertices);
 	}
 
-	return CreateScene(vertices, indices);
+	return CreateScene(vertices, indices, "Sphere");
 }
 
 void CECommandList::CreateCylinderCap(VertexCollection& vertices, IndexCollection& indices, size_t tessellation,
@@ -1071,7 +1096,7 @@ std::shared_ptr<CEScene> CECommandList::CreateCylinder(float radius, float heigh
 		ReverseWinding(indices, vertices);
 	}
 
-	return CreateScene(vertices, indices);
+	return CreateScene(vertices, indices, "Cylinder");
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateCone(float radius, float height, uint32_t tessellation,
@@ -1120,7 +1145,7 @@ std::shared_ptr<CEScene> CECommandList::CreateCone(float radius, float height, u
 		ReverseWinding(indices, vertices);
 	}
 
-	return CreateScene(vertices, indices);
+	return CreateScene(vertices, indices, "Cone");
 }
 
 std::shared_ptr<CEScene> CECommandList::CreateTorus(float radius, float thickness, uint32_t tessellation,
@@ -1180,7 +1205,7 @@ std::shared_ptr<CEScene> CECommandList::CreateTorus(float radius, float thicknes
 		ReverseWinding(indices, verticies);
 	}
 
-	return CreateScene(verticies, indices);
+	return CreateScene(verticies, indices, "Torus");
 }
 
 std::shared_ptr<CEScene> CECommandList::CreatePlane(float width, float height, bool reverseWinding) {
@@ -1205,7 +1230,7 @@ std::shared_ptr<CEScene> CECommandList::CreatePlane(float width, float height, b
 		ReverseWinding(indices, vertices);
 	}
 
-	return CreateScene(vertices, indices);
+	return CreateScene(vertices, indices, "Plane");
 }
 
 //TODO: REFACTOR!!!

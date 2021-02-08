@@ -11,6 +11,8 @@
 
 using namespace Concept;
 
+#define arraysize(a) (sizeof(a)/sizeof(a[0]))
+
 inline void ThrowIfFailed(HRESULT hr) {
 	if (FAILED(hr)) {
 		_com_error err(hr);
@@ -21,6 +23,16 @@ inline void ThrowIfFailed(HRESULT hr) {
 		spdlog::error(wss.str().c_str());
 		throw std::exception(wss.str().c_str());
 	}
+}
+
+// Convert a blob to at string
+template<class BlotType>
+inline static std::string convertBlobToString(BlotType* pBlob)
+{
+	std::vector<char> infoLog(pBlob->GetBufferSize() + 1);
+	memcpy(infoLog.data(), pBlob->GetBufferPointer(), pBlob->GetBufferSize());
+	infoLog[pBlob->GetBufferSize()] = 0;
+	return std::string(infoLog.data());
 }
 
 inline void GetDesktopResolution(int& horizontal, int& vertical) {

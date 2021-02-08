@@ -483,6 +483,9 @@
     <ClInclude Include="CEStateObject.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CEDXILLibrary.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -687,6 +690,9 @@
       <Filter>GameEngine\Playgrounds\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEStateObject.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEDXIlLibrary.cpp">
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
   </ItemGroup>

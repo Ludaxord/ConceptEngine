@@ -45,6 +45,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 	class CEUnorderedAccessView;
 	class CEUploadBuffer;
 	class CEVertexBuffer;
+	class CEDXIlLibrary;
 
 	class CECommandList : public std::enable_shared_from_this<CECommandList> {
 	public:
@@ -244,6 +245,13 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		std::shared_ptr<CEScene> LoadSceneFromString(const std::string& sceneString, const std::string& format);
 
+		/**
+		 * Load Shader Library
+		 *
+		 * @param shaderFile, path to shader file.
+		 */
+		std::shared_ptr<CEDXIlLibrary> CECommandList::LoadShaderLibrary(const std::wstring shaderFile) const;
+		
 		/**
 		 * Create a cube.
 		 *

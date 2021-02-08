@@ -148,13 +148,24 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 		/**
 		 * Create State Object based on passed template PipelineStateStream
+		 * To create basic Ray Tracing Pipeline State
+		 * Need 16 subobjects:
+		* 1 for DXIL library    
+	    * 3 for the hit-groups (triangle hit group, plane hit-group, shadow-hit group)
+	    * 2 for RayGen root-signature (root-signature and the subobject association)
+	    * 2 for triangle hit-program root-signature (root-signature and the subobject association)
+	    * 2 for the plane-hit root-signature (root-signature and the subobject association)
+	    * 2 for shadow-program and miss root-signature (root-signature and the subobject association)
+	    * 2 for shader config (shared between all programs. 1 for the config, 1 for association)
+	    * 1 for pipeline config
+	    * 1 for the global root signature
 		 */
 		template <class StateObject>
 		std::shared_ptr<CEStateObject> CreateStateObject(
 			StateObject& stateObject,
 			D3D12_STATE_OBJECT_TYPE type = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE) {
 			const D3D12_STATE_OBJECT_DESC stateStreamDesc = {
-				type, sizeof(StateObject), & stateObject
+				type, sizeof(StateObject), &stateObject
 			};
 			return MakeStateObject(stateStreamDesc);
 		}
