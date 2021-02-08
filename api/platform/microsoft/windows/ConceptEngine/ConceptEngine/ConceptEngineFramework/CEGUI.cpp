@@ -71,7 +71,6 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget)
 	wss << assetsPath << L"Fonts\\RobotoMono-Regular.ttf";
 	auto path = wss.str();
 	auto sPath = std::string(path.begin(), path.end());
-	OutputDebugStringA(sPath.c_str());
 	io.Fonts->AddFontFromFileTTF(sPath.c_str(), 15.0f);
 
 	// Build texture atlas

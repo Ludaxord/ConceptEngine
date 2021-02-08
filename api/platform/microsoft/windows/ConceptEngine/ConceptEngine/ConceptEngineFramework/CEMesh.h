@@ -8,6 +8,13 @@
 namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
+	//TODO: temporary, create separate class for acceleration structure buffers
+	struct AccelerationStructureBuffers {
+		wrl::ComPtr<ID3D12Resource> pScratch;
+		wrl::ComPtr<ID3D12Resource> pResult;
+		wrl::ComPtr<ID3D12Resource> pInstanceDesc;
+	};
+	
 	class CEIndexBuffer;
 	class CEVisitor;
 	class CECommandList;
@@ -32,6 +39,9 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 		void SetIndexBuffer(const std::shared_ptr<CEIndexBuffer>& indexBuffer);
 		std::shared_ptr<CEIndexBuffer> GetIndexBuffer();
+
+		void SetAccelerationStructureBuffer(AccelerationStructureBuffers buffers);
+		AccelerationStructureBuffers GetAccelerationStructureBuffer() const;
 		
 		/**
 		 * Get number if indices are in index buffer
@@ -74,5 +84,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEMaterial> m_material;
 		D3D12_PRIMITIVE_TOPOLOGY m_primitiveTopology;
 		DirectX::BoundingBox m_AABB;
+		AccelerationStructureBuffers m_ASBuffers;
 	};
 }

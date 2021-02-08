@@ -846,7 +846,7 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 		//TODO: Create all Acceleration Structures
 
 		CreateBottomLevelAccelerationStructure(mesh);
-		// CreateTopLevelAccelerationStructure();
+		CreateTopLevelAccelerationStructure();
 		// CreateRayTracingOutput();
 
 		//TODO: RayTracing Pipeline State
@@ -1211,22 +1211,22 @@ std::shared_ptr<CEScene> CECommandList::CreatePlane(float width, float height, b
 // ID3D12Resource pResult
 // ID3D12Resource pInstanceDesc
 // Creates: D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC
-void CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
+AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) const {
 	auto rtxDevice = m_device.GetDevice();
 	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 	auto commandList = commandQueue.GetCommandList();
 	auto rtxCommandList = commandList->GetCommandList();
-	
-	auto vertexCount = mesh->GetVertexCount();
+
+	auto vertexBuffers = mesh->GetVertexBuffers();
 	auto indexBuffer = mesh->GetIndexBuffer();
 
-	auto geometryDescSize = vertexCount;
+	auto geometryDescSize = vertexBuffers.size();
 
 	std::vector<D3D12_RAYTRACING_GEOMETRY_DESC> geometryDesc;
-	geometryDesc.resize(vertexCount);
+	geometryDesc.resize(geometryDescSize);
 
 	//Describe geometry that goes in bottom acceleration structures
-	for (uint32_t i = 0; i < vertexCount; i++) {
+	for (uint32_t i = 0; i < geometryDescSize; i++) {
 		const auto vertexBuffer = mesh->GetVertexBuffer(i);
 		if (vertexBuffer != nullptr) {
 			geometryDesc[i].Type = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
@@ -1240,11 +1240,11 @@ void CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMes
 			geometryDesc[i].Triangles.IndexCount = static_cast<UINT>(indexBuffer->GetNumIndices());
 			geometryDesc[i].Triangles.Transform3x4 = 0;
 			geometryDesc[i].Flags = D3D12_RAYTRACING_GEOMETRY_FLAG_OPAQUE;
-			geometryDescSize = i;
+		}
+		else {
+			spdlog::warn("Ray tracing geometry descriptor size reached: {}", geometryDescSize);
 		}
 	}
-
-	geometryDesc.resize(geometryDescSize);
 
 	//Get size requirements for scratch and Acceleration Structure Buffers
 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS inputs = {};
@@ -1277,7 +1277,8 @@ void CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMes
 		nullptr,
 		IID_PPV_ARGS(&pResult)));
 
-	CEResourceStateTracker::AddGlobalResourceState(pResult.Get(), D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE);
+	CEResourceStateTracker::AddGlobalResourceState(pResult.Get(),
+	                                               D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE);
 
 	//Create bottom level AS
 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC asDesc = {};
@@ -1288,10 +1289,36 @@ void CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMes
 	rtxCommandList->BuildRaytracingAccelerationStructure(&asDesc, 0, nullptr);
 
 	// //Wait for BLAS build to complete
-	commandList->UAVBarrier(pResult, true); 
+	commandList->UAVBarrier(pResult, true);
+
+	AccelerationStructureBuffers ACBuffer = {pScratch, pResult};
+	return ACBuffer;
 }
 
-void CECommandList::CreateTopLevelAccelerationStructure() {
+void CECommandList::CreateTopLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
+	auto rtxDevice = m_device.GetDevice();
+	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+	auto commandList = commandQueue.GetCommandList();
+	auto rtxCommandList = commandList->GetCommandList();
+
+	auto vertexBuffers = mesh->GetVertexBuffers();
+	auto indexBuffer = mesh->GetIndexBuffer();
+
+	auto geometryDescSize = vertexBuffers.size();
+
+	//Get size of Top Level Acceleration Structure and create them
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS inputs = {};
+	inputs.DescsLayout = D3D12_ELEMENTS_LAYOUT_ARRAY;
+	inputs.Flags = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_NONE;
+	inputs.NumDescs = geometryDescSize;
+	inputs.Type = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_TOP_LEVEL;
+
+	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO info;
+	rtxDevice->GetRaytracingAccelerationStructurePrebuildInfo(&inputs, &info);
+
+	//Create buffers
+
+
 }
 
 void CECommandList::CreateRayTracingOutput() {

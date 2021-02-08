@@ -38,6 +38,14 @@ std::shared_ptr<CEIndexBuffer> CEMesh::GetIndexBuffer() {
 	return m_indexBuffer;
 }
 
+void CEMesh::SetAccelerationStructureBuffer(AccelerationStructureBuffers buffers) {
+	m_ASBuffers = buffers;
+}
+
+AccelerationStructureBuffers CEMesh::GetAccelerationStructureBuffer() const {
+	return m_ASBuffers;
+}
+
 size_t CEMesh::GetIndexCount() const {
 	size_t indexCount = 0;
 	if (m_indexBuffer) {

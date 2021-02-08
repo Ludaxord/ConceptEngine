@@ -9,6 +9,8 @@
 #include <vector>
 #include <wrl.h>
 
+
+#include "CEMesh.h"
 #include "CEVertexTypes.h"
 
 
@@ -299,12 +301,12 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/*
 		 * Create Bottom Level Acceleration Structure
 		 */
-		void CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
+		AccelerationStructureBuffers CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) const;
 
 		/*
 		 * Create Top Level AccelerationStructure
 		 */
-		void CreateTopLevelAccelerationStructure();
+		AccelerationStructureBuffers CreateTopLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
 
 		/*
 		 * Create Ray Tracing Output
