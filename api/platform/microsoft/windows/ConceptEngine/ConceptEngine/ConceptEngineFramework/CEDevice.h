@@ -118,8 +118,9 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Load Shader Library
 		 *
 		 * @param shaderFile, path to shader file.
+		 * @param entryPoints
 		 */
-		std::shared_ptr<CEDXIlLibrary> LoadShaderLibrary(const std::wstring shaderFile) const;
+		std::shared_ptr<CEDXIlLibrary> LoadShaderLibrary(const std::wstring shaderFile, const WCHAR* entryPoints[]) const;
 		
 		/**
 		 * Create Index Buffer resource;

@@ -17,16 +17,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 	class CEDXIlLibrary : public CESubObject {
 	public:
-		inline static const WCHAR* kRayGenShader = L"rayGen";
-		inline static const WCHAR* kMissShader = L"miss";
-		inline static const WCHAR* kTriangleChs = L"triangleChs";
-		inline static const WCHAR* kPlaneChs = L"planeChs";
-		inline static const WCHAR* kTriHitGroup = L"TriHitGroup";
-		inline static const WCHAR* kPlaneHitGroup = L"PlaneHitGroup";
-		inline static const WCHAR* kShadowChs = L"shadowChs";
-		inline static const WCHAR* kShadowMiss = L"shadowMiss";
-		inline static const WCHAR* kShadowHitGroup = L"ShadowHitGroup";
-
 		static Microsoft::WRL::ComPtr<ID3DBlob> CreateLibrary(std::wstring fileName, std::wstring target);
 
 	protected:

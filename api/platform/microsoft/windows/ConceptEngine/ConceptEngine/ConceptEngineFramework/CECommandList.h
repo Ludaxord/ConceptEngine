@@ -69,6 +69,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> GetCommandList() const {
 			return m_commandList;
 		}
+
 		/**
 		 * Get direct access to the ID3D12GraphicsCommandList5 interface.
 		 */
@@ -111,6 +112,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 */
 		void UAVBarrier(const std::shared_ptr<CEResource>& resource = nullptr, bool flushBarriers = false);
 		void UAVBarrier(Microsoft::WRL::ComPtr<ID3D12Resource> resource, bool flushBarriers = false);
+		// void UAVBarrier(const Microsoft::WRL::ComPtr<struct ID3D12Resource>& com, bool flush_barriers) const;
 
 		/**
 		 * Add an aliasing barrier to indicate a transition between usages of two
@@ -213,7 +215,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * Set the current primitive topology for the rendering pipeline.
 		 */
 		void SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY primitiveTopology);
-		
+
 		/*
 		 * Load Image from filename
 		 */
@@ -244,7 +246,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @see https://www.fileformat.info/format/nff/egff.htm
 		 */
 		std::shared_ptr<CEScene> LoadSceneFromString(const std::string& sceneString, const std::string& format);
-		
+
 		/**
 		 * Create a cube.
 		 *
@@ -306,15 +308,22 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEScene> CreatePlane(float width = 1.0f, float height = 1.0f, bool reverseWinding = false);
 
 		/*
+		 * Create Acceleration Structures
+		 */
+		void CreateAccelerationStructures(std::shared_ptr<CEScene>& scene);
+
+		/*
 		 * Create Bottom Level Acceleration Structure
 		 */
-		AccelerationStructureBuffers CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) const;
+		AccelerationStructureBuffers CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
 
 		/*
 		 * Create Top Level AccelerationStructure
 		 */
-		void CreateTopLevelAccelerationStructure(float rotation, bool update, AccelerationStructureBuffers& buffer, AccelerationStructureBuffers bottomLvlBuffers) const;
-		
+		void CreateTopLevelAccelerationStructure(float rotation, bool update, AccelerationStructureBuffers& buffer,
+		                                         AccelerationStructureBuffers bottomLvlBuffers,
+		                                         bool flush = false);
+
 		/**
 		 * Clear a texture.
 		 */
@@ -596,7 +605,8 @@ namespace Concept::GraphicsEngine::Direct3D {
 		using IndexCollection = std::vector<uint16_t>;
 
 		// Create a scene that contains a single node with a single mesh.
-		std::shared_ptr<CEScene> CreateScene(const VertexCollection& vertices, const IndexCollection& indicies, std::string sceneName = "Scene");
+		std::shared_ptr<CEScene> CreateScene(const VertexCollection& vertices, const IndexCollection& indicies,
+		                                     std::string sceneName = "Scene");
 
 		// Helper function for flipping winding of geometric primitives for LH vs. RH coords
 		inline void ReverseWinding(IndexCollection& indices, VertexCollection& vertices);
@@ -625,11 +635,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		// Binds the current descriptor heaps to the command list.
 		void BindDescriptorHeaps();
 
-		AccelerationStructureBuildMode		buildMode =
+		AccelerationStructureBuildMode buildMode =
 			//ONLY_ONE_BLAS;
 			//BLAS_PER_OBJECT_AND_BOTTOM_LEVEL_TRANSFORM;
 			BLAS_PER_OBJECT_AND_TOP_LEVEL_TRANSFORM;
-		
+
 		// The device that is used to create this command list.
 		CEDevice& m_device;
 		D3D12_COMMAND_LIST_TYPE m_commandListType;

@@ -1,15 +1,5 @@
-[2021-02-09 15:32:42.130] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-09 15:32:42.574] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-09 15:32:42.825] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
-[2021-02-09 15:32:42.829] [ConceptEngine] [info] Ray Tracing initialized for Scene: Sphere
-[2021-02-09 15:32:42.833] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cone
-[2021-02-09 15:32:42.838] [ConceptEngine] [info] Ray Tracing initialized for Scene: Torus
-[2021-02-09 15:32:42.841] [ConceptEngine] [info] Ray Tracing initialized for Scene: Plane
-[2021-02-09 15:32:42.845] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cylinder
-[2021-02-09 15:32:42.848] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
-[2021-02-09 15:32:49.355] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-09 15:32:49.384] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-09 15:32:49.386] [Concept Engine] [info] FPS: 0.1379987
-[2021-02-09 15:32:50.386] [Concept Engine] [info] FPS: 505.9016
-[2021-02-09 15:32:51.387] [Concept Engine] [info] FPS: 701.2179
-[2021-02-09 15:32:52.032] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-09 22:04:44.945] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-09 22:04:45.514] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
+[2021-02-09 22:04:45.602] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-02-09 22:04:45.631] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-02-09 22:04:45.654] [Concept Engine] [info] Concept Engine Window Presented

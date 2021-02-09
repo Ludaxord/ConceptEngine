@@ -54,6 +54,18 @@ inline DirectX::BoundingBox CreateBoundingBox(const aiAABB& aabb) {
 	return bb;
 }
 
+bool CEScene::LoadAccelerationStructures(CECommandList& commandList) {
+	for (auto mesh : m_meshList) {
+		auto bottomLevelAS = commandList.CreateBottomLevelAccelerationStructure(mesh);
+		AccelerationStructureBuffers topLevelAS = {};
+		commandList.CreateTopLevelAccelerationStructure(0.0f, false, topLevelAS, bottomLevelAS, true);
+		mesh->SetBLASBuffer(bottomLevelAS);
+		mesh->SetTLASBuffer(topLevelAS);
+		
+	}
+	return true;
+}
+
 bool CEScene::LoadSceneFromFile(CECommandList& commandList, const std::wstring& fileName,
                                 const std::function<bool(float)>& loadingProgress, Models::Library library) {
 	spdlog::warn("LoadSceneFromFile");

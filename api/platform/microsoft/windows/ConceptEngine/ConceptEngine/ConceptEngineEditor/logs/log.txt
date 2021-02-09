@@ -1,21 +1,5 @@
-[2021-02-09 17:31:12.239] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-09 17:31:12.708] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-09 17:31:12.963] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
-[2021-02-09 17:31:12.967] [ConceptEngine] [info] Ray Tracing initialized for Scene: Sphere
-[2021-02-09 17:31:12.970] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cone
-[2021-02-09 17:31:12.975] [ConceptEngine] [info] Ray Tracing initialized for Scene: Torus
-[2021-02-09 17:31:12.978] [ConceptEngine] [info] Ray Tracing initialized for Scene: Plane
-[2021-02-09 17:31:12.982] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cylinder
-[2021-02-09 17:31:12.986] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
-[2021-02-09 17:31:19.548] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-09 17:31:19.576] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-09 17:31:19.577] [Concept Engine] [info] FPS: 0.1364376
-[2021-02-09 17:31:20.577] [Concept Engine] [info] FPS: 467.8753
-[2021-02-09 17:31:21.578] [Concept Engine] [info] FPS: 734.6492
-[2021-02-09 17:31:22.578] [Concept Engine] [info] FPS: 697.7208
-[2021-02-09 17:31:23.578] [Concept Engine] [info] FPS: 711.8924
-[2021-02-09 17:31:24.579] [Concept Engine] [info] FPS: 726.6248
-[2021-02-09 17:31:25.579] [Concept Engine] [info] FPS: 752.6449
-[2021-02-09 17:31:26.580] [Concept Engine] [info] FPS: 746.7950
-[2021-02-09 17:31:27.580] [Concept Engine] [info] FPS: 745.3812
-[2021-02-09 17:31:28.057] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-09 22:15:39.137] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-09 22:15:39.663] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
+[2021-02-09 22:15:39.796] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-02-09 22:15:39.839] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-02-09 22:15:39.874] [Concept Engine] [info] Concept Engine Window Presented

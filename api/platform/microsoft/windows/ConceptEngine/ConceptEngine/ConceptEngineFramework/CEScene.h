@@ -32,6 +32,7 @@ namespace Concept::GraphicsEngine {
 
 		class CEScene {
 		public:
+			
 			CEScene() = default;
 			~CEScene() = default;
 
@@ -44,7 +45,7 @@ namespace Concept::GraphicsEngine {
 			 * returns AABB of root node of scene.
 			 */
 			::DirectX::BoundingBox GetAABB() const;
-
+			
 			/**
 			 * Accept visitor.
 			 * This will visit scene, then will visit root node of scene.
@@ -52,8 +53,15 @@ namespace Concept::GraphicsEngine {
 			virtual void Accept(CEVisitor& visitor);
 
 		protected:
+			using MeshList = std::vector<std::shared_ptr<CEMesh>>;
+			
 			friend class CECommandList;
 
+			/**
+			 * Get Mesh List
+			 */
+			bool LoadAccelerationStructures(CECommandList& commandList);
+			
 			/**
 			 * Load scene from file
 			 */
@@ -84,7 +92,6 @@ namespace Concept::GraphicsEngine {
 
 			using MaterialMap = std::map<std::string, std::shared_ptr<CEMaterial>>;
 			using MaterialList = std::vector<std::shared_ptr<CEMaterial>>;
-			using MeshList = std::vector<std::shared_ptr<CEMesh>>;
 
 			MaterialMap m_materialMap;
 			MaterialList m_materialList;

@@ -844,24 +844,6 @@ std::shared_ptr<CEScene> CECommandList::CreateScene(const VertexCollection& vert
 	mesh->SetIndexBuffer(indexBuffer);
 	mesh->SetMaterial(material);
 
-	//TODO: Move To proper place
-	if (m_device.GetRayTracingTier() != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
-		auto bottomLevelAS = CreateBottomLevelAccelerationStructure(mesh);
-		AccelerationStructureBuffers topLevelAS = {};
-		CreateTopLevelAccelerationStructure(0.0f, false, topLevelAS, bottomLevelAS);
-		mesh->SetBLASBuffer(bottomLevelAS);
-		mesh->SetTLASBuffer(topLevelAS);
-
-		//TODO: RayTracing Pipeline State
-
-		//TODO: RayTracing Shader Resources
-
-		//TODO: Create Constant Buffers
-
-		//TODO: RayTracing Shader Table
-
-		spdlog::info("Ray Tracing initialized for Scene: {}", sceneName);
-	}
 
 	auto node = std::make_shared<CESceneNode>();
 	node->AddMesh(mesh);
@@ -1210,17 +1192,25 @@ std::shared_ptr<CEScene> CECommandList::CreatePlane(float width, float height, b
 	return CreateScene(vertices, indices, "Plane");
 }
 
-//TODO: REFACTOR!!!
-//TODO: NOTE: Create return function CEAccelerationStructuredBuffer which contains:
-// ID3D12Resource pScratch
-// ID3D12Resource pResult
-// ID3D12Resource pInstanceDesc
-// Creates: D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC
-AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) const {
+void CECommandList::CreateAccelerationStructures(std::shared_ptr<CEScene>& scene) {
+	if (m_device.GetRayTracingTier() != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
+		scene->LoadAccelerationStructures(*this);
+	}
+}
+
+AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
 	auto rtxDevice = m_device.GetDevice();
-	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	auto commandList = commandQueue.GetCommandList();
-	auto rtxCommandList = commandList->GetCommandList();
+	wrl::ComPtr<ID3D12GraphicsCommandList5> rtxCommandList;
+	std::shared_ptr<CECommandList> commandList;
+	if (GetCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT) {
+		auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		commandList = commandQueue.GetCommandList();
+		rtxCommandList = commandList->GetCommandList();
+	}
+	else {
+		rtxCommandList = commandList->GetCommandList();
+	}
+
 
 	auto vertexBuffers = mesh->GetVertexBuffers();
 	auto indexBuffer = mesh->GetIndexBuffer();
@@ -1293,7 +1283,12 @@ AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructu
 	rtxCommandList->BuildRaytracingAccelerationStructure(&asDesc, 0, nullptr);
 
 	// //Wait for BLAS build to complete
-	commandList->UAVBarrier(pResult, true);
+	if (GetCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT) {
+		commandList->UAVBarrier(pResult, true);
+	}
+	else {
+		UAVBarrier(pResult, true);
+	}
 
 	AccelerationStructureBuffers ACBuffer = {pScratch, pResult};
 	return ACBuffer;
@@ -1302,11 +1297,19 @@ AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructu
 void CECommandList::CreateTopLevelAccelerationStructure(float rotation,
                                                         bool update,
                                                         AccelerationStructureBuffers& buffer,
-                                                        AccelerationStructureBuffers bottomLvlBuffers) const {
+                                                        AccelerationStructureBuffers bottomLvlBuffers,
+                                                        bool flush) {
 	auto rtxDevice = m_device.GetDevice();
-	auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	auto commandList = commandQueue.GetCommandList();
-	auto rtxCommandList = commandList->GetCommandList();
+	wrl::ComPtr<ID3D12GraphicsCommandList5> rtxCommandList;
+	std::shared_ptr<CECommandList> commandList;
+	if (GetCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT) {
+		auto& commandQueue = m_device.GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		commandList = commandQueue.GetCommandList();
+		rtxCommandList = commandList->GetCommandList();
+	}
+	else {
+		rtxCommandList = commandList->GetCommandList();
+	}
 
 	//Get size of Top Level Acceleration Structure and create them
 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS inputs = {};
@@ -1320,7 +1323,12 @@ void CECommandList::CreateTopLevelAccelerationStructure(float rotation,
 
 	if (update) {
 		//If structure is a request for update, then TLAS was already used in DispatchRay() call. We need a UAV barrier to make sure the read operation ends before updating the buffer
-		commandList->UAVBarrier(buffer.pResult, true);
+		if (GetCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT) {
+			commandList->UAVBarrier(buffer.pResult, true);
+		}
+		else {
+			UAVBarrier(buffer.pResult, true);
+		}
 	}
 	else {
 		//If structure is not a request for update, then we need to create the buffers, otherwise we will refit in-place
@@ -1405,10 +1413,17 @@ void CECommandList::CreateTopLevelAccelerationStructure(float rotation,
 
 	rtxCommandList->BuildRaytracingAccelerationStructure(&asDesc, 0, nullptr);
 
-	commandList->UAVBarrier(buffer.pResult, true);
+	if (GetCommandListType() != D3D12_COMMAND_LIST_TYPE_DIRECT) {
+		commandList->UAVBarrier(buffer.pResult, true);
+	}
+	else {
+		UAVBarrier(buffer.pResult, true);
+	}
 
-	//Based on tutorial, not sure
-	commandQueue.Flush();
+	// if (flush) {
+	// 	commandQueue.ExecuteCommandList(commandList);
+	// 	commandQueue.Flush();
+	// }
 }
 
 void CECommandList::ClearTexture(const std::shared_ptr<CETexture>& texture, const float clearColor[4]) {

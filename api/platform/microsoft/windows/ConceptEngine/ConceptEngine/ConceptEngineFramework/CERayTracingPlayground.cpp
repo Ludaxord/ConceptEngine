@@ -6,6 +6,7 @@
 #include "CECommandQueue.h"
 #include "CEDevice.h"
 #include "CEGUI.h"
+#include "CEScene.h"
 #include "CESwapChain.h"
 #include "d3dx12.h"
 
@@ -57,9 +58,11 @@ CERayTracingPlayground::CERayTracingPlayground(const std::wstring& name,
 
 bool CERayTracingPlayground::LoadContent() {
 	/*
- * Create devices
- */
+	 * Create devices
+	 */
 	m_device = CEDevice::Create();
+	auto description = m_device->GetDescription();
+	m_logger->info("Device Created: {}", description);
 	m_swapChain = m_device->CreateSwapChain(m_window->GetWindowHandle(), DXGI_FORMAT_R8G8B8A8_UNORM);
 	m_swapChain->SetVSync(m_vSync);
 
@@ -68,89 +71,46 @@ bool CERayTracingPlayground::LoadContent() {
 	CEGame::Get().WndProcHandler += CEWindowProcEvent::slot(&CEGUI::WndProcHandler, m_gui);
 
 
-	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COPY);
+	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT /* D3D12_COMMAND_LIST_TYPE_COPY/D3D12_COMMAND_LIST_TYPE_DIRECT */);
 	auto commandList = commandQueue.GetCommandList();
 
 	m_cube = commandList->CreateCube();
+
+	commandList->CreateAccelerationStructures(m_cube);
 	
 	commandQueue.ExecuteCommandList(commandList);
-
-	/*
-	 * Allow input layout and deny unnecessary access to certain pipeline stages
-	 * //TODO: Validate if it is correct
-	 */
-	{
-		D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
-
-		CD3DX12_DESCRIPTOR_RANGE1 descriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
-
-		CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
-		rootParameters[RootParameters::Buffer].InitAsUnorderedAccessView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
-		rootParameters[RootParameters::AccelerationStructure].InitAsShaderResourceView(0, 100, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
-		rootParameters[RootParameters::GeometryInputs].InitAsShaderResourceView(4, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
-		rootParameters[RootParameters::GlobalConstants].InitAsConstantBufferView(0, 0, D3D12_ROOT_DESCRIPTOR_FLAG_NONE, D3D12_SHADER_VISIBILITY_ALL);
-
-		CD3DX12_STATIC_SAMPLER_DESC linearRepeatSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR);
-
-
-		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
-		rootSignatureDescription.Init_1_1(RootParameters::NumRootParameters, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_NONE);
-
-		m_RTXRootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
-	}
-
-	{
-		CD3DX12_ROOT_PARAMETER1 rootParameters[RootParameters::NumRootParameters];
-		
-		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
-		rootSignatureDescription.Init_1_1(HitGroupParameters::NumParameters, rootParameters, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_NONE);
-		m_hitGroupRootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
-	}
 	
-	// Setup the Ray Tracing pipeline state.
-	struct RayTracingPipelineStateStream {
-		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;
-		CD3DX12_PIPELINE_STATE_STREAM_INPUT_LAYOUT InputLayout;
-		CD3DX12_PIPELINE_STATE_STREAM_PRIMITIVE_TOPOLOGY PrimitiveTopologyType;
-		CD3DX12_PIPELINE_STATE_STREAM_VS VS;
-		CD3DX12_PIPELINE_STATE_STREAM_PS PS;
-		CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT DSVFormat;
-		CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
-	} rayTracingPipelineStateStream;
-
-
-
 	commandQueue.Flush();
 	
 	return true;
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::UnloadContent() {
+void CERayTracingPlayground::UnloadContent() {
+	m_gui.reset();
+	m_swapChain.reset();
+	m_device.reset();
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnUpdate(UpdateEventArgs& e) {
+void CERayTracingPlayground::OnUpdate(UpdateEventArgs& e) {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnRender() {
+void CERayTracingPlayground::OnRender() {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnKeyPressed(KeyEventArgs& e) {
+void CERayTracingPlayground::OnKeyPressed(KeyEventArgs& e) {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnKeyReleased(KeyEventArgs& e) {
+void CERayTracingPlayground::OnKeyReleased(KeyEventArgs& e) {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnMouseMoved(MouseMotionEventArgs& e) {
+void CERayTracingPlayground::OnMouseMoved(MouseMotionEventArgs& e) {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnMouseWheel(MouseWheelEventArgs& e) {
+void CERayTracingPlayground::OnMouseWheel(MouseWheelEventArgs& e) {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnResize(ResizeEventArgs& e) {
+void CERayTracingPlayground::OnResize(ResizeEventArgs& e) {
 }
 
-void Concept::GameEngine::Playground::CERayTracingPlayground::OnDPIScaleChanged(DPIScaleEventArgs& e) {
+void CERayTracingPlayground::OnDPIScaleChanged(DPIScaleEventArgs& e) {
 }
