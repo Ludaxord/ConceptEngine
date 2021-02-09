@@ -36,17 +36,6 @@
 
 using namespace Concept::GraphicsEngine::Direct3D;
 
-class CEDXIlLibraryInstance : public CEDXIlLibrary {
-public:
-	CEDXIlLibraryInstance(const Microsoft::WRL::ComPtr<ID3DBlob>& pBlob, const WCHAR* entryPoint[],
-	                      uint32_t entryPointCount)
-		: CEDXIlLibrary(pBlob, entryPoint, entryPointCount) {
-	}
-
-	virtual ~CEDXIlLibraryInstance() {
-	};
-};
-
 class CEUploadBufferInstance : public CEUploadBuffer {
 
 public:
@@ -835,18 +824,6 @@ std::shared_ptr<CEScene> CECommandList::LoadSceneFromString(const std::string& s
 	scene->LoadSceneFromString(*this, sceneString, format);
 
 	return scene;
-}
-
-std::shared_ptr<CEDXIlLibrary> CECommandList::LoadShaderLibrary(const std::wstring shaderFile) const {
-	wrl::ComPtr<ID3DBlob> pRayGenShader = CEDXIlLibrary::CreateLibrary(shaderFile, L"lib_6_3");
-	const WCHAR* entryPoints[] = {
-		CEDXIlLibrary::kRayGenShader, CEDXIlLibrary::kMissShader,
-		CEDXIlLibrary::kPlaneChs, CEDXIlLibrary::kTriangleChs,
-		CEDXIlLibrary::kShadowMiss, CEDXIlLibrary::kShadowChs
-	};
-	std::shared_ptr<CEDXIlLibraryInstance> lib = std::make_shared<CEDXIlLibraryInstance>(
-		pRayGenShader, entryPoints, arraysize(entryPoints));
-	return lib;
 }
 
 // Helper function to create a Scene from an index and vertex buffer.

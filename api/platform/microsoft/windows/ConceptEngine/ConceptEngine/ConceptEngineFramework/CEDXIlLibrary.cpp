@@ -53,9 +53,9 @@ Microsoft::WRL::ComPtr<ID3DBlob> CEDXIlLibrary::CreateLibrary(std::wstring fileN
 
 CEDXIlLibrary::CEDXIlLibrary(Microsoft::WRL::ComPtr<ID3DBlob> pBlob,
                              const WCHAR* entryPoint[],
-                             uint32_t entryPointCount) : pShaderBlob(pBlob) {
-	stateSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_DXIL_LIBRARY;
-	stateSubObject.pDesc = &dxilLibDesc;
+                             uint32_t entryPointCount) : CESubObject(), pShaderBlob(pBlob) {
+	subObject.Type = D3D12_STATE_SUBOBJECT_TYPE_DXIL_LIBRARY;
+	subObject.pDesc = &dxilLibDesc;
 
 	dxilLibDesc = {};
 	exportDesc.resize(entryPointCount);

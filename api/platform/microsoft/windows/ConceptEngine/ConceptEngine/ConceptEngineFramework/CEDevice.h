@@ -7,6 +7,7 @@
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEDXIlLibrary;
 	class CEStateObject;
 	namespace wrl = Microsoft::WRL;
 
@@ -112,6 +113,14 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CETexture> CreateTexture(wrl::ComPtr<ID3D12Resource> resource,
 		                                         const D3D12_CLEAR_VALUE* clearValue = nullptr);
 
+
+		/**
+		 * Load Shader Library
+		 *
+		 * @param shaderFile, path to shader file.
+		 */
+		std::shared_ptr<CEDXIlLibrary> LoadShaderLibrary(const std::wstring shaderFile) const;
+		
 		/**
 		 * Create Index Buffer resource;
 		 */

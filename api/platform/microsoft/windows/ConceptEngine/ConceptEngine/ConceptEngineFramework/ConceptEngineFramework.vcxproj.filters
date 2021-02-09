@@ -486,6 +486,12 @@
     <ClInclude Include="CEDXILLibrary.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CEHitGroup.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CESubObject.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -693,6 +699,9 @@
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEDXIlLibrary.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CEHitGroup.cpp">
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
   </ItemGroup>

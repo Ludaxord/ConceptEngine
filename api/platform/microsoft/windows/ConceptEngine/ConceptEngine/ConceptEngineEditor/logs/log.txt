@@ -1,26 +1,17 @@
-[2021-02-08 22:14:47.630] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-08 22:14:48.094] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-08 22:14:48.360] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
-[2021-02-08 22:14:48.365] [ConceptEngine] [info] Ray Tracing initialized for Scene: Sphere
-[2021-02-08 22:14:48.368] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cone
-[2021-02-08 22:14:48.374] [ConceptEngine] [info] Ray Tracing initialized for Scene: Torus
-[2021-02-08 22:14:48.379] [ConceptEngine] [info] Ray Tracing initialized for Scene: Plane
-[2021-02-08 22:14:48.383] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cylinder
-[2021-02-08 22:14:48.387] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
-[2021-02-08 22:14:54.831] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-08 22:14:54.856] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-08 22:14:54.856] [Concept Engine] [info] FPS: 0.1385436
-[2021-02-08 22:14:55.857] [Concept Engine] [info] FPS: 563.7259
-[2021-02-08 22:14:56.857] [Concept Engine] [info] FPS: 703.8708
-[2021-02-08 22:14:57.857] [Concept Engine] [info] FPS: 684.6350
-[2021-02-08 22:14:58.858] [Concept Engine] [info] FPS: 734.6244
-[2021-02-08 22:14:59.859] [Concept Engine] [info] FPS: 662.3514
-[2021-02-08 22:15:00.859] [Concept Engine] [info] FPS: 696.8529
-[2021-02-08 22:15:01.859] [Concept Engine] [info] FPS: 745.9995
-[2021-02-08 22:15:02.861] [Concept Engine] [info] FPS: 714.9770
-[2021-02-08 22:15:03.861] [Concept Engine] [info] FPS: 732.5856
-[2021-02-08 22:15:04.861] [Concept Engine] [info] FPS: 723.9830
-[2021-02-08 22:15:05.862] [Concept Engine] [info] FPS: 739.1436
-[2021-02-08 22:15:06.863] [Concept Engine] [info] FPS: 715.5721
-[2021-02-08 22:15:07.864] [Concept Engine] [info] FPS: 684.2458
-[2021-02-08 22:15:08.428] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-09 15:49:05.806] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-09 15:49:06.256] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
+[2021-02-09 15:49:06.488] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
+[2021-02-09 15:49:06.494] [ConceptEngine] [info] Ray Tracing initialized for Scene: Sphere
+[2021-02-09 15:49:06.497] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cone
+[2021-02-09 15:49:06.502] [ConceptEngine] [info] Ray Tracing initialized for Scene: Torus
+[2021-02-09 15:49:06.505] [ConceptEngine] [info] Ray Tracing initialized for Scene: Plane
+[2021-02-09 15:49:06.509] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cylinder
+[2021-02-09 15:49:06.513] [ConceptEngine] [info] Ray Tracing initialized for Scene: Cube
+[2021-02-09 15:49:13.081] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-02-09 15:49:13.108] [Concept Engine] [info] Concept Engine Window Presented
+[2021-02-09 15:49:13.109] [Concept Engine] [info] FPS: 0.1370778
+[2021-02-09 15:49:14.109] [Concept Engine] [info] FPS: 611.7632
+[2021-02-09 15:49:15.110] [Concept Engine] [info] FPS: 660.5969
+[2021-02-09 15:49:16.111] [Concept Engine] [info] FPS: 682.0368
+[2021-02-09 15:49:17.111] [Concept Engine] [info] FPS: 720.9236
+[2021-02-09 15:49:18.330] [ConceptEngine] [info] Concept Engine Game class destroyed.

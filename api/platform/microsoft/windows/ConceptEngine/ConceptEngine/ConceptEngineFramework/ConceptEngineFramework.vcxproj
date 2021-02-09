@@ -60,6 +60,7 @@
     <ClInclude Include="CEGenerateMips_CS.h" />
     <ClInclude Include="CEGUI.h" />
     <ClInclude Include="CEHDRPlayground.h" />
+    <ClInclude Include="CEHitGroup.h" />
     <ClInclude Include="CEIndexBuffer.h" />
     <ClInclude Include="CEKeyCodes.h" />
     <ClInclude Include="CELight.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="CEShaderResourceView.h" />
     <ClInclude Include="CEStateObject.h" />
     <ClInclude Include="CEStructuredBuffer.h" />
+    <ClInclude Include="CESubObject.h" />
     <ClInclude Include="CESwapChain.h" />
     <ClInclude Include="CETexture.h" />
     <ClInclude Include="CEThreadSafeQueue.h" />
@@ -156,6 +158,7 @@
     <ClCompile Include="CEGenerateMipsPSO.cpp" />
     <ClCompile Include="CEGUI.cpp" />
     <ClCompile Include="CEHDRPlayground.cpp" />
+    <ClCompile Include="CEHitGroup.cpp" />
     <ClCompile Include="CEIndexBuffer.cpp" />
     <ClCompile Include="CEMaterial.cpp" />
     <ClCompile Include="CEMesh.cpp" />

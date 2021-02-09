@@ -7,6 +7,7 @@
 #include "CEConstantBufferView.h"
 #include "CEDescriptorAllocator.h"
 #include "CEDX12Libs.h"
+#include "CEDXILLibrary.h"
 #include "CEGUI.h"
 
 #include "CEHelper.h"
@@ -79,6 +80,18 @@ public:
 
 	}
 };
+
+class CEDXIlLibraryInstance : public CEDXIlLibrary {
+public:
+	CEDXIlLibraryInstance(const Microsoft::WRL::ComPtr<ID3DBlob>& pBlob, const WCHAR* entryPoint[],
+	                      uint32_t entryPointCount)
+		: CEDXIlLibrary(pBlob, entryPoint, entryPointCount) {
+	}
+
+	virtual ~CEDXIlLibraryInstance() {
+	};
+};
+
 
 class CEByteAddressBufferInstance : public CEByteAddressBuffer {
 
@@ -506,6 +519,18 @@ std::shared_ptr<CETexture> CEDevice::CreateTexture(Microsoft::WRL::ComPtr<ID3D12
 	std::shared_ptr<CETexture> texture = std::make_shared<CETextureInstance>(*this, resource, clearValue);
 
 	return texture;
+}
+
+std::shared_ptr<CEDXIlLibrary> CEDevice::LoadShaderLibrary(const std::wstring shaderFile) const {
+	wrl::ComPtr<ID3DBlob> pRayGenShader = CEDXIlLibrary::CreateLibrary(shaderFile, L"lib_6_3");
+	const WCHAR* entryPoints[] = {
+		CEDXIlLibrary::kRayGenShader, CEDXIlLibrary::kMissShader,
+		CEDXIlLibrary::kPlaneChs, CEDXIlLibrary::kTriangleChs,
+		CEDXIlLibrary::kShadowMiss, CEDXIlLibrary::kShadowChs
+	};
+	std::shared_ptr<CEDXIlLibraryInstance> lib = std::make_shared<CEDXIlLibraryInstance>(
+		pRayGenShader, entryPoints, arraysize(entryPoints));
+	return lib;
 }
 
 std::shared_ptr<CERootSignature>

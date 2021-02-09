@@ -244,13 +244,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @see https://www.fileformat.info/format/nff/egff.htm
 		 */
 		std::shared_ptr<CEScene> LoadSceneFromString(const std::string& sceneString, const std::string& format);
-
-		/**
-		 * Load Shader Library
-		 *
-		 * @param shaderFile, path to shader file.
-		 */
-		std::shared_ptr<CEDXIlLibrary> CECommandList::LoadShaderLibrary(const std::wstring shaderFile) const;
 		
 		/**
 		 * Create a cube.

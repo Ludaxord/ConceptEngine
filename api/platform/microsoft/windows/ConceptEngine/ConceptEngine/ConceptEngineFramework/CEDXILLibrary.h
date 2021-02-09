@@ -9,14 +9,15 @@
 #include <wrl/client.h>
 
 #include "CEHelper.h"
+#include "CESubObject.h"
 static dxc::DxcDllSupport gDxcDllHelper;
 
 
 //Library loader
 namespace Concept::GraphicsEngine::Direct3D {
-	class CECommandList;
+	class CEDevice;
 
-	class CEDXIlLibrary {
+	class CEDXIlLibrary : public CESubObject {
 	public:
 		inline static const WCHAR* kRayGenShader = L"rayGen";
 		inline static const WCHAR* kMissShader = L"miss";
@@ -31,7 +32,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		static Microsoft::WRL::ComPtr<ID3DBlob> CreateLibrary(std::wstring fileName, std::wstring target);
 
 	protected:
-		friend class CECommandList;
+		friend class CEDevice;
 		friend class std::default_delete<CEDXIlLibrary>;
 
 		CEDXIlLibrary(Microsoft::WRL::ComPtr<ID3DBlob> pBlob,
@@ -43,7 +44,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 	private:
 		D3D12_DXIL_LIBRARY_DESC dxilLibDesc = {};
-		D3D12_STATE_SUBOBJECT stateSubObject{};
 		Microsoft::WRL::ComPtr<ID3DBlob> pShaderBlob;
 		std::vector<D3D12_EXPORT_DESC> exportDesc;
 		std::vector<std::wstring> exportName;
