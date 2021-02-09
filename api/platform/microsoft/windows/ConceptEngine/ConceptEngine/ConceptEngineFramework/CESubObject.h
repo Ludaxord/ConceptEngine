@@ -1,14 +1,17 @@
 #pragma once
 #include <d3d12.h>
 
-class CESubObject {
-public:
-	D3D12_STATE_SUBOBJECT operator()() const {
-		return subObject;
-	}
+namespace Concept::GraphicsEngine::Direct3D {
 
-protected:
-	CESubObject() = default;
-	D3D12_STATE_SUBOBJECT subObject;
-private:
-};
+	class CESubObject {
+	public:
+		D3D12_STATE_SUBOBJECT operator()() const {
+			return subObject;
+		}
+
+	protected:
+		CESubObject() = default;
+		D3D12_STATE_SUBOBJECT subObject = {};
+	private:
+	};
+}

@@ -12,8 +12,6 @@
 #include "CESubObject.h"
 static dxc::DxcDllSupport gDxcDllHelper;
 
-
-//Library loader
 namespace Concept::GraphicsEngine::Direct3D {
 	class CEDevice;
 

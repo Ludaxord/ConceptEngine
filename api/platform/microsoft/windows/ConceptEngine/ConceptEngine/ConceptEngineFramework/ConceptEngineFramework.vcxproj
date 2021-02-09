@@ -51,6 +51,7 @@
     <ClInclude Include="CEDynamicDescriptorHeap.h" />
     <ClInclude Include="CEDevice.h" />
     <ClInclude Include="CEEditorPlayground.h" />
+    <ClInclude Include="CEExportAssociation.h" />
     <ClInclude Include="CEGamePlayground.h" />
     <ClInclude Include="CEGraphicsEngine.h" />
     <ClInclude Include="CEEvents.h" />
@@ -69,6 +70,7 @@
     <ClInclude Include="CEModelsPlayground.h" />
     <ClInclude Include="CEObject.h" />
     <ClInclude Include="CEPanoToCubemapPSO.h" />
+    <ClInclude Include="CEPipelineConfig.h" />
     <ClInclude Include="CEPipelineStateObject.h" />
     <ClInclude Include="CEPlayground.h" />
     <ClInclude Include="CERenderTarget.h" />
@@ -78,6 +80,7 @@
     <ClInclude Include="CEScene.h" />
     <ClInclude Include="CESceneNode.h" />
     <ClInclude Include="CEScreen.h" />
+    <ClInclude Include="CEShaderConfig.h" />
     <ClInclude Include="CEShaderResourceView.h" />
     <ClInclude Include="CEStateObject.h" />
     <ClInclude Include="CEStructuredBuffer.h" />
@@ -153,6 +156,7 @@
     <ClCompile Include="CEDynamicDescriptorHeap.cpp" />
     <ClCompile Include="CEDevice.cpp" />
     <ClCompile Include="CEEditorPlayground.cpp" />
+    <ClCompile Include="CEExportAssociation.cpp" />
     <ClCompile Include="CEGame.cpp" />
     <ClCompile Include="CEGameTimer.cpp" />
     <ClCompile Include="CEGenerateMipsPSO.cpp" />
@@ -163,6 +167,7 @@
     <ClCompile Include="CEMaterial.cpp" />
     <ClCompile Include="CEMesh.cpp" />
     <ClCompile Include="CEPanoToCubemapPSO.cpp" />
+    <ClCompile Include="CEPipelineConfig.cpp" />
     <ClCompile Include="CEPipelineStateObject.cpp" />
     <ClCompile Include="CERayTracingPlayground.cpp" />
     <ClCompile Include="CERenderTarget.cpp" />
@@ -172,6 +177,7 @@
     <ClCompile Include="CEScene.cpp" />
     <ClCompile Include="CESceneNode.cpp" />
     <ClCompile Include="CEScreen.cpp" />
+    <ClCompile Include="CEShaderConfig.cpp" />
     <ClCompile Include="CEShaderResourceView.cpp" />
     <ClCompile Include="CEStateObject.cpp" />
     <ClCompile Include="CEStructuredBuffer.cpp" />
