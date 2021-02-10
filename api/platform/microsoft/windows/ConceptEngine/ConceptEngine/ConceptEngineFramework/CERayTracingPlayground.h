@@ -8,6 +8,7 @@
 
 namespace Concept {
 	namespace GraphicsEngine::Direct3D {
+		class CEStateObject;
 
 		class CERenderTarget;
 		class CECommandList;
@@ -57,6 +58,11 @@ namespace Concept {
 			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_triangleHitRootSignature;
 			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_planeHitRootSignature;
 			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_emptyRootSignature;
+
+			/*
+			 * Pipeline State
+			 */
+			std::shared_ptr<GraphicsEngine::Direct3D::CEStateObject> m_rtPipelineState;
 
 			/*
 			 * Global Root Signatures

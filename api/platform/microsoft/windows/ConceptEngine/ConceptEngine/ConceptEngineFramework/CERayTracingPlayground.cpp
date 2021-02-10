@@ -113,14 +113,17 @@ bool CERayTracingPlayground::LoadContent() {
 		std::wstring m_assetsPath = assetsPath;
 
 		std::vector<D3D12_STATE_SUBOBJECT> subobjects;
-		auto kRayGen = L"rayGen";
-		auto kMiss = L"miss";
-		auto kPlaneChs = L"planeChs";
-		auto kTriangleChs = L"triangleChs";
-		auto kShadowMiss = L"shadowMiss";
-		auto kShadowChs = L"shadowChs";
-		auto kTriangleHitGroup = L"triangleHitGroup";
-		auto kShadowHitGroup = L"shadowHitGroup";
+
+		const auto* kRayGen = L"rayGen";
+		const auto* kMiss = L"miss";
+		const auto* kPlaneChs = L"planeChs";
+		const auto* kTriangleChs = L"triangleChs";
+		const auto* kShadowMiss = L"shadowMiss";
+		const auto* kShadowChs = L"shadowChs";
+		const auto* kTriangleHitGroup = L"triangleHitGroup";
+		const auto* kShadowHitGroup = L"shadowHitGroup";
+		const auto* kPlaneHitGroup = L"shadowHitGroup";
+
 		const WCHAR* entryPoints[] = {kRayGen, kMiss, kPlaneChs, kTriangleChs, kShadowMiss, kShadowChs};
 
 		//Create DXIL Library
@@ -134,8 +137,12 @@ bool CERayTracingPlayground::LoadContent() {
 		subobjects.push_back(triangleHitGroup->operator()()); // 1 Triangle hit group
 
 		//Create shadow-ray hit group
+		auto planeHitGroup = m_device->CreateHitGroup(nullptr, kPlaneChs, kPlaneHitGroup);
+		subobjects.push_back(planeHitGroup->operator()()); // 2 Plane hit group
+
+		//Create shadow-ray hit group
 		auto shadowHitGroup = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
-		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
+		subobjects.push_back(shadowHitGroup->operator()()); // 3 Shadow Hit Group
 
 		//Create ray-gen root-signature and association
 		D3D12_STATE_SUBOBJECT rayGenSubObject = {};
@@ -174,13 +181,104 @@ bool CERayTracingPlayground::LoadContent() {
 			m_rayGenRootSignature = m_device->CreateRootSignature(desc);
 
 			rayGenSubObject.pDesc = m_rayGenRootSignature->GetD3D12RootSignature().Get();
-			rayGenSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_GLOBAL_ROOT_SIGNATURE;
+			rayGenSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_LOCAL_ROOT_SIGNATURE;
 		}
 
-		subobjects.push_back(rayGenSubObject); // Ray Gen Root Signature
+		subobjects.push_back(rayGenSubObject); // 4 Ray Gen Root Signature
 
 		auto rayGenRootAssociation = m_device->CreateExportAssociation(&kRayGen, &rayGenSubObject);
-		subobjects.push_back(rayGenRootAssociation->operator()()); // Associate Root Signature to Ray Gen Shader
+		subobjects.push_back(rayGenRootAssociation->operator()()); // 5 Associate Root Signature to Ray Gen Shader
+
+		// Create the tri hit root-signature and association
+		D3D12_STATE_SUBOBJECT triangleHitSubObject = {};
+		{
+			D3D12_ROOT_SIGNATURE_DESC1 desc = {};
+			std::vector<D3D12_DESCRIPTOR_RANGE1> range;
+			std::vector<D3D12_ROOT_PARAMETER1> rootParams;
+
+			range.resize(2);
+
+			rootParams.resize(1);
+			rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+			rootParams[0].Descriptor.RegisterSpace = 0;
+			rootParams[0].Descriptor.ShaderRegister = 0;
+
+			desc.NumParameters = 1;
+			desc.pParameters = rootParams.data();
+			desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
+
+			m_triangleHitRootSignature = m_device->CreateRootSignature(desc);
+
+			triangleHitSubObject.pDesc = m_triangleHitRootSignature->GetD3D12RootSignature().Get();
+			triangleHitSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_LOCAL_ROOT_SIGNATURE;
+		}
+		subobjects.push_back(triangleHitSubObject); // 6 Triangle Hit Root Signature
+
+		auto triangleHitAssociation = m_device->CreateExportAssociation(&kTriangleChs, &triangleHitSubObject);
+		subobjects.push_back(triangleHitAssociation->operator()());
+		// 7 Associate Triangle Root Sig to Triangle Hit Group
+
+		// Create the plane hit root-signature and association
+		D3D12_STATE_SUBOBJECT planeHitSubObject = {};
+		{
+			D3D12_ROOT_SIGNATURE_DESC1 desc = {};
+			std::vector<D3D12_DESCRIPTOR_RANGE1> range;
+			std::vector<D3D12_ROOT_PARAMETER1> rootParams;
+
+			range.resize(1);
+			range[0].BaseShaderRegister = 0;
+			range[0].NumDescriptors = 1;
+			range[0].RegisterSpace = 0;
+			range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+			range[0].OffsetInDescriptorsFromTableStart = 0;
+
+			rootParams.resize(1);
+			rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+			rootParams[0].DescriptorTable.NumDescriptorRanges = 1;
+			rootParams[0].DescriptorTable.pDescriptorRanges = range.data();
+
+			desc.NumParameters = 1;
+			desc.pParameters = rootParams.data();
+			desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
+
+			m_planeHitRootSignature = m_device->CreateRootSignature(desc);
+
+			planeHitSubObject.pDesc = m_planeHitRootSignature->GetD3D12RootSignature().Get();
+			planeHitSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_LOCAL_ROOT_SIGNATURE;
+		}
+		subobjects.push_back(planeHitSubObject); // 8 Plane Hit Root Sig
+
+		auto planeHitAssociation = m_device->CreateExportAssociation(&kPlaneHitGroup, &planeHitSubObject);
+		subobjects.push_back(planeHitAssociation->operator()()); // 9 Associate Plane Hit Root Sig to Plane Hit Group
+
+		// Create the empty root-signature and associate it with the primary miss-shader and the shadow programs
+		D3D12_STATE_SUBOBJECT emptySubObject = {};
+		D3D12_ROOT_SIGNATURE_DESC1 emptyDesc = {};
+		emptyDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
+		m_planeHitRootSignature = m_device->CreateRootSignature(emptyDesc);
+
+		emptySubObject.pDesc = m_planeHitRootSignature->GetD3D12RootSignature().Get();
+		emptySubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_LOCAL_ROOT_SIGNATURE;
+		subobjects.push_back(planeHitAssociation->operator()()); // 10 Empty Root Sig for Plane Hit Group and Miss
+
+		const WCHAR* emptyRootExport[] = {kMiss, kShadowChs, kShadowMiss};
+		auto emptyRootAssociation = m_device->CreateExportAssociation(emptyRootExport, &emptySubObject);
+		subobjects.push_back(emptyRootAssociation->operator()());
+		// 11 Associate empty root sig to Plane Hit Group and Miss shader
+
+		// TODO:
+		// Bind the payload size to all programs
+
+		//TODO:
+		// Create the pipeline config
+
+		//TODO:
+		// Create the global root signature and store the empty signature
+
+		//TODO: After implementing above objects create pipeline state object
+		// Create the state
+		// m_rtPipelineState = m_device->CreateStateObject(subobjects);
+		
 	}
 
 	commandQueue.Flush();
