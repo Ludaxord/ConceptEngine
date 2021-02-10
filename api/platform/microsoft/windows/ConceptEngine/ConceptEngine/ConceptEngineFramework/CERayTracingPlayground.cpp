@@ -100,6 +100,12 @@ bool CERayTracingPlayground::LoadContent() {
 	* 1 for the global root signature
 	 */
 	{
+		//Global flags for root signatures
+		D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
+
 		WCHAR assetsPath[512];
 		CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
 		std::wstring m_assetsPath = assetsPath;
@@ -120,7 +126,7 @@ bool CERayTracingPlayground::LoadContent() {
 		subobjects.push_back(dxilLibrary->operator()()); // 0 - Library Shader StateSubObject
 
 		//TODO: Change triangle and plane shadow to Cube;
-		
+
 		//Create triangle HitGroup
 		auto triangleHitGroup = m_device->CreateHitGroup(nullptr, kTriangleChs, kTriangleHitGroup);
 		subobjects.push_back(triangleHitGroup->operator()()); // 1 Triangle hit group
@@ -132,6 +138,24 @@ bool CERayTracingPlayground::LoadContent() {
 		//Create ray-gen root-signature and association
 		auto rootSignature = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
 		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
+
+
+		std::vector<CD3DX12_DESCRIPTOR_RANGE1> descriptorRanges;
+		descriptorRanges[0] = CD3DX12_DESCRIPTOR_RANGE1(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
+		descriptorRanges[1] = CD3DX12_DESCRIPTOR_RANGE1(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+
+		CD3DX12_ROOT_PARAMETER1 rootParameters[1];
+		rootParameters[1].InitAsDescriptorTable(2, descriptorRanges.data());
+
+		CD3DX12_STATIC_SAMPLER_DESC linearClampSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR,
+		                                               D3D12_TEXTURE_ADDRESS_MODE_CLAMP,
+		                                               D3D12_TEXTURE_ADDRESS_MODE_CLAMP,
+		                                               D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
+
+		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
+		rootSignatureDescription.Init_1_1(2, rootParameters, 1, &linearClampSampler, rootSignatureFlags);
+
+		m_rayGenRootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
 	}
 
 	commandQueue.Flush();

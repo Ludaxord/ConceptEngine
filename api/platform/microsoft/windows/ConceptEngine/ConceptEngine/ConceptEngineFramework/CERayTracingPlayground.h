@@ -38,7 +38,7 @@ namespace Concept {
 			void OnDPIScaleChanged(DPIScaleEventArgs& e) override;
 
 			void OnGUI(const std::shared_ptr<GraphicsEngine::Direct3D::CECommandList>& commandList,
-				const GraphicsEngine::Direct3D::CERenderTarget& renderTarget) const;
+			           const GraphicsEngine::Direct3D::CERenderTarget& renderTarget) const;
 
 		private:
 			/*
@@ -50,8 +50,18 @@ namespace Concept {
 
 			std::shared_ptr<GraphicsEngine::Direct3D::CEScene> m_cube;
 
-			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_RTXRootSignature;
-			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_hitGroupRootSignature;
+			/*
+			 * Local Root Signatures
+			 */
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_rayGenRootSignature;
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_triangleHitRootSignature;
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_planeHitRootSignature;
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_emptyRootSignature;
+
+			/*
+			 * Global Root Signatures
+			 */
+			std::shared_ptr<GraphicsEngine::Direct3D::CERootSignature> m_globalRootSignature;
 
 			D3D12_VIEWPORT m_viewPort;
 			D3D12_RECT m_scissorRect;
