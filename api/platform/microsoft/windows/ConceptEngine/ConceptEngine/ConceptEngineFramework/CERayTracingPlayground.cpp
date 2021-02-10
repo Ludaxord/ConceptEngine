@@ -7,6 +7,7 @@
 #include "CEDXILLibrary.h"
 #include "CEGUI.h"
 #include "CEHitGroup.h"
+#include "CERootSignature.h"
 #include "CEScene.h"
 #include "CESwapChain.h"
 #include "CETools.h"
@@ -139,37 +140,46 @@ bool CERayTracingPlayground::LoadContent() {
 		auto rootSignature = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
 		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
 
-		//TODO: Change to CD3DX12 library
-		D3D12_ROOT_SIGNATURE_DESC1 desc = {};
-		std::vector<D3D12_DESCRIPTOR_RANGE1> range;
-		std::vector<D3D12_ROOT_PARAMETER1> rootParams;
+		D3D12_STATE_SUBOBJECT rayGenSubObject = {};
 
-		range.resize(2);
-		// gOutput
-		range[0].BaseShaderRegister = 0;
-		range[0].NumDescriptors = 1;
-		range[0].RegisterSpace = 0;
-		range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
-		range[0].OffsetInDescriptorsFromTableStart = 0;
+		//TODO: Change to CD3DX12 library, make code cleaner!
+		{
+			D3D12_ROOT_SIGNATURE_DESC1 desc = {};
+			std::vector<D3D12_DESCRIPTOR_RANGE1> range;
+			std::vector<D3D12_ROOT_PARAMETER1> rootParams;
 
-		// gRtScene
-		range[1].BaseShaderRegister = 0;
-		range[1].NumDescriptors = 1;
-		range[1].RegisterSpace = 0;
-		range[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-		range[1].OffsetInDescriptorsFromTableStart = 1;
+			range.resize(2);
+			// gOutput
+			range[0].BaseShaderRegister = 0;
+			range[0].NumDescriptors = 1;
+			range[0].RegisterSpace = 0;
+			range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+			range[0].OffsetInDescriptorsFromTableStart = 0;
 
-		rootParams.resize(1);
-		rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-		rootParams[0].DescriptorTable.NumDescriptorRanges = 2;
-		rootParams[0].DescriptorTable.pDescriptorRanges = range.data();
+			// gRtScene
+			range[1].BaseShaderRegister = 0;
+			range[1].NumDescriptors = 1;
+			range[1].RegisterSpace = 0;
+			range[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+			range[1].OffsetInDescriptorsFromTableStart = 1;
 
-		// Create the desc
-		desc.NumParameters = 1;
-		desc.pParameters = rootParams.data();
-		desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
+			rootParams.resize(1);
+			rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+			rootParams[0].DescriptorTable.NumDescriptorRanges = 2;
+			rootParams[0].DescriptorTable.pDescriptorRanges = range.data();
 
-		m_rayGenRootSignature = m_device->CreateRootSignature(desc);
+			// Create the desc
+			desc.NumParameters = 1;
+			desc.pParameters = rootParams.data();
+			desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
+
+			m_rayGenRootSignature = m_device->CreateRootSignature(desc);
+
+			rayGenSubObject.pDesc = m_rayGenRootSignature->GetD3D12RootSignature().Get();
+			rayGenSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_GLOBAL_ROOT_SIGNATURE;
+		}
+
+		subobjects.push_back(rayGenSubObject);
 	}
 
 	commandQueue.Flush();
