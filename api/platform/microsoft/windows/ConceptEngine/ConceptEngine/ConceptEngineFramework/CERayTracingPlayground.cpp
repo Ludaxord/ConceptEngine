@@ -139,23 +139,37 @@ bool CERayTracingPlayground::LoadContent() {
 		auto rootSignature = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
 		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
 
+		//TODO: Change to CD3DX12 library
+		D3D12_ROOT_SIGNATURE_DESC1 desc = {};
+		std::vector<D3D12_DESCRIPTOR_RANGE1> range;
+		std::vector<D3D12_ROOT_PARAMETER1> rootParams;
 
-		std::vector<CD3DX12_DESCRIPTOR_RANGE1> descriptorRanges;
-		descriptorRanges[0] = CD3DX12_DESCRIPTOR_RANGE1(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
-		descriptorRanges[1] = CD3DX12_DESCRIPTOR_RANGE1(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+		range.resize(2);
+		// gOutput
+		range[0].BaseShaderRegister = 0;
+		range[0].NumDescriptors = 1;
+		range[0].RegisterSpace = 0;
+		range[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+		range[0].OffsetInDescriptorsFromTableStart = 0;
 
-		CD3DX12_ROOT_PARAMETER1 rootParameters[1];
-		rootParameters[1].InitAsDescriptorTable(2, descriptorRanges.data());
+		// gRtScene
+		range[1].BaseShaderRegister = 0;
+		range[1].NumDescriptors = 1;
+		range[1].RegisterSpace = 0;
+		range[1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+		range[1].OffsetInDescriptorsFromTableStart = 1;
 
-		CD3DX12_STATIC_SAMPLER_DESC linearClampSampler(0, D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR,
-		                                               D3D12_TEXTURE_ADDRESS_MODE_CLAMP,
-		                                               D3D12_TEXTURE_ADDRESS_MODE_CLAMP,
-		                                               D3D12_TEXTURE_ADDRESS_MODE_CLAMP);
+		rootParams.resize(1);
+		rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+		rootParams[0].DescriptorTable.NumDescriptorRanges = 2;
+		rootParams[0].DescriptorTable.pDescriptorRanges = range.data();
 
-		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
-		rootSignatureDescription.Init_1_1(2, rootParameters, 1, &linearClampSampler, rootSignatureFlags);
+		// Create the desc
+		desc.NumParameters = 1;
+		desc.pParameters = rootParams.data();
+		desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
 
-		m_rayGenRootSignature = m_device->CreateRootSignature(rootSignatureDescription.Desc_1_1);
+		m_rayGenRootSignature = m_device->CreateRootSignature(desc);
 	}
 
 	commandQueue.Flush();
