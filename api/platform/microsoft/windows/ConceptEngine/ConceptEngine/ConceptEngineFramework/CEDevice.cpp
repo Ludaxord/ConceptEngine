@@ -8,9 +8,11 @@
 #include "CEDescriptorAllocator.h"
 #include "CEDX12Libs.h"
 #include "CEDXILLibrary.h"
+#include "CEExportAssociation.h"
 #include "CEGUI.h"
 
 #include "CEHelper.h"
+#include "CEHitGroup.h"
 #include "CEIndexBuffer.h"
 #include "CEPipelineStateObject.h"
 #include "CERootSignature.h"
@@ -92,6 +94,26 @@ public:
 	};
 };
 
+class CEHitGroupInstance : public CEHitGroup {
+public:
+	CEHitGroupInstance(LPCWSTR ahsExport, LPCWSTR chsExport, const std::wstring& name)
+		: CEHitGroup(ahsExport, chsExport, name) {
+	}
+
+	virtual ~CEHitGroupInstance() {
+	};
+};
+
+class CEExportAssociationInstance : public CEExportAssociation {
+public:
+	CEExportAssociationInstance(const WCHAR* exportNames[],
+	                            const D3D12_STATE_SUBOBJECT* pSubObjectToAssociate): CEExportAssociation(
+		exportNames, arraysize(exportNames), pSubObjectToAssociate) {
+	}
+
+	virtual ~CEExportAssociationInstance() {
+	};
+};
 
 class CEByteAddressBufferInstance : public CEByteAddressBuffer {
 
@@ -521,7 +543,8 @@ std::shared_ptr<CETexture> CEDevice::CreateTexture(Microsoft::WRL::ComPtr<ID3D12
 	return texture;
 }
 
-std::shared_ptr<CEDXIlLibrary> CEDevice::LoadShaderLibrary(const std::wstring shaderFile, const WCHAR* entryPoints[]) const {
+std::shared_ptr<CEDXIlLibrary> CEDevice::LoadDXILLibrary(const std::wstring shaderFile,
+                                                         const WCHAR* entryPoints[]) const {
 	wrl::ComPtr<ID3DBlob> pRayGenShader = CEDXIlLibrary::CreateLibrary(shaderFile, L"lib_6_3");
 	std::shared_ptr<CEDXIlLibraryInstance> lib = std::make_shared<CEDXIlLibraryInstance>(
 		pRayGenShader, entryPoints, arraysize(entryPoints));

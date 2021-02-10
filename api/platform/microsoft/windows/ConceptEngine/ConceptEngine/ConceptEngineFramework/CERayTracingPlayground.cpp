@@ -1,13 +1,13 @@
 #include "CERayTracingPlayground.h"
 
 
-
 #include "CECommandList.h"
 #include "CECommandQueue.h"
 #include "CEDevice.h"
 #include "CEGUI.h"
 #include "CEScene.h"
 #include "CESwapChain.h"
+#include "CETools.h"
 #include "d3dx12.h"
 
 
@@ -32,15 +32,16 @@ enum HitGroupParameters {
 };
 
 CERayTracingPlayground::CERayTracingPlayground(const std::wstring& name,
-                                               uint32_t width, uint32_t height, bool vSync): CEPlayground(name, width, height, vSync),
-	                                              m_viewPort(CD3DX12_VIEWPORT(
-			                                              0.0f,
-			                                              0.0f,
-			                                              static_cast<float>(width),
-			                                              static_cast<float>(height))
-	                                              ),
-	                                              m_scissorRect(CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX)),
-	                                              m_RenderScale(1.0f) {
+                                               uint32_t width, uint32_t height, bool vSync): CEPlayground(name, width,
+		height, vSync),
+	m_viewPort(CD3DX12_VIEWPORT(
+			0.0f,
+			0.0f,
+			static_cast<float>(width),
+			static_cast<float>(height))
+	),
+	m_scissorRect(CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX)),
+	m_RenderScale(1.0f) {
 
 	XMVECTOR cameraPos = XMVectorSet(0, 5, -20, 1);
 	auto cameraTarget = XMVectorSet(0, 5, 0, 1);
@@ -71,17 +72,44 @@ bool CERayTracingPlayground::LoadContent() {
 	CEGame::Get().WndProcHandler += CEWindowProcEvent::slot(&CEGUI::WndProcHandler, m_gui);
 
 
-	auto& commandQueue = m_device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT /* D3D12_COMMAND_LIST_TYPE_COPY/D3D12_COMMAND_LIST_TYPE_DIRECT */);
+	auto& commandQueue = m_device->GetCommandQueue(
+		D3D12_COMMAND_LIST_TYPE_DIRECT /* D3D12_COMMAND_LIST_TYPE_COPY/D3D12_COMMAND_LIST_TYPE_DIRECT */);
 	auto commandList = commandQueue.GetCommandList();
 
 	m_cube = commandList->CreateCube();
 
 	commandList->CreateAccelerationStructures(m_cube);
-	
+
 	commandQueue.ExecuteCommandList(commandList);
-	
+
+
+	/**
+	 * Create State Object based on passed template PipelineStateStream
+	 * To create basic Ray Tracing Pipeline State
+	 * Need 16 subobjects:
+	* 1 for DXIL library
+	* 3 for the hit-groups (triangle hit group, plane hit-group, shadow-hit group)
+	* 2 for RayGen root-signature (root-signature and the subobject association)
+	* 2 for triangle hit-program root-signature (root-signature and the subobject association)
+	* 2 for the plane-hit root-signature (root-signature and the subobject association)
+	* 2 for shadow-program and miss root-signature (root-signature and the subobject association)
+	* 2 for shader config (shared between all programs. 1 for the config, 1 for association)
+	* 1 for pipeline config
+	* 1 for the global root signature
+	 */
+	{
+		WCHAR assetsPath[512];
+		CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
+		std::wstring m_assetsPath = assetsPath;
+		std::vector<D3D12_STATE_SUBOBJECT> subobjects;
+		const WCHAR* entryPoints[] = {L"rayGen", L"miss", L"planeChs", L"triangleChs", L"shadowMiss", L"shadowChs"};
+		auto dxilLibrary = m_device->LoadDXILLibrary(m_assetsPath + L"CEGERayTracingVertexShader.hlsl", entryPoints);
+
+		
+	}
+
 	commandQueue.Flush();
-	
+
 	return true;
 }
 

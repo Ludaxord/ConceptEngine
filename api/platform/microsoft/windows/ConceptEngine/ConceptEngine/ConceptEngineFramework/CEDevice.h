@@ -7,6 +7,7 @@
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEHitGroup;
 	class CEDXIlLibrary;
 	class CEStateObject;
 	namespace wrl = Microsoft::WRL;
@@ -115,12 +116,20 @@ namespace Concept::GraphicsEngine::Direct3D {
 
 
 		/**
-		 * Load Shader Library
+		 * Load DXIL Library
 		 *
 		 * @param shaderFile, path to shader file.
 		 * @param entryPoints
 		 */
-		std::shared_ptr<CEDXIlLibrary> LoadShaderLibrary(const std::wstring shaderFile, const WCHAR* entryPoints[]) const;
+		std::shared_ptr<CEDXIlLibrary> LoadDXILLibrary(const std::wstring shaderFile, const WCHAR* entryPoints[]) const;
+
+		/**
+		 * Load DXIL Library
+		 *
+		 * @param shaderFile, path to shader file.
+		 * @param entryPoints
+		 */
+		std::shared_ptr<CEHitGroup> CreateHitGroup(const std::wstring shaderFile, const WCHAR* entryPoints[]) const;
 		
 		/**
 		 * Create Index Buffer resource;
@@ -156,20 +165,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 			return MakePipelineStateObject(pipelineStateStreamDesc);
 		}
 
-		/**
-		 * Create State Object based on passed template PipelineStateStream
-		 * To create basic Ray Tracing Pipeline State
-		 * Need 16 subobjects:
-		* 1 for DXIL library    
-	    * 3 for the hit-groups (triangle hit group, plane hit-group, shadow-hit group)
-	    * 2 for RayGen root-signature (root-signature and the subobject association)
-	    * 2 for triangle hit-program root-signature (root-signature and the subobject association)
-	    * 2 for the plane-hit root-signature (root-signature and the subobject association)
-	    * 2 for shadow-program and miss root-signature (root-signature and the subobject association)
-	    * 2 for shader config (shared between all programs. 1 for the config, 1 for association)
-	    * 1 for pipeline config
-	    * 1 for the global root signature
-		 */
 		template <class StateObject>
 		std::shared_ptr<CEStateObject> CreateStateObject(
 			StateObject& stateObject,
