@@ -11,7 +11,6 @@
 #include <sstream>
 
 
-
 #include "CECommandList.h"
 #include "CECommandQueue.h"
 #include "CEDevice.h"
@@ -64,7 +63,7 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget)
 	io.FontGlobalScale = ::GetDpiForWindow(m_hWnd) / 96.0f;
 	// Allow user UI scaling using CTRL+Mouse Wheel scrolling
 	io.FontAllowUserScaling = true;
-	
+
 	WCHAR assetsPath[512];
 	CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
 	std::wstringstream wss;
@@ -202,10 +201,13 @@ CEGUI::CEGUI(CEDevice& device, HWND hWnd, const CERenderTarget& renderTarget)
 }
 
 CEGUI::~CEGUI() {
-	Destroy();
+	if (m_newFrameCalled) {
+		Destroy();
+	}
 }
 
 void CEGUI::NewFrame() {
+	m_newFrameCalled = true;
 	ImGui::SetCurrentContext(m_ImGuiContext);
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();

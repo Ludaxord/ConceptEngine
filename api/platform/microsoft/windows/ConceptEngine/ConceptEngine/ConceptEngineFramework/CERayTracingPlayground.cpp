@@ -114,9 +114,10 @@ bool CERayTracingPlayground::LoadContent() {
 }
 
 void CERayTracingPlayground::UnloadContent() {
-	m_gui.reset();
-	m_swapChain.reset();
-	m_device.reset();
+	//TODO: Uncomment when On Render function is ready to remove error message
+	// m_gui.reset();
+	// m_swapChain.reset();
+	// m_device.reset();
 }
 
 void CERayTracingPlayground::OnUpdate(UpdateEventArgs& e) {
@@ -141,4 +142,16 @@ void CERayTracingPlayground::OnResize(ResizeEventArgs& e) {
 }
 
 void CERayTracingPlayground::OnDPIScaleChanged(DPIScaleEventArgs& e) {
+}
+
+void CERayTracingPlayground::OnGUI(const std::shared_ptr<CECommandList>& commandList,
+	const CERenderTarget& renderTarget) const {
+	m_gui->NewFrame();
+
+	static bool showDemoWindow = false;
+	if (showDemoWindow) {
+		ImGui::ShowDemoWindow(&showDemoWindow);
+	}
+
+	m_gui->Render(commandList, renderTarget);
 }

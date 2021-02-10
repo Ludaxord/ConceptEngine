@@ -47,6 +47,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		virtual ~CEGUI();
 
 	private:
+		inline static bool m_newFrameCalled = false;
 		CEDevice& m_device;
 		HWND m_hWnd;
 		ImGuiContext* m_ImGuiContext;
