@@ -358,7 +358,7 @@ bool CEHDRPlayground::LoadContent() {
 		};
 
 		/*
-		 * Allow input layout and deny unnecessary acces to certain pipeline stages
+		 * Allow input layout and deny unnecessary access to certain pipeline stages
 		 */
 		D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |

@@ -4,7 +4,9 @@
 #include "CECommandList.h"
 #include "CECommandQueue.h"
 #include "CEDevice.h"
+#include "CEDXILLibrary.h"
 #include "CEGUI.h"
+#include "CEHitGroup.h"
 #include "CEScene.h"
 #include "CESwapChain.h"
 #include "CETools.h"
@@ -101,11 +103,35 @@ bool CERayTracingPlayground::LoadContent() {
 		WCHAR assetsPath[512];
 		CETools::GetAssetsPath(assetsPath, _countof(assetsPath));
 		std::wstring m_assetsPath = assetsPath;
-		std::vector<D3D12_STATE_SUBOBJECT> subobjects;
-		const WCHAR* entryPoints[] = {L"rayGen", L"miss", L"planeChs", L"triangleChs", L"shadowMiss", L"shadowChs"};
-		auto dxilLibrary = m_device->LoadDXILLibrary(m_assetsPath + L"CEGERayTracingVertexShader.hlsl", entryPoints);
 
+		std::vector<D3D12_STATE_SUBOBJECT> subobjects;
+		auto kRayGen = L"rayGen";
+		auto kMiss = L"miss";
+		auto kPlaneChs = L"planeChs";
+		auto kTriangleChs = L"triangleChs";
+		auto kShadowMiss = L"shadowMiss";
+		auto kShadowChs = L"shadowChs";
+		auto kTriangleHitGroup = L"triangleHitGroup";
+		auto kShadowHitGroup = L"shadowHitGroup";
+		const WCHAR* entryPoints[] = {kRayGen, kMiss, kPlaneChs, kTriangleChs, kShadowMiss, kShadowChs};
+
+		//Create DXIL Library
+		auto dxilLibrary = m_device->LoadDXILLibrary(m_assetsPath + L"CEGERayTracingVertexShader.hlsl", entryPoints);
+		subobjects.push_back(dxilLibrary->operator()()); // 0 - Library Shader StateSubObject
+
+		//TODO: Change triangle and plane shadow to Cube;
 		
+		//Create triangle HitGroup
+		auto triangleHitGroup = m_device->CreateHitGroup(nullptr, kTriangleChs, kTriangleHitGroup);
+		subobjects.push_back(triangleHitGroup->operator()()); // 1 Triangle hit group
+
+		//Create shadow-ray hit group
+		auto shadowHitGroup = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
+		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
+
+		//Create ray-gen root-signature and association
+		auto rootSignature = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
+		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
 	}
 
 	commandQueue.Flush();
@@ -114,10 +140,9 @@ bool CERayTracingPlayground::LoadContent() {
 }
 
 void CERayTracingPlayground::UnloadContent() {
-	//TODO: Uncomment when On Render function is ready to remove error message
-	// m_gui.reset();
-	// m_swapChain.reset();
-	// m_device.reset();
+	m_gui.reset();
+	m_swapChain.reset();
+	m_device.reset();
 }
 
 void CERayTracingPlayground::OnUpdate(UpdateEventArgs& e) {
@@ -145,7 +170,7 @@ void CERayTracingPlayground::OnDPIScaleChanged(DPIScaleEventArgs& e) {
 }
 
 void CERayTracingPlayground::OnGUI(const std::shared_ptr<CECommandList>& commandList,
-	const CERenderTarget& renderTarget) const {
+                                   const CERenderTarget& renderTarget) const {
 	m_gui->NewFrame();
 
 	static bool showDemoWindow = false;

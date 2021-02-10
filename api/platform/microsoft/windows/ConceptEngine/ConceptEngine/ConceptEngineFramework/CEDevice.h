@@ -7,6 +7,7 @@
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEExportAssociation;
 	class CEHitGroup;
 	class CEDXIlLibrary;
 	class CEStateObject;
@@ -121,16 +122,28 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param shaderFile, path to shader file.
 		 * @param entryPoints
 		 */
-		std::shared_ptr<CEDXIlLibrary> LoadDXILLibrary(const std::wstring shaderFile, const WCHAR* entryPoints[]) const;
+		std::shared_ptr<CEDXIlLibrary> LoadDXILLibrary(std::wstring shaderFile, const WCHAR* entryPoints[]) const;
 
 		/**
-		 * Load DXIL Library
+		 * Create Hit Group
 		 *
-		 * @param shaderFile, path to shader file.
-		 * @param entryPoints
+		 * @param ahsExport
+		 * @param chsExport
+		 * @param name
 		 */
-		std::shared_ptr<CEHitGroup> CreateHitGroup(const std::wstring shaderFile, const WCHAR* entryPoints[]) const;
-		
+		std::shared_ptr<CEHitGroup>
+		CreateHitGroup(LPCWSTR ahsExport, LPCWSTR chsExport, const std::wstring& name) const;
+
+		/**
+		 * Create Export Association
+		 *
+		 * @param exportNames
+		 * @param pSubObjectToAssociate
+		 */
+		std::shared_ptr<CEExportAssociation> CreateExportAssociation(const WCHAR* exportNames[],
+		                                                             const D3D12_STATE_SUBOBJECT* pSubObjectToAssociate)
+		const;
+
 		/**
 		 * Create Index Buffer resource;
 		 */

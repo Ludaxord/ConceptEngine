@@ -545,10 +545,25 @@ std::shared_ptr<CETexture> CEDevice::CreateTexture(Microsoft::WRL::ComPtr<ID3D12
 
 std::shared_ptr<CEDXIlLibrary> CEDevice::LoadDXILLibrary(const std::wstring shaderFile,
                                                          const WCHAR* entryPoints[]) const {
-	wrl::ComPtr<ID3DBlob> pRayGenShader = CEDXIlLibrary::CreateLibrary(shaderFile, L"lib_6_3");
-	std::shared_ptr<CEDXIlLibraryInstance> lib = std::make_shared<CEDXIlLibraryInstance>(
+	auto pRayGenShader = CEDXIlLibrary::CreateLibrary(shaderFile, L"lib_6_3");
+	std::shared_ptr<CEDXIlLibrary> lib = std::make_shared<CEDXIlLibraryInstance>(
 		pRayGenShader, entryPoints, arraysize(entryPoints));
 	return lib;
+}
+
+std::shared_ptr<CEHitGroup> CEDevice::CreateHitGroup(LPCWSTR ahsExport,
+                                                     LPCWSTR chsExport,
+                                                     const std::wstring& name) const {
+	std::shared_ptr<CEHitGroup> hitGroup = std::make_shared<CEHitGroupInstance>(ahsExport, chsExport, name);
+	return hitGroup;
+}
+
+std::shared_ptr<CEExportAssociation> CEDevice::CreateExportAssociation(const WCHAR* exportNames[],
+                                                                       const D3D12_STATE_SUBOBJECT*
+                                                                       pSubObjectToAssociate) const {
+	std::shared_ptr<CEExportAssociation> exportAssociation = std::make_shared<CEExportAssociationInstance>(
+		exportNames, pSubObjectToAssociate);
+	return exportAssociation;
 }
 
 std::shared_ptr<CERootSignature>

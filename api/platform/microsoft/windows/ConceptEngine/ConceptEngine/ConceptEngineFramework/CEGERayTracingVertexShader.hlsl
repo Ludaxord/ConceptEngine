@@ -7,6 +7,7 @@ void miss() {
 }
 
 //TODO: Change hardcoded objects in shaders to dynamic
+//Check structs in CEGEHDRVertexShader.hlsl and CEGEHDRPixelShader.hlsl 
 
 void triangleChs() {
 
