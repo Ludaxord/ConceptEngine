@@ -5,6 +5,7 @@
 #include "CECommandQueue.h"
 #include "CEDevice.h"
 #include "CEDXILLibrary.h"
+#include "CEExportAssociation.h"
 #include "CEGUI.h"
 #include "CEHitGroup.h"
 #include "CERootSignature.h"
@@ -137,9 +138,6 @@ bool CERayTracingPlayground::LoadContent() {
 		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
 
 		//Create ray-gen root-signature and association
-		auto rootSignature = m_device->CreateHitGroup(nullptr, kShadowChs, kShadowHitGroup);
-		subobjects.push_back(shadowHitGroup->operator()()); // 1 Plane hit group
-
 		D3D12_STATE_SUBOBJECT rayGenSubObject = {};
 
 		//TODO: Change to CD3DX12 library, make code cleaner!
@@ -179,7 +177,10 @@ bool CERayTracingPlayground::LoadContent() {
 			rayGenSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_GLOBAL_ROOT_SIGNATURE;
 		}
 
-		subobjects.push_back(rayGenSubObject);
+		subobjects.push_back(rayGenSubObject); // Ray Gen Root Signature
+
+		auto rayGenRootAssociation = m_device->CreateExportAssociation(&kRayGen, &rayGenSubObject);
+		subobjects.push_back(rayGenRootAssociation->operator()()); // Associate Root Signature to Ray Gen Shader
 	}
 
 	commandQueue.Flush();
