@@ -15,20 +15,16 @@ using namespace Concept;
 
 inline void ThrowIfFailed(HRESULT hr) {
 	if (FAILED(hr)) {
-		_com_error err(hr);
-		const auto* errorMessage = err.ErrorMessage();
-		OutputDebugString(errorMessage);
-		std::stringstream wss;
-		wss << errorMessage << std::endl;
-		spdlog::error(wss.str().c_str());
-		throw std::exception(wss.str().c_str());
+		char s_str[64] = {};
+		sprintf_s(s_str, "HRESULT of 0x%08X", static_cast<UINT>(hr));
+		std::string ss(s_str);
+		OutputDebugStringA(ss.c_str());
 	}
 }
 
 // Convert a blob to at string
-template<class BlotType>
-inline static std::string convertBlobToString(BlotType* pBlob)
-{
+template <class BlotType>
+inline static std::string convertBlobToString(BlotType* pBlob) {
 	std::vector<char> infoLog(pBlob->GetBufferSize() + 1);
 	memcpy(infoLog.data(), pBlob->GetBufferPointer(), pBlob->GetBufferSize());
 	infoLog[pBlob->GetBufferSize()] = 0;

@@ -1,4 +1,1 @@
-[2021-02-11 19:27:48.334] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-11 19:27:49.029] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-11 19:27:49.057] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-11 19:28:29.864] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-11 21:23:07.929] [ConceptEngine] [info] Concept Engine Game class created.

@@ -485,8 +485,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;F:\Projects\Packages\dxc-artifacts\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;F:\Projects\Packages\dxc-artifacts\include;$(WindowsSDK_IncludePath);$(VC_IncludePath);$(IncludePath)</IncludePath>
+    <LibraryPath>$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;F:\Projects\Packages\dxc-artifacts\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;F:\Projects\Packages\dxc-artifacts\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

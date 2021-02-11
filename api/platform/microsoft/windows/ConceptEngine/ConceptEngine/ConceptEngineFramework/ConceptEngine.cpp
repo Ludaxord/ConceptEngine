@@ -32,9 +32,9 @@ int ConceptEngine::RunEngine() {
 	{
 		// auto playground = std::make_unique<Playground::CECubePlayground>(L"Concept Engine Editor (Cube Playground)", 1920, 1080);
 		// auto playground = std::make_unique<Playground::CEBasicLightingPlayground>(L"Concept Engine Editor (Basic Lighting Playground)", 1920, 1080);
-		// auto playground = std::make_unique<Playground::CEHDRPlayground>(L"Concept Engine Editor (HDR Playground)", 1920, 1080);
+		auto playground = std::make_unique<Playground::CEHDRPlayground>(L"Concept Engine Editor (HDR Playground)", 1920, 1080);
 		// auto playground = std::make_unique<Playground::CEEditorPlayground>(L"Concept Engine Editor (Editor Playground)", 1920, 1080);
-		auto playground = std::make_unique<Playground::CERayTracingPlayground>(L"Concept Engine Editor (Ray Tracing Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CERayTracingPlayground>(L"Concept Engine Editor (Ray Tracing Playground)", 1920, 1080);
 		returnCode = playground->Run();
 	}
 
