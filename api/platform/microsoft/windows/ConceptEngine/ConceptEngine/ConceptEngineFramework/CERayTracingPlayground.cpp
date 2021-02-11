@@ -148,8 +148,6 @@ bool CERayTracingPlayground::LoadContent() {
 
 		//Create ray-gen root-signature and association
 		D3D12_STATE_SUBOBJECT rayGenSubObject = {};
-
-		//TODO: Change to CD3DX12 library, make code cleaner!
 		{
 			D3D12_ROOT_SIGNATURE_DESC1 desc = {};
 			std::vector<D3D12_DESCRIPTOR_RANGE1> range;
@@ -280,8 +278,7 @@ bool CERayTracingPlayground::LoadContent() {
 		// Create the pipeline config
 		auto pipelineConfig = m_device->CreatePipelineConfig(2);// maxRecursionDepth - 1 TraceRay() from the ray-gen, 1 TraceRay() from the primary hit-shader
 		subobjects.push_back(pipelineConfig->operator()());
-		
-		//TODO:
+
 		// Create the global root signature and store the empty signature
 		D3D12_STATE_SUBOBJECT globalRootSignatureSubObject = {};
 		{
@@ -294,7 +291,12 @@ bool CERayTracingPlayground::LoadContent() {
 		}
 		subobjects.push_back(globalRootSignatureSubObject); // 8 Plane Hit Root Sig
 
-		//TODO: After implementing shader file create pipeline state object
+		auto rtDevice = m_device->GetDevice();
+		D3D12_STATE_OBJECT_DESC desc;
+		desc.NumSubobjects = subobjects.size(); // 16
+		desc.pSubobjects = subobjects.data();
+		desc.Type = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE;
+		// TODO: FIX RUNTIME ERROR!!
 		// Create the state
 		// m_rtPipelineState = m_device->CreateStateObject(subobjects);
 	}

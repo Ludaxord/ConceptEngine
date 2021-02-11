@@ -1,6 +1,3 @@
-[2021-02-11 15:33:59.835] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-11 15:34:00.236] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-11 15:34:00.313] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-02-11 15:34:00.437] [Concept Engine] [info] Concept Engine Playground Content Loaded
-[2021-02-11 15:34:00.464] [Concept Engine] [info] Concept Engine Window Presented
-[2021-02-11 15:34:03.942] [ConceptEngine] [info] Concept Engine Game class destroyed.
+[2021-02-11 16:02:42.238] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-11 16:02:42.703] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
+[2021-02-11 16:02:42.785] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070

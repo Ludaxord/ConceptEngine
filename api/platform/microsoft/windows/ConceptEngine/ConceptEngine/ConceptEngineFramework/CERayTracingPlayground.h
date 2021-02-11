@@ -1,6 +1,8 @@
 #pragma once
 #include <d3d12.h>
 #include <DirectXMath.h>
+#include <wrl/client.h>
+
 
 
 #include "CED3DCamera.h"
@@ -63,6 +65,7 @@ namespace Concept {
 			 * Pipeline State
 			 */
 			std::shared_ptr<GraphicsEngine::Direct3D::CEStateObject> m_rtPipelineState;
+			Microsoft::WRL::ComPtr<ID3D12StateObject> m_rtPipeline;
 
 			/*
 			 * Global Root Signatures

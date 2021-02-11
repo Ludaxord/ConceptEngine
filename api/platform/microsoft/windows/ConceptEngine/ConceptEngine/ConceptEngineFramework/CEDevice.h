@@ -198,10 +198,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		}
 
 		std::shared_ptr<CEStateObject> CreateStateObject(
-			std::vector<D3D12_STATE_SUBOBJECT> stateObjects,
+			std::vector<D3D12_STATE_SUBOBJECT>& stateObjects,
 			D3D12_STATE_OBJECT_TYPE type = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE) {
+			const auto size = stateObjects.size();
 			const D3D12_STATE_OBJECT_DESC stateStreamDesc = {
-				type, stateObjects.size(), stateObjects.data()
+				type, size, stateObjects.data()
 			};
 			return MakeStateObject(stateStreamDesc);
 		}
