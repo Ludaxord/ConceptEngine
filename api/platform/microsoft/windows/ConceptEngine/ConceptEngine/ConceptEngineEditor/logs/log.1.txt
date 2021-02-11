@@ -1,4 +1,6 @@
-[2021-02-11 13:32:09.353] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-11 13:32:09.813] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-11 13:32:09.881] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
-[2021-02-11 13:32:09.947] [ConceptEngine] [error] Cannot open file F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGERayTracingVertexShader.hlsl
+[2021-02-11 15:33:30.951] [ConceptEngine] [info] Concept Engine Game class created.
+[2021-02-11 15:33:31.345] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
+[2021-02-11 15:33:31.428] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-02-11 15:33:31.473] [ConceptEngine] [error] Cannot open file F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\CEGERayTracingVertexShader.hlsl
+[2021-02-11 15:33:31.474] [Concept Engine] [info] Concept Engine Playground Content Loaded
+[2021-02-11 15:33:31.500] [Concept Engine] [info] Concept Engine Window Presented
