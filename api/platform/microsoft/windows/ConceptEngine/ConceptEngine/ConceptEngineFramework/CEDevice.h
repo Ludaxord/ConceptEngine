@@ -2,11 +2,13 @@
 #include <d3d12.h>
 #include <memory>
 #include <string>
+#include <vector>
 #include <wrl.h>
 
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEPipelineConfig;
 	class CEShaderConfig;
 	class CEExportAssociation;
 	class CEHitGroup;
@@ -151,8 +153,15 @@ namespace Concept::GraphicsEngine::Direct3D {
 		 * @param maxAttributeSizeInBytes
 		 * @param maxPayloadSizeInBytes
 		 */
-		std::shared_ptr<CEShaderConfig> CEDevice::CreateShaderConfig(uint32_t maxAttributeSizeInBytes,
-		                                                             uint32_t maxPayloadSizeInBytes) const;;
+		std::shared_ptr<CEShaderConfig> CreateShaderConfig(uint32_t maxAttributeSizeInBytes,
+		                                                             uint32_t maxPayloadSizeInBytes) const;
+
+		/**
+		 * Create Pipeline Config
+		 *
+		 * @param maxAttributeSizeInBytes
+		 */
+		std::shared_ptr<CEPipelineConfig> CreatePipelineConfig(uint32_t maxTraceRecursionDepth) const;
 
 		/**
 		 * Create Index Buffer resource;
@@ -188,12 +197,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 			return MakePipelineStateObject(pipelineStateStreamDesc);
 		}
 
-		template <class StateObject>
 		std::shared_ptr<CEStateObject> CreateStateObject(
-			StateObject& stateObject,
+			std::vector<D3D12_STATE_SUBOBJECT> stateObjects,
 			D3D12_STATE_OBJECT_TYPE type = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE) {
 			const D3D12_STATE_OBJECT_DESC stateStreamDesc = {
-				type, sizeof(StateObject), &stateObject
+				type, stateObjects.size(), stateObjects.data()
 			};
 			return MakeStateObject(stateStreamDesc);
 		}

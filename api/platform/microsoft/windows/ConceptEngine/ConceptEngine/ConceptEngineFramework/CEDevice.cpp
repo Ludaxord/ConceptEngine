@@ -14,6 +14,7 @@
 #include "CEHelper.h"
 #include "CEHitGroup.h"
 #include "CEIndexBuffer.h"
+#include "CEPipelineConfig.h"
 #include "CEPipelineStateObject.h"
 #include "CERootSignature.h"
 #include "CEShaderConfig.h"
@@ -24,6 +25,7 @@
 #include "CETexture.h"
 #include "CEUnorderedAccessView.h"
 #include "CEVertexBuffer.h"
+
 using namespace Concept::GraphicsEngine::Direct3D;
 
 #pragma region Instances for shared pointers
@@ -123,6 +125,16 @@ public:
 	}
 
 	virtual ~CEShaderConfigInstance() {
+	};
+};
+
+class CEPipelineConfigInstance : public CEPipelineConfig {
+public:
+	CEPipelineConfigInstance(uint32_t maxTraceRecursionDepth) :
+		CEPipelineConfig(maxTraceRecursionDepth) {
+	}
+
+	virtual ~CEPipelineConfigInstance() {
 	};
 };
 
@@ -582,6 +594,11 @@ std::shared_ptr<CEShaderConfig> CEDevice::CreateShaderConfig(uint32_t maxAttribu
 	std::shared_ptr<CEShaderConfig> shaderConfig = std::make_shared<CEShaderConfigInstance>(
 		maxAttributeSizeInBytes, maxPayloadSizeInBytes);
 	return shaderConfig;
+}
+
+std::shared_ptr<CEPipelineConfig> CEDevice::CreatePipelineConfig(uint32_t maxTraceRecursionDepth) const {
+	std::shared_ptr<CEPipelineConfig> pipelineConfig = std::make_shared<CEPipelineConfigInstance>(maxTraceRecursionDepth);
+	return pipelineConfig;
 }
 
 std::shared_ptr<CERootSignature>

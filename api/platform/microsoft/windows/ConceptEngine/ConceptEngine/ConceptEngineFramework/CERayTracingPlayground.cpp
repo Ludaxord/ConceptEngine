@@ -8,6 +8,7 @@
 #include "CEExportAssociation.h"
 #include "CEGUI.h"
 #include "CEHitGroup.h"
+#include "CEPipelineConfig.h"
 #include "CERootSignature.h"
 #include "CEScene.h"
 #include "CEShaderConfig.h"
@@ -276,13 +277,24 @@ bool CERayTracingPlayground::LoadContent() {
 		auto primaryConfigAssociation = m_device->CreateExportAssociation(primaryShaderConfigExport, &primaryShaderConfigSubObject);
 		subobjects.push_back(primaryConfigAssociation->operator()());
 		
-		//TODO:
 		// Create the pipeline config
-
+		auto pipelineConfig = m_device->CreatePipelineConfig(2);// maxRecursionDepth - 1 TraceRay() from the ray-gen, 1 TraceRay() from the primary hit-shader
+		subobjects.push_back(pipelineConfig->operator()());
+		
 		//TODO:
 		// Create the global root signature and store the empty signature
+		D3D12_STATE_SUBOBJECT globalRootSignatureSubObject = {};
+		{
+			D3D12_ROOT_SIGNATURE_DESC1 desc = {};
 
-		//TODO: After implementing above objects create pipeline state object
+			m_globalRootSignature = m_device->CreateRootSignature(desc);
+
+			globalRootSignatureSubObject.pDesc = m_planeHitRootSignature->GetD3D12RootSignature().Get();
+			globalRootSignatureSubObject.Type = D3D12_STATE_SUBOBJECT_TYPE_GLOBAL_ROOT_SIGNATURE;
+		}
+		subobjects.push_back(globalRootSignatureSubObject); // 8 Plane Hit Root Sig
+
+		//TODO: After implementing shader file create pipeline state object
 		// Create the state
 		// m_rtPipelineState = m_device->CreateStateObject(subobjects);
 	}
