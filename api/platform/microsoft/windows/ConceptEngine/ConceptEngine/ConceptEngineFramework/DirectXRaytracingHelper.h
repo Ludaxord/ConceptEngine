@@ -286,7 +286,10 @@ inline void PrintStateObjectDesc(const D3D12_STATE_OBJECT_DESC* desc)
         wstr << L"|--------------------------------------------------------------------\n";
     }
     wstr << L"\n";
-    OutputDebugStringW(wstr.str().c_str());
+    // OutputDebugStringW(wstr.str().c_str());
+    auto ws = wstr.str();
+    std::string s(ws.begin(), ws.end());
+    spdlog::info(s.c_str());
 }
 
 // Returns bool whether the device supports DirectX Raytracing tier.

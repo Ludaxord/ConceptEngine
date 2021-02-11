@@ -9,7 +9,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	//TODO: temporary, create separate class for acceleration structure buffers
-	struct AccelerationStructureBuffers {
+	struct CEAccelerationStructureBuffers {
 		wrl::ComPtr<ID3D12Resource> pScratch;
 		wrl::ComPtr<ID3D12Resource> pResult;
 		wrl::ComPtr<ID3D12Resource> pInstanceDesc;
@@ -41,11 +41,11 @@ namespace Concept::GraphicsEngine::Direct3D {
 		void SetIndexBuffer(const std::shared_ptr<CEIndexBuffer>& indexBuffer);
 		std::shared_ptr<CEIndexBuffer> GetIndexBuffer();
 
-		void SetBLASBuffer(AccelerationStructureBuffers buffers);
-		AccelerationStructureBuffers GetBLASBuffer() const;
+		void SetBLASBuffer(CEAccelerationStructureBuffers buffers);
+		CEAccelerationStructureBuffers GetBLASBuffer() const;
 
-		void SetTLASBuffer(AccelerationStructureBuffers buffers);
-		AccelerationStructureBuffers GetTLASBuffer() const;
+		void SetTLASBuffer(CEAccelerationStructureBuffers buffers);
+		CEAccelerationStructureBuffers GetTLASBuffer() const;
 		
 		/**
 		 * Get number if indices are in index buffer
@@ -88,7 +88,7 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEMaterial> m_material;
 		D3D12_PRIMITIVE_TOPOLOGY m_primitiveTopology;
 		DirectX::BoundingBox m_AABB;
-		AccelerationStructureBuffers m_BLASBuffers;
-		AccelerationStructureBuffers m_TLASBuffers;
+		CEAccelerationStructureBuffers m_BLASBuffers;
+		CEAccelerationStructureBuffers m_TLASBuffers;
 	};
 }

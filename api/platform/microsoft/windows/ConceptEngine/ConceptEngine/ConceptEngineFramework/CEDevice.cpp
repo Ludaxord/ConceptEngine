@@ -358,9 +358,6 @@ CEDevice::CEDevice(std::shared_ptr<CEAdapter> adapter): m_adapter(adapter) {
 		pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
 		pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 
-		// Suppress whole categories of messages
-		// D3D12_MESSAGE_CATEGORY Categories[] = {};
-
 		// Suppress messages based on their severity level
 		D3D12_MESSAGE_SEVERITY Severities[] = {D3D12_MESSAGE_SEVERITY_INFO};
 

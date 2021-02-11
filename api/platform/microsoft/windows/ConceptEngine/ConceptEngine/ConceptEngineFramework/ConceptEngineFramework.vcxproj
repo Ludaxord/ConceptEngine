@@ -121,6 +121,7 @@
     <ClInclude Include="ImGUI_VS.h" />
     <ClInclude Include="optional.hpp" />
     <ClInclude Include="PanoToCubemap_CS.h" />
+    <ClInclude Include="RayTracedHelpers.h" />
     <ClInclude Include="Raytracing.hlsl.h" />
     <ClInclude Include="RayTracingHlslCompat.h" />
     <ClInclude Include="CERayTracingPlayground.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="CEWindowMessage.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />
     <ClCompile Include="CEImGUI.cpp" />
+    <ClCompile Include="RayTracedHelpers.cpp" />
     <ClCompile Include="ReadDirectoryChanges.cpp" />
     <ClCompile Include="ReadDirectoryChangesPrivate.cpp" />
   </ItemGroup>
@@ -438,7 +440,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -484,7 +486,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(VULKAN_SDK)\Lib32;$(VULKAN_SDK)\Lib;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\bin\Release;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\lib-vc2019;F:\Projects\Packages\dxc-artifacts\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;F:\Projects\Packages\dxc-artifacts\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(VULKAN_SDK)\Include;F:\Projects\Packages\glew-2.1.0-win32\glew-2.1.0\include;F:\Projects\Packages\glfw-3.3.2.bin.WIN64\glfw-3.3.2.bin.WIN64\include;F:\Projects\Packages\dxc-artifacts\include;$(WindowsSDK_IncludePath);$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

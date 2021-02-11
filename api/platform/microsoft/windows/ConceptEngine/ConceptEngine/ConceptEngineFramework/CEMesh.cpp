@@ -38,19 +38,19 @@ std::shared_ptr<CEIndexBuffer> CEMesh::GetIndexBuffer() {
 	return m_indexBuffer;
 }
 
-void CEMesh::SetBLASBuffer(AccelerationStructureBuffers buffers) {
+void CEMesh::SetBLASBuffer(CEAccelerationStructureBuffers buffers) {
 	m_BLASBuffers = buffers;
 }
 
-AccelerationStructureBuffers CEMesh::GetBLASBuffer() const {
+CEAccelerationStructureBuffers CEMesh::GetBLASBuffer() const {
 	return m_BLASBuffers;
 }
 
-void CEMesh::SetTLASBuffer(AccelerationStructureBuffers buffers) {
+void CEMesh::SetTLASBuffer(CEAccelerationStructureBuffers buffers) {
 	m_TLASBuffers = buffers;
 }
 
-AccelerationStructureBuffers CEMesh::GetTLASBuffer() const {
+CEAccelerationStructureBuffers CEMesh::GetTLASBuffer() const {
 	return m_TLASBuffers;
 }
 

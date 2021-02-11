@@ -17,6 +17,8 @@
 #include <wrl/wrappers/corewrappers.h>
 
 
+
+#include "CEHelper.h"
 #include "d3dx12.h"
 
 // Note that while ComPtr is used to manage the lifetime of resources on the CPU,
@@ -42,23 +44,6 @@ private:
 
 #define SAFE_RELEASE(p) if (p) (p)->Release()
 
-inline void ThrowIfFailed(HRESULT hr)
-{
-    if (FAILED(hr))
-    {
-        throw HrException(hr);
-    }
-}
-
-inline void ThrowIfFailed(HRESULT hr, const wchar_t* msg)
-{
-    if (FAILED(hr))
-    {
-        OutputDebugString(msg);
-        throw HrException(hr);
-    }
-}
-
 inline void ThrowIfFalse(bool value)
 {
     ThrowIfFailed(value ? S_OK : E_FAIL);
@@ -66,7 +51,7 @@ inline void ThrowIfFalse(bool value)
 
 inline void ThrowIfFalse(bool value, const wchar_t* msg)
 {
-    ThrowIfFailed(value ? S_OK : E_FAIL, msg);
+    ThrowIfFailed(value ? S_OK : E_FAIL);
 }
 
 

@@ -501,6 +501,9 @@
     <ClInclude Include="CEPipelineConfig.h">
       <Filter>GraphicsEngine\DirectX\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="RayTracedHelpers.h">
+      <Filter>GraphicsEngine\DirectX\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp">
@@ -720,6 +723,9 @@
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
     <ClCompile Include="CEPipelineConfig.cpp">
+      <Filter>GraphicsEngine\DirectX\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="RayTracedHelpers.cpp">
       <Filter>GraphicsEngine\DirectX\Source</Filter>
     </ClCompile>
   </ItemGroup>

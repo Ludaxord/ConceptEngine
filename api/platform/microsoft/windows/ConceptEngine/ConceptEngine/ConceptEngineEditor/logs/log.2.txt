@@ -1,3 +1,1 @@
-[2021-02-11 16:02:01.935] [ConceptEngine] [info] Concept Engine Game class created.
-[2021-02-11 16:02:02.422] [ConceptEngine] [info] Device with Feature Level: 12.1 Created
-[2021-02-11 16:02:02.497] [Concept Engine] [info] Device Created: NVIDIA GeForce RTX 3070
+[2021-02-11 20:08:54.401] [ConceptEngine] [info] Concept Engine Game class created.

@@ -1198,7 +1198,7 @@ void CECommandList::CreateAccelerationStructures(std::shared_ptr<CEScene>& scene
 	}
 }
 
-AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
+CEAccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh) {
 	auto rtxDevice = m_device.GetDevice();
 	wrl::ComPtr<ID3D12GraphicsCommandList5> rtxCommandList;
 	std::shared_ptr<CECommandList> commandList;
@@ -1290,14 +1290,14 @@ AccelerationStructureBuffers CECommandList::CreateBottomLevelAccelerationStructu
 		UAVBarrier(pResult, true);
 	}
 
-	AccelerationStructureBuffers ACBuffer = {pScratch, pResult};
+	CEAccelerationStructureBuffers ACBuffer = {pScratch, pResult};
 	return ACBuffer;
 }
 
 void CECommandList::CreateTopLevelAccelerationStructure(float rotation,
                                                         bool update,
-                                                        AccelerationStructureBuffers& buffer,
-                                                        AccelerationStructureBuffers bottomLvlBuffers,
+                                                        CEAccelerationStructureBuffers& buffer,
+                                                        CEAccelerationStructureBuffers bottomLvlBuffers,
                                                         bool flush) {
 	auto rtxDevice = m_device.GetDevice();
 	wrl::ComPtr<ID3D12GraphicsCommandList5> rtxCommandList;

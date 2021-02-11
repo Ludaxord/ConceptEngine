@@ -57,7 +57,7 @@ inline DirectX::BoundingBox CreateBoundingBox(const aiAABB& aabb) {
 bool CEScene::LoadAccelerationStructures(CECommandList& commandList) {
 	for (auto mesh : m_meshList) {
 		auto bottomLevelAS = commandList.CreateBottomLevelAccelerationStructure(mesh);
-		AccelerationStructureBuffers topLevelAS = {};
+		CEAccelerationStructureBuffers topLevelAS = {};
 		commandList.CreateTopLevelAccelerationStructure(0.0f, false, topLevelAS, bottomLevelAS, true);
 		mesh->SetBLASBuffer(bottomLevelAS);
 		mesh->SetTLASBuffer(topLevelAS);

@@ -117,9 +117,9 @@ void CERootSignature::SetRootSignatureDesc(const D3D12_ROOT_SIGNATURE_DESC1& roo
 	                                                    &rootSignatureBlob, &errorBlob));
 
 	auto d3d12Device = m_device.GetDevice();
-
+	
 	// Create the root signature.
-	ThrowIfFailed(d3d12Device->CreateRootSignature(0, rootSignatureBlob->GetBufferPointer(),
+	ThrowIfFailed(d3d12Device->CreateRootSignature(/*0*/ 1, rootSignatureBlob->GetBufferPointer(),
 	                                               rootSignatureBlob->GetBufferSize(),
 	                                               IID_PPV_ARGS(&m_rootSignature)));
 }

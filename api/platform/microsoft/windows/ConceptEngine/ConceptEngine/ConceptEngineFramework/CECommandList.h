@@ -189,18 +189,6 @@ namespace Concept::GraphicsEngine::Direct3D {
 		}
 
 		/**
-		 * TODO: Implement
-		 * Copy the contents to a byte address buffer in GPU memory.
-		 */
-		std::shared_ptr<CEAccelerationStructuredBuffer> CopyAccelerationStructuredBuffer(
-			size_t bufferSize, const void* bufferData);
-
-		template <typename T>
-		std::shared_ptr<CEAccelerationStructuredBuffer> CopyAccelerationStructuredBuffer(const std::vector<T>& data) {
-			return CopyAccelerationStructuredBuffer(sizeof(T), data.data());
-		}
-
-		/**
 		 * Copy the contents to a structured buffer in GPU memory.
 		 */
 		std::shared_ptr<CEStructuredBuffer> CopyStructuredBuffer(size_t numElements, size_t elementSize,
@@ -315,13 +303,13 @@ namespace Concept::GraphicsEngine::Direct3D {
 		/*
 		 * Create Bottom Level Acceleration Structure
 		 */
-		AccelerationStructureBuffers CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
+		CEAccelerationStructureBuffers CreateBottomLevelAccelerationStructure(std::shared_ptr<CEMesh> mesh);
 
 		/*
 		 * Create Top Level AccelerationStructure
 		 */
-		void CreateTopLevelAccelerationStructure(float rotation, bool update, AccelerationStructureBuffers& buffer,
-		                                         AccelerationStructureBuffers bottomLvlBuffers,
+		void CreateTopLevelAccelerationStructure(float rotation, bool update, CEAccelerationStructureBuffers& buffer,
+		                                         CEAccelerationStructureBuffers bottomLvlBuffers,
 		                                         bool flush = false);
 
 		/**
