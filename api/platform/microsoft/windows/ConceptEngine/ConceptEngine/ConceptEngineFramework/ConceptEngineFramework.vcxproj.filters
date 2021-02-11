@@ -805,9 +805,6 @@
     <FxCompile Include="CEGEHDRUnlitPixelShader.hlsl">
       <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="CEGERayTracingVertexShader.hlsl">
-      <Filter>GraphicsEngine\DirectX\Elements\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders.hlsl">

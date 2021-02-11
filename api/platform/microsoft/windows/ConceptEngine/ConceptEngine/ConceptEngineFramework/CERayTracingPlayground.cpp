@@ -83,9 +83,7 @@ bool CERayTracingPlayground::LoadContent() {
 	auto commandList = commandQueue.GetCommandList();
 
 	m_cube = commandList->CreateCube();
-
-	commandList->CreateAccelerationStructures(m_cube);
-
+	
 	commandQueue.ExecuteCommandList(commandList);
 
 	commandQueue.Flush();
