@@ -10,6 +10,7 @@
 #include "CEHitGroup.h"
 #include "CERootSignature.h"
 #include "CEScene.h"
+#include "CEShaderConfig.h"
 #include "CESwapChain.h"
 #include "CETools.h"
 #include "d3dx12.h"
@@ -266,9 +267,15 @@ bool CERayTracingPlayground::LoadContent() {
 		subobjects.push_back(emptyRootAssociation->operator()());
 		// 11 Associate empty root sig to Plane Hit Group and Miss shader
 
-		// TODO:
 		// Bind the payload size to all programs
+		auto primaryShaderConfig = m_device->CreateShaderConfig(sizeof(float) * 2, sizeof(float) * 3);
+		auto primaryShaderConfigSubObject = primaryShaderConfig->operator()();
+		subobjects.push_back(primaryShaderConfigSubObject); // 12
 
+		const WCHAR* primaryShaderConfigExport[] = { kRayGen, kMiss, kTriangleChs, kPlaneChs, kShadowMiss, kShadowChs };
+		auto primaryConfigAssociation = m_device->CreateExportAssociation(primaryShaderConfigExport, &primaryShaderConfigSubObject);
+		subobjects.push_back(primaryConfigAssociation->operator()());
+		
 		//TODO:
 		// Create the pipeline config
 
@@ -278,7 +285,6 @@ bool CERayTracingPlayground::LoadContent() {
 		//TODO: After implementing above objects create pipeline state object
 		// Create the state
 		// m_rtPipelineState = m_device->CreateStateObject(subobjects);
-		
 	}
 
 	commandQueue.Flush();

@@ -16,6 +16,7 @@
 #include "CEIndexBuffer.h"
 #include "CEPipelineStateObject.h"
 #include "CERootSignature.h"
+#include "CEShaderConfig.h"
 #include "CEShaderResourceView.h"
 #include "CEStateObject.h"
 #include "CEStructuredBuffer.h"
@@ -112,6 +113,16 @@ public:
 	}
 
 	virtual ~CEExportAssociationInstance() {
+	};
+};
+
+class CEShaderConfigInstance : public CEShaderConfig {
+public:
+	CEShaderConfigInstance(uint32_t maxAttributeSizeInBytes, uint32_t maxPayloadSizeInBytes) :
+		CEShaderConfig(maxAttributeSizeInBytes, maxPayloadSizeInBytes) {
+	}
+
+	virtual ~CEShaderConfigInstance() {
 	};
 };
 
@@ -564,6 +575,13 @@ std::shared_ptr<CEExportAssociation> CEDevice::CreateExportAssociation(const WCH
 	std::shared_ptr<CEExportAssociation> exportAssociation = std::make_shared<CEExportAssociationInstance>(
 		exportNames, pSubObjectToAssociate);
 	return exportAssociation;
+}
+
+std::shared_ptr<CEShaderConfig> CEDevice::CreateShaderConfig(uint32_t maxAttributeSizeInBytes,
+                                                             uint32_t maxPayloadSizeInBytes) const {
+	std::shared_ptr<CEShaderConfig> shaderConfig = std::make_shared<CEShaderConfigInstance>(
+		maxAttributeSizeInBytes, maxPayloadSizeInBytes);
+	return shaderConfig;
 }
 
 std::shared_ptr<CERootSignature>

@@ -7,6 +7,7 @@
 #include "CEDescriptorAllocation.h"
 
 namespace Concept::GraphicsEngine::Direct3D {
+	class CEShaderConfig;
 	class CEExportAssociation;
 	class CEHitGroup;
 	class CEDXIlLibrary;
@@ -143,6 +144,15 @@ namespace Concept::GraphicsEngine::Direct3D {
 		std::shared_ptr<CEExportAssociation> CreateExportAssociation(const WCHAR* exportNames[],
 		                                                             const D3D12_STATE_SUBOBJECT* pSubObjectToAssociate)
 		const;
+
+		/**
+		 * Create Shader Config
+		 *
+		 * @param maxAttributeSizeInBytes
+		 * @param maxPayloadSizeInBytes
+		 */
+		std::shared_ptr<CEShaderConfig> CEDevice::CreateShaderConfig(uint32_t maxAttributeSizeInBytes,
+		                                                             uint32_t maxPayloadSizeInBytes) const;;
 
 		/**
 		 * Create Index Buffer resource;
