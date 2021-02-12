@@ -148,9 +148,50 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioEngine\Shared\CEAudio.h" />
     <ClInclude Include="Engine\Shared\ConceptEngine.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Objects\Cameras\CEDXCamera.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Objects\Lighting\CEDXLight.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Objects\Visitors\CEDXSceneVisitor.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEAdapter.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEByteAddressBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CECommandList.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CECommandQueue.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEConstantBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEConstantBufferView.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDescriptorAllocation.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDescriptorAllocator.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDescriptorAllocatorPage.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDevice.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDX12Lib.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDynamicDescriptorHeap.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEGenerateMipsPSO.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEGUI.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEIndexBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEMaterial.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEMesh.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEPanoramicToCubemapPSO.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEPipelineStateObject.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CERenderTarget.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEResource.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEResourceStateTracker.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CERootSignature.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEScene.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CESceneNode.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEShaderResourceView.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEStructuredBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CESwapChain.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CETexture.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEThreadSafeQueue.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEUnorderedAccessView.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEUploadBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexBuffer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexTypes.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVisitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioEngine\Shared\CEAudio.cpp" />
     <ClCompile Include="Engine\Shared\ConceptEngine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
