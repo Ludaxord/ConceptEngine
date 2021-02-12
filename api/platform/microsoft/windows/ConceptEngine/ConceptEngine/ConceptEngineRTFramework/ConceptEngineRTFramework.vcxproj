@@ -150,6 +150,8 @@
   <ItemGroup>
     <ClInclude Include="AudioEngine\Shared\CEAudio.h" />
     <ClInclude Include="Engine\Shared\ConceptEngine.h" />
+    <ClInclude Include="GameEngine\Shared\CEGame.h" />
+    <ClInclude Include="GameEngine\Shared\CEGameTimer.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Cameras\CEDXCamera.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Lighting\CEDXLight.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Visitors\CEDXSceneVisitor.h" />
@@ -189,10 +191,13 @@
     <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexBuffer.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexTypes.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVisitor.h" />
+    <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioEngine\Shared\CEAudio.cpp" />
     <ClCompile Include="Engine\Shared\ConceptEngine.cpp" />
+    <ClCompile Include="Libs\ReadDirectoryChanges\ReadDirectoryChanges.cpp" />
+    <ClCompile Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

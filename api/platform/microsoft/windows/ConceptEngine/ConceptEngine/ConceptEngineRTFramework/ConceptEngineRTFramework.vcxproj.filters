@@ -138,12 +138,27 @@
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Visitors\CEDXSceneVisitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngine\Shared\CEGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine\Shared\CEGameTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Shared\ConceptEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioEngine\Shared\CEAudio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\ReadDirectoryChanges\ReadDirectoryChanges.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
