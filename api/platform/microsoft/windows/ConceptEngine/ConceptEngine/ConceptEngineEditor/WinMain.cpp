@@ -10,8 +10,6 @@
 using namespace Concept;
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-
 	ConceptEngine engine = ConceptEngine(hInstance);
 	return engine.Run();
-	return 0;
 }

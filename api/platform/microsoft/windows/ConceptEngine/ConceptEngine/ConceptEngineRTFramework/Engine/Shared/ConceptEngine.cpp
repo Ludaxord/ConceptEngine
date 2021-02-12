@@ -3,16 +3,24 @@
 using namespace Concept;
 
 ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
-	
-}
-
-ConceptEngine::~ConceptEngine() {
+// #if defined(_DEBUG)
+// 	CEDevice::EnableDebugLayer();
+// #endif
+// 	CEGame::Create(hInstance);
 }
 
 int ConceptEngine::Run() {
-	return 0;
-}
+	int returnCode = 0;
+	{
+		// auto playground = std::make_unique<Playground::CECubePlayground>(L"ConceptFramework Engine Editor (Cube Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEBasicLightingPlayground>(L"ConceptFramework Engine Editor (Basic Lighting Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEHDRPlayground>(L"ConceptFramework Engine Editor (HDR Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEEditorPlayground>(L"ConceptFramework Engine Editor (Editor Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CERayTracingPlayground>(L"ConceptFramework Engine Editor (Ray Tracing Playground)", 1920, 1080);
+		// returnCode = playground->Run();
+	}
+	// CEGame::Destroy();
+	// atexit(&CEDevice::ReportLiveObjects);
 
-int ConceptEngine::RunEngine() {
-	return 0;
+	return returnCode;
 }
