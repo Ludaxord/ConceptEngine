@@ -247,7 +247,7 @@ namespace ConceptFramework::GraphicsEngine::Direct3D {
 
 		/**
 		 * Get Command Queue
-		 * Command Queue Types:
+		 * Command Queue CETypes:
 		 * - D3D12_COMMAND_LIST_TYPE_DIRECT: Can be used to draw, dispatch or copy commands;
 		 * - D3D12_COMMAND_LIST_TYPE_COMPUTE: Can be used to dispatch or copy commands;
 		 * - D3D12_COMMAND_LIST_TYPE_COPY: Can be used to copy commands;

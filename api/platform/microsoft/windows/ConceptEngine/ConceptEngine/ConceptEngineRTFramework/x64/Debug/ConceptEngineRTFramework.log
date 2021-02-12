@@ -1,4 +1,25 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+cl : command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
+  ReadDirectoryChangesPrivate.cpp
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
   ReadDirectoryChanges.cpp
 C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
           with
@@ -19,4 +40,87 @@ C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(35
           ]
 C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
 C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEDevice.cpp
+  CEWindow.cpp
+  CEGame.cpp
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=wchar_t *
+          ]
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineRTFramework\GameEngine\Shared\CEGame.cpp(364): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\ConceptEngineRTFramework\GameEngine\Shared\CEGame.cpp(364): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ]
+  ConceptEngine.cpp
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEAudio.cpp
+  Generating Code...
   ConceptEngineRTFramework.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineRTFramework.lib

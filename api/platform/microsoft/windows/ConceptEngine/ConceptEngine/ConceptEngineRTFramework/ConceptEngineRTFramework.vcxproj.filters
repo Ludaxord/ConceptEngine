@@ -21,114 +21,6 @@
     <ClInclude Include="AudioEngine\Shared\CEAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEAdapter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEByteAddressBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CECommandList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CECommandQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEConstantBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEConstantBufferView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDescriptorAllocation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDescriptorAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDescriptorAllocatorPage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDX12Lib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEDynamicDescriptorHeap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEGenerateMipsPSO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEIndexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEPanoramicToCubemapPSO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEPipelineStateObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CERenderTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEResourceStateTracker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CERootSignature.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CESceneNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEShaderResourceView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEStructuredBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CESwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CETexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEThreadSafeQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEUnorderedAccessView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEUploadBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVisitor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Cameras\CEDXCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -139,9 +31,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine\Shared\CEGame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngine\Shared\CEGameTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.h">
@@ -159,6 +48,141 @@
     <ClInclude Include="GraphicsEngine\DirectX\Libs\d3dx12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngine\Shared\CEWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CEAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEByteAddressBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CECommandList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CECommandQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEConstantBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Headers\CEDX12Lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CEDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Descriptors\CEDynamicDescriptorHeap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Descriptors\CEDescriptorAllocatorPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Descriptors\CEDescriptorAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Descriptors\CEDescriptorAllocation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\Rendering\CEGenerateMipsPSO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\SubObjects\CEGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEIndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\SubObjects\CEMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\SubObjects\CEMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\Rendering\CEPanoramicToCubemapPSO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CEPipelineStateObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CERenderTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CERootSignature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\CEScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\SubObjects\CESceneNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Views\CEShaderResourceView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEStructuredBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Direct3D\CESwapChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\SubObjects\CETexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Views\CEUnorderedAccessView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEUploadBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Buffers\CEVertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Scene\SubObjects\CEResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Managers\CEResourceStateTracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Managers\CEThreadSafeQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine\Shared\Actions\CEEvents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine\Shared\Actions\CEKeyCodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine\Shared\Actions\CEGameTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine\Shared\Playgrounds\CEPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Objects\Visitors\CEVisitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\Views\CEConstantBufferView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Renderer\CETypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsEngine\Shared\CEPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\Headers\signals.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Graphics\DirectX\CEHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\Headers\optional.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Shared\ConceptEngine.cpp">
@@ -171,6 +195,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine\Shared\CEGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine\Shared\CEWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsEngine\DirectX\Renderer\Direct3D\CEDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

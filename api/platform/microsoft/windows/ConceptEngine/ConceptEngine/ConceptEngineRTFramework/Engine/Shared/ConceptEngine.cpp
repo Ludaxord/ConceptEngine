@@ -1,12 +1,17 @@
 #include "ConceptEngine.h"
 
+#include "../../GameEngine/Shared/CEGame.h"
+#include "../../GraphicsEngine/DirectX/Renderer/Direct3D/CEDevice.h"
+
 using namespace Concept::Engine;
+using namespace Concept::GameEngine;
+using namespace Concept::GraphicsEngine::DirectX::Renderer::Direct3D;
 
 ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
-// #if defined(_DEBUG)
-// 	CEDevice::EnableDebugLayer();
-// #endif
-// 	CEGame::Create(hInstance);
+#if defined(_DEBUG)
+	CEDevice::EnableDebugLayer();
+#endif
+	CEGame::Create(hInstance);
 }
 
 int ConceptEngine::Run() {

@@ -169,8 +169,14 @@
     <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
+      <Project>{d91c74fd-b6a3-4604-819a-6bbd97737979}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ConceptEngineRTFramework\ConceptEngineRTFramework.vcxproj">
       <Project>{2f6891e7-77cc-431b-8acd-8e7bd675504b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ConceptTutorial\ConceptTutorial.vcxproj">
+      <Project>{dc15a2cc-4553-41c9-bc39-77fd01981e59}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
