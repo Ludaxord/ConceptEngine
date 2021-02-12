@@ -1,3 +1,22 @@
 ﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
-  ConceptEngine.cpp
+  ReadDirectoryChanges.cpp
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
   ConceptEngineRTFramework.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineRTFramework.lib

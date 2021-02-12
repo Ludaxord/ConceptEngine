@@ -3,7 +3,7 @@
 #include <memory>
 
 
-namespace Concept {
+namespace Concept::Engine {
 	class ConceptEngine {
 	public:
 		ConceptEngine(HINSTANCE hInstance);

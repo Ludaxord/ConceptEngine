@@ -1,13 +1,8 @@
-// #include "../ConceptEngineFramework/CETools.h"
-// #include "../ConceptEngineFramework/ConceptEngine.h"
-//
-// using namespace ConceptFramework;
-
 #include "../ConceptEngineRTFramework/Engine/Shared/ConceptEngine.h"
 
 #include <Windows.h>
 
-using namespace Concept;
+using namespace Concept::Engine;
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	ConceptEngine engine = ConceptEngine(hInstance);

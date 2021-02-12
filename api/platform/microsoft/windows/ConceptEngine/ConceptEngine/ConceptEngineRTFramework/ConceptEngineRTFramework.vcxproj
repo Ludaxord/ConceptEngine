@@ -152,6 +152,7 @@
     <ClInclude Include="Engine\Shared\ConceptEngine.h" />
     <ClInclude Include="GameEngine\Shared\CEGame.h" />
     <ClInclude Include="GameEngine\Shared\CEGameTimer.h" />
+    <ClInclude Include="GraphicsEngine\DirectX\Libs\d3dx12.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Cameras\CEDXCamera.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Lighting\CEDXLight.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Objects\Visitors\CEDXSceneVisitor.h" />
@@ -191,6 +192,9 @@
     <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexBuffer.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVertexTypes.h" />
     <ClInclude Include="GraphicsEngine\DirectX\Renderer\CEVisitor.h" />
+    <ClInclude Include="Libs\Headers\CEWinLib.h" />
+    <ClInclude Include="Libs\ReadDirectoryChanges\CThreadSafeQueue.h" />
+    <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChanges.h" />
     <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.h" />
   </ItemGroup>
   <ItemGroup>

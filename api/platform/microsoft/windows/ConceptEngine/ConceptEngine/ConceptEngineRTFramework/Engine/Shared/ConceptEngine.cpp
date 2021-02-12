@@ -1,6 +1,6 @@
 #include "ConceptEngine.h"
 
-using namespace Concept;
+using namespace Concept::Engine;
 
 ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
 // #if defined(_DEBUG)

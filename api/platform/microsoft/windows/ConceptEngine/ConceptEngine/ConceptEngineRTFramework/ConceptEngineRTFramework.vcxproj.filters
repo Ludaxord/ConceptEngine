@@ -147,6 +147,18 @@
     <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChangesPrivate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libs\Headers\CEWinLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\ReadDirectoryChanges\ReadDirectoryChanges.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libs\ReadDirectoryChanges\CThreadSafeQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsEngine\DirectX\Libs\d3dx12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Shared\ConceptEngine.cpp">
