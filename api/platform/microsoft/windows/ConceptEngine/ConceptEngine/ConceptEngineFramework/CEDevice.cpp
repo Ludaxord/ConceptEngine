@@ -26,7 +26,7 @@
 #include "CEUnorderedAccessView.h"
 #include "CEVertexBuffer.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 #pragma region Instances for shared pointers
 class CEDeviceInstance : public CEDevice {

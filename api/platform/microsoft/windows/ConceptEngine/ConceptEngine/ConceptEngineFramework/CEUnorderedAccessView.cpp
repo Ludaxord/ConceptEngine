@@ -4,7 +4,7 @@
 
 #include "CEDevice.h"
 #include "CEResource.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEUnorderedAccessView::CEUnorderedAccessView(CEDevice& device, const std::shared_ptr<CEResource>& resource,
                                              const std::shared_ptr<CEResource>& counterResource,

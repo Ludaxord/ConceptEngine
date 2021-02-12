@@ -4,7 +4,7 @@
 #include "CEPlayground.h"
 #include "CERenderTarget.h"
 
-namespace Concept {
+namespace ConceptFramework {
 	namespace GraphicsEngine::Direct3D {
 		class CECommandList;
 		class CEPipelineStateObject;

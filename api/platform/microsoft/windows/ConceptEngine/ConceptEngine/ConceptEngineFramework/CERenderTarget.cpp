@@ -1,7 +1,7 @@
 #include "CERenderTarget.h"
 
 #include "CETexture.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CERenderTarget::CERenderTarget()
 	: m_textures(AttachmentPoint::NumAttachmentPoints)

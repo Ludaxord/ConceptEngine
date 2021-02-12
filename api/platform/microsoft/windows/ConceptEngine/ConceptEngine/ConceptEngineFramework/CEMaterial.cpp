@@ -1,5 +1,5 @@
 #include "CEMaterial.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 // Material properties must be 16-byte aligned.
 // In order to ensure alignment, the matierial properties is allocated in aligned memory.

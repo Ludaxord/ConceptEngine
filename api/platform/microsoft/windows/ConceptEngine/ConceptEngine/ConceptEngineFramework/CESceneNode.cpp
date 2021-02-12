@@ -3,7 +3,7 @@
 
 #include "CEMesh.h"
 #include "CEVisitor.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CESceneNode::CESceneNode(const DirectX::XMMATRIX& localTransform)
 	: m_name("SceneNode")

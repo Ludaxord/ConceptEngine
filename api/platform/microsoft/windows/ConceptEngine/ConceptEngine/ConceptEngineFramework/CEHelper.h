@@ -9,7 +9,7 @@
 #include <Windows.h> // For HRESULT
 #include "ConceptEngine.h"
 
-using namespace Concept;
+using namespace ConceptFramework;
 
 #define arraysize(a) (sizeof(a)/sizeof(a[0]))
 

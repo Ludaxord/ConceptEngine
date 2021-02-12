@@ -2,7 +2,7 @@
 #include <utility>
 #include <vector>
 
-namespace Concept::GraphicsEngine {
+namespace ConceptFramework::GraphicsEngine {
 
 	struct CEVertexPosColor {
 		struct VertexPosition {

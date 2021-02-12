@@ -4,7 +4,7 @@
 
 #include "CEDevice.h"
 #include "CEHelper.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 D3D12_SHADER_BYTECODE CEPipelineStateObject::CompileShaderFileToByteCode(std::wstring shaderPath) {
 	wrl::ComPtr<ID3DBlob> shader;

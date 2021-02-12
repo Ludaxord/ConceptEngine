@@ -1,5 +1,5 @@
 #include "CEVertexTypes.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 // clang-format off
 const D3D12_INPUT_ELEMENT_DESC CEVertexPosition::InputElements[] = {

@@ -4,7 +4,7 @@
 
 #include "CEBuffer.h"
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	namespace wrl = Microsoft::WRL;
 
 	class CEIndexBuffer : public CEBuffer {

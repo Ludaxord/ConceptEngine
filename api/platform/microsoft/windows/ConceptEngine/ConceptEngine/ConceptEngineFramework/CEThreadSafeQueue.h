@@ -2,7 +2,7 @@
 #include <queue>
 #include <wrl.h>
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 	template <typename T>
 	class CEThreadSafeQueue {
 	public:

@@ -8,7 +8,7 @@
 #include "CEHelper.h"
 #include "CEResourceStateTracker.h"
 #include "CETexture.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CESwapChain::CESwapChain(CEDevice& device, HWND hWnd, DXGI_FORMAT renderTargetFormat)
 	: m_device(device)

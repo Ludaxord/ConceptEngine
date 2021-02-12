@@ -7,7 +7,7 @@
 #include "CERenderTarget.h"
 #include "CEShaderResourceView.h"
 
-namespace Concept {
+namespace ConceptFramework {
 	namespace GraphicsEngine::Direct3D {
 
 		class CECommandList;

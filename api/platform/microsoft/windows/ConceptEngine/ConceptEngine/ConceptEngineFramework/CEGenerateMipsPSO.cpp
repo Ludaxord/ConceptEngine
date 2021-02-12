@@ -11,7 +11,7 @@
  */
 #include "CEGenerateMips_CS.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEGenerateMipsPSO::CEGenerateMipsPSO(CEDevice& device) {
 	auto d3d12Device = device.GetDevice();

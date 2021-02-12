@@ -23,7 +23,7 @@ static const wchar_t* c_intersectionShaderNames[IntersectionShaderType::Count];
 static const wchar_t* c_closestHitShaderNames[GeometryType::Count];
 static const wchar_t* c_missShaderNames[RayType::Count];
 
-namespace Concept {
+namespace ConceptFramework {
 	namespace GraphicsEngine::Direct3D {
 		class CEIndexBuffer;
 		class CEVertexBuffer;

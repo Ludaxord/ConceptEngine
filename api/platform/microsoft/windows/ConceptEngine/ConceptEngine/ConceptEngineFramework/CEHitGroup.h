@@ -6,7 +6,7 @@
 
 #include "CESubObject.h"
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEDevice;
 
 	class CEHitGroup: public CESubObject {

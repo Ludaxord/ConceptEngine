@@ -5,7 +5,7 @@
 #include <memory>
 #include <wrl.h>
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEDevice;
 	namespace wrl = Microsoft::WRL;
 

@@ -19,8 +19,8 @@
 #include "CETools.h"
 #include "d3dx12.h"
 
-using namespace Concept::GameEngine::Playground;
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GameEngine::Playground;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 using namespace DirectX;
 
 /*

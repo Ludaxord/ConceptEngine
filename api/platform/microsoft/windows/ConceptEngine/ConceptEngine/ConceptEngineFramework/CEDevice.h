@@ -7,7 +7,7 @@
 
 #include "CEDescriptorAllocation.h"
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEPipelineConfig;
 	class CEShaderConfig;
 	class CEExportAssociation;

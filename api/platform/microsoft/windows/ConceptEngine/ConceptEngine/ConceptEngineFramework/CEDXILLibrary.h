@@ -12,7 +12,7 @@
 #include "CESubObject.h"
 static dxc::DxcDllSupport gDxcDllHelper;
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEDevice;
 
 	class CEDXIlLibrary : public CESubObject {

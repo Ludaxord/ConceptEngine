@@ -3,7 +3,7 @@
 #include "CECommandList.h"
 #include "CEMesh.h"
 
-using namespace Concept::GraphicsEngine::Direct3D::Visitor;
+using namespace ConceptFramework::GraphicsEngine::Direct3D::Visitor;
 
 CED3DSceneVisitor::CED3DSceneVisitor(CECommandList& commandList) : m_commandList(commandList) {
 }

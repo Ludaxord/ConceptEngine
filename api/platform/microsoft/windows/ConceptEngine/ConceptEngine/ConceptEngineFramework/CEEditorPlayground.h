@@ -1,7 +1,7 @@
 #pragma once
 #include "CEPlayground.h"
 
-namespace Concept {
+namespace ConceptFramework {
 	namespace GraphicsEngine::Direct3D {
 		class CECommandList;
 		class CEPipelineStateObject;

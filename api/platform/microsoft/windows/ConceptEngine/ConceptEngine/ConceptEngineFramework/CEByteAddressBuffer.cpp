@@ -1,5 +1,5 @@
 #include "CEByteAddressBuffer.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEByteAddressBuffer::CEByteAddressBuffer(CEDevice& device, const D3D12_RESOURCE_DESC& resDesc): CEBuffer(
 	device, resDesc) {

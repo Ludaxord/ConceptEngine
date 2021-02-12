@@ -5,7 +5,7 @@
 
 #include "CEDescriptorAllocation.h"
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEDevice;
 	class CEResource;
 	namespace wrl = Microsoft::WRL;

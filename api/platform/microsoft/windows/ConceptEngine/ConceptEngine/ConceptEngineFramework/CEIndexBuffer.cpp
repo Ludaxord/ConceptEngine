@@ -4,7 +4,7 @@
 
 
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEIndexBuffer::CEIndexBuffer(CEDevice& device, size_t numIndicies, DXGI_FORMAT indexFormat)
 	: CEBuffer(device, CD3DX12_RESOURCE_DESC::Buffer(numIndicies * (indexFormat == DXGI_FORMAT_R16_UINT ? 2 : 4)))

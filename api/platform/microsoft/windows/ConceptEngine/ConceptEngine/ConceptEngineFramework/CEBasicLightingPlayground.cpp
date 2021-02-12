@@ -18,9 +18,9 @@
 #include "CETools.h"
 #include "d3dx12.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 using namespace DirectX;
-using namespace Concept::GameEngine;
+using namespace ConceptFramework::GameEngine;
 using namespace Playground;
 
 struct Mat {

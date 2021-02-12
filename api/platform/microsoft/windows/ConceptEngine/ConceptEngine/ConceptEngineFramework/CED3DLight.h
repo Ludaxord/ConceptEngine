@@ -3,7 +3,7 @@
 
 #include "CELight.h"
 
-namespace Concept::GraphicsEngine::Direct3D::Lighting {
+namespace ConceptFramework::GraphicsEngine::Direct3D::Lighting {
 
 	struct PointLight {
 		PointLight()

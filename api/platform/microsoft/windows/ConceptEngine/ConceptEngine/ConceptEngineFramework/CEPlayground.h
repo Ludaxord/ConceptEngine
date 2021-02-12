@@ -8,7 +8,7 @@
 #include "CEGame.h"
 #include "CEScreen.h"
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 	class CEScreen;
 
 	namespace Playground {
@@ -20,7 +20,7 @@ namespace Concept::GameEngine {
 			CEPlayground(const std::wstring& name, uint32_t width, uint32_t height, bool vSync = false) : m_forward(0),
 				m_backward(0), m_left(0), m_right(0), m_up(0), m_down(0), m_pitch(0), m_yaw(0), m_animateLights(false),
 				m_shift(false), m_width(width), m_height(height), m_vSync(vSync) {
-				m_logger = CEGame::Get().CreateLogger("Concept Engine");
+				m_logger = CEGame::Get().CreateLogger("ConceptFramework Engine");
 				m_window = CEGame::Get().CreateWindow(name, width, height);
 
 				m_window->Update += UpdateEvent::slot(&CEPlayground::OnUpdate, this);
@@ -39,11 +39,11 @@ namespace Concept::GameEngine {
 			uint32_t Run() {
 				LoadContent();
 
-				m_logger->info("Concept Engine Playground Content Loaded");
+				m_logger->info("ConceptFramework Engine Playground Content Loaded");
 
 				m_window->Show();
 
-				m_logger->info("Concept Engine Window Presented");
+				m_logger->info("ConceptFramework Engine Window Presented");
 
 				const uint32_t returnCode = CEGame::Get().Run();
 				UnloadContent();
@@ -109,7 +109,7 @@ namespace Concept::GameEngine {
 					m_logger->info("FPS: {:.7}", g_FPS);
 
 					wchar_t buffer[256];
-					::swprintf_s(buffer, L"Concept Engine [FPS: %f]", g_FPS);
+					::swprintf_s(buffer, L"ConceptFramework Engine [FPS: %f]", g_FPS);
 					m_window->SetWindowTitle(buffer);
 				}
 			}

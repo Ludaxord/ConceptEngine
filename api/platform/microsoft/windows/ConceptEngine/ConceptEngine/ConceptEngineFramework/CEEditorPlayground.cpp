@@ -1,6 +1,6 @@
 #include "CEEditorPlayground.h"
 
-using namespace Concept::GameEngine::Playground;
+using namespace ConceptFramework::GameEngine::Playground;
 
 CEEditorPlayground::CEEditorPlayground(const std::wstring& name, uint32_t width, uint32_t height,
                                        bool vSync): CEPlayground(name, width, height, vSync) {

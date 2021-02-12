@@ -13,7 +13,7 @@
  */
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 
 	class CEScreen {
 	public:

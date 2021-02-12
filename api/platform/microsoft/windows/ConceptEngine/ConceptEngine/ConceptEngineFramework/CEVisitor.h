@@ -1,7 +1,7 @@
 #pragma once
 #include <wrl.h>
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEMesh;
 	class CESceneNode;
 	class CEScene;

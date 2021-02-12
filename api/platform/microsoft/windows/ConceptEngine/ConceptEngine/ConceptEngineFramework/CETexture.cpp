@@ -7,7 +7,7 @@
 #include "CEHelper.h"
 #include "CEResourceStateTracker.h"
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CETexture::CETexture(CEDevice& device, const D3D12_RESOURCE_DESC& resourceDesc, const D3D12_CLEAR_VALUE* clearValue)
 	: CEResource(device, resourceDesc, clearValue) {

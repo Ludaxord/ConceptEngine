@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 	class CEGameTimer {
 	public:
 		CEGameTimer();

@@ -3,7 +3,7 @@
 
 #include "CECamera.h"
 
-namespace Concept::GraphicsEngine::Direct3D::Camera {
+namespace ConceptFramework::GraphicsEngine::Direct3D::Camera {
 	class CED3DCamera : public CECamera {
 	public:
 		CED3DCamera();

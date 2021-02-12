@@ -2,7 +2,7 @@
 #include <d3d12.h>
 #include <wrl.h>
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEDevice;
 	namespace wrl = Microsoft::WRL;
 

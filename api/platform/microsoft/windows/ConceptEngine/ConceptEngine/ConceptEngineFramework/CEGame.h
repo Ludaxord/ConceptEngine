@@ -15,7 +15,7 @@
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 
 	class CEScreen;
 	using Logger = std::shared_ptr<spdlog::logger>;

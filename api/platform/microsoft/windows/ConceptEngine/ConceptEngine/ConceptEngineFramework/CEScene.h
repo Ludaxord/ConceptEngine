@@ -12,7 +12,7 @@ class aiMesh;
 class aiNode;
 class aiScene;
 
-namespace Concept::GraphicsEngine {
+namespace ConceptFramework::GraphicsEngine {
 
 	namespace Models {
 		enum Library {

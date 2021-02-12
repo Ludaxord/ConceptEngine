@@ -7,7 +7,7 @@
 
 #include "PanoToCubemap_CS.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEPanoToCubemapPSO::CEPanoToCubemapPSO(CEDevice& device) {
 	auto d3d12Device = device.GetDevice();

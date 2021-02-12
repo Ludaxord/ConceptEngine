@@ -2,7 +2,7 @@
 
 #include "CEDevice.h"
 #include "CEHelper.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEDescriptorAllocatorPage::CEDescriptorAllocatorPage(CEDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE type,
                                                      uint32_t numDescriptors)

@@ -13,7 +13,7 @@
 #include "CERayTracingPlayground.h"
 #include "CESwapChain.h"
 
-using namespace Concept;
+using namespace ConceptFramework;
 
 ConceptEngine::ConceptEngine(HINSTANCE hInstance) {
 #if defined(_DEBUG)
@@ -30,11 +30,11 @@ int ConceptEngine::Run() {
 int ConceptEngine::RunEngine() {
 	int returnCode = 0;
 	{
-		// auto playground = std::make_unique<Playground::CECubePlayground>(L"Concept Engine Editor (Cube Playground)", 1920, 1080);
-		// auto playground = std::make_unique<Playground::CEBasicLightingPlayground>(L"Concept Engine Editor (Basic Lighting Playground)", 1920, 1080);
-		auto playground = std::make_unique<Playground::CEHDRPlayground>(L"Concept Engine Editor (HDR Playground)", 1920, 1080);
-		// auto playground = std::make_unique<Playground::CEEditorPlayground>(L"Concept Engine Editor (Editor Playground)", 1920, 1080);
-		// auto playground = std::make_unique<Playground::CERayTracingPlayground>(L"Concept Engine Editor (Ray Tracing Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CECubePlayground>(L"ConceptFramework Engine Editor (Cube Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEBasicLightingPlayground>(L"ConceptFramework Engine Editor (Basic Lighting Playground)", 1920, 1080);
+		auto playground = std::make_unique<Playground::CEHDRPlayground>(L"ConceptFramework Engine Editor (HDR Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CEEditorPlayground>(L"ConceptFramework Engine Editor (Editor Playground)", 1920, 1080);
+		// auto playground = std::make_unique<Playground::CERayTracingPlayground>(L"ConceptFramework Engine Editor (Ray Tracing Playground)", 1920, 1080);
 		returnCode = playground->Run();
 	}
 
@@ -55,7 +55,7 @@ int ConceptEngine::RunEngine() {
 
 ConceptEngine::ConceptEngine(CEOSTools::CEGraphicsApiTypes graphicsApiType): apiType_(graphicsApiType) {
 	Init();
-	window_ = std::make_unique<CEWindow>(1920, 1080, "Concept Engine Editor", apiType_);
+	window_ = std::make_unique<CEWindow>(1920, 1080, "ConceptFramework Engine Editor", apiType_);
 }
 
 ConceptEngine::ConceptEngine(int windowWidth, int windowHeight, const char* windowName) {

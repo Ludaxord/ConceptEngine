@@ -6,7 +6,7 @@
 #include "CEDevice.h"
 #include "CEHelper.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEConstantBufferView::CEConstantBufferView(CEDevice& device, const std::shared_ptr<CEConstantBuffer>& constantBuffer,
                                            size_t offset)

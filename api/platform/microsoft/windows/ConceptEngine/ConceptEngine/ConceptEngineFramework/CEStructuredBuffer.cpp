@@ -3,7 +3,7 @@
 
 #include "CEDevice.h"
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEStructuredBuffer::CEStructuredBuffer(CEDevice& device, size_t numElements, size_t elementSize)
 	: CEBuffer(device,

@@ -14,7 +14,7 @@
 #include "CEVertexTypes.h"
 
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 
 	enum AccelerationStructureBuildMode {
 		ONLY_ONE_BLAS,

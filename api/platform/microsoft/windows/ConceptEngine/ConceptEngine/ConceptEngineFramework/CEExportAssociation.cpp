@@ -1,6 +1,6 @@
 #include "CEExportAssociation.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEExportAssociation::CEExportAssociation(const WCHAR* exportNames[], uint32_t exportCount,
                                          const D3D12_STATE_SUBOBJECT* pSubObjectToAssociate) {

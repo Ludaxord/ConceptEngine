@@ -1,6 +1,6 @@
 #include "CEHitGroup.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEHitGroup::CEHitGroup(LPCWSTR ahsExport, LPCWSTR chsExport,
                        const std::wstring& name): exportName(name) {

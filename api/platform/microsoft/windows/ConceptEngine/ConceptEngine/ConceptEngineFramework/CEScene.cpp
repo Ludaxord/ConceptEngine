@@ -12,7 +12,7 @@
 #include "CEVertexTypes.h"
 #include "CEVisitor.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 /*
  * Progress handler for assimp library

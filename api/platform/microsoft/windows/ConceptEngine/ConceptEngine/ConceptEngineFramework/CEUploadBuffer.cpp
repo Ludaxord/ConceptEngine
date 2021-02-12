@@ -4,7 +4,7 @@
 #include "CEDevice.h"
 #include "CEHelper.h"
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEUploadBuffer::CEUploadBuffer(CEDevice& device, size_t pageSize)
 	: m_device(device)

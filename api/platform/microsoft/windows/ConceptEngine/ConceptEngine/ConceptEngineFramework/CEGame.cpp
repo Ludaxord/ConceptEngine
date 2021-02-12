@@ -6,7 +6,7 @@
 #include "CETools.h"
 #include "../ConceptEngineEditor/resource.h"
 
-using namespace Concept::GameEngine;
+using namespace ConceptFramework::GameEngine;
 
 static CEGame* g_pGameSingleton = nullptr;
 constexpr wchar_t WINDOW_CLASS_NAME[] = L"RenderConceptEngineWindowClass";
@@ -86,7 +86,7 @@ static void CreateConsole() {
 CEGame& CEGame::Create(HINSTANCE hInst) {
 	if (!g_pGameSingleton) {
 		g_pGameSingleton = new CEGame(hInst);
-		spdlog::info("Concept Engine Game class created.");
+		spdlog::info("ConceptFramework Engine Game class created.");
 	}
 
 	return *g_pGameSingleton;
@@ -96,7 +96,7 @@ void CEGame::Destroy() {
 	if (g_pGameSingleton) {
 		delete g_pGameSingleton;
 		g_pGameSingleton = nullptr;
-		spdlog::info("Concept Engine Game class destroyed.");
+		spdlog::info("ConceptFramework Engine Game class destroyed.");
 	}
 }
 

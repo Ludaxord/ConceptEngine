@@ -14,9 +14,9 @@
 #include "ConceptEngine.h"
 #include "d3dx12.h"
 
-using namespace Concept::GameEngine::Playground;
+using namespace ConceptFramework::GameEngine::Playground;
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CECubePlayground::CECubePlayground(const std::wstring& name, uint32_t width,
                                    uint32_t height, bool vSync): CEPlayground(

@@ -5,7 +5,7 @@
 
 #include "CEObject.h"
 
-namespace Concept::GraphicsEngine::Direct3D::Object {
+namespace ConceptFramework::GraphicsEngine::Direct3D::Object {
 	struct CED3DVertexPosColor {
 		DirectX::XMFLOAT3 Position;
 		DirectX::XMFLOAT3 Color;

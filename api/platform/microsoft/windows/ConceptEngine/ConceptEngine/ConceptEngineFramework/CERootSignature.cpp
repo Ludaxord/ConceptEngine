@@ -6,7 +6,7 @@
 #include "CEDevice.h"
 #include "CEHelper.h"
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CERootSignature::CERootSignature(CEDevice& device, const D3D12_ROOT_SIGNATURE_DESC1& rootSignatureDesc)
 	: m_device(device)

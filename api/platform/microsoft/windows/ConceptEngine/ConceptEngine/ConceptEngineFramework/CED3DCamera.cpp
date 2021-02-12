@@ -1,6 +1,6 @@
 #include "CED3DCamera.h"
 
-using namespace Concept::GraphicsEngine::Direct3D::Camera;
+using namespace ConceptFramework::GraphicsEngine::Direct3D::Camera;
 
 using namespace DirectX;
 

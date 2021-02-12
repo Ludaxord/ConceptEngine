@@ -34,7 +34,7 @@
 #include "RaytracingSceneDefines.h"
 
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 class CEUploadBufferInstance : public CEUploadBuffer {
 

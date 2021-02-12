@@ -1,7 +1,7 @@
 #pragma once
 #include "CEGraphicsEngine.h"
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CEDirect3DEngine : public CEGraphicsEngine {
 	public:
 	protected:

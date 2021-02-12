@@ -2,7 +2,7 @@
 
 #include <cstdint> // For uint8_t
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 
 	enum class KeyCode : uint8_t {
 		None = 0x00,

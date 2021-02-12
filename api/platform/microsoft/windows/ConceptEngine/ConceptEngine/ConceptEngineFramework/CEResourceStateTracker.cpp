@@ -8,7 +8,7 @@
 #include "CECommandList.h"
 #include "CEResource.h"
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 // Static definitions.
 std::mutex CEResourceStateTracker::m_globalMutex;

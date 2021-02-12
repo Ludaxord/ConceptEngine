@@ -1,7 +1,7 @@
 #include "CEVertexBuffer.h"
 
 #include "d3dx12.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEVertexBuffer::CEVertexBuffer(CEDevice& device, size_t numVertices, size_t vertexStride)
 	: CEBuffer(device, CD3DX12_RESOURCE_DESC::Buffer(numVertices * vertexStride))

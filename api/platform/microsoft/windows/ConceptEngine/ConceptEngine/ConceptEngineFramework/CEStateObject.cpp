@@ -2,7 +2,7 @@
 
 #include "CEHelper.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEStateObject::CEStateObject(CEDevice& device, const D3D12_STATE_OBJECT_DESC& desc): m_device(device) {
 	auto rtDevice = device.GetDevice();

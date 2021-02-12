@@ -2,7 +2,7 @@
 
 #include "CEWinLib.h"
 
-using namespace Concept::GameEngine;
+using namespace ConceptFramework::GameEngine;
 
 CEScreen::CEScreen(HWND hWnd, const std::wstring& windowName, int clientWidth, int clientHeight)
 	: m_hWnd(hWnd),

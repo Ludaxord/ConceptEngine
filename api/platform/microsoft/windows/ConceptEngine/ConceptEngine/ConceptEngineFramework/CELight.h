@@ -1,5 +1,5 @@
 #pragma once
-namespace Concept::GraphicsEngine {
+namespace ConceptFramework::GraphicsEngine {
 	struct CELight {
 
 	};

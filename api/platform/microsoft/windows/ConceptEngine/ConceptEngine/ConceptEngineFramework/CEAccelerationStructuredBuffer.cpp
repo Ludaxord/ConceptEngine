@@ -1,6 +1,6 @@
 #include "CEAccelerationStructuredBuffer.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEAccelerationStructuredBuffer::CEAccelerationStructuredBuffer(CEDevice& device,
                                                                const D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC&

@@ -5,7 +5,7 @@
 
 #include "CEDevice.h"
 #include "CEResource.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEShaderResourceView::CEShaderResourceView(CEDevice& device, const std::shared_ptr<CEResource>& resource,
                                            const D3D12_SHADER_RESOURCE_VIEW_DESC* srv) : m_device(device),

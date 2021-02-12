@@ -1,7 +1,7 @@
 #include "CEGameTimer.h"
 #include "CEWinLib.h"
 
-using namespace Concept::GameEngine;
+using namespace ConceptFramework::GameEngine;
 
 using namespace std::chrono;
 

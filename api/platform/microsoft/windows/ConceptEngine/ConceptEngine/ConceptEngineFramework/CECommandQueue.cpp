@@ -4,7 +4,7 @@
 #include "CEDevice.h"
 #include "CEHelper.h"
 #include "CEResourceStateTracker.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 /*
  * Instance for std::shared_ptr

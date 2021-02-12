@@ -32,10 +32,10 @@
 #include "CEScreen.h"
 #include "CETimer.h"
 
-using namespace Concept::GameEngine;
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GameEngine;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
-namespace Concept {
+namespace ConceptFramework {
 
 	class ConceptEngine {
 	public:

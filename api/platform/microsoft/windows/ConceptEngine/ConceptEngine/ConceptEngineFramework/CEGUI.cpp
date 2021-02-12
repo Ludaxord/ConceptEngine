@@ -23,7 +23,7 @@
 #include "ImGUI_PS.h"
 #include "ImGUI_VS.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 enum RootParameters {
 	/*

@@ -1,7 +1,7 @@
 #pragma once
 #include "CED3DObject.h"
 
-namespace Concept::GraphicsEngine::Direct3D::Object {
+namespace ConceptFramework::GraphicsEngine::Direct3D::Object {
 	using namespace DirectX;
 
 	class CED3DCubeObject : public CED3DObject {

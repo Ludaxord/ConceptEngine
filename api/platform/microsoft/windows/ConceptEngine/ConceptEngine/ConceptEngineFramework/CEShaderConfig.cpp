@@ -1,6 +1,6 @@
 #include "CEShaderConfig.h"
 
-Concept::GraphicsEngine::Direct3D::CEShaderConfig::CEShaderConfig(uint32_t maxAttributeSizeInBytes,
+ConceptFramework::GraphicsEngine::Direct3D::CEShaderConfig::CEShaderConfig(uint32_t maxAttributeSizeInBytes,
 	uint32_t maxPayloadSizeInBytes) {
 	shaderConfig.MaxAttributeSizeInBytes = maxAttributeSizeInBytes;
 	shaderConfig.MaxPayloadSizeInBytes = maxPayloadSizeInBytes;

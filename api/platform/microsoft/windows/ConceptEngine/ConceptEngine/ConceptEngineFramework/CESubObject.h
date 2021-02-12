@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d12.h>
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 
 	class CESubObject {
 	public:

@@ -5,7 +5,7 @@
 #include "CEIndexBuffer.h"
 #include "CEVertexBuffer.h"
 #include "CEVisitor.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEMesh::CEMesh()
 	: m_primitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST) {

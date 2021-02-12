@@ -2,7 +2,7 @@
 
 #include "CEHelper.h"
 
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 /*
  * Instance to create object with shared_ptr

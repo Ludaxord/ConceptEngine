@@ -3,7 +3,7 @@
 #include "CEKeyCodes.h"
 #include "signals.hpp"
 
-namespace Concept::GameEngine {
+namespace ConceptFramework::GameEngine {
 /*
  * Delegate holds function callbacks
  */

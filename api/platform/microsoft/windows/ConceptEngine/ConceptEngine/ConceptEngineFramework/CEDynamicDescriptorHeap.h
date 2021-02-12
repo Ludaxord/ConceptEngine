@@ -8,7 +8,7 @@
 
 #include "d3dx12.h"
 
-namespace Concept::GraphicsEngine::Direct3D {
+namespace ConceptFramework::GraphicsEngine::Direct3D {
 	class CERootSignature;
 	class CECommandList;
 	class CEDevice;

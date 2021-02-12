@@ -8,7 +8,7 @@
 #include "CEDevice.h"
 #include "CEHelper.h"
 #include "CERootSignature.h"
-using namespace Concept::GraphicsEngine::Direct3D;
+using namespace ConceptFramework::GraphicsEngine::Direct3D;
 
 CEDynamicDescriptorHeap::CEDynamicDescriptorHeap(CEDevice& device, D3D12_DESCRIPTOR_HEAP_TYPE heapType,
                                                  uint32_t numDescriptorsPerHeap)
