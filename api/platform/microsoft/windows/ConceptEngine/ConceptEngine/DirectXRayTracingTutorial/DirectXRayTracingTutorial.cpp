@@ -1,10 +1,22 @@
-// DirectXRayTracingTutorial.cpp : Defines the functions for the static library.
-//
+#include "DirectXRayTracingTutorial.h"
 
-#include "pch.h"
-#include "framework.h"
-
-// TODO: This is an example of a library function
-void fnDirectXRayTracingTutorial()
-{
+DirectXRayTracingTutorial::DirectXRayTracingTutorial(UINT width, UINT height) : Tutorial(
+	width, height, L"Box Tutorial") {
 }
+
+DirectXRayTracingTutorial::~DirectXRayTracingTutorial() = default;
+
+void DirectXRayTracingTutorial::Create() {
+};
+
+void DirectXRayTracingTutorial::Run() {
+};
+
+void DirectXRayTracingTutorial::Init() {
+};
+
+void DirectXRayTracingTutorial::Update() {
+};
+
+void DirectXRayTracingTutorial::Render() {
+};

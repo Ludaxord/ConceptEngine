@@ -1,10 +1,4 @@
-// DirectXBoxTutorial.cpp : Defines the functions for the static library.
-//
+#include "DirectXBoxTutorial.h"
 
-#include "pch.h"
-#include "framework.h"
-
-// TODO: This is an example of a library function
-void fnDirectXBoxTutorial()
-{
+DirectXBoxTutorial::DirectXBoxTutorial(UINT width, UINT height) : Tutorial(width, height, L"Box Tutorial") {
 }
