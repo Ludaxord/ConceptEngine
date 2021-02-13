@@ -24,6 +24,12 @@
     <ClInclude Include="DirectXResources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngineRunner.cpp">

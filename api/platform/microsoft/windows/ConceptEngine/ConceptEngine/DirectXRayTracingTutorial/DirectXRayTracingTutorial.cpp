@@ -4,19 +4,41 @@ DirectXRayTracingTutorial::DirectXRayTracingTutorial(UINT width, UINT height) : 
 	width, height, L"Box Tutorial") {
 }
 
-DirectXRayTracingTutorial::~DirectXRayTracingTutorial() = default;
+void DirectXRayTracingTutorial::OnInit() {
+}
 
-void DirectXRayTracingTutorial::Create() {
-};
+void DirectXRayTracingTutorial::OnUpdate() {
+}
 
-void DirectXRayTracingTutorial::Run() {
-};
+void DirectXRayTracingTutorial::OnRender() {
+}
 
-void DirectXRayTracingTutorial::Init() {
-};
+void DirectXRayTracingTutorial::OnDestroy() {
+}
 
-void DirectXRayTracingTutorial::Update() {
-};
+void DirectXRayTracingTutorial::OnSizeChanged(UINT width, UINT height, bool minimized) {
+}
 
-void DirectXRayTracingTutorial::Render() {
-};
+void DirectXRayTracingTutorial::OnKeyDown(KeyCode key) {
+}
+
+void DirectXRayTracingTutorial::OnKeyUp(KeyCode key) {
+}
+
+void DirectXRayTracingTutorial::OnWindowMoved(int x, int y) {
+}
+
+void DirectXRayTracingTutorial::OnMouseMove(UINT x, UINT y) {
+}
+
+void DirectXRayTracingTutorial::OnMouseButtonDown(KeyCode key, UINT x, UINT y) {
+}
+
+void DirectXRayTracingTutorial::OnMouseButtonUp(KeyCode key, UINT x, UINT y) {
+}
+
+void DirectXRayTracingTutorial::OnDisplayChanged() {
+}
+
+wrl::ComPtr<IDXGISwapChain> DirectXRayTracingTutorial::GetSwapChain() {
+}
