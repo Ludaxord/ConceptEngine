@@ -1,0 +1,2 @@
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\DirectXMatrixTutorial.pdb
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXMatrixTutorial\x64\Debug\DirectXMatrixTutorial.pdb
