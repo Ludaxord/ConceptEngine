@@ -1,5 +1,7 @@
 #include "ConceptEngineRunner.h"
 
+
+#include "DirectXHelper.h"
 #include "Tutorial.h"
 
 HWND ConceptEngineRunner::m_hWnd = nullptr;
@@ -17,7 +19,7 @@ int ConceptEngineRunner::Run(Tutorial* pTutorial, HINSTANCE hInstance, int nCmdS
 		windowClass.lpfnWndProc = WindowProc;
 		windowClass.hInstance = hInstance;
 		windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-		windowClass.lpszClassName = pTutorial->GetTitle();
+		windowClass.lpszClassName = pTutorial->GetTitle().c_str();
 		RegisterClassEx(&windowClass);
 
 		RECT windowRect = {0, 0, static_cast<LONG>(pTutorial->GetWidth()), static_cast<LONG>(pTutorial->GetHeight())};
@@ -26,7 +28,7 @@ int ConceptEngineRunner::Run(Tutorial* pTutorial, HINSTANCE hInstance, int nCmdS
 		// Create the window and store a handle to it.
 		m_hWnd = CreateWindow(
 			windowClass.lpszClassName,
-			pTutorial->GetTitle(),
+			pTutorial->GetTitle().c_str(),
 			m_windowStyle,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
@@ -52,7 +54,7 @@ int ConceptEngineRunner::Run(Tutorial* pTutorial, HINSTANCE hInstance, int nCmdS
 			}
 		}
 
-		pSample->OnDestroy();
+		pTutorial->OnDestroy();
 
 		// Return this part of the WM_QUIT message to Windows.
 		return static_cast<char>(msg.wParam);

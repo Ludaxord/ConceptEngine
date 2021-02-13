@@ -1,2 +1,2 @@
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\DirectXBoxTutorial.pdb
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXBoxTutorial\x64\Debug\DirectXBoxTutorial.pdb
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\02. DirectXBoxTutorial.pdb
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXBoxTutorial\x64\Debug\02. DirectXBoxTutorial.pdb

@@ -13,7 +13,7 @@ public:
 	static void ToggleFullScreenWindow(wrl::ComPtr<IDXGISwapChain> swapChain = nullptr);
 	static void SetWindowZOrderToTopMost(bool setToTopMost);
 	static bool IsFullScreen() { return m_fullScreen; }
-	static bool GetHWnd() { return m_hWnd; }
+	static HWND GetHWnd() { return m_hWnd; }
 protected:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:

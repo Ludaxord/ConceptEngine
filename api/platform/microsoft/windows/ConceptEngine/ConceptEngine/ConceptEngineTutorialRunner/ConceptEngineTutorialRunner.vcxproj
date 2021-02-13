@@ -150,9 +150,6 @@
     <ProjectReference Include="..\DirectXBoxTutorial\DirectXBoxTutorial.vcxproj">
       <Project>{cbbb213f-2bad-49ce-b13a-bb680c696c42}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\DirectXMatrixTutorial\DirectXMatrixTutorial.vcxproj">
-      <Project>{85d2625a-5889-4165-9e76-ea1f21cf6092}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\DirectXRayTracingTutorial\DirectXRayTracingTutorial.vcxproj">
       <Project>{9d042049-4e26-4075-a4ce-a79dcf1451e3}</Project>
     </ProjectReference>

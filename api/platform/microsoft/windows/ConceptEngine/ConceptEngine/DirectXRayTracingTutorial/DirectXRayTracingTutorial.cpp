@@ -41,4 +41,5 @@ void DirectXRayTracingTutorial::OnDisplayChanged() {
 }
 
 wrl::ComPtr<IDXGISwapChain> DirectXRayTracingTutorial::GetSwapChain() {
+	return m_deviceResources->GetSwapChain();
 }

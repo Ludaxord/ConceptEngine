@@ -1,23 +1,2 @@
 ﻿  DirectXRayTracingTutorial.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(31,23): error C3646: 'GetWindowsBounds': unknown override specifier
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(31,23): error C2059: syntax error: '('
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(31,32): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(34,10): error C2653: 'wrl': is not a class or namespace name
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(34,21): error C2143: syntax error: missing ';' before '<'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(34,21): error C2433: 'Tutorial::ComPtr': 'virtual' not permitted on data declarations
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(34,21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(34,53): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(39,35): error C2061: syntax error: identifier 'LPCWSTR'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(47,21): error C3646: 'm_windowBounds': unknown override specifier
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\Tutorial.h(47,21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.cpp(7,57): error C2600: 'DirectXRayTracingTutorial::~DirectXRayTracingTutorial': cannot define a compiler-generated special member function (must be declared in the class first)
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.cpp(9,33): error C2039: 'Create': is not a member of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.h(4): message : see declaration of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.cpp(12,33): error C2039: 'Run': is not a member of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.h(4): message : see declaration of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.cpp(15,33): error C2039: 'Init': is not a member of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.h(4): message : see declaration of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.cpp(18,33): error C2039: 'Update': is not a member of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.h(4): message : see declaration of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.cpp(21,33): error C2039: 'Render': is not a member of 'DirectXRayTracingTutorial'
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\DirectXRayTracingTutorial.h(4): message : see declaration of 'DirectXRayTracingTutorial'
+  DirectXRayTracingTutorial.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\DirectXRayTracingTutorial.lib

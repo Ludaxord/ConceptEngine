@@ -45,14 +45,14 @@ public:
 
 	void UpdateForSizeChange(UINT clientWidth, UINT clientHeight);
 	void SetWindowBounds(int left, int top, int right, int bottom);
-	std::wstring GetAssetFullPath(LPCWSTR asssetName);
+	std::wstring GetAssetFullPath(LPCWSTR assetName) const;
 
 	virtual wrl::ComPtr<IDXGISwapChain> GetSwapChain() {
 		return nullptr;
 	}
 
 protected:
-	void SetCustomWindowText(LPCWSTR text);
+	void SetCustomWindowText(LPCWSTR text) const;
 
 	//Viewport Dimensions
 	UINT m_width;
