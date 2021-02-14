@@ -34,21 +34,28 @@ int ConceptEngineRunner::Run(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hIns
 	catch (HrException& e) {
 		if (e.Error() == E_APPLICATION_EXITING) {
 			OutputDebugString(L"User initiated shutdown. Application is terminating.");
+			spdlog::error("User initiated shutdown. Application is terminating.");
 			pTutorial->OnDestroy();
 			return 0;
 		}
 
 		OutputDebugString(L"Application hit a problem: ");
+		spdlog::error("Application hit a problem: ");
 		OutputDebugStringA(e.what());
+		spdlog::error(e.what());
 		OutputDebugString(L"\nTerminating.\n");
+		spdlog::error("\nTerminating.\n");
 
 		pTutorial->OnDestroy();
 		return EXIT_FAILURE;
 	}
 	catch (std::exception& e) {
 		OutputDebugString(L"Application hit a problem: ");
+		spdlog::error("Application hit a problem: ");
 		OutputDebugStringA(e.what());
+		spdlog::error(e.what());
 		OutputDebugString(L"\nTerminating.\n");
+		spdlog::error("\nTerminating.\n");
 
 		pTutorial->OnDestroy();
 		return EXIT_FAILURE;
@@ -232,6 +239,7 @@ LRESULT CALLBACK ConceptEngineRunner::WindowProc(HWND hWnd, UINT message, WPARAM
 		}
 
 		//Toggle full screen with alt+enter
+		//TODO: move to tutorial class
 		if ((wParam == VK_RETURN) && (lParam & (1 << 29))) {
 			if (pTutorial && pTutorial->GetDirectXResources()->IsTearingSupported()) {
 				ToggleFullScreenWindow(pTutorial->GetSwapChain());
@@ -248,7 +256,10 @@ LRESULT CALLBACK ConceptEngineRunner::WindowProc(HWND hWnd, UINT message, WPARAM
 		}
 		break;
 	case WM_SIZE:
-
+		if (pTutorial) {
+			RECT windowRect = {};
+			GetWindowRect(hWnd, &windowRect);
+		}
 		break;
 	case WM_MOVE:
 		break;

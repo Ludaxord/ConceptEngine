@@ -72,7 +72,9 @@ public:
 	}
 
 	virtual void OnDestroy() {
-
+		// Let GPU finish before releasing D3D resources.
+		m_deviceResources->WaitForGPU();
+		OnDeviceLost();
 	}
 
 	virtual void CreateDeviceDependentResources() = 0;

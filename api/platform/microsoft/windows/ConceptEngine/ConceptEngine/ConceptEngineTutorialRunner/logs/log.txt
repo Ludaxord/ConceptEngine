@@ -1,4 +1,1 @@
-[2021-02-14 19:32:36.099] [ConceptEngine] [info] Window created
-[2021-02-14 19:32:36.124] [ConceptEngine] [error] Error: DirectX Ray Tracing is not supported in this Machine 
-
-[2021-02-14 19:32:36.124] [ConceptEngine] [error] HRESULT of 0x80004005
+[2021-02-14 21:27:38.865] [ConceptEngine] [info] Window created

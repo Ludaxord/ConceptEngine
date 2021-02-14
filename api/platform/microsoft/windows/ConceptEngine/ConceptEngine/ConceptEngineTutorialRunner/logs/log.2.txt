@@ -1,1 +1,1 @@
-[2021-02-14 18:11:06.083] [ConceptEngine] [info] Window created
+[2021-02-14 21:27:28.312] [ConceptEngine] [info] Window created
