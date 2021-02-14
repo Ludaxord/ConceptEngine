@@ -2,8 +2,11 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <wrl.h>
+#include <spdlog/logger.h>
 
 namespace wrl = Microsoft::WRL;
+
+using Logger = std::shared_ptr<spdlog::logger>;
 
 class DirectXResources {
 public:
@@ -35,6 +38,7 @@ public:
 
 	RECT GetOutputSize() const { return m_outputSize; }
 	bool IsWindowVisible() const { return m_isWindowVisible; }
+	bool IsTearingSupported() const { return m_options & c_AllowTearing; }
 
 	wrl::ComPtr<IDXGISwapChain3> GetSwapChain() const { return m_swapChain; }
 	wrl::ComPtr<IDXGIAdapter1> GetAdapter() const { return m_adapter; }
@@ -54,4 +58,7 @@ private:
 	D3D_FEATURE_LEVEL m_d3dFeatureLevel;
 	RECT m_outputSize;
 	bool m_isWindowVisible;
+
+	// DeviceResources options (see flags above)
+	unsigned int m_options;
 };

@@ -7,37 +7,10 @@
 bool ConceptEngineRunner::m_fullScreen = false;
 RECT ConceptEngineRunner::m_windowRect;
 
-int ConceptEngineRunner::Run(Tutorial* pTutorial, HINSTANCE hInstance, int nCmdShow) {
+int ConceptEngineRunner::Run(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hInstance, int nCmdShow) {
 	try {
-		// Parse the command line parameters
-
-		// Initialize the window class.
-		WNDCLASSEX windowClass = {0};
-		windowClass.cbSize = sizeof(WNDCLASSEX);
-		windowClass.style = CS_HREDRAW | CS_VREDRAW;
-		windowClass.lpfnWndProc = WindowProc;
-		windowClass.hInstance = hInstance;
-		windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-		windowClass.lpszClassName = pTutorial->GetTitle().c_str();
-		RegisterClassEx(&windowClass);
-
-		RECT windowRect = {0, 0, static_cast<LONG>(pTutorial->GetWidth()), static_cast<LONG>(pTutorial->GetHeight())};
-		AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE);
-
-		// Create the window and store a handle to it.
-		m_hWnd = CreateWindow(
-			windowClass.lpszClassName,
-			pTutorial->GetTitle().c_str(),
-			m_windowStyle,
-			CW_USEDEFAULT,
-			CW_USEDEFAULT,
-			windowRect.right - windowRect.left,
-			windowRect.bottom - windowRect.top,
-			nullptr, // We have no parent window.
-			nullptr, // We aren't using menus.
-			hInstance,
-			pTutorial);
-
+		m_logger = pTutorial->CreateLogger("Box Tutorial");
+		m_hWnd = CreateMainWindow(pTutorial, hInstance);
 		// Initialize the sample. OnInit is defined in each child-implementation of DXSample.
 		pTutorial->OnInit();
 
@@ -82,7 +55,39 @@ int ConceptEngineRunner::Run(Tutorial* pTutorial, HINSTANCE hInstance, int nCmdS
 	}
 }
 
+HWND ConceptEngineRunner::CreateMainWindow(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hInstance) {
+	// Initialize the window class.
+	WNDCLASSEX windowClass = {0};
+	windowClass.cbSize = sizeof(WNDCLASSEX);
+	windowClass.style = CS_HREDRAW | CS_VREDRAW;
+	windowClass.lpfnWndProc = WindowProc;
+	windowClass.hInstance = hInstance;
+	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	windowClass.lpszClassName = pTutorial->GetTitle().c_str();
+	RegisterClassEx(&windowClass);
+
+	RECT windowRect = {0, 0, static_cast<LONG>(pTutorial->GetWidth()), static_cast<LONG>(pTutorial->GetHeight())};
+	AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE);
+
+	// Create the window and store a handle to it.
+	HWND hwnd = CreateWindow(
+		windowClass.lpszClassName,
+		pTutorial->GetTitle().c_str(),
+		m_windowStyle,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		windowRect.right - windowRect.left,
+		windowRect.bottom - windowRect.top,
+		nullptr, // We have no parent window.
+		nullptr, // We aren't using menus.
+		hInstance,
+		pTutorial.get());
+
+	return hwnd;
+}
+
 // Convert a styled window into a fullscreen borderless window and back again.
+//TODO: Move to tutorial class
 void ConceptEngineRunner::ToggleFullScreenWindow(wrl::ComPtr<IDXGISwapChain> swapChain) {
 	if (m_fullScreen) {
 		// Restore the window's attributes and size.
@@ -170,5 +175,97 @@ void ConceptEngineRunner::SetWindowZOrderToTopMost(bool setToTopMost) {
 
 // Main message handler for the sample.
 LRESULT CALLBACK ConceptEngineRunner::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	Tutorial* pTutorial = reinterpret_cast<Tutorial*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+	switch (message) {
+	case WM_CREATE: {
+		//Save Tutorial class passed in to CreateWindow
+		LPCREATESTRUCT pCreateStruct = reinterpret_cast<LPCREATESTRUCT>(lParam);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pCreateStruct->lpCreateParams));
+	}
+	break;
+
+	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN: {
+		MSG charMsg;
+
+		/*
+		 * Get Unicode char (UTF-16)
+		 */
+		unsigned int c = 0;
+
+		/*
+		 * For printable characters, next message will be WM_CHAR;
+		 * This message contains character code we need to send KeyPresent event.
+		 * Inspired by SDL 1.2 implementation
+		 */
+		if (PeekMessage(&charMsg, hWnd, 0, 0, PM_NOREMOVE) && charMsg.message == WM_CHAR) {
+			c = static_cast<unsigned int>(charMsg.wParam);
+		}
+
+		bool shift = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool control = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool alt = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+
+		KeyCode key = (KeyCode)wParam;
+		pTutorial->OnKeyDown(key);
+	}
+	break;
+	case WM_SYSKEYUP:
+	case WM_KEYUP: {
+		bool shift = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool control = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool alt = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+
+		KeyCode key = (KeyCode)wParam;
+		unsigned int c = 0;
+		unsigned int scanCode = (lParam & 0x00FF0000) >> 16;
+
+		/*
+		 * Determine which key was released byt converting key code and scan code to printable character (if possible).
+		 * Inspired by SDL 1.2 implementation
+		 */
+		unsigned char keyboardState[256];
+		GetKeyboardState(keyboardState);
+		wchar_t translatedCharacters[4];
+		if (int result = ToUnicodeEx((UINT)wParam, scanCode, keyboardState, translatedCharacters, 4, 0, NULL) > 0) {
+			c = translatedCharacters[0];
+		}
+
+		//Toggle full screen with alt+enter
+		if ((wParam == VK_RETURN) && (lParam & (1 << 29))) {
+			if (pTutorial && pTutorial->GetDirectXResources()->IsTearingSupported()) {
+				ToggleFullScreenWindow(pTutorial->GetSwapChain());
+				return 0;
+			}
+		}
+
+		pTutorial->OnKeyUp(key);
+	}
+	case WM_PAINT:
+		if (pTutorial) {
+			pTutorial->OnUpdate();
+			pTutorial->OnRender();
+		}
+		break;
+	case WM_SIZE:
+
+		break;
+	case WM_MOVE:
+		break;
+	case WM_DISPLAYCHANGE:
+		break;
+	case WM_MOUSEMOVE:
+		break;
+	case WM_LBUTTONDOWN:
+		break;
+	case WM_LBUTTONUP:
+		break;
+	case WM_RBUTTONDOWN:
+		break;
+	case WM_RBUTTONUP:
+		break;
+	case WM_DESTROY:
+		break;
+	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }

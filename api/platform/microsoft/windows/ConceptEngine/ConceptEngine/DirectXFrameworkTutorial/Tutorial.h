@@ -26,7 +26,6 @@ namespace wrl = Microsoft::WRL;
 
 class Tutorial {
 public:
-	using Logger = std::shared_ptr<spdlog::logger>;
 
 	inline static UINT MAX_CONSOLE_LINES = 500;
 

@@ -3,13 +3,16 @@
 #include <dxgi.h>
 #include <wrl.h>
 
+#include "DirectXResources.h"
+
 namespace wrl = Microsoft::WRL;
 
 class Tutorial;
 
 class ConceptEngineRunner {
 public:
-	static int Run(Tutorial* pTutorial, HINSTANCE hInstance, int nCmdShow);
+	static int Run(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hInstance, int nCmdShow);
+	static HWND CreateMainWindow(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hInstance);
 	static void ToggleFullScreenWindow(wrl::ComPtr<IDXGISwapChain> swapChain = nullptr);
 	static void SetWindowZOrderToTopMost(bool setToTopMost);
 	static bool IsFullScreen() { return m_fullScreen; }
@@ -17,6 +20,7 @@ public:
 protected:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:
+	inline static Logger m_logger = nullptr;
 	inline static HWND m_hWnd = nullptr;
 	static bool m_fullScreen;
 	static const UINT m_windowStyle = WS_OVERLAPPEDWINDOW;
