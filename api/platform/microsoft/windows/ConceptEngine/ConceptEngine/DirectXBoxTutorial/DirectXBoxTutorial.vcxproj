@@ -24,6 +24,11 @@
   <ItemGroup>
     <ClCompile Include="DirectXBoxTutorial.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectXFrameworkTutorial\DirectXFrameworkTutorial.vcxproj">
+      <Project>{e071b64a-bf49-41d8-9202-c3134230c3e6}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

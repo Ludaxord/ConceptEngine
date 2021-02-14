@@ -23,12 +23,13 @@
     <ClInclude Include="DirectXHelper.h" />
     <ClInclude Include="DirectXResources.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="StepTimer.h" />
     <ClInclude Include="Tutorial.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngineRunner.cpp" />
     <ClCompile Include="DirectXResources.cpp" />
-    <ClCompile Include="Tutorial.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

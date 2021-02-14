@@ -4,7 +4,6 @@
 #include "DirectXHelper.h"
 #include "Tutorial.h"
 
-HWND ConceptEngineRunner::m_hWnd = nullptr;
 bool ConceptEngineRunner::m_fullScreen = false;
 RECT ConceptEngineRunner::m_windowRect;
 
@@ -171,4 +170,5 @@ void ConceptEngineRunner::SetWindowZOrderToTopMost(bool setToTopMost) {
 
 // Main message handler for the sample.
 LRESULT CALLBACK ConceptEngineRunner::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }

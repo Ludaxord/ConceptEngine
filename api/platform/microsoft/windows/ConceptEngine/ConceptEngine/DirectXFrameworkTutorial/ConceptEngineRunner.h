@@ -17,7 +17,7 @@ public:
 protected:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:
-	static HWND m_hWnd;
+	inline static HWND m_hWnd = nullptr;
 	static bool m_fullScreen;
 	static const UINT m_windowStyle = WS_OVERLAPPEDWINDOW;
 	static RECT m_windowRect;

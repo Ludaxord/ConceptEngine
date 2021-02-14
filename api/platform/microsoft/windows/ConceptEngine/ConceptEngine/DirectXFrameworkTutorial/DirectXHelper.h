@@ -40,7 +40,9 @@ inline void GetAssetsPath(_Out_writes_(pathSize) WCHAR* path, UINT pathSize) {
 inline void ThrowIfFailed(HRESULT hr, const wchar_t* message) {
 	if (FAILED(hr)) {
 		OutputDebugString(message);
-		spdlog::error(message);
+		std::wstring wsMessage = message;
+		const std::string sMessage(wsMessage.begin(), wsMessage.end());
+		spdlog::error(sMessage);
 		throw HrException(hr);
 	}
 }
