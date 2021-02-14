@@ -128,6 +128,20 @@ public:
 		}
 	}
 
+
+	/**
+	 * Create loggers
+	 * @see https://github.com/gabime/spdlog#asynchronous-logger-with-multi-sinks
+	 */
+	Logger CreateLogger(const std::string& name) const {
+		Logger logger = spdlog::get(name);
+		if (!logger) {
+			logger = m_logger->clone(name);
+			spdlog::register_logger(logger);
+		}
+		return logger;
+	}
+
 	void CreateConsoleWindow() {
 #if defined(_DEBUG)
 		/*

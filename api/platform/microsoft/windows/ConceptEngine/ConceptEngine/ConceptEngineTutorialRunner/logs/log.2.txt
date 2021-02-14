@@ -1,0 +1,1 @@
+[2021-02-14 17:59:43.197] [ConceptEngine] [info] Window created
