@@ -181,7 +181,7 @@ void DirectXResources::CreateDeviceResources() {
 // These resources need to be recreated every time the window size is changed.
 void DirectXResources::CreateWindowSizeDependentResources() {
 	if (!m_window) {
-		ThrowIfFailed(E_HANDLE, L"Call SetWin dow with valid Win32 window handle");
+		ThrowIfFailed(E_HANDLE, L"Call SetWindow with valid Win32 window handle");
 	}
 
 	//Wait until all previous GPU work is complete

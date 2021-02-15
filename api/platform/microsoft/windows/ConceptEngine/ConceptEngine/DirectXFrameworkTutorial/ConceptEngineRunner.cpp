@@ -1,8 +1,11 @@
 #include "ConceptEngineRunner.h"
 
+#include <sstream>
+
 
 #include "DirectXHelper.h"
 #include "Tutorial.h"
+#include "../ConceptEngineEditor/resource.h"
 
 bool ConceptEngineRunner::m_fullScreen = false;
 RECT ConceptEngineRunner::m_windowRect;
@@ -33,36 +36,38 @@ int ConceptEngineRunner::Run(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hIns
 	}
 	catch (HrException& e) {
 		if (e.Error() == E_APPLICATION_EXITING) {
-			OutputDebugString(L"User initiated shutdown. Application is terminating.");
 			spdlog::error("User initiated shutdown. Application is terminating.");
 			pTutorial->OnDestroy();
 			return 0;
 		}
 
-		OutputDebugString(L"Application hit a problem: ");
 		spdlog::error("Application hit a problem: ");
-		OutputDebugStringA(e.what());
 		spdlog::error(e.what());
-		OutputDebugString(L"\nTerminating.\n");
-		spdlog::error("\nTerminating.\n");
+		spdlog::error("Terminating.");
 
 		pTutorial->OnDestroy();
+
+		std::ostringstream oss;
+		oss << "Application hit a problem: " << e.what() << std::endl;
+		MessageBoxA(m_hWnd, oss.str().c_str(), "Error", MB_OK | MB_ICONERROR);
 		return EXIT_FAILURE;
 	}
 	catch (std::exception& e) {
-		OutputDebugString(L"Application hit a problem: ");
 		spdlog::error("Application hit a problem: ");
-		OutputDebugStringA(e.what());
 		spdlog::error(e.what());
-		OutputDebugString(L"\nTerminating.\n");
-		spdlog::error("\nTerminating.\n");
+		spdlog::error("Terminating.");
 
 		pTutorial->OnDestroy();
+
+		std::ostringstream oss;
+		oss << "Application hit a problem: " << e.what() << std::endl;
+		MessageBoxA(m_hWnd, oss.str().c_str(), "Error", MB_OK | MB_ICONERROR);
 		return EXIT_FAILURE;
 	}
 }
 
 HWND ConceptEngineRunner::CreateMainWindow(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hInstance) {
+
 	// Initialize the window class.
 	WNDCLASSEX windowClass = {0};
 	windowClass.cbSize = sizeof(WNDCLASSEX);
@@ -71,6 +76,11 @@ HWND ConceptEngineRunner::CreateMainWindow(std::shared_ptr<Tutorial> pTutorial, 
 	windowClass.hInstance = hInstance;
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.lpszClassName = pTutorial->GetTitle().c_str();
+	//TODO: Load icons to project
+	windowClass.hIcon = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32, 32, 0));
+	windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	windowClass.lpszMenuName = nullptr;
+	windowClass.hIconSm = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));
 	RegisterClassEx(&windowClass);
 
 	RECT windowRect = {0, 0, static_cast<LONG>(pTutorial->GetWidth()), static_cast<LONG>(pTutorial->GetHeight())};
