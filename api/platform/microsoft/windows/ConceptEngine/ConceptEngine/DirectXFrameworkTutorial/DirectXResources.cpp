@@ -1,11 +1,13 @@
 #include "DirectXResources.h"
 
-
+#include <d3d12.h>
 #include <dxgi1_5.h>
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
 #include <spdlog/spdlog.h>
 
+
+#include "ConceptEngineRunner.h"
 #include "DirectXHelper.h"
 
 bool DirectXResources::IsDirectXRayTracingSupported(wrl::ComPtr<IDXGIAdapter1> adapter) {
@@ -178,6 +180,159 @@ void DirectXResources::CreateDeviceResources() {
 
 // These resources need to be recreated every time the window size is changed.
 void DirectXResources::CreateWindowSizeDependentResources() {
+	if (!m_window) {
+		ThrowIfFailed(E_HANDLE, L"Call SetWin dow with valid Win32 window handle");
+	}
+
+	//Wait until all previous GPU work is complete
+	WaitForGPU();
+
+	//Release resources that are tied to swap chain and update fence values
+	for (UINT n = 0; n < m_backBufferCount; n++) {
+		m_renderTargets[n].Reset();
+		m_fenceValues[n] = m_fenceValues[m_backBufferIndex];
+	}
+
+	//Determine render target size in pixels
+	UINT backBufferWidth = max(m_outputSize.right - m_outputSize.left, 1);
+	UINT backBufferHeight = max(m_outputSize.bottom - m_outputSize.top, 1);
+	DXGI_FORMAT backBufferFormat = NoSRGB(m_backBufferFormat);
+
+	//if swap chain already exists, resize it , otherwise create new one;
+	if (m_swapChain) {
+		//if swap chain already exists, resize it;
+		HRESULT hr = m_swapChain->ResizeBuffers(m_backBufferCount,
+		                                        backBufferWidth,
+		                                        backBufferHeight,
+		                                        backBufferFormat,
+		                                        (m_options & c_AllowTearing) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0);
+		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) {
+#ifdef _DEBUG
+			char buff[64] = {};
+			sprintf_s(buff, "Device Lost on ResizeBuffers: Reason code 0x%08X",
+			          (hr == DXGI_ERROR_DEVICE_REMOVED) ? m_d3dDevice->GetDeviceRemovedReason() : hr);
+			spdlog::error(buff);
+#endif
+			//If device was removed, new device and swap chain will need to be created;
+			HandleDeviceLost();
+
+			// Everything is set up now. Do not continue execution of this method. HandleDeviceLost will reenter this method 
+			// and correctly set up the new device.
+			return;
+		}
+		else {
+			ThrowIfFailed(hr);
+		}
+	}
+	else {
+		//Create descriptor for swap chain
+		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+		swapChainDesc.Width = backBufferWidth;
+		swapChainDesc.Height = backBufferHeight;
+		swapChainDesc.Format = backBufferFormat;
+		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		swapChainDesc.BufferCount = m_backBufferCount;
+		swapChainDesc.SampleDesc.Count = 1;
+		swapChainDesc.SampleDesc.Quality = 0;
+		swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
+		swapChainDesc.Flags = (m_options & c_AllowTearing) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+
+		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSwapChainDesc = {0};
+		fsSwapChainDesc.Windowed = TRUE;
+
+		//Create swap chain for window
+		wrl::ComPtr<IDXGISwapChain1> swapChain;
+
+		//DXGI does not allow creating swap chain targeting window which has fullscreen styles(no border + topmost).
+		//Temporarily remove top most property for creating swapchain
+		bool prevIsFullScreen = ConceptEngineRunner::IsFullScreen();
+		if (prevIsFullScreen) {
+			ConceptEngineRunner::SetWindowZOrderToTopMost(false);
+		}
+
+		ThrowIfFailed(m_dxgiFactory->CreateSwapChainForHwnd(m_commandQueue.Get(),
+		                                                    m_window,
+		                                                    &swapChainDesc,
+		                                                    &fsSwapChainDesc,
+		                                                    nullptr,
+		                                                    &swapChain));
+		if (prevIsFullScreen) {
+			ConceptEngineRunner::SetWindowZOrderToTopMost(true);
+		}
+
+		ThrowIfFailed(swapChain.As(&m_swapChain));
+
+		//With tearing support enabled we will handle alt + enter key presses in window message loop rather than let DXGI handle it by calling SetFullScreenState.
+		if (IsTearingSupported()) {
+			m_dxgiFactory->MakeWindowAssociation(m_window, DXGI_MWA_NO_ALT_ENTER);
+		}
+	}
+
+	//Obtain back buffers for window which will be final render targets
+	//create render target views for each of them.
+	for (UINT n = 0; n < m_backBufferCount; n++) {
+		ThrowIfFailed(m_swapChain->GetBuffer(n, IID_PPV_ARGS(&m_renderTargets[n])));
+
+		wchar_t name[25] = {};
+		swprintf_s(name, L"Render target %u", n);
+		m_renderTargets[n]->SetName(name);
+
+		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+		rtvDesc.Format = m_backBufferFormat;
+		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptor(m_rtvDescriptorHeap->GetCPUDescriptorHandleForHeapStart(), n,
+		                                            m_rtvDescriptorSize);
+		m_d3dDevice->CreateRenderTargetView(m_renderTargets[n].Get(), &rtvDesc, rtvDescriptor);
+	}
+
+	// Reset index to current back buffer
+	m_backBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+	if (m_depthBufferFormat != DXGI_FORMAT_UNKNOWN) {
+		//Allocate 2D surface as depth/stencil buffer and create depth stencil view on surface.
+		CD3DX12_HEAP_PROPERTIES depthHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
+		D3D12_RESOURCE_DESC depthStencilDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+			m_depthBufferFormat, backBufferWidth, backBufferHeight,
+			1, //Depth stencil view has only one texture 
+			1 // Use single mipmap level
+		);
+		depthStencilDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+		D3D12_CLEAR_VALUE depthOptimizedClearValue = {};
+		depthOptimizedClearValue.Format = m_depthBufferFormat;
+		depthOptimizedClearValue.DepthStencil.Depth = 1.0f;
+		depthOptimizedClearValue.DepthStencil.Stencil = 0;
+
+		ThrowIfFailed(m_d3dDevice->CreateCommittedResource(&depthHeapProperties,
+		                                                   D3D12_HEAP_FLAG_NONE,
+		                                                   &depthStencilDesc,
+		                                                   D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		                                                   &depthOptimizedClearValue,
+		                                                   IID_PPV_ARGS(&m_depthStencil)
+		));
+
+		m_depthStencil->SetName(L"Depth stencil");
+
+		D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+		dsvDesc.Format = m_depthBufferFormat;
+		dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+		m_d3dDevice->CreateDepthStencilView(m_depthStencil.Get(), &dsvDesc,
+		                                    m_dsvDescriptorHeap->GetCPUDescriptorHandleForHeapStart());
+	}
+
+	//Set 3D rendering viewport and scissor rectangle to target entire window
+	m_screenViewPort.TopLeftX = m_screenViewPort.TopLeftY = 0.f;
+	m_screenViewPort.Width = static_cast<float>(backBufferWidth);
+	m_screenViewPort.Height = static_cast<float>(backBufferHeight);
+	m_screenViewPort.MinDepth = D3D12_MIN_DEPTH;
+	m_screenViewPort.MaxDepth = D3D12_MAX_DEPTH;
+
+	m_scissorRect.left = m_scissorRect.top = 0;
+	m_scissorRect.right = backBufferWidth;
+	m_scissorRect.bottom = backBufferHeight;
 }
 
 void DirectXResources::SetWindow(HWND window, int width, int height) {
