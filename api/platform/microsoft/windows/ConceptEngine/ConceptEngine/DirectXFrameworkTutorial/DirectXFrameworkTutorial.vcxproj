@@ -24,6 +24,7 @@
     <ClInclude Include="DirectXHelper.h" />
     <ClInclude Include="DirectXResources.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="StepTimer.h" />
     <ClInclude Include="Tutorial.h" />
     <ClInclude Include="Types.h" />
@@ -31,6 +32,13 @@
   <ItemGroup>
     <ClCompile Include="ConceptEngineRunner.cpp" />
     <ClCompile Include="DirectXResources.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="DirectXFrameworkTutorial.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.ico" />
+    <Image Include="..\..\..\..\..\..\..\assets\conceptenginelogo.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

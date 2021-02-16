@@ -10,6 +10,12 @@ namespace wrl = Microsoft::WRL;
 
 using Logger = std::shared_ptr<spdlog::logger>;
 
+// Provides an interface for an application that owns DeviceResources to be notified of the device being lost or created.
+interface IDeviceNotify {
+	virtual void OnDeviceLost() = 0;
+	virtual void OnDeviceRestored() = 0;
+};
+
 class DirectXResources {
 public:
 	static const unsigned int c_AllowTearing = 0x1;
@@ -31,12 +37,25 @@ public:
 	void CreateDeviceResources();
 	void CreateWindowSizeDependentResources();
 	void SetWindow(HWND window, int width, int height);
-	void WindowSizeChanged(int width, int height, bool minimized);
+	bool WindowSizeChanged(int width, int height, bool minimized);
 	void HandleDeviceLost();
 	void Prepare(D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_PRESENT);
 	void Present(D3D12_RESOURCE_STATES beforeState = D3D12_RESOURCE_STATE_RENDER_TARGET);
 	void ExecuteCommandList();
 	void WaitForGPU() noexcept;
+
+	void RegisterDeviceNotify(IDeviceNotify* deviceNotify) {
+		m_deviceNotify = deviceNotify;
+		//Application that handle device removal should declare themselves as being able to do so
+		__if_exists(DXGIDeclareAdapterRemovalSupport) {
+		if (deviceNotify) {
+			if (FAILED(DXGIDeclareAdapterRemovalSupport())) {
+				spdlog::warn("Warning: application failed to declare adapter removal support");
+			}
+		}
+		}
+	}
+
 
 	//Device Accessors
 	RECT GetOutputSize() const { return m_outputSize; }
@@ -132,4 +151,7 @@ private:
 
 	// DeviceResources options (see flags above)
 	unsigned int m_options;
+
+	//Device notify can be held directly as it owns directX resource
+	IDeviceNotify* m_deviceNotify;
 };

@@ -29,6 +29,7 @@ DirectXResources::DirectXResources(DXGI_FORMAT backBufferFormat, DXGI_FORMAT dep
 	m_options(flags),
 	m_isWindowVisible(true),
 	m_adapterIDoverride(adapterID),
+	m_deviceNotify(nullptr),
 	m_adapterID(UINT_MAX) {
 	if (backBufferCount > MAX_BACK_BUFFER_COUNT) {
 		throw std::out_of_range("backBufferCount too large");
@@ -336,29 +337,176 @@ void DirectXResources::CreateWindowSizeDependentResources() {
 }
 
 void DirectXResources::SetWindow(HWND window, int width, int height) {
+	m_window = window;
+	m_outputSize.left = m_outputSize.top = 0;
+	m_outputSize.right = width;
+	m_outputSize.bottom = height;
 }
 
-void DirectXResources::WindowSizeChanged(int width, int height, bool minimized) {
+bool DirectXResources::WindowSizeChanged(int width, int height, bool minimized) {
+	m_isWindowVisible = !minimized;
+	if (minimized || width == 0 || height == 0) {
+		return false;
+	}
+
+	RECT newRect;
+	newRect.left = newRect.top = 0;
+	newRect.right = width;
+	newRect.bottom = height;
+	if (newRect.left == m_outputSize.left &&
+		newRect.top == m_outputSize.top &&
+		newRect.right == m_outputSize.right &&
+		newRect.bottom == m_outputSize.bottom) {
+		return false;
+	}
+
+	m_outputSize = newRect;
+	CreateWindowSizeDependentResources();
+	return true;
 }
 
 void DirectXResources::HandleDeviceLost() {
+	if (m_deviceNotify) {
+		m_deviceNotify->OnDeviceLost();
+	}
+
+	for (UINT n = 0; n < m_backBufferCount; n ++) {
+		m_commandAllocators[n].Reset();
+		m_renderTargets[n].Reset();
+	}
+
+	m_depthStencil.Reset();
+	m_commandQueue.Reset();
+	m_commandList.Reset();
+	m_fence.Reset();
+	m_rtvDescriptorHeap.Reset();
+	m_dsvDescriptorHeap.Reset();
+	m_swapChain.Reset();
+	m_d3dDevice.Reset();
+	m_dxgiFactory.Reset();
+	m_adapter.Reset();
+
+#ifdef _DEBUG
+	{
+		wrl::ComPtr<IDXGIDebug1> dxgiDebug;
+		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug)))) {
+			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL,
+			                             DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
+		}
+	}
+#endif
+	InitializeDXGIAdapter();
+	CreateDeviceResources();
+	CreateWindowSizeDependentResources();
+	if (m_deviceNotify) {
+		m_deviceNotify->OnDeviceRestored();
+	}
 }
 
+//Prepare command list and render target for rendering
 void DirectXResources::Prepare(D3D12_RESOURCE_STATES beforeState) {
+	//Reset command list and allocator;
+	ThrowIfFailed(m_commandAllocators[m_backBufferIndex]->Reset());
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocators[m_backBufferIndex].Get(), nullptr));
+	if (beforeState != D3D12_RESOURCE_STATE_RENDER_TARGET) {
+		//Transition render target into correct state to allow for drawing  into it
+		D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+			m_renderTargets[m_backBufferIndex].Get(), beforeState, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		m_commandList->ResourceBarrier(1, &barrier);
+	}
 }
 
+//Present content of swap chain to screen
 void DirectXResources::Present(D3D12_RESOURCE_STATES beforeState) {
+	if (beforeState != D3D12_RESOURCE_STATE_PRESENT) {
+		//Transition render target to state that allows it to be presented to display
+		D3D12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+			m_renderTargets[m_backBufferIndex].Get(),
+			beforeState,
+			D3D12_RESOURCE_STATE_PRESENT
+		);
+		m_commandList->ResourceBarrier(1, &barrier);
+	}
+
+	ExecuteCommandList();
+
+	HRESULT hr;
+	if (m_options & c_AllowTearing) {
+		//Recomented to always use tearing uf supported when using sync interval of 0
+		//Note this will file if true 'fullscreen' mode;
+		hr = m_swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
+	}
+	else {
+		//First Argument instructs DXGI to block until vsync, putting applicat ion
+		//to sleep mode until next vsync. This Ensures that we do not waste any cycles rendering
+		//frames that will never be displayed to screen
+		hr = m_swapChain->Present(1, 0);
+	}
+
+	//If device was reset we must complete reinitialize renderer
+	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) {
+#ifdef _DEBUG
+		char buff[64] = {};
+		sprintf_s(buff, "Device Lost on Present: Reason code 0x%08X",
+		          (hr == DXGI_ERROR_DEVICE_REMOVED) ? m_d3dDevice->GetDeviceRemovedReason() : hr);
+		auto ss = std::string(buff);
+		spdlog::error(ss);
+#endif
+		HandleDeviceLost();
+	}
+	else {
+		ThrowIfFailed(hr);
+		MoveToNextFrame();
+	}
 }
 
+// Send the command list off to the GPU for processing.
 void DirectXResources::ExecuteCommandList() {
+	ThrowIfFailed(m_commandList->Close());
+	ID3D12CommandList* commandLists[] = {
+		m_commandList.Get()
+	};
+	m_commandQueue->ExecuteCommandLists(ARRAYSIZE(commandLists), commandLists);
 }
 
+// Wait for pending GPU work to complete.
 void DirectXResources::WaitForGPU() noexcept {
+	if (m_commandQueue && m_fence && m_fenceEvent.IsValid()) {
+		//Schedule Signal command in GPU Queue;
+		UINT64 fenceValue = m_fenceValues[m_backBufferIndex];
+		if (SUCCEEDED(m_commandQueue->Signal(m_fence.Get(), fenceValue))) {
+			//Wait until Signal has been processed
+			if (SUCCEEDED(m_fence->SetEventOnCompletion(fenceValue, m_fenceEvent.Get()))) {
+				WaitForSingleObjectEx(m_fenceEvent.Get(), INFINITE, FALSE);
+
+				//Increment fence value for current frame
+				m_fenceValues[m_backBufferIndex]++;
+			}
+		}
+	}
 }
 
+//Prepare to render next frame
 void DirectXResources::MoveToNextFrame() {
+	//Schedule signal command in queue
+	const UINT64 currentFenceValue = m_fenceValues[m_backBufferIndex];
+	ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), currentFenceValue));
+
+	//Update back buffer index.
+	m_backBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+
+	//If next frame is not ready to be rendered yet. Wait until it is ready.
+	if (m_fence->GetCompletedValue() < m_fenceValues[m_backBufferIndex]) {
+		ThrowIfFailed(m_fence->SetEventOnCompletion(m_fenceValues[m_backBufferIndex], m_fenceEvent.Get()));
+		WaitForSingleObjectEx(m_fenceEvent.Get(), INFINITE, FALSE);
+	}
+
+	//Set fence value for next frame.
+	m_fenceValues[m_backBufferIndex] = currentFenceValue + 1;
 }
 
+// This method acquires the first high-performance hardware adapter that supports Direct3D 12.
+// If no such adapter can be found, try WARP. Otherwise throw an exception.
 void DirectXResources::InitializeAdapter(IDXGIAdapter1** ppAdapter) {
 	*ppAdapter = nullptr;
 

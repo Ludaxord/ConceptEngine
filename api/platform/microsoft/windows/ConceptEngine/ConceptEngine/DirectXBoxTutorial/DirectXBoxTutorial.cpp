@@ -25,10 +25,13 @@ void DirectXBoxTutorial::OnInit() {
 		m_adapterID
 	);
 
+	m_deviceResources->RegisterDeviceNotify(this);
 	m_deviceResources->SetWindow(ConceptEngineRunner::GetHWnd(), m_width, m_height);
 	m_deviceResources->InitializeDXGIAdapter();
+	
 	ThrowIfFalse(DirectXResources::IsDirectXRayTracingSupported(m_deviceResources->GetAdapter()),
-	             L"Error: DirectX Ray Tracing is not supported in this Machine \n");
+	             L"Error: DirectX Ray Tracing is not supported in this Machine");
+	
 	m_deviceResources->CreateDeviceResources();
 	m_deviceResources->CreateWindowSizeDependentResources();
 
@@ -66,6 +69,7 @@ void DirectXBoxTutorial::OnMouseButtonUp(KeyCode key, UINT x, UINT y) {
 void DirectXBoxTutorial::OnDisplayChanged() {
 }
 
+//Create resources that depend on device
 void DirectXBoxTutorial::CreateDeviceDependentResources() {
 }
 

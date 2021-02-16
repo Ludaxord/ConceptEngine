@@ -24,7 +24,7 @@
 
 namespace wrl = Microsoft::WRL;
 
-class Tutorial {
+class Tutorial : public IDeviceNotify {
 public:
 
 	inline static UINT MAX_CONSOLE_LINES = 500;
@@ -61,12 +61,12 @@ public:
 	virtual void OnMouseButtonUp(KeyCode key, UINT x, UINT y) = 0;
 	virtual void OnDisplayChanged() = 0;
 
-	virtual void OnDeviceLost() {
+	virtual void OnDeviceLost() override {
 		ReleaseWindowSizeDependentResources();
 		ReleaseDeviceDependentResources();
 	}
 
-	virtual void OnDeviceRestored() {
+	virtual void OnDeviceRestored() override {
 		CreateDeviceDependentResources();
 		CreateWindowSizeDependentResources();
 	}

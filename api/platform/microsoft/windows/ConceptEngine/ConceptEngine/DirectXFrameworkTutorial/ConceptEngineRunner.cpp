@@ -2,10 +2,9 @@
 
 #include <sstream>
 
-
 #include "DirectXHelper.h"
 #include "Tutorial.h"
-#include "../ConceptEngineEditor/resource.h"
+#include "../ConceptEngineTutorialRunner/resource.h"
 
 bool ConceptEngineRunner::m_fullScreen = false;
 RECT ConceptEngineRunner::m_windowRect;
