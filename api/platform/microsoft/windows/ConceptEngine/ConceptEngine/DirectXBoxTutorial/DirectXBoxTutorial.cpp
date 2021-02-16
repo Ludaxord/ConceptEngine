@@ -1,5 +1,7 @@
 #include "DirectXBoxTutorial.h"
 
+#include <d3dcompiler.h>
+
 #include "../DirectXFrameworkTutorial/ConceptEngineRunner.h"
 #include "../DirectXFrameworkTutorial/DirectXHelper.h"
 
@@ -8,7 +10,7 @@ const wchar_t* DirectXBoxTutorial::c_rayGenShaderName = L"BoxRayGenShader";
 const wchar_t* DirectXBoxTutorial::c_closestHitShaderName = L"BoxClosestHitShader";
 const wchar_t* DirectXBoxTutorial::c_missShaderName = L"BoxMissShader";
 
-#include "x64/Debug/CompiledShaders/BoxRayTracing.hlsl.h"
+// #include "x64/Debug/CompiledShaders/BoxRayTracing.hlsl.h"
 
 DirectXBoxTutorial::DirectXBoxTutorial(UINT width, UINT height) : Tutorial(width, height, L"Box Tutorial"),
                                                                   m_rayTracingOutputResourceUAVDescriptorHeapIndex(
@@ -193,9 +195,17 @@ void DirectXBoxTutorial::CreateRayTracingPipelineStateObject() {
 	//DXIL Library
 	//Contains shaders and their entrypoints for state objects
 	//Since shaders are not considered a subobject, they need to be passed in via DXIL Library
+	WCHAR assetsPath[512];
+	GetAssetsPath(assetsPath, _countof(assetsPath));
+	std::wstring m_assetsPath = assetsPath;
+	std::wstring lib_assetsPath = m_assetsPath + L"BoxRayTracing.cso";
+	Microsoft::WRL::ComPtr<ID3DBlob> libShaderBlob;
+	ThrowIfFailed(D3DReadFileToBlob(lib_assetsPath.c_str(), &libShaderBlob));
+
 	auto lib = rayTracingPipeline.CreateSubobject<CD3DX12_DXIL_LIBRARY_SUBOBJECT>();
 	//TODO: Try compile shader during runtime
-	D3D12_SHADER_BYTECODE libDXIL = CD3DX12_SHADER_BYTECODE((void*)g_pBoxRayTracing, ARRAYSIZE(g_pBoxRayTracing));
+	// D3D12_SHADER_BYTECODE libDXIL = CD3DX12_SHADER_BYTECODE((void*)g_pBoxRayTracing, ARRAYSIZE(g_pBoxRayTracing));
+	D3D12_SHADER_BYTECODE libDXIL = CD3DX12_SHADER_BYTECODE(libShaderBlob.Get());
 	lib->SetDXILLibrary(&libDXIL);
 	//Define which shader exports to surface from libraryt
 	// If no shader exports are defined for a DXIL library subobject, all shaders will be surfaced.

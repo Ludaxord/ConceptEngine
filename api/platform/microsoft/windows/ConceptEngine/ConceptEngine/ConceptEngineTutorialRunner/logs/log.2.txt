@@ -1,2 +1,7 @@
-[2021-02-16 18:16:00.310] [ConceptEngine] [info] Window created
-[2021-02-16 18:16:00.534] [ConceptEngine] [info] Direct3D Adapter (0): VID:10DE, PID:2484 - NVIDIA GeForce RTX 3070
+[2021-02-16 18:16:08.788] [ConceptEngine] [info] Window created
+[2021-02-16 18:16:08.961] [ConceptEngine] [info] Direct3D Adapter (0): VID:10DE, PID:2484 - NVIDIA GeForce RTX 3070
+[2021-02-16 18:16:09.146] [ConceptEngine] [error] Call SetWindow with valid Win32 window handle
+[2021-02-16 18:16:09.146] [ConceptEngine] [error] HRESULT of 0x80070006
+[2021-02-16 18:16:09.147] [ConceptEngine] [error] Application hit a problem: 
+[2021-02-16 18:16:09.147] [ConceptEngine] [error] HRESULT of 0x80070006
+[2021-02-16 18:16:09.147] [ConceptEngine] [error] Terminating.

@@ -51,4 +51,5 @@ ole32.lib(ole32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined
 oleaut32.lib(OLEAUT32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 uuid.lib(WSCAPI.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 odbc32.lib(ODBC32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
+D3DCompiler.lib(D3DCOMPILER_47.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
   DirectXBoxTutorial.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\02. DirectXBoxTutorial.lib
