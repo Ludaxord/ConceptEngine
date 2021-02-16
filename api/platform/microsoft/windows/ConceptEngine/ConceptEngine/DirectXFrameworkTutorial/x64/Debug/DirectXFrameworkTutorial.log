@@ -38,48 +38,6 @@ F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEn
               _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ]
-  DirectXResources.cpp
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\DirectXResources.cpp(505,55): warning C4244: '=': conversion from 'UINT64' to 'UINT', possible loss of data
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from 'wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=wchar_t *
-          ]
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\DirectXHelper.h(44): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXFrameworkTutorial\DirectXHelper.h(44): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ]
-  Generating Code...
 dxgi.lib(dxgi.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 kernel32.lib(KERNEL32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 user32.lib(USER32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored

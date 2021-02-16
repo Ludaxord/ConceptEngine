@@ -23,6 +23,7 @@
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DirectXHelper.h" />
     <ClInclude Include="DirectXResources.h" />
+    <ClInclude Include="HlslCompat.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StepTimer.h" />

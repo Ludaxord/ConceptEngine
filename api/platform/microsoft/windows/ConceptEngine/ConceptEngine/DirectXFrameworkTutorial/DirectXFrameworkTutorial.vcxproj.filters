@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{4b1b9dec-b369-474c-a9c7-978fa540a035}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders\Util">
+      <UniqueIdentifier>{f8fb10ce-8c48-4cd2-9fb4-d228548db620}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tutorial.h">
@@ -44,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HlslCompat.h">
+      <Filter>Resource Files\Shaders\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

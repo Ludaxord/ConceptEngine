@@ -6,6 +6,22 @@
 #include "../DirectXFrameworkTutorial/Tutorial.h"
 #include "../DirectXFrameworkTutorial/Types.h"
 
+namespace GlobalRootSignatureParams {
+	enum Value {
+		OutputViewSlot = 0,
+		AccelerationStructureSlot,
+		Count
+	};
+}
+
+namespace LocalRootSignatureParams {
+	enum Value {
+		ViewportConstantSlot = 0,
+		Count
+	};
+}
+
+
 class DirectXBoxTutorial : public Tutorial {
 
 public:
