@@ -4,6 +4,7 @@
 
 #include "../DirectXFrameworkTutorial/ConceptEngineRunner.h"
 #include "../DirectXFrameworkTutorial/DirectXHelper.h"
+#include "../DirectXFrameworkTutorial/DirectXRayTracingHelper.h"
 
 const wchar_t* DirectXBoxTutorial::c_hitGroupName = L"BoxHitGroup";
 const wchar_t* DirectXBoxTutorial::c_rayGenShaderName = L"BoxRayGenShader";
@@ -155,6 +156,17 @@ void DirectXBoxTutorial::CreateRootSignatures() {
 		rootParameters[GlobalRootSignatureParams::AccelerationStructureSlot].InitAsShaderResourceView(0);
 		CD3DX12_ROOT_SIGNATURE_DESC globalRootSignatureDesc(ARRAYSIZE(rootParameters), rootParameters);
 		SerializeAndCreateRayTracingRootSignature(globalRootSignatureDesc, &m_rayTracingGlobalRootSignature);
+	}
+
+	//Local root signature
+	//This is a root signature that enables shader to have unique arguments that comes from shaders table
+	{
+		CD3DX12_ROOT_PARAMETER rootParameters[LocalRootSignatureParams::Count];
+		rootParameters[LocalRootSignatureParams::ViewportConstantSlot].
+			InitAsConstants(SizeOfInUint32(m_rayGenCB), 0, 0);
+		CD3DX12_ROOT_SIGNATURE_DESC localRootSignatureDesc(ARRAYSIZE(rootParameters), rootParameters);
+		localRootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
+		SerializeAndCreateRayTracingRootSignature(localRootSignatureDesc, &m_rayTracingLocalRootSignature);
 	}
 }
 

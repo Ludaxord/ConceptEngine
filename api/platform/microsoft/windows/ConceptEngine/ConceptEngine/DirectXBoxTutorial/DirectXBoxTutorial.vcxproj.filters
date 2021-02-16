@@ -31,7 +31,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\DirectXFrameworkTutorial\BoxRayTracing.hlsl">
+    <FxCompile Include="BoxRayTracing.hlsl">
       <Filter>Resource Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -51,6 +51,9 @@
     <ClInclude Include="HlslCompat.h">
       <Filter>Resource Files\Shaders\Util</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXRayTracingHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngineRunner.cpp">

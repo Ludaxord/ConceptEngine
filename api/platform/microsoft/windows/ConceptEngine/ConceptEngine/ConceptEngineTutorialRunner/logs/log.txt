@@ -1,2 +1,2 @@
-[2021-02-16 21:59:01.541] [ConceptEngine] [info] Window created
-[2021-02-16 21:59:01.732] [ConceptEngine] [info] Direct3D Adapter (0): VID:10DE, PID:2484 - NVIDIA GeForce RTX 3070
+[2021-02-16 22:34:17.821] [ConceptEngine] [info] Window created
+[2021-02-16 22:34:18.069] [ConceptEngine] [info] Direct3D Adapter (0): VID:10DE, PID:2484 - NVIDIA GeForce RTX 3070
