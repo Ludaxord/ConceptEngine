@@ -258,10 +258,52 @@ void DirectXBoxTutorial::CreateRayTracingPipelineStateObject() {
 }
 
 void DirectXBoxTutorial::CreateDescriptorHeap() {
+	auto device = m_deviceResources->GetD3DDevice();
+
+	D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
+	//Allocate heap for single descriptor:
+	// 1 - RayTracing Output texture UAV
+	descriptorHeapDesc.NumDescriptors = 1;
+	descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	descriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	descriptorHeapDesc.NodeMask = 0;
+	device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&m_descriptorHeap));
 }
 
 //Create 2D output texture for RayTracing
 void DirectXBoxTutorial::CreateRayTracingOutputResource() {
+	auto device = m_deviceResources->GetD3DDevice();
+	auto backBufferFormat = m_deviceResources->GetBackBufferFormat();
+
+	//Create output resource. Dimensions and format should match swap-chain
+	auto uavDesc = CD3DX12_RESOURCE_DESC::Tex2D(backBufferFormat,
+	                                            m_width,
+	                                            m_height,
+	                                            1,
+	                                            1,
+	                                            1,
+	                                            0,
+	                                            D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+	auto defaultHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	ThrowIfFailed(device->CreateCommittedResource(
+		&defaultHeapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&uavDesc,
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		nullptr,
+		IID_PPV_ARGS(&m_rayTracingOutput)
+	));
+	NAME_D3D12_OBJECT(m_rayTracingOutput);
+
+	D3D12_CPU_DESCRIPTOR_HANDLE uavDescriptorHandle;
+	m_rayTracingOutputResourceUAVDescriptorHeapIndex = AllocateDescriptor(
+		&uavDescriptorHandle, m_rayTracingOutputResourceUAVDescriptorHeapIndex);
+	D3D12_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
+	UAVDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+	device->CreateUnorderedAccessView(m_rayTracingOutput.Get(), nullptr, &UAVDesc, uavDescriptorHandle);
+	m_rayTracingOutputReosurceUAVFGPUDescriptor = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+		m_descriptorHeap->GetGPUDescriptorHandleForHeapStart(), m_rayTracingOutputResourceUAVDescriptorHeapIndex,
+		m_descriptorSize);
 }
 
 void DirectXBoxTutorial::BuildGeometry() {
