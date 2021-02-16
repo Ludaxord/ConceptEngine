@@ -216,11 +216,51 @@ void DirectXBoxTutorial::CreateRayTracingPipelineStateObject() {
 		lib->DefineExport(c_missShaderName);
 	}
 
+	//Triangle hit group
+	// A hit group specifies closest hit, any hit and intersection shaders to be executed when a ray intersects the geometry's triangle/AABB.
+	// In this sample, we only use triangle geometry with a closest hit shader, so others are not set.
+	auto hitGroup = rayTracingPipeline.CreateSubobject<CD3DX12_HIT_GROUP_SUBOBJECT>();
+	hitGroup->SetClosestHitShaderImport(c_closestHitShaderName);
+	hitGroup->SetHitGroupExport(c_hitGroupName);
+	hitGroup->SetHitGroupType(D3D12_HIT_GROUP_TYPE_TRIANGLES);
+
+	//Shader config
+	//Defines maxiumum sizes in bytes for ray payload and attribute structure
+	auto shaderConfig = rayTracingPipeline.CreateSubobject<CD3DX12_RAYTRACING_SHADER_CONFIG_SUBOBJECT>();
+	UINT payloadSize = 4 * sizeof(float);
+	UINT attributeSize = 2 * sizeof(float);
+	shaderConfig->Config(payloadSize, attributeSize);
+
+	//Local root signature and shader association
+	//This is a root signature that enables a shader to have unique arguments that comes from shader table
+	CreateLocalRootSignatureSubObjects(&rayTracingPipeline);
+
+	//Global root signature
+	//This is a root signature that is shared across all RayTracing Shaders invoked during a DispatchRays() call.
+	auto globalRootSignature = rayTracingPipeline.CreateSubobject<CD3DX12_GLOBAL_ROOT_SIGNATURE_SUBOBJECT>();
+	globalRootSignature->SetRootSignature(m_rayTracingGlobalRootSignature.Get());
+
+	//Pipeline config
+	//Defines maximum TraceRay() recursion depth.
+	auto pipelineConfig = rayTracingPipeline.CreateSubobject<CD3DX12_RAYTRACING_PIPELINE_CONFIG_SUBOBJECT>();
+	//PERFORMANCE TIP: Set max recursion depth as low as needed
+	//as drivers may apply optimization strategies for low recursion depths.
+	UINT maxRecursionDepth = 1; // ~ primary rays only
+	pipelineConfig->Config(maxRecursionDepth);
+
+#if _DEBUG
+	PrintStateObjectDesc(rayTracingPipeline);
+#endif
+
+	//Create state object
+	ThrowIfFailed(m_dxrDevice->CreateStateObject(rayTracingPipeline, IID_PPV_ARGS(&m_dxrStateObject)),
+	              L"Couldn't create DirectX RayTracing state object.");
 }
 
 void DirectXBoxTutorial::CreateDescriptorHeap() {
 }
 
+//Create 2D output texture for RayTracing
 void DirectXBoxTutorial::CreateRayTracingOutputResource() {
 }
 
