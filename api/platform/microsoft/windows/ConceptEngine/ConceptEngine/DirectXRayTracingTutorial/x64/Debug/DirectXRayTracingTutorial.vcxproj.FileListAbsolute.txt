@@ -1,2 +1,0 @@
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\DirectXRayTracingTutorial.pdb
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\DirectXRayTracingTutorial\x64\Debug\DirectXRayTracingTutorial.pdb

@@ -1,0 +1,3 @@
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Raytracing.cso
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\RTHelloWorld.pdb
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTHelloWorld\x64\Debug\RTHelloWorld.pdb

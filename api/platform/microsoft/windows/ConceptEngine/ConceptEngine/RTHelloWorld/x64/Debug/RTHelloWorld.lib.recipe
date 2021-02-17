@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <ProjectOutputs>
-    <ProjectOutput>
-      <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineTutorialRunner.exe</FullPath>
-    </ProjectOutput>
-  </ProjectOutputs>
+  <ProjectOutputs />
   <ContentFiles>
     <ContentFile>
       <FullPath>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Raytracing.cso</FullPath>
