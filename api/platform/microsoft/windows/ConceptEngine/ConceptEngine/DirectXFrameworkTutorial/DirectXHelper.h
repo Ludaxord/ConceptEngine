@@ -101,6 +101,43 @@ inline DXGI_FORMAT NoSRGB(DXGI_FORMAT format) {
 	}
 }
 
+inline void AllocateUploadBuffer(ID3D12Device* device, void* pData, UINT64 dataSize, ID3D12Resource** ppResource,
+                                 const wchar_t* resourceName = nullptr) {
+	auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(dataSize);
+	ThrowIfFailed(device->CreateCommittedResource(&uploadHeapProperties,
+	                                              D3D12_HEAP_FLAG_NONE,
+	                                              &bufferDesc,
+	                                              D3D12_RESOURCE_STATE_GENERIC_READ,
+	                                              nullptr,
+	                                              IID_PPV_ARGS(ppResource)));
+	if (resourceName) {
+		(*ppResource)->SetName(resourceName);
+	}
+	void* pMappedData;
+	(*ppResource)->Map(0, nullptr, &pMappedData);
+	memcpy(pMappedData, pData, dataSize);
+	(*ppResource)->Unmap(0, nullptr);
+}
+
+inline void AllocateUAVBuffer(ID3D12Device* device,
+                              UINT64 bufferSize,
+                              ID3D12Resource** ppResource,
+                              D3D12_RESOURCE_STATES initialResourceState = D3D12_RESOURCE_STATE_COMMON,
+                              const wchar_t* resourceName = nullptr) {
+	auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+	ThrowIfFailed(device->CreateCommittedResource(&uploadHeapProperties,
+	                                              D3D12_HEAP_FLAG_NONE,
+	                                              &bufferDesc,
+	                                              initialResourceState,
+	                                              nullptr,
+	                                              IID_PPV_ARGS(ppResource)
+	));
+	if (resourceName) {
+		(*ppResource)->SetName(resourceName);
+	}
+}
 
 // Pretty-print a state object tree.
 inline void PrintStateObjectDesc(const D3D12_STATE_OBJECT_DESC* desc) {

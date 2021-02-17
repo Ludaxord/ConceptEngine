@@ -98,7 +98,7 @@ private:
 
 	//Ray Tracing Output
 	wrl::ComPtr<ID3D12Resource> m_rayTracingOutput;
-	D3D12_GPU_DESCRIPTOR_HANDLE m_rayTracingOutputReosurceUAVFGPUDescriptor;
+	D3D12_GPU_DESCRIPTOR_HANDLE m_rayTracingOutputResourceUAVGPUDescriptor;
 	UINT m_rayTracingOutputResourceUAVDescriptorHeapIndex;
 
 	//Shader tables

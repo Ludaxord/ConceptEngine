@@ -276,10 +276,14 @@ void DirectXBoxTutorial::CreateDescriptorHeap() {
 	//Allocate heap for single descriptor:
 	// 1 - RayTracing Output texture UAV
 	descriptorHeapDesc.NumDescriptors = 1;
-	descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	descriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	descriptorHeapDesc.NodeMask = 0;
 	device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&m_descriptorHeap));
+	NAME_D3D12_OBJECT(m_descriptorHeap);
+
+	m_descriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
 }
 
 //Create 2D output texture for RayTracing
@@ -313,26 +317,174 @@ void DirectXBoxTutorial::CreateRayTracingOutputResource() {
 	D3D12_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
 	UAVDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
 	device->CreateUnorderedAccessView(m_rayTracingOutput.Get(), nullptr, &UAVDesc, uavDescriptorHandle);
-	m_rayTracingOutputReosurceUAVFGPUDescriptor = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+	m_rayTracingOutputResourceUAVGPUDescriptor = CD3DX12_GPU_DESCRIPTOR_HANDLE(
 		m_descriptorHeap->GetGPUDescriptorHandleForHeapStart(), m_rayTracingOutputResourceUAVDescriptorHeapIndex,
 		m_descriptorSize);
 }
 
 void DirectXBoxTutorial::BuildGeometry() {
+	auto device = m_deviceResources->GetD3DDevice();
+	Index indices[] = {
+		0, 1, 2
+	};
+
+	float depthValue = 1.0f;
+	float offset = 0.7f;
+	Vertex vertices[] = {
+		//Sample Ray Traces in screen space coordinates,
+		//Since DirectX screen space coordinates are right handed (i.e. Y axis points down).
+		//Define vertices in counter clockwise order ~ clockwise in left handed
+		{0, -offset, depthValue},
+		{-offset, offset, depthValue},
+		{offset, offset, depthValue}
+	};
+	AllocateUploadBuffer(device.Get(), vertices, sizeof(vertices), &m_vertexBuffer);
+	AllocateUploadBuffer(device.Get(), vertices, sizeof(vertices), &m_vertexBuffer);
 }
 
+// Build acceleration structures needed for raytracing.
 void DirectXBoxTutorial::BuildAccelerationStructures() {
+	auto device = m_deviceResources->GetD3DDevice();
+	auto commandList = m_deviceResources->GetCommandList();
+	auto commandQueue = m_deviceResources->GetCommandQueue();
+	auto commandAllocator = m_deviceResources->GetCommandAllocator();
+
+	//Reset command list for acceleration structure construction
+	commandList->Reset(commandAllocator.Get(), nullptr);
+
+	D3D12_RAYTRACING_GEOMETRY_DESC geometryDesc = {};
+	geometryDesc.Type = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
+	geometryDesc.Triangles.IndexBuffer = m_indexBuffer->GetGPUVirtualAddress();
+	geometryDesc.Triangles.IndexCount = static_cast<UINT>(m_indexBuffer->GetDesc().Width) / sizeof(Index);
+	geometryDesc.Triangles.IndexFormat = DXGI_FORMAT_R16_UINT;
+	geometryDesc.Triangles.VertexBuffer = {m_vertexBuffer->GetGPUVirtualAddress(), sizeof(Vertex)};
+	geometryDesc.Triangles.VertexCount = static_cast<UINT>(m_vertexBuffer->GetDesc().Width) / sizeof(Vertex);
+	geometryDesc.Triangles.VertexFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+	geometryDesc.Triangles.Transform3x4 = 0;
+
+	//Mark geometry as opaque
+	//PERFORMANCE TIP: mark geometry as opaque whenever applicable as it can enable important ray processing optimization
+	//NOTE: When rays encounter opaque geometry an any hit shader will not be executed whether it is present or not
+	geometryDesc.Flags = D3D12_RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+
+	//Get required sizes for an acceleration structure
+	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS buildFlags =
+		D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_PREFER_FAST_TRACE;
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS topLevelInputs = {};
+	topLevelInputs.DescsLayout = D3D12_ELEMENTS_LAYOUT_ARRAY;
+	topLevelInputs.Flags = buildFlags;
+	topLevelInputs.NumDescs = 1;
+	topLevelInputs.Type = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_TOP_LEVEL;
+
+	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO topLevelPreBuildInfo = {};
+	m_dxrDevice->GetRaytracingAccelerationStructurePrebuildInfo(&topLevelInputs, &topLevelPreBuildInfo);
+	ThrowIfFalse(topLevelPreBuildInfo.ResultDataMaxSizeInBytes > 0);
+
+	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO bottomLevelPreBuildInfo = {};
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS bottomLevelInputs = topLevelInputs;
+	bottomLevelInputs.Type = D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_BOTTOM_LEVEL;
+	bottomLevelInputs.pGeometryDescs = &geometryDesc;
+	m_dxrDevice->GetRaytracingAccelerationStructurePrebuildInfo(&bottomLevelInputs, &bottomLevelPreBuildInfo);
+	ThrowIfFalse(bottomLevelPreBuildInfo.ResultDataMaxSizeInBytes > 0);
+
+	wrl::ComPtr<ID3D12Resource> scratchResource;
+	AllocateUAVBuffer(
+		device.Get(), max(topLevelPreBuildInfo.ScratchDataSizeInBytes, bottomLevelPreBuildInfo.ScratchDataSizeInBytes),
+		&scratchResource, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, L"ScratchResource");
+
+	// Allocate resources for acceleration structures.
+	// Acceleration structures can only be placed in resources that are created in the default heap (or custom heap equivalent). 
+	// Default heap is OK since the application doesn’t need CPU read/write access to them. 
+	// The resources that will contain acceleration structures must be created in the state D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE, 
+	// and must have resource flag D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS. The ALLOW_UNORDERED_ACCESS requirement simply acknowledges both: 
+	//  - the system will be doing this type of access in its implementation of acceleration structure builds behind the scenes.
+	//  - from the app point of view, synchronization of writes/reads to acceleration structures is accomplished using UAV barriers.
+	{
+		D3D12_RESOURCE_STATES initialResourceState = D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE;
+		AllocateUAVBuffer(device.Get(),
+		                  bottomLevelPreBuildInfo.ResultDataMaxSizeInBytes,
+		                  &m_bottomLevelAccelerationStructure);
+		AllocateUAVBuffer(device.Get(),
+		                  topLevelPreBuildInfo.ResultDataMaxSizeInBytes,
+		                  &m_topLevelAccelerationStructure);
+	}
+
+	//Create instance descriptor for bottom-level acceleration structure
+	wrl::ComPtr<ID3D12Resource> instanceDescs;
+	D3D12_RAYTRACING_INSTANCE_DESC instanceDesc = {};
+	instanceDesc.Transform[0][0] = instanceDesc.Transform[1][1] = instanceDesc.Transform[2][2] = 1;
+	instanceDesc.InstanceMask = 1;
+	instanceDesc.AccelerationStructure = m_bottomLevelAccelerationStructure->GetGPUVirtualAddress();
+	AllocateUploadBuffer(device.Get(), &instanceDesc, sizeof(instanceDesc), &instanceDescs, L"InstanceDescs");
+
+	//Bottom level acceleration structure desc
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC bottomLevelBuildDesc = {};
+	{
+		bottomLevelBuildDesc.Inputs = bottomLevelInputs;
+		bottomLevelBuildDesc.ScratchAccelerationStructureData = scratchResource->GetGPUVirtualAddress();
+		bottomLevelBuildDesc.DestAccelerationStructureData = m_bottomLevelAccelerationStructure->GetGPUVirtualAddress();
+	}
+
+	//Top Level acceleration structure desc
+	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC topLevelBuildDesc = {};
+	{
+		topLevelInputs.InstanceDescs = instanceDescs->GetGPUVirtualAddress();
+		topLevelBuildDesc.Inputs = topLevelInputs;
+		topLevelBuildDesc.DestAccelerationStructureData = m_topLevelAccelerationStructure->GetGPUVirtualAddress();
+		topLevelBuildDesc.ScratchAccelerationStructureData = scratchResource->GetGPUVirtualAddress();
+	}
+
+	auto BuildAccelerationStructure = [&](auto* rayTracingCommandList) {
+		rayTracingCommandList->BuildRaytracingAccelerationStructure(&bottomLevelBuildDesc, 0, nullptr);
+		commandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::UAV(m_bottomLevelAccelerationStructure.Get()));
+		rayTracingCommandList->BuildRaytracingAccelerationStructure(&topLevelBuildDesc, 0, nullptr);
+	};
+
+	//Build acceleration structure;
+	BuildAccelerationStructure(m_dxrCommandList.Get());
+
+	//kick off acceleration structure construction
+	m_deviceResources->ExecuteCommandList();
+
+	//Wait for GPU to finish as locally created temporary GPU resources will get released once we go out of scope.
+	m_deviceResources->WaitForGPU();
 }
 
 void DirectXBoxTutorial::BuildShaderTables() {
 }
 
 void DirectXBoxTutorial::CopyRayTracingOutputToBackBuffer() {
+	auto commandList = m_deviceResources->GetCommandList();
+	auto renderTarget = m_deviceResources->GetRenderTarget();
+
+	D3D12_RESOURCE_BARRIER preCopyBarriers[2];
+	preCopyBarriers[0] = CD3DX12_RESOURCE_BARRIER::Transition(renderTarget.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                          D3D12_RESOURCE_STATE_COPY_DEST);
+	preCopyBarriers[1] = CD3DX12_RESOURCE_BARRIER::Transition(m_rayTracingOutput.Get(),
+	                                                          D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+	                                                          D3D12_RESOURCE_STATE_COPY_SOURCE);
+	commandList->ResourceBarrier(ARRAYSIZE(preCopyBarriers), preCopyBarriers);
+
+	commandList->CopyResource(renderTarget.Get(), m_rayTracingOutput.Get());
+
+	D3D12_RESOURCE_BARRIER postCopyBarriers[2];
+	postCopyBarriers[0] = CD3DX12_RESOURCE_BARRIER::Transition(renderTarget.Get(), D3D12_RESOURCE_STATE_COPY_DEST,
+	                                                           D3D12_RESOURCE_STATE_PRESENT);
+	postCopyBarriers[1] = CD3DX12_RESOURCE_BARRIER::Transition(m_rayTracingOutput.Get(),
+	                                                           D3D12_RESOURCE_STATE_COPY_SOURCE,
+	                                                           D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+	commandList->ResourceBarrier(ARRAYSIZE(postCopyBarriers), postCopyBarriers);
 }
 
 void DirectXBoxTutorial::CalculateFrameStats() {
 }
 
 UINT DirectXBoxTutorial::AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse) {
-	return 0;
+	auto descriptorHeapCpuBase = m_descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	if (descriptorIndexToUse >= m_descriptorHeap->GetDesc().NumDescriptors) {
+		descriptorIndexToUse = m_descriptorsAllocated++;
+	}
+	*cpuDescriptor = CD3DX12_CPU_DESCRIPTOR_HANDLE(descriptorHeapCpuBase, descriptorIndexToUse, m_descriptorSize);
+	return descriptorIndexToUse;
 }
