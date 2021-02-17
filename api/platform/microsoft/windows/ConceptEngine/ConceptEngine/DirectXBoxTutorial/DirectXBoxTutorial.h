@@ -60,6 +60,8 @@ private:
 	void CalculateFrameStats();
 	UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
 
+public:
+	void UpdateForSizeChange(UINT clientWidth, UINT clientHeight) override;
 private:
 	//TODO: Move to DirectXResources class just now place here to follow along tutorial
 	//DirectX Raytracing (DXR) attributes

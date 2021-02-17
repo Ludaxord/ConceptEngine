@@ -14,58 +14,54 @@ struct RayPayload {
 };
 
 bool IsInsideViewPort(float2 p, Viewport viewport) {
-	return (
-		p.x >= viewport.left &&
-		p.x <= viewport.right &&
-		p.y >= viewport.top &&
-		p.y <= viewport.bottom
-	);
+	return (p.x >= viewport.left && p.x <= viewport.right)
+		&& (p.y >= viewport.top && p.y <= viewport.bottom);
 }
 
 [shader("raygeneration")]
 void BoxRayGenShader() {
-	float2 lerpValues = (float2)DispatchRaysIndex() / (float2)DispatchRaysDimensions();
+    float2 lerpValues = (float2)DispatchRaysIndex() / (float2)DispatchRaysDimensions();
 
-	//Orthographic projection since we are RayTracing in scene space
-	float3 rayDir = float3(0, 0, 1);
-	float3 origin = float3(
-		lerp(g_rayGenCB.viewport.left, g_rayGenCB.viewport.right, lerpValues.x),
-		lerp(g_rayGenCB.viewport.top, g_rayGenCB.viewport.bottom, lerpValues.y),
-		0.0f
-	);
+    // Orthographic projection since we're raytracing in screen space.
+    float3 rayDir = float3(0, 0, 1);
+    float3 origin = float3(
+        lerp(g_rayGenCB.viewport.left, g_rayGenCB.viewport.right, lerpValues.x),
+        lerp(g_rayGenCB.viewport.top, g_rayGenCB.viewport.bottom, lerpValues.y),
+        0.0f);
 
-	if (IsInsideViewPort(origin.xy, g_rayGenCB.stencil)) {
-		//Trace ray
-		//Set ray's extents
-		RayDesc ray;
-		ray.Origin = origin;
-		ray.Direction = rayDir;
-		//Set TMIN to non-zero small value to avoid aliasing issues due to floating - point errors
-		//Tmin should be kept small to prevent missing geometry at close contact areas
-		ray.TMin = 0.001;
-		ray.TMax = 10000.0;
-		RayPayload payload = {float4(0, 0, 0, 0)};
-		TraceRay(Scene, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, ~0, 0, 1, 0, ray, payload);
+    if (IsInsideViewPort(origin.xy, g_rayGenCB.stencil))
+    {
+        // Trace the ray.
+        // Set the ray's extents.
+        RayDesc ray;
+        ray.Origin = origin;
+        ray.Direction = rayDir;
+        // Set TMin to a non-zero small value to avoid aliasing issues due to floating - point errors.
+        // TMin should be kept small to prevent missing geometry at close contact areas.
+        ray.TMin = 0.001;
+        ray.TMax = 10000.0;
+        RayPayload payload = { float4(0, 0, 0, 0) };
+        TraceRay(Scene, RAY_FLAG_CULL_BACK_FACING_TRIANGLES, ~0, 0, 1, 0, ray, payload);
 
-		//Write rayTraced color to output texture
-		RenderTarget[DispatchRaysDimensions().xy] = payload.color;
-	}
-	else {
-		//Render interpolated DispatchRaysIndex outside stencil window
-		RenderTarget[DispatchRaysIndex().xy] = float4(lerpValues, 0, 1);
-	}
+        // Write the raytraced color to the output texture.
+        RenderTarget[DispatchRaysIndex().xy] = payload.color;
+    }
+    else
+    {
+        // Render interpolated DispatchRaysIndex outside the stencil window
+        RenderTarget[DispatchRaysIndex().xy] = float4(lerpValues, 0, 1);
+    }
 }
 
 [shader("closesthit")]
-void BoxClosestHitShader(inout RayPayload payload, in Attributes attrs) {
-	float3 baryCentrics = float3(1 - attrs.barycentrics.x - attrs.barycentrics.y, attrs.barycentrics.x,
-	                             attrs.barycentrics.y);
-	payload.color = float4(baryCentrics, 1);
+void BoxClosestHitShader(inout RayPayload payload, in Attributes attr) {
+    float3 barycentrics = float3(1 - attr.barycentrics.x - attr.barycentrics.y, attr.barycentrics.x, attr.barycentrics.y);
+    payload.color = float4(barycentrics, 1);
 }
 
 [shader("miss")]
 void BoxMissShader(inout RayPayload payload) {
-	payload.color = float4(0, 0, 0, 1);
+    payload.color = float4(0, 0, 0, 1);
 }
 
 #endif

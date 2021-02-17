@@ -21,8 +21,6 @@ public:
 	static const unsigned int c_AllowTearing = 0x1;
 	static const unsigned int c_requireTearingSupport = 0x2;
 
-	static bool IsDirectXRayTracingSupported(wrl::ComPtr<IDXGIAdapter1> adapter);
-
 	DirectXResources(DXGI_FORMAT backBufferFormat = DXGI_FORMAT_B8G8R8A8_UNORM,
 	                 DXGI_FORMAT depthBufferFormat = DXGI_FORMAT_D32_FLOAT,
 	                 UINT backBufferCount = 2,
@@ -33,7 +31,7 @@ public:
 	~DirectXResources();
 
 	void InitializeDXGIAdapter();
-	void SetAdapterOverride(UINT adapterID) { m_adapterID = adapterID; }
+	void SetAdapterOverride(UINT adapterID) { m_adapterIDoverride = adapterID; }
 	void CreateDeviceResources();
 	void CreateWindowSizeDependentResources();
 	void SetWindow(HWND window, int width, int height);

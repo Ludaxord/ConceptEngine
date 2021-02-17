@@ -35,7 +35,7 @@ public:
 	                                                      m_title(name),
 	                                                      m_aspectRatio(0.0f),
 	                                                      m_enableUI(true),
-	                                                      m_adapterID(0),
+	                                                      m_adapterIDoverride(UINT_MAX),
 	                                                      m_vSync(false) {
 		WCHAR assetsPath[512];
 		GetAssetsPath(assetsPath, _countof(assetsPath));
@@ -173,7 +173,7 @@ public:
 	RECT GetWindowsBounds() const { return m_windowBounds; }
 	DirectXResources* GetDirectXResources() const { return m_deviceResources.get(); }
 
-	void UpdateForSizeChange(UINT clientWidth, UINT clientHeight) {
+	virtual void UpdateForSizeChange(UINT clientWidth, UINT clientHeight) {
 		m_width = clientWidth;
 		m_height = clientHeight;
 		m_aspectRatio = static_cast<float>(clientWidth) / static_cast<float>(clientHeight);
@@ -215,8 +215,8 @@ protected:
 	bool m_enableUI;
 
 	//DirectX resources
-	UINT m_adapterID;
 	bool m_vSync;
+	UINT m_adapterIDoverride;
 	std::unique_ptr<DirectXResources> m_deviceResources;
 
 	//Application state
