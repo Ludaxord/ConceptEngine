@@ -8,4 +8,3 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	return ConceptEngineRunner::Run(tutorial, hInstance, nCmdShow);
 }
-Microsoft::WRL::ComPtr<ID3DBlob> libShaderBlob;

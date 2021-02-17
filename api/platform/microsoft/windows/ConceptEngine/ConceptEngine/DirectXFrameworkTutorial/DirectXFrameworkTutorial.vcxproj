@@ -24,6 +24,7 @@
     <ClInclude Include="DirectXHelper.h" />
     <ClInclude Include="DirectXRayTracingHelper.h" />
     <ClInclude Include="DirectXResources.h" />
+    <ClInclude Include="DXSample.h" />
     <ClInclude Include="HlslCompat.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="resource.h" />
@@ -34,6 +35,7 @@
   <ItemGroup>
     <ClCompile Include="ConceptEngineRunner.cpp" />
     <ClCompile Include="DirectXResources.cpp" />
+    <ClCompile Include="DXSample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectXFrameworkTutorial.rc" />

@@ -245,8 +245,9 @@ void DirectXBoxTutorial::CreateRayTracingOutputResource() {
 	NAME_D3D12_OBJECT(m_rayTracingOutput);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE uavDescriptorHandle;
+	auto tempIndex = m_rayTracingOutputResourceUAVDescriptorHeapIndex;
 	m_rayTracingOutputResourceUAVDescriptorHeapIndex = AllocateDescriptor(
-		&uavDescriptorHandle, m_rayTracingOutputResourceUAVDescriptorHeapIndex);
+		&uavDescriptorHandle, tempIndex);
 	D3D12_UNORDERED_ACCESS_VIEW_DESC UAVDesc = {};
 	UAVDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
 	device->CreateUnorderedAccessView(m_rayTracingOutput.Get(), nullptr, &UAVDesc, uavDescriptorHandle);

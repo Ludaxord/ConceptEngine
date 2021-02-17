@@ -54,12 +54,18 @@
     <ClInclude Include="DirectXRayTracingHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DXSample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngineRunner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DirectXResources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DXSample.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -65,6 +65,61 @@ int ConceptEngineRunner::Run(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hIns
 	}
 }
 
+int ConceptEngineRunner::Run(DXSample* pTutorial, HINSTANCE hInstance, int nCmdShow) {
+	try {
+		m_hWnd = CreateSampleWindow(pTutorial, hInstance);
+		// Initialize the sample. OnInit is defined in each child-implementation of DXSample.
+		pTutorial->OnInit();
+
+		ShowWindow(m_hWnd, nCmdShow);
+
+		// Main sample loop.
+		MSG msg = {};
+		while (msg.message != WM_QUIT) {
+			// Process any messages in the queue.
+			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+
+		pTutorial->OnDestroy();
+
+		// Return this part of the WM_QUIT message to Windows.
+		return static_cast<char>(msg.wParam);
+	}
+	catch (HrException& e) {
+		if (e.Error() == E_APPLICATION_EXITING) {
+			spdlog::error("User initiated shutdown. Application is terminating.");
+			pTutorial->OnDestroy();
+			return 0;
+		}
+
+		spdlog::error("Application hit a problem: ");
+		spdlog::error(e.what());
+		spdlog::error("Terminating.");
+
+		pTutorial->OnDestroy();
+
+		std::ostringstream oss;
+		oss << "Application hit a problem: " << e.what() << std::endl;
+		MessageBoxA(m_hWnd, oss.str().c_str(), "Error", MB_OK | MB_ICONERROR);
+		return EXIT_FAILURE;
+	}
+	catch (std::exception& e) {
+		spdlog::error("Application hit a problem: ");
+		spdlog::error(e.what());
+		spdlog::error("Terminating.");
+
+		pTutorial->OnDestroy();
+
+		std::ostringstream oss;
+		oss << "Application hit a problem: " << e.what() << std::endl;
+		MessageBoxA(m_hWnd, oss.str().c_str(), "Error", MB_OK | MB_ICONERROR);
+		return EXIT_FAILURE;
+	}
+}
+
 HWND ConceptEngineRunner::CreateMainWindow(std::shared_ptr<Tutorial> pTutorial, HINSTANCE hInstance) {
 
 	// Initialize the window class.
@@ -98,6 +153,43 @@ HWND ConceptEngineRunner::CreateMainWindow(std::shared_ptr<Tutorial> pTutorial, 
 		nullptr, // We aren't using menus.
 		hInstance,
 		pTutorial.get());
+
+	return hwnd;
+}
+
+HWND ConceptEngineRunner::CreateSampleWindow(DXSample* pTutorial, HINSTANCE hInstance) {
+
+	// Initialize the window class.
+	WNDCLASSEX windowClass = {0};
+	windowClass.cbSize = sizeof(WNDCLASSEX);
+	windowClass.style = CS_HREDRAW | CS_VREDRAW;
+	windowClass.lpfnWndProc = WindowProc;
+	windowClass.hInstance = hInstance;
+	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	windowClass.lpszClassName = pTutorial->GetTitle();
+	//TODO: Load icons to project
+	windowClass.hIcon = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 32, 32, 0));
+	windowClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	windowClass.lpszMenuName = nullptr;
+	windowClass.hIconSm = static_cast<HICON>(LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON1), IMAGE_ICON, 16, 16, 0));
+	RegisterClassEx(&windowClass);
+
+	RECT windowRect = {0, 0, static_cast<LONG>(pTutorial->GetWidth()), static_cast<LONG>(pTutorial->GetHeight())};
+	AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE);
+
+	// Create the window and store a handle to it.
+	HWND hwnd = CreateWindow(
+		windowClass.lpszClassName,
+		pTutorial->GetTitle(),
+		m_windowStyle,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		windowRect.right - windowRect.left,
+		windowRect.bottom - windowRect.top,
+		nullptr, // We have no parent window.
+		nullptr, // We aren't using menus.
+		hInstance,
+		pTutorial);
 
 	return hwnd;
 }
@@ -273,18 +365,43 @@ LRESULT CALLBACK ConceptEngineRunner::WindowProc(HWND hWnd, UINT message, WPARAM
 	case WM_MOVE:
 		break;
 	case WM_DISPLAYCHANGE:
+		if (pTutorial) {
+			pTutorial->OnDisplayChanged();
+		}
 		break;
 	case WM_MOUSEMOVE:
+		if (pTutorial && static_cast<UINT8>(wParam) == MK_LBUTTON) {
+			UINT x = LOWORD(lParam);
+			UINT y = HIWORD(lParam);
+			pTutorial->OnMouseMove(x, y);
+		}
 		break;
-	case WM_LBUTTONDOWN:
-		break;
-	case WM_LBUTTONUP:
-		break;
-	case WM_RBUTTONDOWN:
-		break;
-	case WM_RBUTTONUP:
-		break;
+	case WM_LBUTTONDOWN: {
+		UINT x = LOWORD(lParam);
+		UINT y = HIWORD(lParam);
+		pTutorial->OnMouseButtonDown(KeyCode::LButton, x, y);
+	}
+	break;
+	case WM_LBUTTONUP: {
+		UINT x = LOWORD(lParam);
+		UINT y = HIWORD(lParam);
+		pTutorial->OnMouseButtonUp(KeyCode::LButton, x, y);
+	}
+	break;
+	case WM_RBUTTONDOWN: {
+		UINT x = LOWORD(lParam);
+		UINT y = HIWORD(lParam);
+		pTutorial->OnMouseButtonDown(KeyCode::RButton, x, y);
+	}
+	break;
+	case WM_RBUTTONUP: {
+		UINT x = LOWORD(lParam);
+		UINT y = HIWORD(lParam);
+		pTutorial->OnMouseButtonUp(KeyCode::RButton, x, y);
+	}
+	break;
 	case WM_DESTROY:
+		PostQuitMessage(0);
 		break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
