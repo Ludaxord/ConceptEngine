@@ -451,6 +451,64 @@ void DirectXBoxTutorial::BuildAccelerationStructures() {
 }
 
 void DirectXBoxTutorial::BuildShaderTables() {
+	auto device = m_deviceResources->GetD3DDevice();
+	void* rayGenShaderIdentifier;
+	void* missShaderIdentifier;
+	void* hitGroupShaderIdentifier;
+
+	auto GetShaderIdentifiers = [&](auto* stateObjectProperties) {
+		rayGenShaderIdentifier = stateObjectProperties->GetShaderIdentifier(c_rayGenShaderName);
+		missShaderIdentifier = stateObjectProperties->GetShaderIdentifier(c_missShaderName);
+		hitGroupShaderIdentifier = stateObjectProperties->GetShaderIdentifier(c_hitGroupName);
+	};
+
+	//Get Shader Identifiers
+	UINT shaderIdentifierSize;
+	{
+		wrl::ComPtr<ID3D12StateObjectProperties> stateObjectProperties;
+		ThrowIfFailed(m_dxrStateObject.As(&stateObjectProperties));
+		GetShaderIdentifiers(stateObjectProperties.Get());
+		shaderIdentifierSize = D3D12_SHADER_IDENTIFIER_SIZE_IN_BYTES;
+	}
+
+	//Ray Gen Shader Table;
+	{
+		struct RootArguments {
+			RayGenConstantBuffer cb;
+		} rootArguments;
+		rootArguments.cb = m_rayGenCB;
+
+		UINT numShaderRecords = 1;
+		UINT shaderRecordSize = shaderIdentifierSize + sizeof(rootArguments);
+		ShaderTable rayGenShaderTable(device.Get(), numShaderRecords, shaderRecordSize, L"RayGenShaderTable");
+		rayGenShaderTable.push_back(
+			ShaderRecord(
+				rayGenShaderIdentifier,
+				shaderIdentifierSize,
+				&rootArguments,
+				sizeof(rootArguments)
+			)
+		);
+		m_rayGenShaderTable = rayGenShaderTable.GetResource();
+	}
+
+	//Miss shader table
+	{
+		UINT numShaderRecords = 1;
+		UINT shaderRecordSize = shaderIdentifierSize;
+		ShaderTable missShaderTable(device.Get(), numShaderRecords, shaderRecordSize, L"MissShaderTable");
+		missShaderTable.push_back(ShaderRecord(missShaderIdentifier, shaderIdentifierSize));
+		m_missShaderTable = missShaderTable.GetResource();
+	}
+
+	//Hit group shader table;
+	{
+		UINT numShaderRecords = 1;
+		UINT shaderRecordSize = shaderIdentifierSize;
+		ShaderTable hitGroupShaderTable(device.Get(), numShaderRecords, shaderRecordSize, L"HitGroupShaderTable");
+		hitGroupShaderTable.push_back(ShaderRecord(hitGroupShaderIdentifier, shaderIdentifierSize));
+		m_hitGroupShaderTable = hitGroupShaderTable.GetResource();
+	}
 }
 
 void DirectXBoxTutorial::CopyRayTracingOutputToBackBuffer() {

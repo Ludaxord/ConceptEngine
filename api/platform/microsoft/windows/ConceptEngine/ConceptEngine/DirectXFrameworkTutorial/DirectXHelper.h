@@ -243,3 +243,59 @@ inline void PrintStateObjectDesc(const D3D12_STATE_OBJECT_DESC* desc) {
 	wstr << L"\n";
 	OutputDebugStringW(wstr.str().c_str());
 }
+
+inline UINT Align(UINT size, UINT alignment) {
+	return (size + (alignment - 1)) & ~(alignment - 1);
+}
+
+inline UINT CalculateConstantBufferByteSize(UINT byteSize) {
+	//Constant buffer size is required to be aligned
+	return Align(byteSize, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
+}
+
+class GpuUploadBuffer {
+public:
+	wrl::ComPtr<ID3D12Resource> GetResource() {
+		return m_resource;
+	}
+
+protected:
+	wrl::ComPtr<ID3D12Resource> m_resource;
+
+	GpuUploadBuffer() {
+	}
+
+	~GpuUploadBuffer() {
+		if (m_resource.Get()) {
+			m_resource->Unmap(0, nullptr);
+		}
+	}
+
+	void Allocate(ID3D12Device* device, UINT bufferSize, LPCWSTR resourceName = nullptr) {
+		auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
+		auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+		ThrowIfFailed(device->CreateCommittedResource(&uploadHeapProperties,
+		                                              D3D12_HEAP_FLAG_NONE,
+		                                              &bufferDesc,
+		                                              D3D12_RESOURCE_STATE_GENERIC_READ,
+		                                              nullptr,
+		                                              IID_PPV_ARGS(&m_resource)));
+	}
+
+	uint8_t* MapCpuWriteOnly() {
+		uint8_t* mappedData;
+		//We do not unmap this intil app closes. Keep buffer mapped for lifetime of resource is fine.
+		CD3DX12_RANGE readRange(0, 0); //We do not intend to read from this resource on CPU;
+		ThrowIfFailed(m_resource->Map(0, &readRange, reinterpret_cast<void**>(&mappedData)));
+		return mappedData;
+	}
+
+private:
+};
+
+struct D3DBuffer {
+	wrl::ComPtr<ID3D12Resource> resource;
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuDescriptorHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuDescriptorHandle;
+};
