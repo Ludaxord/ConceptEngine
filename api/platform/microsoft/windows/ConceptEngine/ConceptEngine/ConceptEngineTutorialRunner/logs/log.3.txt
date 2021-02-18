@@ -1,7 +1,0 @@
-[2021-02-17 20:29:43.129] [ConceptEngine] [info] Window created
-[2021-02-17 20:29:43.650] [ConceptEngine] [error] Call SetWindow with a valid Win32 window handle.
-
-[2021-02-17 20:29:43.650] [ConceptEngine] [error] HRESULT of 0x80070006
-[2021-02-17 20:29:43.651] [ConceptEngine] [error] Application hit a problem: 
-[2021-02-17 20:29:43.651] [ConceptEngine] [error] HRESULT of 0x80070006
-[2021-02-17 20:29:43.651] [ConceptEngine] [error] Terminating.

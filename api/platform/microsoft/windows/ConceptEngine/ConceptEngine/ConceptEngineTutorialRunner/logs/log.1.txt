@@ -1,5 +1,0 @@
-[2021-02-17 20:33:59.465] [ConceptEngine] [info] Window created
-[2021-02-17 20:34:00.009] [ConceptEngine] [error] HRESULT of 0x80070002
-[2021-02-17 20:34:00.010] [ConceptEngine] [error] Application hit a problem: 
-[2021-02-17 20:34:00.010] [ConceptEngine] [error] HRESULT of 0x80070002
-[2021-02-17 20:34:00.010] [ConceptEngine] [error] Terminating.
