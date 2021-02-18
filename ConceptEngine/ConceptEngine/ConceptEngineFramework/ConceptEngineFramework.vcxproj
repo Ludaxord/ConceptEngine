@@ -19,10 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\CEConsole.h" />
     <ClInclude Include="CEFramework.h" />
+    <ClInclude Include="Game\CEGame.h" />
+    <ClInclude Include="CEHeaderLibs.h" />
+    <ClInclude Include="Game\CEScreen.h" />
+    <ClInclude Include="Game\CEWindow.h" />
+    <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\CEConsole.cpp" />
     <ClCompile Include="CEFramework.cpp" />
+    <ClCompile Include="Game\CEGame.cpp" />
+    <ClCompile Include="Game\CEWindow.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

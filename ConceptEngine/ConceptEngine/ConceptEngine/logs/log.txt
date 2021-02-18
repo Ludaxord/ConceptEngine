@@ -1,0 +1,1 @@
+[2021-02-19 00:37:12.712] [ConceptEngine] [info] ConceptEngineFramework Game class created.
