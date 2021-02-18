@@ -109,9 +109,9 @@ void D3D12RaytracingHelloWorld::CreateRootSignatures() {
 	{
 		CD3DX12_DESCRIPTOR_RANGE UAVDescriptor;
 		UAVDescriptor.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
-		CD3DX12_ROOT_PARAMETER rootParameters[GlobalRootSignatureParams::Count];
-		rootParameters[GlobalRootSignatureParams::OutputViewSlot].InitAsDescriptorTable(1, &UAVDescriptor);
-		rootParameters[GlobalRootSignatureParams::AccelerationStructureSlot].InitAsShaderResourceView(0);
+		CD3DX12_ROOT_PARAMETER rootParameters[GlobalRootSignatureParamsHelloWorld::Count];
+		rootParameters[GlobalRootSignatureParamsHelloWorld::OutputViewSlot].InitAsDescriptorTable(1, &UAVDescriptor);
+		rootParameters[GlobalRootSignatureParamsHelloWorld::AccelerationStructureSlot].InitAsShaderResourceView(0);
 		CD3DX12_ROOT_SIGNATURE_DESC globalRootSignatureDesc(ARRAYSIZE(rootParameters), rootParameters);
 		SerializeAndCreateRaytracingRootSignature(globalRootSignatureDesc, &m_raytracingGlobalRootSignature);
 	}
@@ -119,8 +119,8 @@ void D3D12RaytracingHelloWorld::CreateRootSignatures() {
 	// Local Root Signature
 	// This is a root signature that enables a shader to have unique arguments that come from shader tables.
 	{
-		CD3DX12_ROOT_PARAMETER rootParameters[LocalRootSignatureParams::Count];
-		rootParameters[LocalRootSignatureParams::ViewportConstantSlot].
+		CD3DX12_ROOT_PARAMETER rootParameters[LocalRootSignatureParamsHelloWorld::Count];
+		rootParameters[LocalRootSignatureParamsHelloWorld::ViewportConstantSlot].
 			InitAsConstants(SizeOfInUint32(m_rayGenCB), 0, 0);
 		CD3DX12_ROOT_SIGNATURE_DESC localRootSignatureDesc(ARRAYSIZE(rootParameters), rootParameters);
 		localRootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_LOCAL_ROOT_SIGNATURE;
@@ -177,7 +177,7 @@ void D3D12RaytracingHelloWorld::CreateRaytracingPipelineStateObject() {
 		WCHAR assetsPath[512];
 		GetAssetsPath(assetsPath, _countof(assetsPath));
 		std::wstring m_assetsPath = assetsPath;
-		std::wstring lib_assetsPath = m_assetsPath + L"Raytracing.cso";
+		std::wstring lib_assetsPath = m_assetsPath + L"HelloWorldRaytracing.cso";
 		ThrowIfFailed(D3DReadFileToBlob(lib_assetsPath.c_str(), &libShaderBlob));
 	}
 
@@ -501,9 +501,9 @@ void D3D12RaytracingHelloWorld::DoRaytracing() {
 	// Bind the heaps, acceleration structure and dispatch rays.    
 	D3D12_DISPATCH_RAYS_DESC dispatchDesc = {};
 	commandList->SetDescriptorHeaps(1, m_descriptorHeap.GetAddressOf());
-	commandList->SetComputeRootDescriptorTable(GlobalRootSignatureParams::OutputViewSlot,
+	commandList->SetComputeRootDescriptorTable(GlobalRootSignatureParamsHelloWorld::OutputViewSlot,
 	                                           m_raytracingOutputResourceUAVGpuDescriptor);
-	commandList->SetComputeRootShaderResourceView(GlobalRootSignatureParams::AccelerationStructureSlot,
+	commandList->SetComputeRootShaderResourceView(GlobalRootSignatureParamsHelloWorld::AccelerationStructureSlot,
 	                                              m_topLevelAccelerationStructure->GetGPUVirtualAddress());
 	DispatchRays(m_dxrCommandList.Get(), m_dxrStateObject.Get(), &dispatchDesc);
 }

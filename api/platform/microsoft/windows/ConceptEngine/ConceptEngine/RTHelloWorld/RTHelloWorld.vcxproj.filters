@@ -13,9 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{88cdba71-3329-46c9-84f0-d8972d8f1396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders">
+      <UniqueIdentifier>{e3f0203f-fd3e-481a-be2c-5b564249dde6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders\Util">
+      <UniqueIdentifier>{41c28fbb-2f54-4725-a872-76b934a796cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3D12RaytracingHelloWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HlslCompat.h">
+      <Filter>Assets\Shaders\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="HelloWorldRaytracingHlslCompat.h">
+      <Filter>Assets\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DeviceResources.h">
@@ -30,19 +48,10 @@
     <ClInclude Include="DXSampleHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HlslCompat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RaytracingHlslCompat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StepTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Win32Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="d3dx12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -61,6 +70,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Raytracing.hlsl" />
+    <FxCompile Include="HelloWorldRaytracing.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

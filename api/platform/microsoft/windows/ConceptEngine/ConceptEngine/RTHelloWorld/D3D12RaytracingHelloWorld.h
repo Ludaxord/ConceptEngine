@@ -13,108 +13,111 @@
 
 #include "DXSample.h"
 #include "StepTimer.h"
-#include "RaytracingHlslCompat.h"
+#include "HelloWorldRaytracingHlslCompat.h"
 
-namespace GlobalRootSignatureParams {
-    enum Value { 
-        OutputViewSlot = 0,
-        AccelerationStructureSlot,
-        Count 
-    };
+namespace GlobalRootSignatureParamsHelloWorld {
+	enum Value {
+		OutputViewSlot = 0,
+		AccelerationStructureSlot,
+		Count
+	};
 }
 
-namespace LocalRootSignatureParams {
-    enum Value {
-        ViewportConstantSlot = 0,
-        Count 
-    };
+namespace LocalRootSignatureParamsHelloWorld {
+	enum Value {
+		ViewportConstantSlot = 0,
+		Count
+	};
 }
 
-class D3D12RaytracingHelloWorld : public DXSample
-{
+class D3D12RaytracingHelloWorld : public DXSample {
 public:
-    D3D12RaytracingHelloWorld(UINT width, UINT height, std::wstring name);
+	D3D12RaytracingHelloWorld(UINT width, UINT height, std::wstring name);
 
-    // IDeviceNotify
-    virtual void OnDeviceLost() override;
-    virtual void OnDeviceRestored() override;
+	// IDeviceNotify
+	virtual void OnDeviceLost() override;
+	virtual void OnDeviceRestored() override;
 
-    // Messages
-    virtual void OnInit();
-    virtual void OnUpdate();
-    virtual void OnRender();
-    virtual void OnSizeChanged(UINT width, UINT height, bool minimized);
-    virtual void OnDestroy();
-    virtual IDXGISwapChain* GetSwapchain() { return m_deviceResources->GetSwapChain(); }
+	// Messages
+	virtual void OnInit();
+	virtual void OnUpdate();
+	virtual void OnRender();
+	virtual void OnSizeChanged(UINT width, UINT height, bool minimized);
+	virtual void OnDestroy();
+	virtual IDXGISwapChain* GetSwapchain() { return m_deviceResources->GetSwapChain(); }
 
 private:
 
-    static const UINT FrameCount = 3;
-        
-    // DirectX Raytracing (DXR) attributes
-    Microsoft::WRL::ComPtr<ID3D12Device5> m_dxrDevice;
-    Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> m_dxrCommandList;
-    Microsoft::WRL::ComPtr<ID3D12StateObject> m_dxrStateObject;
+	static const UINT FrameCount = 3;
 
-    // Root signatures
-    Microsoft::WRL::ComPtr<ID3D12RootSignature> m_raytracingGlobalRootSignature;
-    Microsoft::WRL::ComPtr<ID3D12RootSignature> m_raytracingLocalRootSignature;
+	// DirectX Raytracing (DXR) attributes
+	Microsoft::WRL::ComPtr<ID3D12Device5> m_dxrDevice;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> m_dxrCommandList;
+	Microsoft::WRL::ComPtr<ID3D12StateObject> m_dxrStateObject;
 
-    // Descriptors
-    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
-    UINT m_descriptorsAllocated;
-    UINT m_descriptorSize;
-    
-    // Raytracing scene
-    RayGenConstantBuffer m_rayGenCB;
+	// Root signatures
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> m_raytracingGlobalRootSignature;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> m_raytracingLocalRootSignature;
 
-    // Geometry
-    typedef UINT16 Index;
-    struct Vertex { float v1, v2, v3; };
+	// Descriptors
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_descriptorHeap;
+	UINT m_descriptorsAllocated;
+	UINT m_descriptorSize;
 
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_indexBuffer;
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_vertexBuffer;
+	// Raytracing scene
+	RayGenConstantBuffer m_rayGenCB;
 
-    // Acceleration structure
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_accelerationStructure;
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_bottomLevelAccelerationStructure;
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_topLevelAccelerationStructure;
+	// Geometry
+	typedef UINT16 Index;
 
-    // Raytracing output
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_raytracingOutput;
-    D3D12_GPU_DESCRIPTOR_HANDLE m_raytracingOutputResourceUAVGpuDescriptor;
-    UINT m_raytracingOutputResourceUAVDescriptorHeapIndex;
+	struct Vertex {
+		float v1, v2, v3;
+	};
 
-    // Shader tables
-    static const wchar_t* c_hitGroupName;
-    static const wchar_t* c_raygenShaderName;
-    static const wchar_t* c_closestHitShaderName;
-    static const wchar_t* c_missShaderName;
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_missShaderTable;
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_hitGroupShaderTable;
-    Microsoft::WRL::ComPtr<ID3D12Resource> m_rayGenShaderTable;
-    
-    // Application state
-    StepTimer m_timer;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_indexBuffer;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_vertexBuffer;
 
-    void RecreateD3D();
-    void DoRaytracing();   
-    void CreateDeviceDependentResources();
-    void CreateWindowSizeDependentResources();
-    void ReleaseDeviceDependentResources();
-    void ReleaseWindowSizeDependentResources();
-    void CreateRaytracingInterfaces();
-    void SerializeAndCreateRaytracingRootSignature(D3D12_ROOT_SIGNATURE_DESC& desc, Microsoft::WRL::ComPtr<ID3D12RootSignature>* rootSig);
-    void CreateRootSignatures();
-    void CreateLocalRootSignatureSubobjects(CD3DX12_STATE_OBJECT_DESC* raytracingPipeline);
-    void CreateRaytracingPipelineStateObject();
-    void CreateDescriptorHeap();
-    void CreateRaytracingOutputResource();
-    void BuildGeometry();
-    void BuildAccelerationStructures();
-    void BuildShaderTables();
-    void UpdateForSizeChange(UINT clientWidth, UINT clientHeight);
-    void CopyRaytracingOutputToBackbuffer();
-    void CalculateFrameStats();
-    UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
+	// Acceleration structure
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_accelerationStructure;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_bottomLevelAccelerationStructure;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_topLevelAccelerationStructure;
+
+	// Raytracing output
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_raytracingOutput;
+	D3D12_GPU_DESCRIPTOR_HANDLE m_raytracingOutputResourceUAVGpuDescriptor;
+	UINT m_raytracingOutputResourceUAVDescriptorHeapIndex;
+
+	// Shader tables
+	static const wchar_t* c_hitGroupName;
+	static const wchar_t* c_raygenShaderName;
+	static const wchar_t* c_closestHitShaderName;
+	static const wchar_t* c_missShaderName;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_missShaderTable;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_hitGroupShaderTable;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_rayGenShaderTable;
+
+	// Application state
+	StepTimer m_timer;
+
+	void RecreateD3D();
+	void DoRaytracing();
+	void CreateDeviceDependentResources();
+	void CreateWindowSizeDependentResources();
+	void ReleaseDeviceDependentResources();
+	void ReleaseWindowSizeDependentResources();
+	void CreateRaytracingInterfaces();
+	void SerializeAndCreateRaytracingRootSignature(D3D12_ROOT_SIGNATURE_DESC& desc,
+	                                               Microsoft::WRL::ComPtr<ID3D12RootSignature>* rootSig);
+	void CreateRootSignatures();
+	void CreateLocalRootSignatureSubobjects(CD3DX12_STATE_OBJECT_DESC* raytracingPipeline);
+	void CreateRaytracingPipelineStateObject();
+	void CreateDescriptorHeap();
+	void CreateRaytracingOutputResource();
+	void BuildGeometry();
+	void BuildAccelerationStructures();
+	void BuildShaderTables();
+	void UpdateForSizeChange(UINT clientWidth, UINT clientHeight);
+	void CopyRaytracingOutputToBackbuffer();
+	void CalculateFrameStats();
+	UINT AllocateDescriptor(D3D12_CPU_DESCRIPTOR_HANDLE* cpuDescriptor, UINT descriptorIndexToUse = UINT_MAX);
 };

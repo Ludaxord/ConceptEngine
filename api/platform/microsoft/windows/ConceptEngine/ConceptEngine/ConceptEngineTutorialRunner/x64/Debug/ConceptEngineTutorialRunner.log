@@ -1,1 +1,77 @@
-﻿  ConceptEngineTutorialRunner.vcxproj -> F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineTutorialRunner.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (RTTutorial.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  WinMain.cpp
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(21,33): error C2039: 'runtime_error': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(28): message : see declaration of 'std'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(22,1): error C2504: 'runtime_error': base class undefined
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(30,36): error C2039: 'runtime_error': is not a member of 'std'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\memory(28): message : see declaration of 'std'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(30,16): error C2614: 'HrException': illegal member initialization: 'runtime_error' is not a base or member
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(99,5): error C2653: 'Wrappers': is not a class or namespace name
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(99,15): error C2065: 'FileHandle': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(99,26): error C2146: syntax error: missing ';' before identifier 'file'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(99,26): error C3861: 'file': identifier not found
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(100,9): error C2065: 'file': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(106,39): error C2065: 'file': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSampleHelper.h(119,19): error C2065: 'file': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\Win32Application.h(22,54): error C2061: syntax error: identifier 'IDXGISwapChain'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(79,22): error C2143: syntax error: missing ';' before '*'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(79,22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(79,56): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(81,22): error C2143: syntax error: missing ';' before '*'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(81,22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(81,60): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(82,24): error C2143: syntax error: missing ';' before '*'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(82,24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(82,58): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(111,45): error C2061: syntax error: identifier 'IDXGIAdapter1'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(117,16): error C2065: 'IDXGIAdapter1': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(117,9): error C2923: 'Microsoft::WRL::ComPtr': 'IDXGIAdapter1' is not a valid template type argument for parameter 'T'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(117,61): error C2955: 'Microsoft::WRL::ComPtr': use of class template requires template argument list
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt\wrl\client.h(211): message : see declaration of 'Microsoft::WRL::ComPtr'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(128,32): error C2065: 'IDXGIFactory4': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(128,25): error C2923: 'Microsoft::WRL::ComPtr': 'IDXGIFactory4' is not a valid template type argument for parameter 'T'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(128,61): error C2955: 'Microsoft::WRL::ComPtr': use of class template requires template argument list
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt\wrl\client.h(211): message : see declaration of 'Microsoft::WRL::ComPtr'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(129,32): error C2065: 'IDXGISwapChain3': undeclared identifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(129,25): error C2923: 'Microsoft::WRL::ComPtr': 'IDXGISwapChain3' is not a valid template type argument for parameter 'T'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(129,61): error C2955: 'Microsoft::WRL::ComPtr': use of class template requires template argument list
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt\wrl\client.h(211): message : see declaration of 'Microsoft::WRL::ComPtr'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(136,25): error C3083: 'Wrappers': the symbol to the left of a '::' must be a type
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(136,35): error C2039: 'Event': is not a member of 'Microsoft::WRL'
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt\wrl\client.h(56): message : see declaration of 'Microsoft::WRL'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(136,73): error C3646: 'm_fenceEvent': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(136,73): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DeviceResources.h(30,24): error C2512: 'Microsoft::WRL::ComPtr': no appropriate default constructor available
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\winrt\wrl\client.h(211,1): message : see declaration of 'Microsoft::WRL::ComPtr'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSample.h(47,27): error C2143: syntax error: missing ';' before '*'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSample.h(47,27): error C2433: 'DXSample::IDXGISwapChain': 'virtual' not permitted on data declarations
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSample.h(47,27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\DXSample.h(47,44): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(18,24): error C2871: 'DirectX': a namespace with this name does not exist
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(26,31): error C3646: 'projectionToWorld': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(26,31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(27,28): error C3646: 'cameraPosition': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(27,28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(28,27): error C3646: 'lightPosition': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(28,27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(29,31): error C3646: 'lightAmbientColor': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(29,31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(30,31): error C3646: 'lightDiffuseColor': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(30,31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(35,20): error C3646: 'albedo': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(35,20): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(40,22): error C3646: 'position': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(40,22): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(41,20): error C3646: 'normal': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\RaytracingHlslCompat.h(41,20): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(51,27): error C2143: syntax error: missing ';' before '*'
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(51,27): error C2433: 'D3D12RaytracingLibrarySubobjects::IDXGISwapChain': 'virtual' not permitted on data declarations
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(51,27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(51,44): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(124,19): error C3646: 'm_eye': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(124,19): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(125,18): error C3646: 'm_at': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(125,18): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(126,18): error C3646: 'm_up': unknown override specifier
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(126,18): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\D3D12RaytracingLibrarySubobjects.h(128,47): error C2061: syntax error: identifier 'IDXGIAdapter1'
