@@ -1,3 +1,0 @@
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\Raytracing.cso
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\x64\Debug\RTLibrarySubObjects.pdb
-F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTLibrarySubObjects\x64\Debug\RTLibrarySubObjects.pdb

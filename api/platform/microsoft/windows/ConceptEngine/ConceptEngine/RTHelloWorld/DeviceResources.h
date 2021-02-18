@@ -19,8 +19,6 @@
 #include <dxgi1_4.h>
 #include <wrl/wrappers/corewrappers.h>
 
-
-
 #include "d3dx12.h"
 
 namespace DX

@@ -1,9 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (RTTutorial.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-FXC : warning : no output provided for debug - embedding PDB in shader container.  Use -Qembed_debug to silence this warning.
-  
   D3D12RaytracingHelloWorld.cpp
-  DeviceResources.cpp
   DXSample.cpp
+  DeviceResources.cpp
   Win32Application.cpp
   Generating Code...
 dxgi.lib(dxgi.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored

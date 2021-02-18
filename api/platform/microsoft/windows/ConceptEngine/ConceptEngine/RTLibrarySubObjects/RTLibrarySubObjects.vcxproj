@@ -19,35 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D3D12RaytracingLibrarySubobjects.h" />
-    <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="DeviceResources.h" />
-    <ClInclude Include="DirectXRaytracingHelper.h" />
-    <ClInclude Include="DXSample.h" />
-    <ClInclude Include="DXSampleHelper.h" />
-    <ClInclude Include="HlslCompat.h" />
-    <ClInclude Include="RayTracingHlslCompat.h" />
-    <ClInclude Include="StepTimer.h" />
-    <ClInclude Include="Win32Application.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="D3D12RaytracingLibrarySubobjects.cpp" />
-    <ClCompile Include="DeviceResources.cpp" />
-    <ClCompile Include="DXSample.cpp" />
-    <ClCompile Include="Win32Application.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Raytracing.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Library</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
-    </FxCompile>
+    <ClInclude Include="D3D12RaytracingLibrarySubObjects.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d9977b7f-adaf-4a88-886a-72d2c5117c82}</ProjectGuid>
+    <ProjectGuid>{27e43630-d269-4590-8710-71fbf07ca298}</ProjectGuid>
     <RootNamespace>RTLibrarySubObjects</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -108,10 +85,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <VcpkgUseStatic>true</VcpkgUseStatic>
-    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -154,7 +127,6 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -163,11 +135,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\api\platform\microsoft\windows\ConceptEngine\ConceptEngine\RTFramework;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;D3DCompiler.lib;</AdditionalDependencies>
     </Lib>
-    <ProjectReference>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

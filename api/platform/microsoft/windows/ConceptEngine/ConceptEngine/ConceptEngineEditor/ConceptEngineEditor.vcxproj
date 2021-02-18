@@ -172,9 +172,6 @@
     <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
       <Project>{d91c74fd-b6a3-4604-819a-6bbd97737979}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ConceptEngineRTFramework\ConceptEngineRTFramework.vcxproj">
-      <Project>{2f6891e7-77cc-431b-8acd-8e7bd675504b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
