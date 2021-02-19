@@ -12,5 +12,8 @@ namespace ConceptEngineFramework::Game {
 		virtual void Destroy() = 0;
 		virtual void Show() = 0;
 		virtual void Hide() = 0;
+
+		virtual std::wstring GetName() = 0;
+
 	};
 }

@@ -14,16 +14,23 @@ namespace ConceptEngineFramework::Game {
 	public:
 		using Logger = std::shared_ptr<spdlog::logger>;
 
+		
 		void Create() override;
 		void Destroy() override;
 		void Show() override;
 		void Hide() override;
 
+		std::wstring GetName();
+		Logger GetLogger() const;
 	protected:
-		friend CEGame;
+		friend class CEGame;
+		friend class std::default_delete<CEConsole>;
+		
 		CEConsole(std::wstring windowName, int maxFileSizeInMB = 5, int maxFiles = 3, int maxConsoleLines = 500);
+		CEConsole(Logger logger);
 		~CEConsole() = default;
 
+		Logger CreateLogger(const std::string& name) const;
 		void RegisterLogger();
 		void RegisterConsole();
 	private:

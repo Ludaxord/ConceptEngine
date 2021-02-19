@@ -28,6 +28,15 @@ CEConsole::CEConsole(std::wstring windowName, int maxFileSizeInMB, int maxFiles,
 	m_maxConsoleLines(maxConsoleLines) {
 }
 
+CEConsole::CEConsole(Logger logger):
+	m_maxFileSizeInMB(5),
+	m_maxFiles(3),
+	m_maxConsoleLines(500),
+	m_logger(logger) {
+	auto name = logger->name();
+	m_windowName = std::wstring(name.begin(), name.end());
+}
+
 void CEConsole::Create() {
 	RegisterConsole();
 	RegisterLogger();
@@ -40,6 +49,23 @@ void CEConsole::Show() {
 }
 
 void CEConsole::Hide() {
+}
+
+std::wstring CEConsole::GetName() {
+	return m_windowName;
+}
+
+CEConsole::Logger CEConsole::GetLogger() const {
+	return m_logger;
+}
+
+CEConsole::Logger CEConsole::CreateLogger(const std::string& name) const {
+	CEConsole::Logger logger = spdlog::get(name);
+	if (!logger) {
+		logger = m_logger->clone(name);
+		spdlog::register_logger(logger);
+	}
+	return logger;
 }
 
 void CEConsole::RegisterLogger() {
@@ -68,7 +94,7 @@ void CEConsole::RegisterConsole() {
 		CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
 		GetConsoleScreenBufferInfo(lStdHandle, &consoleInfo);
 		consoleInfo.dwSize.Y = m_maxConsoleLines;
-		
+
 		SetConsoleScreenBufferSize(lStdHandle, consoleInfo.dwSize);
 		SetConsoleCursorPosition(lStdHandle, {0, 0});
 

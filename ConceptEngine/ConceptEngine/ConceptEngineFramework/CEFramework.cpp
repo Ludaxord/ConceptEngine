@@ -1,6 +1,8 @@
 #include "CEFramework.h"
 
 #include "Game/CEGame.h"
+#include "Game/Playgrounds/CEDXInitPlayground.h"
+#include "Game/Playgrounds/CEPlayground.h"
 
 using namespace ConceptEngineFramework;
 
@@ -13,8 +15,9 @@ CEFramework::CEFramework(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine
 }
 
 int CEFramework::Run() {
-
-	return -1;
+	std::unique_ptr<Game::Playgrounds::CEPlayground> playground = std::make_unique<Game::Playgrounds::CEDXInitPlayground
+	>(L"Concept Engine DirectX Init", 1920, 1080);
+	return playground->Run();
 }
 
 HINSTANCE CEFramework::GetHInstance() {
