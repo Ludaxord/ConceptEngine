@@ -1,4 +1,2 @@
-[2021-02-19 15:11:30.945] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-02-19 15:11:30.950] [ConceptEngine] [error] Create Window Class Failed
-[2021-02-19 15:11:34.218] [ConceptEngine] [error] Register Concept Engine Window Failed
-[2021-02-19 15:11:34.218] [ConceptEngine] [info] ConceptEngineFramework Game class created.
+[2021-02-19 15:20:08.373] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-02-19 15:20:08.378] [ConceptEngine] [info] ConceptEngineFramework Game class created.

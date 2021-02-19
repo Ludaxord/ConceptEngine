@@ -1,4 +1,26 @@
-﻿  CEGame.cpp
+﻿  CEFramework.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Game\CEConsole.h(27,46): warning C4099: 'std::default_delete<ConceptEngineFramework::Game::CEConsole>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Game\CEConsole.h(27): message : see declaration of 'std::default_delete<ConceptEngineFramework::Game::CEConsole>'
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=gainput::uint32_t
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(309): message : while compiling class template member function 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)'
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(356): message : see reference to function template instantiation 'gainput::HashMap<gainput::DeviceId,bool>::Node *gainput::HashMap<gainput::DeviceId,bool>::insert(const K &,const V &)' being compiled
+          with
+          [
+              K=gainput::DeviceId,
+              V=bool
+          ]
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\recorder\GainputInputRecorder.h(64): message : see reference to class template instantiation 'gainput::HashMap<gainput::DeviceId,bool>' being compiled
+C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(330,1): warning C4267: '=': conversion from 'size_t' to 'gainput::uint32_t', possible loss of data
+  CEGame.cpp
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Game\CEConsole.h(27,46): warning C4099: 'std::default_delete<ConceptEngineFramework::Game::CEConsole>': type name first seen using 'struct' now seen using 'class'
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Game\CEConsole.h(27): message : see declaration of 'std::default_delete<ConceptEngineFramework::Game::CEConsole>'
 C:\src\vcpkg\installed\x64-windows-static\include\gainput\GainputContainers.h(322,1): warning C4267: '=': conversion from 'size_t' to 'T', possible loss of data

@@ -121,6 +121,7 @@ CEGame& CEGame::Get() {
 
 uint32_t CEGame::Run() {
 	m_window->InitWindow();
+	
 	MSG msg = { 0 };
 
 	m_timer.Reset();
@@ -155,7 +156,6 @@ std::shared_ptr<CEConsole> CEGame::GetConsole() {
 void CEGame::CreateMainWindow(const std::wstring& windowName, int width, int height) {
 	m_window = std::make_shared<CEWindowInstance>(windowName, m_hInstance, width, height);
 	m_window->Create();
-	// m_window->Show();
 }
 
 void CEGame::CreateConsole(const std::wstring& windowName) {

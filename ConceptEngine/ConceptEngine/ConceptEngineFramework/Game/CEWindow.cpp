@@ -89,9 +89,10 @@ bool CEWindow::InitWindow() {
 		return false;
 	}
 
-	::ShowWindow(m_hWnd, SW_SHOW);
-	::UpdateWindow(m_hWnd);
-
+	// ::ShowWindow(m_hWnd, SW_SHOW);
+	// ::UpdateWindow(m_hWnd);
+	Show();
+	
 	return true;
 }
 
@@ -122,8 +123,8 @@ void CEWindow::Destroy() {
 }
 
 void CEWindow::Show() {
-	ShowWindow(m_hWnd, SW_SHOW);
-	UpdateWindow(m_hWnd);
+	::ShowWindow(m_hWnd, SW_SHOW);
+	::UpdateWindow(m_hWnd);
 	spdlog::info("Window Shown");
 }
 
