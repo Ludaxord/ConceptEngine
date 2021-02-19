@@ -60,6 +60,9 @@
     <ClInclude Include="Graphics\OpenGL\CEOGLManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tools\CEUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEFramework.cpp">

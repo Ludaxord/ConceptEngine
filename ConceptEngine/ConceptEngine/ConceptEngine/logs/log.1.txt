@@ -1,3 +1,3 @@
-[2021-02-19 19:43:34.381] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-02-19 19:43:34.387] [ConceptEngine] [info] ConceptEngineFramework Game class created.
-[2021-02-19 19:43:34.438] [ConceptEngine] [info] Window Shown
+[2021-02-19 19:43:40.278] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-02-19 19:43:40.284] [ConceptEngine] [info] ConceptEngineFramework Game class created.
+[2021-02-19 19:43:40.327] [ConceptEngine] [info] Window Shown

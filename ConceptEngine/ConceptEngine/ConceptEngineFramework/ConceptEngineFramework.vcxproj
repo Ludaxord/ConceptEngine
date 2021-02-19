@@ -34,6 +34,7 @@
     <ClInclude Include="Graphics\CEGraphicsManager.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLManager.h" />
     <ClInclude Include="Graphics\Vulkan\CEVManager.h" />
+    <ClInclude Include="Tools\CEUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\CEConsole.cpp" />
