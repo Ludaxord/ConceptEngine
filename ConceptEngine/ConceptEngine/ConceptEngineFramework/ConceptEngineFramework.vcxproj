@@ -21,24 +21,22 @@
   <ItemGroup>
     <ClInclude Include="Game\CEConsole.h" />
     <ClInclude Include="CEFramework.h" />
-    <ClInclude Include="Game\CEEvents.h" />
     <ClInclude Include="Game\CEGame.h" />
     <ClInclude Include="CEHeaderLibs.h" />
     <ClInclude Include="Game\CEKeyCodes.h" />
     <ClInclude Include="Game\CEScreen.h" />
+    <ClInclude Include="Game\CETimer.h" />
     <ClInclude Include="Game\CEWindow.h" />
     <ClInclude Include="Game\Libraries\optional.hpp" />
     <ClInclude Include="Game\Libraries\signals.hpp" />
-    <ClInclude Include="Game\Playgrounds\CEDXInitPlayground.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
-    <ClInclude Include="Game\Playgrounds\CEPlayground.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\CEConsole.cpp" />
     <ClCompile Include="CEFramework.cpp" />
     <ClCompile Include="Game\CEGame.cpp" />
+    <ClCompile Include="Game\CETimer.cpp" />
     <ClCompile Include="Game\CEWindow.cpp" />
-    <ClCompile Include="Game\Playgrounds\CEDXInitPlayground.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

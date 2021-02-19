@@ -17,27 +17,101 @@ public:
 	CEConsoleInstance(const std::wstring& windowName, int maxFileSizeInMB = 5, int maxFiles = 3,
 	                  int maxConsoleLines = 500)
 		: CEConsole(windowName, maxFileSizeInMB, maxFiles, maxConsoleLines) {
+		spdlog::info("ConceptEngineFramework Console class created.");
 	}
 
 	explicit CEConsoleInstance(const Logger& logger)
 		: CEConsole(logger) {
+		spdlog::info("ConceptEngineFramework Console class created.");
 	}
 };
 
-CEGame::CEGame(std::wstring name, HINSTANCE hInst) : m_hInstance(hInst), m_bIsRunning(false), m_requestQuit(false) {
+class CEWindowInstance final : public CEWindow {
+
+public:
+	CEWindowInstance(const std::wstring& windowName, HINSTANCE hInstance, int width, int height)
+		: CEWindow(windowName, hInstance, width, height) {
+		spdlog::info("ConceptEngineFramework Window class created.");
+	}
+};
+
+CEGame::CEGame(std::wstring name, HINSTANCE hInst, int width, int height) : m_hInstance(hInst) {
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	CreateConsole(name);
-	CreateInputDevices();
-	CreateWindow(name);
+	CreateMainWindow(name, width, height);
 }
 
-CEGame& CEGame::Create(std::wstring name, HINSTANCE hInst) {
+CEGame& CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height) {
 	if (!g_pGame) {
-		g_pGame = new CEGame(name, hInst);
+		g_pGame = new CEGame(name, hInst, width, height);
 		spdlog::info("ConceptEngineFramework Game class created.");
 	}
 
 	return *g_pGame;
+}
+
+LRESULT CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	switch (msg) {
+		// WM_ACTIVATE is sent when the window is activated or deactivated.  
+		// We pause the game when the window is deactivated and unpause it 
+		// when it becomes active.  
+	case WM_ACTIVATE:
+		return 0;
+
+		// WM_SIZE is sent when the user resizes the window.  
+	case WM_SIZE:
+		// Save the new client area dimensions.
+		m_window->SetResolution(LOWORD(lParam), HIWORD(lParam));
+		return 0;
+
+		// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.
+	case WM_ENTERSIZEMOVE:
+		return 0;
+
+		// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
+		// Here we reset everything based on the new window dimensions.
+	case WM_EXITSIZEMOVE:
+
+		return 0;
+
+		// WM_DESTROY is sent when the window is being destroyed.
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 0;
+
+		// The WM_MENUCHAR message is sent when a menu is active and the user presses 
+		// a key that does not correspond to any mnemonic or accelerator key. 
+	case WM_MENUCHAR:
+		// Don't beep when we alt-enter.
+		return MAKELRESULT(0, MNC_CLOSE);
+
+		// Catch this message so to prevent the window from becoming too small.
+	case WM_GETMINMAXINFO:
+		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 200;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 200;
+		return 0;
+
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		return 0;
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+		return 0;
+	case WM_MOUSEMOVE:
+		return 0;
+	case WM_KEYUP:
+		if (wParam == VK_ESCAPE) {
+			PostQuitMessage(0);
+		}
+		else if ((int)wParam == VK_F2) {
+		}
+
+		return 0;
+	}
+
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 CEGame& CEGame::Get() {
@@ -46,27 +120,31 @@ CEGame& CEGame::Get() {
 }
 
 uint32_t CEGame::Run() {
-	assert(!m_bIsRunning);
-	m_bIsRunning = true;
+	m_window->InitWindow();
+	MSG msg = { 0 };
 
-	MSG msg = {};
-	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) && msg.message != WM_QUIT) {
-		::TranslateMessage(&msg);
-		::DispatchMessage(&msg);
+	m_timer.Reset();
 
-		// m_inputManager.HandleMessage(msg);
+	while (msg.message != WM_QUIT)
+	{
+		// std::stringstream ss;
+		// ss << "PeekMessage: " << msg.message;
+		// spdlog::info(ss.str().c_str());
+		// If there are Window messages then process them.
+		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		// Otherwise, do animation/game stuff.
+		else
+		{
+			m_timer.Tick();
 
-		/*
-		 * Check to see if application send quit signal
-		 */
-		if (m_requestQuit) {
-			::PostQuitMessage(-2);
-			m_requestQuit = false;
 		}
 	}
 
-	m_bIsRunning = false;
-	return static_cast<int32_t>(msg.wParam);
+	return (int)msg.wParam;
 }
 
 
@@ -74,285 +152,13 @@ std::shared_ptr<CEConsole> CEGame::GetConsole() {
 	return m_console;
 }
 
-void CEGame::CreateWindow(const std::wstring& windowName) {
-	
-}
-
-std::shared_ptr<CEWindow> CEGame::CreateWindow(const std::wstring& windowName, int width, int height) {
-	return nullptr;
+void CEGame::CreateMainWindow(const std::wstring& windowName, int width, int height) {
+	m_window = std::make_shared<CEWindowInstance>(windowName, m_hInstance, width, height);
+	m_window->Create();
+	// m_window->Show();
 }
 
 void CEGame::CreateConsole(const std::wstring& windowName) {
 	m_console = std::make_shared<CEConsoleInstance>(windowName);
 	m_console->Create();
-}
-
-void CEGame::CreateInputDevices() {
-	// m_keyboardDevice = m_inputManager.CreateDevice<gainput::InputDeviceKeyboard>();
-	// m_mouseDevice = m_inputManager.CreateDevice<gainput::InputDeviceMouse>();
-	// for (unsigned i = 0; i < gainput::MaxPadCount; ++i) {
-	// 	m_gamePadDevice[i] = m_inputManager.CreateDevice<gainput::InputDevicePad>(i);
-	// }
-	//
-	// /*
-	//  * prevent normalization of mouse coordinates
-	//  */
-	// m_inputManager.SetDisplaySize(1, 1);
-}
-
-LRESULT CEGame::OnWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	auto res = WndProcHandler(hWnd, msg, wParam, lParam);
-	return res ? *res : 0;
-}
-
-
-static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	/*
-	 * Allow for external handling of window messages.
-	 */
-	if (CEGame::Get().OnWndProc(hwnd, message, wParam, lParam)) {
-		return 1;
-	}
-
-	std::shared_ptr<CEScreen> pWindow;
-	{
-		// auto iter = gs_windowMap.find(hwnd);
-		// if (iter != gs_windowMap.end()) {
-		// 	pWindow = iter->second.lock();
-		// }
-	}
-
-	if (pWindow) {
-		switch (message) {
-		case WM_DPICHANGED: {
-			float dpiScaling = HIWORD(wParam) / 96.0f;
-			DPIScaleEventArgs dpiScaleEventArgs(dpiScaling);
-			// pWindow->OnDPIScaleChanged(dpiScaleEventArgs);
-		}
-						  break;
-		case WM_PAINT: {
-			/*
-			 * Delta and total time will be filled in by Window.
-			 */
-			UpdateEventArgs updateEventArgs(0.0, 0.0);
-			// pWindow->OnUpdate(updateEventArgs);
-		}
-					 break;
-		case WM_SYSKEYDOWN:
-		case WM_KEYDOWN: {
-			MSG charMsg;
-
-			/*
-			 * Get Unicode char (UTF-16)
-			 */
-			unsigned int c = 0;
-
-			/*
-			 * For printable characters, next message will be WM_CHAR;
-			 * This message contains character code we need to send KeyPresent event.
-			 * Inspired by SDL 1.2 implementation
-			 */
-			if (PeekMessage(&charMsg, hwnd, 0, 0, PM_NOREMOVE) && charMsg.message == WM_CHAR) {
-				c = static_cast<unsigned int>(charMsg.wParam);
-			}
-
-			bool shift = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
-			bool control = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
-			bool alt = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
-
-			KeyCode key = (KeyCode)wParam;
-			KeyEventArgs keyEventArgs(key, c, KeyState::Pressed, control, shift, alt);
-			// pWindow->OnKeyPressed(keyEventArgs);
-		}
-					   break;
-		case WM_SYSKEYUP:
-		case WM_KEYUP: {
-			bool shift = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
-			bool control = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
-			bool alt = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
-
-			KeyCode key = (KeyCode)wParam;
-			unsigned int c = 0;
-			unsigned int scanCode = (lParam & 0x00FF0000) >> 16;
-
-			/*
-			 * Determine which key was released byt converting key code and scan code to printable character (if possible).
-			 * Inspired by SDL 1.2 implementation
-			 */
-			unsigned char keyboardState[256];
-			GetKeyboardState(keyboardState);
-			wchar_t translatedCharacters[4];
-			if (int result = ToUnicodeEx((UINT)wParam, scanCode, keyboardState, translatedCharacters, 4, 0, NULL) > 0) {
-				c = translatedCharacters[0];
-			}
-
-			KeyEventArgs keyEventArgs(key, c, KeyState::Released, control, shift, alt);
-			// pWindow->OnKeyReleased(keyEventArgs);
-		}
-					 break;
-					 /*
-					 * Default window procedure will play a system notification sound
-					 * when pressing Alt+Enter keyboard combination if this message is not handled
-					 */
-		case WM_SYSCHAR:
-			break;
-		case WM_KILLFOCUS: {
-			/*
-			 * window lost keyboard focus
-			 */
-			// EventArgs eventArgs;
-			// pWindow->OnKeyboardBlur(eventArgs);
-		}
-						 break;
-		case WM_SETFOCUS: {
-			// EventArgs eventArgs;
-			// pWindow->OnKeyboardFocus(eventArgs);
-		}
-						break;
-		case WM_MOUSEMOVE: {
-			bool lButton = (wParam & MK_LBUTTON) != 0;
-			bool rButton = (wParam & MK_RBUTTON) != 0;
-			bool mButton = (wParam & MK_MBUTTON) != 0;
-			bool shift = (wParam & MK_SHIFT) != 0;
-			bool control = (wParam & MK_CONTROL) != 0;
-
-			int x = ((int)(short)LOWORD(lParam));
-			int y = ((int)(short)HIWORD(lParam));
-			
-			// MouseMotionEventArgs mouseMotionEventArgs(lButton, mButton, rButton, control, shift, x, y);
-			// pWindow->OnMouseMoved(mouseMotionEventArgs);
-		}
-						 break;
-		case WM_LBUTTONDOWN:
-		case WM_RBUTTONDOWN:
-		case WM_MBUTTONDOWN: {
-			bool lButton = (wParam & MK_LBUTTON) != 0;
-			bool rButton = (wParam & MK_RBUTTON) != 0;
-			bool mButton = (wParam & MK_MBUTTON) != 0;
-			bool shift = (wParam & MK_SHIFT) != 0;
-			bool control = (wParam & MK_CONTROL) != 0;
-
-			int x = ((int)(short)LOWORD(lParam));
-			int y = ((int)(short)HIWORD(lParam));
-
-			// Capture mouse movement until the button is released.
-			SetCapture(hwnd);
-
-			// MouseButtonEventArgs mouseButtonEventArgs(DecodeMouseButton(message), ButtonState::Pressed, lButton,
-			// 	mButton, rButton, control, shift, x, y);
-			// pWindow->OnMouseButtonPressed(mouseButtonEventArgs);
-		}
-						   break;
-		case WM_LBUTTONUP:
-		case WM_RBUTTONUP:
-		case WM_MBUTTONUP: {
-			bool lButton = (wParam & MK_LBUTTON) != 0;
-			bool rButton = (wParam & MK_RBUTTON) != 0;
-			bool mButton = (wParam & MK_MBUTTON) != 0;
-			bool shift = (wParam & MK_SHIFT) != 0;
-			bool control = (wParam & MK_CONTROL) != 0;
-
-			int x = ((int)(short)LOWORD(lParam));
-			int y = ((int)(short)HIWORD(lParam));
-
-			/*
-			 * Stop capturing mouse
-			 */
-			ReleaseCapture();
-
-			// MouseButtonEventArgs mouseButtonEventArgs(DecodeMouseButton(message), ButtonState::Released, lButton,
-			// 	mButton, rButton, control, shift, x, y);
-			// pWindow->OnMouseButtonReleased(mouseButtonEventArgs);
-		}
-						 break;
-		case WM_MOUSEWHEEL: {
-			/*
-			 * Distance mouse wheel is rotated.
-			 * Positive value indicates wheel was rotated forwards (away user)
-			 * Negative value indicates wheel was rotated backwards (toward user).
-			 */
-			float zDelta = ((int)(short)HIWORD(wParam)) / (float)WHEEL_DELTA;
-			short keyStates = (short)LOWORD(wParam);
-
-			bool lButton = (keyStates & MK_LBUTTON) != 0;
-			bool rButton = (keyStates & MK_RBUTTON) != 0;
-			bool mButton = (keyStates & MK_MBUTTON) != 0;
-			bool shift = (keyStates & MK_SHIFT) != 0;
-			bool control = (keyStates & MK_CONTROL) != 0;
-
-			int x = ((int)(short)LOWORD(lParam));
-			int y = ((int)(short)HIWORD(lParam));
-
-			/*
-			 * Convert screen coordinates to client coordinates.
-			 */
-			POINT screenToClientPoint;
-			screenToClientPoint.x = x;
-			screenToClientPoint.y = y;
-			::ScreenToClient(hwnd, &screenToClientPoint);
-
-			MouseWheelEventArgs mouseWheelEventArgs(zDelta, lButton, mButton, rButton, control, shift,
-				(int)screenToClientPoint.x, (int)screenToClientPoint.y);
-			// pWindow->OnMouseWheel(mouseWheelEventArgs);
-		}
-						  break;
-		case WM_CAPTURECHANGED: {
-			EventArgs mouseBlurEventArgs;
-			// pWindow->OnMouseBlur(mouseBlurEventArgs);
-		}
-							  break;
-		case WM_MOUSEACTIVATE: {
-			EventArgs mouseFocusEventArgs;
-			// pWindow->OnMouseFocus(mouseFocusEventArgs);
-		}
-							 break;
-		case WM_MOUSELEAVE: {
-			EventArgs mouseLeaveEventArgs;
-			// pWindow->OnMouseLeave(mouseLeaveEventArgs);
-		}
-						  break;
-		case WM_SIZE: {
-			// WindowState windowState = DecodeWindowState(wParam);
-
-			int width = ((int)(short)LOWORD(lParam));
-			int height = ((int)(short)HIWORD(lParam));
-
-			// ResizeEventArgs resizeEventArgs(width, height, windowState);
-			// pWindow->OnResize(resizeEventArgs);
-		}
-					break;
-		case WM_CLOSE: {
-			WindowCloseEventArgs windowCloseEventArgs;
-			// pWindow->OnClose(windowCloseEventArgs);
-
-			/*
-			 * Check if user canceled close event
-			 */
-			if (windowCloseEventArgs.ConfirmClose) {
-				pWindow->Hide();
-			}
-		}
-					 break;
-		case WM_DESTROY: {
-			// std::lock_guard<std::mutex> lock(gs_windowHandlesMutex);
-			// WindowMap::iterator iter = gs_windowMap.find(hwnd);
-			// if (iter != gs_windowMap.end()) {
-			// 	gs_windowMap.erase(iter);
-			// }
-		}
-					   break;
-		default:
-			return ::DefWindowProcW(hwnd, message, wParam, lParam);
-		}
-	}
-	else {
-		switch (message) {
-		case WM_CREATE:
-			break;
-		default:
-			return ::DefWindowProcW(hwnd, message, wParam, lParam);
-		}
-	}
-
-	return 0;
 }

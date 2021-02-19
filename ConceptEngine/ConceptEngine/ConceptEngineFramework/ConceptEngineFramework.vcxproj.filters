@@ -36,13 +36,7 @@
     <ClInclude Include="CEHeaderLibs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Playgrounds\CEPlayground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\CEKeyCodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\CEEvents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Libraries\signals.hpp">
@@ -51,7 +45,7 @@
     <ClInclude Include="Game\Libraries\optional.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Playgrounds\CEDXInitPlayground.h">
+    <ClInclude Include="Game\CETimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +62,7 @@
     <ClCompile Include="Game\CEWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Playgrounds\CEDXInitPlayground.cpp">
+    <ClCompile Include="Game\CETimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
