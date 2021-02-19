@@ -45,11 +45,11 @@ namespace ConceptEngineFramework::Game {
 			uint32_t Run() {
 				LoadContent();
 
-				m_console->GetLogger()->info("ConceptFramework Engine Playground Content Loaded");
+				m_console->GetLogger()->info("ConceptEngineFramework Playground Content Loaded");
 
 				// m_window->Show();
 
-				// m_console->GetLogger()->info("ConceptFramework Engine Window Presented");
+				m_console->GetLogger()->info("ConceptEngineFramework Window Presented");
 
 				const uint32_t returnCode = CEGame::Get().Run();
 				UnloadContent();

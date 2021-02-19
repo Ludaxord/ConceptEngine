@@ -7,7 +7,8 @@ namespace ConceptEngineFramework {
 	public:
 
 		CEFramework(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow);
-		int Run();
+		int Run() const;
+		int RunPlayground()  const;
 
 		HINSTANCE GetHInstance();
 	protected:

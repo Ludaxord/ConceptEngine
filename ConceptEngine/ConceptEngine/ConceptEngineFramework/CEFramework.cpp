@@ -14,7 +14,12 @@ CEFramework::CEFramework(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine
 	Game::CEGame::Create(name, hInstance);
 }
 
-int CEFramework::Run() {
+int CEFramework::Run() const {
+	MSG msg = { 0 };
+
+}
+
+int CEFramework::RunPlayground() const {
 	std::unique_ptr<Game::Playgrounds::CEPlayground> playground = std::make_unique<Game::Playgrounds::CEDXInitPlayground
 	>(L"Concept Engine DirectX Init", 1920, 1080);
 	return playground->Run();

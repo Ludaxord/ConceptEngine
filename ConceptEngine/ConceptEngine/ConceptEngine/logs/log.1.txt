@@ -1,3 +1,4 @@
-[2021-02-19 12:13:23.960] [ConceptEngine] [info] ConceptEngineFramework Game class created.
-[2021-02-19 12:13:23.960] [ConceptEngine] [info] ConceptFramework Engine Playground Content Loaded
-[2021-02-19 12:13:23.960] [ConceptEngine] [info] ConceptFramework Engine Window Presented
+[2021-02-19 12:25:19.071] [ConceptEngine] [info] ConceptEngineFramework Game class created.
+[2021-02-19 12:25:19.071] [ConceptEngine] [info] ConceptEngineFramework Playground Content Loaded
+[2021-02-19 12:25:19.071] [ConceptEngine] [info] ConceptEngineFramework Window Presented
+[2021-02-19 12:25:19.071] [ConceptEngine] [info] RUN!!!
