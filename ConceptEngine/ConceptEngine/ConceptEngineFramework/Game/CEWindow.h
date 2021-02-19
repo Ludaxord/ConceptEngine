@@ -18,7 +18,9 @@ namespace ConceptEngineFramework::Game {
 		void SetHeight(int height);
 	
 	protected:
-		friend CEGame;
+		friend class CEGame;
+		friend class std::default_delete<CEWindow>;
+
 		CEWindow(std::wstring windowName, HINSTANCE hInstance, int width, int height);
 		~CEWindow() = default;
 

@@ -5,8 +5,6 @@
 
 namespace ConceptEngineFramework::Game {
 	interface CEScreen {
-	protected:
-		~CEScreen() = default;
 	public:
 		virtual void Create() = 0;
 		virtual void Destroy() = 0;
@@ -14,6 +12,7 @@ namespace ConceptEngineFramework::Game {
 		virtual void Hide() = 0;
 
 		virtual std::wstring GetName() = 0;
-
+	protected:
+		~CEScreen() = default;
 	};
 }

@@ -89,8 +89,6 @@ bool CEWindow::InitWindow() {
 		return false;
 	}
 
-	// ::ShowWindow(m_hWnd, SW_SHOW);
-	// ::UpdateWindow(m_hWnd);
 	Show();
 	
 	return true;

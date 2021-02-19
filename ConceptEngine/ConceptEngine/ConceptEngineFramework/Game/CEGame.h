@@ -7,10 +7,15 @@
 #include "CEConsole.h"
 #include "CETimer.h"
 #include "CEWindow.h"
+#include "../Graphics/CEGraphicsManager.h"
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 namespace ConceptEngineFramework {
+	namespace Graphics {
+		struct CEGraphicsManager;
+	}
+
 	class CEFramework;
 
 	namespace Game {
@@ -28,6 +33,7 @@ namespace ConceptEngineFramework {
 			std::shared_ptr<CEConsole> GetConsole();
 			void CreateMainWindow(const std::wstring& windowName, int width, int height);
 			void CreateConsole(const std::wstring& windowName);
+			void CreateGraphicsManager(Graphics::API graphicsAPI);
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;
@@ -41,6 +47,7 @@ namespace ConceptEngineFramework {
 
 			std::shared_ptr<CEConsole> m_console;
 			std::shared_ptr<CEWindow> m_window;
+			std::shared_ptr<Graphics::CEGraphicsManager> m_graphicsManager;
 			/*
 			* Handle to application instance.
 			*/

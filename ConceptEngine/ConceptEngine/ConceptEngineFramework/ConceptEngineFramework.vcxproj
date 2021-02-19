@@ -29,7 +29,11 @@
     <ClInclude Include="Game\CEWindow.h" />
     <ClInclude Include="Game\Libraries\optional.hpp" />
     <ClInclude Include="Game\Libraries\signals.hpp" />
+    <ClInclude Include="Graphics\DirectX12\CEDX12Manager.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
+    <ClInclude Include="Graphics\CEGraphicsManager.h" />
+    <ClInclude Include="Graphics\OpenGL\CEOGLManager.h" />
+    <ClInclude Include="Graphics\Vulkan\CEVManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\CEConsole.cpp" />
@@ -37,6 +41,9 @@
     <ClCompile Include="Game\CEGame.cpp" />
     <ClCompile Include="Game\CETimer.cpp" />
     <ClCompile Include="Game\CEWindow.cpp" />
+    <ClCompile Include="Graphics\DirectX12\CEDX12Manager.cpp" />
+    <ClCompile Include="Graphics\OpenGL\CEOGLManager.cpp" />
+    <ClCompile Include="Graphics\Vulkan\CEVManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

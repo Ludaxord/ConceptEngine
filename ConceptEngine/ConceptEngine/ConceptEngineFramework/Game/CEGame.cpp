@@ -4,14 +4,22 @@
 
 
 #include "CEConsole.h"
-using namespace ConceptEngineFramework::Game;
+#include "../Graphics/DirectX12/CEDX12Manager.h"
+#include "../Graphics/Vulkan/CEVManager.h"
+#include "../Graphics/OpenGL/CEOGLManager.h"
 
-static CEGame* g_pGame = nullptr;
+namespace GameEngine = ConceptEngineFramework::Game;
+namespace GraphicsEngine = ConceptEngineFramework::Graphics;
+namespace DirectXGraphicsEngine = GraphicsEngine::DirectX12;
+namespace VulkanGraphicsEngine = GraphicsEngine::Vulkan;
+namespace OpenGLGraphicsEngine = GraphicsEngine::OpenGL;
+
+static GameEngine::CEGame* g_pGame = nullptr;
 
 /*
  * Instance for std::shared_ptr
  */
-class CEConsoleInstance final : public CEConsole {
+class CEConsoleInstance final : public GameEngine::CEConsole {
 
 public:
 	CEConsoleInstance(const std::wstring& windowName, int maxFileSizeInMB = 5, int maxFiles = 3,
@@ -26,7 +34,7 @@ public:
 	}
 };
 
-class CEWindowInstance final : public CEWindow {
+class CEWindowInstance final : public GameEngine::CEWindow {
 
 public:
 	CEWindowInstance(const std::wstring& windowName, HINSTANCE hInstance, int width, int height)
@@ -35,13 +43,35 @@ public:
 	}
 };
 
-CEGame::CEGame(std::wstring name, HINSTANCE hInst, int width, int height) : m_hInstance(hInst) {
+class CEDX12ManagerInstance final : public DirectXGraphicsEngine::CEDX12Manager {
+public:
+	CEDX12ManagerInstance(): CEDX12Manager() {
+		spdlog::info("ConceptEngineFramework DirectX 12 Manager class created.");
+	}
+};
+
+class CEVManagerInstance final : public VulkanGraphicsEngine::CEVManager {
+public:
+	CEVManagerInstance(): CEVManager() {
+		spdlog::info("ConceptEngineFramework Vulkan Manager class created.");
+	}
+};
+
+class CEOGLManagerInstance final : public OpenGLGraphicsEngine::CEOGLManager {
+public:
+	CEOGLManagerInstance(): CEOGLManager() {
+		spdlog::info("ConceptEngineFramework OpenGL Manager class created.");
+	}
+};
+
+
+GameEngine::CEGame::CEGame(std::wstring name, HINSTANCE hInst, int width, int height) : m_hInstance(hInst) {
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	CreateConsole(name);
 	CreateMainWindow(name, width, height);
 }
 
-CEGame& CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height) {
+GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height) {
 	if (!g_pGame) {
 		g_pGame = new CEGame(name, hInst, width, height);
 		spdlog::info("ConceptEngineFramework Game class created.");
@@ -50,7 +80,7 @@ CEGame& CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height
 	return *g_pGame;
 }
 
-LRESULT CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 		// WM_ACTIVATE is sent when the window is activated or deactivated.  
 		// We pause the game when the window is deactivated and unpause it 
@@ -114,32 +144,26 @@ LRESULT CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-CEGame& CEGame::Get() {
+GameEngine::CEGame& GameEngine::CEGame::Get() {
 	assert(g_pGame != nullptr);
 	return *g_pGame;
 }
 
-uint32_t CEGame::Run() {
+uint32_t GameEngine::CEGame::Run() {
 	m_window->InitWindow();
-	
-	MSG msg = { 0 };
+
+	MSG msg = {0};
 
 	m_timer.Reset();
 
-	while (msg.message != WM_QUIT)
-	{
-		// std::stringstream ss;
-		// ss << "PeekMessage: " << msg.message;
-		// spdlog::info(ss.str().c_str());
+	while (msg.message != WM_QUIT) {
 		// If there are Window messages then process them.
-		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-		{
+		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		// Otherwise, do animation/game stuff.
-		else
-		{
+			// Otherwise, do animation/game stuff.
+		else {
 			m_timer.Tick();
 
 		}
@@ -149,16 +173,34 @@ uint32_t CEGame::Run() {
 }
 
 
-std::shared_ptr<CEConsole> CEGame::GetConsole() {
+std::shared_ptr<GameEngine::CEConsole> GameEngine::CEGame::GetConsole() {
 	return m_console;
 }
 
-void CEGame::CreateMainWindow(const std::wstring& windowName, int width, int height) {
+void GameEngine::CEGame::CreateMainWindow(const std::wstring& windowName, int width, int height) {
 	m_window = std::make_shared<CEWindowInstance>(windowName, m_hInstance, width, height);
 	m_window->Create();
 }
 
-void CEGame::CreateConsole(const std::wstring& windowName) {
+void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
+	switch (graphicsAPI) {
+	case Graphics::API::DirectX12_API:
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		break;
+	case Graphics::API::Vulkan_API:
+		m_graphicsManager = std::make_shared<CEVManagerInstance>();
+		break;
+	case Graphics::API::OpenGL_API:
+		m_graphicsManager = std::make_shared<CEOGLManagerInstance>();
+		break;
+	default:
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		break;
+	}
+	m_graphicsManager->Create();
+}
+
+void GameEngine::CEGame::CreateConsole(const std::wstring& windowName) {
 	m_console = std::make_shared<CEConsoleInstance>(windowName);
 	m_console->Create();
 }
