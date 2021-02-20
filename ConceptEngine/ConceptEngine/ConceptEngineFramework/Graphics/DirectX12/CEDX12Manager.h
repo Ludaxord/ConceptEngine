@@ -40,6 +40,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 	public:
 		void Create() override;
 		void Destroy() override;
+		void Resize();
 
 	protected:
 		friend class CEGame;
@@ -48,9 +49,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		CEDX12Manager(Game::CEWindow& window);
 		~CEDX12Manager();
 	private:
-		void EnableDebugLayer() const;
-
 		//TODO: Move to different classes to keep it clean. Just to test make it functions for now
+
+		void EnableDebugLayer() const;
+		void FlushCommandQueue();
+
 		void CreateDXGIFactory();
 		void CreateAdapter();
 		void CreateDevice();
@@ -60,6 +63,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateCommandAllocator();
 		void CreateCommandList();
 		void CreateSwapChain();
+		void CreateRTVDescriptorHeap();
+		void CreateDSVDescriptorHeap();
 
 		void TearingSupport();
 		void FeatureLevelSupport();
@@ -72,6 +77,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void LogDirectXInfo() const;
 
 	private:
+		static const UINT BufferCount = 3;
+
 		Microsoft::WRL::ComPtr<IDXGIFactory4> m_dxgiFactory;
 		Microsoft::WRL::ComPtr<IDXGIAdapter1> m_adapter;
 		Microsoft::WRL::ComPtr<ID3D12Device> m_d3dDevice;
@@ -80,22 +87,31 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_commandAllocator;
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_commandList;
 		Microsoft::WRL::ComPtr<IDXGISwapChain4> m_swapChain;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_dsvHeap;
+		Microsoft::WRL::ComPtr<ID3D12Resource> m_swapChainBuffer[BufferCount];
+		Microsoft::WRL::ComPtr<ID3D12Resource> m_depthStencilBuffer;
 
 		std::map<D3D12_DESCRIPTOR_HEAP_TYPE, UINT> m_descriptorSizes;
+		UINT64 m_currentFence = 0;
+		int m_currentBackBuffer = 0;
+
+		D3D12_VIEWPORT m_screenViewport;
+		D3D12_RECT m_scissorRect;
 
 		Game::CEWindow& m_window;
-		
+
 		bool m_tearingSupported;
 		bool m_rayTracingSupported;
 		bool m_4xMsaaState = false; // 4X MSAA enabled
 		UINT m_4xMsaaQuality = 0; // quality level of 4X MSAA
 		UINT m_numerator = 60;
 		UINT m_denominator = 1;
-		static const UINT BufferCount = 3;
-		
+
 		D3D_FEATURE_LEVEL m_minFeatureLevel;
 		D3D_FEATURE_LEVEL m_featureLevel;
 		DXGI_FORMAT m_backBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+		DXGI_FORMAT m_depthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 		UINT m_adapterIDOverride;
 		UINT m_adapterID;

@@ -6,9 +6,6 @@
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 
-/*
- * Initializers
- */
 void CEDX12Manager::Create() {
 	EnableDebugLayer();
 	CreateDXGIFactory();
@@ -29,23 +26,14 @@ void CEDX12Manager::Create() {
 	CreateCommandAllocator();
 	CreateCommandList();
 	CreateSwapChain();
+	CreateRTVDescriptorHeap();
+	CreateDSVDescriptorHeap();
 
 	LogDirectXInfo();
+
+	Resize();
 }
 
-CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
-                                                       m_tearingSupported(false),
-                                                       m_rayTracingSupported(false),
-                                                       m_adapterIDOverride(UINT_MAX),
-                                                       m_adapterID(UINT_MAX),
-                                                       m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
-                                                       m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
-	spdlog::info("ConceptEngineFramework DirectX 12 class created.");
-}
-
-/*
- * Destroyers
- */
 void CEDX12Manager::Destroy() {
 #ifdef _DEBUG
 	{
@@ -58,8 +46,140 @@ void CEDX12Manager::Destroy() {
 #endif
 }
 
+void CEDX12Manager::Resize() {
+	assert(m_d3dDevice);
+	assert(m_swapChain);
+	assert(m_commandAllocator);
+
+	//Flush before changing resources
+	FlushCommandQueue();
+
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), nullptr));
+
+	//Release previous resources that will be recreated
+	for (int i = 0; i < BufferCount; ++i) {
+		m_swapChainBuffer[i].Reset();
+	}
+	m_depthStencilBuffer.Reset();
+
+	//Resize swap chain
+	auto swapChainFlags = m_tearingSupported ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+	swapChainFlags |= DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
+	swapChainFlags |= DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	ThrowIfFailed(m_swapChain->ResizeBuffers(BufferCount,
+	                                         m_window.GetWidth(),
+	                                         m_window.GetHeight(),
+	                                         m_backBufferFormat,
+	                                         swapChainFlags));
+	m_currentBackBuffer = 0;
+
+	auto heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+	//Create render target buffer and view
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	for (UINT i = 0; i < BufferCount; i++) {
+		ThrowIfFailed(m_swapChain->GetBuffer(i, IID_PPV_ARGS(&m_swapChainBuffer[i])));
+		m_d3dDevice->CreateRenderTargetView(m_swapChainBuffer[i].Get(), nullptr, rtvHeapHandle);
+		rtvHeapHandle.Offset(1, m_descriptorSizes[D3D12_DESCRIPTOR_HEAP_TYPE_RTV]);
+	}
+
+	//Create depth stencil buffer and view
+	D3D12_RESOURCE_DESC depthStencilDesc;
+	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthStencilDesc.Alignment = 0;
+	depthStencilDesc.Width = m_window.GetWidth();
+	depthStencilDesc.Height = m_window.GetHeight();
+	depthStencilDesc.DepthOrArraySize = 1;
+	depthStencilDesc.MipLevels = 1;
+
+	depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+
+	depthStencilDesc.SampleDesc.Count = m_4xMsaaState ? 4 : 1;
+	depthStencilDesc.SampleDesc.Quality = m_4xMsaaState ? (m_4xMsaaQuality - 1) : 0;
+	depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	D3D12_CLEAR_VALUE clearValue;
+	clearValue.Format = m_depthStencilFormat;
+	clearValue.DepthStencil.Depth = 1.0f;
+	clearValue.DepthStencil.Stencil = 0;
+	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(
+		&heapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&depthStencilDesc,
+		D3D12_RESOURCE_STATE_COMMON,
+		&clearValue,
+		IID_PPV_ARGS(m_depthStencilBuffer.GetAddressOf())
+	));
+
+	//Create descriptor to mip level 0 of entire resource using format of resource
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = m_depthStencilFormat;
+	dsvDesc.Texture2D.MipSlice = 0;
+	m_d3dDevice->CreateDepthStencilView(m_depthStencilBuffer.Get(), &dsvDesc,
+	                                    m_dsvHeap->GetCPUDescriptorHandleForHeapStart());
+
+	//Transition resource from internal state to be used as depth buffer
+	auto dsvTransitionBarrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_depthStencilBuffer.Get(),
+		D3D12_RESOURCE_STATE_COMMON,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	m_commandList->ResourceBarrier(1, &dsvTransitionBarrier);
+
+	//Execute resize commands
+	ThrowIfFailed(m_commandList->Close());
+	ID3D12CommandList* commandLists[] = {m_commandList.Get()};
+	m_commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	//Wait until resize if complete
+	FlushCommandQueue();
+
+	//Update viewport transform to cover client area
+
+	m_screenViewport.TopLeftX = 0;
+	m_screenViewport.TopLeftY = 0;
+	m_screenViewport.Width = static_cast<float>(m_window.GetWidth());
+	m_screenViewport.Height = static_cast<float>(m_window.GetHeight());
+	m_screenViewport.MinDepth = 0.0f;
+	m_screenViewport.MaxDepth = 1.0f;
+
+	m_scissorRect = {0, 0, m_window.GetWidth(), m_window.GetHeight()};
+}
+
+CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
+                                                       m_tearingSupported(false),
+                                                       m_rayTracingSupported(false),
+                                                       m_adapterIDOverride(UINT_MAX),
+                                                       m_adapterID(UINT_MAX),
+                                                       m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
+                                                       m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
+	spdlog::info("ConceptEngineFramework DirectX 12 class created.");
+}
+
+
 CEDX12Manager::~CEDX12Manager() {
 	CEDX12Manager::Destroy();
+}
+
+void CEDX12Manager::FlushCommandQueue() {
+	//Advance fence value to mark commands up to fence point;
+	m_currentFence++;
+
+	//Add instruction to command queue to set new fence point. Because we are on GPU timeline, new fence point will not be set until GPU finishes processign all commands prior to Signal()
+	ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_currentFence));
+
+	//Wait until GPU has completed commands up to this fence point
+	if (m_fence->GetCompletedValue() < m_currentFence) {
+		HANDLE eventHandle = CreateEventEx(nullptr, FALSE, FALSE, EVENT_ALL_ACCESS);
+
+		//Fire event when GPU hits current fence;
+		ThrowIfFailed(m_fence->SetEventOnCompletion(m_currentFence, eventHandle));
+
+		//Wait until GPU hits current fence event is fired.
+		WaitForSingleObjectEx(eventHandle, 1000, TRUE);
+	}
 }
 
 void CEDX12Manager::EnableDebugLayer() const {
@@ -120,7 +240,6 @@ void CEDX12Manager::CreateDevice() {
 	}
 #endif
 }
-
 
 void CEDX12Manager::CreateAdapter() {
 	ComPtr<IDXGIFactory6> factory6;
@@ -287,6 +406,24 @@ void CEDX12Manager::CreateSwapChain() {
 	                                                   nullptr,
 	                                                   &dxgiSwapChain1));
 	ThrowIfFailed(dxgiSwapChain1.As(&m_swapChain));
+}
+
+void CEDX12Manager::CreateRTVDescriptorHeap() {
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
+	rtvHeapDesc.NumDescriptors = BufferCount;
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	rtvHeapDesc.NodeMask = 0;
+	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(m_rtvHeap.GetAddressOf())));
+}
+
+void CEDX12Manager::CreateDSVDescriptorHeap() {
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
+	dsvHeapDesc.NumDescriptors = 1;
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	dsvHeapDesc.NodeMask = 0;
+	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(m_dsvHeap.GetAddressOf())));
 }
 
 /*

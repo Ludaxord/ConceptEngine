@@ -18,6 +18,7 @@ inline void ThrowIfFailed(HRESULT hr) {
 		sprintf_s(s_str, "HRESULT of 0x%08X", static_cast<UINT>(hr));
 		std::string ss(s_str);
 		spdlog::error(ss.c_str());
+        throw std::exception(ss.c_str());
 	}
 }
 
