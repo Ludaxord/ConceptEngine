@@ -62,6 +62,12 @@ namespace ConceptEngineFramework {
 			std::wstring m_name;
 			int m_width;
 			int m_height;
+
+			bool m_paused = false; // is the application paused?
+			bool m_minimized = false; // is the application minimized?
+			bool m_maximized = false; // is the application maximized?
+			bool m_resizing = false; // are the resize bars being dragged?
+			bool m_fullscreen = false; // fullscreen enabled
 		};
 	}
 }
