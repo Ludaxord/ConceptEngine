@@ -49,21 +49,26 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateDevice();
 		void CheckMaxFeatureLevel();
 		void DirectXRayTracingSupported();
+		void CreateFence();
+		void CreateDescriptorSizes();
 
-		void ManagerInfo();
-		
+		void DirectXInfo() const;
+
 		Microsoft::WRL::ComPtr<IDXGIFactory4> m_dxgiFactory;
 		Microsoft::WRL::ComPtr<IDXGIAdapter1> m_adapter;
 		Microsoft::WRL::ComPtr<ID3D12Device> m_d3dDevice;
+		Microsoft::WRL::ComPtr<ID3D12Fence> m_fence;
+
+		std::map<D3D12_DESCRIPTOR_HEAP_TYPE, UINT> m_descriptorSizes;
 
 		bool m_tearingSupported;
 		bool m_rayTracingSupported;
+		D3D_FEATURE_LEVEL m_minFeatureLevel;
+		D3D_FEATURE_LEVEL m_featureLevel;
 
 		UINT m_adapterIDOverride;
 		UINT m_adapterID;
 		std::wstring m_adapterDescription;
 
-		D3D_FEATURE_LEVEL m_minFeatureLevel;
-		D3D_FEATURE_LEVEL m_featureLevel;
 	};
 }

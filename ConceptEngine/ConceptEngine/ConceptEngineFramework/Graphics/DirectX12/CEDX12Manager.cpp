@@ -13,6 +13,10 @@ void CEDX12Manager::Create() {
 	CreateDevice();
 	CheckMaxFeatureLevel();
 	DirectXRayTracingSupported();
+	CreateFence();
+	CreateDescriptorSizes();
+
+	DirectXInfo();
 }
 
 CEDX12Manager::CEDX12Manager(): m_tearingSupported(false),
@@ -138,7 +142,8 @@ void CEDX12Manager::CreateAdapter() {
 			std::string sBuff(std::begin(buff), std::end(buff));
 			// spdlog::info(sBuff);
 			std::wstringstream wss;
-			wss << "Direct3D Adapter (" << adapterID << "): VID:" << desc.VendorId << ", PID:" << desc.DeviceId << " - GPU: "
+			wss << "Direct3D Adapter (" << adapterID << "): VID:" << desc.VendorId << ", PID:" << desc.DeviceId <<
+				" - GPU: "
 				<< desc.Description;
 			auto ws(wss.str());
 			const std::string s(ws.begin(), ws.end());
@@ -190,4 +195,74 @@ void CEDX12Manager::DirectXRayTracingSupported() {
 			)
 		)
 		&& featureSupportData.RaytracingTier != D3D12_RAYTRACING_TIER_NOT_SUPPORTED;
+}
+
+void CEDX12Manager::CreateFence() {
+	ThrowIfFailed(m_d3dDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
+}
+
+void CEDX12Manager::CreateDescriptorSizes() {
+	m_descriptorSizes = {
+		{
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
+			m_d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
+		},
+		{
+			D3D12_DESCRIPTOR_HEAP_TYPE_DSV,
+			m_d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV)
+		},
+		{
+			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+			m_d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
+		}
+	};
+}
+
+void CEDX12Manager::DirectXInfo() const {
+
+	std::string minFeatureLevelName;
+	std::string featureLevelName;
+
+	switch (m_minFeatureLevel) {
+	case D3D_FEATURE_LEVEL_12_1:
+		minFeatureLevelName = "12.1";
+		break;
+	case D3D_FEATURE_LEVEL_12_0:
+		minFeatureLevelName = "12.0";
+		break;
+	case D3D_FEATURE_LEVEL_11_1:
+		minFeatureLevelName = "11.1";
+		break;
+	case D3D_FEATURE_LEVEL_11_0:
+		minFeatureLevelName = "11.0";
+		break;
+	default:
+		minFeatureLevelName = "NO DATA";
+		break;
+	}
+
+	switch (m_featureLevel) {
+	case D3D_FEATURE_LEVEL_12_1:
+		featureLevelName = "12.1";
+		break;
+	case D3D_FEATURE_LEVEL_12_0:
+		featureLevelName = "12.0";
+		break;
+	case D3D_FEATURE_LEVEL_11_1:
+		featureLevelName = "11.1";
+		break;
+	case D3D_FEATURE_LEVEL_11_0:
+		featureLevelName = "11.0";
+		break;
+	default:
+		featureLevelName = "NO DATA";
+		break;
+	}
+
+	const auto* const rayTracingSupported = m_rayTracingSupported ? "TRUE" : "FALSE";
+	const auto* const tearingSupported = m_tearingSupported ? "TRUE" : "FALSE";
+	spdlog::info("Min Feature Level Support: {}", minFeatureLevelName);
+	spdlog::info("Max Feature Level Support: {}", featureLevelName);
+	spdlog::info("Ray Tracing Support: {}", rayTracingSupported);
+	spdlog::info("Tearing Support: {}", tearingSupported);
 }
