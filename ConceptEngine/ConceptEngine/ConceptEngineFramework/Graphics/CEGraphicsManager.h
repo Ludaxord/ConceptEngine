@@ -13,6 +13,7 @@ namespace ConceptEngineFramework::Graphics {
 	interface CEGraphicsManager {
 	public:
 		virtual void Create() = 0;
+		virtual void Destroy() = 0;
 	protected:
 		virtual ~CEGraphicsManager() = default;
 	};

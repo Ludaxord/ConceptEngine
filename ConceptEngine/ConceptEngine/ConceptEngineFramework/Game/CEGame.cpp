@@ -45,7 +45,7 @@ public:
 
 class CEDX12ManagerInstance final : public DirectXGraphicsEngine::CEDX12Manager {
 public:
-	CEDX12ManagerInstance(): CEDX12Manager() {
+	CEDX12ManagerInstance(ConceptEngineFramework::Game::CEWindow& window): CEDX12Manager(window) {
 		spdlog::info("ConceptEngineFramework DirectX 12 Manager class created.");
 	}
 };
@@ -66,13 +66,21 @@ public:
 
 
 GameEngine::CEGame::CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI) :
+	m_name(name),
 	m_hInstance(hInst),
-	m_graphicsAPI(graphicsAPI) {
+	m_width(width),
+	m_height(height),
+	m_graphicsAPI(graphicsAPI),
+	m_systemInfo{} {
+}
+
+void GameEngine::CEGame::Init() {
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-	CreateConsole(name);
-	CreateMainWindow(name, width, height);
+	CreateConsole(m_name);
+	CreateMainWindow(m_name, m_width, m_height);
+	m_window->InitWindow();
 	SystemInfo();
-	CreateGraphicsManager(graphicsAPI);
+	CreateGraphicsManager(m_graphicsAPI);
 }
 
 GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,
@@ -160,7 +168,6 @@ GameEngine::CEGame& GameEngine::CEGame::Get() {
 }
 
 uint32_t GameEngine::CEGame::Run() {
-	m_window->InitWindow();
 
 	MSG msg = {0};
 
@@ -195,7 +202,7 @@ void GameEngine::CEGame::CreateMainWindow(const std::wstring& windowName, int wi
 void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 	switch (graphicsAPI) {
 	case Graphics::API::DirectX12_API:
-		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(*m_window);
 		break;
 	case Graphics::API::Vulkan_API:
 		m_graphicsManager = std::make_shared<CEVManagerInstance>();
@@ -204,7 +211,7 @@ void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 		m_graphicsManager = std::make_shared<CEOGLManagerInstance>();
 		break;
 	default:
-		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(*m_window);
 		break;
 	}
 	m_graphicsManager->Create();

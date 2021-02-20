@@ -90,12 +90,24 @@ bool CEWindow::InitWindow() {
 	}
 
 	Show();
-	
+
 	return true;
 }
 
 std::wstring CEWindow::GetName() {
 	return m_windowName;
+}
+
+HWND CEWindow::GetWindowHandle() const {
+	return m_hWnd;
+}
+
+int CEWindow::GetWidth() const {
+	return m_width;
+}
+
+int CEWindow::GetHeight() const {
+	return m_height;
 }
 
 void CEWindow::SetResolution(int width, int height) {

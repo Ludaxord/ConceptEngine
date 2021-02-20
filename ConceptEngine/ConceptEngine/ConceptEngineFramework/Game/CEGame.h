@@ -40,6 +40,7 @@ namespace ConceptEngineFramework {
 			friend CEFramework;
 			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI);
 
+			void Init();
 			void SystemInfo();
 
 		private:
@@ -58,6 +59,9 @@ namespace ConceptEngineFramework {
 			Graphics::API m_graphicsAPI;
 
 			CESystemInfo m_systemInfo;
+			std::wstring m_name;
+			int m_width;
+			int m_height;
 		};
 	}
 }

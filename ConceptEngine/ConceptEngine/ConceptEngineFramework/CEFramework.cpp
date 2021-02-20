@@ -17,6 +17,7 @@ CEFramework::CEFramework(std::wstring name,
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow) {
 	Game::CEGame::Create(name, hInstance, width, height, graphicsAPI);
+	Game::CEGame::Get().Init();
 }
 
 int CEFramework::Run() const {

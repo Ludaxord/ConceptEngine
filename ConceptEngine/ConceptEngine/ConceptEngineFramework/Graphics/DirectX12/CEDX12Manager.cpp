@@ -1,31 +1,65 @@
 #include "CEDX12Manager.h"
 
+
+#include "../../Game/CEWindow.h"
 #include "../../Tools/CEUtils.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 
-
+/*
+ * Initializers
+ */
 void CEDX12Manager::Create() {
 	EnableDebugLayer();
 	CreateDXGIFactory();
-	CheckTearingSupport();
+	TearingSupport();
 	CreateAdapter();
 	CreateDevice();
-	CheckMaxFeatureLevel();
-	DirectXRayTracingSupported();
+	FeatureLevelSupport();
+	DirectXRayTracingSupport();
 	CreateFence();
 	CreateDescriptorSizes();
+	MultiSamplingSupport();
 
-	DirectXInfo();
+#ifdef _DEBUG
+	LogAdapters();
+#endif
+
+	CreateCommandQueue();
+	CreateCommandAllocator();
+	CreateCommandList();
+	CreateSwapChain();
+
+	LogDirectXInfo();
 }
 
-CEDX12Manager::CEDX12Manager(): m_tearingSupported(false),
-                                m_rayTracingSupported(false),
-                                m_adapterIDOverride(UINT_MAX),
-                                m_adapterID(UINT_MAX),
-                                m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
-                                m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
+CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
+                                                       m_tearingSupported(false),
+                                                       m_rayTracingSupported(false),
+                                                       m_adapterIDOverride(UINT_MAX),
+                                                       m_adapterID(UINT_MAX),
+                                                       m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
+                                                       m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
 	spdlog::info("ConceptEngineFramework DirectX 12 class created.");
+}
+
+/*
+ * Destroyers
+ */
+void CEDX12Manager::Destroy() {
+#ifdef _DEBUG
+	{
+		ComPtr<IDXGIDebug1> dxgiDebug;
+		if (SUCCEEDED(DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug)))) {
+			dxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL,
+			                             DXGI_DEBUG_RLO_FLAGS(DXGI_DEBUG_RLO_SUMMARY | DXGI_DEBUG_RLO_IGNORE_INTERNAL));
+		}
+	}
+#endif
+}
+
+CEDX12Manager::~CEDX12Manager() {
+	CEDX12Manager::Destroy();
 }
 
 void CEDX12Manager::EnableDebugLayer() const {
@@ -36,6 +70,9 @@ void CEDX12Manager::EnableDebugLayer() const {
 #endif
 }
 
+/*
+ * Objects Creators
+ */
 void CEDX12Manager::CreateDXGIFactory() {
 	bool debugDXGI = false;
 #if defined(_DEBUG)
@@ -52,16 +89,6 @@ void CEDX12Manager::CreateDXGIFactory() {
 	if (!debugDXGI) {
 		CreateDXGIFactory1(IID_PPV_ARGS(&m_dxgiFactory));
 	}
-}
-
-void CEDX12Manager::CheckTearingSupport() {
-	BOOL allowTearing = FALSE;
-	ComPtr<IDXGIFactory5> factory5;
-	HRESULT hr = m_dxgiFactory.As(&factory5);
-	if (SUCCEEDED(hr)) {
-		hr = factory5->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &allowTearing, sizeof(allowTearing));
-	}
-	m_tearingSupported = (allowTearing == TRUE);
 }
 
 void CEDX12Manager::CreateDevice() {
@@ -94,21 +121,6 @@ void CEDX12Manager::CreateDevice() {
 #endif
 }
 
-void CEDX12Manager::CheckMaxFeatureLevel() {
-	// Determine maximum supported feature level for this device
-	static const D3D_FEATURE_LEVEL s_featureLevels[] = {
-		D3D_FEATURE_LEVEL_12_1,
-		D3D_FEATURE_LEVEL_12_0,
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-	};
-
-	D3D12_FEATURE_DATA_FEATURE_LEVELS featLevels = {
-		_countof(s_featureLevels), s_featureLevels, D3D_FEATURE_LEVEL_11_0
-	};
-	HRESULT hr = m_d3dDevice->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &featLevels, sizeof(featLevels));
-	m_featureLevel = SUCCEEDED(hr) ? featLevels.MaxSupportedFeatureLevel : m_minFeatureLevel;
-}
 
 void CEDX12Manager::CreateAdapter() {
 	ComPtr<IDXGIFactory6> factory6;
@@ -176,27 +188,6 @@ void CEDX12Manager::CreateAdapter() {
 	}
 }
 
-void CEDX12Manager::DirectXRayTracingSupported() {
-	ComPtr<ID3D12Device> testDevice;
-	D3D12_FEATURE_DATA_D3D12_OPTIONS5 featureSupportData = {};
-
-	m_rayTracingSupported = SUCCEEDED(
-			D3D12CreateDevice(
-				m_adapter.Get(),
-				D3D_FEATURE_LEVEL_11_0,
-				IID_PPV_ARGS(&testDevice)
-			)
-		)
-		&& SUCCEEDED(
-			testDevice->CheckFeatureSupport(
-				D3D12_FEATURE_D3D12_OPTIONS5,
-				&featureSupportData,
-				sizeof(featureSupportData)
-			)
-		)
-		&& featureSupportData.RaytracingTier != D3D12_RAYTRACING_TIER_NOT_SUPPORTED;
-}
-
 void CEDX12Manager::CreateFence() {
 	ThrowIfFailed(m_d3dDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
 }
@@ -218,7 +209,229 @@ void CEDX12Manager::CreateDescriptorSizes() {
 	};
 }
 
-void CEDX12Manager::DirectXInfo() const {
+void CEDX12Manager::CreateCommandQueue() {
+	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
+	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	ThrowIfFailed(m_d3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_commandQueue)));
+}
+
+void CEDX12Manager::CreateCommandAllocator() {
+	ThrowIfFailed(m_d3dDevice->CreateCommandAllocator(
+			D3D12_COMMAND_LIST_TYPE_DIRECT,
+			IID_PPV_ARGS(m_commandAllocator.GetAddressOf())
+		)
+	);
+
+}
+
+void CEDX12Manager::CreateCommandList() {
+	ThrowIfFailed(m_d3dDevice->CreateCommandList(
+			0,
+			D3D12_COMMAND_LIST_TYPE_DIRECT,
+			m_commandAllocator.Get(), // Associated command allocator
+			nullptr, // Initial PipelineStateObject
+			IID_PPV_ARGS(m_commandList.GetAddressOf())
+		)
+	);
+
+	// Start off in a closed state.  This is because the first time we refer 
+	// to the command list we will Reset it, and it needs to be closed before
+	// calling Reset.
+	m_commandList->Close();
+}
+
+void CEDX12Manager::CreateSwapChain() {
+	m_swapChain.Reset();
+
+	// Get the factory that was used to create the adapter.
+	wrl::ComPtr<IDXGIFactory> dxgiFactory;
+	wrl::ComPtr<IDXGIFactory5> dxgiFactory5;
+	ThrowIfFailed(m_adapter->GetParent(IID_PPV_ARGS(&dxgiFactory)));
+	// Now get the DXGIFactory5 so I can use the IDXGIFactory5::CheckFeatureSupport method.
+	ThrowIfFailed(dxgiFactory.As(&dxgiFactory5));
+
+	RECT windowRect;
+	::GetClientRect(m_window.GetWindowHandle(), &windowRect);
+
+	m_window.SetWidth(windowRect.right - windowRect.left);
+	m_window.SetHeight(windowRect.bottom - windowRect.top);
+
+	auto* hwnd = m_window.GetWindowHandle();
+
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+	swapChainDesc.Width = m_window.GetWidth();
+	swapChainDesc.Height = m_window.GetHeight();
+	swapChainDesc.Format = DXGI_FORMAT_R10G10B10A2_UNORM;
+	swapChainDesc.Stereo = FALSE;
+	swapChainDesc.SampleDesc.Count = m_4xMsaaState ? 4 : 1;
+	swapChainDesc.SampleDesc.Quality = m_4xMsaaState ? (m_4xMsaaQuality - 1) : 0;
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount = BufferCount;
+	swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+	// It is recommended to always allow tearing if tearing support is available.
+	swapChainDesc.Flags = m_tearingSupported ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+	swapChainDesc.Flags |= DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
+	swapChainDesc.Flags |= DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+
+	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSwapChainDesc = {m_numerator, m_denominator};
+	fsSwapChainDesc.Windowed = TRUE;
+	// Now create the swap chain.
+	Microsoft::WRL::ComPtr<IDXGISwapChain1> dxgiSwapChain1;
+	ThrowIfFailed(dxgiFactory5->CreateSwapChainForHwnd(m_commandQueue.Get(),
+	                                                   hwnd,
+	                                                   &swapChainDesc,
+	                                                   &fsSwapChainDesc,
+	                                                   nullptr,
+	                                                   &dxgiSwapChain1));
+	ThrowIfFailed(dxgiSwapChain1.As(&m_swapChain));
+}
+
+/*
+ * Support functions
+ */
+void CEDX12Manager::TearingSupport() {
+	BOOL allowTearing = FALSE;
+	ComPtr<IDXGIFactory5> factory5;
+	HRESULT hr = m_dxgiFactory.As(&factory5);
+	if (SUCCEEDED(hr)) {
+		hr = factory5->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &allowTearing, sizeof(allowTearing));
+	}
+	m_tearingSupported = (allowTearing == TRUE);
+}
+
+void CEDX12Manager::FeatureLevelSupport() {
+	// Determine maximum supported feature level for this device
+	static const D3D_FEATURE_LEVEL s_featureLevels[] = {
+		D3D_FEATURE_LEVEL_12_1,
+		D3D_FEATURE_LEVEL_12_0,
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+	};
+
+	D3D12_FEATURE_DATA_FEATURE_LEVELS featLevels = {
+		_countof(s_featureLevels), s_featureLevels, D3D_FEATURE_LEVEL_11_0
+	};
+	HRESULT hr = m_d3dDevice->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &featLevels, sizeof(featLevels));
+	m_featureLevel = SUCCEEDED(hr) ? featLevels.MaxSupportedFeatureLevel : m_minFeatureLevel;
+}
+
+void CEDX12Manager::DirectXRayTracingSupport() {
+	ComPtr<ID3D12Device> testDevice;
+	D3D12_FEATURE_DATA_D3D12_OPTIONS5 featureSupportData = {};
+
+	m_rayTracingSupported = SUCCEEDED(
+			D3D12CreateDevice(
+				m_adapter.Get(),
+				D3D_FEATURE_LEVEL_11_0,
+				IID_PPV_ARGS(&testDevice)
+			)
+		)
+		&& SUCCEEDED(
+			testDevice->CheckFeatureSupport(
+				D3D12_FEATURE_D3D12_OPTIONS5,
+				&featureSupportData,
+				sizeof(featureSupportData)
+			)
+		)
+		&& featureSupportData.RaytracingTier != D3D12_RAYTRACING_TIER_NOT_SUPPORTED;
+}
+
+void CEDX12Manager::MultiSamplingSupport() {
+	// Check 4X MSAA quality support for back buffer format.
+	// All Direct3D 11 capable devices support 4X MSAA for all render 
+	// target formats, so we only need to check quality support.
+	D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS msQualityLevels;
+	msQualityLevels.Format = m_backBufferFormat;
+	msQualityLevels.SampleCount = 4;
+	msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
+	msQualityLevels.NumQualityLevels = 0;
+	ThrowIfFailed(m_d3dDevice->CheckFeatureSupport(
+		D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS,
+		&msQualityLevels,
+		sizeof(msQualityLevels)
+	));
+	m_4xMsaaQuality = msQualityLevels.NumQualityLevels;
+	assert(m_4xMsaaQuality > 0 && "Unexpected MSAA quality level.");
+}
+
+/*
+ * Log functions
+ */
+void CEDX12Manager::LogAdapters() {
+	UINT i = 0;
+	IDXGIAdapter* adapter = nullptr;
+	std::vector<IDXGIAdapter*> adapterList;
+	while (m_dxgiFactory->EnumAdapters(i, &adapter) != DXGI_ERROR_NOT_FOUND) {
+		DXGI_ADAPTER_DESC desc;
+		adapter->GetDesc(&desc);
+
+		std::wstring adapterInfo = L"*** Adapter: ";
+		adapterInfo += desc.Description;
+		std::string sAdapterInfo(adapterInfo.begin(), adapterInfo.end());
+		spdlog::info(sAdapterInfo);
+
+		adapterList.push_back(adapter);
+		++i;
+	}
+
+	for (size_t i = 0; i < adapterList.size(); ++i) {
+		LogAdapterOutputs(adapterList[i]);
+		adapterList[i]->Release();
+	}
+}
+
+void CEDX12Manager::LogAdapterOutputs(IDXGIAdapter* adapter) {
+	UINT i = 0;
+	IDXGIOutput* output = nullptr;
+	while (adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND) {
+		DXGI_OUTPUT_DESC desc;
+		output->GetDesc(&desc);
+
+		std::wstring outputInfo = L"*** Output: ";
+		outputInfo += desc.DeviceName;
+		std::string sOutputInfo(outputInfo.begin(), outputInfo.end());
+		spdlog::info(sOutputInfo);
+
+		LogOutputDisplayModes(output, m_backBufferFormat);
+
+		output->Release();
+
+		++i;
+	}
+}
+
+void CEDX12Manager::LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format) {
+	UINT count = 0;
+	UINT flags = 0;
+
+	//Call with nullptr to get list count;
+	output->GetDisplayModeList(format, flags, &count, nullptr);
+
+	std::vector<DXGI_MODE_DESC> modeList(count);
+	output->GetDisplayModeList(format, flags, &count, &modeList[0]);
+
+	for (auto& mode : modeList) {
+		UINT numerator = mode.RefreshRate.Numerator;
+		UINT denominator = mode.RefreshRate.Denominator;
+		if (numerator > m_numerator) {
+			m_numerator = numerator;
+		}
+		if (denominator > m_denominator) {
+			m_denominator = denominator;
+		}
+
+		std::wstring modeInfo = L"*** DisplayMode: Width = " + std::to_wstring(mode.Width) + L" " +
+			L"Height = " + std::to_wstring(mode.Height) + L" " +
+			L"Refresh = " + std::to_wstring(numerator) + L"/" + std::to_wstring(denominator);
+		std::string sModeInfo(modeInfo.begin(), modeInfo.end());
+		spdlog::info(sModeInfo);
+	}
+}
+
+void CEDX12Manager::LogDirectXInfo() const {
 
 	std::string minFeatureLevelName;
 	std::string featureLevelName;
@@ -265,4 +478,6 @@ void CEDX12Manager::DirectXInfo() const {
 	spdlog::info("Max Feature Level Support: {}", featureLevelName);
 	spdlog::info("Ray Tracing Support: {}", rayTracingSupported);
 	spdlog::info("Tearing Support: {}", tearingSupported);
+	spdlog::info("4x MSAA (MultiSampling) Quality: {}", m_4xMsaaQuality);
+	spdlog::info("RefreshRate: {}/{}", m_numerator, m_denominator);
 }

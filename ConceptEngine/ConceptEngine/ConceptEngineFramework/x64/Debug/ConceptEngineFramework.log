@@ -1,6 +1,8 @@
 ﻿  CEDX12Manager.cpp
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(38,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(38): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(46,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(46): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Game\CEWindow.h(27,45): warning C4099: 'std::default_delete<ConceptEngineFramework::Game::CEWindow>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Game\CEWindow.h(27): message : see declaration of 'std::default_delete<ConceptEngineFramework::Game::CEWindow>'
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(48,34): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(53,55): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29333\include\xstring(2468,23): warning C4244: 'argument': conversion from '_Ty' to 'const _Elem', possible loss of data
@@ -32,14 +34,14 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.2
           [
               _Iter=wchar_t *
           ]
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.cpp(142): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<_Ty*,0>(_Iter,_Iter,const _Alloc &)' being compiled
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.cpp(154): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<_Ty*,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Ty=wchar_t,
               _Iter=wchar_t *,
               _Alloc=std::allocator<char>
           ]
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.cpp(142): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<_Ty*,0>(_Iter,_Iter,const _Alloc &)' being compiled
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.cpp(154): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<_Ty*,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Ty=wchar_t,

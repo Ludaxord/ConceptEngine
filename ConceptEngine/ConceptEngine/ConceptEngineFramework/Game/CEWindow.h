@@ -11,7 +11,12 @@ namespace ConceptEngineFramework::Game {
 		void Destroy() override;
 		void Show() override;
 		void Hide() override;
+		
 		std::wstring GetName() override;
+
+		HWND GetWindowHandle() const;
+		int GetWidth() const;
+		int GetHeight() const;
 
 		void SetResolution(int width, int height);
 		void SetWidth(int width);
@@ -21,7 +26,7 @@ namespace ConceptEngineFramework::Game {
 		friend class CEGame;
 		friend class std::default_delete<CEWindow>;
 
-		CEWindow(std::wstring windowName, HINSTANCE hInstance, int width, int height);
+		explicit CEWindow(std::wstring windowName, HINSTANCE hInstance, int width, int height);
 		~CEWindow() = default;
 
 		bool RegisterWindow() const;
