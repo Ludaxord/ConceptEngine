@@ -5,6 +5,12 @@
 using namespace ConceptEngineFramework;
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-	auto framework = std::make_shared<CEFramework>(L"ConceptEngine", hInstance, lpCmdLine, nCmdShow, 1920, 1080);
+	auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
+	                                               hInstance,
+	                                               lpCmdLine,
+	                                               nCmdShow,
+	                                               1920,
+	                                               1080,
+	                                               Graphics::API::DirectX12_API);
 	return framework->Run();
 }

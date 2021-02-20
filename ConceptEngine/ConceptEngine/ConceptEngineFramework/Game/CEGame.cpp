@@ -65,19 +65,29 @@ public:
 };
 
 
-GameEngine::CEGame::CEGame(std::wstring name, HINSTANCE hInst, int width, int height) : m_hInstance(hInst) {
+GameEngine::CEGame::CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI) :
+	m_hInstance(hInst),
+	m_graphicsAPI(graphicsAPI) {
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	CreateConsole(name);
 	CreateMainWindow(name, width, height);
+	SystemInfo();
+	CreateGraphicsManager(graphicsAPI);
 }
 
-GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height) {
+GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,
+                                               Graphics::API graphicsAPI) {
 	if (!g_pGame) {
-		g_pGame = new CEGame(name, hInst, width, height);
+		g_pGame = new CEGame(name, hInst, width, height, graphicsAPI);
 		spdlog::info("ConceptEngineFramework Game class created.");
 	}
 
 	return *g_pGame;
+}
+
+void ConceptEngineFramework::Game::CEGame::SystemInfo() {
+	m_systemInfo = GetEngineSystemInfo();
+	spdlog::info("CPU: {}, Threads: {}, RAM: {} MB", m_systemInfo.CPUName, m_systemInfo.CPUCores, m_systemInfo.RamSize);
 }
 
 LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {

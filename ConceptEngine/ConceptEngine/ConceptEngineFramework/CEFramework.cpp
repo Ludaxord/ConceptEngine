@@ -5,12 +5,18 @@
 using namespace ConceptEngineFramework;
 
 
-CEFramework::CEFramework(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height):
+CEFramework::CEFramework(std::wstring name,
+                         HINSTANCE hInstance,
+                         LPSTR lpCmdLine,
+                         int nCmdShow,
+                         int width,
+                         int height,
+                         Graphics::API graphicsAPI):
 	m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow) {
-	Game::CEGame::Create(name, hInstance, width, height);
+	Game::CEGame::Create(name, hInstance, width, height, graphicsAPI);
 }
 
 int CEFramework::Run() const {

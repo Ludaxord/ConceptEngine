@@ -1,3 +1,6 @@
-[2021-02-19 19:43:34.381] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-02-19 19:43:34.387] [ConceptEngine] [info] ConceptEngineFramework Game class created.
-[2021-02-19 19:43:34.438] [ConceptEngine] [info] Window Shown
+[2021-02-20 16:40:56.585] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-02-20 16:40:56.590] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689
+[2021-02-20 16:40:56.590] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-02-20 16:40:56.590] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-02-20 16:40:56.772] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - NVIDIA GeForce RTX 3070
+[2021-02-20 16:40:56.918] [ConceptEngine] [info] ConceptEngineFramework Game class created.

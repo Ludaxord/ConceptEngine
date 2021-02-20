@@ -2,11 +2,19 @@
 #include <memory>
 #include <spdlog/logger.h>
 
+#include "Graphics/CEGraphicsManager.h"
+
 namespace ConceptEngineFramework {
 	class CEFramework {
 	public:
 
-		CEFramework(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height);
+		CEFramework(std::wstring name,
+		            HINSTANCE hInstance,
+		            LPSTR lpCmdLine,
+		            int nCmdShow,
+		            int width,
+		            int height,
+		            Graphics::API graphicsAPI);
 		int Run() const;
 
 		HINSTANCE GetHInstance();

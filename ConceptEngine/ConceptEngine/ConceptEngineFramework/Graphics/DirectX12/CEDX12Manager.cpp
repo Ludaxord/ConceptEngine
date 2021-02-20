@@ -7,9 +7,21 @@ using namespace ConceptEngineFramework::Graphics::DirectX12;
 
 void CEDX12Manager::Create() {
 	EnableDebugLayer();
+	CreateDXGIFactory();
+	CheckTearingSupport();
+	CreateAdapter();
+	CreateDevice();
+	CheckMaxFeatureLevel();
+	DirectXRayTracingSupported();
 }
 
-CEDX12Manager::CEDX12Manager() {
+CEDX12Manager::CEDX12Manager(): m_tearingSupported(false),
+                                m_rayTracingSupported(false),
+                                m_adapterIDOverride(UINT_MAX),
+                                m_adapterID(UINT_MAX),
+                                m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
+                                m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
+	spdlog::info("ConceptEngineFramework DirectX 12 class created.");
 }
 
 void CEDX12Manager::EnableDebugLayer() const {
@@ -48,16 +60,50 @@ void CEDX12Manager::CheckTearingSupport() {
 	m_tearingSupported = (allowTearing == TRUE);
 }
 
-
 void CEDX12Manager::CreateDevice() {
-	HRESULT hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&m_d3dDevice));
+	HRESULT hr = D3D12CreateDevice(m_adapter.Get(), m_minFeatureLevel, IID_PPV_ARGS(&m_d3dDevice));
 
 	if (FAILED(hr)) {
 		wrl::ComPtr<IDXGIAdapter> pWarpAdapter;
 		ThrowIfFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&pWarpAdapter)));
 
-		ThrowIfFailed(D3D12CreateDevice(pWarpAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&m_d3dDevice)));
+		ThrowIfFailed(D3D12CreateDevice(pWarpAdapter.Get(), m_minFeatureLevel, IID_PPV_ARGS(&m_d3dDevice)));
 	}
+
+#ifndef NDEBUG
+	// Configure debug device (if active).
+	ComPtr<ID3D12InfoQueue> d3dInfoQueue;
+	if (SUCCEEDED(m_d3dDevice.As(&d3dInfoQueue))) {
+#ifdef _DEBUG
+		d3dInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		d3dInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+#endif
+		D3D12_MESSAGE_ID hide[] = {
+			D3D12_MESSAGE_ID_MAP_INVALID_NULLRANGE,
+			D3D12_MESSAGE_ID_UNMAP_INVALID_NULLRANGE
+		};
+		D3D12_INFO_QUEUE_FILTER filter = {};
+		filter.DenyList.NumIDs = _countof(hide);
+		filter.DenyList.pIDList = hide;
+		d3dInfoQueue->AddStorageFilterEntries(&filter);
+	}
+#endif
+}
+
+void CEDX12Manager::CheckMaxFeatureLevel() {
+	// Determine maximum supported feature level for this device
+	static const D3D_FEATURE_LEVEL s_featureLevels[] = {
+		D3D_FEATURE_LEVEL_12_1,
+		D3D_FEATURE_LEVEL_12_0,
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+	};
+
+	D3D12_FEATURE_DATA_FEATURE_LEVELS featLevels = {
+		_countof(s_featureLevels), s_featureLevels, D3D_FEATURE_LEVEL_11_0
+	};
+	HRESULT hr = m_d3dDevice->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &featLevels, sizeof(featLevels));
+	m_featureLevel = SUCCEEDED(hr) ? featLevels.MaxSupportedFeatureLevel : m_minFeatureLevel;
 }
 
 void CEDX12Manager::CreateAdapter() {
@@ -69,7 +115,7 @@ void CEDX12Manager::CreateAdapter() {
 	//Create Adapter by GPU preference
 	for (UINT adapterID = 0; DXGI_ERROR_NOT_FOUND != factory6->EnumAdapterByGpuPreference(
 		     adapterID, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&m_adapter)); ++adapterID) {
-		if (m_adapterIDoverride != UINT_MAX && adapterID != m_adapterIDoverride) {
+		if (m_adapterIDOverride != UINT_MAX && adapterID != m_adapterIDOverride) {
 			continue;
 		}
 
@@ -87,10 +133,16 @@ void CEDX12Manager::CreateAdapter() {
 			m_adapterDescription = desc.Description;
 #ifdef _DEBUG
 			wchar_t buff[256] = {};
-			swprintf_s(buff, L"Direct3D Adapter (%u): VID:%04X, PID:%04X - %ls\n", adapterID, desc.VendorId,
+			swprintf_s(buff, L"Direct3D Adapter (%u): VID:%04X, PID:%04X - %ls", adapterID, desc.VendorId,
 			           desc.DeviceId, desc.Description);
 			std::string sBuff(std::begin(buff), std::end(buff));
-			spdlog::info(sBuff);
+			// spdlog::info(sBuff);
+			std::wstringstream wss;
+			wss << "Direct3D Adapter (" << adapterID << "): VID:" << desc.VendorId << ", PID:" << desc.DeviceId << " - GPU: "
+				<< desc.Description;
+			auto ws(wss.str());
+			const std::string s(ws.begin(), ws.end());
+			spdlog::info(s);
 #endif
 			break;
 		}
@@ -98,23 +150,44 @@ void CEDX12Manager::CreateAdapter() {
 
 	//Create Adapter WARP
 #if !defined(NDEBUG)
-	if (!m_adapter && m_adapterIDoverride == UINT_MAX) {
+	if (!m_adapter && m_adapterIDOverride == UINT_MAX) {
 		// Try WARP12 instead
 		if (FAILED(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&m_adapter)))) {
 			spdlog::error("WARP12 not available. Enable the 'Graphics Tools' optional feature");
 			throw std::exception("WARP12 not available. Enable the 'Graphics Tools' optional feature");
 		}
 
-		spdlog::info("Direct3D Adapter - WARP12\n");
+		spdlog::info("Direct3D Adapter - WARP 12");
 	}
 #endif
 
 	if (!m_adapter) {
-		if (m_adapterIDoverride != UINT_MAX) {
+		if (m_adapterIDOverride != UINT_MAX) {
 			throw std::exception("Unavailable adapter requested.");
 		}
 		else {
 			throw std::exception("Unavailable adapter.");
 		}
 	}
+}
+
+void CEDX12Manager::DirectXRayTracingSupported() {
+	ComPtr<ID3D12Device> testDevice;
+	D3D12_FEATURE_DATA_D3D12_OPTIONS5 featureSupportData = {};
+
+	m_rayTracingSupported = SUCCEEDED(
+			D3D12CreateDevice(
+				m_adapter.Get(),
+				D3D_FEATURE_LEVEL_11_0,
+				IID_PPV_ARGS(&testDevice)
+			)
+		)
+		&& SUCCEEDED(
+			testDevice->CheckFeatureSupport(
+				D3D12_FEATURE_D3D12_OPTIONS5,
+				&featureSupportData,
+				sizeof(featureSupportData)
+			)
+		)
+		&& featureSupportData.RaytracingTier != D3D12_RAYTRACING_TIER_NOT_SUPPORTED;
 }

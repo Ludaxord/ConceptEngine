@@ -123,9 +123,7 @@ void CEWindow::Destroy() {
 void CEWindow::Show() {
 	::ShowWindow(m_hWnd, SW_SHOW);
 	::UpdateWindow(m_hWnd);
-	spdlog::info("Window Shown");
 }
 
 void CEWindow::Hide() {
-	spdlog::info("Window Hidden");
 }

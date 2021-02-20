@@ -8,6 +8,7 @@
 #include "CETimer.h"
 #include "CEWindow.h"
 #include "../Graphics/CEGraphicsManager.h"
+#include "../Tools/CEUtils.h"
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -37,13 +38,12 @@ namespace ConceptEngineFramework {
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;
-			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height);
-			/*
-			* Windows message handler
-			*/
+			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI);
+
+			void SystemInfo();
 
 		private:
-			CEGame(std::wstring name, HINSTANCE hInst, int width, int height);
+			CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI);
 
 			std::shared_ptr<CEConsole> m_console;
 			std::shared_ptr<CEWindow> m_window;
@@ -54,6 +54,10 @@ namespace ConceptEngineFramework {
 			HINSTANCE m_hInstance;
 
 			CETimer m_timer;
+
+			Graphics::API m_graphicsAPI;
+
+			CESystemInfo m_systemInfo;
 		};
 	}
 }
