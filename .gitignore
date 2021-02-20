@@ -26,6 +26,17 @@ api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug/ConceptEngi
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug/ConceptEngineFramework.lib
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/x64/Debug/*
 api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/x64/Debug/*
+api/platform/microsoft/windows/ConceptEngine/ConceptEngine/ConceptEngineFramework/x64/Debug
+ConceptEngine/ConceptEngine/Debug
+ConceptEngine/ConceptEngine/Debug/*
+ConceptEngine/ConceptEngine/x64
+ConceptEngine/ConceptEngine/x64/*
+ConceptEngine/ConceptEngine/x64
+ConceptEngine/ConceptEngine/x64/*
+ConceptEngine/ConceptEngine/ConceptEngineFramework/x64
+ConceptEngine/ConceptEngine/ConceptEngineFramework/x64/*
+ConceptEngine/ConceptEngine/ConceptEngine/x64
+ConceptEngine/ConceptEngine/ConceptEngine/x64/*
 
 .vs/
 .vs
