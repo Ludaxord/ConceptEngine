@@ -6,9 +6,12 @@
 
 #include <DirectXColors.h>
 
+#include "CEDX12Playground.h"
+
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 
 void CEDX12Manager::Create() {
+
 	EnableDebugLayer();
 	CreateDXGIFactory();
 	TearingSupport();
@@ -34,6 +37,14 @@ void CEDX12Manager::Create() {
 	LogDirectXInfo();
 
 	Resize();
+}
+
+void CEDX12Manager::InitPlayground(CEPlayground* playground) {
+	std::string playgroundClassName = typeid(playground).name();
+	spdlog::info("Playground Loaded Class Name: {}", playgroundClassName);
+	auto dx12Playground = reinterpret_cast<CEDX12Playground&>(playground);
+	m_playground = std::make_shared<CEDX12Playground>(dx12Playground);
+	m_playground->Init(this);
 }
 
 void CEDX12Manager::Destroy() {
@@ -155,78 +166,108 @@ bool CEDX12Manager::Initialized() {
 }
 
 void CEDX12Manager::Update(const CETimer& gt) {
+	m_playground->Update(gt);
 }
 
 void CEDX12Manager::Render(const CETimer& gt) {
-	//Reuse memory associated with command recording
-	//We can only reset when associated command lists have finished execution on GPU
-	ThrowIfFailed(m_commandAllocator->Reset());
+	m_playground->Render(gt);
 
-	//Command list can be reset after it has been added to command queue via ExecuteCommandList
-	//Reusing command list reuses memory
-	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), nullptr));
+}
 
-	//Indicate a state transition on resource usage
-	auto rtvTransition = CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
-		D3D12_RESOURCE_STATE_PRESENT,
-		D3D12_RESOURCE_STATE_RENDER_TARGET);
-	m_commandList->ResourceBarrier(1, &rtvTransition);
+Microsoft::WRL::ComPtr<IDXGIFactory4> CEDX12Manager::GetDXGIFactory() const {
+	return m_dxgiFactory;
+}
 
-	//Set viewport and scissor rect. This needs to be reset whenever command list is rest.
-	m_commandList->RSSetViewports(1, &m_screenViewport);
-	m_commandList->RSSetScissorRects(1, &m_scissorRect);
+Microsoft::WRL::ComPtr<IDXGIAdapter1> CEDX12Manager::GetDXGIAdapter() const {
+	return m_adapter;
+}
 
-	//Clear back buffer and depth buffer.
-	m_commandList->ClearRenderTargetView(
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(
-			m_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
-			m_currentBackBuffer,
-			m_descriptorSizes[D3D12_DESCRIPTOR_HEAP_TYPE_RTV]),
-		DirectX::Colors::LightSteelBlue,
-		0,
-		nullptr);
-	m_commandList->ClearDepthStencilView(m_dsvHeap->GetCPUDescriptorHandleForHeapStart(),
-	                                     D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0,
-	                                     0, nullptr);
+Microsoft::WRL::ComPtr<ID3D12Device> CEDX12Manager::GetD3D12Device() const {
+	return m_d3dDevice;
+}
 
-	auto rtvCurrentBackBufferView = CD3DX12_CPU_DESCRIPTOR_HANDLE(
-		m_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
-		m_currentBackBuffer,
-		m_descriptorSizes[D3D12_DESCRIPTOR_HEAP_TYPE_RTV]);
-	auto rtvDepthStencilView = m_dsvHeap->GetCPUDescriptorHandleForHeapStart();
-	//Specify buffers we are going to render to.
-	m_commandList->OMSetRenderTargets(1,
-	                                  &rtvCurrentBackBufferView,
-	                                  true,
-	                                  &rtvDepthStencilView);
+Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetD3D12Fence() const {
+	return m_fence;
+}
 
-	//Indicate state transition on resource usage
-	auto rtvPresentTransition = CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
-	                                                          D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                          D3D12_RESOURCE_STATE_PRESENT);
-	m_commandList->ResourceBarrier(1, &rtvPresentTransition);
+Microsoft::WRL::ComPtr<ID3D12CommandQueue> CEDX12Manager::GetD3D12CommandQueue() const {
+	return m_commandQueue;
+}
 
-	//Done recording commands
-	ThrowIfFailed(m_commandList->Close());
+Microsoft::WRL::ComPtr<ID3D12CommandAllocator> CEDX12Manager::GetD3D12CommandAllocator() const {
+	return m_commandAllocator;
+}
 
-	//Add command list to queue for execution
-	ID3D12CommandList* commandLists[] = {m_commandList.Get()};
-	m_commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> CEDX12Manager::GetD3D12CommandList() const {
+	return m_commandList;
+}
 
-	//swap the back and front buffers
-	UINT syncInterval = m_vSync ? 1 : 0;
-	UINT presentFlags = m_tearingSupported &&
-	                    !m_window.IsFullScreen() &&
-	                    !m_vSync
-		                    ? DXGI_PRESENT_ALLOW_TEARING
-		                    : 0;
-	ThrowIfFailed(m_swapChain->Present(syncInterval, presentFlags));
+Microsoft::WRL::ComPtr<IDXGISwapChain4> CEDX12Manager::GetDXGISwapChain() const {
+	return m_swapChain;
+}
 
-	m_currentBackBuffer = (m_currentBackBuffer + 1) % BufferCount;
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CEDX12Manager::GetRTVDescriptorHeap() const {
+	return m_rtvHeap;
+}
 
-	// Wait until frame commands are complete.  This waiting is inefficient and is
-	// done for simplicity.
-	FlushCommandQueue();
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CEDX12Manager::GetDSVDescriptorHeap() const {
+	return m_dsvHeap;
+}
+
+UINT CEDX12Manager::GetCurrentBackBuffer() const {
+	return m_currentBackBuffer;
+}
+
+UINT CEDX12Manager::GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType) {
+	return m_descriptorSizes[heapType];
+}
+
+bool CEDX12Manager::GetVSync() const {
+	return m_vSync;
+}
+
+bool CEDX12Manager::GetTearingSupport() const {
+	return m_tearingSupported;
+}
+
+bool CEDX12Manager::GetRayTracingSupport() const {
+	return m_rayTracingSupported;
+}
+
+bool CEDX12Manager::IsFullScreen() const {
+	return m_window.IsFullScreen();
+}
+
+int CEDX12Manager::GetCurrentBackBufferIndex() const {
+	return m_currentBackBuffer;
+}
+
+void CEDX12Manager::SetCurrentBackBufferIndex(int backBufferIndex) {
+	m_currentBackBuffer = backBufferIndex;
+}
+
+int CEDX12Manager::GetBackBufferCount() {
+	return BufferCount;
+}
+
+D3D12_VIEWPORT CEDX12Manager::GetViewPort() const {
+	return m_screenViewport;
+}
+
+void CEDX12Manager::SetViewPort(D3D12_VIEWPORT viewPort) {
+	m_screenViewport = viewPort;
+}
+
+D3D12_RECT CEDX12Manager::GetScissorRect() const {
+	return m_scissorRect;
+}
+
+void CEDX12Manager::SetScissorRect(D3D12_RECT scissorRect) {
+	m_scissorRect = scissorRect;
+}
+
+Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::GetDepthStencilBuffer() const {
+	return m_depthStencilBuffer;
 }
 
 CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),

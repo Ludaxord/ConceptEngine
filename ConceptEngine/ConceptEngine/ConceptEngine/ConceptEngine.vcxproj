@@ -153,12 +153,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Playgrounds\DirectX12\Box\CEDX12BoxPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\InitDirect3D\CEDX12InitDirect3DPlayground.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
       <Project>{72a5bd96-5023-4ccf-bc58-b6bb23366999}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Playgrounds\DirectX12\Box\CEDX12BoxPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\InitDirect3D\CEDX12InitDirect3DPlayground.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,5 @@
 #pragma once
+#include "CEPlayground.h"
 #include "../CEHeaderLibs.h"
 #include "../Game/CETimer.h"
 
@@ -14,6 +15,7 @@ namespace ConceptEngineFramework::Graphics {
 	interface CEGraphicsManager {
 	public:
 		virtual void Create() = 0;
+		virtual void InitPlayground(CEPlayground* playground) = 0;
 		virtual void Destroy() = 0;
 		virtual void Resize() = 0;
 		virtual void Update(const CETimer& gt) = 0;

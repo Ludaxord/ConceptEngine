@@ -14,6 +14,7 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
 
 namespace ConceptEngineFramework {
 	namespace Graphics {
+		class CEPlayground;
 		struct CEGraphicsManager;
 	}
 
@@ -54,18 +55,21 @@ namespace ConceptEngineFramework {
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;
-			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI);
+			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI,
+			                      Graphics::CEPlayground& playground);
 
 			void Init();
 			void SystemInfo();
 			void CalculateFPS(bool showInTitleBar = false) const;
 
 		private:
-			CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI);
+			CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI,
+			       Graphics::CEPlayground& playground);
 
 			std::shared_ptr<CEConsole> m_console;
 			std::shared_ptr<CEWindow> m_window;
 			std::shared_ptr<Graphics::CEGraphicsManager> m_graphicsManager;
+			Graphics::CEPlayground& m_playground;
 			/*
 			* Handle to application instance.
 			*/

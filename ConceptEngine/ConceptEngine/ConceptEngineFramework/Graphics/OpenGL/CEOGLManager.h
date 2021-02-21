@@ -8,6 +8,7 @@ namespace ConceptEngineFramework::Graphics::OpenGL {
 
 	public:
 		void Create() override;
+		void InitPlayground(CEPlayground* playground) override;
 		void Destroy() override;
 		void Resize() override;
 		bool Initialized() override;

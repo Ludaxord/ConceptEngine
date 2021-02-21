@@ -14,7 +14,8 @@ namespace ConceptEngineFramework {
 		            int nCmdShow,
 		            int width,
 		            int height,
-		            Graphics::API graphicsAPI);
+		            Graphics::API graphicsAPI,
+		            Graphics::CEPlayground& playground);
 		int Run() const;
 
 		HINSTANCE GetHInstance();

@@ -18,5 +18,19 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Box\CEDX12BoxPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\InitDirect3D\CEDX12InitDirect3DPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Playgrounds\DirectX12\Box\CEDX12BoxPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\InitDirect3D\CEDX12InitDirect3DPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

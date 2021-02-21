@@ -3,6 +3,9 @@
 void ConceptEngineFramework::Graphics::Vulkan::CEVManager::Create() {
 }
 
+void ConceptEngineFramework::Graphics::Vulkan::CEVManager::InitPlayground(CEPlayground* playground) {
+}
+
 void ConceptEngineFramework::Graphics::Vulkan::CEVManager::Destroy() {
 }
 

@@ -1,6 +1,12 @@
 #include "CEOGLManager.h"
 
+ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::CEOGLManager() {
+}
+
 void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::Create() {
+}
+
+void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::InitPlayground(CEPlayground* playground) {
 }
 
 void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::Destroy() {
@@ -17,7 +23,4 @@ void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::Update(const CETime
 }
 
 void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::Render(const CETimer& gt) {
-}
-
-ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::CEOGLManager() {
 }

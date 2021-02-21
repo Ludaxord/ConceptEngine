@@ -11,12 +11,13 @@ CEFramework::CEFramework(std::wstring name,
                          int nCmdShow,
                          int width,
                          int height,
-                         Graphics::API graphicsAPI):
+                         Graphics::API graphicsAPI,
+                         Graphics::CEPlayground& playground):
 	m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow) {
-	Game::CEGame::Create(name, hInstance, width, height, graphicsAPI);
+	Game::CEGame::Create(name, hInstance, width, height, graphicsAPI, playground);
 	Game::CEGame::Get().Init();
 }
 
