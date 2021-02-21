@@ -148,6 +148,10 @@ void CEDX12Manager::Resize() {
 	m_scissorRect = {0, 0, m_window.GetWidth(), m_window.GetHeight()};
 }
 
+bool CEDX12Manager::Initialized() {
+	return m_d3dDevice;
+}
+
 CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
                                                        m_tearingSupported(false),
                                                        m_rayTracingSupported(false),

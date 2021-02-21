@@ -40,7 +40,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 	public:
 		void Create() override;
 		void Destroy() override;
-		void Resize();
+		void Resize() override;
+		bool Initialized() override;
 
 	protected:
 		friend class CEGame;
@@ -75,7 +76,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void LogAdapterOutputs(IDXGIAdapter* adapter);
 		void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
 		void LogDirectXInfo() const;
-
+	
 	private:
 		static const UINT BufferCount = 3;
 

@@ -35,6 +35,12 @@ namespace ConceptEngineFramework {
 			void CreateMainWindow(const std::wstring& windowName, int width, int height);
 			void CreateConsole(const std::wstring& windowName);
 			void CreateGraphicsManager(Graphics::API graphicsAPI);
+
+			virtual void OnMouseDown(WPARAM btnState, int x, int y) { }
+			virtual void OnMouseUp(WPARAM btnState, int x, int y) { }
+			virtual void OnMouseMove(WPARAM btnState, int x, int y) { }
+			virtual void OnKeyUp(WPARAM btnState) { }
+			virtual void OnKeyDown(WPARAM btnState) { }
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;

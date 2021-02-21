@@ -1,7 +1,7 @@
 #include "CEGame.h"
 
 #include <spdlog/spdlog.h>
-
+#include <windowsx.h>
 
 #include "CEConsole.h"
 #include "../Graphics/DirectX12/CEDX12Manager.h"
@@ -104,58 +104,141 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		// We pause the game when the window is deactivated and unpause it 
 		// when it becomes active.  
 	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE) {
+			m_paused = true;
+			m_timer.Stop();
+		}
+		else {
+			m_paused = false;
+			m_timer.Start();
+		}
+		spdlog::info("MsgProc: WM_ACTIVATE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
-
 		// WM_SIZE is sent when the user resizes the window.  
 	case WM_SIZE:
 		// Save the new client area dimensions.
 		m_window->SetResolution(LOWORD(lParam), HIWORD(lParam));
+		if (m_graphicsManager) {
+			if (m_graphicsManager->Initialized()) {
+				if (wParam == SIZE_MINIMIZED) {
+					m_paused = true;
+					m_minimized = true;
+					m_maximized = false;
+				}
+				else if (wParam == SIZE_MAXIMIZED) {
+					m_paused = false;
+					m_minimized = false;
+					m_maximized = true;
+					m_graphicsManager->Resize();
+				}
+				else if (wParam == SIZE_RESTORED) {
+					if (m_minimized) {
+						m_paused = false;
+						m_minimized = false;
+						m_graphicsManager->Resize();
+					}
+					else if (m_maximized) {
+						m_paused = false;
+						m_maximized = false;
+						m_graphicsManager->Resize();
+					}
+					else if (m_resizing) {
+						// If user is dragging the resize bars, we do not resize 
+						// the buffers here because as the user continuously 
+						// drags the resize bars, a stream of WM_SIZE messages are
+						// sent to the window, and it would be pointless (and slow)
+						// to resize for each WM_SIZE message received from dragging
+						// the resize bars.  So instead, we reset after the user is 
+						// done resizing the window and releases the resize bars, which 
+						// sends a WM_EXITSIZEMOVE message.
+					}
+					else {
+						m_graphicsManager->Resize();
+					}
+				}
+			}
+		}
+		spdlog::info("MsgProc: WM_SIZE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.
 	case WM_ENTERSIZEMOVE:
+		m_paused = true;
+		m_resizing = true;
+		m_timer.Stop();
+
+		spdlog::info("MsgProc: WM_ENTERSIZEMOVE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
 		// Here we reset everything based on the new window dimensions.
 	case WM_EXITSIZEMOVE:
-
+		m_paused = false;
+		m_resizing = false;
+		m_timer.Start();
+		m_graphicsManager->Resize();
+		
+		spdlog::info("MsgProc: WM_EXITSIZEMOVE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// WM_DESTROY is sent when the window is being destroyed.
 	case WM_DESTROY:
 		PostQuitMessage(0);
+
+		spdlog::info("MsgProc: WM_DESTROY, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// The WM_MENUCHAR message is sent when a menu is active and the user presses 
 		// a key that does not correspond to any mnemonic or accelerator key. 
 	case WM_MENUCHAR:
 		// Don't beep when we alt-enter.
+
+		spdlog::info("MsgProc: WM_MENUCHAR, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return MAKELRESULT(0, MNC_CLOSE);
 
 		// Catch this message so to prevent the window from becoming too small.
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 200;
 		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 200;
+
+		spdlog::info("MsgProc: WM_GETMINMAXINFO, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
+		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+
+		spdlog::info("MsgProc: WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_LBUTTONUP:
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
+		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+
+		spdlog::info("MsgProc: WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_MOUSEMOVE:
+		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+
+		spdlog::info("MsgProc: WM_MOUSEMOVE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_KEYUP:
+	case WM_SYSKEYUP:
 		if (wParam == VK_ESCAPE) {
 			PostQuitMessage(0);
 		}
-		else if ((int)wParam == VK_F2) {
+		else {
+			OnKeyUp(wParam);
 		}
 
+		spdlog::info("MsgProc: WM_KEYUP, WM_SYSKEYUP, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
+		return 0;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		OnKeyDown(wParam);
+
+		spdlog::info("MsgProc: WM_KEYDOWN, WM_SYSKEYDOWN, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	}
 

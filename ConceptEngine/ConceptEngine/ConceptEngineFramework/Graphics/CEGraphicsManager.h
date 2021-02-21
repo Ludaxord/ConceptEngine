@@ -14,6 +14,8 @@ namespace ConceptEngineFramework::Graphics {
 	public:
 		virtual void Create() = 0;
 		virtual void Destroy() = 0;
+		virtual void Resize() = 0;
+		virtual bool Initialized() = 0;
 	protected:
 		virtual ~CEGraphicsManager() = default;
 	};

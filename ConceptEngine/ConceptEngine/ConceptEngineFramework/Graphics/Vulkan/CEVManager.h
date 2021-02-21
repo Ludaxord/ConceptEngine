@@ -9,6 +9,8 @@ namespace ConceptEngineFramework::Graphics::Vulkan {
 	public:
 		void Create() override;
 		void Destroy() override;
+		void Resize() override;
+		bool Initialized() override;
 	protected:
 		friend class CEGame;
 		friend class std::default_delete<CEVManager>;
