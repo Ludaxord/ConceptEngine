@@ -15,10 +15,10 @@ namespace ConceptEngineFramework {
 		            int width,
 		            int height,
 		            Graphics::API graphicsAPI,
-		            Graphics::CEPlayground& playground);
+		            Graphics::CEPlayground* playground);
 		int Run() const;
 
-		HINSTANCE GetHInstance();
+		HINSTANCE GetHInstance() const;
 	protected:
 	private:
 		std::wstring m_name;

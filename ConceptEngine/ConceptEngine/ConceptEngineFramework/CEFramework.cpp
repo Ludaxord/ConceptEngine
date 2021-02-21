@@ -12,7 +12,7 @@ CEFramework::CEFramework(std::wstring name,
                          int width,
                          int height,
                          Graphics::API graphicsAPI,
-                         Graphics::CEPlayground& playground):
+                         Graphics::CEPlayground* playground):
 	m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
@@ -25,6 +25,6 @@ int CEFramework::Run() const {
 	return Game::CEGame::Get().Run();
 }
 
-HINSTANCE CEFramework::GetHInstance() {
+HINSTANCE CEFramework::GetHInstance() const {
 	return m_hInstance;
 }

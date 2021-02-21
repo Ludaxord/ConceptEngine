@@ -13,88 +13,73 @@ CEDX12InitDirect3DPlayground::CEDX12InitDirect3DPlayground(): CEDX12Playground()
 }
 
 void CEDX12InitDirect3DPlayground::Update(const CETimer& gt) {
-	spdlog::warn("CEDX12InitDirect3DPlayground Update");
 }
 
 void CEDX12InitDirect3DPlayground::Render(const CETimer& gt) {
-	spdlog::warn("CEDX12InitDirect3DPlayground Render");
-	//Reuse memory associated with command recording
-	//We can only reset when associated command lists have finished execution on GPU
-	ThrowIfFailed(m_dx12manager->GetD3D12CommandAllocator()->Reset());
 
-	//Command list can be reset after it has been added to command queue via ExecuteCommandList
-	//Reusing command list reuses memory
-	ThrowIfFailed(
-		m_dx12manager->GetD3D12CommandList()->Reset(m_dx12manager->GetD3D12CommandAllocator().Get(), nullptr));
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandAllocator = m_dx12manager->GetD3D12CommandAllocator();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
+	auto swapChain = m_dx12manager->GetDXGISwapChain();
 
-	//Indicate a state transition on resource usage
-	auto rtvTransition = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                          D3D12_RESOURCE_STATE_PRESENT,
-	                                                          D3D12_RESOURCE_STATE_RENDER_TARGET);
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &rtvTransition);
-
-	//Set viewport and scissor rect. This needs to be reset whenever command list is rest.
-	auto viewPort = m_dx12manager->GetViewPort();
+	auto screenViewport = m_dx12manager->GetViewPort();
 	auto scissorRect = m_dx12manager->GetScissorRect();
 
-	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &viewPort);
-	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &scissorRect);
+	// Reuse the memory associated with command recording.
+	// We can only reset when the associated command lists have finished execution on the GPU.
+	ThrowIfFailed(commandAllocator->Reset());
 
-	//Clear back buffer and depth buffer.
-	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(
-			m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-			m_dx12manager->GetCurrentBackBuffer(),
-			m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)),
-		DirectX::Colors::LightSteelBlue,
-		0,
-		nullptr);
-	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(
-		m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
-		1.0f,
-		0,
-		0,
-		nullptr);
+	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+	// Reusing the command list reuses memory.
+	ThrowIfFailed(commandList->Reset(commandAllocator.Get(), nullptr));
 
-	auto rtvCurrentBackBufferView = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+	// Indicate a state transition on the resource usage.
+	auto resourceBarrierTransitionRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	commandList->ResourceBarrier(1, &resourceBarrierTransitionRenderTarget);
+
+	// Set the viewport and scissor rect.  This needs to be reset whenever the command list is reset.
+	commandList->RSSetViewports(1, &screenViewport);
+	commandList->RSSetScissorRects(1, &scissorRect);
+
+	const auto currentBackBufferIndex = m_dx12manager->GetCurrentBackBufferIndex();
+
+	const auto currentBackBufferView = CD3DX12_CPU_DESCRIPTOR_HANDLE(
 		m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		m_dx12manager->GetCurrentBackBuffer(),
+		currentBackBufferIndex,
 		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-	auto rtvDepthStencilView = m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-	//Specify buffers we are going to render to.
-	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1,
-	                                                         &rtvCurrentBackBufferView,
-	                                                         true,
-	                                                         &rtvDepthStencilView);
+	const auto depthStencilView = m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
 
-	//Indicate state transition on resource usage
-	auto rtvPresentTransition = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                                 D3D12_RESOURCE_STATE_PRESENT);
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &rtvPresentTransition);
+	// Clear the back buffer and depth buffer.
+	commandList->ClearRenderTargetView(currentBackBufferView, Colors::LightSteelBlue, 0, nullptr);
+	commandList->ClearDepthStencilView(depthStencilView,
+	                                   D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0,
+	                                   0, nullptr);
 
-	//Done recording commands
-	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
+	// Specify the buffers we are going to render to.
+	commandList->OMSetRenderTargets(1, &currentBackBufferView, true, &depthStencilView);
 
-	//Add command list to queue for execution
-	ID3D12CommandList* commandLists[] = {m_dx12manager->GetD3D12CommandList().Get()};
-	m_dx12manager->GetD3D12CommandQueue()->ExecuteCommandLists(_countof(commandLists), commandLists);
+	auto resourceBarrierTransitionPresent = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PRESENT);
+	// Indicate a state transition on the resource usage.
+	commandList->ResourceBarrier(1, &resourceBarrierTransitionPresent);
 
-	//swap the back and front buffers
-	const UINT syncInterval = m_dx12manager->GetVSync() ? 1 : 0;
-	const UINT presentFlags = m_dx12manager->GetTearingSupport() &&
-	                          !m_dx12manager->IsFullScreen() &&
-	                          !m_dx12manager->GetVSync()
-		                          ? DXGI_PRESENT_ALLOW_TEARING
-		                          : 0;
-	ThrowIfFailed(m_dx12manager->GetDXGISwapChain()->Present(syncInterval, presentFlags));
+	// Done recording commands.
+	ThrowIfFailed(commandList->Close());
 
-	auto currentBackBufferIndex = m_dx12manager->GetCurrentBackBufferIndex();
-	m_dx12manager->SetCurrentBackBufferIndex(
-		currentBackBufferIndex + 1 % CEDX12Manager::GetBackBufferCount());
+	// Add the command list to the queue for execution.
+	ID3D12CommandList* cmdsLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// swap the back and front buffers
+	ThrowIfFailed(swapChain->Present(0, 0));
+	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % m_dx12manager->GetBackBufferCount());
 
 	// Wait until frame commands are complete.  This waiting is inefficient and is
-	// done for simplicity.
+	// done for simplicity.  Later we will show how to organize our rendering code
+	// so we do not have to wait per frame.
 	m_dx12manager->FlushCommandQueue();
 }

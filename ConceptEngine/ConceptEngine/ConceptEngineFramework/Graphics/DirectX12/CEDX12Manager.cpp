@@ -41,9 +41,9 @@ void CEDX12Manager::Create() {
 
 void CEDX12Manager::InitPlayground(CEPlayground* playground) {
 	std::string playgroundClassName = typeid(playground).name();
-	spdlog::info("Playground Loaded Class Name: {}", playgroundClassName);
-	auto dx12Playground = reinterpret_cast<CEDX12Playground&>(playground);
-	m_playground = std::make_shared<CEDX12Playground>(dx12Playground);
+	spdlog::info("InitPlayground Loaded Class Name: {}", playgroundClassName);
+	auto* const dx12Playground = reinterpret_cast<CEDX12Playground*>(playground);
+	m_playground = dx12Playground;
 	m_playground->Init(this);
 }
 

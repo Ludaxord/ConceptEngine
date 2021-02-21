@@ -131,7 +131,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_swapChainBuffer[BufferCount];
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_depthStencilBuffer;
 
-		std::shared_ptr<CEDX12Playground> m_playground;
+		CEDX12Playground* m_playground;
 
 		std::map<D3D12_DESCRIPTOR_HEAP_TYPE, UINT> m_descriptorSizes;
 		UINT64 m_currentFence = 0;

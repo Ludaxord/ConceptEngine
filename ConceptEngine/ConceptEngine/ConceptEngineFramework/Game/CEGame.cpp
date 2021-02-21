@@ -70,7 +70,7 @@ GameEngine::CEGame::CEGame(std::wstring name,
                            int width,
                            int height,
                            Graphics::API graphicsAPI,
-                           Graphics::CEPlayground& playground) :
+                           Graphics::CEPlayground* playground) :
 	m_name(name),
 	m_hInstance(hInst),
 	m_width(width),
@@ -90,7 +90,7 @@ void GameEngine::CEGame::Init() {
 }
 
 GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,
-                                               Graphics::API graphicsAPI, Graphics::CEPlayground& playground) {
+                                               Graphics::API graphicsAPI, Graphics::CEPlayground* playground) {
 	if (!g_pGame) {
 		g_pGame = new CEGame(name, hInst, width, height, graphicsAPI, playground);
 		spdlog::info("ConceptEngineFramework Game class created.");
@@ -316,7 +316,7 @@ void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(*m_window);
 		break;
 	}
-	m_graphicsManager->InitPlayground(&m_playground);
+	m_graphicsManager->InitPlayground(m_playground);
 	m_graphicsManager->Create();
 
 }

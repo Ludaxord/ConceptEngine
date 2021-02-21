@@ -17,6 +17,6 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	                                                     1920,
 	                                                     1080,
 	                                                     Graphics::API::DirectX12_API,
-	                                                     *playground);
+	                                                     playground);
 	return framework->Run();
 }
