@@ -55,6 +55,9 @@ std::wstring CEConsole::GetName() {
 	return m_windowName;
 }
 
+void CEConsole::SetName(std::wstring name) {
+}
+
 CEConsole::Logger CEConsole::GetLogger() const {
 	return m_logger;
 }

@@ -13,7 +13,8 @@ namespace ConceptEngineFramework::Game {
 		void Hide() override;
 		
 		std::wstring GetName() override;
-
+		void SetName(std::wstring name) override;
+		
 		HWND GetWindowHandle() const;
 		int GetWidth() const;
 		int GetHeight() const;
@@ -21,7 +22,9 @@ namespace ConceptEngineFramework::Game {
 		void SetResolution(int width, int height);
 		void SetWidth(int width);
 		void SetHeight(int height);
-	
+
+		bool IsFullScreen() const;
+		void SetFullScreen(bool fullscreen);
 	protected:
 		friend class CEGame;
 		friend class std::default_delete<CEWindow>;
@@ -34,6 +37,7 @@ namespace ConceptEngineFramework::Game {
 	private:
 		HINSTANCE m_hInstance;
 		HWND m_hWnd;
+		bool m_fullscreen = false; // fullscreen enabled
 
 		std::wstring m_windowName;
 		std::wstring m_windowClassName;

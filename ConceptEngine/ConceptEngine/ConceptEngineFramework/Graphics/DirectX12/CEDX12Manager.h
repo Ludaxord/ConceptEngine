@@ -42,6 +42,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void Destroy() override;
 		void Resize() override;
 		bool Initialized() override;
+		void Update(const CETimer& gt) override;
+		void Render(const CETimer& gt) override;
 
 	protected:
 		friend class CEGame;
@@ -53,6 +55,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		//TODO: Move to different classes to keep it clean. Just to test make it functions for now
 
 		void EnableDebugLayer() const;
+		ID3D12Resource* CurrentBackBuffer() const;
 		void FlushCommandQueue();
 
 		void CreateDXGIFactory();
@@ -76,7 +79,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void LogAdapterOutputs(IDXGIAdapter* adapter);
 		void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
 		void LogDirectXInfo() const;
-	
+
 	private:
 		static const UINT BufferCount = 3;
 
@@ -102,6 +105,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 
 		Game::CEWindow& m_window;
 
+		bool m_vSync = false;
 		bool m_tearingSupported;
 		bool m_rayTracingSupported;
 		bool m_4xMsaaState = false; // 4X MSAA enabled

@@ -98,6 +98,32 @@ void ConceptEngineFramework::Game::CEGame::SystemInfo() {
 	spdlog::info("CPU: {}, Threads: {}, RAM: {} MB", m_systemInfo.CPUName, m_systemInfo.CPUCores, m_systemInfo.RamSize);
 }
 
+void ConceptEngineFramework::Game::CEGame::CalculateFPS(bool showInTitleBar) const {
+	static int frameCount = 0;
+	static float timeElapsed = 0.0f;
+
+	frameCount++;
+
+	//Compute averages over one second period.
+	if ((m_timer.TotalTime() - timeElapsed) >= 1.0f) {
+		float fps = (float)frameCount;
+		float msPerFrame = 1000.0f / fps;
+
+		spdlog::info("FPS: {}", fps);
+		spdlog::info("MSPF: {}", msPerFrame);
+		if (showInTitleBar) {
+			std::wstring wFps = std::to_wstring(fps);
+			std::wstring wMsPerFrame = std::to_wstring(msPerFrame);
+			std::wstring fpsWindowName = m_window->GetName() +
+				L"    fps: " + wFps +
+				L"   mspf: " + wMsPerFrame;
+		}
+
+		frameCount = 0;
+		timeElapsed += 1.0f;
+	}
+}
+
 LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch (msg) {
 		// WM_ACTIVATE is sent when the window is activated or deactivated.  
@@ -112,7 +138,6 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			m_paused = false;
 			m_timer.Start();
 		}
-		spdlog::info("MsgProc: WM_ACTIVATE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 		// WM_SIZE is sent when the user resizes the window.  
 	case WM_SIZE:
@@ -158,7 +183,6 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 			}
 		}
-		spdlog::info("MsgProc: WM_SIZE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.
@@ -166,8 +190,6 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		m_paused = true;
 		m_resizing = true;
 		m_timer.Stop();
-
-		spdlog::info("MsgProc: WM_ENTERSIZEMOVE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
@@ -177,51 +199,37 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		m_resizing = false;
 		m_timer.Start();
 		m_graphicsManager->Resize();
-		
-		spdlog::info("MsgProc: WM_EXITSIZEMOVE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// WM_DESTROY is sent when the window is being destroyed.
 	case WM_DESTROY:
 		PostQuitMessage(0);
-
-		spdlog::info("MsgProc: WM_DESTROY, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 		// The WM_MENUCHAR message is sent when a menu is active and the user presses 
 		// a key that does not correspond to any mnemonic or accelerator key. 
 	case WM_MENUCHAR:
 		// Don't beep when we alt-enter.
-
-		spdlog::info("MsgProc: WM_MENUCHAR, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return MAKELRESULT(0, MNC_CLOSE);
 
 		// Catch this message so to prevent the window from becoming too small.
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 200;
 		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 200;
-
-		spdlog::info("MsgProc: WM_GETMINMAXINFO, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-
-		spdlog::info("MsgProc: WM_LBUTTONDOWN, WM_MBUTTONDOWN, WM_RBUTTONDOWN, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_LBUTTONUP:
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
 		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-
-		spdlog::info("MsgProc: WM_LBUTTONUP, WM_MBUTTONUP, WM_RBUTTONUP, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_MOUSEMOVE:
 		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-
-		spdlog::info("MsgProc: WM_MOUSEMOVE, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
@@ -231,14 +239,10 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		else {
 			OnKeyUp(wParam);
 		}
-
-		spdlog::info("MsgProc: WM_KEYUP, WM_SYSKEYUP, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 		OnKeyDown(wParam);
-
-		spdlog::info("MsgProc: WM_KEYDOWN, WM_SYSKEYDOWN, PAUSED: {}, MINIMIZED: {}, MAXIMIZED: {}", m_paused, m_minimized, m_maximized);
 		return 0;
 	}
 
@@ -265,6 +269,15 @@ uint32_t GameEngine::CEGame::Run() {
 			// Otherwise, do animation/game stuff.
 		else {
 			m_timer.Tick();
+
+			if (!m_paused) {
+				CalculateFPS(true);
+				m_graphicsManager->Update(m_timer);
+				m_graphicsManager->Render(m_timer);
+			}
+			else {
+				Sleep(100);
+			}
 
 		}
 	}

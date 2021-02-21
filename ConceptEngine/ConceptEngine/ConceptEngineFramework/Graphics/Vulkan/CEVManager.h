@@ -11,12 +11,14 @@ namespace ConceptEngineFramework::Graphics::Vulkan {
 		void Destroy() override;
 		void Resize() override;
 		bool Initialized() override;
+		void Update(const CETimer& gt) override;
+		void Render(const CETimer& gt) override;
 	protected:
 		friend class CEGame;
 		friend class std::default_delete<CEVManager>;
 
 		CEVManager();
 		~CEVManager() = default;
-
+		
 	};
 }

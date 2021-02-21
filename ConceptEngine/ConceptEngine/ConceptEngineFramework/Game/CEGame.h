@@ -36,11 +36,21 @@ namespace ConceptEngineFramework {
 			void CreateConsole(const std::wstring& windowName);
 			void CreateGraphicsManager(Graphics::API graphicsAPI);
 
-			virtual void OnMouseDown(WPARAM btnState, int x, int y) { }
-			virtual void OnMouseUp(WPARAM btnState, int x, int y) { }
-			virtual void OnMouseMove(WPARAM btnState, int x, int y) { }
-			virtual void OnKeyUp(WPARAM btnState) { }
-			virtual void OnKeyDown(WPARAM btnState) { }
+			virtual void OnMouseDown(WPARAM btnState, int x, int y) {
+			}
+
+			virtual void OnMouseUp(WPARAM btnState, int x, int y) {
+			}
+
+			virtual void OnMouseMove(WPARAM btnState, int x, int y) {
+			}
+
+			virtual void OnKeyUp(WPARAM btnState) {
+			}
+
+			virtual void OnKeyDown(WPARAM btnState) {
+			}
+
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;
@@ -48,6 +58,7 @@ namespace ConceptEngineFramework {
 
 			void Init();
 			void SystemInfo();
+			void CalculateFPS(bool showInTitleBar = false) const;
 
 		private:
 			CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI);
@@ -73,7 +84,6 @@ namespace ConceptEngineFramework {
 			bool m_minimized = false; // is the application minimized?
 			bool m_maximized = false; // is the application maximized?
 			bool m_resizing = false; // are the resize bars being dragged?
-			bool m_fullscreen = false; // fullscreen enabled
 		};
 	}
 }

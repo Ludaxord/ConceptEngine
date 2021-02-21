@@ -98,6 +98,10 @@ std::wstring CEWindow::GetName() {
 	return m_windowName;
 }
 
+void CEWindow::SetName(std::wstring name) {
+	SetWindowText(m_hWnd, name.c_str());
+}
+
 HWND CEWindow::GetWindowHandle() const {
 	return m_hWnd;
 }
@@ -121,6 +125,14 @@ void CEWindow::SetWidth(int width) {
 
 void CEWindow::SetHeight(int height) {
 	m_height = height;
+}
+
+bool CEWindow::IsFullScreen() const {
+	return m_fullscreen;
+}
+
+void CEWindow::SetFullScreen(bool fullscreen) {
+	m_fullscreen = fullscreen;
 }
 
 void CEWindow::Create() {

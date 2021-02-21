@@ -4,6 +4,8 @@
 #include "../../Game/CEWindow.h"
 #include "../../Tools/CEUtils.h"
 
+#include <DirectXColors.h>
+
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 
 void CEDX12Manager::Create() {
@@ -152,6 +154,81 @@ bool CEDX12Manager::Initialized() {
 	return m_d3dDevice;
 }
 
+void CEDX12Manager::Update(const CETimer& gt) {
+}
+
+void CEDX12Manager::Render(const CETimer& gt) {
+	//Reuse memory associated with command recording
+	//We can only reset when associated command lists have finished execution on GPU
+	ThrowIfFailed(m_commandAllocator->Reset());
+
+	//Command list can be reset after it has been added to command queue via ExecuteCommandList
+	//Reusing command list reuses memory
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), nullptr));
+
+	//Indicate a state transition on resource usage
+	auto rtvTransition = CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	m_commandList->ResourceBarrier(1, &rtvTransition);
+
+	//Set viewport and scissor rect. This needs to be reset whenever command list is rest.
+	m_commandList->RSSetViewports(1, &m_screenViewport);
+	m_commandList->RSSetScissorRects(1, &m_scissorRect);
+
+	//Clear back buffer and depth buffer.
+	m_commandList->ClearRenderTargetView(
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(
+			m_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
+			m_currentBackBuffer,
+			m_descriptorSizes[D3D12_DESCRIPTOR_HEAP_TYPE_RTV]),
+		DirectX::Colors::LightSteelBlue,
+		0,
+		nullptr);
+	m_commandList->ClearDepthStencilView(m_dsvHeap->GetCPUDescriptorHandleForHeapStart(),
+	                                     D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0,
+	                                     0, nullptr);
+
+	auto rtvCurrentBackBufferView = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
+		m_currentBackBuffer,
+		m_descriptorSizes[D3D12_DESCRIPTOR_HEAP_TYPE_RTV]);
+	auto rtvDepthStencilView = m_dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	//Specify buffers we are going to render to.
+	m_commandList->OMSetRenderTargets(1,
+	                                  &rtvCurrentBackBufferView,
+	                                  true,
+	                                  &rtvDepthStencilView);
+
+	//Indicate state transition on resource usage
+	auto rtvPresentTransition = CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+	                                                          D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                          D3D12_RESOURCE_STATE_PRESENT);
+	m_commandList->ResourceBarrier(1, &rtvPresentTransition);
+
+	//Done recording commands
+	ThrowIfFailed(m_commandList->Close());
+
+	//Add command list to queue for execution
+	ID3D12CommandList* commandLists[] = {m_commandList.Get()};
+	m_commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	//swap the back and front buffers
+	UINT syncInterval = m_vSync ? 1 : 0;
+	UINT presentFlags = m_tearingSupported &&
+	                    !m_window.IsFullScreen() &&
+	                    !m_vSync
+		                    ? DXGI_PRESENT_ALLOW_TEARING
+		                    : 0;
+	ThrowIfFailed(m_swapChain->Present(syncInterval, presentFlags));
+
+	m_currentBackBuffer = (m_currentBackBuffer + 1) % BufferCount;
+
+	// Wait until frame commands are complete.  This waiting is inefficient and is
+	// done for simplicity.
+	FlushCommandQueue();
+}
+
 CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
                                                        m_tearingSupported(false),
                                                        m_rayTracingSupported(false),
@@ -165,6 +242,10 @@ CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
 
 CEDX12Manager::~CEDX12Manager() {
 	CEDX12Manager::Destroy();
+}
+
+ID3D12Resource* CEDX12Manager::CurrentBackBuffer() const {
+	return m_swapChainBuffer[m_currentBackBuffer].Get();
 }
 
 void CEDX12Manager::FlushCommandQueue() {

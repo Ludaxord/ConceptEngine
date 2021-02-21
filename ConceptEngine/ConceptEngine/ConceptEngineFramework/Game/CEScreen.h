@@ -12,6 +12,7 @@ namespace ConceptEngineFramework::Game {
 		virtual void Hide() = 0;
 
 		virtual std::wstring GetName() = 0;
+		virtual void SetName(std::wstring name) = 0;
 	protected:
 		~CEScreen() = default;
 	};

@@ -1,5 +1,6 @@
 #pragma once
 #include "../CEHeaderLibs.h"
+#include "../Game/CETimer.h"
 
 namespace ConceptEngineFramework::Graphics {
 	enum API {
@@ -15,6 +16,8 @@ namespace ConceptEngineFramework::Graphics {
 		virtual void Create() = 0;
 		virtual void Destroy() = 0;
 		virtual void Resize() = 0;
+		virtual void Update(const CETimer& gt) = 0;
+		virtual void Render(const CETimer& gt) = 0;
 		virtual bool Initialized() = 0;
 	protected:
 		virtual ~CEGraphicsManager() = default;
