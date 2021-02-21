@@ -13,10 +13,11 @@ CEDX12InitDirect3DPlayground::CEDX12InitDirect3DPlayground(): CEDX12Playground()
 }
 
 void CEDX12InitDirect3DPlayground::Update(const CETimer& gt) {
+	CEDX12Playground::Update(gt);
 }
 
 void CEDX12InitDirect3DPlayground::Render(const CETimer& gt) {
-
+	CEDX12Playground::Render(gt);
 	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
 	auto commandAllocator = m_dx12manager->GetD3D12CommandAllocator();
 	auto commandList = m_dx12manager->GetD3D12CommandList();
