@@ -76,7 +76,7 @@ void CEDX12InitDirect3DPlayground::Render(const CETimer& gt) {
 
 	// swap the back and front buffers
 	ThrowIfFailed(swapChain->Present(0, 0));
-	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % m_dx12manager->GetBackBufferCount());
+	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
 
 	// Wait until frame commands are complete.  This waiting is inefficient and is
 	// done for simplicity.  Later we will show how to organize our rendering code
