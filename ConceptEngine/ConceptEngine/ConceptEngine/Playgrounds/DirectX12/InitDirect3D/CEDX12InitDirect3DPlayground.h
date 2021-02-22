@@ -7,6 +7,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 	public:
 		CEDX12InitDirect3DPlayground();
+		void Create() override;
 		void Update(const CETimer& gt) override;
 		void Render(const CETimer& gt) override;
 	};

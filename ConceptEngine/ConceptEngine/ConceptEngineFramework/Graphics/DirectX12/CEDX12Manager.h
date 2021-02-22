@@ -63,9 +63,14 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		UINT GetCurrentBackBuffer() const;
 		UINT GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType);
 
+		DXGI_FORMAT GetBackBufferFormat() const;
+		DXGI_FORMAT GetDepthStencilFormat() const;
+
 		bool GetVSync() const;
 		bool GetTearingSupport() const;
 		bool GetRayTracingSupport() const;
+		bool GetM4XMSAAState() const;
+		bool GetM4XMSAAQuality() const;
 		bool IsFullScreen() const;
 
 		int GetCurrentBackBufferIndex() const;
@@ -82,14 +87,12 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		ID3D12Resource* CurrentBackBuffer() const;
 		void FlushCommandQueue();
 
-	protected:
-		friend class CEGame;
-		friend class std::default_delete<CEDX12Manager>;
+		void ResetCommandList() const;
 
-		CEDX12Manager(Game::CEWindow& window);
-		~CEDX12Manager();
-	private:
-		//TODO: Move to different classes to keep it clean. Just to test make it functions for now
+		/**
+		 * DX Initializers
+		 * TODO: Move to different classes to keep it clean. Just to test make it functions for now
+		 */
 
 		void EnableDebugLayer() const;
 
@@ -104,6 +107,23 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateSwapChain();
 		void CreateRTVDescriptorHeap();
 		void CreateDSVDescriptorHeap();
+		void CreateCSVDescriptorHeap();
+		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, UINT sizeInBytes) const;
+
+		ID3D12RootSignature* CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc) const;
+		ID3DBlob* CompileShaders(const std::wstring& fileName,
+		                         const D3D_SHADER_MACRO* defines,
+		                         const std::string& entryPoint,
+		                         const std::string& target) const;
+
+
+	protected:
+		friend class CEGame;
+		friend class std::default_delete<CEDX12Manager>;
+
+		CEDX12Manager(Game::CEWindow& window);
+		~CEDX12Manager();
+	private:
 
 		void TearingSupport();
 		void FeatureLevelSupport();
@@ -128,8 +148,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<IDXGISwapChain4> m_swapChain;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_dsvHeap;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_cbvHeap;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_swapChainBuffer[BufferCount];
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_depthStencilBuffer;
+
 
 		CEDX12Playground* m_playground;
 

@@ -37,10 +37,12 @@ void CEDX12Manager::Create() {
 	LogDirectXInfo();
 
 	Resize();
+
+	m_playground->Create();
 }
 
 void CEDX12Manager::InitPlayground(CEPlayground* playground) {
-	std::string playgroundClassName = typeid(playground).name();
+	const std::string playgroundClassName = typeid(playground).name();
 	spdlog::info("InitPlayground Loaded Class Name: {}", playgroundClassName);
 	auto* const dx12Playground = reinterpret_cast<CEDX12Playground*>(playground);
 	m_playground = dx12Playground;
@@ -222,6 +224,14 @@ UINT CEDX12Manager::GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType) {
 	return m_descriptorSizes[heapType];
 }
 
+DXGI_FORMAT CEDX12Manager::GetBackBufferFormat() const {
+	return m_backBufferFormat;
+}
+
+DXGI_FORMAT CEDX12Manager::GetDepthStencilFormat() const {
+	return m_depthStencilFormat;
+}
+
 bool CEDX12Manager::GetVSync() const {
 	return m_vSync;
 }
@@ -232,6 +242,14 @@ bool CEDX12Manager::GetTearingSupport() const {
 
 bool CEDX12Manager::GetRayTracingSupport() const {
 	return m_rayTracingSupported;
+}
+
+bool CEDX12Manager::GetM4XMSAAState() const {
+	return m_4xMsaaState;
+}
+
+bool CEDX12Manager::GetM4XMSAAQuality() const {
+	return m_4xMsaaQuality;
 }
 
 bool CEDX12Manager::IsFullScreen() const {
@@ -306,6 +324,10 @@ void CEDX12Manager::FlushCommandQueue() {
 		//Wait until GPU hits current fence event is fired.
 		WaitForSingleObjectEx(eventHandle, 1000, TRUE);
 	}
+}
+
+void CEDX12Manager::ResetCommandList() const {
+	ThrowIfFailed(m_commandList->Reset(m_commandAllocator.Get(), nullptr));
 }
 
 void CEDX12Manager::EnableDebugLayer() const {
@@ -550,6 +572,82 @@ void CEDX12Manager::CreateDSVDescriptorHeap() {
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	dsvHeapDesc.NodeMask = 0;
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(m_dsvHeap.GetAddressOf())));
+}
+
+void CEDX12Manager::CreateCSVDescriptorHeap() {
+	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
+	cbvHeapDesc.NumDescriptors = 1;
+	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	cbvHeapDesc.NodeMask = 0;
+	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&m_cbvHeap)));
+}
+
+void CEDX12Manager::CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, UINT sizeInBytes) const {
+	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
+	cbvDesc.BufferLocation = cbAddress;
+	cbvDesc.SizeInBytes = sizeInBytes;
+
+	m_d3dDevice->CreateConstantBufferView(&cbvDesc, m_cbvHeap->GetCPUDescriptorHandleForHeapStart());
+}
+
+ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc) const {
+	/*
+	 * Shader programs typically require resources as input (constant buffers, textures, samplers).
+	 * Root signature defines resources the shader programs expect.
+	 * If we think of shader programs as function, and input resources as function parameters, then root signature can be thought of as defining function signature
+	 */
+
+	ID3D12RootSignature* rootSignature = nullptr;
+
+	Microsoft::WRL::ComPtr<ID3DBlob> serializedRootSignature = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
+	HRESULT hr = D3D12SerializeRootSignature(&rootSignatureDesc,
+	                                         D3D_ROOT_SIGNATURE_VERSION_1,
+	                                         serializedRootSignature.GetAddressOf(),
+	                                         errorBlob.GetAddressOf());
+	if (errorBlob != nullptr) {
+		spdlog::error((char*)errorBlob->GetBufferPointer());
+	}
+	ThrowIfFailed(hr);
+
+	ThrowIfFailed(m_d3dDevice->CreateRootSignature(0,
+	                                               serializedRootSignature->GetBufferPointer(),
+	                                               serializedRootSignature->GetBufferSize(),
+	                                               IID_PPV_ARGS(&rootSignature)));
+	return rootSignature;
+}
+
+ID3DBlob* CEDX12Manager::CompileShaders(const std::wstring& fileName,
+                                        const D3D_SHADER_MACRO* defines,
+                                        const std::string& entryPoint,
+                                        const std::string& target) const {
+	UINT compileFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)
+	compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+	HRESULT hr = S_OK;
+
+	ID3DBlob* byteCode = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> errors;
+
+	hr = D3DCompileFromFile(fileName.c_str(),
+	                        defines,
+	                        D3D_COMPILE_STANDARD_FILE_INCLUDE,
+	                        entryPoint.c_str(),
+	                        target.c_str(),
+	                        compileFlags,
+	                        0,
+	                        &byteCode,
+	                        &errors);
+	if (errors != nullptr) {
+		spdlog::error((char*)errors->GetBufferPointer());
+	}
+
+	ThrowIfFailed(hr);
+
+	return byteCode;
 }
 
 /*

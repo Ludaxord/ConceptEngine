@@ -12,6 +12,10 @@ using namespace ConceptEngine::Playgrounds::DirectX12;
 CEDX12InitDirect3DPlayground::CEDX12InitDirect3DPlayground(): CEDX12Playground() {
 }
 
+void CEDX12InitDirect3DPlayground::Create() {
+	CEDX12Playground::Create();
+}
+
 void CEDX12InitDirect3DPlayground::Update(const CETimer& gt) {
 	CEDX12Playground::Update(gt);
 }

@@ -15,6 +15,9 @@ void CEDX12Playground::Init(CEGraphicsManager* manager) {
 	m_dx12manager = dx12Manager;
 }
 
+void CEDX12Playground::Create() {
+}
+
 void CEDX12Playground::Update(const CETimer& gt) {
 }
 

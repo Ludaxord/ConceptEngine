@@ -9,6 +9,7 @@ namespace ConceptEngineFramework::Graphics {
 		virtual ~CEPlayground() = default;
 
 		virtual void Init(CEGraphicsManager* manager) = 0;
+		virtual void Create() = 0;
 		virtual void Update(const CETimer& gt) = 0;
 		virtual void Render(const CETimer& gt) = 0;
 	};

@@ -34,6 +34,8 @@
     <ClInclude Include="Graphics\DirectX12\CEDX12Playground.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\CEGraphicsManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CETypes.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CEUploadBuffer.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLManager.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLPlayground.h" />
     <ClInclude Include="Graphics\Vulkan\CEVPlayground.h" />
