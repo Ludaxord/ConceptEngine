@@ -144,6 +144,18 @@ void CEDX12BoxPlayground::BuildBoxGeometry() {
 	                                                               ibByteSize,
 	                                                               m_boxGeo->IndexBufferUploader);
 	m_boxGeo->IndexBufferGPU = defaultIndexBuffer->Resource();
+
+	m_boxGeo->VertexByteStride = sizeof(Resources::CEVertex);
+	m_boxGeo->VertexBufferByteSize = vbByteSize;
+	m_boxGeo->IndexFormat = DXGI_FORMAT_R16_UINT;
+	m_boxGeo->IndexBufferByteSize = ibByteSize;
+
+	Resources::SubMeshGeometry subMesh;
+	subMesh.IndexCount = (UINT)indices.size();
+	subMesh.StartIndexLocation = 0;
+	subMesh.BaseVertexLocation = 0;
+
+	m_boxGeo->DrawArgs["box"] = subMesh;
 }
 
 //TODO: Add RayTraced StateObject

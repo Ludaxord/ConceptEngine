@@ -2,6 +2,9 @@
 #include <d3d12.h>
 #include <d3dcommon.h>
 #include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXColors.h>
+#include <DirectXCollision.h>
 #include <string>
 #include <unordered_map>
 #include <wrl.h>
@@ -28,8 +31,16 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT4X4 WorldViewProjection = MatrixIdentity4X4();
 	};
 
+	//Defines subrange of geometry in MeshGeometry.
+	//This is for when multiple geometries are stored in one vertex and index buffers.
+	//It provides offsets and data needed to draw subset of geometry stores in vertex and index buffers.
 	struct SubMeshGeometry {
+		UINT IndexCount = 0;
+		UINT StartIndexLocation = 0;
+		UINT BaseVertexLocation = 0;
 
+		//BoundingBox of geometry defined by submesh.
+		DirectX::BoundingBox Bounds;
 	};
 
 	struct MeshGeometry {
