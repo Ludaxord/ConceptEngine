@@ -1,4 +1,3 @@
-#pragma once
 #ifndef HLSLCOMPAT_H
 #define HLSLCOMPAT_H
 

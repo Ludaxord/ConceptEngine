@@ -12,7 +12,6 @@ using namespace ConceptEngineFramework::Graphics::DirectX12;
 namespace fs = std::filesystem;
 
 void CEDX12Manager::Create() {
-
 	EnableDebugLayer();
 	CreateDXGIFactory();
 	TearingSupport();
@@ -610,9 +609,7 @@ ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DES
 	if (errorBlob != nullptr) {
 		spdlog::error((char*)errorBlob->GetBufferPointer());
 	}
-	spdlog::warn("GetBufferPointer");
 	ThrowIfFailed(hr);
-	spdlog::warn("CreateRootSignature");
 	ThrowIfFailed(m_d3dDevice->CreateRootSignature(0,
 	                                               serializedRootSignature->GetBufferPointer(),
 	                                               serializedRootSignature->GetBufferSize(),
@@ -620,11 +617,20 @@ ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DES
 	return rootSignature;
 }
 
-ID3DBlob* CEDX12Manager::CompileShaders(const std::wstring& fileName,
+//TODO: Implement Shader Model 6 usage with DirectXShaderCompiler
+//TODO: References: https://asawicki.info/news_1719_two_shader_compilers_of_direct3d_12
+//TODO: References: https://github.com/Microsoft/DirectXShaderCompiler
+ID3DBlob* CEDX12Manager::CompileShaders(const std::string& fileName,
                                         const D3D_SHADER_MACRO* defines,
                                         const std::string& entryPoint,
                                         const std::string& target) const {
 
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream shadersPathStream;
+	shadersPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Shaders\\" << fileName;
+	auto shaderPath = shadersPathStream.str();
+	spdlog::info("Loading Shader: {}", shaderPath);
+	const std::wstring wShaderPath(shaderPath.begin(), shaderPath.end());
 	UINT compileFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)
 	compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
@@ -634,8 +640,8 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::wstring& fileName,
 
 	ID3DBlob* byteCode = nullptr;
 	Microsoft::WRL::ComPtr<ID3DBlob> errors;
-
-	hr = D3DCompileFromFile(fileName.c_str(),
+	
+	hr = D3DCompileFromFile(wShaderPath.c_str(),
 	                        defines,
 	                        D3D_COMPILE_STANDARD_FILE_INCLUDE,
 	                        entryPoint.c_str(),
@@ -645,9 +651,10 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::wstring& fileName,
 	                        &byteCode,
 	                        &errors);
 	if (errors != nullptr) {
+		OutputDebugStringA((char*)errors->GetBufferPointer());
 		spdlog::error((char*)errors->GetBufferPointer());
 	}
-	
+
 	ThrowIfFailed(hr);
 
 	return byteCode;
