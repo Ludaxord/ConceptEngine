@@ -84,6 +84,9 @@
     <ClInclude Include="Graphics\DirectX12\Resources\CEDefaultBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX12\Resources\Shaders\VertexHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEFramework.cpp">
@@ -119,5 +122,9 @@
     <ClCompile Include="Graphics\OpenGL\CEOGLPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl" />
   </ItemGroup>
 </Project>

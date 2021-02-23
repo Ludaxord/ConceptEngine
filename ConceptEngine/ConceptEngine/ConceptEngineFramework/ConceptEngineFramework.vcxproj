@@ -37,6 +37,7 @@
     <ClInclude Include="Graphics\DirectX12\Resources\CEDefaultBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CETypes.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEUploadBuffer.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\Shaders\VertexHeader.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLManager.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLPlayground.h" />
     <ClInclude Include="Graphics\Vulkan\CEVPlayground.h" />
@@ -55,6 +56,24 @@
     <ClCompile Include="Graphics\OpenGL\CEOGLPlayground.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVPlayground.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

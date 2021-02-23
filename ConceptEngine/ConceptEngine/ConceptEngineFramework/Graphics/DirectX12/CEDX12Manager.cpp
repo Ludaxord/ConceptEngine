@@ -9,6 +9,7 @@
 #include "CEDX12Playground.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
+namespace fs = std::filesystem;
 
 void CEDX12Manager::Create() {
 
@@ -623,6 +624,7 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::wstring& fileName,
                                         const D3D_SHADER_MACRO* defines,
                                         const std::string& entryPoint,
                                         const std::string& target) const {
+
 	UINT compileFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)
 	compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
@@ -645,7 +647,7 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::wstring& fileName,
 	if (errors != nullptr) {
 		spdlog::error((char*)errors->GetBufferPointer());
 	}
-
+	
 	ThrowIfFailed(hr);
 
 	return byteCode;

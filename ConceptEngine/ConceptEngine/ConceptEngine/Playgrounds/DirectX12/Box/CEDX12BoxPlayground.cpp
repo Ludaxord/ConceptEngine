@@ -67,9 +67,15 @@ void CEDX12BoxPlayground::Render(const CETimer& gt) {
 
 void CEDX12BoxPlayground::BuildShadersAndInputLayout() {
 	HRESULT hr = S_OK;
+	
+	const auto currentPath = fs::current_path();
+	std::stringstream ss;
+	ss << "CURRENT PATH: " << currentPath;
+	spdlog::info(ss.str());
 
-	m_vsByteCode = m_dx12manager->CompileShaders(L"", nullptr, "VS", "vs_6_3");
-	m_psByteCode = m_dx12manager->CompileShaders(L"", nullptr, "PS", "ps_6_3");
+
+	m_vsByteCode = m_dx12manager->CompileShaders(L"Graphics\\DirectX12\\Resources\\Shaders\\CEBoxVertexShader.hlsl", nullptr, "VS", "vs_6_3");
+	m_psByteCode = m_dx12manager->CompileShaders(L"Graphics\\DirectX12\\Resources\\Shaders\\CEBoxPixelShader.hlsl", nullptr, "PS", "ps_6_3");
 
 	m_inputLayout = {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
