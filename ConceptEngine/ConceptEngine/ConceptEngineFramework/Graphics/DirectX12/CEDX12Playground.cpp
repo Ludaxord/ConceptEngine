@@ -23,3 +23,6 @@ void CEDX12Playground::Update(const CETimer& gt) {
 
 void CEDX12Playground::Render(const CETimer& gt) {
 }
+
+void CEDX12Playground::Resize() {
+}

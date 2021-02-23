@@ -12,5 +12,6 @@ namespace ConceptEngineFramework::Graphics {
 		virtual void Create() = 0;
 		virtual void Update(const CETimer& gt) = 0;
 		virtual void Render(const CETimer& gt) = 0;
+		virtual void Resize() = 0;
 	};
 }

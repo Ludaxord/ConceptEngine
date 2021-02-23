@@ -16,11 +16,16 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void Create() override;
 		virtual void Update(const CETimer& gt) override;
 		virtual void Render(const CETimer& gt) override;
+		virtual void Resize() override;
 	protected:
 		CEDX12Manager* m_dx12manager = nullptr;
 
 		XMFLOAT4X4 mWorld = Resources::MatrixIdentity4X4();
 		XMFLOAT4X4 mView = Resources::MatrixIdentity4X4();
 		XMFLOAT4X4 mProj = Resources::MatrixIdentity4X4();
+
+		float mTheta = 1.5f * XM_PI;
+		float mPhi = XM_PIDIV4;
+		float mRadius = 5.0f;
 	};
 }

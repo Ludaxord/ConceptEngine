@@ -14,12 +14,13 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void Create() override;
 		void Update(const CETimer& gt) override;
 		void Render(const CETimer& gt) override;
+		void Resize() override;
 
 	private:
 		void BuildShadersAndInputLayout();
 		void BuildBoxGeometry();
 		void BuildPSO();
-
+		
 		std::unique_ptr<Resources::CEUploadBuffer<Resources::CEObjectConstants>> mObjectCB = nullptr;
 
 		std::unique_ptr<Resources::MeshGeometry> m_boxGeo = nullptr;

@@ -7,6 +7,7 @@
 #include "../../../Tools/CEUtils.h"
 
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
+	//TODO: FIX!!!
 	class CEDefaultBuffer {
 	public:
 		CEDefaultBuffer(ID3D12Device* device,
@@ -32,9 +33,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 			//In order to copy CPU memory data into out default buffer, we need to create an intermediate upload heap
 			auto uploadHeapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+			auto uploadResourceDescBuffer = CD3DX12_RESOURCE_DESC::Buffer(byteSize);
 			ThrowIfFailed(device->CreateCommittedResource(&uploadHeapProperties,
 			                                              D3D12_HEAP_FLAG_NONE,
-			                                              &resourceDescBuffer,
+			                                              &uploadResourceDescBuffer,
 			                                              D3D12_RESOURCE_STATE_GENERIC_READ,
 			                                              nullptr,
 			                                              IID_PPV_ARGS(uploadBuffer.GetAddressOf())));

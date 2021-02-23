@@ -58,6 +58,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<IDXGISwapChain4> GetDXGISwapChain() const;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetRTVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetDSVDescriptorHeap() const;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetCBVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12Resource> GetDepthStencilBuffer() const;
 
 		UINT GetCurrentBackBuffer() const;
@@ -72,6 +73,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		bool GetM4XMSAAState() const;
 		bool GetM4XMSAAQuality() const;
 		bool IsFullScreen() const;
+
+		float GetWindowWidth() const;
+		float GetWindowHeight() const;
+		float GetAspectRatio() const;
 
 		int GetCurrentBackBufferIndex() const;
 		void SetCurrentBackBufferIndex(int backBufferIndex);
@@ -110,6 +115,13 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateCSVDescriptorHeap();
 		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, UINT sizeInBytes) const;
 
+
+		Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(ID3D12Device* device,
+		                                                           ID3D12GraphicsCommandList* cmdList,
+		                                                           const void* initData,
+		                                                           UINT64 byteSize,
+		                                                           Microsoft::WRL::ComPtr<ID3D12Resource>&
+		                                                           uploadBuffer) const;
 		ID3D12RootSignature* CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc) const;
 		ID3DBlob* CompileShaders(const std::string& fileName,
 		                         const D3D_SHADER_MACRO* defines,

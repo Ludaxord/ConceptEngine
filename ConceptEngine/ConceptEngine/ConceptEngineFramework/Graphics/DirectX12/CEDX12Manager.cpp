@@ -161,6 +161,8 @@ void CEDX12Manager::Resize() {
 	m_screenViewport.MaxDepth = 1.0f;
 
 	m_scissorRect = {0, 0, m_window.GetWidth(), m_window.GetHeight()};
+
+	m_playground->Resize();
 }
 
 bool CEDX12Manager::Initialized() {
@@ -216,6 +218,10 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CEDX12Manager::GetDSVDescriptorHeap
 	return m_dsvHeap;
 }
 
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CEDX12Manager::GetCBVDescriptorHeap() const {
+	return m_cbvHeap;
+}
+
 UINT CEDX12Manager::GetCurrentBackBuffer() const {
 	return m_currentBackBuffer;
 }
@@ -254,6 +260,18 @@ bool CEDX12Manager::GetM4XMSAAQuality() const {
 
 bool CEDX12Manager::IsFullScreen() const {
 	return m_window.IsFullScreen();
+}
+
+float CEDX12Manager::GetWindowWidth() const {
+	return m_window.GetWidth();
+}
+
+float CEDX12Manager::GetWindowHeight() const {
+	return m_window.GetHeight();
+}
+
+float CEDX12Manager::GetAspectRatio() const {
+	return static_cast<float>(m_window.GetWidth()) / m_window.GetHeight();
 }
 
 int CEDX12Manager::GetCurrentBackBufferIndex() const {
@@ -591,6 +609,75 @@ void CEDX12Manager::CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, U
 	m_d3dDevice->CreateConstantBufferView(&cbvDesc, m_cbvHeap->GetCPUDescriptorHandleForHeapStart());
 }
 
+Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::CreateDefaultBuffer(ID3D12Device* device,
+                                                                          ID3D12GraphicsCommandList* cmdList,
+                                                                          const void* initData, UINT64 byteSize,
+                                                                          Microsoft::WRL::ComPtr<ID3D12Resource>&
+                                                                          uploadBuffer) const {
+
+	ComPtr<ID3D12Resource> defaultBuffer;
+
+	auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+	auto bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(byteSize);
+
+	// Create the actual default buffer resource.
+	ThrowIfFailed(device->CreateCommittedResource(
+		&heapProps,
+		D3D12_HEAP_FLAG_NONE,
+		&bufferDesc,
+		D3D12_RESOURCE_STATE_COMMON,
+		nullptr,
+		IID_PPV_ARGS(defaultBuffer.GetAddressOf())));
+
+	auto heapUpload = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
+	// In order to copy CPU memory data into our default buffer, we need to create
+	// an intermediate upload heap. 
+	ThrowIfFailed(device->CreateCommittedResource(
+		&heapUpload,
+		D3D12_HEAP_FLAG_NONE,
+		&bufferDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(uploadBuffer.GetAddressOf())));
+
+
+	// Describe the data we want to copy into the default buffer.
+	D3D12_SUBRESOURCE_DATA subResourceData = {};
+	subResourceData.pData = initData;
+	subResourceData.RowPitch = byteSize;
+	subResourceData.SlicePitch = subResourceData.RowPitch;
+
+	auto copyDestTransition = CD3DX12_RESOURCE_BARRIER::Transition(defaultBuffer.Get(),
+	                                                               D3D12_RESOURCE_STATE_COMMON,
+	                                                               D3D12_RESOURCE_STATE_COPY_DEST);
+
+	auto genericReadTransition = CD3DX12_RESOURCE_BARRIER::Transition(defaultBuffer.Get(),
+	                                                                  D3D12_RESOURCE_STATE_COPY_DEST,
+	                                                                  D3D12_RESOURCE_STATE_GENERIC_READ);
+
+	// Schedule to copy the data to the default buffer resource.  At a high level, the helper function UpdateSubresources
+	// will copy the CPU memory into the intermediate upload heap.  Then, using ID3D12CommandList::CopySubresourceRegion,
+	// the intermediate upload heap data will be copied to mBuffer.
+	cmdList->ResourceBarrier(1, &copyDestTransition);
+	UpdateSubresources<1>(cmdList,
+	                      defaultBuffer.Get(),
+	                      uploadBuffer.Get(),
+	                      0,
+	                      0,
+	                      1,
+	                      &subResourceData);
+	cmdList->ResourceBarrier(1, &genericReadTransition);
+
+	// Note: uploadBuffer has to be kept alive after the above function calls because
+	// the command list has not been executed yet that performs the actual copy.
+	// The caller can Release the uploadBuffer after it knows the copy has been executed.
+
+	return defaultBuffer;
+
+}
+
 ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc) const {
 	/*
 	 * Shader programs typically require resources as input (constant buffers, textures, samplers).
@@ -627,7 +714,8 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::string& fileName,
 
 	const auto currentPath = fs::current_path().parent_path().string();
 	std::stringstream shadersPathStream;
-	shadersPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Shaders\\" << fileName;
+	shadersPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Shaders\\" <<
+		fileName;
 	auto shaderPath = shadersPathStream.str();
 	spdlog::info("Loading Shader: {}", shaderPath);
 	const std::wstring wShaderPath(shaderPath.begin(), shaderPath.end());
@@ -640,7 +728,7 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::string& fileName,
 
 	ID3DBlob* byteCode = nullptr;
 	Microsoft::WRL::ComPtr<ID3DBlob> errors;
-	
+
 	hr = D3DCompileFromFile(wShaderPath.c_str(),
 	                        defines,
 	                        D3D_COMPILE_STANDARD_FILE_INCLUDE,

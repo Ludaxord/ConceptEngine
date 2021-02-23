@@ -55,26 +55,174 @@ void CEDX12BoxPlayground::Create() {
 	BuildShadersAndInputLayout();
 	BuildBoxGeometry();
 	BuildPSO();
+
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
+	// Execute the initialization commands.
+	ThrowIfFailed(commandList->Close());
+	ID3D12CommandList* cmdsLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until initialization is complete.
+	m_dx12manager->FlushCommandQueue();
 }
 
 void CEDX12BoxPlayground::Update(const CETimer& gt) {
 	CEDX12Playground::Update(gt);
+
+	//Convert Spherical to Cartesian coordinates.
+	float x = mRadius * sinf(mPhi) * cosf(mTheta);
+	float y = mRadius * sinf(mPhi) * sinf(mTheta);
+	float z = mRadius * cos(mPhi);
+
+	//Build view matrix.
+	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
+	XMVECTOR target = XMVectorZero();
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
+	XMStoreFloat4x4(&mView, view);
+
+	XMMATRIX world = XMLoadFloat4x4(&mWorld);
+	XMMATRIX proj = XMLoadFloat4x4(&mProj);
+	XMMATRIX worldViewProj = world * view * proj;
+
+	//Update constant buffer with latest worldViewProj matrix;
+	Resources::CEObjectConstants objConstants;
+	XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(worldViewProj));
+	mObjectCB->CopyData(0, objConstants);
 }
 
 void CEDX12BoxPlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
+
+	//D3D12 and DXGI Resources
+	auto commandAllocator = m_dx12manager->GetD3D12CommandAllocator();
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
+	auto swapChain = m_dx12manager->GetDXGISwapChain();
+
+	//Reuse memory associated with command recording
+	//We can only reset when associated command lists have finished execution on GPU
+	ThrowIfFailed(commandAllocator->Reset());
+
+	//Command list can be reset after it has been added to command queue via ExecuteCommandList
+	//Reusing command list reuses memory
+	ThrowIfFailed(commandList->Reset(commandAllocator.Get(), mPSO.Get()));
+
+	auto viewport = m_dx12manager->GetViewPort();
+	auto scissorRect = m_dx12manager->GetScissorRect();
+	commandList->RSSetViewports(1, &viewport);
+	commandList->RSSetScissorRects(1, &scissorRect);
+
+	//Indicate state transition on resource usage.
+	auto resourceBarrierTransitionRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	commandList->ResourceBarrier(1, &resourceBarrierTransitionRenderTarget);
+
+	const auto currentBackBufferIndex = m_dx12manager->GetCurrentBackBufferIndex();
+	const auto currentBackBufferView = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
+		currentBackBufferIndex,
+		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+	const auto depthStencilView = m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+
+	//Clear back buffer and depth buffer
+	commandList->ClearRenderTargetView(currentBackBufferView,
+	                                   Colors::CornflowerBlue,
+	                                   0,
+	                                   nullptr);
+	commandList->ClearDepthStencilView(depthStencilView,
+	                                   D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                   1.0f,
+	                                   0,
+	                                   0,
+	                                   nullptr);
+
+	//Specify buffers we are going to render to
+	commandList->OMSetRenderTargets(1,
+	                                &currentBackBufferView,
+	                                true,
+	                                &depthStencilView);
+
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetCBVDescriptorHeap().Get()};
+	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+
+	auto boxVertexBufferView = m_boxGeo->VertexBufferView();
+	commandList->IASetVertexBuffers(0, 1, &boxVertexBufferView);
+
+	try {
+		auto boxIndexBufferView = m_boxGeo->IndexBufferView();
+		commandList->IASetIndexBuffer(&boxIndexBufferView);
+	}
+	catch (std::exception e) {
+		OutputDebugStringA(e.what());
+	}
+
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	commandList->SetGraphicsRootDescriptorTable(
+		0,
+		m_dx12manager->GetCBVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart()
+	);
+
+	commandList->DrawIndexedInstanced(
+		m_boxGeo->DrawArgs["box"].IndexCount,
+		1,
+		0,
+		0,
+		0
+	);
+
+	//Indicate state transition on resource usage
+	auto resourceBarrierTransitionStatePresent = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PRESENT);
+	commandList->ResourceBarrier(1, &resourceBarrierTransitionStatePresent);
+
+	//Done recording commands
+	ThrowIfFailed(commandList->Close());
+
+	//Add command list to queue for execution
+	ID3D12CommandList* commandLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	// swap the back and front buffers
+	ThrowIfFailed(swapChain->Present(0, 0));
+	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
+
+	// Wait until frame commands are complete.  This waiting is inefficient and is
+	// done for simplicity.  Later we will show how to organize our rendering code
+	// so we do not have to wait per frame.
+	m_dx12manager->FlushCommandQueue();
+}
+
+void CEDX12BoxPlayground::Resize() {
+	static const float Pi = 3.1415926535f;
+	// The window resized, so update the aspect ratio and recompute the projection matrix.
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&mProj, P);
 }
 
 void CEDX12BoxPlayground::BuildShadersAndInputLayout() {
 	HRESULT hr = S_OK;
 
-	m_vsByteCode = m_dx12manager->CompileShaders("CEBoxVertexShader.hlsl", nullptr, "VS", 
-		// "vs_6_3"
-		"vs_5_0"
+	m_vsByteCode = m_dx12manager->CompileShaders("CEBoxVertexShader.hlsl",
+	                                             nullptr,
+	                                             "VS",
+	                                             // "vs_6_3"
+	                                             "vs_5_0"
 	);
-	m_psByteCode = m_dx12manager->CompileShaders("CEBoxPixelShader.hlsl", nullptr, "PS", 
-		// "ps_6_3"
-		"ps_5_0"
+	m_psByteCode = m_dx12manager->CompileShaders("CEBoxPixelShader.hlsl",
+	                                             nullptr,
+	                                             "PS",
+	                                             // "ps_6_3"
+	                                             "ps_5_0"
 	);
 
 	m_inputLayout = {
@@ -137,19 +285,17 @@ void CEDX12BoxPlayground::BuildBoxGeometry() {
 	ThrowIfFailed(D3DCreateBlob(ibByteSize, &m_boxGeo->IndexBufferCPU));
 	CopyMemory(m_boxGeo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
-	const auto defaultVertexBuffer = new Resources::CEDefaultBuffer(d3dDevice.Get(),
-	                                                                d3dCommandList.Get(),
-	                                                                vertices.data(),
-	                                                                vbByteSize,
-	                                                                m_boxGeo->VertexBufferUploader);
-	m_boxGeo->VertexBufferGPU = defaultVertexBuffer->Resource();
-
-	const auto defaultIndexBuffer = new Resources::CEDefaultBuffer(d3dDevice.Get(),
+	m_boxGeo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(d3dDevice.Get(),
 	                                                               d3dCommandList.Get(),
-	                                                               indices.data(),
-	                                                               ibByteSize,
-	                                                               m_boxGeo->IndexBufferUploader);
-	m_boxGeo->IndexBufferGPU = defaultIndexBuffer->Resource();
+	                                                               vertices.data(),
+	                                                               vbByteSize,
+	                                                               m_boxGeo->VertexBufferUploader);
+
+	m_boxGeo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(d3dDevice.Get(),
+	                                                              d3dCommandList.Get(),
+	                                                              indices.data(),
+	                                                              ibByteSize,
+	                                                              m_boxGeo->IndexBufferUploader);
 
 	m_boxGeo->VertexByteStride = sizeof(Resources::CEVertex);
 	m_boxGeo->VertexBufferByteSize = vbByteSize;
