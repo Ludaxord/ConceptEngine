@@ -4,6 +4,8 @@
 #include "../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CETypes.h"
 #include "../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEUploadBuffer.h"
 
+using namespace ConceptEngineFramework::Graphics::DirectX12;
+
 namespace ConceptEngine::Playgrounds::DirectX12 {
 	class CEDX12BoxPlayground final : public ConceptEngineFramework::Graphics::DirectX12::CEDX12Playground {
 
@@ -18,10 +20,10 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildBoxGeometry();
 		void BuildPSO();
 
-		std::unique_ptr<CEUploadBuffer<CEObjectConstants>> mObjectCB = nullptr;
+		std::unique_ptr<Resources::CEUploadBuffer<Resources::CEObjectConstants>> mObjectCB = nullptr;
 
-		std::unique_ptr<MeshGeometry> m_boxGeo = nullptr;
-		
+		std::unique_ptr<Resources::MeshGeometry> m_boxGeo = nullptr;
+
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> mPSO;
 

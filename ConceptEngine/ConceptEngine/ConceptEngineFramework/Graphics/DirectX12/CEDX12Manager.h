@@ -110,7 +110,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateCSVDescriptorHeap();
 		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, UINT sizeInBytes) const;
 
-		ID3D12RootSignature* CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc) const;
+		ID3D12RootSignature* CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc) const;
 		ID3DBlob* CompileShaders(const std::wstring& fileName,
 		                         const D3D_SHADER_MACRO* defines,
 		                         const std::string& entryPoint,

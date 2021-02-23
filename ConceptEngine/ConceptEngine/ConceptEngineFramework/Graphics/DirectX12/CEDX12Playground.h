@@ -19,8 +19,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 	protected:
 		CEDX12Manager* m_dx12manager = nullptr;
 
-		XMFLOAT4X4 mWorld = MatrixIdentity4X4();
-		XMFLOAT4X4 mView = MatrixIdentity4X4();
-		XMFLOAT4X4 mProj = MatrixIdentity4X4();
+		XMFLOAT4X4 mWorld = Resources::MatrixIdentity4X4();
+		XMFLOAT4X4 mView = Resources::MatrixIdentity4X4();
+		XMFLOAT4X4 mProj = Resources::MatrixIdentity4X4();
 	};
 }

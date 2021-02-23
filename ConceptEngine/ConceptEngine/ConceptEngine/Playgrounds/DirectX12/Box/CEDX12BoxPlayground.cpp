@@ -8,6 +8,8 @@
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
 
+using namespace ConceptEngineFramework::Graphics::DirectX12;
+
 const int gNumFrameResources = 3;
 
 CEDX12BoxPlayground::CEDX12BoxPlayground() : CEDX12Playground() {
@@ -21,7 +23,10 @@ void CEDX12BoxPlayground::Create() {
 
 	m_dx12manager->CreateCSVDescriptorHeap();
 
-	UINT objCBByteSize = (sizeof(CEObjectConstants) + 255) & ~255;
+	auto d3dDevice = m_dx12manager->GetD3D12Device();
+	mObjectCB = std::make_unique<Resources::CEUploadBuffer<Resources::CEObjectConstants>>(d3dDevice.Get(), 1, true);
+
+	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
 
 	D3D12_GPU_VIRTUAL_ADDRESS cbAddress = mObjectCB->Resource()->GetGPUVirtualAddress();
 	// Offset to the ith object constant buffer in the buffer.
@@ -33,17 +38,19 @@ void CEDX12BoxPlayground::Create() {
 	//Root parameter can be a table, root descriptor or root constants
 	CD3DX12_ROOT_PARAMETER slotRootParameter[1];
 
-	//Create single descriptor table of CBV's
+	// Create a single descriptor table of CBVs.
 	CD3DX12_DESCRIPTOR_RANGE cbvTable;
 	cbvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
-	slotRootParameter[1].InitAsDescriptorTable(1, &cbvTable);
+	slotRootParameter[0].InitAsDescriptorTable(1, &cbvTable);
 
-	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc(1,
-	                                              slotRootParameter,
-	                                              0,
-	                                              nullptr,
-	                                              D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-	m_rootSignature = m_dx12manager->CreateRootSignature(rootSignatureDesc);
+	// A root signature is an array of root parameters.
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(1, slotRootParameter,
+	                                        0,
+	                                        nullptr,
+	                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
+	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	BuildShadersAndInputLayout();
 	BuildBoxGeometry();
 	BuildPSO();
@@ -70,15 +77,15 @@ void CEDX12BoxPlayground::BuildShadersAndInputLayout() {
 }
 
 void CEDX12BoxPlayground::BuildBoxGeometry() {
-	std::vector<CEVertex> vertices = {
-		CEVertex({XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(DirectX::Colors::White)}),
-		CEVertex({XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(DirectX::Colors::Red)}),
-		CEVertex({XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT4(DirectX::Colors::DarkRed)}),
-		CEVertex({XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT4(DirectX::Colors::Green)}),
-		CEVertex({XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT4(DirectX::Colors::Blue)}),
-		CEVertex({XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4(DirectX::Colors::Yellow)}),
-		CEVertex({XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4(DirectX::Colors::Magenta)}),
-		CEVertex({XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(DirectX::Colors::AliceBlue)}),
+	std::vector<Resources::CEVertex> vertices = {
+		Resources::CEVertex({XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(DirectX::Colors::White)}),
+		Resources::CEVertex({XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(DirectX::Colors::Red)}),
+		Resources::CEVertex({XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT4(DirectX::Colors::DarkRed)}),
+		Resources::CEVertex({XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT4(DirectX::Colors::Green)}),
+		Resources::CEVertex({XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT4(DirectX::Colors::Blue)}),
+		Resources::CEVertex({XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4(DirectX::Colors::Yellow)}),
+		Resources::CEVertex({XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4(DirectX::Colors::Magenta)}),
+		Resources::CEVertex({XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(DirectX::Colors::AliceBlue)}),
 	};
 
 	std::vector<std::uint16_t> indices = {
@@ -107,10 +114,10 @@ void CEDX12BoxPlayground::BuildBoxGeometry() {
 		4, 3, 7
 	};
 
-	const UINT vbByteSize = (UINT)vertices.size() * sizeof(CEVertex);
+	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Resources::CEVertex);
 	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
 
-	m_boxGeo = std::make_unique<MeshGeometry>();
+	m_boxGeo = std::make_unique<Resources::MeshGeometry>();
 	m_boxGeo->Name = "GeoBox";
 
 	ThrowIfFailed(D3DCreateBlob(vbByteSize, &m_boxGeo->VertexBufferCPU));

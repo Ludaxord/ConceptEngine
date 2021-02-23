@@ -591,7 +591,7 @@ void CEDX12Manager::CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, U
 	m_d3dDevice->CreateConstantBufferView(&cbvDesc, m_cbvHeap->GetCPUDescriptorHandleForHeapStart());
 }
 
-ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc) const {
+ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc) const {
 	/*
 	 * Shader programs typically require resources as input (constant buffers, textures, samplers).
 	 * Root signature defines resources the shader programs expect.
@@ -602,15 +602,16 @@ ID3D12RootSignature* CEDX12Manager::CreateRootSignature(D3D12_ROOT_SIGNATURE_DES
 
 	Microsoft::WRL::ComPtr<ID3DBlob> serializedRootSignature = nullptr;
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
-	HRESULT hr = D3D12SerializeRootSignature(&rootSignatureDesc,
+	HRESULT hr = D3D12SerializeRootSignature(rootSignatureDesc,
 	                                         D3D_ROOT_SIGNATURE_VERSION_1,
 	                                         serializedRootSignature.GetAddressOf(),
 	                                         errorBlob.GetAddressOf());
 	if (errorBlob != nullptr) {
 		spdlog::error((char*)errorBlob->GetBufferPointer());
 	}
+	spdlog::warn("GetBufferPointer");
 	ThrowIfFailed(hr);
-
+	spdlog::warn("CreateRootSignature");
 	ThrowIfFailed(m_d3dDevice->CreateRootSignature(0,
 	                                               serializedRootSignature->GetBufferPointer(),
 	                                               serializedRootSignature->GetBufferSize(),
