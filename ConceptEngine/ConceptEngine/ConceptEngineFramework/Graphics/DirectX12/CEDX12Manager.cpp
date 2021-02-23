@@ -644,7 +644,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::CreateDefaultBuffer(ID3D12
 
 
 	// Describe the data we want to copy into the default buffer.
-	D3D12_SUBRESOURCE_DATA subResourceData = {};
+	D3D12_SUBRESOURCE_DATA subResourceData;
 	subResourceData.pData = initData;
 	subResourceData.RowPitch = byteSize;
 	subResourceData.SlicePitch = subResourceData.RowPitch;

@@ -247,7 +247,7 @@ void CEDX12BoxPlayground::BuildBoxGeometry() {
 		Resources::CEVertex({XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(DirectX::Colors::AliceBlue)}),
 	};
 
-	std::vector<std::uint16_t> indices = {
+	std::array<std::uint16_t, 36> indices = {
 		// front face
 		0, 1, 2,
 		0, 2, 3,

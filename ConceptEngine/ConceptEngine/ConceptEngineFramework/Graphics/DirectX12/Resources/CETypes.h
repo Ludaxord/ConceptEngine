@@ -61,7 +61,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//Buffer data;
 		UINT VertexByteStride = 0;
 		UINT VertexBufferByteSize = 0;
-		DXGI_FORMAT IndexFormat = DXGI_FORMAT_R16_UINT;
+		DXGI_FORMAT IndexFormat = DXGI_FORMAT_R32_UINT;
 		UINT IndexBufferByteSize = 0;
 
 		//MeshGeometry may store multiple geometries in one vertex/index buffer/
