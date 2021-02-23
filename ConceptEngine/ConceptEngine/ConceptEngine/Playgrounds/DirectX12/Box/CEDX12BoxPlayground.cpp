@@ -4,6 +4,7 @@
 
 
 #include "../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
+#include "../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEDefaultBuffer.h"
 #include "../../../../ConceptEngineFramework/Tools/CEUtils.h"
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
@@ -77,6 +78,10 @@ void CEDX12BoxPlayground::BuildShadersAndInputLayout() {
 }
 
 void CEDX12BoxPlayground::BuildBoxGeometry() {
+
+	auto d3dDevice = m_dx12manager->GetD3D12Device();
+	auto d3dCommandList = m_dx12manager->GetD3D12CommandList();
+
 	std::vector<Resources::CEVertex> vertices = {
 		Resources::CEVertex({XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(DirectX::Colors::White)}),
 		Resources::CEVertex({XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(DirectX::Colors::Red)}),
@@ -126,8 +131,19 @@ void CEDX12BoxPlayground::BuildBoxGeometry() {
 	ThrowIfFailed(D3DCreateBlob(ibByteSize, &m_boxGeo->IndexBufferCPU));
 	CopyMemory(m_boxGeo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
-	//TODO: Start from here
+	const auto defaultVertexBuffer = new Resources::CEDefaultBuffer(d3dDevice.Get(),
+	                                                                d3dCommandList.Get(),
+	                                                                vertices.data(),
+	                                                                vbByteSize,
+	                                                                m_boxGeo->VertexBufferUploader);
+	m_boxGeo->VertexBufferGPU = defaultVertexBuffer->Resource();
 
+	const auto defaultIndexBuffer = new Resources::CEDefaultBuffer(d3dDevice.Get(),
+	                                                               d3dCommandList.Get(),
+	                                                               indices.data(),
+	                                                               ibByteSize,
+	                                                               m_boxGeo->IndexBufferUploader);
+	m_boxGeo->IndexBufferGPU = defaultIndexBuffer->Resource();
 }
 
 //TODO: Add RayTraced StateObject
