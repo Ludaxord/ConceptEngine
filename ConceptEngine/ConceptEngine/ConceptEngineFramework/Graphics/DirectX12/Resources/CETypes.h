@@ -61,7 +61,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//Buffer data;
 		UINT VertexByteStride = 0;
 		UINT VertexBufferByteSize = 0;
-		DXGI_FORMAT IndexFormat = DXGI_FORMAT_R32_UINT;
+		DXGI_FORMAT IndexFormat = DXGI_FORMAT_R16_UINT;
 		UINT IndexBufferByteSize = 0;
 
 		//MeshGeometry may store multiple geometries in one vertex/index buffer/
@@ -70,7 +70,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::unordered_map<std::string, SubMeshGeometry> DrawArgs;
 
 		D3D12_VERTEX_BUFFER_VIEW VertexBufferView() const {
-			D3D12_VERTEX_BUFFER_VIEW vbv = {};
+			D3D12_VERTEX_BUFFER_VIEW vbv;
 			vbv.BufferLocation = VertexBufferGPU->GetGPUVirtualAddress();
 			vbv.StrideInBytes = VertexByteStride;
 			vbv.SizeInBytes = VertexBufferByteSize;
@@ -79,8 +79,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		}
 
 		D3D12_INDEX_BUFFER_VIEW IndexBufferView() const {
-			D3D12_INDEX_BUFFER_VIEW ibv = {};
-			ibv.BufferLocation - IndexBufferGPU->GetGPUVirtualAddress();
+			D3D12_INDEX_BUFFER_VIEW ibv;
+			ibv.BufferLocation = IndexBufferGPU->GetGPUVirtualAddress();
 			ibv.Format = IndexFormat;
 			ibv.SizeInBytes = IndexBufferByteSize;
 
@@ -88,7 +88,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		}
 
 		// We can free memory after we finish upload to GPU;
-
+		void DisposeUploaders() {
+			VertexBufferUploader = nullptr;
+			IndexBufferUploader = nullptr;
+		}
 	};
 
 
