@@ -150,7 +150,7 @@ void CEDX12BoxPlayground::Render(const CETimer& gt) {
 	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetCBVDescriptorHeap().Get()};
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
-	commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+	commandList->SetGraphicsRootSignature(m_rootSignature.Get());	
 
 	auto boxVertexBufferView = m_boxGeo->VertexBufferView();
 	commandList->IASetVertexBuffers(0, 1, &boxVertexBufferView);

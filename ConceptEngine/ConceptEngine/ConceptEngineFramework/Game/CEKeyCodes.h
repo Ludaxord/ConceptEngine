@@ -1,5 +1,6 @@
 #pragma once
 
+#include <activation.h>
 #include <cstdint> // For uint8_t
 
 namespace ConceptEngineFramework::Game {
@@ -419,4 +420,26 @@ namespace ConceptEngineFramework::Game {
 		OemClear = 0xfe,
 		// The Clear key
 	};
+
+	static KeyCode WParamToKeyCode(WPARAM wParam) {
+		return (KeyCode)wParam;
+	}
+
+	static unsigned int CharFromParams(WPARAM wParam, LPARAM lParam) {
+		unsigned int c = 0;
+		unsigned int scanCode = (lParam & 0x00FF0000) >> 16;
+
+		// Determine which key was released by converting the key code and
+		// the scan code to a printable character (if possible). Inspired by
+		// the SDL 1.2 implementation.
+		unsigned char keyboardState[256];
+		GetKeyboardState(keyboardState);
+		wchar_t translatedCharacters[4];
+		if (int result =
+			ToUnicodeEx((UINT)wParam, scanCode, keyboardState, translatedCharacters, 4, 0, NULL) > 0) {
+			c = translatedCharacters[0];
+		}
+
+		return c;
+	}
 }

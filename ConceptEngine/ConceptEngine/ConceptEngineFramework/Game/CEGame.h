@@ -38,18 +38,32 @@ namespace ConceptEngineFramework {
 			void CreateGraphicsManager(Graphics::API graphicsAPI);
 
 			virtual void OnMouseDown(WPARAM btnState, int x, int y) {
+				const auto keyState = WParamToKeyCode(btnState);
+				m_playground->OnMouseDown(keyState, x, y);
 			}
 
 			virtual void OnMouseUp(WPARAM btnState, int x, int y) {
+				const auto keyState = WParamToKeyCode(btnState);
+				m_playground->OnMouseUp(keyState, x, y);
 			}
 
 			virtual void OnMouseMove(WPARAM btnState, int x, int y) {
+				const auto keyState = WParamToKeyCode(btnState);
+				m_playground->OnMouseMove(keyState, x, y);
 			}
 
-			virtual void OnKeyUp(WPARAM btnState) {
+			virtual void OnKeyUp(WPARAM btnState, LPARAM btnValue) {
+				auto keyState = WParamToKeyCode(btnState);
+				auto keyChar = (wchar_t*)CharFromParams(btnState, btnValue);
+				const std::wstring wKeyChar(keyChar);
+				m_playground->OnKeyUp(keyState, wKeyChar);
 			}
 
-			virtual void OnKeyDown(WPARAM btnState) {
+			virtual void OnKeyDown(WPARAM btnState, LPARAM btnValue) {
+				auto keyState = WParamToKeyCode(btnState);
+				auto keyChar = (wchar_t*)CharFromParams(btnState, btnValue);
+				const std::wstring wKeyChar(keyChar);
+				m_playground->OnKeyDown(keyState, wKeyChar);
 			}
 
 		protected:

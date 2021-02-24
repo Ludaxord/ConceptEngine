@@ -232,7 +232,7 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_LBUTTONUP:
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
-		OnMouseDown(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		OnMouseUp(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		return 0;
 	case WM_MOUSEMOVE:
 		OnMouseMove(wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
@@ -243,12 +243,12 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			PostQuitMessage(0);
 		}
 		else {
-			OnKeyUp(wParam);
+			OnKeyUp(wParam, lParam);
 		}
 		return 0;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
-		OnKeyDown(wParam);
+		OnKeyDown(wParam, lParam);
 		return 0;
 	}
 
