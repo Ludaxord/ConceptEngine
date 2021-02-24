@@ -126,5 +126,7 @@
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELandscapePixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELandscapeVertexShader.hlsl" />
   </ItemGroup>
 </Project>
