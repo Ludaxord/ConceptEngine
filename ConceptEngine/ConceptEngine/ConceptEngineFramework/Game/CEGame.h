@@ -64,6 +64,18 @@ namespace ConceptEngineFramework {
 				m_playground->OnKeyDown(keyState, (char)keyChar);
 			}
 
+			virtual void OnMouseWheel(WPARAM wParam, LPARAM lParam, HWND hwnd) {
+				auto keyState = WParamToKeyCode(wParam);
+				float zDelta = ((int)(short)HIWORD(wParam)) / (float)WHEEL_DELTA;
+				int x = ((int)(short)LOWORD(lParam));
+				int y = ((int)(short)HIWORD(lParam));
+				POINT screenToClientPoint;
+				screenToClientPoint.x = x;
+				screenToClientPoint.y = y;
+				::ScreenToClient(hwnd, &screenToClientPoint);
+				m_playground->OnMouseWheel(keyState, zDelta, (int)screenToClientPoint.x, (int)screenToClientPoint.y);
+			}
+
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;

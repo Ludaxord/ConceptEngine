@@ -20,12 +20,13 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
 		void OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
+		void OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) override;
 
 	private:
 		void BuildShadersAndInputLayout();
 		void BuildBoxGeometry();
 		void BuildPSO();
-
+		
 	private:
 		std::unique_ptr<Resources::CEUploadBuffer<Resources::CEObjectConstants>> mObjectCB = nullptr;
 

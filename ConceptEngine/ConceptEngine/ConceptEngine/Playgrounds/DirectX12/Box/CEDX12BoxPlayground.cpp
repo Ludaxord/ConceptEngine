@@ -210,66 +210,43 @@ void CEDX12BoxPlayground::Resize() {
 }
 
 void CEDX12BoxPlayground::OnMouseDown(ConceptEngineFramework::Game::KeyCode key, int x, int y) {
-	std::string keyName;
-	switch (key) {
-	case ConceptEngineFramework::Game::KeyCode::LButton:
-		keyName = "Left Mouse button";
-		break;
-	case ConceptEngineFramework::Game::KeyCode::RButton:
-		keyName = "Right Mouse Button";
-		break;
-	case ConceptEngineFramework::Game::KeyCode::MButton:
-		keyName = "Middle Mouse Button";
-		break;
-	default:
-		keyName = "None";
-		break;
-	}
-	std::stringstream ss;
-	ss << "MOUSE BUTTON DOWN: " << keyName << " X: " << x << " Y: " << y;
-	spdlog::info(ss.str());
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
+
+	SetCapture(m_dx12manager->GetWindowHandle());
 }
 
 void CEDX12BoxPlayground::OnMouseUp(ConceptEngineFramework::Game::KeyCode key, int x, int y) {
-	std::string keyName;
-	switch (key) {
-	case ConceptEngineFramework::Game::KeyCode::LButton:
-		keyName = "Left Mouse button";
-		break;
-	case ConceptEngineFramework::Game::KeyCode::RButton:
-		keyName = "Right Mouse Button";
-		break;
-	case ConceptEngineFramework::Game::KeyCode::MButton:
-		keyName = "Middle Mouse Button";
-		break;
-	default:
-		keyName = "None";
-		break;
-	}
-	std::stringstream ss;
-	ss << "MOUSE BUTTON UP: " << keyName << " X: " << x << " Y: " << y;
-	spdlog::info(ss.str());
+	ReleaseCapture();
 }
 
 void CEDX12BoxPlayground::OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) {
-	std::string keyName;
-	switch (key) {
-	case ConceptEngineFramework::Game::KeyCode::LButton:
-		keyName = "Left Mouse button";
-		break;
-	case ConceptEngineFramework::Game::KeyCode::RButton:
-		keyName = "Right Mouse Button";
-		break;
-	case ConceptEngineFramework::Game::KeyCode::MButton:
-		keyName = "Middle Mouse Button";
-		break;
-	default:
-		keyName = "None";
-		break;
+	static const float Pi = 3.1415926535f;
+	if (key == ConceptEngineFramework::Game::KeyCode::LButton) {
+		//Make each pixel correspond to quarter of degree
+		float dx = XMConvertToRadians(0.25f * static_cast<float>(x - mLastMousePos.x));
+		float dy = XMConvertToRadians(0.25f * static_cast<float>(y - mLastMousePos.y));
+
+		//Update angles based on input to orbit camera around box;
+		mTheta += dx;
+		mPhi += dy;
+
+		//Restrict angle mPhi
+		mPhi = m_dx12manager->Clamp(mPhi, 0.1f, Pi - 0.1f);
 	}
-	std::stringstream ss;
-	ss << "MOUSE MOVE: " << keyName << " X: " << x << " Y: " << y;
-	spdlog::info(ss.str());
+	else if (key == ConceptEngineFramework::Game::KeyCode::RButton) {
+		//Make each pixel correspond to 0.005 unit in scene
+		float dx = 0.005f * static_cast<float>(x - mLastMousePos.x);
+		float dy = 0.005f * static_cast<float>(y - mLastMousePos.y);
+
+		//Update camera radius based on input
+		mRadius += dx - dy;
+
+		mPhi = m_dx12manager->Clamp(mRadius, 3.0f, 15.0f);
+	}
+
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
 }
 
 void CEDX12BoxPlayground::OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) {
@@ -278,6 +255,10 @@ void CEDX12BoxPlayground::OnKeyUp(ConceptEngineFramework::Game::KeyCode key, cha
 
 void CEDX12BoxPlayground::OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) {
 	spdlog::info("KEYBOARD DOWN KEY: {}", keyChar);
+}
+
+void CEDX12BoxPlayground::OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) {
+
 }
 
 void CEDX12BoxPlayground::BuildShadersAndInputLayout() {

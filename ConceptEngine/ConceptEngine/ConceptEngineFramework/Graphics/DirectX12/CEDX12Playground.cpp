@@ -41,3 +41,6 @@ void CEDX12Playground::OnKeyUp(Game::KeyCode key, char keyChar) {
 
 void CEDX12Playground::OnKeyDown(Game::KeyCode key, char keyChar) {
 }
+
+void CEDX12Playground::OnMouseWheel(Game::KeyCode key, float wheelDelta, int x, int y) {
+}

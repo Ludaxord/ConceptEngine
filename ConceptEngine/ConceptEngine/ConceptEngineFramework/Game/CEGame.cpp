@@ -250,6 +250,10 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_SYSKEYDOWN:
 		OnKeyDown(wParam, lParam);
 		return 0;
+	case WM_MOUSEWHEEL: {
+		OnMouseWheel(wParam, lParam, hwnd);
+	}
+		return 0;
 	}
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);

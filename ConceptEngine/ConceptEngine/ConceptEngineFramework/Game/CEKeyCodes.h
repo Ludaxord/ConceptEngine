@@ -47,7 +47,8 @@ namespace ConceptEngineFramework::Game {
 		// IMI Hanguel mode (Use HangulMode)
 		HangulMode = 0x15,
 		// IMI Hangul mode
-		// 0x16 is undefined
+		WheelButton = 0x16,
+		// 0x16 is undefined or Middle Button
 		JunjaMode = 0x17,
 		// IMI Janja mode
 		FinalMode = 0x18,

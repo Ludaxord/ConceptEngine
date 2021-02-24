@@ -76,6 +76,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 
 		float GetWindowWidth() const;
 		float GetWindowHeight() const;
+		HWND GetWindowHandle() const;
 		float GetAspectRatio() const;
 
 		int GetCurrentBackBufferIndex() const;
@@ -128,6 +129,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		                         const std::string& entryPoint,
 		                         const std::string& target) const;
 
+		template <typename T>
+		static T Clamp(const T& x, const T& low, const T& high) {
+			return x < low ? low : (x > high ? high : x);
+		}
 
 	protected:
 		friend class CEGame;
@@ -147,7 +152,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
 		void LogDirectXInfo() const;
 
-	private:
 		static const UINT BufferCount = 3;
 
 		Microsoft::WRL::ComPtr<IDXGIFactory4> m_dxgiFactory;

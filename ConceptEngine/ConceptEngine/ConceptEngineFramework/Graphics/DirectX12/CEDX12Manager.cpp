@@ -263,11 +263,15 @@ bool CEDX12Manager::IsFullScreen() const {
 }
 
 float CEDX12Manager::GetWindowWidth() const {
-	return m_window.GetWidth();
+	return (float)m_window.GetWidth();
 }
 
 float CEDX12Manager::GetWindowHeight() const {
-	return m_window.GetHeight();
+	return (float)m_window.GetHeight();
+}
+
+HWND CEDX12Manager::GetWindowHandle() const {
+	return m_window.GetWindowHandle();
 }
 
 float CEDX12Manager::GetAspectRatio() const {
