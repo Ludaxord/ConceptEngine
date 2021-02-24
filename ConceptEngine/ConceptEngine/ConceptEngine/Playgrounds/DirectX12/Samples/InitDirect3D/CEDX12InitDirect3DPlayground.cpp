@@ -2,9 +2,9 @@
 
 #include <DirectXColors.h>
 
-#include "../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
-#include "../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/d3dx12.h"
-#include "../../../../ConceptEngineFramework/Tools/CEUtils.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/d3dx12.h"
+#include "../../../../../ConceptEngineFramework/Tools/CEUtils.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 using namespace ConceptEngine::Playgrounds::DirectX12;

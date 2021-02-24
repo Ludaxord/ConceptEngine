@@ -3,9 +3,9 @@
 #include <DirectXColors.h>
 
 
-#include "../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
-#include "../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEDefaultBuffer.h"
-#include "../../../../ConceptEngineFramework/Tools/CEUtils.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEDefaultBuffer.h"
+#include "../../../../../ConceptEngineFramework/Tools/CEUtils.h"
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
 

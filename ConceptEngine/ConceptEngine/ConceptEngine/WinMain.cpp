@@ -1,8 +1,8 @@
 #include <memory>
 #include <Windows.h>
 #include "../ConceptEngineFramework/CEFramework.h"
-#include "Playgrounds/DirectX12/Box/CEDX12BoxPlayground.h"
-#include "Playgrounds/DirectX12/InitDirect3D/CEDX12InitDirect3DPlayground.h"
+#include "Playgrounds/DirectX12/Samples/Box/CEDX12BoxPlayground.h"
+#include "Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
 
 using namespace ConceptEngineFramework;
 using namespace ConceptEngine::Playgrounds::DirectX12;

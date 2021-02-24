@@ -2,8 +2,7 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
-
-#include "../../../../ConceptEngine/Playgrounds/DirectX12/Box/CEDX12BoxPlayground.h"
+#include "../Libraries/d3dx12.h"
 #include "../../../Tools/CEUtils.h"
 
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
