@@ -54,16 +54,14 @@ namespace ConceptEngineFramework {
 
 			virtual void OnKeyUp(WPARAM btnState, LPARAM btnValue) {
 				auto keyState = WParamToKeyCode(btnState);
-				auto keyChar = (wchar_t*)CharFromParams(btnState, btnValue);
-				const std::wstring wKeyChar(keyChar);
-				m_playground->OnKeyUp(keyState, wKeyChar);
+				auto keyChar = CharFromParams(btnState, btnValue);
+				m_playground->OnKeyUp(keyState, (char)keyChar);
 			}
 
 			virtual void OnKeyDown(WPARAM btnState, LPARAM btnValue) {
 				auto keyState = WParamToKeyCode(btnState);
-				auto keyChar = (wchar_t*)CharFromParams(btnState, btnValue);
-				const std::wstring wKeyChar(keyChar);
-				m_playground->OnKeyDown(keyState, wKeyChar);
+				auto keyChar = CharFromParams(btnState, btnValue);
+				m_playground->OnKeyDown(keyState, (char)keyChar);
 			}
 
 		protected:

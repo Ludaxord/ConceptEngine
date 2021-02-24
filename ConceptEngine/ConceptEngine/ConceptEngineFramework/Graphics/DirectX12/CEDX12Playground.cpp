@@ -36,8 +36,8 @@ void CEDX12Playground::OnMouseUp(Game::KeyCode key, int x, int y) {
 void CEDX12Playground::OnMouseMove(Game::KeyCode key, int x, int y) {
 }
 
-void CEDX12Playground::OnKeyUp(Game::KeyCode key, std::wstring keyChar) {
+void CEDX12Playground::OnKeyUp(Game::KeyCode key, char keyChar) {
 }
 
-void CEDX12Playground::OnKeyDown(Game::KeyCode key, std::wstring keyChar) {
+void CEDX12Playground::OnKeyDown(Game::KeyCode key, char keyChar) {
 }

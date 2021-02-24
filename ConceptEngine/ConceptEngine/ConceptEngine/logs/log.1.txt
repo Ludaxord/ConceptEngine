@@ -1,386 +1,1207 @@
-[2021-02-24 17:48:55.646] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-02-24 17:48:55.716] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-02-24 17:48:55.716] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-02-24 17:48:55.716] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-02-24 17:48:55.716] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-02-24 17:48:55.893] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-02-24 17:48:56.056] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-02-24 17:48:56.056] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-02-24 17:48:56.056] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 59940/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 60000/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 72000/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 75000/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 99982/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 99982/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 119880/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 119880/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 120000/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 120000/1000
-[2021-02-24 17:48:56.058] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 143945/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 143945/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 59940/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 60000/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 99982/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 99982/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 119880/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 119880/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 120000/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 120000/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 143945/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 143945/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 50000/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 99982/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 99982/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 119880/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 119880/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 120000/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 120000/1000
-[2021-02-24 17:48:56.059] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 143945/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 143945/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 56250/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 60317/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 72188/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 75000/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 99982/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 99982/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 119880/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 119880/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 120000/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 120000/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 143945/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 143945/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 60004/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 70069/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 75029/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.060] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 75000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 99982/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 99982/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 119880/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 119880/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 120000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 120000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 143945/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 143945/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
-[2021-02-24 17:48:56.061] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 50000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 59940/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 60000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 99982/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 99982/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 119880/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 119880/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 120000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 120000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 143945/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 143945/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 60000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 60000/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.062] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 60000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 60000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 99982/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 99982/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 119880/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 119880/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 120000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 120000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 143945/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 143945/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 60000/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 99982/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 99982/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 119880/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 119880/1000
-[2021-02-24 17:48:56.063] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 120000/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 120000/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 143945/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 143945/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 60020/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 75025/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 99982/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 99982/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 119880/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 119880/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 120000/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 120000/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 143945/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 143945/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.064] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 99982/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 119880/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 120000/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 143945/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 59887/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 99982/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 99982/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 119880/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 119880/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 120000/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 120000/1000
-[2021-02-24 17:48:56.065] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 143945/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 143945/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 99982/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 99982/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 119880/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 119880/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 120000/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 120000/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 143945/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 143945/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 99982/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 99982/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 119880/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 119880/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 120000/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 120000/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 143945/1000
-[2021-02-24 17:48:56.066] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 143945/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 59973/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 59973/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 84964/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 84964/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 99982/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 99982/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 120000/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 120000/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 144000/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 144000/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 59954/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 99982/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 99982/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 119880/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 119880/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 120000/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 120000/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 143945/1000
-[2021-02-24 17:48:56.067] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 143945/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 50000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 59940/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 60000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 99982/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 99982/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 119880/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 120000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 143945/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 143945/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 59973/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 59973/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 84964/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 84964/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 99982/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 99982/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 120000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 120000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 144000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 144000/1000
-[2021-02-24 17:48:56.068] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 59973/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 59973/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 84964/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 84964/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 99982/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 99982/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 120000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 120000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 144000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 144000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 23980/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 23980/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 24000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 24000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 25000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 25000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 29970/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 29970/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 30000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 30000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 50000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 50000/1000
-[2021-02-24 17:48:56.069] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 59940/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 59940/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 60000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 60000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 59976/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 99982/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 99982/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 120000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 120000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 143945/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 59973/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 59973/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 84964/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 84964/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 99982/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 99982/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 120000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 120000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 144000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 144000/1000
-[2021-02-24 17:48:56.070] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 23980/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 23980/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 24000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 24000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 25000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 25000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 29970/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 29970/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 30000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 30000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 50000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 50000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 59940/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 59940/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 60000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 60000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 59973/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 84964/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 99982/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 120000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 144000/1000
-[2021-02-24 17:48:56.071] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 23980/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 24000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 25000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 29970/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 30000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 50000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 59940/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 23980/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 23980/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 24000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 24000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 25000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 25000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 29970/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 29970/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 30000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 30000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 50000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 50000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 59940/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 59940/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 60000/1000
-[2021-02-24 17:48:56.072] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 60000/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 59940/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 60000/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 72000/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 75000/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 59940/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 60000/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 50000/1000
-[2021-02-24 17:48:56.073] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 56250/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 60317/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 72188/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 75000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 60004/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 70069/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 75029/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 59887/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 59887/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 50000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 59940/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 60000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 59887/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 59887/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 60000/1000
-[2021-02-24 17:48:56.074] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 60020/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 75025/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 59887/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 59954/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 50000/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 60000/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 60000/1001
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 50000/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 50000/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1000
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1001
-[2021-02-24 17:48:56.075] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1001
-[2021-02-24 17:48:56.111] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-02-24 17:48:56.111] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-02-24 17:48:56.111] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-02-24 17:48:56.111] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-02-24 17:48:56.111] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-02-24 17:48:56.111] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-02-24 17:48:56.117] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl
-[2021-02-24 17:48:56.123] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl
-[2021-02-24 17:48:57.135] [ConceptEngine] [info] FPS: 2259
-[2021-02-24 17:48:57.135] [ConceptEngine] [info] MSPF: 0.44267374
-[2021-02-24 17:48:58.135] [ConceptEngine] [info] FPS: 2765
-[2021-02-24 17:48:58.135] [ConceptEngine] [info] MSPF: 0.36166364
-[2021-02-24 17:49:01.947] [ConceptEngine] [info] FPS: 2743
-[2021-02-24 17:49:01.947] [ConceptEngine] [info] MSPF: 0.36456436
-[2021-02-24 17:49:03.519] [ConceptEngine] [info] FPS: 2467
-[2021-02-24 17:49:03.519] [ConceptEngine] [info] MSPF: 0.40535063
-[2021-02-24 17:49:04.519] [ConceptEngine] [info] FPS: 2384
-[2021-02-24 17:49:04.519] [ConceptEngine] [info] MSPF: 0.4194631
-[2021-02-24 17:49:05.527] [ConceptEngine] [info] FPS: 2558
-[2021-02-24 17:49:05.527] [ConceptEngine] [info] MSPF: 0.3909304
-[2021-02-24 17:49:06.519] [ConceptEngine] [info] FPS: 2838
-[2021-02-24 17:49:06.519] [ConceptEngine] [info] MSPF: 0.3523608
-[2021-02-24 17:49:07.519] [ConceptEngine] [info] FPS: 3473
-[2021-02-24 17:49:07.519] [ConceptEngine] [info] MSPF: 0.2879355
-[2021-02-24 17:49:08.694] [ConceptEngine] [info] FPS: 1830
-[2021-02-24 17:49:08.694] [ConceptEngine] [info] MSPF: 0.5464481
-[2021-02-24 17:49:09.519] [ConceptEngine] [info] FPS: 1322
-[2021-02-24 17:49:09.519] [ConceptEngine] [info] MSPF: 0.7564297
-[2021-02-24 17:49:10.519] [ConceptEngine] [info] FPS: 2835
-[2021-02-24 17:49:10.519] [ConceptEngine] [info] MSPF: 0.35273367
-[2021-02-24 17:49:11.519] [ConceptEngine] [info] FPS: 3143
-[2021-02-24 17:49:11.519] [ConceptEngine] [info] MSPF: 0.31816736
+[2021-02-24 18:57:33.515] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-02-24 18:57:33.600] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-02-24 18:57:33.600] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-02-24 18:57:33.600] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-02-24 18:57:33.600] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-02-24 18:57:33.764] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-02-24 18:57:33.955] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-02-24 18:57:33.955] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-02-24 18:57:33.955] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-02-24 18:57:33.957] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 59940/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 60000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 72000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 75000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 99982/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 99982/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 119880/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 119880/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 120000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 120000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 143945/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 143945/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 59940/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 60000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 99982/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 99982/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 119880/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 119880/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 120000/1000
+[2021-02-24 18:57:33.958] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 120000/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 143945/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 143945/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 50000/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 99982/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 99982/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 119880/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 119880/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 120000/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 120000/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 143945/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 143945/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 56250/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 60317/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 72188/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 75000/1000
+[2021-02-24 18:57:33.959] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 99982/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 99982/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 119880/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 119880/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 120000/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 120000/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 143945/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 143945/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 60004/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 70069/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 75029/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.960] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 75000/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 99982/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 99982/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 119880/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 119880/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 120000/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 120000/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 143945/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 143945/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
+[2021-02-24 18:57:33.961] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 50000/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 59940/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 60000/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 99982/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 99982/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 119880/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 119880/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 120000/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 120000/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 143945/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 143945/1000
+[2021-02-24 18:57:33.962] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 60000/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 60000/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 60000/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 60000/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 99982/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 99982/1000
+[2021-02-24 18:57:33.963] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 119880/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 119880/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 120000/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 120000/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 143945/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 143945/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 60000/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 99982/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 99982/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 119880/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 119880/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 120000/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 120000/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 143945/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 143945/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 60020/1000
+[2021-02-24 18:57:33.964] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 75025/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 99982/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 99982/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 119880/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 119880/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 120000/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 120000/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 143945/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 143945/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.965] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 99982/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 119880/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 120000/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 143945/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 59887/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 99982/1000
+[2021-02-24 18:57:33.966] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 99982/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 119880/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 119880/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 120000/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 120000/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 143945/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 143945/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 99982/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 99982/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 119880/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 119880/1000
+[2021-02-24 18:57:33.967] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 120000/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 120000/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 143945/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 143945/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 99982/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 99982/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 119880/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 119880/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 120000/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 120000/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 143945/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 143945/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 59973/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 59973/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 84964/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 84964/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 99982/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 99982/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 120000/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 120000/1000
+[2021-02-24 18:57:33.968] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 144000/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1200 Refresh = 144000/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 59954/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 99982/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 99982/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 119880/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 119880/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 120000/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 120000/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 143945/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 143945/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 50000/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 59940/1000
+[2021-02-24 18:57:33.969] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 60000/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 99982/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 99982/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 119880/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 120000/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 143945/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 143945/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 59973/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 59973/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 84964/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 84964/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 99982/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 99982/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 120000/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 120000/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 144000/1000
+[2021-02-24 18:57:33.970] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1200 Refresh = 144000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 59973/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 59973/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 84964/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 84964/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 99982/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 99982/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 120000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 120000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 144000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1440 Refresh = 144000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 23980/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 23980/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 24000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 24000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 25000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 25000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 29970/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 29970/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 30000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 30000/1000
+[2021-02-24 18:57:33.971] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 50000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 50000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 59940/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 59940/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 60000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2048 Height = 1536 Refresh = 60000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 59976/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 99982/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 99982/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 120000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 120000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1080 Refresh = 143945/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 59973/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 59973/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 84964/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 84964/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 99982/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 99982/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 120000/1000
+[2021-02-24 18:57:33.972] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 120000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 144000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1440 Refresh = 144000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 23980/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 23980/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 24000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 24000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 25000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 25000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 29970/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 29970/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 30000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 30000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 50000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 50000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 59940/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 59940/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 60000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 2560 Height = 1600 Refresh = 60000/1000
+[2021-02-24 18:57:33.973] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 59973/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 84964/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 99982/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 120000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3440 Height = 1440 Refresh = 144000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 23980/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 24000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 25000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 29970/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 30000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 50000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 59940/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 23980/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 23980/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 24000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 24000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 25000/1000
+[2021-02-24 18:57:33.974] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 25000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 29970/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 29970/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 30000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 30000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 50000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 50000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 59940/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 59940/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 60000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 7680 Height = 4320 Refresh = 60000/1000
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-02-24 18:57:33.975] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 59940/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 60000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 72000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 640 Height = 480 Refresh = 75000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 59940/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 480 Refresh = 60000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 720 Height = 576 Refresh = 50000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 56250/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 60317/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 72188/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 800 Height = 600 Refresh = 75000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 60004/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 70069/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1024 Height = 768 Refresh = 75029/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 59887/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1152 Height = 864 Refresh = 59887/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 50000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 59940/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
+[2021-02-24 18:57:33.976] [ConceptEngine] [info] *** DisplayMode: Width = 1176 Height = 664 Refresh = 60000/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 50000/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 59940/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 720 Refresh = 60000/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 800 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 960 Refresh = 60000/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 60020/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1280 Height = 1024 Refresh = 75025/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1360 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1366 Height = 768 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1440 Height = 900 Refresh = 59887/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 900 Refresh = 59954/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
+[2021-02-24 18:57:33.977] [ConceptEngine] [info] *** DisplayMode: Width = 1600 Height = 1024 Refresh = 59954/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 1680 Height = 1050 Refresh = 59954/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 50000/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 60000/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 1920 Height = 1080 Refresh = 60000/1001
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 50000/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 50000/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1000
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1001
+[2021-02-24 18:57:33.978] [ConceptEngine] [info] *** DisplayMode: Width = 3840 Height = 2160 Refresh = 60000/1001
+[2021-02-24 18:57:34.028] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-02-24 18:57:34.028] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-02-24 18:57:34.028] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-02-24 18:57:34.028] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-02-24 18:57:34.028] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-02-24 18:57:34.028] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-02-24 18:57:34.035] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl
+[2021-02-24 18:57:34.040] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl
+[2021-02-24 18:57:35.057] [ConceptEngine] [info] FPS: 2580
+[2021-02-24 18:57:35.057] [ConceptEngine] [info] MSPF: 0.3875969
+[2021-02-24 18:57:36.056] [ConceptEngine] [info] FPS: 3040
+[2021-02-24 18:57:36.056] [ConceptEngine] [info] MSPF: 0.32894737
+[2021-02-24 18:57:37.056] [ConceptEngine] [info] FPS: 3190
+[2021-02-24 18:57:37.056] [ConceptEngine] [info] MSPF: 0.31347963
+[2021-02-24 18:57:38.056] [ConceptEngine] [info] FPS: 3213
+[2021-02-24 18:57:38.056] [ConceptEngine] [info] MSPF: 0.3112356
+[2021-02-24 18:57:39.056] [ConceptEngine] [info] FPS: 3200
+[2021-02-24 18:57:39.056] [ConceptEngine] [info] MSPF: 0.3125
+[2021-02-24 18:57:40.056] [ConceptEngine] [info] FPS: 3194
+[2021-02-24 18:57:40.056] [ConceptEngine] [info] MSPF: 0.31308705
+[2021-02-24 18:57:41.056] [ConceptEngine] [info] FPS: 3169
+[2021-02-24 18:57:41.056] [ConceptEngine] [info] MSPF: 0.31555694
+[2021-02-24 18:57:42.056] [ConceptEngine] [info] FPS: 3210
+[2021-02-24 18:57:42.056] [ConceptEngine] [info] MSPF: 0.31152648
+[2021-02-24 18:57:43.056] [ConceptEngine] [info] FPS: 3155
+[2021-02-24 18:57:43.056] [ConceptEngine] [info] MSPF: 0.3169572
+[2021-02-24 18:57:44.056] [ConceptEngine] [info] FPS: 3243
+[2021-02-24 18:57:44.057] [ConceptEngine] [info] MSPF: 0.30835646
+[2021-02-24 18:57:45.056] [ConceptEngine] [info] FPS: 3211
+[2021-02-24 18:57:45.056] [ConceptEngine] [info] MSPF: 0.31142947
+[2021-02-24 18:57:46.056] [ConceptEngine] [info] FPS: 3236
+[2021-02-24 18:57:46.056] [ConceptEngine] [info] MSPF: 0.3090235
+[2021-02-24 18:57:47.056] [ConceptEngine] [info] FPS: 3223
+[2021-02-24 18:57:47.056] [ConceptEngine] [info] MSPF: 0.31026992
+[2021-02-24 18:57:48.056] [ConceptEngine] [info] FPS: 3230
+[2021-02-24 18:57:48.056] [ConceptEngine] [info] MSPF: 0.30959752
+[2021-02-24 18:57:49.056] [ConceptEngine] [info] FPS: 3210
+[2021-02-24 18:57:49.056] [ConceptEngine] [info] MSPF: 0.31152648
+[2021-02-24 18:57:50.057] [ConceptEngine] [info] FPS: 3270
+[2021-02-24 18:57:50.057] [ConceptEngine] [info] MSPF: 0.3058104
+[2021-02-24 18:57:51.056] [ConceptEngine] [info] FPS: 3259
+[2021-02-24 18:57:51.056] [ConceptEngine] [info] MSPF: 0.3068426
+[2021-02-24 18:57:52.056] [ConceptEngine] [info] FPS: 3267
+[2021-02-24 18:57:52.056] [ConceptEngine] [info] MSPF: 0.30609122
+[2021-02-24 18:57:53.056] [ConceptEngine] [info] FPS: 3275
+[2021-02-24 18:57:53.056] [ConceptEngine] [info] MSPF: 0.3053435
+[2021-02-24 18:57:54.057] [ConceptEngine] [info] FPS: 3230
+[2021-02-24 18:57:54.057] [ConceptEngine] [info] MSPF: 0.30959752
+[2021-02-24 18:57:55.056] [ConceptEngine] [info] FPS: 3252
+[2021-02-24 18:57:55.056] [ConceptEngine] [info] MSPF: 0.30750307
+[2021-02-24 18:57:56.056] [ConceptEngine] [info] FPS: 3269
+[2021-02-24 18:57:56.056] [ConceptEngine] [info] MSPF: 0.30590394
+[2021-02-24 18:57:57.057] [ConceptEngine] [info] FPS: 3266
+[2021-02-24 18:57:57.057] [ConceptEngine] [info] MSPF: 0.30618495
+[2021-02-24 18:57:58.056] [ConceptEngine] [info] FPS: 3318
+[2021-02-24 18:57:58.056] [ConceptEngine] [info] MSPF: 0.3013864
+[2021-02-24 18:57:59.056] [ConceptEngine] [info] FPS: 3241
+[2021-02-24 18:57:59.056] [ConceptEngine] [info] MSPF: 0.30854675
+[2021-02-24 18:58:00.056] [ConceptEngine] [info] FPS: 3243
+[2021-02-24 18:58:00.056] [ConceptEngine] [info] MSPF: 0.30835646
+[2021-02-24 18:58:01.056] [ConceptEngine] [info] FPS: 3274
+[2021-02-24 18:58:01.056] [ConceptEngine] [info] MSPF: 0.30543676
+[2021-02-24 18:58:02.056] [ConceptEngine] [info] FPS: 3271
+[2021-02-24 18:58:02.056] [ConceptEngine] [info] MSPF: 0.3057169
+[2021-02-24 18:58:03.056] [ConceptEngine] [info] FPS: 3224
+[2021-02-24 18:58:03.056] [ConceptEngine] [info] MSPF: 0.3101737
+[2021-02-24 18:58:04.056] [ConceptEngine] [info] FPS: 3250
+[2021-02-24 18:58:04.056] [ConceptEngine] [info] MSPF: 0.30769232
+[2021-02-24 18:58:05.056] [ConceptEngine] [info] FPS: 3238
+[2021-02-24 18:58:05.056] [ConceptEngine] [info] MSPF: 0.30883262
+[2021-02-24 18:58:06.056] [ConceptEngine] [info] FPS: 3269
+[2021-02-24 18:58:06.056] [ConceptEngine] [info] MSPF: 0.30590394
+[2021-02-24 18:58:07.056] [ConceptEngine] [info] FPS: 3261
+[2021-02-24 18:58:07.056] [ConceptEngine] [info] MSPF: 0.3066544
+[2021-02-24 18:58:08.056] [ConceptEngine] [info] FPS: 3236
+[2021-02-24 18:58:08.056] [ConceptEngine] [info] MSPF: 0.3090235
+[2021-02-24 18:58:09.056] [ConceptEngine] [info] FPS: 3279
+[2021-02-24 18:58:09.056] [ConceptEngine] [info] MSPF: 0.30497104
+[2021-02-24 18:58:10.056] [ConceptEngine] [info] FPS: 3285
+[2021-02-24 18:58:10.056] [ConceptEngine] [info] MSPF: 0.304414
+[2021-02-24 18:58:11.056] [ConceptEngine] [info] FPS: 3288
+[2021-02-24 18:58:11.056] [ConceptEngine] [info] MSPF: 0.30413625
+[2021-02-24 18:58:12.056] [ConceptEngine] [info] FPS: 3273
+[2021-02-24 18:58:12.056] [ConceptEngine] [info] MSPF: 0.3055301
+[2021-02-24 18:58:13.056] [ConceptEngine] [info] FPS: 3263
+[2021-02-24 18:58:13.056] [ConceptEngine] [info] MSPF: 0.30646643
+[2021-02-24 18:58:14.056] [ConceptEngine] [info] FPS: 3264
+[2021-02-24 18:58:14.056] [ConceptEngine] [info] MSPF: 0.30637255
+[2021-02-24 18:58:15.056] [ConceptEngine] [info] FPS: 3264
+[2021-02-24 18:58:15.056] [ConceptEngine] [info] MSPF: 0.30637255
+[2021-02-24 18:58:16.056] [ConceptEngine] [info] FPS: 3245
+[2021-02-24 18:58:16.056] [ConceptEngine] [info] MSPF: 0.3081664
+[2021-02-24 18:58:17.056] [ConceptEngine] [info] FPS: 3264
+[2021-02-24 18:58:17.056] [ConceptEngine] [info] MSPF: 0.30637255
+[2021-02-24 18:58:18.056] [ConceptEngine] [info] FPS: 3268
+[2021-02-24 18:58:18.056] [ConceptEngine] [info] MSPF: 0.30599755
+[2021-02-24 18:58:19.056] [ConceptEngine] [info] FPS: 3256
+[2021-02-24 18:58:19.056] [ConceptEngine] [info] MSPF: 0.3071253
+[2021-02-24 18:58:20.056] [ConceptEngine] [info] FPS: 3278
+[2021-02-24 18:58:20.056] [ConceptEngine] [info] MSPF: 0.30506405
+[2021-02-24 18:58:21.056] [ConceptEngine] [info] FPS: 3260
+[2021-02-24 18:58:21.056] [ConceptEngine] [info] MSPF: 0.30674848
+[2021-02-24 18:58:22.056] [ConceptEngine] [info] FPS: 3276
+[2021-02-24 18:58:22.056] [ConceptEngine] [info] MSPF: 0.30525032
+[2021-02-24 18:58:23.056] [ConceptEngine] [info] FPS: 3248
+[2021-02-24 18:58:23.056] [ConceptEngine] [info] MSPF: 0.30788177
+[2021-02-24 18:58:24.056] [ConceptEngine] [info] FPS: 3228
+[2021-02-24 18:58:24.056] [ConceptEngine] [info] MSPF: 0.30978933
+[2021-02-24 18:58:25.056] [ConceptEngine] [info] FPS: 3256
+[2021-02-24 18:58:25.056] [ConceptEngine] [info] MSPF: 0.3071253
+[2021-02-24 18:58:26.056] [ConceptEngine] [info] FPS: 3254
+[2021-02-24 18:58:26.056] [ConceptEngine] [info] MSPF: 0.30731407
+[2021-02-24 18:58:27.056] [ConceptEngine] [info] FPS: 3296
+[2021-02-24 18:58:27.056] [ConceptEngine] [info] MSPF: 0.30339807
+[2021-02-24 18:58:28.056] [ConceptEngine] [info] FPS: 3241
+[2021-02-24 18:58:28.056] [ConceptEngine] [info] MSPF: 0.30854675
+[2021-02-24 18:58:29.056] [ConceptEngine] [info] FPS: 3268
+[2021-02-24 18:58:29.056] [ConceptEngine] [info] MSPF: 0.30599755
+[2021-02-24 18:58:30.056] [ConceptEngine] [info] FPS: 3272
+[2021-02-24 18:58:30.056] [ConceptEngine] [info] MSPF: 0.30562347
+[2021-02-24 18:58:31.056] [ConceptEngine] [info] FPS: 3278
+[2021-02-24 18:58:31.056] [ConceptEngine] [info] MSPF: 0.30506405
+[2021-02-24 18:58:32.056] [ConceptEngine] [info] FPS: 3262
+[2021-02-24 18:58:32.056] [ConceptEngine] [info] MSPF: 0.3065604
+[2021-02-24 18:58:33.056] [ConceptEngine] [info] FPS: 3253
+[2021-02-24 18:58:33.056] [ConceptEngine] [info] MSPF: 0.30740854
+[2021-02-24 18:58:34.056] [ConceptEngine] [info] FPS: 3219
+[2021-02-24 18:58:34.056] [ConceptEngine] [info] MSPF: 0.31065547
+[2021-02-24 18:58:35.056] [ConceptEngine] [info] FPS: 3263
+[2021-02-24 18:58:35.056] [ConceptEngine] [info] MSPF: 0.30646643
+[2021-02-24 18:58:36.057] [ConceptEngine] [info] FPS: 3283
+[2021-02-24 18:58:36.057] [ConceptEngine] [info] MSPF: 0.30459946
+[2021-02-24 18:58:37.056] [ConceptEngine] [info] FPS: 3249
+[2021-02-24 18:58:37.056] [ConceptEngine] [info] MSPF: 0.307787
+[2021-02-24 18:58:38.056] [ConceptEngine] [info] FPS: 3260
+[2021-02-24 18:58:38.056] [ConceptEngine] [info] MSPF: 0.30674848
+[2021-02-24 18:58:39.056] [ConceptEngine] [info] FPS: 3259
+[2021-02-24 18:58:39.056] [ConceptEngine] [info] MSPF: 0.3068426
+[2021-02-24 18:58:40.056] [ConceptEngine] [info] FPS: 3271
+[2021-02-24 18:58:40.056] [ConceptEngine] [info] MSPF: 0.3057169
+[2021-02-24 18:58:41.056] [ConceptEngine] [info] FPS: 3231
+[2021-02-24 18:58:41.056] [ConceptEngine] [info] MSPF: 0.3095017
+[2021-02-24 18:58:42.057] [ConceptEngine] [info] FPS: 3295
+[2021-02-24 18:58:42.057] [ConceptEngine] [info] MSPF: 0.30349013
+[2021-02-24 18:58:43.056] [ConceptEngine] [info] FPS: 3268
+[2021-02-24 18:58:43.056] [ConceptEngine] [info] MSPF: 0.30599755
+[2021-02-24 18:58:44.056] [ConceptEngine] [info] FPS: 3280
+[2021-02-24 18:58:44.056] [ConceptEngine] [info] MSPF: 0.30487806
+[2021-02-24 18:58:45.056] [ConceptEngine] [info] FPS: 3264
+[2021-02-24 18:58:45.056] [ConceptEngine] [info] MSPF: 0.30637255
+[2021-02-24 18:58:46.056] [ConceptEngine] [info] FPS: 3314
+[2021-02-24 18:58:46.056] [ConceptEngine] [info] MSPF: 0.30175015
+[2021-02-24 18:58:47.056] [ConceptEngine] [info] FPS: 3256
+[2021-02-24 18:58:47.056] [ConceptEngine] [info] MSPF: 0.3071253
+[2021-02-24 18:58:48.056] [ConceptEngine] [info] FPS: 3280
+[2021-02-24 18:58:48.056] [ConceptEngine] [info] MSPF: 0.30487806
+[2021-02-24 18:58:49.056] [ConceptEngine] [info] FPS: 3266
+[2021-02-24 18:58:49.056] [ConceptEngine] [info] MSPF: 0.30618495
+[2021-02-24 18:58:50.056] [ConceptEngine] [info] FPS: 3281
+[2021-02-24 18:58:50.056] [ConceptEngine] [info] MSPF: 0.30478513
+[2021-02-24 18:58:51.056] [ConceptEngine] [info] FPS: 3269
+[2021-02-24 18:58:51.056] [ConceptEngine] [info] MSPF: 0.30590394
+[2021-02-24 18:58:52.056] [ConceptEngine] [info] FPS: 3299
+[2021-02-24 18:58:52.056] [ConceptEngine] [info] MSPF: 0.30312216
+[2021-02-24 18:58:53.056] [ConceptEngine] [info] FPS: 3259
+[2021-02-24 18:58:53.056] [ConceptEngine] [info] MSPF: 0.3068426
+[2021-02-24 18:58:54.056] [ConceptEngine] [info] FPS: 3289
+[2021-02-24 18:58:54.056] [ConceptEngine] [info] MSPF: 0.30404377
+[2021-02-24 18:58:55.056] [ConceptEngine] [info] FPS: 3285
+[2021-02-24 18:58:55.056] [ConceptEngine] [info] MSPF: 0.304414
+[2021-02-24 18:58:56.056] [ConceptEngine] [info] FPS: 3244
+[2021-02-24 18:58:56.056] [ConceptEngine] [info] MSPF: 0.3082614
+[2021-02-24 18:58:57.056] [ConceptEngine] [info] FPS: 3280
+[2021-02-24 18:58:57.056] [ConceptEngine] [info] MSPF: 0.30487806
+[2021-02-24 18:58:58.056] [ConceptEngine] [info] FPS: 3269
+[2021-02-24 18:58:58.056] [ConceptEngine] [info] MSPF: 0.30590394
+[2021-02-24 18:58:59.056] [ConceptEngine] [info] FPS: 3270
+[2021-02-24 18:58:59.056] [ConceptEngine] [info] MSPF: 0.3058104
+[2021-02-24 18:59:00.056] [ConceptEngine] [info] FPS: 3252
+[2021-02-24 18:59:00.056] [ConceptEngine] [info] MSPF: 0.30750307
+[2021-02-24 18:59:01.056] [ConceptEngine] [info] FPS: 3249
+[2021-02-24 18:59:01.056] [ConceptEngine] [info] MSPF: 0.307787
+[2021-02-24 18:59:02.056] [ConceptEngine] [info] FPS: 3266
+[2021-02-24 18:59:02.056] [ConceptEngine] [info] MSPF: 0.30618495
+[2021-02-24 18:59:03.056] [ConceptEngine] [info] FPS: 3276
+[2021-02-24 18:59:03.056] [ConceptEngine] [info] MSPF: 0.30525032
+[2021-02-24 18:59:04.056] [ConceptEngine] [info] FPS: 3254
+[2021-02-24 18:59:04.056] [ConceptEngine] [info] MSPF: 0.30731407
+[2021-02-24 18:59:05.056] [ConceptEngine] [info] FPS: 3284
+[2021-02-24 18:59:05.056] [ConceptEngine] [info] MSPF: 0.3045067
+[2021-02-24 18:59:06.056] [ConceptEngine] [info] FPS: 3270
+[2021-02-24 18:59:06.057] [ConceptEngine] [info] MSPF: 0.3058104
+[2021-02-24 18:59:07.056] [ConceptEngine] [info] FPS: 3274
+[2021-02-24 18:59:07.056] [ConceptEngine] [info] MSPF: 0.30543676
+[2021-02-24 18:59:08.056] [ConceptEngine] [info] FPS: 3277
+[2021-02-24 18:59:08.056] [ConceptEngine] [info] MSPF: 0.30515715
+[2021-02-24 18:59:09.056] [ConceptEngine] [info] FPS: 3290
+[2021-02-24 18:59:09.056] [ConceptEngine] [info] MSPF: 0.30395138
+[2021-02-24 18:59:10.056] [ConceptEngine] [info] FPS: 3289
+[2021-02-24 18:59:10.056] [ConceptEngine] [info] MSPF: 0.30404377
+[2021-02-24 18:59:11.056] [ConceptEngine] [info] FPS: 3305
+[2021-02-24 18:59:11.056] [ConceptEngine] [info] MSPF: 0.30257186
+[2021-02-24 18:59:12.056] [ConceptEngine] [info] FPS: 3251
+[2021-02-24 18:59:12.056] [ConceptEngine] [info] MSPF: 0.30759767
+[2021-02-24 18:59:13.056] [ConceptEngine] [info] FPS: 3305
+[2021-02-24 18:59:13.056] [ConceptEngine] [info] MSPF: 0.30257186
+[2021-02-24 18:59:14.056] [ConceptEngine] [info] FPS: 3278
+[2021-02-24 18:59:14.056] [ConceptEngine] [info] MSPF: 0.30506405
+[2021-02-24 18:59:15.056] [ConceptEngine] [info] FPS: 3252
+[2021-02-24 18:59:15.056] [ConceptEngine] [info] MSPF: 0.30750307
+[2021-02-24 18:59:16.056] [ConceptEngine] [info] FPS: 3287
+[2021-02-24 18:59:16.056] [ConceptEngine] [info] MSPF: 0.30422878
+[2021-02-24 18:59:17.056] [ConceptEngine] [info] FPS: 3298
+[2021-02-24 18:59:17.056] [ConceptEngine] [info] MSPF: 0.30321407
+[2021-02-24 18:59:18.056] [ConceptEngine] [info] FPS: 3283
+[2021-02-24 18:59:18.056] [ConceptEngine] [info] MSPF: 0.30459946
+[2021-02-24 18:59:19.056] [ConceptEngine] [info] FPS: 3279
+[2021-02-24 18:59:19.056] [ConceptEngine] [info] MSPF: 0.30497104
+[2021-02-24 18:59:20.056] [ConceptEngine] [info] FPS: 3262
+[2021-02-24 18:59:20.056] [ConceptEngine] [info] MSPF: 0.3065604
+[2021-02-24 18:59:21.056] [ConceptEngine] [info] FPS: 3278
+[2021-02-24 18:59:21.056] [ConceptEngine] [info] MSPF: 0.30506405
+[2021-02-24 18:59:22.056] [ConceptEngine] [info] FPS: 3285
+[2021-02-24 18:59:22.056] [ConceptEngine] [info] MSPF: 0.304414
+[2021-02-24 18:59:23.056] [ConceptEngine] [info] FPS: 3283
+[2021-02-24 18:59:23.056] [ConceptEngine] [info] MSPF: 0.30459946
+[2021-02-24 18:59:24.056] [ConceptEngine] [info] FPS: 3284
+[2021-02-24 18:59:24.056] [ConceptEngine] [info] MSPF: 0.3045067
+[2021-02-24 18:59:25.056] [ConceptEngine] [info] FPS: 3219
+[2021-02-24 18:59:25.056] [ConceptEngine] [info] MSPF: 0.31065547
+[2021-02-24 18:59:26.056] [ConceptEngine] [info] FPS: 3263
+[2021-02-24 18:59:26.056] [ConceptEngine] [info] MSPF: 0.30646643
+[2021-02-24 18:59:27.056] [ConceptEngine] [info] FPS: 3285
+[2021-02-24 18:59:27.056] [ConceptEngine] [info] MSPF: 0.304414
+[2021-02-24 18:59:28.056] [ConceptEngine] [info] FPS: 3255
+[2021-02-24 18:59:28.056] [ConceptEngine] [info] MSPF: 0.30721965
+[2021-02-24 18:59:29.056] [ConceptEngine] [info] FPS: 3221
+[2021-02-24 18:59:29.056] [ConceptEngine] [info] MSPF: 0.3104626
+[2021-02-24 18:59:30.056] [ConceptEngine] [info] FPS: 3248
+[2021-02-24 18:59:30.056] [ConceptEngine] [info] MSPF: 0.30788177
+[2021-02-24 18:59:31.056] [ConceptEngine] [info] FPS: 3292
+[2021-02-24 18:59:31.056] [ConceptEngine] [info] MSPF: 0.3037667
+[2021-02-24 18:59:32.056] [ConceptEngine] [info] FPS: 3294
+[2021-02-24 18:59:32.056] [ConceptEngine] [info] MSPF: 0.30358228
+[2021-02-24 18:59:33.057] [ConceptEngine] [info] FPS: 3272
+[2021-02-24 18:59:33.057] [ConceptEngine] [info] MSPF: 0.30562347
+[2021-02-24 18:59:34.056] [ConceptEngine] [info] FPS: 3192
+[2021-02-24 18:59:34.056] [ConceptEngine] [info] MSPF: 0.3132832
+[2021-02-24 18:59:35.056] [ConceptEngine] [info] FPS: 3280
+[2021-02-24 18:59:35.056] [ConceptEngine] [info] MSPF: 0.30487806
+[2021-02-24 18:59:36.056] [ConceptEngine] [info] FPS: 3265
+[2021-02-24 18:59:36.056] [ConceptEngine] [info] MSPF: 0.3062787
+[2021-02-24 18:59:37.056] [ConceptEngine] [info] FPS: 3272
+[2021-02-24 18:59:37.056] [ConceptEngine] [info] MSPF: 0.30562347
+[2021-02-24 18:59:38.056] [ConceptEngine] [info] FPS: 3282
+[2021-02-24 18:59:38.056] [ConceptEngine] [info] MSPF: 0.30469227
+[2021-02-24 18:59:39.056] [ConceptEngine] [info] FPS: 3237
+[2021-02-24 18:59:39.056] [ConceptEngine] [info] MSPF: 0.308928
+[2021-02-24 18:59:40.056] [ConceptEngine] [info] FPS: 3274
+[2021-02-24 18:59:40.056] [ConceptEngine] [info] MSPF: 0.30543676
+[2021-02-24 18:59:41.056] [ConceptEngine] [info] FPS: 3258
+[2021-02-24 18:59:41.056] [ConceptEngine] [info] MSPF: 0.30693677
+[2021-02-24 18:59:42.057] [ConceptEngine] [info] FPS: 3233
+[2021-02-24 18:59:42.057] [ConceptEngine] [info] MSPF: 0.30931023
+[2021-02-24 18:59:43.056] [ConceptEngine] [info] FPS: 3284
+[2021-02-24 18:59:43.056] [ConceptEngine] [info] MSPF: 0.3045067
+[2021-02-24 18:59:44.056] [ConceptEngine] [info] FPS: 3274
+[2021-02-24 18:59:44.056] [ConceptEngine] [info] MSPF: 0.30543676
+[2021-02-24 18:59:45.056] [ConceptEngine] [info] FPS: 3277
+[2021-02-24 18:59:45.056] [ConceptEngine] [info] MSPF: 0.30515715
+[2021-02-24 18:59:46.056] [ConceptEngine] [info] FPS: 3236
+[2021-02-24 18:59:46.056] [ConceptEngine] [info] MSPF: 0.3090235
+[2021-02-24 18:59:47.056] [ConceptEngine] [info] FPS: 3234
+[2021-02-24 18:59:47.056] [ConceptEngine] [info] MSPF: 0.3092146
+[2021-02-24 18:59:48.056] [ConceptEngine] [info] FPS: 3277
+[2021-02-24 18:59:48.056] [ConceptEngine] [info] MSPF: 0.30515715
+[2021-02-24 18:59:49.056] [ConceptEngine] [info] FPS: 3228
+[2021-02-24 18:59:49.056] [ConceptEngine] [info] MSPF: 0.30978933
+[2021-02-24 18:59:50.056] [ConceptEngine] [info] FPS: 3273
+[2021-02-24 18:59:50.056] [ConceptEngine] [info] MSPF: 0.3055301
+[2021-02-24 18:59:51.056] [ConceptEngine] [info] FPS: 3269
+[2021-02-24 18:59:51.056] [ConceptEngine] [info] MSPF: 0.30590394
+[2021-02-24 18:59:52.056] [ConceptEngine] [info] FPS: 3272
+[2021-02-24 18:59:52.056] [ConceptEngine] [info] MSPF: 0.30562347
+[2021-02-24 18:59:53.056] [ConceptEngine] [info] FPS: 3284
+[2021-02-24 18:59:53.056] [ConceptEngine] [info] MSPF: 0.3045067
+[2021-02-24 18:59:54.056] [ConceptEngine] [info] FPS: 3271
+[2021-02-24 18:59:54.056] [ConceptEngine] [info] MSPF: 0.3057169
+[2021-02-24 18:59:55.056] [ConceptEngine] [info] FPS: 3278
+[2021-02-24 18:59:55.056] [ConceptEngine] [info] MSPF: 0.30506405
+[2021-02-24 18:59:56.056] [ConceptEngine] [info] FPS: 3298
+[2021-02-24 18:59:56.056] [ConceptEngine] [info] MSPF: 0.30321407
+[2021-02-24 18:59:57.056] [ConceptEngine] [info] FPS: 3282
+[2021-02-24 18:59:57.056] [ConceptEngine] [info] MSPF: 0.30469227
+[2021-02-24 18:59:58.056] [ConceptEngine] [info] FPS: 3279
+[2021-02-24 18:59:58.056] [ConceptEngine] [info] MSPF: 0.30497104
+[2021-02-24 18:59:59.056] [ConceptEngine] [info] FPS: 3245
+[2021-02-24 18:59:59.056] [ConceptEngine] [info] MSPF: 0.3081664
+[2021-02-24 19:00:00.056] [ConceptEngine] [info] FPS: 3261
+[2021-02-24 19:00:00.056] [ConceptEngine] [info] MSPF: 0.3066544
+[2021-02-24 19:00:01.056] [ConceptEngine] [info] FPS: 3250
+[2021-02-24 19:00:01.056] [ConceptEngine] [info] MSPF: 0.30769232
+[2021-02-24 19:00:02.056] [ConceptEngine] [info] FPS: 3315
+[2021-02-24 19:00:02.056] [ConceptEngine] [info] MSPF: 0.30165914
+[2021-02-24 19:00:03.056] [ConceptEngine] [info] FPS: 3266
+[2021-02-24 19:00:03.056] [ConceptEngine] [info] MSPF: 0.30618495
+[2021-02-24 19:00:04.056] [ConceptEngine] [info] FPS: 3290
+[2021-02-24 19:00:04.056] [ConceptEngine] [info] MSPF: 0.30395138
+[2021-02-24 19:00:05.056] [ConceptEngine] [info] FPS: 3266
+[2021-02-24 19:00:05.056] [ConceptEngine] [info] MSPF: 0.30618495
+[2021-02-24 19:00:06.056] [ConceptEngine] [info] FPS: 3276
+[2021-02-24 19:00:06.056] [ConceptEngine] [info] MSPF: 0.30525032
+[2021-02-24 19:00:07.056] [ConceptEngine] [info] FPS: 3261
+[2021-02-24 19:00:07.056] [ConceptEngine] [info] MSPF: 0.3066544
+[2021-02-24 19:00:08.056] [ConceptEngine] [info] FPS: 3263
+[2021-02-24 19:00:08.056] [ConceptEngine] [info] MSPF: 0.30646643
+[2021-02-24 19:00:09.056] [ConceptEngine] [info] FPS: 3252
+[2021-02-24 19:00:09.056] [ConceptEngine] [info] MSPF: 0.30750307
+[2021-02-24 19:00:10.056] [ConceptEngine] [info] FPS: 3267
+[2021-02-24 19:00:10.056] [ConceptEngine] [info] MSPF: 0.30609122
+[2021-02-24 19:00:11.056] [ConceptEngine] [info] FPS: 3278
+[2021-02-24 19:00:11.056] [ConceptEngine] [info] MSPF: 0.30506405
+[2021-02-24 19:00:12.056] [ConceptEngine] [info] FPS: 3279
+[2021-02-24 19:00:12.056] [ConceptEngine] [info] MSPF: 0.30497104
+[2021-02-24 19:00:13.056] [ConceptEngine] [info] FPS: 3259
+[2021-02-24 19:00:13.056] [ConceptEngine] [info] MSPF: 0.3068426
+[2021-02-24 19:00:14.056] [ConceptEngine] [info] FPS: 3260
+[2021-02-24 19:00:14.056] [ConceptEngine] [info] MSPF: 0.30674848
+[2021-02-24 19:00:15.056] [ConceptEngine] [info] FPS: 3261
+[2021-02-24 19:00:15.056] [ConceptEngine] [info] MSPF: 0.3066544
+[2021-02-24 19:00:16.056] [ConceptEngine] [info] FPS: 3267
+[2021-02-24 19:00:16.056] [ConceptEngine] [info] MSPF: 0.30609122
+[2021-02-24 19:00:17.056] [ConceptEngine] [info] FPS: 3257
+[2021-02-24 19:00:17.056] [ConceptEngine] [info] MSPF: 0.307031
+[2021-02-24 19:00:18.056] [ConceptEngine] [info] FPS: 3282
+[2021-02-24 19:00:18.056] [ConceptEngine] [info] MSPF: 0.30469227
+[2021-02-24 19:00:19.056] [ConceptEngine] [info] FPS: 3261
+[2021-02-24 19:00:19.056] [ConceptEngine] [info] MSPF: 0.3066544
+[2021-02-24 19:00:20.056] [ConceptEngine] [info] FPS: 2186
+[2021-02-24 19:00:20.056] [ConceptEngine] [info] MSPF: 0.45745653
+[2021-02-24 19:00:21.056] [ConceptEngine] [info] FPS: 1819
+[2021-02-24 19:00:21.056] [ConceptEngine] [info] MSPF: 0.5497526
+[2021-02-24 19:00:22.056] [ConceptEngine] [info] FPS: 1881
+[2021-02-24 19:00:22.056] [ConceptEngine] [info] MSPF: 0.5316321
+[2021-02-24 19:00:22.082] [ConceptEngine] [info] MOUSE MOVE: None X: 419 Y: 2
+[2021-02-24 19:00:22.084] [ConceptEngine] [info] MOUSE MOVE: None X: 425 Y: 6
+[2021-02-24 19:00:22.089] [ConceptEngine] [info] MOUSE MOVE: None X: 468 Y: 40
+[2021-02-24 19:00:22.089] [ConceptEngine] [info] MOUSE MOVE: None X: 477 Y: 47
+[2021-02-24 19:00:22.091] [ConceptEngine] [info] MOUSE MOVE: None X: 488 Y: 56
+[2021-02-24 19:00:22.093] [ConceptEngine] [info] MOUSE MOVE: None X: 507 Y: 69
+[2021-02-24 19:00:22.094] [ConceptEngine] [info] MOUSE MOVE: None X: 517 Y: 76
+[2021-02-24 19:00:22.095] [ConceptEngine] [info] MOUSE MOVE: None X: 526 Y: 83
+[2021-02-24 19:00:22.095] [ConceptEngine] [info] MOUSE MOVE: None X: 536 Y: 90
+[2021-02-24 19:00:22.096] [ConceptEngine] [info] MOUSE MOVE: None X: 546 Y: 97
+[2021-02-24 19:00:22.097] [ConceptEngine] [info] MOUSE MOVE: None X: 555 Y: 104
+[2021-02-24 19:00:22.106] [ConceptEngine] [info] MOUSE MOVE: None X: 637 Y: 161
+[2021-02-24 19:00:22.107] [ConceptEngine] [info] MOUSE MOVE: None X: 647 Y: 169
+[2021-02-24 19:00:22.108] [ConceptEngine] [info] MOUSE MOVE: None X: 658 Y: 176
+[2021-02-24 19:00:22.108] [ConceptEngine] [info] MOUSE MOVE: None X: 669 Y: 183
+[2021-02-24 19:00:22.109] [ConceptEngine] [info] MOUSE MOVE: None X: 679 Y: 190
+[2021-02-24 19:00:22.110] [ConceptEngine] [info] MOUSE MOVE: None X: 690 Y: 198
+[2021-02-24 19:00:22.111] [ConceptEngine] [info] MOUSE MOVE: None X: 701 Y: 205
+[2021-02-24 19:00:22.124] [ConceptEngine] [info] MOUSE MOVE: None X: 838 Y: 291
+[2021-02-24 19:00:22.125] [ConceptEngine] [info] MOUSE MOVE: None X: 846 Y: 297
+[2021-02-24 19:00:22.126] [ConceptEngine] [info] MOUSE MOVE: None X: 858 Y: 304
+[2021-02-24 19:00:22.126] [ConceptEngine] [info] MOUSE MOVE: None X: 872 Y: 312
+[2021-02-24 19:00:22.128] [ConceptEngine] [info] MOUSE MOVE: None X: 880 Y: 318
+[2021-02-24 19:00:22.128] [ConceptEngine] [info] MOUSE MOVE: None X: 895 Y: 326
+[2021-02-24 19:00:22.129] [ConceptEngine] [info] MOUSE MOVE: None X: 906 Y: 333
+[2021-02-24 19:00:22.130] [ConceptEngine] [info] MOUSE MOVE: None X: 917 Y: 340
+[2021-02-24 19:00:22.131] [ConceptEngine] [info] MOUSE MOVE: None X: 929 Y: 347
+[2021-02-24 19:00:22.133] [ConceptEngine] [info] MOUSE MOVE: None X: 940 Y: 354
+[2021-02-24 19:00:22.134] [ConceptEngine] [info] MOUSE MOVE: None X: 952 Y: 360
+[2021-02-24 19:00:22.139] [ConceptEngine] [info] MOUSE MOVE: None X: 1008 Y: 394
+[2021-02-24 19:00:22.139] [ConceptEngine] [info] MOUSE MOVE: None X: 1019 Y: 401
+[2021-02-24 19:00:22.141] [ConceptEngine] [info] MOUSE MOVE: None X: 1041 Y: 414
+[2021-02-24 19:00:22.143] [ConceptEngine] [info] MOUSE MOVE: None X: 1052 Y: 421
+[2021-02-24 19:00:22.143] [ConceptEngine] [info] MOUSE MOVE: None X: 1066 Y: 429
+[2021-02-24 19:00:22.144] [ConceptEngine] [info] MOUSE MOVE: None X: 1074 Y: 434
+[2021-02-24 19:00:22.145] [ConceptEngine] [info] MOUSE MOVE: None X: 1085 Y: 441
+[2021-02-24 19:00:22.146] [ConceptEngine] [info] MOUSE MOVE: None X: 1096 Y: 447
+[2021-02-24 19:00:22.156] [ConceptEngine] [info] MOUSE MOVE: None X: 1190 Y: 504
+[2021-02-24 19:00:22.157] [ConceptEngine] [info] MOUSE MOVE: None X: 1197 Y: 509
+[2021-02-24 19:00:22.157] [ConceptEngine] [info] MOUSE MOVE: None X: 1207 Y: 515
+[2021-02-24 19:00:22.158] [ConceptEngine] [info] MOUSE MOVE: None X: 1218 Y: 522
+[2021-02-24 19:00:22.159] [ConceptEngine] [info] MOUSE MOVE: None X: 1228 Y: 528
+[2021-02-24 19:00:22.161] [ConceptEngine] [info] MOUSE MOVE: None X: 1244 Y: 538
+[2021-02-24 19:00:22.163] [ConceptEngine] [info] MOUSE MOVE: None X: 1256 Y: 545
+[2021-02-24 19:00:22.163] [ConceptEngine] [info] MOUSE MOVE: None X: 1263 Y: 550
+[2021-02-24 19:00:22.164] [ConceptEngine] [info] MOUSE MOVE: None X: 1272 Y: 555
+[2021-02-24 19:00:22.165] [ConceptEngine] [info] MOUSE MOVE: None X: 1283 Y: 562
+[2021-02-24 19:00:22.166] [ConceptEngine] [info] MOUSE MOVE: None X: 1292 Y: 568
+[2021-02-24 19:00:22.173] [ConceptEngine] [info] MOUSE MOVE: None X: 1343 Y: 601
+[2021-02-24 19:00:22.174] [ConceptEngine] [info] MOUSE MOVE: None X: 1351 Y: 606
+[2021-02-24 19:00:22.174] [ConceptEngine] [info] MOUSE MOVE: None X: 1359 Y: 612
+[2021-02-24 19:00:22.175] [ConceptEngine] [info] MOUSE MOVE: None X: 1367 Y: 617
+[2021-02-24 19:00:22.176] [ConceptEngine] [info] MOUSE MOVE: None X: 1374 Y: 622
+[2021-02-24 19:00:22.177] [ConceptEngine] [info] MOUSE MOVE: None X: 1382 Y: 628
+[2021-02-24 19:00:22.178] [ConceptEngine] [info] MOUSE MOVE: None X: 1390 Y: 633
+[2021-02-24 19:00:22.179] [ConceptEngine] [info] MOUSE MOVE: None X: 1398 Y: 638
+[2021-02-24 19:00:22.180] [ConceptEngine] [info] MOUSE MOVE: None X: 1405 Y: 644
+[2021-02-24 19:00:22.189] [ConceptEngine] [info] MOUSE MOVE: None X: 1471 Y: 694
+[2021-02-24 19:00:22.190] [ConceptEngine] [info] MOUSE MOVE: None X: 1478 Y: 699
+[2021-02-24 19:00:22.191] [ConceptEngine] [info] MOUSE MOVE: None X: 1485 Y: 704
+[2021-02-24 19:00:22.192] [ConceptEngine] [info] MOUSE MOVE: None X: 1492 Y: 710
+[2021-02-24 19:00:22.193] [ConceptEngine] [info] MOUSE MOVE: None X: 1499 Y: 715
+[2021-02-24 19:00:22.194] [ConceptEngine] [info] MOUSE MOVE: None X: 1506 Y: 721
+[2021-02-24 19:00:22.206] [ConceptEngine] [info] MOUSE MOVE: None X: 1583 Y: 781
+[2021-02-24 19:00:22.207] [ConceptEngine] [info] MOUSE MOVE: None X: 1590 Y: 787
+[2021-02-24 19:00:22.207] [ConceptEngine] [info] MOUSE MOVE: None X: 1597 Y: 792
+[2021-02-24 19:00:22.208] [ConceptEngine] [info] MOUSE MOVE: None X: 1604 Y: 798
+[2021-02-24 19:00:22.210] [ConceptEngine] [info] MOUSE MOVE: None X: 1612 Y: 803
+[2021-02-24 19:00:22.211] [ConceptEngine] [info] MOUSE MOVE: None X: 1619 Y: 809
+[2021-02-24 19:00:22.211] [ConceptEngine] [info] MOUSE MOVE: None X: 1627 Y: 814
+[2021-02-24 19:00:22.212] [ConceptEngine] [info] MOUSE MOVE: None X: 1634 Y: 819
+[2021-02-24 19:00:22.214] [ConceptEngine] [info] MOUSE MOVE: None X: 1642 Y: 825
+[2021-02-24 19:00:22.215] [ConceptEngine] [info] MOUSE MOVE: None X: 1650 Y: 830
+[2021-02-24 19:00:22.215] [ConceptEngine] [info] MOUSE MOVE: None X: 1657 Y: 835
+[2021-02-24 19:00:22.216] [ConceptEngine] [info] MOUSE MOVE: None X: 1665 Y: 841
+[2021-02-24 19:00:22.222] [ConceptEngine] [info] MOUSE MOVE: None X: 1716 Y: 873
+[2021-02-24 19:00:22.224] [ConceptEngine] [info] MOUSE MOVE: None X: 1725 Y: 878
+[2021-02-24 19:00:22.224] [ConceptEngine] [info] MOUSE MOVE: None X: 1731 Y: 882
+[2021-02-24 19:00:22.225] [ConceptEngine] [info] MOUSE MOVE: None X: 1742 Y: 889
+[2021-02-24 19:00:22.226] [ConceptEngine] [info] MOUSE MOVE: None X: 1748 Y: 892
+[2021-02-24 19:00:22.227] [ConceptEngine] [info] MOUSE MOVE: None X: 1759 Y: 898
+[2021-02-24 19:00:22.228] [ConceptEngine] [info] MOUSE MOVE: None X: 1768 Y: 903
+[2021-02-24 19:00:22.230] [ConceptEngine] [info] MOUSE MOVE: None X: 1777 Y: 908
+[2021-02-24 19:00:22.231] [ConceptEngine] [info] MOUSE MOVE: None X: 1784 Y: 911
+[2021-02-24 19:00:22.239] [ConceptEngine] [info] MOUSE MOVE: None X: 1857 Y: 946
+[2021-02-24 19:00:22.239] [ConceptEngine] [info] MOUSE MOVE: None X: 1866 Y: 950
+[2021-02-24 19:00:22.240] [ConceptEngine] [info] MOUSE MOVE: None X: 1875 Y: 954
+[2021-02-24 19:00:22.241] [ConceptEngine] [info] MOUSE MOVE: None X: 1884 Y: 957
+[2021-02-24 19:00:22.242] [ConceptEngine] [info] MOUSE MOVE: None X: 1894 Y: 961
+[2021-02-24 19:00:22.244] [ConceptEngine] [info] MOUSE MOVE: None X: 1902 Y: 964
+[2021-02-24 19:00:22.245] [ConceptEngine] [info] MOUSE MOVE: None X: 1912 Y: 967
+[2021-02-24 19:00:22.464] [ConceptEngine] [info] MOUSE MOVE: None X: 1918 Y: 400
+[2021-02-24 19:00:22.465] [ConceptEngine] [info] MOUSE MOVE: None X: 1907 Y: 401
+[2021-02-24 19:00:22.465] [ConceptEngine] [info] MOUSE MOVE: None X: 1897 Y: 401
+[2021-02-24 19:00:22.472] [ConceptEngine] [info] MOUSE MOVE: None X: 1826 Y: 407
+[2021-02-24 19:00:22.474] [ConceptEngine] [info] MOUSE MOVE: None X: 1816 Y: 408
+[2021-02-24 19:00:22.474] [ConceptEngine] [info] MOUSE MOVE: None X: 1807 Y: 409
+[2021-02-24 19:00:22.476] [ConceptEngine] [info] MOUSE MOVE: None X: 1797 Y: 410
+[2021-02-24 19:00:22.477] [ConceptEngine] [info] MOUSE MOVE: None X: 1788 Y: 410
+[2021-02-24 19:00:22.478] [ConceptEngine] [info] MOUSE MOVE: None X: 1779 Y: 411
+[2021-02-24 19:00:22.478] [ConceptEngine] [info] MOUSE MOVE: None X: 1767 Y: 412
+[2021-02-24 19:00:22.480] [ConceptEngine] [info] MOUSE MOVE: None X: 1758 Y: 413
+[2021-02-24 19:00:22.489] [ConceptEngine] [info] MOUSE MOVE: None X: 1683 Y: 424
+[2021-02-24 19:00:22.490] [ConceptEngine] [info] MOUSE MOVE: None X: 1675 Y: 426
+[2021-02-24 19:00:22.491] [ConceptEngine] [info] MOUSE MOVE: None X: 1668 Y: 427
+[2021-02-24 19:00:22.492] [ConceptEngine] [info] MOUSE MOVE: None X: 1661 Y: 428
+[2021-02-24 19:00:22.492] [ConceptEngine] [info] MOUSE MOVE: None X: 1653 Y: 430
+[2021-02-24 19:00:22.494] [ConceptEngine] [info] MOUSE MOVE: None X: 1646 Y: 431
+[2021-02-24 19:00:22.496] [ConceptEngine] [info] MOUSE MOVE: None X: 1626 Y: 436
+[2021-02-24 19:00:22.498] [ConceptEngine] [info] MOUSE MOVE: None X: 1619 Y: 437
+[2021-02-24 19:00:22.498] [ConceptEngine] [info] MOUSE MOVE: None X: 1613 Y: 438
+[2021-02-24 19:00:22.499] [ConceptEngine] [info] MOUSE MOVE: None X: 1607 Y: 440
+[2021-02-24 19:00:22.501] [ConceptEngine] [info] MOUSE MOVE: None X: 1600 Y: 442
+[2021-02-24 19:00:22.506] [ConceptEngine] [info] MOUSE MOVE: None X: 1571 Y: 450
+[2021-02-24 19:00:22.506] [ConceptEngine] [info] MOUSE MOVE: None X: 1564 Y: 451
+[2021-02-24 19:00:22.508] [ConceptEngine] [info] MOUSE MOVE: None X: 1558 Y: 453
+[2021-02-24 19:00:22.509] [ConceptEngine] [info] MOUSE MOVE: None X: 1554 Y: 454
+[2021-02-24 19:00:22.510] [ConceptEngine] [info] MOUSE MOVE: None X: 1549 Y: 456
+[2021-02-24 19:00:22.511] [ConceptEngine] [info] MOUSE MOVE: None X: 1544 Y: 457
+[2021-02-24 19:00:22.512] [ConceptEngine] [info] MOUSE MOVE: None X: 1539 Y: 459
+[2021-02-24 19:00:22.512] [ConceptEngine] [info] MOUSE MOVE: None X: 1533 Y: 461
+[2021-02-24 19:00:22.513] [ConceptEngine] [info] MOUSE MOVE: None X: 1528 Y: 462
+[2021-02-24 19:00:22.524] [ConceptEngine] [info] MOUSE MOVE: None X: 1487 Y: 475
+[2021-02-24 19:00:22.525] [ConceptEngine] [info] MOUSE MOVE: None X: 1482 Y: 477
+[2021-02-24 19:00:22.525] [ConceptEngine] [info] MOUSE MOVE: None X: 1478 Y: 478
+[2021-02-24 19:00:22.526] [ConceptEngine] [info] MOUSE MOVE: None X: 1474 Y: 480
+[2021-02-24 19:00:22.526] [ConceptEngine] [info] MOUSE MOVE: None X: 1470 Y: 481
+[2021-02-24 19:00:22.527] [ConceptEngine] [info] MOUSE MOVE: None X: 1466 Y: 483
+[2021-02-24 19:00:22.529] [ConceptEngine] [info] MOUSE MOVE: None X: 1462 Y: 484
+[2021-02-24 19:00:22.530] [ConceptEngine] [info] MOUSE MOVE: None X: 1457 Y: 486
+[2021-02-24 19:00:22.530] [ConceptEngine] [info] MOUSE MOVE: None X: 1453 Y: 487
+[2021-02-24 19:00:22.531] [ConceptEngine] [info] MOUSE MOVE: None X: 1449 Y: 488
+[2021-02-24 19:00:22.532] [ConceptEngine] [info] MOUSE MOVE: None X: 1445 Y: 490
+[2021-02-24 19:00:22.533] [ConceptEngine] [info] MOUSE MOVE: None X: 1442 Y: 491
+[2021-02-24 19:00:22.535] [ConceptEngine] [info] MOUSE MOVE: None X: 1438 Y: 492
+[2021-02-24 19:00:22.535] [ConceptEngine] [info] MOUSE MOVE: None X: 1436 Y: 493
+[2021-02-24 19:00:22.539] [ConceptEngine] [info] MOUSE MOVE: None X: 1424 Y: 497
+[2021-02-24 19:00:22.540] [ConceptEngine] [info] MOUSE MOVE: None X: 1421 Y: 498
+[2021-02-24 19:00:22.540] [ConceptEngine] [info] MOUSE MOVE: None X: 1417 Y: 499
+[2021-02-24 19:00:22.541] [ConceptEngine] [info] MOUSE MOVE: None X: 1415 Y: 500
+[2021-02-24 19:00:22.542] [ConceptEngine] [info] MOUSE MOVE: None X: 1410 Y: 502
+[2021-02-24 19:00:22.544] [ConceptEngine] [info] MOUSE MOVE: None X: 1405 Y: 503
+[2021-02-24 19:00:22.545] [ConceptEngine] [info] MOUSE MOVE: None X: 1400 Y: 504
+[2021-02-24 19:00:22.546] [ConceptEngine] [info] MOUSE MOVE: None X: 1397 Y: 505
+[2021-02-24 19:00:22.547] [ConceptEngine] [info] MOUSE MOVE: None X: 1394 Y: 506
+[2021-02-24 19:00:22.548] [ConceptEngine] [info] MOUSE MOVE: None X: 1392 Y: 507
+[2021-02-24 19:00:22.557] [ConceptEngine] [info] MOUSE MOVE: None X: 1367 Y: 513
+[2021-02-24 19:00:22.558] [ConceptEngine] [info] MOUSE MOVE: None X: 1363 Y: 515
+[2021-02-24 19:00:22.559] [ConceptEngine] [info] MOUSE MOVE: None X: 1361 Y: 515
+[2021-02-24 19:00:22.559] [ConceptEngine] [info] MOUSE MOVE: None X: 1357 Y: 515
+[2021-02-24 19:00:22.560] [ConceptEngine] [info] MOUSE MOVE: None X: 1353 Y: 516
+[2021-02-24 19:00:22.561] [ConceptEngine] [info] MOUSE MOVE: None X: 1350 Y: 517
+[2021-02-24 19:00:22.562] [ConceptEngine] [info] MOUSE MOVE: None X: 1347 Y: 517
+[2021-02-24 19:00:22.575] [ConceptEngine] [info] MOUSE MOVE: None X: 1309 Y: 523
+[2021-02-24 19:00:22.576] [ConceptEngine] [info] MOUSE MOVE: None X: 1306 Y: 524
+[2021-02-24 19:00:22.577] [ConceptEngine] [info] MOUSE MOVE: None X: 1301 Y: 524
+[2021-02-24 19:00:22.578] [ConceptEngine] [info] MOUSE MOVE: None X: 1299 Y: 525
+[2021-02-24 19:00:22.579] [ConceptEngine] [info] MOUSE MOVE: None X: 1296 Y: 525
+[2021-02-24 19:00:22.580] [ConceptEngine] [info] MOUSE MOVE: None X: 1292 Y: 526
+[2021-02-24 19:00:22.580] [ConceptEngine] [info] MOUSE MOVE: None X: 1289 Y: 526
+[2021-02-24 19:00:22.581] [ConceptEngine] [info] MOUSE MOVE: None X: 1284 Y: 526
+[2021-02-24 19:00:22.582] [ConceptEngine] [info] MOUSE MOVE: None X: 1281 Y: 527
+[2021-02-24 19:00:22.583] [ConceptEngine] [info] MOUSE MOVE: None X: 1277 Y: 527
+[2021-02-24 19:00:22.589] [ConceptEngine] [info] MOUSE MOVE: None X: 1256 Y: 529
+[2021-02-24 19:00:22.590] [ConceptEngine] [info] MOUSE MOVE: None X: 1254 Y: 529
+[2021-02-24 19:00:22.593] [ConceptEngine] [info] MOUSE MOVE: None X: 1247 Y: 530
+[2021-02-24 19:00:22.594] [ConceptEngine] [info] MOUSE MOVE: None X: 1242 Y: 530
+[2021-02-24 19:00:22.594] [ConceptEngine] [info] MOUSE MOVE: None X: 1238 Y: 530
+[2021-02-24 19:00:22.595] [ConceptEngine] [info] MOUSE MOVE: None X: 1235 Y: 530
+[2021-02-24 19:00:22.596] [ConceptEngine] [info] MOUSE MOVE: None X: 1232 Y: 531
+[2021-02-24 19:00:22.597] [ConceptEngine] [info] MOUSE MOVE: None X: 1228 Y: 531
+[2021-02-24 19:00:22.606] [ConceptEngine] [info] MOUSE MOVE: None X: 1201 Y: 532
+[2021-02-24 19:00:22.607] [ConceptEngine] [info] MOUSE MOVE: None X: 1196 Y: 532
+[2021-02-24 19:00:22.608] [ConceptEngine] [info] MOUSE MOVE: None X: 1194 Y: 532
+[2021-02-24 19:00:22.608] [ConceptEngine] [info] MOUSE MOVE: None X: 1191 Y: 532
+[2021-02-24 19:00:22.609] [ConceptEngine] [info] MOUSE MOVE: None X: 1187 Y: 532
+[2021-02-24 19:00:22.610] [ConceptEngine] [info] MOUSE MOVE: None X: 1184 Y: 532
+[2021-02-24 19:00:22.611] [ConceptEngine] [info] MOUSE MOVE: None X: 1181 Y: 532
+[2021-02-24 19:00:22.623] [ConceptEngine] [info] MOUSE MOVE: None X: 1148 Y: 533
+[2021-02-24 19:00:22.623] [ConceptEngine] [info] MOUSE MOVE: None X: 1145 Y: 533
+[2021-02-24 19:00:22.624] [ConceptEngine] [info] MOUSE MOVE: None X: 1143 Y: 533
+[2021-02-24 19:00:22.625] [ConceptEngine] [info] MOUSE MOVE: None X: 1140 Y: 533
+[2021-02-24 19:00:22.627] [ConceptEngine] [info] MOUSE MOVE: None X: 1138 Y: 533
+[2021-02-24 19:00:22.627] [ConceptEngine] [info] MOUSE MOVE: None X: 1135 Y: 533
+[2021-02-24 19:00:22.628] [ConceptEngine] [info] MOUSE MOVE: None X: 1133 Y: 533
+[2021-02-24 19:00:22.629] [ConceptEngine] [info] MOUSE MOVE: None X: 1131 Y: 533
+[2021-02-24 19:00:22.630] [ConceptEngine] [info] MOUSE MOVE: None X: 1128 Y: 533
+[2021-02-24 19:00:22.632] [ConceptEngine] [info] MOUSE MOVE: None X: 1126 Y: 533
+[2021-02-24 19:00:22.633] [ConceptEngine] [info] MOUSE MOVE: None X: 1124 Y: 533
+[2021-02-24 19:00:22.634] [ConceptEngine] [info] MOUSE MOVE: None X: 1122 Y: 533
+[2021-02-24 19:00:22.634] [ConceptEngine] [info] MOUSE MOVE: None X: 1120 Y: 534
+[2021-02-24 19:00:22.635] [ConceptEngine] [info] MOUSE MOVE: None X: 1118 Y: 534
+[2021-02-24 19:00:22.636] [ConceptEngine] [info] MOUSE MOVE: None X: 1116 Y: 534
+[2021-02-24 19:00:22.637] [ConceptEngine] [info] MOUSE MOVE: None X: 1113 Y: 534
+[2021-02-24 19:00:22.638] [ConceptEngine] [info] MOUSE MOVE: None X: 1112 Y: 534
+[2021-02-24 19:00:22.639] [ConceptEngine] [info] MOUSE MOVE: None X: 1110 Y: 534
+[2021-02-24 19:00:22.641] [ConceptEngine] [info] MOUSE MOVE: None X: 1109 Y: 534
+[2021-02-24 19:00:22.641] [ConceptEngine] [info] MOUSE MOVE: None X: 1106 Y: 534
+[2021-02-24 19:00:22.642] [ConceptEngine] [info] MOUSE MOVE: None X: 1105 Y: 535
+[2021-02-24 19:00:22.643] [ConceptEngine] [info] MOUSE MOVE: None X: 1103 Y: 535
+[2021-02-24 19:00:22.644] [ConceptEngine] [info] MOUSE MOVE: None X: 1102 Y: 535
+[2021-02-24 19:00:22.645] [ConceptEngine] [info] MOUSE MOVE: None X: 1100 Y: 535
+[2021-02-24 19:00:22.647] [ConceptEngine] [info] MOUSE MOVE: None X: 1097 Y: 535
+[2021-02-24 19:00:22.648] [ConceptEngine] [info] MOUSE MOVE: None X: 1096 Y: 536
+[2021-02-24 19:00:22.649] [ConceptEngine] [info] MOUSE MOVE: None X: 1094 Y: 536
+[2021-02-24 19:00:22.650] [ConceptEngine] [info] MOUSE MOVE: None X: 1093 Y: 536
+[2021-02-24 19:00:22.651] [ConceptEngine] [info] MOUSE MOVE: None X: 1092 Y: 536
+[2021-02-24 19:00:22.652] [ConceptEngine] [info] MOUSE MOVE: None X: 1090 Y: 536
+[2021-02-24 19:00:22.653] [ConceptEngine] [info] MOUSE MOVE: None X: 1089 Y: 536
+[2021-02-24 19:00:22.655] [ConceptEngine] [info] MOUSE MOVE: None X: 1087 Y: 537
+[2021-02-24 19:00:22.656] [ConceptEngine] [info] MOUSE MOVE: None X: 1086 Y: 537
+[2021-02-24 19:00:22.657] [ConceptEngine] [info] MOUSE MOVE: None X: 1084 Y: 537
+[2021-02-24 19:00:22.658] [ConceptEngine] [info] MOUSE MOVE: None X: 1083 Y: 537
+[2021-02-24 19:00:22.659] [ConceptEngine] [info] MOUSE MOVE: None X: 1082 Y: 537
+[2021-02-24 19:00:22.660] [ConceptEngine] [info] MOUSE MOVE: None X: 1081 Y: 538
+[2021-02-24 19:00:22.662] [ConceptEngine] [info] MOUSE MOVE: None X: 1080 Y: 538
+[2021-02-24 19:00:22.663] [ConceptEngine] [info] MOUSE MOVE: None X: 1079 Y: 538
+[2021-02-24 19:00:22.663] [ConceptEngine] [info] MOUSE MOVE: None X: 1078 Y: 538
+[2021-02-24 19:00:22.664] [ConceptEngine] [info] MOUSE MOVE: None X: 1077 Y: 538
+[2021-02-24 19:00:22.665] [ConceptEngine] [info] MOUSE MOVE: None X: 1076 Y: 538
+[2021-02-24 19:00:22.666] [ConceptEngine] [info] MOUSE MOVE: None X: 1075 Y: 539
+[2021-02-24 19:00:22.668] [ConceptEngine] [info] MOUSE MOVE: None X: 1074 Y: 539
+[2021-02-24 19:00:22.668] [ConceptEngine] [info] MOUSE MOVE: None X: 1073 Y: 539
+[2021-02-24 19:00:22.669] [ConceptEngine] [info] MOUSE MOVE: None X: 1072 Y: 539
+[2021-02-24 19:00:22.670] [ConceptEngine] [info] MOUSE MOVE: None X: 1071 Y: 539
+[2021-02-24 19:00:22.671] [ConceptEngine] [info] MOUSE MOVE: None X: 1069 Y: 540
+[2021-02-24 19:00:22.672] [ConceptEngine] [info] MOUSE MOVE: None X: 1068 Y: 540
+[2021-02-24 19:00:22.673] [ConceptEngine] [info] MOUSE MOVE: None X: 1067 Y: 540
+[2021-02-24 19:00:22.675] [ConceptEngine] [info] MOUSE MOVE: None X: 1066 Y: 540
+[2021-02-24 19:00:22.676] [ConceptEngine] [info] MOUSE MOVE: None X: 1065 Y: 540
+[2021-02-24 19:00:22.678] [ConceptEngine] [info] MOUSE MOVE: None X: 1064 Y: 541
+[2021-02-24 19:00:22.678] [ConceptEngine] [info] MOUSE MOVE: None X: 1063 Y: 541
+[2021-02-24 19:00:22.679] [ConceptEngine] [info] MOUSE MOVE: None X: 1062 Y: 541
+[2021-02-24 19:00:22.680] [ConceptEngine] [info] MOUSE MOVE: None X: 1061 Y: 541
+[2021-02-24 19:00:22.682] [ConceptEngine] [info] MOUSE MOVE: None X: 1060 Y: 541
+[2021-02-24 19:00:22.683] [ConceptEngine] [info] MOUSE MOVE: None X: 1059 Y: 541
+[2021-02-24 19:00:22.683] [ConceptEngine] [info] MOUSE MOVE: None X: 1059 Y: 542
+[2021-02-24 19:00:22.684] [ConceptEngine] [info] MOUSE MOVE: None X: 1058 Y: 542
+[2021-02-24 19:00:22.685] [ConceptEngine] [info] MOUSE MOVE: None X: 1057 Y: 542
+[2021-02-24 19:00:22.686] [ConceptEngine] [info] MOUSE MOVE: None X: 1056 Y: 542
+[2021-02-24 19:00:22.687] [ConceptEngine] [info] MOUSE MOVE: None X: 1055 Y: 542
+[2021-02-24 19:00:22.688] [ConceptEngine] [info] MOUSE MOVE: None X: 1054 Y: 542
+[2021-02-24 19:00:22.689] [ConceptEngine] [info] MOUSE MOVE: None X: 1053 Y: 542
+[2021-02-24 19:00:22.690] [ConceptEngine] [info] MOUSE MOVE: None X: 1052 Y: 542
+[2021-02-24 19:00:22.693] [ConceptEngine] [info] MOUSE MOVE: None X: 1051 Y: 542
+[2021-02-24 19:00:22.694] [ConceptEngine] [info] MOUSE MOVE: None X: 1050 Y: 542
+[2021-02-24 19:00:22.695] [ConceptEngine] [info] MOUSE MOVE: None X: 1049 Y: 542
+[2021-02-24 19:00:22.695] [ConceptEngine] [info] MOUSE MOVE: None X: 1048 Y: 542
+[2021-02-24 19:00:22.696] [ConceptEngine] [info] MOUSE MOVE: None X: 1047 Y: 542
+[2021-02-24 19:00:22.697] [ConceptEngine] [info] MOUSE MOVE: None X: 1046 Y: 542
+[2021-02-24 19:00:22.699] [ConceptEngine] [info] MOUSE MOVE: None X: 1045 Y: 542
+[2021-02-24 19:00:22.699] [ConceptEngine] [info] MOUSE MOVE: None X: 1044 Y: 543
+[2021-02-24 19:00:22.700] [ConceptEngine] [info] MOUSE MOVE: None X: 1043 Y: 543
+[2021-02-24 19:00:22.701] [ConceptEngine] [info] MOUSE MOVE: None X: 1042 Y: 543
+[2021-02-24 19:00:22.704] [ConceptEngine] [info] MOUSE MOVE: None X: 1040 Y: 543
+[2021-02-24 19:00:22.704] [ConceptEngine] [info] MOUSE MOVE: None X: 1039 Y: 543
+[2021-02-24 19:00:22.705] [ConceptEngine] [info] MOUSE MOVE: None X: 1038 Y: 543
+[2021-02-24 19:00:22.706] [ConceptEngine] [info] MOUSE MOVE: None X: 1037 Y: 543
+[2021-02-24 19:00:22.707] [ConceptEngine] [info] MOUSE MOVE: None X: 1036 Y: 544
+[2021-02-24 19:00:22.709] [ConceptEngine] [info] MOUSE MOVE: None X: 1035 Y: 544
+[2021-02-24 19:00:22.710] [ConceptEngine] [info] MOUSE MOVE: None X: 1032 Y: 544
+[2021-02-24 19:00:22.711] [ConceptEngine] [info] MOUSE MOVE: None X: 1031 Y: 544
+[2021-02-24 19:00:22.712] [ConceptEngine] [info] MOUSE MOVE: None X: 1030 Y: 544
+[2021-02-24 19:00:22.713] [ConceptEngine] [info] MOUSE MOVE: None X: 1029 Y: 544
+[2021-02-24 19:00:22.714] [ConceptEngine] [info] MOUSE MOVE: None X: 1028 Y: 544
+[2021-02-24 19:00:22.716] [ConceptEngine] [info] MOUSE MOVE: None X: 1026 Y: 545
+[2021-02-24 19:00:22.717] [ConceptEngine] [info] MOUSE MOVE: None X: 1025 Y: 545
+[2021-02-24 19:00:22.717] [ConceptEngine] [info] MOUSE MOVE: None X: 1024 Y: 545
+[2021-02-24 19:00:22.718] [ConceptEngine] [info] MOUSE MOVE: None X: 1023 Y: 545
+[2021-02-24 19:00:22.719] [ConceptEngine] [info] MOUSE MOVE: None X: 1021 Y: 546
+[2021-02-24 19:00:22.720] [ConceptEngine] [info] MOUSE MOVE: None X: 1020 Y: 546
+[2021-02-24 19:00:22.721] [ConceptEngine] [info] MOUSE MOVE: None X: 1019 Y: 546
+[2021-02-24 19:00:22.723] [ConceptEngine] [info] MOUSE MOVE: None X: 1017 Y: 547
+[2021-02-24 19:00:22.724] [ConceptEngine] [info] MOUSE MOVE: None X: 1016 Y: 547
+[2021-02-24 19:00:22.724] [ConceptEngine] [info] MOUSE MOVE: None X: 1014 Y: 547
+[2021-02-24 19:00:22.725] [ConceptEngine] [info] MOUSE MOVE: None X: 1013 Y: 548
+[2021-02-24 19:00:22.726] [ConceptEngine] [info] MOUSE MOVE: None X: 1011 Y: 548
+[2021-02-24 19:00:22.727] [ConceptEngine] [info] MOUSE MOVE: None X: 1009 Y: 548
+[2021-02-24 19:00:22.728] [ConceptEngine] [info] MOUSE MOVE: None X: 1008 Y: 549
+[2021-02-24 19:00:22.730] [ConceptEngine] [info] MOUSE MOVE: None X: 1007 Y: 549
+[2021-02-24 19:00:22.731] [ConceptEngine] [info] MOUSE MOVE: None X: 1005 Y: 550
+[2021-02-24 19:00:22.732] [ConceptEngine] [info] MOUSE MOVE: None X: 1004 Y: 550
+[2021-02-24 19:00:22.733] [ConceptEngine] [info] MOUSE MOVE: None X: 1003 Y: 550
+[2021-02-24 19:00:22.733] [ConceptEngine] [info] MOUSE MOVE: None X: 1001 Y: 551
+[2021-02-24 19:00:22.735] [ConceptEngine] [info] MOUSE MOVE: None X: 998 Y: 552
+[2021-02-24 19:00:22.736] [ConceptEngine] [info] MOUSE MOVE: None X: 997 Y: 552
+[2021-02-24 19:00:22.739] [ConceptEngine] [info] MOUSE MOVE: None X: 996 Y: 553
+[2021-02-24 19:00:22.739] [ConceptEngine] [info] MOUSE MOVE: None X: 994 Y: 554
+[2021-02-24 19:00:22.739] [ConceptEngine] [info] MOUSE MOVE: None X: 992 Y: 554
+[2021-02-24 19:00:22.741] [ConceptEngine] [info] MOUSE MOVE: None X: 991 Y: 555
+[2021-02-24 19:00:22.741] [ConceptEngine] [info] MOUSE MOVE: None X: 990 Y: 555
+[2021-02-24 19:00:22.742] [ConceptEngine] [info] MOUSE MOVE: None X: 989 Y: 556
+[2021-02-24 19:00:22.743] [ConceptEngine] [info] MOUSE MOVE: None X: 987 Y: 557
+[2021-02-24 19:00:22.745] [ConceptEngine] [info] MOUSE MOVE: None X: 986 Y: 557
+[2021-02-24 19:00:22.745] [ConceptEngine] [info] MOUSE MOVE: None X: 985 Y: 558
+[2021-02-24 19:00:22.747] [ConceptEngine] [info] MOUSE MOVE: None X: 984 Y: 558
+[2021-02-24 19:00:22.747] [ConceptEngine] [info] MOUSE MOVE: None X: 983 Y: 559
+[2021-02-24 19:00:22.748] [ConceptEngine] [info] MOUSE MOVE: None X: 982 Y: 560
+[2021-02-24 19:00:22.749] [ConceptEngine] [info] MOUSE MOVE: None X: 981 Y: 561
+[2021-02-24 19:00:22.751] [ConceptEngine] [info] MOUSE MOVE: None X: 979 Y: 561
+[2021-02-24 19:00:22.752] [ConceptEngine] [info] MOUSE MOVE: None X: 978 Y: 562
+[2021-02-24 19:00:22.752] [ConceptEngine] [info] MOUSE MOVE: None X: 977 Y: 562
+[2021-02-24 19:00:22.753] [ConceptEngine] [info] MOUSE MOVE: None X: 977 Y: 563
+[2021-02-24 19:00:22.755] [ConceptEngine] [info] MOUSE MOVE: None X: 975 Y: 564
+[2021-02-24 19:00:22.755] [ConceptEngine] [info] MOUSE MOVE: None X: 975 Y: 565
+[2021-02-24 19:00:22.756] [ConceptEngine] [info] MOUSE MOVE: None X: 974 Y: 565
+[2021-02-24 19:00:22.758] [ConceptEngine] [info] MOUSE MOVE: None X: 973 Y: 566
+[2021-02-24 19:00:22.759] [ConceptEngine] [info] MOUSE MOVE: None X: 972 Y: 567
+[2021-02-24 19:00:22.759] [ConceptEngine] [info] MOUSE MOVE: None X: 971 Y: 568
+[2021-02-24 19:00:22.760] [ConceptEngine] [info] MOUSE MOVE: None X: 971 Y: 569
+[2021-02-24 19:00:22.761] [ConceptEngine] [info] MOUSE MOVE: None X: 970 Y: 569
+[2021-02-24 19:00:22.762] [ConceptEngine] [info] MOUSE MOVE: None X: 969 Y: 570
+[2021-02-24 19:00:22.763] [ConceptEngine] [info] MOUSE MOVE: None X: 969 Y: 571
+[2021-02-24 19:00:22.764] [ConceptEngine] [info] MOUSE MOVE: None X: 968 Y: 572
+[2021-02-24 19:00:22.765] [ConceptEngine] [info] MOUSE MOVE: None X: 967 Y: 573
+[2021-02-24 19:00:22.766] [ConceptEngine] [info] MOUSE MOVE: None X: 966 Y: 574
+[2021-02-24 19:00:22.767] [ConceptEngine] [info] MOUSE MOVE: None X: 966 Y: 575
+[2021-02-24 19:00:22.768] [ConceptEngine] [info] MOUSE MOVE: None X: 965 Y: 576
+[2021-02-24 19:00:22.770] [ConceptEngine] [info] MOUSE MOVE: None X: 965 Y: 577
+[2021-02-24 19:00:22.771] [ConceptEngine] [info] MOUSE MOVE: None X: 964 Y: 577
+[2021-02-24 19:00:22.773] [ConceptEngine] [info] MOUSE MOVE: None X: 964 Y: 578
+[2021-02-24 19:00:22.773] [ConceptEngine] [info] MOUSE MOVE: None X: 963 Y: 579
+[2021-02-24 19:00:22.774] [ConceptEngine] [info] MOUSE MOVE: None X: 963 Y: 580
+[2021-02-24 19:00:22.776] [ConceptEngine] [info] MOUSE MOVE: None X: 962 Y: 580
+[2021-02-24 19:00:22.776] [ConceptEngine] [info] MOUSE MOVE: None X: 962 Y: 581
+[2021-02-24 19:00:22.778] [ConceptEngine] [info] MOUSE MOVE: None X: 961 Y: 582
+[2021-02-24 19:00:22.780] [ConceptEngine] [info] MOUSE MOVE: None X: 961 Y: 583
+[2021-02-24 19:00:22.783] [ConceptEngine] [info] MOUSE MOVE: None X: 961 Y: 584
+[2021-02-24 19:00:22.796] [ConceptEngine] [info] MOUSE BUTTON DOWN: Left Mouse button X: 961 Y: 584
+[2021-02-24 19:00:22.830] [ConceptEngine] [info] MOUSE MOVE: Left Mouse button X: 960 Y: 584
+[2021-02-24 19:00:22.914] [ConceptEngine] [info] MOUSE BUTTON UP: None X: 960 Y: 584
+[2021-02-24 19:00:23.056] [ConceptEngine] [info] FPS: 1301
+[2021-02-24 19:00:23.056] [ConceptEngine] [info] MSPF: 0.7686395
+[2021-02-24 19:00:23.623] [ConceptEngine] [info] KEYBOARD DOWN KEY: fлллллллллллллллллПR
+[2021-02-24 19:00:23.758] [ConceptEngine] [info] KEY CHAR: f
+[2021-02-24 19:00:23.758] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:24.056] [ConceptEngine] [info] FPS: 1619
+[2021-02-24 19:00:24.056] [ConceptEngine] [info] MSPF: 0.61766523
+[2021-02-24 19:00:24.627] [ConceptEngine] [info] KEYBOARD DOWN KEY: fллллллллллллллллл─R
+[2021-02-24 19:00:24.841] [ConceptEngine] [info] KEY CHAR: f
+[2021-02-24 19:00:24.841] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:25.056] [ConceptEngine] [info] FPS: 1526
+[2021-02-24 19:00:25.056] [ConceptEngine] [info] MSPF: 0.655308
+[2021-02-24 19:00:25.997] [ConceptEngine] [info] KEYBOARD DOWN KEY: fллллллллллллллллл`R
+[2021-02-24 19:00:26.056] [ConceptEngine] [info] FPS: 1811
+[2021-02-24 19:00:26.056] [ConceptEngine] [info] MSPF: 0.5521811
+[2021-02-24 19:00:26.106] [ConceptEngine] [info] KEY CHAR: f
+[2021-02-24 19:00:26.106] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:26.772] [ConceptEngine] [info] KEYBOARD DOWN KEY: dллллллллллллллллл0R
+[2021-02-24 19:00:26.839] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:26.839] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:27.056] [ConceptEngine] [info] FPS: 1906
+[2021-02-24 19:00:27.056] [ConceptEngine] [info] MSPF: 0.524659
+[2021-02-24 19:00:27.285] [ConceptEngine] [info] KEYBOARD DOWN KEY: sлллллллллллллллллpR
+[2021-02-24 19:00:27.389] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:27.389] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:27.750] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл`R
+[2021-02-24 19:00:27.839] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:27.839] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:28.056] [ConceptEngine] [info] FPS: 1890
+[2021-02-24 19:00:28.056] [ConceptEngine] [info] MSPF: 0.52910054
+[2021-02-24 19:00:28.061] [ConceptEngine] [info] KEYBOARD DOWN KEY: wлллллллллллллллллpЛ
+[2021-02-24 19:00:28.156] [ConceptEngine] [info] KEY CHAR: w
+[2021-02-24 19:00:28.156] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:28.322] [ConceptEngine] [info] KEYBOARD DOWN KEY: eллллллллллллллллл0R
+[2021-02-24 19:00:28.442] [ConceptEngine] [info] KEY CHAR: e
+[2021-02-24 19:00:28.442] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:28.730] [ConceptEngine] [info] KEYBOARD DOWN KEY: fллллллллллллллллл░R
+[2021-02-24 19:00:28.788] [ConceptEngine] [info] KEY CHAR: f
+[2021-02-24 19:00:28.788] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:29.056] [ConceptEngine] [info] FPS: 1844
+[2021-02-24 19:00:29.056] [ConceptEngine] [info] MSPF: 0.54229933
+[2021-02-24 19:00:29.098] [ConceptEngine] [info] KEYBOARD DOWN KEY: 
+[2021-02-24 19:00:29.108] [ConceptEngine] [info] KEY CHAR:  
+[2021-02-24 19:00:29.108] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:29.115] [ConceptEngine] [info] KEYBOARD DOWN KEY: 
+[2021-02-24 19:00:29.177] [ConceptEngine] [info] KEY CHAR:  
+[2021-02-24 19:00:29.177] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:29.574] [ConceptEngine] [info] KEYBOARD DOWN KEY: 
+[2021-02-24 19:00:30.014] [ConceptEngine] [info] KEYBOARD DOWN KEY: SлллллллллллллллллЮR
+[2021-02-24 19:00:30.056] [ConceptEngine] [info] FPS: 1869
+[2021-02-24 19:00:30.056] [ConceptEngine] [info] MSPF: 0.5350455
+[2021-02-24 19:00:30.123] [ConceptEngine] [info] KEY CHAR: S
+[2021-02-24 19:00:30.123] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:30.906] [ConceptEngine] [info] KEYBOARD DOWN KEY: 
+[2021-02-24 19:00:30.906] [ConceptEngine] [info] KEYBOARD DOWN KEY: aлллллллллллллллллЛ
+[2021-02-24 19:00:30.989] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:30.989] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:30.989] [ConceptEngine] [info] KEY CHAR:  
+[2021-02-24 19:00:30.989] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:31.056] [ConceptEngine] [info] FPS: 1660
+[2021-02-24 19:00:31.056] [ConceptEngine] [info] MSPF: 0.60240966
+[2021-02-24 19:00:32.056] [ConceptEngine] [info] FPS: 1920
+[2021-02-24 19:00:32.056] [ConceptEngine] [info] MSPF: 0.5208333
+[2021-02-24 19:00:32.158] [ConceptEngine] [info] KEY CHAR:  
+[2021-02-24 19:00:32.158] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:32.672] [ConceptEngine] [info] KEYBOARD DOWN KEY: Aллллллллллллллллл─R
+[2021-02-24 19:00:32.672] [ConceptEngine] [info] KEYBOARD DOWN KEY: SлллллллллллллллллpЛ
+[2021-02-24 19:00:32.722] [ConceptEngine] [info] KEY CHAR: S
+[2021-02-24 19:00:32.722] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:32.763] [ConceptEngine] [info] KEY CHAR: A
+[2021-02-24 19:00:32.763] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:33.056] [ConceptEngine] [info] FPS: 1703
+[2021-02-24 19:00:33.056] [ConceptEngine] [info] MSPF: 0.58719903
+[2021-02-24 19:00:33.140] [ConceptEngine] [info] KEYBOARD DOWN KEY: Sллллллллллллллллл0R
+[2021-02-24 19:00:33.273] [ConceptEngine] [info] KEYBOARD DOWN KEY: Dллллллллллллллллл`R
+[2021-02-24 19:00:33.356] [ConceptEngine] [info] KEY CHAR: S
+[2021-02-24 19:00:33.356] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:33.440] [ConceptEngine] [info] KEY CHAR: D
+[2021-02-24 19:00:33.441] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:33.739] [ConceptEngine] [info] KEYBOARD DOWN KEY: 
+[2021-02-24 19:00:33.798] [ConceptEngine] [info] KEY CHAR:  
+[2021-02-24 19:00:33.798] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:34.056] [ConceptEngine] [info] FPS: 1702
+[2021-02-24 19:00:34.056] [ConceptEngine] [info] MSPF: 0.5875441
+[2021-02-24 19:00:34.289] [ConceptEngine] [info] KEYBOARD DOWN KEY: aлллллллллллллллллpR
+[2021-02-24 19:00:34.372] [ConceptEngine] [info] KEYBOARD DOWN KEY: sллллллллллллллллл R
+[2021-02-24 19:00:34.440] [ConceptEngine] [info] KEYBOARD DOWN KEY: dллллллллллллллллл─R
+[2021-02-24 19:00:34.443] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:34.443] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:34.497] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:34.497] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:34.556] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:34.556] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:34.721] [ConceptEngine] [info] KEYBOARD DOWN KEY: aлллллллллллллллллЮR
+[2021-02-24 19:00:34.802] [ConceptEngine] [info] KEYBOARD DOWN KEY: sлллллллллллллллллюR
+[2021-02-24 19:00:34.879] [ConceptEngine] [info] KEYBOARD DOWN KEY: dллллллллллллллллл░R
+[2021-02-24 19:00:34.889] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:34.889] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:34.927] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:34.927] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.023] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл░R
+[2021-02-24 19:00:35.023] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:35.024] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.056] [ConceptEngine] [info] FPS: 1629
+[2021-02-24 19:00:35.056] [ConceptEngine] [info] MSPF: 0.61387354
+[2021-02-24 19:00:35.175] [ConceptEngine] [info] KEYBOARD DOWN KEY: sллллллллллллллллл─R
+[2021-02-24 19:00:35.265] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:35.265] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.293] [ConceptEngine] [info] KEYBOARD DOWN KEY: dллллллллллллллллл░R
+[2021-02-24 19:00:35.324] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:35.324] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.427] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл░R
+[2021-02-24 19:00:35.456] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:35.456] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.524] [ConceptEngine] [info] KEYBOARD DOWN KEY: sлллллллллллллллллЮR
+[2021-02-24 19:00:35.572] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:35.573] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.623] [ConceptEngine] [info] KEYBOARD DOWN KEY: dлллллллллллллллллR
+[2021-02-24 19:00:35.631] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:35.631] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.714] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:35.714] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.742] [ConceptEngine] [info] KEYBOARD DOWN KEY: qлллллллллллллллллPR
+[2021-02-24 19:00:35.756] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл R
+[2021-02-24 19:00:35.823] [ConceptEngine] [info] KEY CHAR: q
+[2021-02-24 19:00:35.823] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.827] [ConceptEngine] [info] KEYBOARD DOWN KEY: wлллллллллллллллллЛ
+[2021-02-24 19:00:35.828] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:35.828] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.911] [ConceptEngine] [info] KEYBOARD DOWN KEY: eлллллллллллллллллpR
+[2021-02-24 19:00:35.912] [ConceptEngine] [info] KEY CHAR: w
+[2021-02-24 19:00:35.912] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:35.954] [ConceptEngine] [info] KEY CHAR: e
+[2021-02-24 19:00:35.954] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.039] [ConceptEngine] [info] KEYBOARD DOWN KEY: zлллллллллллллллллpR
+[2021-02-24 19:00:36.056] [ConceptEngine] [info] FPS: 1807
+[2021-02-24 19:00:36.056] [ConceptEngine] [info] MSPF: 0.55340344
+[2021-02-24 19:00:36.139] [ConceptEngine] [info] KEYBOARD DOWN KEY: sллллллллллллллллл═R
+[2021-02-24 19:00:36.156] [ConceptEngine] [info] KEY CHAR: z
+[2021-02-24 19:00:36.156] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.213] [ConceptEngine] [info] KEYBOARD DOWN KEY: dлллллллллллллллллЮR
+[2021-02-24 19:00:36.216] [ConceptEngine] [info] KEYBOARD DOWN KEY: fлллллллллллллллллЮЛ
+[2021-02-24 19:00:36.232] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:36.232] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.321] [ConceptEngine] [info] KEY CHAR: f
+[2021-02-24 19:00:36.321] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.321] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:36.321] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.366] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл═R
+[2021-02-24 19:00:36.475] [ConceptEngine] [info] KEYBOARD DOWN KEY: sлллллллллллллллллpR
+[2021-02-24 19:00:36.523] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:36.523] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.528] [ConceptEngine] [info] KEYBOARD DOWN KEY: fлллллллллллллллллюR
+[2021-02-24 19:00:36.564] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:36.564] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.649] [ConceptEngine] [info] KEY CHAR: f
+[2021-02-24 19:00:36.649] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.685] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл0R
+[2021-02-24 19:00:36.746] [ConceptEngine] [info] KEYBOARD DOWN KEY: sллллллллллллллллл0R
+[2021-02-24 19:00:36.798] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:36.798] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.839] [ConceptEngine] [info] KEYBOARD DOWN KEY: dллллллллллллллллл R
+[2021-02-24 19:00:36.870] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:36.870] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:36.956] [ConceptEngine] [info] KEYBOARD DOWN KEY: aллллллллллллллллл─R
+[2021-02-24 19:00:36.968] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:36.968] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:37.056] [ConceptEngine] [info] FPS: 2921
+[2021-02-24 19:00:37.056] [ConceptEngine] [info] MSPF: 0.34234852
+[2021-02-24 19:00:37.067] [ConceptEngine] [info] KEYBOARD DOWN KEY: sллллллллллллллллл Л
+[2021-02-24 19:00:37.105] [ConceptEngine] [info] KEY CHAR: a
+[2021-02-24 19:00:37.105] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:37.111] [ConceptEngine] [info] KEYBOARD DOWN KEY: dллллллллллллллллл Л
+[2021-02-24 19:00:37.155] [ConceptEngine] [info] KEY CHAR: s
+[2021-02-24 19:00:37.155] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:37.220] [ConceptEngine] [info] KEY CHAR: d
+[2021-02-24 19:00:37.220] [ConceptEngine] [info] KEYBOARD UP KEY: 
+[2021-02-24 19:00:37.629] [ConceptEngine] [info] KEYBOARD DOWN KEY: лллллллллллллллллpR

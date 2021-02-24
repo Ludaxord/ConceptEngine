@@ -150,7 +150,7 @@ void CEDX12BoxPlayground::Render(const CETimer& gt) {
 	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetCBVDescriptorHeap().Get()};
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
-	commandList->SetGraphicsRootSignature(m_rootSignature.Get());	
+	commandList->SetGraphicsRootSignature(m_rootSignature.Get());
 
 	auto boxVertexBufferView = m_boxGeo->VertexBufferView();
 	commandList->IASetVertexBuffers(0, 1, &boxVertexBufferView);
@@ -207,6 +207,77 @@ void CEDX12BoxPlayground::Resize() {
 	// The window resized, so update the aspect ratio and recompute the projection matrix.
 	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
 	XMStoreFloat4x4(&mProj, P);
+}
+
+void CEDX12BoxPlayground::OnMouseDown(ConceptEngineFramework::Game::KeyCode key, int x, int y) {
+	std::string keyName;
+	switch (key) {
+	case ConceptEngineFramework::Game::KeyCode::LButton:
+		keyName = "Left Mouse button";
+		break;
+	case ConceptEngineFramework::Game::KeyCode::RButton:
+		keyName = "Right Mouse Button";
+		break;
+	case ConceptEngineFramework::Game::KeyCode::MButton:
+		keyName = "Middle Mouse Button";
+		break;
+	default:
+		keyName = "None";
+		break;
+	}
+	std::stringstream ss;
+	ss << "MOUSE BUTTON DOWN: " << keyName << " X: " << x << " Y: " << y;
+	spdlog::info(ss.str());
+}
+
+void CEDX12BoxPlayground::OnMouseUp(ConceptEngineFramework::Game::KeyCode key, int x, int y) {
+	std::string keyName;
+	switch (key) {
+	case ConceptEngineFramework::Game::KeyCode::LButton:
+		keyName = "Left Mouse button";
+		break;
+	case ConceptEngineFramework::Game::KeyCode::RButton:
+		keyName = "Right Mouse Button";
+		break;
+	case ConceptEngineFramework::Game::KeyCode::MButton:
+		keyName = "Middle Mouse Button";
+		break;
+	default:
+		keyName = "None";
+		break;
+	}
+	std::stringstream ss;
+	ss << "MOUSE BUTTON UP: " << keyName << " X: " << x << " Y: " << y;
+	spdlog::info(ss.str());
+}
+
+void CEDX12BoxPlayground::OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) {
+	std::string keyName;
+	switch (key) {
+	case ConceptEngineFramework::Game::KeyCode::LButton:
+		keyName = "Left Mouse button";
+		break;
+	case ConceptEngineFramework::Game::KeyCode::RButton:
+		keyName = "Right Mouse Button";
+		break;
+	case ConceptEngineFramework::Game::KeyCode::MButton:
+		keyName = "Middle Mouse Button";
+		break;
+	default:
+		keyName = "None";
+		break;
+	}
+	std::stringstream ss;
+	ss << "MOUSE MOVE: " << keyName << " X: " << x << " Y: " << y;
+	spdlog::info(ss.str());
+}
+
+void CEDX12BoxPlayground::OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) {
+	spdlog::info("KEYBOARD UP KEY: {}", keyChar);
+}
+
+void CEDX12BoxPlayground::OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) {
+	spdlog::info("KEYBOARD DOWN KEY: {}", keyChar);
 }
 
 void CEDX12BoxPlayground::BuildShadersAndInputLayout() {

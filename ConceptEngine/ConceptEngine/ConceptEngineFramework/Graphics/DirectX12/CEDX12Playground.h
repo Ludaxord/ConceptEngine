@@ -20,8 +20,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void OnMouseDown(Game::KeyCode key, int x, int y) override;
 		virtual void OnMouseUp(Game::KeyCode key, int x, int y) override;
 		virtual void OnMouseMove(Game::KeyCode key, int x, int y) override;
-		virtual void OnKeyUp(Game::KeyCode key, std::wstring keyChar) override;
-		virtual void OnKeyDown(Game::KeyCode key, std::wstring keyChar) override;
+		virtual void OnKeyUp(Game::KeyCode key, char keyChar) override;
+		virtual void OnKeyDown(Game::KeyCode key, char keyChar) override;
 	protected:
 		CEDX12Manager* m_dx12manager = nullptr;
 
