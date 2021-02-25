@@ -94,7 +94,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		}
 	};
 
-
 	struct Light {
 		XMFLOAT3 Strength = {0.5f, 0.5f, 0.5f};
 		float FalloffStart = 1.0f; // point/spot light only
@@ -147,5 +146,103 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 		Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
 		Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
+	};
+
+	struct PassConstants {
+		XMFLOAT4X4 View = MatrixIdentity4X4();
+		XMFLOAT4X4 InvView = MatrixIdentity4X4();
+		XMFLOAT4X4 Proj = MatrixIdentity4X4();
+		XMFLOAT4X4 InvProj = MatrixIdentity4X4();
+		XMFLOAT4X4 ViewProj = MatrixIdentity4X4();
+		XMFLOAT4X4 InvViewProj = MatrixIdentity4X4();
+		XMFLOAT3 EyePosW = {0.0f, 0.0f, 0.0f};
+		float cbPerObjectPad1 = 0.0f;
+		XMFLOAT2 RenderTargetSize = {0.0f, 0.0f};
+		XMFLOAT2 InvRenderTargetSize = {0.0f, 0.0f};
+		float NearZ = 0.0f;
+		float FarZ = 0.0f;
+		float TotalTime = 0.0f;
+		float DeltaTime = 0.0f;
+	};
+
+	struct RenderItem {
+		RenderItem() = default;
+	};
+
+	enum class RenderLayer : int {
+		Opaque = 0,
+		Count
+	};
+
+	//Lightweight structure stores parameters to draw shape.
+	struct LandscapeRenderItem : RenderItem {
+		LandscapeRenderItem() = default;
+
+		//World matrix of shape that describes object's local space.
+		//Relative to world space, which defines position, orientation and scale of object in world
+		XMFLOAT4X4 World = MatrixIdentity4X4();
+
+		//Dirty flag indicating object data has changed and we need to update constant buffer
+		//Because we have an object cbuffer for each resource we have to apply update to each resource
+		//Thus, when we modify object data we should set NumFramesDirty = gNumFrameResources, so that each frame resource gets update.
+		int NumFramesDirty = gNumFrameResources;
+
+		//Index into GPU constant buffer corresponding to ObjectCB for render item
+		UINT ObjCBIndex = -1;
+
+		MeshGeometry* Geo = nullptr;
+
+		//Primitive Topology
+		D3D12_PRIMITIVE_TOPOLOGY PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+		//DrawIndexedInstanced parameters
+		UINT IndexCount = 0;
+		UINT StartIndexLocation = 0;
+		int BaseVertexLocation = 0;
+	};
+
+	interface CEObject {
+	public:
+		virtual ~CEObject() = default;
+		virtual int RowCount() const = 0;
+		virtual int ColumnCount() const = 0;
+		virtual int VertexCount() const = 0;
+		virtual int TriangleCount() const = 0;
+		virtual float Width() const = 0;
+		virtual float Depth() const = 0;
+
+		// Returns the solution at the ith grid point.
+		const DirectX::XMFLOAT3& Position(int i) const { return mCurrSolution[i]; }
+
+		// Returns the solution normal at the ith grid point.
+		const DirectX::XMFLOAT3& Normal(int i) const { return mNormals[i]; }
+
+		// Returns the unit tangent vector at the ith grid point in the local x-axis direction.
+		const DirectX::XMFLOAT3& TangentX(int i) const { return mTangentX[i]; }
+
+		virtual void Update(float dt) = 0;
+		virtual void Disturb(int i, int j, float magnitude) = 0;
+
+	protected:
+		int m_numRows = 0;
+		int m_numCols = 0;
+
+		int mVertexCount = 0;
+		int mTriangleCount = 0;
+
+		// Simulation constants we can precompute.
+		float mK1 = 0.0f;
+		float mK2 = 0.0f;
+		float mK3 = 0.0f;
+
+		float mTimeStep = 0.0f;
+		float mSpatialStep = 0.0f;
+
+		std::vector<XMFLOAT3> mPrevSolution;
+		std::vector<XMFLOAT3> mCurrSolution;
+		std::vector<XMFLOAT3> mNormals;
+		std::vector<XMFLOAT3> mTangentX;
+
+	private:
 	};
 }

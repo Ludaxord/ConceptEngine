@@ -90,6 +90,12 @@
     <ClInclude Include="Graphics\DirectX12\Libraries\GeometryGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX12\Resources\CEFrameResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX12\Resources\CEWaves.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEFramework.cpp">
@@ -126,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\DirectX12\Libraries\CEGeometryGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX12\Resources\CEWaves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

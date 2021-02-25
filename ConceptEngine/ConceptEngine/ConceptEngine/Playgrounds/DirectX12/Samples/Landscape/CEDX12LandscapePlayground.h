@@ -1,10 +1,14 @@
 #pragma once
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Playground.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 
 namespace ConceptEngine::Playgrounds::DirectX12 {
 	class CEDX12LandscapePlayground final : public CEDX12Playground {
 	public:
+		CEDX12LandscapePlayground();
+
 		void Create() override;
 		void Update(const CETimer& gt) override;
 		void Render(const CETimer& gt) override;
@@ -19,6 +23,11 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 	private:
 		void BuildShadersAndInputLayout();
 		void BuildLandscapeGeometry();
+		void BuildGeometryBuffers();
+		void BuildPSOs();
+		void BuildFrameResources();
+		void BuildRenderItems();
+		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<Resources::RenderItem*>& ritems);
 
 		float GetHillsHeight(float x, float z) const;
 		XMFLOAT3 GetHillsNormal(float x, float z) const;
@@ -26,9 +35,33 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 
 		std::unordered_map<std::string, std::unique_ptr<Resources::MeshGeometry>> m_geometries;
-
 		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3DBlob>> m_shadersMap;
+		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D12PipelineState>> mPSOs;
 
 		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayout;
+
+		std::vector<std::unique_ptr<Resources::FrameResource>> mFrameResources;
+		Resources::FrameResource* mCurrFrameResource = nullptr;
+		int mCurrFrameResourceIndex = 0;
+
+		UINT mCbvSrvDescriptorSize = 0;
+
+		Resources::RenderItem* mWavesRitem = nullptr;
+
+		// List of all the render items.
+		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
+
+		// Render items divided by PSO.
+		std::vector<Resources::RenderItem*> mRitemLayer[(int)Resources::RenderLayer::Count];
+
+		std::unique_ptr<Resources::CEWaves> m_waves;
+
+		Resources::PassConstants mMainPassCB;
+
+		bool mIsWireframe = false;
+
+		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
+		float mSunTheta = 1.25f * XM_PI;
+		float mSunPhi = XM_PIDIV4;
 	};
 }

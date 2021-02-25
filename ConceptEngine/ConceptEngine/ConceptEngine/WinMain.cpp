@@ -12,8 +12,8 @@ using namespace ConceptEngine::Playgrounds::DirectX12;
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	// Graphics::CEPlayground* playground = new CEDX12InitDirect3DPlayground();
-	// Graphics::CEPlayground* playground = new CEDX12BoxPlayground();
-	Graphics::CEPlayground* playground = new CEDX12LandscapePlayground();
+	Graphics::CEPlayground* playground = new CEDX12BoxPlayground();
+	// Graphics::CEPlayground* playground = new CEDX12LandscapePlayground();
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
 	                                                     lpCmdLine,

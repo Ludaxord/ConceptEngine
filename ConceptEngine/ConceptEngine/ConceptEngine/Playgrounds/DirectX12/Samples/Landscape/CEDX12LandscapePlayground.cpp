@@ -7,6 +7,12 @@
 using namespace ConceptEngine::Playgrounds::DirectX12;
 using namespace ConceptEngineFramework::Game;
 
+CEDX12LandscapePlayground::CEDX12LandscapePlayground() {
+	mTheta = 1.5f * XM_PI;
+	mPhi = XM_PIDIV2 - 0.1f;
+	mRadius = 50.0f;
+}
+
 void CEDX12LandscapePlayground::Create() {
 	CEDX12Playground::Create();
 
@@ -41,6 +47,7 @@ void CEDX12LandscapePlayground::Create() {
 	BuildLandscapeGeometry();
 
 	//Create geometry buffers
+	BuildGeometryBuffers();
 
 	//Create Render items
 
@@ -178,6 +185,93 @@ void CEDX12LandscapePlayground::BuildLandscapeGeometry() {
 	geo->DrawArgs["grid"] = subMesh;
 
 	m_geometries["landscapeGeo"] = std::move(geo);
+}
+
+void CEDX12LandscapePlayground::BuildGeometryBuffers() {
+	std::vector<std::uint16_t> indices(3 * m_waves->TriangleCount()); //3 indices per face
+	assert(m_waves->VertexCount() < 0x0000ffff);
+
+	//Iterate over each quad
+	int m = m_waves->RowCount();
+	int n = m_waves->ColumnCount();
+	int k = 0;
+	for (int i = 0; i < m - 1; ++i) {
+		for (int j = 0; j < n - 1; ++j) {
+			indices[k] = i * n + j;
+			indices[k + 1] = i * n + j + 1;
+			indices[k + 2] = (i + 1) * n + j;
+
+			indices[k + 3] = (i + 1) * n + j;
+			indices[k + 4] = i * n + j + 1;
+			indices[k + 5] = (i + 1) * n + j + 1;
+
+			k += 6; //next quad;
+		}
+	}
+
+	UINT vbByteSize = m_waves->VertexCount() * sizeof(Resources::CEVertex);
+	UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
+
+	auto geo = std::make_unique<Resources::MeshGeometry>();
+	geo->Name = "waterGeo";
+
+	//Set dynamically
+	geo->VertexBufferCPU = nullptr;
+	geo->VertexBufferGPU = nullptr;
+
+	ThrowIfFailed(D3DCreateBlob(ibByteSize, &geo->IndexBufferCPU));
+	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
+
+	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+
+	geo->VertexByteStride = sizeof(Resources::CEVertex);
+	geo->VertexBufferByteSize = vbByteSize;
+	geo->IndexFormat = DXGI_FORMAT_R16_UINT;
+	geo->IndexBufferByteSize = ibByteSize;
+
+	Resources::SubMeshGeometry subMesh;
+	subMesh.IndexCount = (UINT)indices.size();
+	subMesh.StartIndexLocation = 0;
+	subMesh.BaseVertexLocation = 0;
+
+	geo->DrawArgs["grid"] = subMesh;
+	m_geometries["waterGeo"] = std::move(geo);
+}
+
+//TODO: Add RayTraced StateObject
+void CEDX12LandscapePlayground::BuildPSOs() {
+	auto d3dDevice = m_dx12manager->GetD3D12Device();
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc;
+
+	/*
+	 * PSO for opaque objects
+	 */
+	ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+	opaquePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
+	opaquePsoDesc.pRootSignature = m_rootSignature.Get();
+	opaquePsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["VS"]->GetBufferPointer()),
+		m_shadersMap["VS"]->GetBufferSize()
+	};
+	opaquePsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["PS"]->GetBufferPointer()),
+		m_shadersMap["PS"]->GetBufferSize()
+	};
+	opaquePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	opaquePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	opaquePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	opaquePsoDesc.SampleMask = UINT_MAX;
+}
+
+void CEDX12LandscapePlayground::BuildFrameResources() {
+}
+
+void CEDX12LandscapePlayground::BuildRenderItems() {
+}
+
+void CEDX12LandscapePlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
+                                                const std::vector<Resources::RenderItem*>& ritems) {
 }
 
 float CEDX12LandscapePlayground::GetHillsHeight(float x, float z) const {
