@@ -40,8 +40,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayout;
 
-		std::vector<std::unique_ptr<Resources::FrameResource>> mFrameResources;
-		Resources::FrameResource* mCurrFrameResource = nullptr;
+		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
+		Resources::CEFrameResource* mCurrFrameResource = nullptr;
 		int mCurrFrameResourceIndex = 0;
 
 		UINT mCbvSrvDescriptorSize = 0;

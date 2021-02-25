@@ -20,6 +20,7 @@ void CEDX12LandscapePlayground::Create() {
 	m_dx12manager->ResetCommandList();
 
 	//Create basic waves
+	m_waves = std::make_unique<Resources::CEWaves>(128, 128, 1.0f, 0.03f, 4.0f, 0.2f);
 
 	//Create Root Signature
 
@@ -50,10 +51,24 @@ void CEDX12LandscapePlayground::Create() {
 	BuildGeometryBuffers();
 
 	//Create Render items
+	BuildRenderItems();
+	BuildRenderItems();
 
 	//Create Frame resources
+	BuildFrameResources();
 
 	//Create Pipeline State Objects
+	BuildPSOs();
+
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
+	// Execute the initialization commands.
+	ThrowIfFailed(commandList->Close());
+	ID3D12CommandList* cmdsLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until initialization is complete.
+	m_dx12manager->FlushCommandQueue();
 }
 
 void CEDX12LandscapePlayground::Update(const CETimer& gt) {
@@ -262,16 +277,72 @@ void CEDX12LandscapePlayground::BuildPSOs() {
 	opaquePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	opaquePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	opaquePsoDesc.SampleMask = UINT_MAX;
+	opaquePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	opaquePsoDesc.NumRenderTargets = 1;
+	opaquePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
+	opaquePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
+	opaquePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
+	opaquePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
+
+	/*
+	 * PSO for WireFrame Objects
+	 */
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaqueWireFramePsoDesc = opaquePsoDesc;
+	opaqueWireFramePsoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
+	ThrowIfFailed(
+		d3dDevice->CreateGraphicsPipelineState(
+			&opaqueWireFramePsoDesc,
+			IID_PPV_ARGS(&mPSOs["opaque_wireframe"])
+		)
+	);
 }
 
 void CEDX12LandscapePlayground::BuildFrameResources() {
+	for (int i = 0; i < gNumFrameResources; ++i) {
+		mFrameResources.push_back(
+			std::make_unique<Resources::CEFrameResource>(
+				m_dx12manager->GetD3D12Device().Get(),
+				1,
+				(UINT)mAllRitems.size(),
+				m_waves->VertexCount()
+			)
+		);
+	}
 }
 
 void CEDX12LandscapePlayground::BuildRenderItems() {
+	auto wavesRitem = std::make_unique<Resources::LandscapeRenderItem>();
+	wavesRitem->World = Resources::MatrixIdentity4X4();
+	wavesRitem->ObjCBIndex = 0;
+	wavesRitem->Geo = m_geometries["waterGeo"].get();
+	wavesRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	wavesRitem->IndexCount = wavesRitem->Geo->DrawArgs["grid"].IndexCount;
+	wavesRitem->StartIndexLocation = wavesRitem->Geo->DrawArgs["grid"].StartIndexLocation;
+	wavesRitem->BaseVertexLocation = wavesRitem->Geo->DrawArgs["grid"].BaseVertexLocation;
+
+	mWavesRitem = wavesRitem.get();
+
+	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(wavesRitem.get());
+
+	auto gridRitem = std::make_unique<Resources::LandscapeRenderItem>();
+	gridRitem->World = Resources::MatrixIdentity4X4();
+	gridRitem->ObjCBIndex = 1;
+	gridRitem->Geo = m_geometries["landscapeGeo"].get();
+	gridRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	gridRitem->IndexCount = gridRitem->Geo->DrawArgs["grid"].IndexCount;
+	gridRitem->StartIndexLocation = gridRitem->Geo->DrawArgs["grid"].StartIndexLocation;
+	gridRitem->BaseVertexLocation = gridRitem->Geo->DrawArgs["grid"].BaseVertexLocation;
+
+	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(gridRitem.get());
+
+	mAllRitems.push_back(std::move(wavesRitem));
+	mAllRitems.push_back(std::move(gridRitem));
 }
 
 void CEDX12LandscapePlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                                 const std::vector<Resources::RenderItem*>& ritems) {
+	
 }
 
 float CEDX12LandscapePlayground::GetHillsHeight(float x, float z) const {

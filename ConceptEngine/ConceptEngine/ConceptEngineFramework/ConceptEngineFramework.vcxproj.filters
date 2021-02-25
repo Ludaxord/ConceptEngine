@@ -137,6 +137,9 @@
     <ClCompile Include="Graphics\DirectX12\Resources\CEWaves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\DirectX12\Resources\CEFrameResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl" />
