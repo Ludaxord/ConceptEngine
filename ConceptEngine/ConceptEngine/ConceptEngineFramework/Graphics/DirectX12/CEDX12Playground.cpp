@@ -27,6 +27,9 @@ void CEDX12Playground::Render(const CETimer& gt) {
 void CEDX12Playground::Resize() {
 }
 
+void CEDX12Playground::UpdateCamera(const CETimer& gt) {
+}
+
 void CEDX12Playground::OnMouseDown(Game::KeyCode key, int x, int y) {
 }
 
@@ -43,4 +46,10 @@ void CEDX12Playground::OnKeyDown(Game::KeyCode key, char keyChar) {
 }
 
 void CEDX12Playground::OnMouseWheel(Game::KeyCode key, float wheelDelta, int x, int y) {
+}
+
+void CEDX12Playground::UpdateObjectCBs(const CETimer& gt) {
+}
+
+void CEDX12Playground::UpdateMainPassCB(const CETimer& gt) {
 }

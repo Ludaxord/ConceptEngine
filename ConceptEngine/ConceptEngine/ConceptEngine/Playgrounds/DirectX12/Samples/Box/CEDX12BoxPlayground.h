@@ -5,6 +5,7 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEUploadBuffer.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
+using namespace ConceptEngineFramework::Game;
 
 namespace ConceptEngine::Playgrounds::DirectX12 {
 	class CEDX12BoxPlayground final : public CEDX12Playground {
@@ -15,18 +16,19 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void Update(const CETimer& gt) override;
 		void Render(const CETimer& gt) override;
 		void Resize() override;
-		void OnMouseDown(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
-		void OnMouseUp(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
-		void OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
-		void OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
-		void OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
-		void OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) override;
+
+		void OnMouseDown(KeyCode key, int x, int y) override;
+		void OnMouseUp(KeyCode key, int x, int y) override;
+		void OnMouseMove(KeyCode key, int x, int y) override;
+		void OnKeyUp(KeyCode key, char keyChar) override;
+		void OnKeyDown(KeyCode key, char keyChar) override;
+		void OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) override;
 
 	private:
 		void BuildShadersAndInputLayout();
 		void BuildBoxGeometry();
 		void BuildPSO();
-		
+
 	private:
 		std::unique_ptr<Resources::CEUploadBuffer<Resources::CEObjectConstants>> mObjectCB = nullptr;
 

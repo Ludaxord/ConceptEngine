@@ -13,6 +13,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void Update(const CETimer& gt) override;
 		void Render(const CETimer& gt) override;
 		void Resize() override;
+		
 		void OnMouseDown(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnMouseUp(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
@@ -20,18 +21,26 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
 		void OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) override;
 
+		void UpdateCamera(const CETimer& gt) override;
+		void UpdateObjectCBs(const CETimer& gt) override;
+		void UpdateMainPassCB(const CETimer& gt) override;
+	
 	private:
+		void UpdateWaves(const CETimer& gt);
+
 		void BuildShadersAndInputLayout();
 		void BuildLandscapeGeometry();
 		void BuildGeometryBuffers();
 		void BuildPSOs();
 		void BuildFrameResources();
 		void BuildRenderItems();
-		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<Resources::RenderItem*>& ritems);
+		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
+		                     std::vector<Resources::RenderItem*>& ritems) const;
 
 		float GetHillsHeight(float x, float z) const;
 		XMFLOAT3 GetHillsNormal(float x, float z) const;
 
+	private:
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 
 		std::unordered_map<std::string, std::unique_ptr<Resources::MeshGeometry>> m_geometries;

@@ -73,7 +73,24 @@ void CEDX12LandscapePlayground::Create() {
 
 void CEDX12LandscapePlayground::Update(const CETimer& gt) {
 	CEDX12Playground::Update(gt);
+	UpdateCamera(gt);
 
+	//Cycle through circular frame resource array.
+	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
+	mCurrFrameResource = mFrameResources[mCurrFrameResourceIndex].get();
+
+	//Has GPU finished processing commands of current frame resource
+	//If not, wait until GPU has completed commands up to this fence point
+	if (mCurrFrameResource->Fence != 0 && m_dx12manager->GetD3D12Fence()->GetCompletedValue() < mCurrFrameResource->
+		Fence) {
+		HANDLE eventHandle = CreateEventEx(nullptr, false, false, EVENT_ALL_ACCESS);
+		WaitForSingleObject(eventHandle, INFINITE);
+		CloseHandle(eventHandle);
+	}
+
+	UpdateObjectCBs(gt);
+	UpdateMainPassCB(gt);
+	UpdateWaves(gt);
 }
 
 void CEDX12LandscapePlayground::Render(const CETimer& gt) {
@@ -86,14 +103,26 @@ void CEDX12LandscapePlayground::Resize() {
 
 void CEDX12LandscapePlayground::OnMouseDown(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseDown(key, x, y);
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
+
+	SetCapture(m_dx12manager->GetWindowHandle());
 }
 
 void CEDX12LandscapePlayground::OnMouseUp(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseUp(key, x, y);
+	ReleaseCapture();
 }
 
 void CEDX12LandscapePlayground::OnMouseMove(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseMove(key, x, y);
+	static const float Pi = 3.1415926535f;
+	if (key == KeyCode::LButton) {
+
+	}
+	else if (key == KeyCode::RButton) {
+
+	}
 }
 
 void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar) {
@@ -102,10 +131,29 @@ void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar) {
 
 void CEDX12LandscapePlayground::OnKeyDown(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyDown(key, keyChar);
+	spdlog::info("KEYBOARD DOWN KEY: {}", keyChar);
+	if (key == KeyCode::D1) {
+		mIsWireframe = true;
+	}
+	else {
+		mIsWireframe = false;
+	}
 }
 
 void CEDX12LandscapePlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
 	CEDX12Playground::OnMouseWheel(key, wheelDelta, x, y);
+}
+
+void CEDX12LandscapePlayground::UpdateCamera(const CETimer& gt) {
+}
+
+void CEDX12LandscapePlayground::UpdateObjectCBs(const CETimer& gt) {
+}
+
+void CEDX12LandscapePlayground::UpdateMainPassCB(const CETimer& gt) {
+}
+
+void CEDX12LandscapePlayground::UpdateWaves(const CETimer& gt) {
 }
 
 //TODO: Implement Shader Model 6 usage with DirectXShaderCompiler
@@ -340,9 +388,30 @@ void CEDX12LandscapePlayground::BuildRenderItems() {
 	mAllRitems.push_back(std::move(gridRitem));
 }
 
+//TODO: Move to CEDX12Manager
 void CEDX12LandscapePlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-                                                const std::vector<Resources::RenderItem*>& ritems) {
-	
+                                                std::vector<Resources::RenderItem*>& ritems) const {
+	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+
+	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
+
+	//For each render item...
+	for (size_t i = 0; i < ritems.size(); ++i) {
+		auto ri = static_cast<Resources::LandscapeRenderItem*>(ritems[i]);
+
+		auto riVertexBufferView = ri->Geo->VertexBufferView();
+		auto riIndexBufferView = ri->Geo->IndexBufferView();
+
+		cmdList->IASetVertexBuffers(0, 1, &riVertexBufferView);
+		cmdList->IASetIndexBuffer(&riIndexBufferView);
+		cmdList->IASetPrimitiveTopology(ri->PrimitiveType);
+
+		D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress();
+		objCBAddress += ri->ObjCBIndex * objCBByteSize;
+
+		cmdList->SetGraphicsRootConstantBufferView(0, objCBAddress);
+		cmdList->DrawIndexedInstanced(ri->IndexCount, 1, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
+	}
 }
 
 float CEDX12LandscapePlayground::GetHillsHeight(float x, float z) const {

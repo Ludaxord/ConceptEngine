@@ -16,6 +16,8 @@ namespace ConceptEngineFramework::Graphics {
 		virtual void Update(const CETimer& gt) = 0;
 		virtual void Render(const CETimer& gt) = 0;
 		virtual void Resize() = 0;
+		virtual void UpdateCamera(const CETimer& gt) = 0;
+
 		virtual void OnMouseDown(Game::KeyCode key, int x, int y) = 0;
 		virtual void OnMouseUp(Game::KeyCode key, int x, int y) = 0;
 		virtual void OnMouseMove(Game::KeyCode key, int x, int y) = 0;
