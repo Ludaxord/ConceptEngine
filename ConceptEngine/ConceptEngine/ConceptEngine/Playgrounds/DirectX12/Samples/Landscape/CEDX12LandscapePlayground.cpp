@@ -1,6 +1,8 @@
 #include "CEDX12LandscapePlayground.h"
 
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/GeometryGenerator.h"
+#include "../../../../../ConceptEngineFramework/Tools/CEUtils.h"
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
 using namespace ConceptEngineFramework::Game;
@@ -34,8 +36,9 @@ void CEDX12LandscapePlayground::Create() {
 
 	//Create Shaders and input layout
 	BuildShadersAndInputLayout();
-	
+
 	//Create Landscape geometry
+	BuildLandscapeGeometry();
 
 	//Create geometry buffers
 
@@ -104,4 +107,92 @@ void CEDX12LandscapePlayground::BuildShadersAndInputLayout() {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
 	};
+}
+
+void CEDX12LandscapePlayground::BuildLandscapeGeometry() {
+	GeometryGenerator geometry;
+	GeometryGenerator::MeshData grid = geometry.CreateGrid(160.0f, 160.0f, 50, 50);
+
+	/*
+	 * Extract vertex elements we are interested and apply height function to each vertex
+	 * In addition, color vertices based on their height so we have sandy looking beaches, grassy low hills, and snow mountain peaks
+	 */
+
+	std::vector<Resources::CEVertex> vertices(grid.Vertices.size());
+	for (size_t i = 0; i < grid.Vertices.size(); ++i) {
+		auto& p = grid.Vertices[i].Position;
+		vertices[i].Pos = p;
+		vertices[i].Pos.y = GetHillsHeight(p.x, p.z);
+
+		//Color vertex based on its height
+		if (vertices[i].Pos.y < -10.0f) {
+			//Sandy beach color
+			vertices[i].Color = XMFLOAT4(1.0f, 0.96f, 0.62f, 1.0f);
+		}
+		else if (vertices[i].Pos.y < 5.0f) {
+			//Light yellow green
+			vertices[i].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
+		}
+		else if (vertices[i].Pos.y < 12.0f) {
+			//Dark yellow-green
+			vertices[i].Color = XMFLOAT4(0.1f, 0.48f, 0.19f, 1.0f);
+		}
+		else if (vertices[i].Pos.y < 20.0f) {
+			//Dark brown
+			vertices[i].Color = XMFLOAT4(0.45f, 0.39f, 0.34f, 1.0f);
+		}
+		else {
+			//White snow
+			vertices[i].Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+	}
+
+	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Resources::CEVertex);
+
+	std::vector<std::uint16_t> indices = grid.GetIndices16();
+	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
+
+	auto geo = std::make_unique<Resources::MeshGeometry>();
+	geo->Name = "landscapeGeo";
+
+	ThrowIfFailed(D3DCreateBlob(vbByteSize, &geo->VertexBufferCPU));
+	CopyMemory(geo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
+
+	ThrowIfFailed(D3DCreateBlob(ibByteSize, &geo->IndexBufferCPU));
+	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
+
+	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
+
+	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+
+	geo->VertexByteStride = sizeof(Resources::CEVertex);
+	geo->VertexBufferByteSize = vbByteSize;
+	geo->IndexFormat = DXGI_FORMAT_R16_UINT;
+	geo->IndexBufferByteSize = ibByteSize;
+
+	Resources::SubMeshGeometry subMesh;
+	subMesh.IndexCount = (UINT)indices.size();
+	subMesh.StartIndexLocation = 0;
+	subMesh.BaseVertexLocation = 0;
+
+	geo->DrawArgs["grid"] = subMesh;
+
+	m_geometries["landscapeGeo"] = std::move(geo);
+}
+
+float CEDX12LandscapePlayground::GetHillsHeight(float x, float z) const {
+	return 0.3f * (z * sinf(0.1f * x) + x * cosf(0.1f * z));
+}
+
+XMFLOAT3 CEDX12LandscapePlayground::GetHillsNormal(float x, float z) const {
+	XMFLOAT3 n(
+		-0.03f * z * cosf(0.1f * x) - 0.3f * cosf(0.1f * z),
+		1.0f,
+		-0.3f * sinf(0.1f * x) + 0.03f * x * sinf(0.1f * z)
+	);
+
+	XMVECTOR uintNormal = XMVector3Normalize(XMLoadFloat3(&n));
+	XMStoreFloat3(&n, uintNormal);
+
+	return n;
 }

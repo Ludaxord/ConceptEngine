@@ -35,6 +35,7 @@
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\CEGraphicsManager.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEDefaultBuffer.h" />
+    <ClInclude Include="Graphics\DirectX12\Libraries\GeometryGenerator.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CETypes.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEUploadBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\Shaders\VertexHeader.h" />
@@ -52,6 +53,7 @@
     <ClCompile Include="Game\CEWindow.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDX12Manager.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDX12Playground.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Libraries\CEGeometryGenerator.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOGLManager.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOGLPlayground.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVPlayground.cpp" />

@@ -18,8 +18,15 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 	private:
 		void BuildShadersAndInputLayout();
+		void BuildLandscapeGeometry();
+
+		float GetHillsHeight(float x, float z) const;
+		XMFLOAT3 GetHillsNormal(float x, float z) const;
 
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
+
+		std::unordered_map<std::string, std::unique_ptr<Resources::MeshGeometry>> m_geometries;
+
 		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3DBlob>> m_shadersMap;
 
 		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayout;

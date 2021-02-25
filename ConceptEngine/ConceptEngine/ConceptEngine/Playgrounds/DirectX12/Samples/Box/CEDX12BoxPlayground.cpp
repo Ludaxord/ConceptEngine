@@ -337,15 +337,11 @@ void CEDX12BoxPlayground::BuildBoxGeometry() {
 	ThrowIfFailed(D3DCreateBlob(ibByteSize, &m_boxGeo->IndexBufferCPU));
 	CopyMemory(m_boxGeo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
-	m_boxGeo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(d3dDevice.Get(),
-	                                                               d3dCommandList.Get(),
-	                                                               vertices.data(),
+	m_boxGeo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(),
 	                                                               vbByteSize,
 	                                                               m_boxGeo->VertexBufferUploader);
 
-	m_boxGeo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(d3dDevice.Get(),
-	                                                              d3dCommandList.Get(),
-	                                                              indices.data(),
+	m_boxGeo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(),
 	                                                              ibByteSize,
 	                                                              m_boxGeo->IndexBufferUploader);
 
