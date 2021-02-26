@@ -252,12 +252,12 @@ void CEDX12LandscapePlayground::OnMouseWheel(KeyCode key, float wheelDelta, int 
 }
 
 void CEDX12LandscapePlayground::UpdateCamera(const CETimer& gt) {
-	//Convert spherical to cartesian coordinates
+	// Convert Spherical to Cartesian coordinates.
 	mEyePos.x = mRadius * sinf(mPhi) * cosf(mTheta);
-	mEyePos.y = mRadius * sinf(mPhi) * sinf(mTheta);
-	mEyePos.z = mRadius * cosf(mPhi);
+	mEyePos.z = mRadius * sinf(mPhi) * sinf(mTheta);
+	mEyePos.y = mRadius * cosf(mPhi);
 
-	//Build view matrix
+	// Build the view matrix.
 	XMVECTOR pos = XMVectorSet(mEyePos.x, mEyePos.y, mEyePos.z, 1.0f);
 	XMVECTOR target = XMVectorZero();
 	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -267,21 +267,22 @@ void CEDX12LandscapePlayground::UpdateCamera(const CETimer& gt) {
 }
 
 void CEDX12LandscapePlayground::UpdateObjectCBs(const CETimer& gt) {
-	auto currentObjectCB = mCurrFrameResource->ObjectCB.get();
-	for (auto& e : mAllRitems) {
-		Resources::LandscapeRenderItem* p = static_cast<Resources::LandscapeRenderItem*>(e.get());
-		//Only update cbuffer data if constants have changed
-		//this need to be tracked per frame resource
-		if (p->NumFramesDirty > 0) {
-			XMMATRIX world = XMLoadFloat4x4(&p->World);
+	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
+	for (auto& ri : mAllRitems) {
+		Resources::LandscapeRenderItem* e = static_cast<Resources::LandscapeRenderItem*>(ri.get());
+
+		// Only update the cbuffer data if the constants have changed.  
+		// This needs to be tracked per frame resource.
+		if (e->NumFramesDirty > 0) {
+			XMMATRIX world = XMLoadFloat4x4(&e->World);
 
 			Resources::CEObjectConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 
-			currentObjectCB->CopyData(p->ObjCBIndex, objConstants);
+			currObjectCB->CopyData(e->ObjCBIndex, objConstants);
 
-			//Next FrameResource need to be updated too.
-			p->NumFramesDirty--;
+			// Next FrameResource need to be updated too.
+			e->NumFramesDirty--;
 		}
 	}
 }
@@ -295,13 +296,14 @@ void CEDX12LandscapePlayground::UpdateMainPassCB(const CETimer& gt) {
 
 	XMMATRIX viewProj = XMMatrixMultiply(view, proj);
 
-	auto viewDeterminant = XMMatrixDeterminant(view);
-	auto projDeterminant = XMMatrixDeterminant(proj);
-	auto viewProjDeterminant = XMMatrixDeterminant(viewProj);
+	auto determinantView = XMMatrixDeterminant(view);
+	XMMATRIX invView = XMMatrixInverse(&determinantView, view);
 
-	XMMATRIX invView = XMMatrixInverse(&viewDeterminant, view);
-	XMMATRIX invProj = XMMatrixInverse(&projDeterminant, proj);
-	XMMATRIX invViewProj = XMMatrixInverse(&viewProjDeterminant, viewProj);
+	auto determinantProj = XMMatrixDeterminant(proj);
+	XMMATRIX invProj = XMMatrixInverse(&determinantProj, proj);
+
+	auto determinantViewProj = XMMatrixDeterminant(viewProj);
+	XMMATRIX invViewProj = XMMatrixInverse(&determinantViewProj, viewProj);
 
 	XMStoreFloat4x4(&mMainPassCB.View, XMMatrixTranspose(view));
 	XMStoreFloat4x4(&mMainPassCB.InvView, XMMatrixTranspose(invView));
@@ -309,7 +311,6 @@ void CEDX12LandscapePlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.InvProj, XMMatrixTranspose(invProj));
 	XMStoreFloat4x4(&mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));
 	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
-
 	mMainPassCB.EyePosW = mEyePos;
 	mMainPassCB.RenderTargetSize = XMFLOAT2((float)width, (float)height);
 	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / width, 1.0f / height);
@@ -323,7 +324,7 @@ void CEDX12LandscapePlayground::UpdateMainPassCB(const CETimer& gt) {
 }
 
 void CEDX12LandscapePlayground::UpdateWaves(const CETimer& gt) {
-	//every quarter second, generate a random wave
+	// Every quarter second, generate a random wave.
 	static float t_base = 0.0f;
 	if ((gt.TotalTime() - t_base) >= 0.25f) {
 		t_base += 0.25f;
@@ -336,16 +337,16 @@ void CEDX12LandscapePlayground::UpdateWaves(const CETimer& gt) {
 		m_waves->Disturb(i, j, r);
 	}
 
-	//Update wave simulation
+	// Update the wave simulation.
 	m_waves->Update(gt.DeltaTime());
 
-	//Update wave vertex buffer with new solution
+	// Update the wave vertex buffer with the new solution.
 	auto currWavesVB = mCurrFrameResource->WavesVB.get();
 	for (int i = 0; i < m_waves->VertexCount(); ++i) {
 		Resources::CEVertex v;
 
 		v.Pos = m_waves->Position(i);
-		v.Color = XMFLOAT4(Colors::Blue);
+		v.Color = XMFLOAT4(DirectX::Colors::Blue);
 
 		currWavesVB->CopyData(i, v);
 	}
@@ -392,25 +393,25 @@ void CEDX12LandscapePlayground::BuildLandscapeGeometry() {
 		vertices[i].Pos = p;
 		vertices[i].Pos.y = GetHillsHeight(p.x, p.z);
 
-		//Color vertex based on its height
+		// Color the vertex based on its height.
 		if (vertices[i].Pos.y < -10.0f) {
-			//Sandy beach color
+			// Sandy beach color.
 			vertices[i].Color = XMFLOAT4(1.0f, 0.96f, 0.62f, 1.0f);
 		}
 		else if (vertices[i].Pos.y < 5.0f) {
-			//Light yellow green
+			// Light yellow-green.
 			vertices[i].Color = XMFLOAT4(0.48f, 0.77f, 0.46f, 1.0f);
 		}
 		else if (vertices[i].Pos.y < 12.0f) {
-			//Dark yellow-green
+			// Dark yellow-green.
 			vertices[i].Color = XMFLOAT4(0.1f, 0.48f, 0.19f, 1.0f);
 		}
 		else if (vertices[i].Pos.y < 20.0f) {
-			//Dark brown
+			// Dark brown.
 			vertices[i].Color = XMFLOAT4(0.45f, 0.39f, 0.34f, 1.0f);
 		}
 		else {
-			//White snow
+			// White snow.
 			vertices[i].Color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
@@ -452,7 +453,7 @@ void CEDX12LandscapePlayground::BuildGeometryBuffers() {
 	std::vector<std::uint16_t> indices(3 * m_waves->TriangleCount()); //3 indices per face
 	assert(m_waves->VertexCount() < 0x0000ffff);
 
-	//Iterate over each quad
+	// Iterate over each quad.
 	int m = m_waves->RowCount();
 	int n = m_waves->ColumnCount();
 	int k = 0;
@@ -466,7 +467,7 @@ void CEDX12LandscapePlayground::BuildGeometryBuffers() {
 			indices[k + 4] = i * n + j + 1;
 			indices[k + 5] = (i + 1) * n + j + 1;
 
-			k += 6; //next quad;
+			k += 6; // next quad
 		}
 	}
 
@@ -617,14 +618,14 @@ float CEDX12LandscapePlayground::GetHillsHeight(float x, float z) const {
 }
 
 XMFLOAT3 CEDX12LandscapePlayground::GetHillsNormal(float x, float z) const {
+	// n = (-df/dx, 1, -df/dz)
 	XMFLOAT3 n(
 		-0.03f * z * cosf(0.1f * x) - 0.3f * cosf(0.1f * z),
 		1.0f,
-		-0.3f * sinf(0.1f * x) + 0.03f * x * sinf(0.1f * z)
-	);
+		-0.3f * sinf(0.1f * x) + 0.03f * x * sinf(0.1f * z));
 
-	XMVECTOR uintNormal = XMVector3Normalize(XMLoadFloat3(&n));
-	XMStoreFloat3(&n, uintNormal);
+	XMVECTOR unitNormal = XMVector3Normalize(XMLoadFloat3(&n));
+	XMStoreFloat3(&n, unitNormal);
 
 	return n;
 }

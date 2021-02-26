@@ -41,5 +41,6 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3DBlob> m_psByteCode;
 
 		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayout;
+		
 	};
 }
