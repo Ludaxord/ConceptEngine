@@ -310,6 +310,14 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::GetDepthStencilBuffer() co
 	return m_depthStencilBuffer;
 }
 
+Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetFence() const {
+	return m_fence;
+}
+
+UINT64 CEDX12Manager::GetFenceValue() const {
+	return m_currentFence;
+}
+
 CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
                                                        m_tearingSupported(false),
                                                        m_rayTracingSupported(false),

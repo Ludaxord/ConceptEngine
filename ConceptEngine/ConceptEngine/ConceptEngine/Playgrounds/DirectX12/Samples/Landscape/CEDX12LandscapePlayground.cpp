@@ -83,7 +83,7 @@ void CEDX12LandscapePlayground::Update(const CETimer& gt) {
 	//If not, wait until GPU has completed commands up to this fence point
 	if (mCurrFrameResource->Fence != 0 && m_dx12manager->GetD3D12Fence()->GetCompletedValue() < mCurrFrameResource->
 		Fence) {
-		HANDLE eventHandle = CreateEventEx(nullptr, false, false, EVENT_ALL_ACCESS);
+		HANDLE eventHandle = CreateEventEx(nullptr, FALSE, FALSE, EVENT_ALL_ACCESS);
 		WaitForSingleObject(eventHandle, INFINITE);
 		CloseHandle(eventHandle);
 	}
@@ -95,10 +95,96 @@ void CEDX12LandscapePlayground::Update(const CETimer& gt) {
 
 void CEDX12LandscapePlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
+
+	auto commandAllocator = mCurrFrameResource->commandAllocator;
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
+	auto swapChain = m_dx12manager->GetDXGISwapChain();
+
+	//Reuse memory associated with command recording
+	//We can only reset when associated command lists have finished execution on GPU;
+	ThrowIfFailed(commandAllocator->Reset());
+
+	std::string key = mIsWireframe ? "opaque_wireframe" : "opaque";
+	ThrowIfFailed(commandList->Reset(commandAllocator.Get(), mPSOs[key].Get()));
+
+	auto viewPort = m_dx12manager->GetViewPort();
+	auto scissorRect = m_dx12manager->GetScissorRect();
+
+	commandList->RSSetViewports(1, &viewPort);
+	commandList->RSSetScissorRects(1, &scissorRect);
+
+	//Indicate state transition on resource usage
+	auto renderTargetTransition = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	commandList->ResourceBarrier(1, &renderTargetTransition);
+
+	const auto currentBackBufferIndex = m_dx12manager->GetCurrentBackBufferIndex();
+	const auto currentBackBufferView = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
+		currentBackBufferIndex,
+		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+
+	//Clear back buffer and depth buffer
+	const auto depthStencilView = m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+	commandList->ClearRenderTargetView(currentBackBufferView,
+	                                   Colors::LightSteelBlue,
+	                                   0,
+	                                   nullptr);
+	commandList->ClearDepthStencilView(depthStencilView,
+	                                   D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                   1.0f,
+	                                   0,
+	                                   0,
+	                                   nullptr);
+
+	//Specify buffers we are going to render to.
+	commandList->OMSetRenderTargets(1, &currentBackBufferView, true, &depthStencilView);
+
+	commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+
+	//Bind per-pass constant buffer. We only need to do this once per-pass
+	auto passCB = mCurrFrameResource->PassCB->Resource();
+	commandList->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
+
+	DrawRenderItems(commandList.Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+
+	//Indicate state transition on resource usage
+	auto presentTransition = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PRESENT);
+	commandList->ResourceBarrier(1, &presentTransition);
+
+	//Done recording commands
+	ThrowIfFailed(commandList->Close());
+
+	//AddCommand list to queue for execution
+	ID3D12CommandList* commandLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	//swap back and front buffers
+	ThrowIfFailed(swapChain->Present(0, 0));
+	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
+
+	//Advance fence value to mark commands up to this fence point
+	auto fenceValue = m_dx12manager->GetFenceValue();
+	mCurrFrameResource->Fence = ++fenceValue;
+
+	//Add an instruction to command queue to set new fence point.
+	//Because we are on GPU timeline, new fence point will not be set until GPU finishes processing all commands prior to this Signal()
+	commandQueue->Signal(m_dx12manager->GetFence().Get(), fenceValue);
 }
 
 void CEDX12LandscapePlayground::Resize() {
 	CEDX12Playground::Resize();
+
+	static const float Pi = 3.1415926535f;
+	//Window resizes so update aspect ration and recompute projection matrix
+	XMMATRIX p = XMMatrixPerspectiveFovLH(0.25f * Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&mProj, p);
 }
 
 void CEDX12LandscapePlayground::OnMouseDown(KeyCode key, int x, int y) {

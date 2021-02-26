@@ -60,6 +60,9 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetDSVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetCBVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12Resource> GetDepthStencilBuffer() const;
+		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
+
+		UINT64 GetFenceValue() const;
 
 		UINT GetCurrentBackBuffer() const;
 		UINT GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType);

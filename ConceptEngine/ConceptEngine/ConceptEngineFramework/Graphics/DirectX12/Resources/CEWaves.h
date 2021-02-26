@@ -11,9 +11,9 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		CEWaves& operator=(const CEWaves& rhs) = delete;
 		~CEWaves();
 		
-		const DirectX::XMFLOAT3& Position(int i) const override;
-		const DirectX::XMFLOAT3& Normal(int i) const override;
-		const DirectX::XMFLOAT3& TangentX(int i) const override;
+		const XMFLOAT3& Position(int i) const override;
+		const XMFLOAT3& Normal(int i) const override;
+		const XMFLOAT3& TangentX(int i) const override;
 
 		int RowCount() const override;
 		int ColumnCount() const override;
