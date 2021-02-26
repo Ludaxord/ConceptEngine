@@ -145,12 +145,77 @@ void CEDX12LandscapePlayground::OnMouseWheel(KeyCode key, float wheelDelta, int 
 }
 
 void CEDX12LandscapePlayground::UpdateCamera(const CETimer& gt) {
+	//Convert spherical to cartesian coordinates
+	mEyePos.x = mRadius * sinf(mPhi) * cosf(mTheta);
+	mEyePos.y = mRadius * sinf(mPhi) * sinf(mTheta);
+	mEyePos.z = mRadius * cosf(mPhi);
+
+	//Build view matrix
+	XMVECTOR pos = XMVectorSet(mEyePos.x, mEyePos.y, mEyePos.z, 1.0f);
+	XMVECTOR target = XMVectorZero();
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
+	XMStoreFloat4x4(&mView, view);
 }
 
 void CEDX12LandscapePlayground::UpdateObjectCBs(const CETimer& gt) {
+	auto currentObjectCB = mCurrFrameResource->ObjectCB.get();
+	for (auto& e : mAllRitems) {
+		Resources::LandscapeRenderItem* p = static_cast<Resources::LandscapeRenderItem*>(e.get());
+		//Only update cbuffer data if constants have changed
+		//this need to be tracked per frame resource
+		if (p->NumFramesDirty > 0) {
+			XMMATRIX world = XMLoadFloat4x4(&p->World);
+
+			Resources::CEObjectConstants objConstants;
+			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
+
+			currentObjectCB->CopyData(p->ObjCBIndex, objConstants);
+
+			//Next FrameResource need to be updated too.
+			p->NumFramesDirty--;
+
+			spdlog::info("Update Object CB: Pointer->{}, Derived->{}",
+			             static_cast<Resources::LandscapeRenderItem*>(e.get())->NumFramesDirty, p->NumFramesDirty);
+		}
+	}
 }
 
 void CEDX12LandscapePlayground::UpdateMainPassCB(const CETimer& gt) {
+	auto width = m_dx12manager->GetWindowWidth();
+	auto height = m_dx12manager->GetWindowHeight();
+
+	XMMATRIX view = XMLoadFloat4x4(&mView);
+	XMMATRIX proj = XMLoadFloat4x4(&mProj);
+
+	XMMATRIX viewProj = XMMatrixMultiply(view, proj);
+
+	auto viewDeterminant = XMMatrixDeterminant(view);
+	auto projDeterminant = XMMatrixDeterminant(proj);
+	auto viewProjDeterminant = XMMatrixDeterminant(viewProj);
+
+	XMMATRIX invView = XMMatrixInverse(&viewDeterminant, view);
+	XMMATRIX invProj = XMMatrixInverse(&projDeterminant, proj);
+	XMMATRIX invViewProj = XMMatrixInverse(&viewProjDeterminant, viewProj);
+
+	XMStoreFloat4x4(&mMainPassCB.View, XMMatrixTranspose(view));
+	XMStoreFloat4x4(&mMainPassCB.InvView, XMMatrixTranspose(invView));
+	XMStoreFloat4x4(&mMainPassCB.Proj, XMMatrixTranspose(proj));
+	XMStoreFloat4x4(&mMainPassCB.InvProj, XMMatrixTranspose(invProj));
+	XMStoreFloat4x4(&mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));
+	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
+
+	mMainPassCB.EyePosW = mEyePos;
+	mMainPassCB.RenderTargetSize = XMFLOAT2((float)width, (float)height);
+	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / width, 1.0f / height);
+	mMainPassCB.NearZ = 1.0f;
+	mMainPassCB.FarZ = 1000.0f;
+	mMainPassCB.TotalTime = gt.TotalTime();
+	mMainPassCB.DeltaTime = gt.DeltaTime();
+
+	auto currPassCB = mCurrFrameResource->PassCB.get();
+	currPassCB->CopyData(0, mMainPassCB);
 }
 
 void CEDX12LandscapePlayground::UpdateWaves(const CETimer& gt) {
