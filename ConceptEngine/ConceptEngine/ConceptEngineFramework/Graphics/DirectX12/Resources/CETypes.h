@@ -212,13 +212,13 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		virtual float Depth() const = 0;
 
 		// Returns the solution at the ith grid point.
-		const DirectX::XMFLOAT3& Position(int i) const { return mCurrSolution[i]; }
+		virtual const DirectX::XMFLOAT3& Position(int i) const { return mCurrSolution[i]; }
 
 		// Returns the solution normal at the ith grid point.
-		const DirectX::XMFLOAT3& Normal(int i) const { return mNormals[i]; }
+		virtual const DirectX::XMFLOAT3& Normal(int i) const { return mNormals[i]; }
 
 		// Returns the unit tangent vector at the ith grid point in the local x-axis direction.
-		const DirectX::XMFLOAT3& TangentX(int i) const { return mTangentX[i]; }
+		virtual const DirectX::XMFLOAT3& TangentX(int i) const { return mTangentX[i]; }
 
 		virtual void Update(float dt) = 0;
 		virtual void Disturb(int i, int j, float magnitude) = 0;

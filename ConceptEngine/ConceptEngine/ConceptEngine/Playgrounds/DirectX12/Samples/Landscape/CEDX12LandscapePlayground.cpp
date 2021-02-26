@@ -219,6 +219,35 @@ void CEDX12LandscapePlayground::UpdateMainPassCB(const CETimer& gt) {
 }
 
 void CEDX12LandscapePlayground::UpdateWaves(const CETimer& gt) {
+	//every quarter second, generate a random wave
+	static float t_base = 0.0f;
+	if ((gt.TotalTime() - t_base) >= 0.25f) {
+		t_base += 0.25f;
+
+		int i = m_dx12manager->Rand(4, m_waves->RowCount() - 5);
+		int j = m_dx12manager->Rand(4, m_waves->ColumnCount() - 5);
+
+		float r = m_dx12manager->RandF(0.2f, 0.5f);
+
+		m_waves->Disturb(i, j, r);
+	}
+
+	//Update wave simulation
+	m_waves->Update(gt.DeltaTime());
+
+	//Update wave vertex buffer with new solution
+	auto currWavesVB = mCurrFrameResource->WavesVB.get();
+	for (int i = 0; i < m_waves->VertexCount(); ++i) {
+		Resources::CEVertex v;
+
+		v.Pos = m_waves->Position(i);
+		v.Color = XMFLOAT4(Colors::Blue);
+
+		currWavesVB->CopyData(i, v);
+	}
+
+	//set dynamic VB of wave RenderItem to current frame VB;
+	static_cast<Resources::LandscapeRenderItem*>(mWavesRitem)->Geo->VertexBufferGPU = currWavesVB->Resource();
 }
 
 //TODO: Implement Shader Model 6 usage with DirectXShaderCompiler

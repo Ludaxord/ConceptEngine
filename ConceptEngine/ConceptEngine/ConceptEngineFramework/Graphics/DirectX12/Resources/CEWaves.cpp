@@ -47,6 +47,18 @@ CEWaves::CEWaves(int m, int n, float dx, float dt, float speed, float damping) {
 CEWaves::~CEWaves() {
 }
 
+const XMFLOAT3& CEWaves::Position(int i) const {
+	return CEObject::Position(i);
+}
+
+const XMFLOAT3& CEWaves::Normal(int i) const {
+	return CEObject::Normal(i);
+}
+
+const XMFLOAT3& CEWaves::TangentX(int i) const {
+	return CEObject::TangentX(i);
+}
+
 int CEWaves::RowCount() const {
 	return m_numRows;
 }
