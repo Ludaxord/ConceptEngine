@@ -7,7 +7,7 @@
 using namespace ConceptEngine::Playgrounds::DirectX12;
 using namespace ConceptEngineFramework::Game;
 
-CEDX12LandscapePlayground::CEDX12LandscapePlayground() {
+CEDX12LandscapePlayground::CEDX12LandscapePlayground() : CEDX12Playground() {
 	mTheta = 1.5f * XM_PI;
 	mPhi = XM_PIDIV2 - 0.1f;
 	mRadius = 50.0f;
@@ -15,7 +15,7 @@ CEDX12LandscapePlayground::CEDX12LandscapePlayground() {
 
 void CEDX12LandscapePlayground::Create() {
 	CEDX12Playground::Create();
-
+	
 	//Reset command list to prepare for initialization commands
 	m_dx12manager->ResetCommandList();
 
@@ -69,6 +69,8 @@ void CEDX12LandscapePlayground::Create() {
 
 	// Wait until initialization is complete.
 	m_dx12manager->FlushCommandQueue();
+
+	spdlog::info("Landscape Playground Created!");
 }
 
 void CEDX12LandscapePlayground::Update(const CETimer& gt) {
@@ -91,6 +93,8 @@ void CEDX12LandscapePlayground::Update(const CETimer& gt) {
 	UpdateObjectCBs(gt);
 	UpdateMainPassCB(gt);
 	UpdateWaves(gt);
+
+	spdlog::info("Landscape Playground Updated!");
 }
 
 void CEDX12LandscapePlayground::Render(const CETimer& gt) {
@@ -176,6 +180,8 @@ void CEDX12LandscapePlayground::Render(const CETimer& gt) {
 	//Add an instruction to command queue to set new fence point.
 	//Because we are on GPU timeline, new fence point will not be set until GPU finishes processing all commands prior to this Signal()
 	commandQueue->Signal(m_dx12manager->GetFence().Get(), fenceValue);
+
+	spdlog::info("Landscape Playground Rendered!");
 }
 
 void CEDX12LandscapePlayground::Resize() {
