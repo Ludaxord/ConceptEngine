@@ -34,7 +34,7 @@ CEWaves::CEWaves(int m, int n, float dx, float dt, float speed, float damping) {
 	for (int i = 0; i < m; ++i) {
 		float z = halfDepth - i * dx;
 		for (int j = 0; j < n; ++j) {
-			float x = halfWidth + j * dx;
+			float x = -halfWidth + j * dx;
 
 			mPrevSolution[i * n + j] = XMFLOAT3(x, 0.0f, z);
 			mCurrSolution[i * n + j] = XMFLOAT3(x, 0.0f, z);

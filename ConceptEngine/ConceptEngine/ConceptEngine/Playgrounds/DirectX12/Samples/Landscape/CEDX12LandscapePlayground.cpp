@@ -15,7 +15,7 @@ CEDX12LandscapePlayground::CEDX12LandscapePlayground() : CEDX12Playground() {
 
 void CEDX12LandscapePlayground::Create() {
 	CEDX12Playground::Create();
-	
+
 	//Reset command list to prepare for initialization commands
 	m_dx12manager->ResetCommandList();
 
@@ -69,8 +69,6 @@ void CEDX12LandscapePlayground::Create() {
 
 	// Wait until initialization is complete.
 	m_dx12manager->FlushCommandQueue();
-
-	spdlog::info("Landscape Playground Created!");
 }
 
 void CEDX12LandscapePlayground::Update(const CETimer& gt) {
@@ -86,6 +84,7 @@ void CEDX12LandscapePlayground::Update(const CETimer& gt) {
 	if (mCurrFrameResource->Fence != 0 && m_dx12manager->GetD3D12Fence()->GetCompletedValue() < mCurrFrameResource->
 		Fence) {
 		HANDLE eventHandle = CreateEventEx(nullptr, FALSE, FALSE, EVENT_ALL_ACCESS);
+		ThrowIfFailed(m_dx12manager->GetD3D12Fence()->SetEventOnCompletion(mCurrFrameResource->Fence, eventHandle));
 		WaitForSingleObject(eventHandle, INFINITE);
 		CloseHandle(eventHandle);
 	}
@@ -93,8 +92,6 @@ void CEDX12LandscapePlayground::Update(const CETimer& gt) {
 	UpdateObjectCBs(gt);
 	UpdateMainPassCB(gt);
 	UpdateWaves(gt);
-
-	spdlog::info("Landscape Playground Updated!");
 }
 
 void CEDX12LandscapePlayground::Render(const CETimer& gt) {
@@ -181,7 +178,6 @@ void CEDX12LandscapePlayground::Render(const CETimer& gt) {
 	//Because we are on GPU timeline, new fence point will not be set until GPU finishes processing all commands prior to this Signal()
 	commandQueue->Signal(m_dx12manager->GetFence().Get(), fenceValue);
 
-	spdlog::info("Landscape Playground Rendered!");
 }
 
 void CEDX12LandscapePlayground::Resize() {
@@ -210,25 +206,44 @@ void CEDX12LandscapePlayground::OnMouseMove(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseMove(key, x, y);
 	static const float Pi = 3.1415926535f;
 	if (key == KeyCode::LButton) {
+		// Make each pixel correspond to a quarter of a degree.
+		float dx = XMConvertToRadians(0.25f * static_cast<float>(x - mLastMousePos.x));
+		float dy = XMConvertToRadians(0.25f * static_cast<float>(y - mLastMousePos.y));
 
+		// Update angles based on input to orbit camera around box.
+		mTheta += dx;
+		mPhi += dy;
+
+		// Restrict the angle mPhi.
+		mPhi = m_dx12manager->Clamp(mPhi, 0.1f, Pi - 0.1f);
 	}
 	else if (key == KeyCode::RButton) {
+		// Make each pixel correspond to 0.2 unit in the scene.
+		float dx = 0.2f * static_cast<float>(x - mLastMousePos.x);
+		float dy = 0.2f * static_cast<float>(y - mLastMousePos.y);
 
+		// Update the camera radius based on input.
+		mRadius += dx - dy;
+
+		// Restrict the radius.
+		mRadius = m_dx12manager->Clamp(mRadius, 5.0f, 150.0f);
 	}
+
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
 }
 
 void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyUp(key, keyChar);
+	if (key == KeyCode::F1) {
+		mIsWireframe = false;
+	}
 }
 
 void CEDX12LandscapePlayground::OnKeyDown(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyDown(key, keyChar);
-	spdlog::info("KEYBOARD DOWN KEY: {}", keyChar);
-	if (key == KeyCode::D1) {
+	if (key == KeyCode::F1) {
 		mIsWireframe = true;
-	}
-	else {
-		mIsWireframe = false;
 	}
 }
 
@@ -267,9 +282,6 @@ void CEDX12LandscapePlayground::UpdateObjectCBs(const CETimer& gt) {
 
 			//Next FrameResource need to be updated too.
 			p->NumFramesDirty--;
-
-			spdlog::info("Update Object CB: Pointer->{}, Derived->{}",
-			             static_cast<Resources::LandscapeRenderItem*>(e.get())->NumFramesDirty, p->NumFramesDirty);
 		}
 	}
 }
