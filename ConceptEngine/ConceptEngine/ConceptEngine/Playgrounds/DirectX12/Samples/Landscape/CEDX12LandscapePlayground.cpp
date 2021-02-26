@@ -235,15 +235,69 @@ void CEDX12LandscapePlayground::OnMouseMove(KeyCode key, int x, int y) {
 
 void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyUp(key, keyChar);
-	if (key == KeyCode::F1) {
+	switch (key) {
+	case KeyCode::F1:
 		mIsWireframe = false;
+		break;
+	case KeyCode::Up:
+	case KeyCode::W:
+		m_forward = 0.0f;
+		break;
+	case KeyCode::Left:
+	case KeyCode::A:
+		m_left = 0.0f;
+		break;
+	case KeyCode::Down:
+	case KeyCode::S:
+		m_backward = 0.0f;
+		break;
+	case KeyCode::Right:
+	case KeyCode::D:
+		m_right = 0.0f;
+		break;
+	case KeyCode::Q:
+		m_down = 0.0f;
+		break;
+	case KeyCode::E:
+		m_up = 0.0f;
+		break;
+	case KeyCode::ShiftKey:
+		m_shift = false;
+		break;
 	}
 }
 
 void CEDX12LandscapePlayground::OnKeyDown(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyDown(key, keyChar);
-	if (key == KeyCode::F1) {
+	switch (key) {
+	case KeyCode::F1:
 		mIsWireframe = true;
+		break;
+	case KeyCode::Up:
+	case KeyCode::W:
+		m_forward = 1.0f;
+		break;
+	case KeyCode::Left:
+	case KeyCode::A:
+		m_left = 1.0f;
+		break;
+	case KeyCode::Down:
+	case KeyCode::S:
+		m_backward = 1.0f;
+		break;
+	case KeyCode::Right:
+	case KeyCode::D:
+		m_right = 1.0f;
+		break;
+	case KeyCode::Q:
+		m_down = 1.0f;
+		break;
+	case KeyCode::E:
+		m_up = 1.0f;
+		break;
+	case KeyCode::ShiftKey:
+		m_shift = true;
+		break;
 	}
 }
 

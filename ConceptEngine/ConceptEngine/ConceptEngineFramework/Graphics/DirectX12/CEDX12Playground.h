@@ -41,6 +41,15 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		float mPhi = XM_PIDIV4;
 		float mRadius = 5.0f;
 
+		float m_forward;
+		float m_backward;
+		float m_up;
+		float m_down;
+		float m_left;
+		float m_right;
+		
+		bool m_shift;
+
 		POINT mLastMousePos;
 	};
 }
