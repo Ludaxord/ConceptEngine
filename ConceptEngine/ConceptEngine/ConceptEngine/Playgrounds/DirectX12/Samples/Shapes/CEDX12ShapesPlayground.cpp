@@ -92,3 +92,21 @@ void CEDX12ShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 void CEDX12ShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	CEDX12Playground::UpdateMainPassCB(gt);
 }
+
+void CEDX12ShapesPlayground::BuildShadersAndInputLayout() {
+}
+
+void CEDX12ShapesPlayground::BuildShapesGeometry() {
+}
+
+void CEDX12ShapesPlayground::BuildRenderItems() {
+}
+
+void CEDX12ShapesPlayground::BuildFrameResources() {
+}
+
+void CEDX12ShapesPlayground::BuildConstantBufferViews() {
+}
+
+void CEDX12ShapesPlayground::BuildPSOs() {
+}

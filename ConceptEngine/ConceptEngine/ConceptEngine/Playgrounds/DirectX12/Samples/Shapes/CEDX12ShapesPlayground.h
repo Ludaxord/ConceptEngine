@@ -13,14 +13,24 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void Update(const CETimer& gt) override;
 		void Render(const CETimer& gt) override;
 		void Resize() override;
-		void UpdateCamera(const CETimer& gt) override;
+		
 		void OnMouseDown(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnMouseUp(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
 		void OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
 		void OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) override;
+
+		void UpdateCamera(const CETimer& gt) override;
 		void UpdateObjectCBs(const CETimer& gt) override;
 		void UpdateMainPassCB(const CETimer& gt) override;
+
+	private:
+		void BuildShadersAndInputLayout();
+		void BuildShapesGeometry();
+		void BuildRenderItems();
+		void BuildFrameResources();
+		void BuildConstantBufferViews();
+		void BuildPSOs();
 	};
 }
