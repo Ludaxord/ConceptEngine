@@ -1,5 +1,8 @@
 #include "CEDX12ShapesPlayground.h"
 
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
+#include "../../../../../ConceptEngineFramework/Tools/CEUtils.h"
+
 using namespace ConceptEngine::Playgrounds::DirectX12;
 using namespace ConceptEngineFramework::Game;
 
@@ -8,10 +11,42 @@ CEDX12ShapesPlayground::CEDX12ShapesPlayground(): CEDX12Playground() {
 
 void CEDX12ShapesPlayground::Create() {
 	CEDX12Playground::Create();
+
+	m_dx12manager->ResetCommandList();
+
+	//Build root signature
+
+	//Build shaders and input layout
+
+	//build geometry
+
+	//build render items
+
+	//build frame resources
+
+	//build descriptor heaps
+
+	//build constant buffer views
+
+	//build pipeline state object
+
+	//execute command list
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
+
+	ThrowIfFailed(commandList->Close());
+	ID3D12CommandList* commandLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	//Wait until initialization is complete
+	m_dx12manager->FlushCommandQueue();
 }
 
 void CEDX12ShapesPlayground::Update(const CETimer& gt) {
 	CEDX12Playground::Update(gt);
+
+	UpdateObjectCBs(gt);
+	UpdateMainPassCB(gt);
 }
 
 void CEDX12ShapesPlayground::Render(const CETimer& gt) {
