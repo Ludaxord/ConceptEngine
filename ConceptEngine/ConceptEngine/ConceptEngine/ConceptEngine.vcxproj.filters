@@ -27,6 +27,9 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\Shapes\CEDX12ShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\Shapes\CEDX12ShapesPlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
