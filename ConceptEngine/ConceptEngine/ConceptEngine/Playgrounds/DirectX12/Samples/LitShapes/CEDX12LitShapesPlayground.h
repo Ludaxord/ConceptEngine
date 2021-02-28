@@ -26,5 +26,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void UpdateCamera(const CETimer& gt) override;
 		void UpdateObjectCBs(const CETimer& gt) override;
 		void UpdateMainPassCB(const CETimer& gt) override;
+
+	private:
+		void BuildGeometry();
 	};
 }

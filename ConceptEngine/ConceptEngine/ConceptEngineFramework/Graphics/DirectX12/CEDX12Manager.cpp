@@ -335,6 +335,29 @@ Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetFence() const {
 	return m_fence;
 }
 
+const aiScene* CEDX12Manager::LoadModelFromFile(const std::string fileName) const {
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream modelsPathStream;
+	modelsPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
+		fileName;
+	auto modelPath = modelsPathStream.str();
+	spdlog::info("Loading Model: {}", modelPath);
+	
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(modelPath,
+	                                         aiProcess_CalcTangentSpace |
+	                                         aiProcess_Triangulate |
+	                                         aiProcess_JoinIdenticalVertices |
+	                                         aiProcess_SortByPType);
+
+	// If the import failed, report it
+	if (!scene) {
+		spdlog::error(importer.GetErrorString());
+	}
+
+	return scene;
+}
+
 UINT64 CEDX12Manager::GetFenceValue() const {
 	return m_currentFence;
 }

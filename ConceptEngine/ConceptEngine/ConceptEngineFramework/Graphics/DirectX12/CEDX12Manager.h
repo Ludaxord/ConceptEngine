@@ -26,6 +26,12 @@
 #include <dxgidebug.h>
 #endif
 
+#undef min
+#undef max
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing flags
+
 namespace ConceptEngineFramework {
 	namespace Game {
 		class CEWindow;
@@ -62,6 +68,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Resource> GetDepthStencilBuffer() const;
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
+		const aiScene* LoadModelFromFile(std::string fileName) const;
+		
 		UINT64 GetFenceValue() const;
 		void SetFenceValue(UINT64 newFence) ;
 		

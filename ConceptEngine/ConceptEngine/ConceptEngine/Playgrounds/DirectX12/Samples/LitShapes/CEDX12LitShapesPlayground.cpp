@@ -1,5 +1,7 @@
 #include "CEDX12LitShapesPlayground.h"
 
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
+
 using namespace ConceptEngine::Playgrounds::DirectX12;
 
 CEDX12LitShapesPlayground::CEDX12LitShapesPlayground() : CEDX12Playground() {
@@ -7,6 +9,27 @@ CEDX12LitShapesPlayground::CEDX12LitShapesPlayground() : CEDX12Playground() {
 
 void CEDX12LitShapesPlayground::Create() {
 	CEDX12Playground::Create();
+
+	//Reset command list
+
+	//Build root signature
+
+	//Build shaders and inputs layout
+
+	//build shapes geometry
+	BuildGeometry();
+	
+	//build materials
+
+	//build render items
+
+	//build frame resources
+
+	//build pso
+
+	//execute command list
+
+	//flush command queue
 }
 
 void CEDX12LitShapesPlayground::Update(const CETimer& gt) {
@@ -55,4 +78,9 @@ void CEDX12LitShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 
 void CEDX12LitShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	CEDX12Playground::UpdateMainPassCB(gt);
+}
+
+void CEDX12LitShapesPlayground::BuildGeometry() {
+	auto scene = m_dx12manager->LoadModelFromFile("BrickLandspeeder4501.obj");
+
 }

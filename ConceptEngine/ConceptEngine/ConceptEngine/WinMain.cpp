@@ -1,5 +1,8 @@
 #include <memory>
+
+#define NOMINMAX
 #include <Windows.h>
+
 #include "../ConceptEngineFramework/CEFramework.h"
 
 //Samples imports
