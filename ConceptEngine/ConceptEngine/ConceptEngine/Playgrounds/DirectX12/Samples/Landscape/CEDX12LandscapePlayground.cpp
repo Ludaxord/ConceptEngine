@@ -170,13 +170,15 @@ void CEDX12LandscapePlayground::Render(const CETimer& gt) {
 	ThrowIfFailed(swapChain->Present(0, 0));
 	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
 
+	m_dx12manager->FlushCommandQueue();
+	
 	//Advance fence value to mark commands up to this fence point
-	auto fenceValue = m_dx12manager->GetFenceValue();
-	mCurrFrameResource->Fence = ++fenceValue;
+	// auto fenceValue = m_dx12manager->GetFenceValue();
+	// mCurrFrameResource->Fence = ++fenceValue;
 
 	//Add an instruction to command queue to set new fence point.
 	//Because we are on GPU timeline, new fence point will not be set until GPU finishes processing all commands prior to this Signal()
-	commandQueue->Signal(m_dx12manager->GetFence().Get(), fenceValue);
+	// commandQueue->Signal(m_dx12manager->GetFence().Get(), fenceValue);
 
 }
 

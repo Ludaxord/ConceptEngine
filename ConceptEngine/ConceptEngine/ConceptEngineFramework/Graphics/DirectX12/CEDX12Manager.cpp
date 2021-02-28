@@ -242,6 +242,15 @@ D3D12_CPU_DESCRIPTOR_HANDLE CEDX12Manager::DepthStencilView() const {
 	return m_dsvHeap->GetCPUDescriptorHandleForHeapStart();
 }
 
+void CEDX12Manager::ExecuteCommandLists(std::vector<ID3D12CommandList*> commandLists) const {
+	// Add the command list to the queue for execution.
+	if (commandLists.size() == 0) {
+		commandLists.push_back(m_commandList.Get());
+	}
+
+	m_commandQueue->ExecuteCommandLists(commandLists.size(), commandLists.data());
+}
+
 DXGI_FORMAT CEDX12Manager::GetBackBufferFormat() const {
 	return m_backBufferFormat;
 }

@@ -97,8 +97,6 @@ void CEDX12ShapesPlayground::Update(const CETimer& gt) {
 void CEDX12ShapesPlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
 
-	auto mCommandList = m_dx12manager->GetD3D12CommandList();
-
 	auto mScreenViewport = m_dx12manager->GetViewPort();
 	auto mScissorRect = m_dx12manager->GetScissorRect();
 
@@ -111,60 +109,58 @@ void CEDX12ShapesPlayground::Render(const CETimer& gt) {
 	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
 	// Reusing the command list reuses memory.
 	if (mIsWireframe) {
-		ThrowIfFailed(mCommandList->Reset(cmdListAlloc.Get(), mPSOs["opaque_wireframe"].Get()));
+		ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(), mPSOs["opaque_wireframe"].Get()));
 	}
 	else {
-		ThrowIfFailed(mCommandList->Reset(cmdListAlloc.Get(), mPSOs["opaque"].Get()));
+		ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(), mPSOs["opaque"].Get()));
 	}
 
-	mCommandList->RSSetViewports(1, &mScreenViewport);
-	mCommandList->RSSetScissorRects(1, &mScissorRect);
+	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
+	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
 
 	auto trRt = CD3DX12_RESOURCE_BARRIER::Transition(
 		m_dx12manager->CurrentBackBuffer(),
 		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	// Indicate a state transition on the resource usage.
-	mCommandList->ResourceBarrier(1, &trRt);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trRt);
 
 	// Clear the back buffer and depth buffer.
-	mCommandList->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(), Colors::LightSteelBlue, 0, nullptr);
-	mCommandList->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
-	                                    D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0,
-	                                    0, nullptr);
+	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
+	                                                            Colors::LightSteelBlue, 0, nullptr);
+	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f,
+	                                                            0,
+	                                                            0, nullptr);
 
 	auto currBackBuffView = m_dx12manager->CurrentBackBufferView();
 	auto currDepthStencilView = m_dx12manager->DepthStencilView();
 	// Specify the buffers we are going to render to.
-	mCommandList->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
+	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
 
 	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetCBVDescriptorHeap().Get()};
-	mCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
-	mCommandList->SetGraphicsRootSignature(m_rootSignature.Get());
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
 
 	int passCbvIndex = mPassCbvOffset + mCurrFrameResourceIndex;
 	auto passCbvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
 		m_dx12manager->GetCBVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 	passCbvHandle.Offset(passCbvIndex, m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
-	mCommandList->SetGraphicsRootDescriptorTable(1, passCbvHandle);
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(1, passCbvHandle);
 
-	DrawRenderItems(mCommandList.Get(), mOpaqueRitems);
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mOpaqueRitems);
 
 	// Indicate a state transition on the resource usage.
 	auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
 	                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
 	                                                 D3D12_RESOURCE_STATE_PRESENT);
-	mCommandList->ResourceBarrier(1, &trPr);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trPr);
 
 	// Done recording commands.
-	ThrowIfFailed(mCommandList->Close());
+	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
 
-	// Add the command list to the queue for execution.
-	ID3D12CommandList* cmdsLists[] = {mCommandList.Get()};
-
-	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
-	commandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+	m_dx12manager->ExecuteCommandLists();
 
 	// Swap the back and front buffers
 	auto swapChain = m_dx12manager->GetDXGISwapChain();
@@ -259,10 +255,10 @@ void CEDX12ShapesPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, 
 
 void CEDX12ShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 	CEDX12Playground::UpdateObjectCBs(gt);
+
 	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
 	for (auto& ri : mAllRitems) {
 		Resources::ShapesRenderItem* e = static_cast<Resources::ShapesRenderItem*>(ri.get());
-
 		// Only update the cbuffer data if the constants have changed.  
 		// This needs to be tracked per frame resource.
 		if (e->NumFramesDirty > 0) {
@@ -277,6 +273,7 @@ void CEDX12ShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 			e->NumFramesDirty--;
 		}
 	}
+
 }
 
 void CEDX12ShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
@@ -317,55 +314,56 @@ void CEDX12ShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 }
 
 void CEDX12ShapesPlayground::BuildShapesGeometry() {
-	GeometryGenerator geometryGen;
-	GeometryGenerator::MeshData box = geometryGen.CreateBox(1.5f, 0.5f, 1.5f, 3);
-	GeometryGenerator::MeshData grid = geometryGen.CreateGrid(20.0f, 30.0f, 60, 40);
-	GeometryGenerator::MeshData sphere = geometryGen.CreateSphere(0.5f, 20, 20);
-	GeometryGenerator::MeshData cylinder = geometryGen.CreateCylinder(0.5f, 0.3f, 3.0f, 20, 20);
+	GeometryGenerator geoGen;
+	GeometryGenerator::MeshData box = geoGen.CreateBox(1.5f, 0.5f, 1.5f, 3);
+	GeometryGenerator::MeshData grid = geoGen.CreateGrid(20.0f, 30.0f, 60, 40);
+	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
+	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.3f, 3.0f, 20, 20);
 
-	/*
-	 * We are concatenating all geometry into one big vertex index buffer. So define regions in buffer each submesh covers
-	 */
+	//
+	// We are concatenating all the geometry into one big vertex/index buffer.  So
+	// define the regions in the buffer each submesh covers.
+	//
 
-	//Cache vertex offsets to each object in concatenated vertex buffers
+	// Cache the vertex offsets to each object in the concatenated vertex buffer.
 	UINT boxVertexOffset = 0;
 	UINT gridVertexOffset = (UINT)box.Vertices.size();
 	UINT sphereVertexOffset = gridVertexOffset + (UINT)grid.Vertices.size();
 	UINT cylinderVertexOffset = sphereVertexOffset + (UINT)sphere.Vertices.size();
 
-	//Cache starting index for each object in concatenated index buffers
+	// Cache the starting index for each object in the concatenated index buffer.
 	UINT boxIndexOffset = 0;
 	UINT gridIndexOffset = (UINT)box.Indices32.size();
 	UINT sphereIndexOffset = gridIndexOffset + (UINT)grid.Indices32.size();
 	UINT cylinderIndexOffset = sphereIndexOffset + (UINT)sphere.Indices32.size();
 
-	/*
-	 * Define SubMeshGeometry that cover different regions of vertex/index buffers
-	 */
+	// Define the SubmeshGeometry that cover different 
+	// regions of the vertex/index buffers.
 
-	Resources::SubMeshGeometry boxSubMesh;
-	boxSubMesh.IndexCount = (UINT)box.Indices32.size();
-	boxSubMesh.StartIndexLocation = boxIndexOffset;
-	boxSubMesh.BaseVertexLocation = boxVertexOffset;
+	Resources::SubMeshGeometry boxSubmesh;
+	boxSubmesh.IndexCount = (UINT)box.Indices32.size();
+	boxSubmesh.StartIndexLocation = boxIndexOffset;
+	boxSubmesh.BaseVertexLocation = boxVertexOffset;
 
-	Resources::SubMeshGeometry gridSubMesh;
-	gridSubMesh.IndexCount = (UINT)grid.Indices32.size();
-	gridSubMesh.StartIndexLocation = gridIndexOffset;
-	gridSubMesh.BaseVertexLocation = gridVertexOffset;
+	Resources::SubMeshGeometry gridSubmesh;
+	gridSubmesh.IndexCount = (UINT)grid.Indices32.size();
+	gridSubmesh.StartIndexLocation = gridIndexOffset;
+	gridSubmesh.BaseVertexLocation = gridVertexOffset;
 
-	Resources::SubMeshGeometry sphereSubMesh;
-	sphereSubMesh.IndexCount = (UINT)sphere.Indices32.size();
-	sphereSubMesh.StartIndexLocation = sphereIndexOffset;
-	sphereSubMesh.BaseVertexLocation = sphereVertexOffset;
+	Resources::SubMeshGeometry sphereSubmesh;
+	sphereSubmesh.IndexCount = (UINT)sphere.Indices32.size();
+	sphereSubmesh.StartIndexLocation = sphereIndexOffset;
+	sphereSubmesh.BaseVertexLocation = sphereVertexOffset;
 
-	Resources::SubMeshGeometry cylinderSubMesh;
-	cylinderSubMesh.IndexCount = (UINT)cylinder.Indices32.size();
-	cylinderSubMesh.StartIndexLocation = cylinderIndexOffset;
-	cylinderSubMesh.BaseVertexLocation = cylinderVertexOffset;
+	Resources::SubMeshGeometry cylinderSubmesh;
+	cylinderSubmesh.IndexCount = (UINT)cylinder.Indices32.size();
+	cylinderSubmesh.StartIndexLocation = cylinderIndexOffset;
+	cylinderSubmesh.BaseVertexLocation = cylinderVertexOffset;
 
-	/*
-	 * Extract vertex elements we are interested in and pack vertices of all meshes into one vertex buffer
-	 */
+	//
+	// Extract the vertex elements we are interested in and pack the
+	// vertices of all the meshes into one vertex buffer.
+	//
 
 	auto totalVertexCount =
 		box.Vertices.size() +
@@ -378,21 +376,22 @@ void CEDX12ShapesPlayground::BuildShapesGeometry() {
 	UINT k = 0;
 	for (size_t i = 0; i < box.Vertices.size(); ++i, ++k) {
 		vertices[k].Pos = box.Vertices[i].Position;
-		vertices[k].Color = XMFLOAT4(Colors::DarkGreen);
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::DarkGreen);
 	}
 
 	for (size_t i = 0; i < grid.Vertices.size(); ++i, ++k) {
 		vertices[k].Pos = grid.Vertices[i].Position;
-		vertices[k].Color = XMFLOAT4(Colors::AliceBlue);
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::ForestGreen);
 	}
+
 	for (size_t i = 0; i < sphere.Vertices.size(); ++i, ++k) {
 		vertices[k].Pos = sphere.Vertices[i].Position;
-		vertices[k].Color = XMFLOAT4(Colors::Crimson);
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::Crimson);
 	}
 
 	for (size_t i = 0; i < cylinder.Vertices.size(); ++i, ++k) {
 		vertices[k].Pos = cylinder.Vertices[i].Position;
-		vertices[k].Color = XMFLOAT4(Colors::SteelBlue);
+		vertices[k].Color = XMFLOAT4(DirectX::Colors::SteelBlue);
 	}
 
 	std::vector<std::uint16_t> indices;
@@ -422,10 +421,10 @@ void CEDX12ShapesPlayground::BuildShapesGeometry() {
 	geo->IndexFormat = DXGI_FORMAT_R16_UINT;
 	geo->IndexBufferByteSize = ibByteSize;
 
-	geo->DrawArgs["box"] = boxSubMesh;
-	geo->DrawArgs["grid"] = gridSubMesh;
-	geo->DrawArgs["sphere"] = sphereSubMesh;
-	geo->DrawArgs["cylinder"] = cylinderSubMesh;
+	geo->DrawArgs["box"] = boxSubmesh;
+	geo->DrawArgs["grid"] = gridSubmesh;
+	geo->DrawArgs["sphere"] = sphereSubmesh;
+	geo->DrawArgs["cylinder"] = cylinderSubmesh;
 
 	mGeometries[geo->Name] = std::move(geo);
 }
@@ -532,72 +531,79 @@ void CEDX12ShapesPlayground::BuildDescriptorHeaps() {
 }
 
 void CEDX12ShapesPlayground::BuildConstantBufferViews() {
+	auto device = m_dx12manager->GetD3D12Device();
 	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
 
 	UINT objCount = (UINT)mOpaqueRitems.size();
 
-	//Need a CBV descriptor for each object for each frame resource
+	// Need a CBV descriptor for each object for each frame resource.
 	for (int frameIndex = 0; frameIndex < gNumFrameResources; ++frameIndex) {
 		auto objectCB = mFrameResources[frameIndex]->ObjectCB->Resource();
 		for (UINT i = 0; i < objCount; ++i) {
 			D3D12_GPU_VIRTUAL_ADDRESS cbAddress = objectCB->GetGPUVirtualAddress();
 
-			//Offset to ith object constant buffer in buffer
+			// Offset to the ith object constant buffer in the buffer.
 			cbAddress += i * objCBByteSize;
 
-			//Offset to object cbv in descriptor heap
-			auto cpuDescriptorHandleForHeap = m_dx12manager->GetCBVDescriptorHeap()->
-			                                                 GetCPUDescriptorHandleForHeapStart();
-			int heapIndex = frameIndex * objCount + 1;
-			auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(cpuDescriptorHandleForHeap);
+			// Offset to the object cbv in the descriptor heap.
+			int heapIndex = frameIndex * objCount + i;
+			auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+				m_dx12manager->GetCBVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart());
 			handle.Offset(heapIndex, m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 
-			m_dx12manager->CreateConstantBuffers(cbAddress, objCBByteSize, &handle);
+			D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
+			cbvDesc.BufferLocation = cbAddress;
+			cbvDesc.SizeInBytes = objCBByteSize;
+
+			device->CreateConstantBufferView(&cbvDesc, handle);
 		}
 	}
 
 	UINT passCBByteSize = (sizeof(Resources::PassConstants) + 255) & ~255;
 
-	//Last three descriptors are pass CBVs for each frame resource
+	// Last three descriptors are the pass CBVs for each frame resource.
 	for (int frameIndex = 0; frameIndex < gNumFrameResources; ++frameIndex) {
 		auto passCB = mFrameResources[frameIndex]->PassCB->Resource();
-
 		D3D12_GPU_VIRTUAL_ADDRESS cbAddress = passCB->GetGPUVirtualAddress();
 
-		//Offset to pass cbv in descriptor heap
-		auto cpuDescriptorHandleForHeap = m_dx12manager->GetCBVDescriptorHeap()->
-		                                                 GetCPUDescriptorHandleForHeapStart();
+		// Offset to the pass cbv in the descriptor heap.
 		int heapIndex = mPassCbvOffset + frameIndex;
-		auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(cpuDescriptorHandleForHeap);
+		auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+			m_dx12manager->GetCBVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart());
 		handle.Offset(heapIndex, m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 
-		m_dx12manager->CreateConstantBuffers(cbAddress, passCBByteSize, &handle);
+		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
+		cbvDesc.BufferLocation = cbAddress;
+		cbvDesc.SizeInBytes = passCBByteSize;
+
+		device->CreateConstantBufferView(&cbvDesc, handle);
 	}
 }
 
 void CEDX12ShapesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                              std::vector<Resources::RenderItem*>& ritems) const {
+	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
 
-	//For each render item...
+	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
+
+	// For each render item...
 	for (size_t i = 0; i < ritems.size(); ++i) {
-		auto ri = static_cast<Resources::ShapesRenderItem*>(ritems[i]);
+		auto ri = static_cast<Resources::LandscapeRenderItem*>(ritems[i]);
 
-		auto riVertexBufferView = ri->Geo->VertexBufferView();
-		auto riIndexBufferView = ri->Geo->IndexBufferView();
-
-		cmdList->IASetVertexBuffers(0, 1, &riVertexBufferView);
-		cmdList->IASetIndexBuffer(&riIndexBufferView);
+		auto vertexBuffer = ri->Geo->VertexBufferView();
+		auto indexBuffer = ri->Geo->IndexBufferView();
+		cmdList->IASetVertexBuffers(0, 1, &vertexBuffer);
+		cmdList->IASetIndexBuffer(&indexBuffer);
 		cmdList->IASetPrimitiveTopology(ri->PrimitiveType);
-
-		auto constantBuffer = m_dx12manager->GetCBVDescriptorHeap();
-		auto descSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 		// Offset to the CBV in the descriptor heap for this object and for this frame resource.
 		UINT cbvIndex = mCurrFrameResourceIndex * (UINT)mOpaqueRitems.size() + ri->ObjCBIndex;
-		auto cbvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(constantBuffer->GetGPUDescriptorHandleForHeapStart());
-		cbvHandle.Offset(cbvIndex, descSize);
+		auto cbvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+			m_dx12manager->GetCBVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+		cbvHandle.Offset(cbvIndex, m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 
 		cmdList->SetGraphicsRootDescriptorTable(0, cbvHandle);
+
 		cmdList->DrawIndexedInstanced(ri->IndexCount, 1, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
 	}
 }

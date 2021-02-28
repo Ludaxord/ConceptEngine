@@ -71,6 +71,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		D3D12_CPU_DESCRIPTOR_HANDLE CurrentBackBufferView();
 		D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView() const;
 
+		void ExecuteCommandLists(std::vector<ID3D12CommandList*> commandLists = {}) const;
+
 		DXGI_FORMAT GetBackBufferFormat() const;
 		DXGI_FORMAT GetDepthStencilFormat() const;
 
