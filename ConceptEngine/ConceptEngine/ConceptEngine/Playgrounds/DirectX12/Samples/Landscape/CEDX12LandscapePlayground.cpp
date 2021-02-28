@@ -58,7 +58,7 @@ void CEDX12LandscapePlayground::Create() {
 	BuildFrameResources();
 
 	//Create Pipeline State Objects
-	BuildPSOs();
+	BuildPSOs(m_rootSignature);
 
 	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
 	auto commandList = m_dx12manager->GetD3D12CommandList();
@@ -235,70 +235,10 @@ void CEDX12LandscapePlayground::OnMouseMove(KeyCode key, int x, int y) {
 
 void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyUp(key, keyChar);
-	switch (key) {
-	case KeyCode::F1:
-		mIsWireframe = false;
-		break;
-	case KeyCode::Up:
-	case KeyCode::W:
-		m_forward = 0.0f;
-		break;
-	case KeyCode::Left:
-	case KeyCode::A:
-		m_left = 0.0f;
-		break;
-	case KeyCode::Down:
-	case KeyCode::S:
-		m_backward = 0.0f;
-		break;
-	case KeyCode::Right:
-	case KeyCode::D:
-		m_right = 0.0f;
-		break;
-	case KeyCode::Q:
-		m_down = 0.0f;
-		break;
-	case KeyCode::E:
-		m_up = 0.0f;
-		break;
-	case KeyCode::ShiftKey:
-		m_shift = false;
-		break;
-	}
 }
 
 void CEDX12LandscapePlayground::OnKeyDown(KeyCode key, char keyChar) {
 	CEDX12Playground::OnKeyDown(key, keyChar);
-	switch (key) {
-	case KeyCode::F1:
-		mIsWireframe = true;
-		break;
-	case KeyCode::Up:
-	case KeyCode::W:
-		m_forward = 1.0f;
-		break;
-	case KeyCode::Left:
-	case KeyCode::A:
-		m_left = 1.0f;
-		break;
-	case KeyCode::Down:
-	case KeyCode::S:
-		m_backward = 1.0f;
-		break;
-	case KeyCode::Right:
-	case KeyCode::D:
-		m_right = 1.0f;
-		break;
-	case KeyCode::Q:
-		m_down = 1.0f;
-		break;
-	case KeyCode::E:
-		m_up = 1.0f;
-		break;
-	case KeyCode::ShiftKey:
-		m_shift = true;
-		break;
-	}
 }
 
 void CEDX12LandscapePlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
@@ -407,29 +347,6 @@ void CEDX12LandscapePlayground::UpdateWaves(const CETimer& gt) {
 
 	//set dynamic VB of wave RenderItem to current frame VB;
 	static_cast<Resources::LandscapeRenderItem*>(mWavesRitem)->Geo->VertexBufferGPU = currWavesVB->Resource();
-}
-
-//TODO: Implement Shader Model 6 usage with DirectXShaderCompiler
-//TODO: References: https://asawicki.info/news_1719_two_shader_compilers_of_direct3d_12
-//TODO: References: https://github.com/Microsoft/DirectXShaderCompiler
-void CEDX12LandscapePlayground::BuildShadersAndInputLayout() {
-	m_shadersMap["VS"] = m_dx12manager->CompileShaders("CELandscapeVertexShader.hlsl",
-	                                                   nullptr,
-	                                                   "VS",
-	                                                   // "vs_6_3"
-	                                                   "vs_5_0"
-	);
-	m_shadersMap["PS"] = m_dx12manager->CompileShaders("CELandscapePixelShader.hlsl",
-	                                                   nullptr,
-	                                                   "PS",
-	                                                   // "ps_6_3"
-	                                                   "ps_5_0"
-	);
-
-	m_inputLayout = {
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-	};
 }
 
 void CEDX12LandscapePlayground::BuildLandscapeGeometry() {
@@ -552,51 +469,6 @@ void CEDX12LandscapePlayground::BuildGeometryBuffers() {
 
 	geo->DrawArgs["grid"] = subMesh;
 	m_geometries["waterGeo"] = std::move(geo);
-}
-
-//TODO: Add RayTraced StateObject
-void CEDX12LandscapePlayground::BuildPSOs() {
-	auto d3dDevice = m_dx12manager->GetD3D12Device();
-
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc;
-
-	/*
-	 * PSO for opaque objects
-	 */
-	ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-	opaquePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
-	opaquePsoDesc.pRootSignature = m_rootSignature.Get();
-	opaquePsoDesc.VS = {
-		reinterpret_cast<BYTE*>(m_shadersMap["VS"]->GetBufferPointer()),
-		m_shadersMap["VS"]->GetBufferSize()
-	};
-	opaquePsoDesc.PS = {
-		reinterpret_cast<BYTE*>(m_shadersMap["PS"]->GetBufferPointer()),
-		m_shadersMap["PS"]->GetBufferSize()
-	};
-	opaquePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	opaquePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	opaquePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-	opaquePsoDesc.SampleMask = UINT_MAX;
-	opaquePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	opaquePsoDesc.NumRenderTargets = 1;
-	opaquePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
-	opaquePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
-	opaquePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
-	opaquePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
-	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
-
-	/*
-	 * PSO for WireFrame Objects
-	 */
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaqueWireFramePsoDesc = opaquePsoDesc;
-	opaqueWireFramePsoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
-	ThrowIfFailed(
-		d3dDevice->CreateGraphicsPipelineState(
-			&opaqueWireFramePsoDesc,
-			IID_PPV_ARGS(&mPSOs["opaque_wireframe"])
-		)
-	);
 }
 
 void CEDX12LandscapePlayground::BuildFrameResources() {

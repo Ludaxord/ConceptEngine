@@ -55,7 +55,7 @@
     <ClCompile Include="Game\CEWindow.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDX12Manager.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDX12Playground.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Libraries\CEGeometryGenerator.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Libraries\GeometryGenerator.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEFrameResource.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEWaves.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOGLManager.cpp" />
@@ -80,7 +80,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELandscapePixelShader.hlsl">
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasicPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -88,29 +88,13 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELandscapeVertexShader.hlsl">
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasicVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEShapesPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
-    </FxCompile>
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEShapesVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">

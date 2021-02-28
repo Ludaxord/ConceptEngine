@@ -31,11 +31,26 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void UpdateObjectCBs(const CETimer& gt);
 		virtual void UpdateMainPassCB(const CETimer& gt);
 	protected:
+		virtual void BuildShadersAndInputLayout();
+		virtual void BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature);
+
 		CEDX12Manager* m_dx12manager = nullptr;
+
+		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3DBlob>> m_shadersMap;
+		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayout;
+		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D12PipelineState>> mPSOs;
+
+		// List of all the render items.
+		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
+
+		// Render items divided by PSO.
+		std::vector<Resources::RenderItem*> mRitemLayer[(int)Resources::RenderLayer::Count];
 
 		XMFLOAT4X4 mWorld = Resources::MatrixIdentity4X4();
 		XMFLOAT4X4 mView = Resources::MatrixIdentity4X4();
 		XMFLOAT4X4 mProj = Resources::MatrixIdentity4X4();
+
+		bool mIsWireframe = false;
 
 		float mTheta = 1.5f * XM_PI;
 		float mPhi = XM_PIDIV4;
@@ -47,7 +62,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		float m_down;
 		float m_left;
 		float m_right;
-		
+
 		bool m_shift;
 
 		POINT mLastMousePos;

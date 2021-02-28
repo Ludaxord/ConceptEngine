@@ -63,9 +63,13 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
 		UINT64 GetFenceValue() const;
-
+		void SetFenceValue(UINT64 newFence) ;
+		
 		UINT GetCurrentBackBuffer() const;
 		UINT GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType);
+
+		D3D12_CPU_DESCRIPTOR_HANDLE CurrentBackBufferView();
+		D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView() const;
 
 		DXGI_FORMAT GetBackBufferFormat() const;
 		DXGI_FORMAT GetDepthStencilFormat() const;
@@ -116,8 +120,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateSwapChain();
 		void CreateRTVDescriptorHeap();
 		void CreateDSVDescriptorHeap();
-		void CreateCSVDescriptorHeap();
-		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, UINT sizeInBytes) const;
+		void CreateCSVDescriptorHeap(UINT numDescriptors = 1);
+		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress,
+		                           UINT sizeInBytes,
+		                           D3D12_CPU_DESCRIPTOR_HANDLE* handle = nullptr) const;
 
 
 		Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(const void* initData,

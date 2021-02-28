@@ -24,8 +24,10 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void OnKeyDown(KeyCode key, char keyChar) override;
 		void OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) override;
 
+	protected:
+		void BuildShadersAndInputLayout() override;
+	
 	private:
-		void BuildShadersAndInputLayout();
 		void BuildBoxGeometry();
 		void BuildPSO();
 

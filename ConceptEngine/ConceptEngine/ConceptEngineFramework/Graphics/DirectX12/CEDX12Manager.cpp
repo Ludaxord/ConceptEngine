@@ -230,6 +230,18 @@ UINT CEDX12Manager::GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType) {
 	return m_descriptorSizes[heapType];
 }
 
+D3D12_CPU_DESCRIPTOR_HANDLE CEDX12Manager::CurrentBackBufferView() {
+	return CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
+		m_currentBackBuffer,
+		GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
+	);
+}
+
+D3D12_CPU_DESCRIPTOR_HANDLE CEDX12Manager::DepthStencilView() const {
+	return m_dsvHeap->GetCPUDescriptorHandleForHeapStart();
+}
+
 DXGI_FORMAT CEDX12Manager::GetBackBufferFormat() const {
 	return m_backBufferFormat;
 }
@@ -318,6 +330,10 @@ UINT64 CEDX12Manager::GetFenceValue() const {
 	return m_currentFence;
 }
 
+void CEDX12Manager::SetFenceValue(UINT64 newFence) {
+	m_currentFence = newFence;
+}
+
 CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
                                                        m_tearingSupported(false),
                                                        m_rayTracingSupported(false),
@@ -351,8 +367,9 @@ void CEDX12Manager::FlushCommandQueue() {
 		//Fire event when GPU hits current fence;
 		ThrowIfFailed(m_fence->SetEventOnCompletion(m_currentFence, eventHandle));
 
-		//Wait until GPU hits current fence event is fired.
-		WaitForSingleObjectEx(eventHandle, 1000, TRUE);
+		// Wait until the GPU hits current fence event is fired.
+		WaitForSingleObject(eventHandle, INFINITE);
+		CloseHandle(eventHandle);
 	}
 }
 
@@ -604,21 +621,27 @@ void CEDX12Manager::CreateDSVDescriptorHeap() {
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(m_dsvHeap.GetAddressOf())));
 }
 
-void CEDX12Manager::CreateCSVDescriptorHeap() {
+void CEDX12Manager::CreateCSVDescriptorHeap(UINT numDescriptors) {
 	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
-	cbvHeapDesc.NumDescriptors = 1;
+	cbvHeapDesc.NumDescriptors = numDescriptors;
 	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	cbvHeapDesc.NodeMask = 0;
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&m_cbvHeap)));
 }
 
-void CEDX12Manager::CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress, UINT sizeInBytes) const {
+void CEDX12Manager::CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress,
+                                          UINT sizeInBytes,
+                                          D3D12_CPU_DESCRIPTOR_HANDLE* handle) const {
 	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
 	cbvDesc.BufferLocation = cbAddress;
 	cbvDesc.SizeInBytes = sizeInBytes;
 
-	m_d3dDevice->CreateConstantBufferView(&cbvDesc, m_cbvHeap->GetCPUDescriptorHandleForHeapStart());
+	if (handle == nullptr) {
+		auto defaultHandle = m_cbvHeap->GetCPUDescriptorHandleForHeapStart();
+		handle = &defaultHandle;
+	}
+	m_d3dDevice->CreateConstantBufferView(&cbvDesc, *handle);
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::CreateDefaultBuffer(const void* initData, UINT64 byteSize,
@@ -896,7 +919,7 @@ void CEDX12Manager::LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT forma
 			L"Height = " + std::to_wstring(mode.Height) + L" " +
 			L"Refresh = " + std::to_wstring(numerator) + L"/" + std::to_wstring(denominator);
 		std::string sModeInfo(modeInfo.begin(), modeInfo.end());
-		spdlog::info(sModeInfo);
+		// spdlog::info(sModeInfo);
 	}
 }
 

@@ -131,22 +131,20 @@
     <ClCompile Include="Graphics\OpenGL\CEOGLPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\DirectX12\Libraries\CEGeometryGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\DirectX12\Resources\CEWaves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\DirectX12\Resources\CEFrameResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\DirectX12\Libraries\GeometryGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl" />
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELandscapePixelShader.hlsl" />
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELandscapeVertexShader.hlsl" />
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEShapesVertexShader.hlsl" />
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEShapesPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasicPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasicVertexShader.hlsl" />
   </ItemGroup>
 </Project>

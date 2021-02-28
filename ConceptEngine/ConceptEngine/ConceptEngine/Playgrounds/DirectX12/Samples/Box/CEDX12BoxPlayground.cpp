@@ -55,6 +55,7 @@ void CEDX12BoxPlayground::Create() {
 
 	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
 	auto commandList = m_dx12manager->GetD3D12CommandList();
+	
 	// Execute the initialization commands.
 	ThrowIfFailed(commandList->Close());
 	ID3D12CommandList* cmdsLists[] = {commandList.Get()};
