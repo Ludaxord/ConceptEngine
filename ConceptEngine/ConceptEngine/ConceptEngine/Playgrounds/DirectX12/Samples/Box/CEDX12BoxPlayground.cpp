@@ -49,7 +49,7 @@ void CEDX12BoxPlayground::Create() {
 
 	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
 	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
-	BuildShadersAndInputLayout();
+	BuildShadersAndInputLayout("CEBoxVertexShader.hlsl", "CEBoxPixelShader.hlsl");
 	BuildBoxGeometry();
 	BuildPSO();
 
@@ -257,28 +257,6 @@ void CEDX12BoxPlayground::OnKeyDown(ConceptEngineFramework::Game::KeyCode key, c
 
 void CEDX12BoxPlayground::OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) {
 
-}
-
-void CEDX12BoxPlayground::BuildShadersAndInputLayout() {
-	HRESULT hr = S_OK;
-
-	m_vsByteCode = m_dx12manager->CompileShaders("CEBoxVertexShader.hlsl",
-	                                             nullptr,
-	                                             "VS",
-	                                             // "vs_6_3"
-	                                             "vs_5_0"
-	);
-	m_psByteCode = m_dx12manager->CompileShaders("CEBoxPixelShader.hlsl",
-	                                             nullptr,
-	                                             "PS",
-	                                             // "ps_6_3"
-	                                             "ps_5_0"
-	);
-
-	m_inputLayout = {
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
-	};
 }
 
 void CEDX12BoxPlayground::BuildBoxGeometry() {

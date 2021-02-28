@@ -31,7 +31,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void UpdateObjectCBs(const CETimer& gt);
 		virtual void UpdateMainPassCB(const CETimer& gt);
 	protected:
-		virtual void BuildShadersAndInputLayout();
+		virtual void BuildShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
 		virtual void BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature);
 
 		CEDX12Manager* m_dx12manager = nullptr;
