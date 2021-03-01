@@ -34,7 +34,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 	struct CENode {
 		std::vector<CENormalVertex> vertices;
-		std::vector<std::int32_t> indices;
+		std::vector<std::uint64_t> indices;
 	};
 
 	struct CEObjectConstants {

@@ -229,8 +229,8 @@ void CEDX12LitShapesPlayground::BuildModelGeometry() {
 	auto node = m_dx12manager->LoadNode("BrickLandspeeder4501.obj");
 	spdlog::info("NODES: VERTEX {} INDEX {}", node.vertices.size(), node.indices.size());
 
-	const UINT vbByteSize = (UINT)node.vertices.size() * sizeof(Resources::CEVertex);
-	const UINT ibByteSize = (UINT)node.indices.size() * sizeof(std::int32_t);
+	const UINT vbByteSize = (UINT)node.vertices.size() * sizeof(Resources::CENormalVertex);
+	const UINT ibByteSize = (UINT)node.indices.size() * sizeof(std::uint64_t);
 
 	auto geo = std::make_unique<Resources::MeshGeometry>();
 	geo->Name = "legoGeo";
@@ -247,7 +247,7 @@ void CEDX12LitShapesPlayground::BuildModelGeometry() {
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(node.indices.data(), ibByteSize,
 	                                                         geo->IndexBufferUploader);
 
-	geo->VertexByteStride = sizeof(Resources::CEVertex);
+	geo->VertexByteStride = sizeof(Resources::CENormalVertex);
 	geo->VertexBufferByteSize = vbByteSize;
 	geo->IndexFormat = DXGI_FORMAT_R32_FLOAT;
 	geo->IndexBufferByteSize = ibByteSize;

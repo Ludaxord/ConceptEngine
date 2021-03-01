@@ -385,7 +385,7 @@ Resources::CENode CEDX12Manager::LoadNode(const std::string fileName) {
 	int iicount = 0;
 
 	std::vector<Resources::CENormalVertex> vertices(vcount);
-	std::vector<std::int32_t> indices(icount);
+	std::vector<std::uint64_t> indices(icount);
 
 	for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
 		auto* aiMesh = scene->mMeshes[j];
