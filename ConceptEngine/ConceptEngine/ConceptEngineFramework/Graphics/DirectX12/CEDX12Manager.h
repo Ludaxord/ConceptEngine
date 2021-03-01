@@ -32,6 +32,8 @@
 #include <assimp/scene.h>           // Output data structure
 #include <assimp/postprocess.h>     // Post processing flags
 
+#include "Resources/CETypes.h"
+
 namespace ConceptEngineFramework {
 	namespace Game {
 		class CEWindow;
@@ -69,10 +71,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
 		const aiScene* LoadModelFromFile(std::string fileName) const;
-		
+		std::vector<Resources::CENode> LoadNode(const std::string fileName);
 		UINT64 GetFenceValue() const;
-		void SetFenceValue(UINT64 newFence) ;
-		
+		void SetFenceValue(UINT64 newFence);
+
 		UINT GetCurrentBackBuffer() const;
 		UINT GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType);
 

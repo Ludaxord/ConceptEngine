@@ -18,7 +18,7 @@ void CEDX12LitShapesPlayground::Create() {
 
 	//build shapes geometry
 	BuildGeometry();
-	
+
 	//build materials
 
 	//build render items
@@ -81,6 +81,6 @@ void CEDX12LitShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 }
 
 void CEDX12LitShapesPlayground::BuildGeometry() {
-	auto scene = m_dx12manager->LoadModelFromFile("BrickLandspeeder4501.obj");
-
+	auto node = m_dx12manager->LoadNode("BrickLandspeeder4501.obj");
+	spdlog::info("NODES: {}", node.size());
 }
