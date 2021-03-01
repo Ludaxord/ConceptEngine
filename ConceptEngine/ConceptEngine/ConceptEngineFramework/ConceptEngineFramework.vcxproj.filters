@@ -146,5 +146,7 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasicPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasicVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitPixelShader.hlsl" />
   </ItemGroup>
 </Project>

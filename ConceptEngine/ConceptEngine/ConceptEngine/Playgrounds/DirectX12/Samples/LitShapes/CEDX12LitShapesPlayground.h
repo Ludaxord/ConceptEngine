@@ -29,5 +29,10 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 	private:
 		void BuildGeometry();
+		void BuildMaterials();
+		void BuildRenderItems();
+		void BuildFrameResources();
+		
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 	};
 }

@@ -11,25 +11,52 @@ void CEDX12LitShapesPlayground::Create() {
 	CEDX12Playground::Create();
 
 	//Reset command list
+	m_dx12manager->ResetCommandList();
 
 	//Build root signature
+	CD3DX12_ROOT_PARAMETER slotRootParameter[3];
+
+	//Root parameter can be a table, root descriptor or root constants
+	slotRootParameter[0].InitAsConstantBufferView(0);
+	slotRootParameter[1].InitAsConstantBufferView(1);
+	slotRootParameter[2].InitAsConstantBufferView(2);
+
+	//Root signature is an array of root parameters
+	CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc(3,
+	                                              slotRootParameter,
+	                                              0,
+	                                              nullptr,
+	                                              D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
 
 	//Build shaders and inputs layout
+	BuildShadersAndInputLayout("CELitVertexShader.hlsl", "CELitPixelShader.hlsl");
 
 	//build shapes geometry
 	BuildGeometry();
 
 	//build materials
+	BuildMaterials();
 
 	//build render items
+	BuildRenderItems();
 
 	//build frame resources
+	BuildFrameResources();
 
 	//build pso
+	BuildPSOs(m_rootSignature);
 
 	//execute command list
+	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
+	auto commandList = m_dx12manager->GetD3D12CommandList();
 
-	//flush command queue
+	ThrowIfFailed(commandList->Close());
+	ID3D12CommandList* commandLists[] = {commandList.Get()};
+	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	//Wait until initialization is complete
+	m_dx12manager->FlushCommandQueue();
 }
 
 void CEDX12LitShapesPlayground::Update(const CETimer& gt) {
@@ -81,6 +108,15 @@ void CEDX12LitShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 }
 
 void CEDX12LitShapesPlayground::BuildGeometry() {
-	auto node = m_dx12manager->LoadNode("BrickLandspeeder4501.obj");
-	spdlog::info("NODES: {}", node.size());
+	auto nodes = m_dx12manager->LoadNode("BrickLandspeeder4501.obj");
+	spdlog::info("NODES: {}", nodes.size());
+}
+
+void CEDX12LitShapesPlayground::BuildMaterials() {
+}
+
+void CEDX12LitShapesPlayground::BuildRenderItems() {
+}
+
+void CEDX12LitShapesPlayground::BuildFrameResources() {
 }
