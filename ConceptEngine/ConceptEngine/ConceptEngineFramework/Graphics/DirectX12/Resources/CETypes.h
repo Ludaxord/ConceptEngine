@@ -21,16 +21,20 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		                  0.0f, 0.0f, 1.0f, 0.0f,
 		                  0.0f, 0.0f, 0.0f, 1.0f);
 	}
-
-
+	
 	struct CEVertex {
 		XMFLOAT3 Pos;
 		XMFLOAT4 Color;
 	};
 
+	struct CENormalVertex {
+		XMFLOAT3 Pos;
+		XMFLOAT3 Normal;
+	};
+
 	struct CENode {
-		std::vector<CEVertex> vertices;
-		std::vector<std::uint16_t> indices;
+		std::vector<CENormalVertex> vertices;
+		std::vector<std::int32_t> indices;
 	};
 
 	struct CEObjectConstants {

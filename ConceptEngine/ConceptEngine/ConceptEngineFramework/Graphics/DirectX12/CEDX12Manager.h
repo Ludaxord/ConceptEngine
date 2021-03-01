@@ -71,7 +71,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
 		const aiScene* LoadModelFromFile(std::string fileName) const;
-		std::vector<Resources::CENode> LoadNode(const std::string fileName);
+		Resources::CENode LoadNode(const std::string fileName);
 		UINT64 GetFenceValue() const;
 		void SetFenceValue(UINT64 newFence);
 

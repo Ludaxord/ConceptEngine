@@ -28,11 +28,32 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void UpdateMainPassCB(const CETimer& gt) override;
 
 	private:
-		void BuildGeometry();
+		void BuildShapeGeometry();
+		void BuildModelGeometry();
 		void BuildMaterials();
 		void BuildRenderItems();
 		void BuildFrameResources();
-		
+
+		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
+
+		Resources::CEFrameResource* mCurrFrameResource = nullptr;
+		int mCurrFrameResourceIndex = 0;
+
+		std::unordered_map<std::string, std::unique_ptr<Resources::MeshGeometry>> mGeometries;
+		std::unordered_map<std::string, std::unique_ptr<Resources::Material>> mMaterials;
+		std::unordered_map<std::string, std::shared_ptr<Resources::Texture>> mTextures;
+
+		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3DBlob>> mShaders;
+
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
+		Microsoft::WRL::ComPtr<ID3D12PipelineState> mOpaquePSO = nullptr;
+
+		//list of all render items.
+		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
+
+		//Render items divided by PSO;
+		std::vector<Resources::RenderItem*> mOpaqueRitems;
+
+		Resources::PassConstants mMainPassCB;
 	};
 }

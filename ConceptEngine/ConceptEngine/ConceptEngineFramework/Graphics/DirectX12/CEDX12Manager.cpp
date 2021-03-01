@@ -335,7 +335,7 @@ Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetFence() const {
 	return m_fence;
 }
 
-std::vector<Resources::CENode> CEDX12Manager::LoadNode(const std::string fileName) {
+Resources::CENode CEDX12Manager::LoadNode(const std::string fileName) {
 	const auto currentPath = fs::current_path().parent_path().string();
 	std::stringstream modelsPathStream;
 	modelsPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
@@ -345,7 +345,6 @@ std::vector<Resources::CENode> CEDX12Manager::LoadNode(const std::string fileNam
 
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(modelPath, aiProcess_GenBoundingBoxes);
-	std::vector<Resources::CENode> nodes;
 
 	// If the import failed, report it
 	if (!scene) {
@@ -354,29 +353,79 @@ std::vector<Resources::CENode> CEDX12Manager::LoadNode(const std::string fileNam
 		spdlog::error(importer.GetErrorString());
 	}
 
+	int vcount = 0;
+	int icount = 0;
 
-	// Import meshes
+	{
+		// Import meshes
+		for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
+			auto* aiMesh = scene->mMeshes[j];
+			unsigned int i;
+			if (aiMesh->HasPositions()) {
+				for (i = 0; i < aiMesh->mNumVertices; ++i) {
+					vcount++;
+				}
+			}
+
+			// Extract the index buffer.
+			if (aiMesh->HasFaces()) {
+				for (i = 0; i < aiMesh->mNumFaces; ++i) {
+					const aiFace& face = aiMesh->mFaces[i];
+
+					// Only extract triangular faces
+					if (face.mNumIndices == 3) {
+						icount++;
+					}
+				}
+			}
+		}
+	}
+
+	int vvcount = 0;
+	int iicount = 0;
+
+	std::vector<Resources::CENormalVertex> vertices(vcount);
+	std::vector<std::int32_t> indices(icount);
+
 	for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
-		auto aiMesh = scene->mMeshes[j];
-		std::vector<Resources::CEVertex> vertices(aiMesh->mNumVertices);
+		auto* aiMesh = scene->mMeshes[j];
 		unsigned int i;
-		if (aiMesh->HasPositions()) {
-			for (i = 0; i < aiMesh->mNumVertices; ++i) {
-				vertices[i].Pos = {
+
+		for (i = 0; i < aiMesh->mNumVertices; ++i) {
+			if (aiMesh->HasPositions()) {
+				vertices[vvcount].Pos = {
 					aiMesh->mVertices[i].x,
 					aiMesh->mVertices[i].y,
 					aiMesh->mVertices[i].z
 				};
 			}
+			if (aiMesh->HasNormals()) {
+				vertices[vvcount].Normal = {
+					aiMesh->mNormals[i].x,
+					aiMesh->mNormals[i].y,
+					aiMesh->mNormals[i].z
+				};
+			}
+			vvcount++;
+		}
+
+		// Extract the index buffer.
+		if (aiMesh->HasFaces()) {
+			for (i = 0; i < aiMesh->mNumFaces; ++i) {
+				const aiFace& face = aiMesh->mFaces[i];
+
+				// Only extract triangular faces
+				if (face.mNumIndices == 3) {
+					indices.push_back(face.mIndices[0]);
+					indices.push_back(face.mIndices[1]);
+					indices.push_back(face.mIndices[2]);
+					iicount++;
+				}
+			}
 		}
 
 		//TODO: implement in CEVertex Struct
 		/*
-		if (aiMesh->HasNormals()) {
-			for (i = 0; i < aiMesh->mNumVertices; ++i) {
-				vertexData[i].Normal = {aiMesh->mNormals[i].x, aiMesh->mNormals[i].y, aiMesh->mNormals[i].z};
-			}
-		}
 
 		if (aiMesh->HasTangentsAndBitangents()) {
 			for (i = 0; i < aiMesh->mNumVertices; ++i) {
@@ -397,25 +446,10 @@ std::vector<Resources::CENode> CEDX12Manager::LoadNode(const std::string fileNam
 			}
 		}
 		 */
-
-		std::vector<std::uint16_t> indices(aiMesh->mNumFaces);
-		// Extract the index buffer.
-		if (aiMesh->HasFaces()) {
-			for (i = 0; i < aiMesh->mNumFaces; ++i) {
-				const aiFace& face = aiMesh->mFaces[i];
-
-				// Only extract triangular faces
-				if (face.mNumIndices == 3) {
-					indices.push_back(face.mIndices[0]);
-					indices.push_back(face.mIndices[1]);
-					indices.push_back(face.mIndices[2]);
-				}
-			}
-		}
-
-		nodes.push_back({vertices, indices});
 	}
-	return nodes;
+
+
+	return {vertices, indices};
 }
 
 const aiScene* CEDX12Manager::LoadModelFromFile(const std::string fileName) const {
