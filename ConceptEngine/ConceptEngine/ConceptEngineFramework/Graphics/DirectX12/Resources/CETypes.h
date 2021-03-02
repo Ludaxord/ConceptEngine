@@ -21,7 +21,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		                  0.0f, 0.0f, 1.0f, 0.0f,
 		                  0.0f, 0.0f, 0.0f, 1.0f);
 	}
-	
+
 	struct CEVertex {
 		XMFLOAT3 Pos;
 		XMFLOAT4 Color;
@@ -226,6 +226,35 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//Index into GPU constant buffer corresponding to ObjectCB for render item
 		UINT ObjCBIndex = -1;
 
+		MeshGeometry* Geo = nullptr;
+
+		//Primitive Topology
+		D3D12_PRIMITIVE_TOPOLOGY PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+		//DrawIndexedInstanced parameters
+		UINT IndexCount = 0;
+		UINT StartIndexLocation = 0;
+		int BaseVertexLocation = 0;
+	};
+
+	struct LitShapesRenderItem : RenderItem {
+		LitShapesRenderItem() = default;
+
+		//World matrix of shape that describes object's local space.
+		//Relative to world space, which defines position, orientation and scale of object in world
+		XMFLOAT4X4 World = MatrixIdentity4X4();
+
+		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
+
+		//Dirty flag indicating object data has changed and we need to update constant buffer
+		//Because we have an object cbuffer for each resource we have to apply update to each resource
+		//Thus, when we modify object data we should set NumFramesDirty = gNumFrameResources, so that each frame resource gets update.
+		int NumFramesDirty = gNumFrameResources;
+
+		//Index into GPU constant buffer corresponding to ObjectCB for render item
+		UINT ObjCBIndex = -1;
+
+		Material* Mat = nullptr;
 		MeshGeometry* Geo = nullptr;
 
 		//Primitive Topology

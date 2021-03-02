@@ -386,6 +386,7 @@ Resources::CENode CEDX12Manager::LoadNode(const std::string fileName) {
 
 	std::vector<Resources::CENormalVertex> vertices(vcount);
 	std::vector<std::uint64_t> indices(icount);
+	std::vector<Resources::Material> materials(scene->mNumMaterials);
 
 	for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
 		auto* aiMesh = scene->mMeshes[j];
@@ -448,6 +449,59 @@ Resources::CENode CEDX12Manager::LoadNode(const std::string fileName) {
 		 */
 	}
 
+	for (unsigned int j = 0; j < scene->mNumMaterials; ++j) {
+		auto aiMaterial = scene->mMaterials[j];
+
+		aiString materialName;
+		aiString aiTexturePath;
+		aiTextureOp aiBlendOperation;
+		float blendFactor;
+		aiColor4D diffuseColor;
+		aiColor4D specularColor;
+		aiColor4D ambientColor;
+		aiColor4D emissiveColor;
+		float opacity;
+		float indexOfRefraction;
+		float reflectivity;
+		float shininess;
+		float bumpIntensity;
+
+		if (aiMaterial->Get(AI_MATKEY_COLOR_AMBIENT, ambientColor) == aiReturn_SUCCESS) {
+			auto XMAmbientColor = XMFLOAT4(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, emissiveColor) == aiReturn_SUCCESS) {
+			auto XMEmissiveColor = XMFLOAT4(emissiveColor.r, emissiveColor.g, emissiveColor.b, emissiveColor.a);
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == aiReturn_SUCCESS) {
+			auto XMDiffuseColor = XMFLOAT4(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specularColor) == aiReturn_SUCCESS) {
+			auto XMSpecularColor = XMFLOAT4(specularColor.r, specularColor.g, specularColor.b, specularColor.a);
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_SHININESS, shininess) == aiReturn_SUCCESS) {
+			auto XMShininess = shininess;
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_OPACITY, opacity) == aiReturn_SUCCESS) {
+			auto XMOpacity = opacity;
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_REFRACTI, indexOfRefraction) == aiReturn_SUCCESS) {
+			auto XMIndexOfRefraction = indexOfRefraction;
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_REFLECTIVITY, reflectivity) == aiReturn_SUCCESS) {
+			auto XMReflectivity = XMFLOAT4(reflectivity, reflectivity, reflectivity, reflectivity);
+		}
+
+		if (aiMaterial->Get(AI_MATKEY_BUMPSCALING, bumpIntensity) == aiReturn_SUCCESS) {
+			auto XMBumpIntensity = bumpIntensity;
+		}
+	}
 
 	return {vertices, indices};
 }
