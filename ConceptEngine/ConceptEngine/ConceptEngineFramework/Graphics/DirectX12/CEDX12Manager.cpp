@@ -452,6 +452,93 @@ Resources::CENode CEDX12Manager::LoadNode(const std::string fileName) {
 	return {vertices, indices};
 }
 
+std::vector<Resources::CENode> CEDX12Manager::LoadNodes(const std::string fileName) {
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream modelsPathStream;
+	modelsPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
+		fileName;
+	auto modelPath = modelsPathStream.str();
+	spdlog::info("Loading Model: {}", modelPath);
+
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(modelPath, aiProcess_GenBoundingBoxes);
+
+	// If the import failed, report it
+	if (!scene) {
+		OutputDebugStringA("ERROR WHILE LOADING MODEL");
+		OutputDebugStringA(importer.GetErrorString());
+		spdlog::error(importer.GetErrorString());
+	}
+	std::vector<Resources::CENode> nodes;
+
+	for (unsigned int j = 0; j < scene->mNumMeshes; ++j) {
+		auto* aiMesh = scene->mMeshes[j];
+		unsigned int i;
+		std::vector<Resources::CENormalVertex> vertices(aiMesh->mNumVertices);
+
+		for (i = 0; i < aiMesh->mNumVertices; ++i) {
+			if (aiMesh->HasPositions()) {
+				vertices[i].Pos = {
+					aiMesh->mVertices[i].x,
+					aiMesh->mVertices[i].y,
+					aiMesh->mVertices[i].z
+				};
+			}
+			if (aiMesh->HasNormals()) {
+				vertices[i].Normal = {
+					aiMesh->mNormals[i].x,
+					aiMesh->mNormals[i].y,
+					aiMesh->mNormals[i].z
+				};
+			}
+		}
+
+
+		std::vector<std::uint64_t> indices(aiMesh->mNumFaces);
+		// Extract the index buffer.
+		if (aiMesh->HasFaces()) {
+			for (i = 0; i < aiMesh->mNumFaces; ++i) {
+				const aiFace& face = aiMesh->mFaces[i];
+
+				// Only extract triangular faces
+				if (face.mNumIndices == 3) {
+					indices.push_back(face.mIndices[0]);
+					indices.push_back(face.mIndices[1]);
+					indices.push_back(face.mIndices[2]);
+				}
+			}
+		}
+
+		//TODO: implement in CEVertex Struct
+		/*
+
+		if (aiMesh->HasTangentsAndBitangents()) {
+			for (i = 0; i < aiMesh->mNumVertices; ++i) {
+				vertexData[i].Tangent = {aiMesh->mTangents[i].x, aiMesh->mTangents[i].y, aiMesh->mTangents[i].z};
+				vertexData[i].Bitangent = {
+					aiMesh->mBitangents[i].x, aiMesh->mBitangents[i].y, aiMesh->mBitangents[i].z
+				};
+			}
+		}
+
+		if (aiMesh->HasTextureCoords(0)) {
+			for (i = 0; i < aiMesh->mNumVertices; ++i) {
+				vertexData[i].TexCoord = {
+					aiMesh->mTextureCoords[0][i].x,
+					aiMesh->mTextureCoords[0][i].y,
+					aiMesh->mTextureCoords[0][i].z
+				};
+			}
+		}
+		 */
+
+		nodes.push_back({vertices, indices});
+	}
+
+
+	return nodes;
+}
+
 const aiScene* CEDX12Manager::LoadModelFromFile(const std::string fileName) const {
 	const auto currentPath = fs::current_path().parent_path().string();
 	std::stringstream modelsPathStream;
