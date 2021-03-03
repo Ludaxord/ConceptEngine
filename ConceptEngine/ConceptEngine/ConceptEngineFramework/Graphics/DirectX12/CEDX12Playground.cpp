@@ -32,6 +32,9 @@ void CEDX12Playground::Resize() {
 void CEDX12Playground::UpdateCamera(const CETimer& gt) {
 }
 
+void CEDX12Playground::AnimateMaterials(const CETimer& gt) {
+}
+
 void CEDX12Playground::OnMouseDown(Game::KeyCode key, int x, int y) {
 }
 
@@ -116,10 +119,13 @@ void CEDX12Playground::UpdateObjectCBs(const CETimer& gt) {
 void CEDX12Playground::UpdateMainPassCB(const CETimer& gt) {
 }
 
+void CEDX12Playground::UpdateMaterialCBs(const CETimer& gt) {
+}
+
 //TODO: Implement Shader Model 6 usage with DirectXShaderCompiler
 //TODO: References: https://asawicki.info/news_1719_two_shader_compilers_of_direct3d_12
 //TODO: References: https://github.com/Microsoft/DirectXShaderCompiler
-void CEDX12Playground::BuildShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName) {
+void CEDX12Playground::BuildColorShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName) {
 	m_shadersMap["standardVS"] = m_dx12manager->CompileShaders(vertexShaderFileName,
 	                                                           nullptr,
 	                                                           "VS",
@@ -136,6 +142,27 @@ void CEDX12Playground::BuildShadersAndInputLayout(std::string vertexShaderFileNa
 	m_inputLayout = {
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+	};
+}
+
+void CEDX12Playground::BuildNormalShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName) {
+	m_shadersMap["standardVS"] = m_dx12manager->CompileShaders(vertexShaderFileName,
+	                                                           nullptr,
+	                                                           "VS",
+	                                                           // "vs_6_3"
+	                                                           "vs_5_1"
+	);
+	m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders(pixelShaderFileName,
+	                                                         nullptr,
+	                                                         "PS",
+	                                                         // "ps_6_3"
+	                                                         "ps_5_1"
+	);
+
+	m_inputLayout = {
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 	};
 }

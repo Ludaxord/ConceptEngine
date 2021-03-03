@@ -42,7 +42,7 @@ void CEDX12LandscapePlayground::Create() {
 	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
 
 	//Create Shaders and input layout
-	BuildShadersAndInputLayout("CEBasicVertexShader.hlsl", "CEBasicPixelShader.hlsl");
+	BuildColorShadersAndInputLayout("CEBasicVertexShader.hlsl", "CEBasicPixelShader.hlsl");
 
 	//Create Landscape geometry
 	BuildLandscapeGeometry();

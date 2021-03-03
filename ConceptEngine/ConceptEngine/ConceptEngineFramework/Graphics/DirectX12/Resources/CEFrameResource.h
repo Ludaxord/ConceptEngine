@@ -22,6 +22,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//We cannot update cbuffer until GPU is done processing commands
 		//that is reference it. So each frame need their own cbuffers
 		std::unique_ptr<CEUploadBuffer<PassConstants>> PassCB = nullptr;
+		std::unique_ptr<CEUploadBuffer<MaterialConstants>> MaterialCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<CEObjectConstants>> ObjectCB = nullptr;
 
 		//We cannot update a dynamic vertex buffer until GPU is done processing commands that reference it.

@@ -31,7 +31,7 @@ void CEDX12LitShapesPlayground::Create() {
 	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
 
 	//Build shaders and inputs layout
-	BuildShadersAndInputLayout("CELitVertexShader.hlsl", "CELitPixelShader.hlsl");
+	BuildNormalShadersAndInputLayout("CELitVertexShader.hlsl", "CELitPixelShader.hlsl");
 
 	//build shapes geometry
 	BuildShapeGeometry();
@@ -63,6 +63,27 @@ void CEDX12LitShapesPlayground::Create() {
 
 void CEDX12LitShapesPlayground::Update(const CETimer& gt) {
 	CEDX12Playground::Update(gt);
+	UpdateCamera(gt);
+
+	//Cycle through te circular frame resource array
+	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
+	mCurrFrameResource = mFrameResources[mCurrFrameResourceIndex].get();
+
+	auto fence = m_dx12manager->GetD3D12Fence();
+	//Has GPU finished processing commands of current frame resource
+	//If not, wait until GPU has completed commands up to this fence point
+	if (mCurrFrameResource->Fence != 0 && fence->GetCompletedValue() < mCurrFrameResource->
+		Fence) {
+		HANDLE eventHandle = CreateEventEx(nullptr, FALSE, FALSE, EVENT_ALL_ACCESS);
+		ThrowIfFailed(fence->SetEventOnCompletion(mCurrFrameResource->Fence, eventHandle));
+		WaitForSingleObject(eventHandle, INFINITE);
+		CloseHandle(eventHandle);
+	}
+
+	AnimateMaterials(gt);
+	UpdateObjectCBs(gt);
+	UpdateMaterialCBs(gt);
+	UpdateMainPassCB(gt);
 }
 
 void CEDX12LitShapesPlayground::Render(const CETimer& gt) {
@@ -71,18 +92,55 @@ void CEDX12LitShapesPlayground::Render(const CETimer& gt) {
 
 void CEDX12LitShapesPlayground::Resize() {
 	CEDX12Playground::Resize();
+	static const float Pi = 3.1415926535f;
+	// The window resized, so update the aspect ratio and recompute the projection matrix.
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&mProj, P);
 }
 
 void CEDX12LitShapesPlayground::OnMouseDown(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseDown(key, x, y);
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
+
+	SetCapture(m_dx12manager->GetWindowHandle());
 }
 
 void CEDX12LitShapesPlayground::OnMouseUp(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseUp(key, x, y);
+
+	ReleaseCapture();
 }
 
 void CEDX12LitShapesPlayground::OnMouseMove(KeyCode key, int x, int y) {
 	CEDX12Playground::OnMouseMove(key, x, y);
+	static const float Pi = 3.1415926535f;
+	if (key == KeyCode::LButton) {
+		// Make each pixel correspond to a quarter of a degree.
+		float dx = XMConvertToRadians(0.25f * static_cast<float>(x - mLastMousePos.x));
+		float dy = XMConvertToRadians(0.25f * static_cast<float>(y - mLastMousePos.y));
+
+		// Update angles based on input to orbit camera around box.
+		mTheta += dx;
+		mPhi += dy;
+
+		// Restrict the angle mPhi.
+		mPhi = m_dx12manager->Clamp(mPhi, 0.1f, Pi - 0.1f);
+	}
+	else if (key == KeyCode::RButton) {
+		// Make each pixel correspond to 0.2 unit in the scene.
+		float dx = 0.2f * static_cast<float>(x - mLastMousePos.x);
+		float dy = 0.2f * static_cast<float>(y - mLastMousePos.y);
+
+		// Update the camera radius based on input.
+		mRadius += dx - dy;
+
+		// Restrict the radius.
+		mRadius = m_dx12manager->Clamp(mRadius, 5.0f, 150.0f);
+	}
+
+	mLastMousePos.x = x;
+	mLastMousePos.y = y;
 }
 
 void CEDX12LitShapesPlayground::OnKeyUp(KeyCode key, char keyChar) {
@@ -99,14 +157,111 @@ void CEDX12LitShapesPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int 
 
 void CEDX12LitShapesPlayground::UpdateCamera(const CETimer& gt) {
 	CEDX12Playground::UpdateCamera(gt);
+	// Convert Spherical to Cartesian coordinates.
+	mEyePos.x = mRadius * sinf(mPhi) * cosf(mTheta);
+	mEyePos.z = mRadius * sinf(mPhi) * sinf(mTheta);
+	mEyePos.y = mRadius * cosf(mPhi);
+
+	// Build the view matrix.
+	XMVECTOR pos = XMVectorSet(mEyePos.x, mEyePos.y, mEyePos.z, 1.0f);
+	XMVECTOR target = XMVectorZero();
+	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
+	XMStoreFloat4x4(&mView, view);
+}
+
+void CEDX12LitShapesPlayground::AnimateMaterials(const CETimer& gt) {
+	CEDX12Playground::AnimateMaterials(gt);
 }
 
 void CEDX12LitShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 	CEDX12Playground::UpdateObjectCBs(gt);
+
+	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
+	for (auto& ri : mAllRitems) {
+		Resources::LitShapesRenderItem* e = static_cast<Resources::LitShapesRenderItem*>(ri.get());
+		// Only update the cbuffer data if the constants have changed.  
+		// This needs to be tracked per frame resource.
+		if (e->NumFramesDirty > 0) {
+			XMMATRIX world = XMLoadFloat4x4(&e->World);
+			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
+
+			Resources::CEObjectConstants objConstants;
+			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
+			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
+
+			currObjectCB->CopyData(e->ObjCBIndex, objConstants);
+
+			// Next FrameResource need to be updated too.
+			e->NumFramesDirty--;
+		}
+	}
+}
+
+void CEDX12LitShapesPlayground::UpdateMaterialCBs(const CETimer& gt) {
+	CEDX12Playground::UpdateMaterialCBs(gt);
+	auto currMaterialCB = mCurrFrameResource->MaterialCB.get();
+	for (auto& e : mMaterials) {
+		//Only update cbuffer data if constants have changed. If cbuffer data changes, it needs to be updated for each FrameResource
+		Resources::Material* mat = e.second.get();
+		if (mat->NumFramesDirty > 0) {
+			XMMATRIX matTransform = XMLoadFloat4x4(&mat->MatTransform);
+
+			Resources::MaterialConstants matConstants;
+			matConstants.DiffuseAlbedo = mat->DiffuseAlbedo;
+			matConstants.FresnelR0 = mat->FresnelR0;
+			matConstants.Roughness = mat->Roughness;
+			XMStoreFloat4x4(&matConstants.MatTransform, XMMatrixTranspose(matTransform));
+
+			currMaterialCB->CopyData(mat->MatCBIndex, matConstants);
+
+			//Next FrameResource need to be updated too
+			mat->NumFramesDirty--;
+		}
+	}
 }
 
 void CEDX12LitShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	CEDX12Playground::UpdateMainPassCB(gt);
+	XMMATRIX view = XMLoadFloat4x4(&mView);
+	XMMATRIX proj = XMLoadFloat4x4(&mProj);
+
+	XMMATRIX viewProj = XMMatrixMultiply(view, proj);
+
+	auto determinantView = XMMatrixDeterminant(view);
+	XMMATRIX invView = XMMatrixInverse(&determinantView, view);
+
+	auto determinantProj = XMMatrixDeterminant(proj);
+	XMMATRIX invProj = XMMatrixInverse(&determinantProj, proj);
+
+	auto determinantViewProj = XMMatrixDeterminant(viewProj);
+	XMMATRIX invViewProj = XMMatrixInverse(&determinantViewProj, viewProj);
+
+	XMStoreFloat4x4(&mMainPassCB.View, XMMatrixTranspose(view));
+	XMStoreFloat4x4(&mMainPassCB.InvView, XMMatrixTranspose(invView));
+	XMStoreFloat4x4(&mMainPassCB.Proj, XMMatrixTranspose(proj));
+	XMStoreFloat4x4(&mMainPassCB.InvProj, XMMatrixTranspose(invProj));
+	XMStoreFloat4x4(&mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));
+	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
+
+	mMainPassCB.EyePosW = mEyePos;
+	mMainPassCB.RenderTargetSize = XMFLOAT2();
+	mMainPassCB.InvRenderTargetSize = XMFLOAT2();
+	mMainPassCB.NearZ = 1.0f;
+	mMainPassCB.FarZ = 1000.0f;
+	mMainPassCB.TotalTime = gt.TotalTime();
+	mMainPassCB.DeltaTime = gt.DeltaTime();
+	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
+	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[0].Strength = {0.6f, 0.6f, 0.6f};
+	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[1].Strength = {0.3f, 0.3f, 0.3f};
+	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
+	mMainPassCB.Lights[2].Strength = {0.15f, 0.15f, 0.15f};
+
+	auto currPassCB = mCurrFrameResource->PassCB.get();
+	currPassCB->CopyData(0, mMainPassCB);
 }
 
 void CEDX12LitShapesPlayground::BuildShapeGeometry() {

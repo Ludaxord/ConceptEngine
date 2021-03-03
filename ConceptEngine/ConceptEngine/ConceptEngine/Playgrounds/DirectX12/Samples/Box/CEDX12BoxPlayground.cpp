@@ -49,7 +49,7 @@ void CEDX12BoxPlayground::Create() {
 
 	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
 	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
-	BuildShadersAndInputLayout("CEBoxVertexShader.hlsl", "CEBoxPixelShader.hlsl");
+	BuildColorShadersAndInputLayout("CEBoxVertexShader.hlsl", "CEBoxPixelShader.hlsl");
 	BuildBoxGeometry();
 	BuildPSO();
 

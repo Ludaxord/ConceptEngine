@@ -24,7 +24,9 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) override;
 
 		void UpdateCamera(const CETimer& gt) override;
+		void AnimateMaterials(const CETimer& gt) override;
 		void UpdateObjectCBs(const CETimer& gt) override;
+		void UpdateMaterialCBs(const CETimer& gt) override;
 		void UpdateMainPassCB(const CETimer& gt) override;
 
 	private:
@@ -55,5 +57,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
 		Resources::PassConstants mMainPassCB;
+
+
+		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
 	};
 }

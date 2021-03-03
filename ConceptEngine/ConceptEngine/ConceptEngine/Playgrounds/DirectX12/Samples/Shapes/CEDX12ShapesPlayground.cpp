@@ -39,7 +39,7 @@ void CEDX12ShapesPlayground::Create() {
 	m_rootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
 
 	//Build shaders and input layout
-	BuildShadersAndInputLayout("CEBasicVertexShader.hlsl", "CEBasicPixelShader.hlsl");
+	BuildColorShadersAndInputLayout("CEBasicVertexShader.hlsl", "CEBasicPixelShader.hlsl");
 
 	//build geometry
 	BuildShapesGeometry();

@@ -13,6 +13,8 @@ using namespace DirectX;
 
 extern const int gNumFrameResources;
 
+#define MaxLights 16
+
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 	static XMFLOAT4X4 MatrixIdentity4X4() {
@@ -39,6 +41,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 	struct CEObjectConstants {
 		XMFLOAT4X4 WorldViewProjection = MatrixIdentity4X4();
+		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
 	};
 
 	//Defines subrange of geometry in MeshGeometry.
@@ -173,6 +176,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		float FarZ = 0.0f;
 		float TotalTime = 0.0f;
 		float DeltaTime = 0.0f;
+
+		XMFLOAT4 AmbientLight = {0.0f, 0.0f, 0.0f, 0.0f};
+
+		Light Lights[MaxLights];
 	};
 
 	struct RenderItem {

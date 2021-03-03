@@ -20,6 +20,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void Render(const CETimer& gt) override;
 		virtual void Resize() override;
 		virtual void UpdateCamera(const CETimer& gt) override;
+		virtual void AnimateMaterials(const CETimer& gt) override;
 
 		virtual void OnMouseDown(Game::KeyCode key, int x, int y) override;
 		virtual void OnMouseUp(Game::KeyCode key, int x, int y) override;
@@ -30,8 +31,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 
 		virtual void UpdateObjectCBs(const CETimer& gt);
 		virtual void UpdateMainPassCB(const CETimer& gt);
+		virtual void UpdateMaterialCBs(const CETimer& gt);
 	protected:
-		virtual void BuildShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
+		virtual void BuildColorShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
+		virtual void
+		BuildNormalShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
 		virtual void BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature);
 
 		CEDX12Manager* m_dx12manager = nullptr;
