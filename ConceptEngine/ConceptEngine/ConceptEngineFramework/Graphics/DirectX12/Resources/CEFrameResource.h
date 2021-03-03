@@ -10,7 +10,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	public:
 		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount);
 		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT waveVertexCount);
-		
+		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT materialCount, UINT wavesCount);
+
 		CEFrameResource(const CEFrameResource& rhs) = delete;
 		CEFrameResource& operator=(const CEFrameResource& rhs) = delete;
 		~CEFrameResource();

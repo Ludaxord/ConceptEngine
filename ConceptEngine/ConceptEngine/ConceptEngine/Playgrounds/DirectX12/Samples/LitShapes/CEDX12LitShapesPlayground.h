@@ -36,6 +36,9 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildRenderItems();
 		void BuildFrameResources();
 
+		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
+			std::vector<Resources::RenderItem*>& ritems) const;
+
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
 		Resources::CEFrameResource* mCurrFrameResource = nullptr;

@@ -1,28 +1,20 @@
-[2021-03-03 20:57:22.725] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-03-03 20:57:22.754] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-03-03 20:57:22.754] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-03-03 20:57:22.754] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-03-03 20:57:22.754] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-03-03 20:57:22.909] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-03-03 20:57:23.078] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-03-03 20:57:23.078] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-03-03 20:57:23.079] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-03-03 20:57:23.092] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-03-03 20:57:23.135] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-03-03 20:57:23.135] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-03-03 20:57:23.135] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-03-03 20:57:23.135] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-03-03 20:57:23.135] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-03-03 20:57:23.135] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-03-03 20:57:23.141] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CELitVertexShader.hlsl
-[2021-03-03 20:57:23.148] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CELitPixelShader.hlsl
-[2021-03-03 20:57:23.167] [ConceptEngine] [info] Loading Model: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\BrickLandspeeder4501.obj
-[2021-03-03 20:57:33.806] [ConceptEngine] [info] NODES: VERTEX 273574 INDEX 33528
-[2021-03-03 20:57:34.822] [ConceptEngine] [info] FPS: 443881
-[2021-03-03 20:57:34.822] [ConceptEngine] [info] MSPF: 0.002252856
-[2021-03-03 20:57:35.822] [ConceptEngine] [info] FPS: 425907
-[2021-03-03 20:57:35.822] [ConceptEngine] [info] MSPF: 0.0023479303
-[2021-03-03 20:57:36.822] [ConceptEngine] [info] FPS: 433786
-[2021-03-03 20:57:36.822] [ConceptEngine] [info] MSPF: 0.0023052841
-[2021-03-03 20:57:37.822] [ConceptEngine] [info] FPS: 418742
-[2021-03-03 20:57:37.823] [ConceptEngine] [info] MSPF: 0.0023881053
+[2021-03-03 22:25:44.143] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-03-03 22:25:44.171] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-03-03 22:25:44.172] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-03-03 22:25:44.172] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-03-03 22:25:44.172] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-03-03 22:25:44.379] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-03-03 22:25:44.593] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-03-03 22:25:44.593] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-03-03 22:25:44.593] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-03-03 22:25:44.607] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-03-03 22:25:44.651] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-03-03 22:25:44.651] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-03-03 22:25:44.651] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-03-03 22:25:44.651] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-03-03 22:25:44.651] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-03-03 22:25:44.651] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-03-03 22:25:44.656] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CELitVertexShader.hlsl
+[2021-03-03 22:25:44.664] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CELitPixelShader.hlsl
+[2021-03-03 22:25:44.682] [ConceptEngine] [info] Loading Model: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\BrickLandspeeder4501.obj
+[2021-03-03 22:25:55.239] [ConceptEngine] [info] NODES: VERTEX 273574 INDEX 33528

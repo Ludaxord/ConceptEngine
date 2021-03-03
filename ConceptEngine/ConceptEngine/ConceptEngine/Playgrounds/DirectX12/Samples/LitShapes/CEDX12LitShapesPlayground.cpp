@@ -88,6 +88,74 @@ void CEDX12LitShapesPlayground::Update(const CETimer& gt) {
 
 void CEDX12LitShapesPlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
+
+	auto mScreenViewport = m_dx12manager->GetViewPort();
+	auto mScissorRect = m_dx12manager->GetScissorRect();
+
+	auto cmdListAlloc = mCurrFrameResource->commandAllocator;
+
+	// Reuse the memory associated with command recording.
+	// We can only reset when the associated command lists have finished execution on the GPU.
+	ThrowIfFailed(cmdListAlloc->Reset());
+
+	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+	// Reusing the command list reuses memory.
+	if (mIsWireframe) {
+		ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(), mPSOs["opaque_wireframe"].Get()));
+	}
+	else {
+		ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(), mPSOs["opaque"].Get()));
+	}
+
+	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
+	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
+
+	auto trRt = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+	// Indicate a state transition on the resource usage.
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trRt);
+
+	// Clear the back buffer and depth buffer.
+	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
+	                                                            Colors::LightSteelBlue, 0, nullptr);
+	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f,
+	                                                            0,
+	                                                            0, nullptr);
+
+	auto currBackBuffView = m_dx12manager->CurrentBackBufferView();
+	auto currDepthStencilView = m_dx12manager->DepthStencilView();
+	// Specify the buffers we are going to render to.
+	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
+
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
+
+	auto passCB = mCurrFrameResource->PassCB->Resource();
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
+
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mOpaqueRitems);
+
+	// Indicate a state transition on the resource usage.
+	auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                 D3D12_RESOURCE_STATE_PRESENT);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trPr);
+
+	// Done recording commands.
+	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
+
+	m_dx12manager->ExecuteCommandLists();
+
+	// Swap the back and front buffers
+	auto swapChain = m_dx12manager->GetDXGISwapChain();
+	ThrowIfFailed(swapChain->Present(0, 0));
+
+	auto currentBackBufferIndex = m_dx12manager->GetCurrentBackBufferIndex();
+	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
+
+	m_dx12manager->FlushCommandQueue();
 }
 
 void CEDX12LitShapesPlayground::Resize() {
@@ -202,9 +270,13 @@ void CEDX12LitShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 void CEDX12LitShapesPlayground::UpdateMaterialCBs(const CETimer& gt) {
 	CEDX12Playground::UpdateMaterialCBs(gt);
 	auto currMaterialCB = mCurrFrameResource->MaterialCB.get();
+
 	for (auto& e : mMaterials) {
 		//Only update cbuffer data if constants have changed. If cbuffer data changes, it needs to be updated for each FrameResource
 		Resources::Material* mat = e.second.get();
+		std::stringstream ss;
+		ss << "Material Name: " << mat->Name << std::endl;
+		OutputDebugStringA(ss.str().c_str());
 		if (mat->NumFramesDirty > 0) {
 			XMMATRIX matTransform = XMLoadFloat4x4(&mat->MatTransform);
 
@@ -404,7 +476,7 @@ void CEDX12LitShapesPlayground::BuildModelGeometry() {
 
 	geo->VertexByteStride = sizeof(Resources::CENormalVertex);
 	geo->VertexBufferByteSize = vbByteSize;
-	geo->IndexFormat = DXGI_FORMAT_R32_FLOAT;
+	geo->IndexFormat = DXGI_FORMAT_R32_UINT;
 	geo->IndexBufferByteSize = ibByteSize;
 
 	Resources::SubMeshGeometry subMesh;
@@ -437,18 +509,18 @@ void CEDX12LitShapesPlayground::BuildMaterials() {
 	auto tile = std::make_unique<Resources::Material>();
 	tile->Name = "tile";
 	tile->MatCBIndex = 2;
-	stone->DiffuseSrvHeapIndex = 2;
-	stone->DiffuseAlbedo = XMFLOAT4(Colors::LightGray);
-	stone->FresnelR0 = XMFLOAT3(0.02f, 0.02f, 0.02f);
-	stone->Roughness = 0.2f;
+	tile->DiffuseSrvHeapIndex = 2;
+	tile->DiffuseAlbedo = XMFLOAT4(Colors::LightGray);
+	tile->FresnelR0 = XMFLOAT3(0.02f, 0.02f, 0.02f);
+	tile->Roughness = 0.2f;
 
 	auto skullMat = std::make_unique<Resources::Material>();
-	stone->Name = "skullMat";
-	stone->MatCBIndex = 3;
-	stone->DiffuseSrvHeapIndex = 3;
-	stone->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	stone->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
-	stone->Roughness = 0.3f;
+	skullMat->Name = "skullMat";
+	skullMat->MatCBIndex = 3;
+	skullMat->DiffuseSrvHeapIndex = 3;
+	skullMat->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	skullMat->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
+	skullMat->Roughness = 0.3f;
 
 	mMaterials["bricks"] = std::move(bricks);
 	mMaterials["stone"] = std::move(stone);
@@ -565,8 +637,36 @@ void CEDX12LitShapesPlayground::BuildFrameResources() {
 				m_dx12manager->GetD3D12Device().Get(),
 				1,
 				(UINT)mAllRitems.size(),
-				(UINT)mMaterials.size()
+				(UINT)mMaterials.size(),
+				(UINT)0
 			)
 		);
+	}
+}
+
+void CEDX12LitShapesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
+                                                std::vector<Resources::RenderItem*>& ritems) const {
+	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT matCBByteSize = (sizeof(Resources::MaterialConstants) + 255) & ~255;
+
+	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
+	auto matCB = mCurrFrameResource->MaterialCB->Resource();
+
+	for (size_t i = 0; i < ritems.size(); ++i) {
+		auto ri = static_cast<Resources::LitShapesRenderItem*>(ritems[i]);
+
+		auto vertexBuffer = ri->Geo->VertexBufferView();
+		auto indexBuffer = ri->Geo->IndexBufferView();
+		cmdList->IASetVertexBuffers(0, 1, &vertexBuffer);
+		cmdList->IASetIndexBuffer(&indexBuffer);
+		cmdList->IASetPrimitiveTopology(ri->PrimitiveType);
+
+		D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress() + ri->ObjCBIndex * objCBByteSize;
+		D3D12_GPU_VIRTUAL_ADDRESS matCBAddress = matCB->GetGPUVirtualAddress() + ri->Mat->MatCBIndex * matCBByteSize;
+
+		cmdList->SetGraphicsRootConstantBufferView(0, objCBAddress);
+		cmdList->SetGraphicsRootConstantBufferView(1, matCBAddress);
+
+		cmdList->DrawIndexedInstanced(ri->IndexCount, 1, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
 	}
 }
