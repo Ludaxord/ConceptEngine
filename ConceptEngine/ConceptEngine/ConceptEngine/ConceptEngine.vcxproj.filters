@@ -45,6 +45,9 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

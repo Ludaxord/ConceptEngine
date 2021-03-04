@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.h" />
