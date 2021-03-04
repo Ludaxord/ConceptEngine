@@ -247,11 +247,11 @@ void CEDX12BoxPlayground::OnMouseMove(ConceptEngineFramework::Game::KeyCode key,
 	mLastMousePos.y = y;
 }
 
-void CEDX12BoxPlayground::OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) {
+void CEDX12BoxPlayground::OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar, const CETimer& gt) {
 	spdlog::info("KEYBOARD UP KEY: {}", keyChar);
 }
 
-void CEDX12BoxPlayground::OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) {
+void CEDX12BoxPlayground::OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar, const CETimer& gt) {
 	spdlog::info("KEYBOARD DOWN KEY: {}", keyChar);
 }
 

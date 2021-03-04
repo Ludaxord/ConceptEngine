@@ -24,9 +24,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 
 		virtual void OnMouseDown(Game::KeyCode key, int x, int y) override;
 		virtual void OnMouseUp(Game::KeyCode key, int x, int y) override;
+
+		//TODO: move world movement to another function to not copy and paste same code in loop
 		virtual void OnMouseMove(Game::KeyCode key, int x, int y) override;
-		virtual void OnKeyUp(Game::KeyCode key, char keyChar) override;
-		virtual void OnKeyDown(Game::KeyCode key, char keyChar) override;
+		virtual void OnKeyUp(Game::KeyCode key, char keyChar, const CETimer& gt) override;
+		virtual void OnKeyDown(Game::KeyCode key, char keyChar, const CETimer& gt) override;
 		virtual void OnMouseWheel(Game::KeyCode key, float wheelDelta, int x, int y) override;
 
 		virtual void UpdateObjectCBs(const CETimer& gt);

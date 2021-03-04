@@ -44,24 +44,20 @@ void CEDX12Playground::OnMouseUp(Game::KeyCode key, int x, int y) {
 void CEDX12Playground::OnMouseMove(Game::KeyCode key, int x, int y) {
 }
 
-void CEDX12Playground::OnKeyUp(Game::KeyCode key, char keyChar) {
+void CEDX12Playground::OnKeyUp(Game::KeyCode key, char keyChar, const CETimer& gt) {
 	switch (key) {
 	case Game::KeyCode::F1:
 		mIsWireframe = false;
 		break;
-	case Game::KeyCode::Up:
 	case Game::KeyCode::W:
 		m_forward = 0.0f;
 		break;
-	case Game::KeyCode::Left:
 	case Game::KeyCode::A:
 		m_left = 0.0f;
 		break;
-	case Game::KeyCode::Down:
 	case Game::KeyCode::S:
 		m_backward = 0.0f;
 		break;
-	case Game::KeyCode::Right:
 	case Game::KeyCode::D:
 		m_right = 0.0f;
 		break;
@@ -77,24 +73,20 @@ void CEDX12Playground::OnKeyUp(Game::KeyCode key, char keyChar) {
 	}
 }
 
-void CEDX12Playground::OnKeyDown(Game::KeyCode key, char keyChar) {
+void CEDX12Playground::OnKeyDown(Game::KeyCode key, char keyChar, const CETimer& gt) {
 	switch (key) {
 	case Game::KeyCode::F1:
 		mIsWireframe = true;
 		break;
-	case Game::KeyCode::Up:
 	case Game::KeyCode::W:
 		m_forward = 1.0f;
 		break;
-	case Game::KeyCode::Left:
 	case Game::KeyCode::A:
 		m_left = 1.0f;
 		break;
-	case Game::KeyCode::Down:
 	case Game::KeyCode::S:
 		m_backward = 1.0f;
 		break;
-	case Game::KeyCode::Right:
 	case Game::KeyCode::D:
 		m_right = 1.0f;
 		break;

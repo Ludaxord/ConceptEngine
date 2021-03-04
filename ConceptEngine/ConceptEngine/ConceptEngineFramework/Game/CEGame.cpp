@@ -246,12 +246,13 @@ LRESULT GameEngine::CEGame::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			PostQuitMessage(0);
 		}
 		else {
-			OnKeyUp(wParam, lParam);
+			OnKeyUp(wParam, lParam, m_timer);
 		}
 		return 0;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
-		OnKeyDown(wParam, lParam);
+		OnKeyDown(wParam, lParam, m_timer);
+		OnKeyDown(wParam, lParam, m_timer);
 		return 0;
 	case WM_MOUSEWHEEL: {
 		OnMouseWheel(wParam, lParam, hwnd);

@@ -48,7 +48,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	ObjectCB = std::make_unique<CEUploadBuffer<CEObjectConstants>>(device, objectCount, true);
 
 	if (wavesCount > 0) {
-		WavesVB = std::make_unique<CEUploadBuffer<CEVertex>>(device, wavesCount, false);
+		NormalWavesVB = std::make_unique<CEUploadBuffer<CENormalVertex>>(device, wavesCount, false);
 	}
 }
 

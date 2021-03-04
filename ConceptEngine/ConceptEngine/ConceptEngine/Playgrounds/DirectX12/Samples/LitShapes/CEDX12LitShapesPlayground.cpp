@@ -211,12 +211,12 @@ void CEDX12LitShapesPlayground::OnMouseMove(KeyCode key, int x, int y) {
 	mLastMousePos.y = y;
 }
 
-void CEDX12LitShapesPlayground::OnKeyUp(KeyCode key, char keyChar) {
-	CEDX12Playground::OnKeyUp(key, keyChar);
+void CEDX12LitShapesPlayground::OnKeyUp(KeyCode key, char keyChar, const CETimer& gt) {
+	CEDX12Playground::OnKeyUp(key, keyChar, gt);
 }
 
-void CEDX12LitShapesPlayground::OnKeyDown(KeyCode key, char keyChar) {
-	CEDX12Playground::OnKeyDown(key, keyChar);
+void CEDX12LitShapesPlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer& gt) {
+	CEDX12Playground::OnKeyDown(key, keyChar, gt);
 }
 
 void CEDX12LitShapesPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
@@ -296,6 +296,9 @@ void CEDX12LitShapesPlayground::UpdateMaterialCBs(const CETimer& gt) {
 
 void CEDX12LitShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	CEDX12Playground::UpdateMainPassCB(gt);
+	auto width = m_dx12manager->GetWindowWidth();
+	auto height = m_dx12manager->GetWindowHeight();
+	
 	XMMATRIX view = XMLoadFloat4x4(&mView);
 	XMMATRIX proj = XMLoadFloat4x4(&mProj);
 
@@ -318,19 +321,19 @@ void CEDX12LitShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
 
 	mMainPassCB.EyePosW = mEyePos;
-	mMainPassCB.RenderTargetSize = XMFLOAT2();
-	mMainPassCB.InvRenderTargetSize = XMFLOAT2();
+	mMainPassCB.RenderTargetSize = XMFLOAT2((float)width, (float)height);
+	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / width, 1.0f / height);
 	mMainPassCB.NearZ = 1.0f;
 	mMainPassCB.FarZ = 1000.0f;
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
-	mMainPassCB.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
-	mMainPassCB.Lights[0].Direction = { 0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[0].Strength = { 0.6f, 0.6f, 0.6f };
-	mMainPassCB.Lights[1].Direction = { -0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[1].Strength = { 0.3f, 0.3f, 0.3f };
-	mMainPassCB.Lights[2].Direction = { 0.0f, -0.707f, -0.707f };
-	mMainPassCB.Lights[2].Strength = { 0.15f, 0.15f, 0.15f };
+	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
+	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[0].Strength = {0.6f, 0.6f, 0.6f};
+	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[1].Strength = {0.3f, 0.3f, 0.3f};
+	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
+	mMainPassCB.Lights[2].Strength = {0.15f, 0.15f, 0.15f};
 
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(0, mMainPassCB);

@@ -241,12 +241,12 @@ void CEDX12ShapesPlayground::OnMouseMove(KeyCode key, int x, int y) {
 	mLastMousePos.y = y;
 }
 
-void CEDX12ShapesPlayground::OnKeyUp(KeyCode key, char keyChar) {
-	CEDX12Playground::OnKeyUp(key, keyChar);
+void CEDX12ShapesPlayground::OnKeyUp(KeyCode key, char keyChar, const CETimer& gt) {
+	CEDX12Playground::OnKeyUp(key, keyChar, gt);
 }
 
-void CEDX12ShapesPlayground::OnKeyDown(KeyCode key, char keyChar) {
-	CEDX12Playground::OnKeyDown(key, keyChar);
+void CEDX12ShapesPlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer& gt) {
+	CEDX12Playground::OnKeyDown(key, keyChar, gt);
 }
 
 void CEDX12ShapesPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {

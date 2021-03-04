@@ -1,15 +1,17 @@
 #pragma once
 
+
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Playground.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 using namespace ConceptEngineFramework::Game;
 
 namespace ConceptEngine::Playgrounds::DirectX12 {
-	class CEDX12LitShapesPlayground final : public CEDX12Playground {
+	class CEDX12LitWavesPlayground final : public CEDX12Playground {
 	public:
-		CEDX12LitShapesPlayground();
+		CEDX12LitWavesPlayground();
 
 		void Create() override;
 		void Update(const CETimer& gt) override;
@@ -30,14 +32,19 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void UpdateMainPassCB(const CETimer& gt) override;
 
 	private:
-		void BuildShapeGeometry();
-		void BuildModelGeometry();
+		void BuildLandGeometry();
+		void BuildWavesGeometryBuffers();
 		void BuildMaterials();
 		void BuildRenderItems();
 		void BuildFrameResources();
 
 		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-			std::vector<Resources::RenderItem*>& ritems) const;
+		                     std::vector<Resources::RenderItem*>& ritems) const;
+
+		float GetHillsHeight(float x, float z) const;
+		XMFLOAT3 GetHillsNormal(float x, float z) const;
+
+		void UpdateWaves(const CETimer& gt);
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
@@ -53,6 +60,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> mOpaquePSO = nullptr;
 
+		Resources::RenderItem* mWavesRitem = nullptr;
+
 		//list of all render items.
 		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
 
@@ -60,8 +69,11 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
 		Resources::PassConstants mMainPassCB;
-	
+
+		std::unique_ptr<Resources::CEWaves> m_waves;
 
 		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
+		float mSunTheta = 1.25f * XM_PI;
+		float mSunPhi = XM_PIDIV4;
 	};
 }

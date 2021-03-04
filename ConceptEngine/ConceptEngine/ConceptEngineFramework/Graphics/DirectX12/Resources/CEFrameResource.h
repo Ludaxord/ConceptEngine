@@ -29,6 +29,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//We cannot update a dynamic vertex buffer until GPU is done processing commands that reference it.
 		//So each frame needs their own.
 		std::unique_ptr<CEUploadBuffer<CEVertex>> WavesVB = nullptr;
+		std::unique_ptr<CEUploadBuffer<CENormalVertex>> NormalWavesVB = nullptr;
 
 		//Fence value to mark commands upt to this fence point.
 		//This lets us check if these frame resources are still in use by GPU

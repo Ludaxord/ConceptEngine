@@ -52,16 +52,16 @@ namespace ConceptEngineFramework {
 				m_playground->OnMouseMove(keyState, x, y);
 			}
 
-			virtual void OnKeyUp(WPARAM btnState, LPARAM btnValue) {
+			virtual void OnKeyUp(WPARAM btnState, LPARAM btnValue, const CETimer& gt) {
 				auto keyState = WParamToKeyCode(btnState);
 				auto keyChar = CharFromParams(btnState, btnValue);
-				m_playground->OnKeyUp(keyState, (char)keyChar);
+				m_playground->OnKeyUp(keyState, (char)keyChar, gt);
 			}
 
-			virtual void OnKeyDown(WPARAM btnState, LPARAM btnValue) {
+			virtual void OnKeyDown(WPARAM btnState, LPARAM btnValue, const CETimer& gt) {
 				auto keyState = WParamToKeyCode(btnState);
 				auto keyChar = CharFromParams(btnState, btnValue);
-				m_playground->OnKeyDown(keyState, (char)keyChar);
+				m_playground->OnKeyDown(keyState, (char)keyChar, gt);
 			}
 
 			virtual void OnMouseWheel(WPARAM wParam, LPARAM lParam, HWND hwnd) {

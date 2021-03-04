@@ -18,8 +18,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void OnMouseDown(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnMouseUp(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
 		void OnMouseMove(ConceptEngineFramework::Game::KeyCode key, int x, int y) override;
-		void OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
-		void OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar) override;
+		void OnKeyUp(ConceptEngineFramework::Game::KeyCode key, char keyChar, const CETimer& gt) override;
+		void OnKeyDown(ConceptEngineFramework::Game::KeyCode key, char keyChar, const CETimer& gt) override;
 		void OnMouseWheel(ConceptEngineFramework::Game::KeyCode key, float wheelDelta, int x, int y) override;
 
 		void UpdateCamera(const CETimer& gt) override;

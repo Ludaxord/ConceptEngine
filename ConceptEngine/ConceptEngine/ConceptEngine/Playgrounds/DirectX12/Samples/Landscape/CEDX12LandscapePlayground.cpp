@@ -235,12 +235,12 @@ void CEDX12LandscapePlayground::OnMouseMove(KeyCode key, int x, int y) {
 	mLastMousePos.y = y;
 }
 
-void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar) {
-	CEDX12Playground::OnKeyUp(key, keyChar);
+void CEDX12LandscapePlayground::OnKeyUp(KeyCode key, char keyChar, const CETimer& gt) {
+	CEDX12Playground::OnKeyUp(key, keyChar, gt);
 }
 
-void CEDX12LandscapePlayground::OnKeyDown(KeyCode key, char keyChar) {
-	CEDX12Playground::OnKeyDown(key, keyChar);
+void CEDX12LandscapePlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer& gt) {
+	CEDX12Playground::OnKeyDown(key, keyChar, gt);
 }
 
 void CEDX12LandscapePlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {

@@ -23,7 +23,7 @@ namespace ConceptEngineFramework::Graphics {
 		virtual void OnMouseUp(Game::KeyCode key, int x, int y) = 0;
 		virtual void OnMouseMove(Game::KeyCode key, int x, int y) = 0;
 		virtual void OnMouseWheel(Game::KeyCode key, float wheelDelta, int x, int y) = 0;
-		virtual void OnKeyUp(Game::KeyCode key, char keyChar) = 0;
-		virtual void OnKeyDown(Game::KeyCode key, char keyChar) = 0;
+		virtual void OnKeyUp(Game::KeyCode key, char keyChar, const CETimer& gt) = 0;
+		virtual void OnKeyDown(Game::KeyCode key, char keyChar, const CETimer& gt) = 0;
 	};
 }

@@ -70,6 +70,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Resource> GetDepthStencilBuffer() const;
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
+		XMVECTOR SphericalToCartesian(float radius, float theta, float phi);
+		
 		const aiScene* LoadModelFromFile(std::string fileName) const;
 		Resources::CENode32 LoadNodeFromTxt(const std::string fileName);
 		Resources::CENode LoadNode(const std::string fileName);

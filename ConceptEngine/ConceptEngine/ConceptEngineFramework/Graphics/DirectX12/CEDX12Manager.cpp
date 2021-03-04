@@ -337,6 +337,14 @@ Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetFence() const {
 	return m_fence;
 }
 
+DirectX::XMVECTOR CEDX12Manager::SphericalToCartesian(float radius, float theta, float phi) {
+	return DirectX::XMVectorSet(
+		radius * sinf(phi) * cosf(theta),
+		radius * cosf(phi),
+		radius * sinf(phi) * sinf(theta),
+		1.0f);
+}
+
 Resources::CENode32 CEDX12Manager::LoadNodeFromTxt(const std::string fileName) {
 	const auto currentPath = fs::current_path().parent_path().string();
 	std::stringstream modelsPathStream;
