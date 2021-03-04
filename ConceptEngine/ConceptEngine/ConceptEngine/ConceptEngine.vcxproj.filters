@@ -18,16 +18,7 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Shapes\CEDX12ShapesPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.cpp">
@@ -36,21 +27,27 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.cpp">
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Shapes\CEDX12ShapesPlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.h">
@@ -59,7 +56,22 @@
     <ClInclude Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.h">
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

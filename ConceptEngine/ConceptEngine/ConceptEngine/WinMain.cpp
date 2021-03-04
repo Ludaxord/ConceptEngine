@@ -6,13 +6,14 @@
 #include "../ConceptEngineFramework/CEFramework.h"
 
 //Samples imports
-#include "Playgrounds/DirectX12/Samples/Box/CEDX12BoxPlayground.h"
-#include "Playgrounds/DirectX12/Samples/Crate/CEDX12CratePlayground.h"
+#include "Playgrounds/DirectX12/Samples/BasicBox/CEDX12BoxPlayground.h"
+#include "Playgrounds/DirectX12/Samples/TexBox/CEDX12CratePlayground.h"
 #include "Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
-#include "Playgrounds/DirectX12/Samples/Landscape/CEDX12LandscapePlayground.h"
+#include "Playgrounds/DirectX12/Samples/BasicWaves/CEDX12LandscapePlayground.h"
 #include "Playgrounds/DirectX12/Samples/LitShapes/CEDX12LitShapesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/LitWaves/CEDX12LitWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/Shapes/CEDX12ShapesPlayground.h"
+#include "Playgrounds/DirectX12/Samples/BasicShapes/CEDX12ShapesPlayground.h"
+#include "Playgrounds/DirectX12/Samples/TexShapes/CEDX12TexShapesPlayground.h"
 
 using namespace ConceptEngineFramework;
 using namespace ConceptEngine::Playgrounds::DirectX12;
@@ -28,7 +29,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12ShapesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12LitShapesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12LitWavesPlayground();
-	Graphics::CEPlayground* playground = new CEDX12CratePlayground();
+	// Graphics::CEPlayground* playground = new CEDX12CratePlayground();
+	Graphics::CEPlayground* playground = new CEDX12TexShapesPlayground();
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,

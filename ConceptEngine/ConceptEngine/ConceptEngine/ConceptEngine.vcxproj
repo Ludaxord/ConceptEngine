@@ -153,13 +153,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Shapes\CEDX12ShapesPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,13 +170,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Shapes\CEDX12ShapesPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
