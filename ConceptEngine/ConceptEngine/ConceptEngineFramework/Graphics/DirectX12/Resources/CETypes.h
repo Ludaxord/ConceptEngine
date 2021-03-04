@@ -39,6 +39,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::vector<std::uint64_t> indices;
 	};
 
+	struct CENode32 {
+		std::vector<CENormalVertex> vertices;
+		std::vector<std::int32_t> indices;
+	};
+
 	struct CEObjectConstants {
 		XMFLOAT4X4 WorldViewProjection = MatrixIdentity4X4();
 		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();

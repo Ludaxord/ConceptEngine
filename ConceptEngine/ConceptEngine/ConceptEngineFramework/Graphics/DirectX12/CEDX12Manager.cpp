@@ -5,6 +5,8 @@
 #include "../../Tools/CEUtils.h"
 
 #include <DirectXColors.h>
+#include <fstream>
+
 
 #include "CEDX12Playground.h"
 
@@ -333,6 +335,49 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::GetDepthStencilBuffer() co
 
 Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetFence() const {
 	return m_fence;
+}
+
+Resources::CENode32 CEDX12Manager::LoadNodeFromTxt(const std::string fileName) {
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream modelsPathStream;
+	modelsPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
+		fileName;
+	auto modelPath = modelsPathStream.str();
+	spdlog::info("Loading Model from TXT: {}", modelPath);
+
+	std::ifstream fin(modelPath);
+
+	if (!fin) {
+		spdlog::error("FILE NOT FOUND: {}", modelPath);
+		return {};
+	}
+
+	UINT vcount = 0;
+	UINT tcount = 0;
+	std::string ignore;
+
+	fin >> ignore >> vcount;
+	fin >> ignore >> tcount;
+	fin >> ignore >> ignore >> ignore >> ignore;
+
+	std::vector<Resources::CENormalVertex> vertices(vcount);
+	for (UINT i = 0; i < vcount; ++i) {
+		fin >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
+		fin >> vertices[i].Normal.x >> vertices[i].Normal.y >> vertices[i].Normal.z;
+	}
+
+	fin >> ignore;
+	fin >> ignore;
+	fin >> ignore;
+
+	std::vector<std::int32_t> indices(3 * tcount);
+	for (UINT i = 0; i < tcount; ++i) {
+		fin >> indices[i * 3 + 0] >> indices[i * 3 + 1] >> indices[i * 3 + 2];
+	}
+
+	fin.close();
+
+	return {vertices, indices};
 }
 
 Resources::CENode CEDX12Manager::LoadNode(const std::string fileName) {

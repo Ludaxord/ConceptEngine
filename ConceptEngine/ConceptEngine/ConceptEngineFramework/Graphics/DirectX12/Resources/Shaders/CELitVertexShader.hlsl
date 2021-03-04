@@ -13,18 +13,22 @@
 #include "LightUtil.hlsl"
 #include "VertexHeader.h"
 
-cbuffer cbPerObject : register(b0) {
+cbuffer cbPerObject : register(b0)
+{
 float4x4 gWorld;
-}
+};
 
-cbuffer cbMaterial : register(b1) {
+cbuffer cbMaterial : register(b1)
+{
 float4 gDiffuseAlbedo;
 float3 gFresnelR0;
 float gRoughness;
 float4x4 gMatTransform;
-}
+};
 
-cbuffer cbPass : register(b2) {
+// Constant data that varies per material.
+cbuffer cbPass : register(b2)
+{
 float4x4 gView;
 float4x4 gInvView;
 float4x4 gProj;
@@ -39,23 +43,27 @@ float gNearZ;
 float gFarZ;
 float gTotalTime;
 float gDeltaTime;
-float gAmbientLight;
+float4 gAmbientLight;
 
+// Indices [0, NUM_DIR_LIGHTS) are directional lights;
+// indices [NUM_DIR_LIGHTS, NUM_DIR_LIGHTS+NUM_POINT_LIGHTS) are point lights;
+// indices [NUM_DIR_LIGHTS+NUM_POINT_LIGHTS, NUM_DIR_LIGHTS+NUM_POINT_LIGHT+NUM_SPOT_LIGHTS)
+// are spot lights for a maximum of MaxLights per object.
 Light gLights[MaxLights];
-}
+};
 
-LitVertexOut VS(LitVertexIn vIn) {
-	LitVertexOut vOut = (LitVertexOut)0.0f;
+LitVertexOut VS(LitVertexIn vin) {
+	LitVertexOut vout = (LitVertexOut)0.0f;
 
-	//Transform to world space
-	float4 posW = mul(float4(vIn.PosL, 1.0f), gWorld);
-	vOut.PosW = posW.xyz;
+	// Transform to world space.
+	float4 posW = mul(float4(vin.PosL, 1.0f), gWorld);
+	vout.PosW = posW.xyz;
 
-	//Assumes nonuniform scaling; otherwise, need to use inverse-transpose of world matrix.
-	vOut.NormalW = mul(vIn.NormalL, (float3x3)gWorld);
+	// Assumes nonuniform scaling; otherwise, need to use inverse-transpose of world matrix.
+	vout.NormalW = mul(vin.NormalL, (float3x3)gWorld);
 
-	//transform to homogeneous clip space
-	vOut.PosH = mul(posW, gViewProj);
+	// Transform to homogeneous clip space.
+	vout.PosH = mul(posW, gViewProj);
 
-	return vOut;
+	return vout;
 }
