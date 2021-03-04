@@ -480,7 +480,8 @@ void CEDX12LandscapePlayground::BuildFrameResources() {
 				m_dx12manager->GetD3D12Device().Get(),
 				1,
 				(UINT)mAllRitems.size(),
-				m_waves->VertexCount()
+				m_waves->VertexCount(),
+				Resources::WavesVertex
 			)
 		);
 	}

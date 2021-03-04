@@ -17,7 +17,8 @@ CEFrameResource::CEFrameResource(ID3D12Device* device, UINT passCount, UINT obje
 CEFrameResource::CEFrameResource(ID3D12Device* device,
                                  UINT passCount,
                                  UINT objectCount,
-                                 UINT waveVertexCount) {
+                                 UINT waveVertexCount,
+                                 WaveType waveType) {
 	ThrowIfFailed(device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(commandAllocator.GetAddressOf())
@@ -28,14 +29,28 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
 	ObjectCB = std::make_unique<CEUploadBuffer<CEObjectConstants>>(device, objectCount, true);
 
-	WavesVB = std::make_unique<CEUploadBuffer<CEVertex>>(device, waveVertexCount, false);
+	if (waveVertexCount > 0) {
+		switch (waveType) {
+		case WavesVertex:
+			WavesVB = std::make_unique<CEUploadBuffer<CEVertex>>(device, waveVertexCount, false);
+			break;
+		case WavesNormalVertex:
+			NormalWavesVB = std::make_unique<CEUploadBuffer<CENormalVertex>>(device, waveVertexCount, false);
+			break;
+		case WavesNormalTextureVertex:
+			NormalTextureWavesVB = std::make_unique<CEUploadBuffer<CENormalTextureVertex>>(
+				device, waveVertexCount, false);
+			break;
+		}
+	}
 }
 
 CEFrameResource::CEFrameResource(ID3D12Device* device,
                                  UINT passCount,
                                  UINT objectCount,
                                  UINT materialCount,
-                                 UINT wavesCount) {
+                                 UINT wavesCount,
+                                 WaveType waveType) {
 	ThrowIfFailed(device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(commandAllocator.GetAddressOf())
@@ -48,7 +63,17 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	ObjectCB = std::make_unique<CEUploadBuffer<CEObjectConstants>>(device, objectCount, true);
 
 	if (wavesCount > 0) {
-		NormalWavesVB = std::make_unique<CEUploadBuffer<CENormalVertex>>(device, wavesCount, false);
+		switch (waveType) {
+		case WavesVertex:
+			WavesVB = std::make_unique<CEUploadBuffer<CEVertex>>(device, wavesCount, false);
+			break;
+		case WavesNormalVertex:
+			NormalWavesVB = std::make_unique<CEUploadBuffer<CENormalVertex>>(device, wavesCount, false);
+			break;
+		case WavesNormalTextureVertex:
+			NormalTextureWavesVB = std::make_unique<CEUploadBuffer<CENormalTextureVertex>>(device, wavesCount, false);
+			break;
+		}
 	}
 }
 

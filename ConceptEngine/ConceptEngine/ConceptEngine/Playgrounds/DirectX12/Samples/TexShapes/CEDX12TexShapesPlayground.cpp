@@ -118,7 +118,6 @@ void CEDX12TexShapesPlayground::Render(const CETimer& gt) {
 	// Specify the buffers we are going to render to.
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
 
-
 	ID3D12DescriptorHeap* descriptorHeaps[] = { m_dx12manager->GetSRVDescriptorHeap().Get() };
 	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 	

@@ -6,11 +6,19 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	/*
 	 * Store resources needed for CPU to build command lists for a frame
 	 */
+	enum WaveType {
+		WavesVertex,
+		WavesNormalVertex,
+		WavesNormalTextureVertex
+	};
+
 	struct CEFrameResource {
 	public:
 		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount);
-		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT waveVertexCount);
-		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT materialCount, UINT wavesCount);
+		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT waveVertexCount,
+		                WaveType waveType = WavesVertex);
+		CEFrameResource(ID3D12Device* device, UINT passCount, UINT objectCount, UINT materialCount, UINT wavesCount,
+		                WaveType waveType = WavesVertex);
 
 		CEFrameResource(const CEFrameResource& rhs) = delete;
 		CEFrameResource& operator=(const CEFrameResource& rhs) = delete;
@@ -30,6 +38,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//So each frame needs their own.
 		std::unique_ptr<CEUploadBuffer<CEVertex>> WavesVB = nullptr;
 		std::unique_ptr<CEUploadBuffer<CENormalVertex>> NormalWavesVB = nullptr;
+		std::unique_ptr<CEUploadBuffer<CENormalTextureVertex>> NormalTextureWavesVB = nullptr;
 
 		//Fence value to mark commands upt to this fence point.
 		//This lets us check if these frame resources are still in use by GPU

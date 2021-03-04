@@ -500,7 +500,8 @@ void CEDX12LitWavesPlayground::BuildFrameResources() {
 				1,
 				(UINT)mAllRitems.size(),
 				(UINT)mMaterials.size(),
-				m_waves->VertexCount()
+				m_waves->VertexCount(),
+				Resources::WavesNormalVertex
 			)
 		);
 	}

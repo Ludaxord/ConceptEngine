@@ -157,5 +157,7 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\LightUtil.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexWavesPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexWavesVertexShader.hlsl" />
   </ItemGroup>
 </Project>
