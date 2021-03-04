@@ -96,6 +96,9 @@
     <ClInclude Include="Graphics\DirectX12\Resources\CEWaves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX12\Libraries\DDSTextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEFramework.cpp">
@@ -140,6 +143,9 @@
     <ClCompile Include="Graphics\DirectX12\Libraries\GeometryGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\DirectX12\Libraries\DDSTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBoxVertexShader.hlsl" />
@@ -149,5 +155,7 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\LightUtil.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexPixelShader.hlsl" />
   </ItemGroup>
 </Project>

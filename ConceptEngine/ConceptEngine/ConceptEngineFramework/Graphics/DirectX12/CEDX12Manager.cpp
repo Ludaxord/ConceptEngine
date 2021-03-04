@@ -9,6 +9,7 @@
 
 
 #include "CEDX12Playground.h"
+#include "Libraries/DDSTextureLoader.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 namespace fs = std::filesystem;
@@ -224,6 +225,10 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CEDX12Manager::GetCBVDescriptorHeap
 	return m_cbvHeap;
 }
 
+Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CEDX12Manager::GetSRVDescriptorHeap() const {
+	return m_srvHeap;
+}
+
 UINT CEDX12Manager::GetCurrentBackBuffer() const {
 	return m_currentBackBuffer;
 }
@@ -343,6 +348,25 @@ DirectX::XMVECTOR CEDX12Manager::SphericalToCartesian(float radius, float theta,
 		radius * cosf(phi),
 		radius * sinf(phi) * sinf(theta),
 		1.0f);
+}
+
+std::unique_ptr<Resources::Texture> CEDX12Manager::LoadTextureFromFile(const std::string fileName,
+                                                                       std::string textureName) const {
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream texturesPathStream;
+	texturesPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Textures\\" <<
+		fileName;
+	auto texturesPath = texturesPathStream.str();
+	spdlog::info("Loading Texture: {}", texturesPath);
+	auto wTexturesPath = std::wstring(texturesPath.begin(), texturesPath.end());
+
+	auto texture = std::make_unique<Resources::Texture>();
+	texture->Name = textureName;
+	texture->Filename = wTexturesPath;
+	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(m_d3dDevice.Get(),
+	                                                  m_commandList.Get(), texture->Filename.c_str(),
+	                                                  texture->Resource, texture->UploadHeap));
+	return texture;
 }
 
 Resources::CENode32 CEDX12Manager::LoadNodeFromTxt(const std::string fileName) {
@@ -944,6 +968,62 @@ void CEDX12Manager::CreateSwapChain() {
 	ThrowIfFailed(dxgiSwapChain1.As(&m_swapChain));
 }
 
+std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> CEDX12Manager::GetStaticSamplers() {
+	// Applications usually only need a handful of samplers.  So just define them all up front
+	// and keep them available as part of the root signature.  
+	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
+		0, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
+		1, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
+		2, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC linearClamp(
+		3, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC anisotropicWrap(
+		4, // shaderRegister
+		D3D12_FILTER_ANISOTROPIC, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP, // addressW
+		0.0f, // mipLODBias
+		8); // maxAnisotropy
+
+	const CD3DX12_STATIC_SAMPLER_DESC anisotropicClamp(
+		5, // shaderRegister
+		D3D12_FILTER_ANISOTROPIC, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP, // addressW
+		0.0f, // mipLODBias
+		8); // maxAnisotropy
+
+	return {
+		pointWrap, pointClamp,
+		linearWrap, linearClamp,
+		anisotropicWrap, anisotropicClamp
+	};
+}
+
 void CEDX12Manager::CreateRTVDescriptorHeap() {
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
 	rtvHeapDesc.NumDescriptors = BufferCount;
@@ -969,6 +1049,14 @@ void CEDX12Manager::CreateCSVDescriptorHeap(UINT numDescriptors) {
 	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	cbvHeapDesc.NodeMask = 0;
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&m_cbvHeap)));
+}
+
+void CEDX12Manager::CreateSRVDescriptorHeap(UINT numDescriptors) {
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.NumDescriptors = numDescriptors;
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_srvHeap)));
 }
 
 void CEDX12Manager::CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress,

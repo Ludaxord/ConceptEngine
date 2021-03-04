@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\Landscape\CEDX12LandscapePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.h" />

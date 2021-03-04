@@ -67,11 +67,13 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetRTVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetDSVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetCBVDescriptorHeap() const;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetSRVDescriptorHeap() const;
 		Microsoft::WRL::ComPtr<ID3D12Resource> GetDepthStencilBuffer() const;
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
 		XMVECTOR SphericalToCartesian(float radius, float theta, float phi);
-		
+
+		std::unique_ptr<Resources::Texture> LoadTextureFromFile(const std::string fileName, std::string textureName) const;
 		const aiScene* LoadModelFromFile(std::string fileName) const;
 		Resources::CENode32 LoadNodeFromTxt(const std::string fileName);
 		Resources::CENode LoadNode(const std::string fileName);
@@ -135,9 +137,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateCommandAllocator();
 		void CreateCommandList();
 		void CreateSwapChain();
+		std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 		void CreateRTVDescriptorHeap();
 		void CreateDSVDescriptorHeap();
 		void CreateCSVDescriptorHeap(UINT numDescriptors = 1);
+		void CreateSRVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress,
 		                           UINT sizeInBytes,
 		                           D3D12_CPU_DESCRIPTOR_HANDLE* handle = nullptr) const;
@@ -219,6 +223,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtvHeap;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_dsvHeap;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_cbvHeap;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_srvHeap;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_swapChainBuffer[BufferCount];
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_depthStencilBuffer;
 

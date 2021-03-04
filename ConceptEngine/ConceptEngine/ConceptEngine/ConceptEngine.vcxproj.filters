@@ -36,6 +36,9 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\Box\CEDX12BoxPlayground.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\Crate\CEDX12CratePlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

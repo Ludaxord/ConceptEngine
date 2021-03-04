@@ -34,6 +34,12 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT3 Normal;
 	};
 
+	struct CENormalTextureVertex {
+		XMFLOAT3 Pos;
+		XMFLOAT3 Normal;
+		XMFLOAT2 TexCoord;
+	};
+
 	struct CENode {
 		std::vector<CENormalVertex> vertices;
 		std::vector<std::uint64_t> indices;
