@@ -220,6 +220,23 @@ void CEDX12TexWavesPlayground::OnKeyUp(KeyCode key, char keyChar, const CETimer&
 
 void CEDX12TexWavesPlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer& gt) {
 	CEDX12Playground::OnKeyDown(key, keyChar, gt);
+	const float dt = gt.DeltaTime();
+	switch (key) {
+	case KeyCode::Left:
+		mSunTheta -= 4.0f * dt;
+		break;
+	case KeyCode::Right:
+		mSunTheta += 4.0f * dt;
+		break;
+	case KeyCode::Up:
+		mSunPhi -= 4.0f * dt;
+		break;
+	case KeyCode::Down:
+		mSunPhi += 4.0f * dt;
+		break;
+	}
+
+	mSunPhi = m_dx12manager->Clamp(mSunPhi, 0.1f, XM_PIDIV2);
 }
 
 void CEDX12TexWavesPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
@@ -349,13 +366,18 @@ void CEDX12TexWavesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
 	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
-	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
-	mMainPassCB.Lights[0].Strength = {0.9f, 0.9f, 0.9f};
-	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
-	mMainPassCB.Lights[1].Strength = {0.5f, 0.5f, 0.5f};
-	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
-	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
+	// mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
+	// mMainPassCB.Lights[0].Strength = {0.9f, 0.9f, 0.9f};
+	// mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	// mMainPassCB.Lights[1].Strength = {0.5f, 0.5f, 0.5f};
+	// mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
+	// mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
+	XMVECTOR lightDirection = -m_dx12manager->SphericalToCartesian(1.0f, mSunTheta, mSunPhi);
+
+	XMStoreFloat3(&mMainPassCB.Lights[0].Direction, lightDirection);
+	mMainPassCB.Lights[0].Strength = { 1.0f, 1.0f, 0.9f };
+	
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
