@@ -56,19 +56,19 @@ void CEDX12StencilShapesPlayground::Create() {
 			NULL, NULL
 		};
 
-		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEStencilVertexShader.hlsl",
+		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEFogVertexShader.hlsl",
 		                                                           nullptr,
 		                                                           "VS",
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEStencilPixelShader.hlsl",
+		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
 		                                                         defines,
 		                                                         "PS",
 		                                                         // "ps_6_3"
 		                                                         "ps_5_1"
 		);
-		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CEStencilPixelShader.hlsl",
+		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
 		                                                        alphaDefines,
 		                                                        "PS",
 		                                                        // "ps_6_3"
@@ -185,7 +185,7 @@ void CEDX12StencilShapesPlayground::Create() {
 		drawReflectionsPsoDesc.RasterizerState.FrontCounterClockwise = true;
 		ThrowIfFailed(
 			d3dDevice->CreateGraphicsPipelineState(&drawReflectionsPsoDesc,
-			                                        IID_PPV_ARGS(&mPSOs["drawStencilReflections"])));
+			                                       IID_PPV_ARGS(&mPSOs["drawStencilReflections"])));
 
 		//
 		// PSO for shadow objects
@@ -213,7 +213,7 @@ void CEDX12StencilShapesPlayground::Create() {
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC shadowPsoDesc = transparentPsoDesc;
 		shadowPsoDesc.DepthStencilState = shadowDSS;
-		ThrowIfFailed(md3dDevice->CreateGraphicsPipelineState(&shadowPsoDesc, IID_PPV_ARGS(&mPSOs["shadow"])));
+		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&shadowPsoDesc, IID_PPV_ARGS(&mPSOs["shadow"])));
 	}
 
 	//execute command list
@@ -252,7 +252,8 @@ void CEDX12StencilShapesPlayground::Update(const CETimer& gt) {
 	UpdateMaterialCBs(gt);
 	UpdateMainPassCB(gt);
 	UpdateReflectedPassCB(gt);
-	UpdateWaves(gt);
+	UpdateSkullPlacement(gt);
+	// UpdateWaves(gt);
 }
 
 void CEDX12StencilShapesPlayground::Render(const CETimer& gt) {
@@ -407,11 +408,16 @@ void CEDX12StencilShapesPlayground::OnMouseMove(KeyCode key, int x, int y) {
 }
 
 void CEDX12StencilShapesPlayground::OnKeyUp(KeyCode key, char keyChar, const CETimer& gt) {
-	CEDX12Playground::OnKeyUp(key, keyChar, gt);
+	// CEDX12Playground::OnKeyUp(key, keyChar, gt);
+	switch (key) {
+	case KeyCode::F1:
+		mIsWireframe = false;
+		break;
+	}
 }
 
 void CEDX12StencilShapesPlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer& gt) {
-	CEDX12Playground::OnKeyDown(key, keyChar, gt);
+	// CEDX12Playground::OnKeyDown(key, keyChar, gt);
 	const float dt = gt.DeltaTime();
 	switch (key) {
 	case KeyCode::Left:
@@ -427,20 +433,24 @@ void CEDX12StencilShapesPlayground::OnKeyDown(KeyCode key, char keyChar, const C
 		mSunPhi += 4.0f * dt;
 		break;
 	case KeyCode::W:
-		mSkullTranslation.y += 1.0f * dt;
+		mSkullTranslation.y += 10.0f * dt;
 		break;
 	case KeyCode::S:
-		mSkullTranslation.y -= 1.0f * dt;
+		mSkullTranslation.y -= 10.0f * dt;
 		break;
 	case KeyCode::A:
-		mSkullTranslation.x -= 1.0f * dt;
+		mSkullTranslation.x -= 10.0f * dt;
 		break;
 	case KeyCode::D:
-		mSkullTranslation.x += 1.0f * dt;
+		mSkullTranslation.x += 10.0f * dt;
+		break;
+	case KeyCode::F1:
+		mIsWireframe = true;
 		break;
 	}
 
 	mSunPhi = m_dx12manager->Clamp(mSunPhi, 0.1f, XM_PIDIV2);
+	UpdateSkullPlacement(gt);
 }
 
 void CEDX12StencilShapesPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
@@ -625,7 +635,7 @@ void CEDX12StencilShapesPlayground::LoadTextures() {
 }
 
 void CEDX12StencilShapesPlayground::BuildDescriptorHeaps() {
-	m_dx12manager->CreateSRVDescriptorHeap(3);
+	m_dx12manager->CreateSRVDescriptorHeap(4);
 
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
 	auto size = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -915,7 +925,7 @@ void CEDX12StencilShapesPlayground::BuildRenderItems() {
 	floorRitem->ObjCBIndex = 0;
 	floorRitem->Mat = mMaterials["checkertile"].get();
 	floorRitem->Geo = mGeometries["roomGeo"].get();
-	floorRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	floorRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	floorRitem->IndexCount = floorRitem->Geo->DrawArgs["floor"].IndexCount;
 	floorRitem->StartIndexLocation = floorRitem->Geo->DrawArgs["floor"].StartIndexLocation;
 	floorRitem->BaseVertexLocation = floorRitem->Geo->DrawArgs["floor"].BaseVertexLocation;
@@ -927,7 +937,7 @@ void CEDX12StencilShapesPlayground::BuildRenderItems() {
 	wallsRitem->ObjCBIndex = 1;
 	wallsRitem->Mat = mMaterials["bricks"].get();
 	wallsRitem->Geo = mGeometries["roomGeo"].get();
-	wallsRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	wallsRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	wallsRitem->IndexCount = wallsRitem->Geo->DrawArgs["wall"].IndexCount;
 	wallsRitem->StartIndexLocation = wallsRitem->Geo->DrawArgs["wall"].StartIndexLocation;
 	wallsRitem->BaseVertexLocation = wallsRitem->Geo->DrawArgs["wall"].BaseVertexLocation;
@@ -939,7 +949,7 @@ void CEDX12StencilShapesPlayground::BuildRenderItems() {
 	skullRitem->ObjCBIndex = 2;
 	skullRitem->Mat = mMaterials["skullMat"].get();
 	skullRitem->Geo = mGeometries["skullGeo"].get();
-	skullRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	skullRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	skullRitem->IndexCount = skullRitem->Geo->DrawArgs["skull"].IndexCount;
 	skullRitem->StartIndexLocation = skullRitem->Geo->DrawArgs["skull"].StartIndexLocation;
 	skullRitem->BaseVertexLocation = skullRitem->Geo->DrawArgs["skull"].BaseVertexLocation;
@@ -985,7 +995,8 @@ void CEDX12StencilShapesPlayground::BuildRenderItems() {
 void CEDX12StencilShapesPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-		                                                                       1, (UINT)mAllRitems.size(),
+		                                                                       1,
+		                                                                       (UINT)mAllRitems.size(),
 		                                                                       (UINT)mMaterials.size(),
 		                                                                       (UINT)0));
 	}
