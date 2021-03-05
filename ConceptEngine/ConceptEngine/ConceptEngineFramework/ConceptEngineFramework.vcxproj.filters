@@ -159,5 +159,7 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexWavesPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CELitTexWavesVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEFogVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEFogPixelShader.hlsl" />
   </ItemGroup>
 </Project>

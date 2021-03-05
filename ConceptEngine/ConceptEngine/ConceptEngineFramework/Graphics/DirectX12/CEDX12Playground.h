@@ -38,6 +38,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void BuildColorShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
 		virtual void
 		BuildNormalShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
+		virtual void BuildInputLayout();
 		virtual void BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature);
 
 		CEDX12Manager* m_dx12manager = nullptr;

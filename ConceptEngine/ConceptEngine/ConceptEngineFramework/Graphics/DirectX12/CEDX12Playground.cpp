@@ -159,6 +159,14 @@ void CEDX12Playground::BuildNormalShadersAndInputLayout(std::string vertexShader
 	};
 }
 
+void CEDX12Playground::BuildInputLayout() {
+	m_inputLayout = {
+	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+	{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+	};
+}
+
 //TODO: Add RayTraced StateObject
 void CEDX12Playground::BuildPSOs(ComPtr<ID3D12RootSignature> rootSignature) {
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
