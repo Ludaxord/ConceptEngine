@@ -22,9 +22,9 @@ void CEDX12BoxPlayground::Create() {
 	m_dx12manager->CreateCSVDescriptorHeap();
 
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
-	mObjectCB = std::make_unique<Resources::CEUploadBuffer<Resources::CEObjectConstants>>(d3dDevice.Get(), 1, true);
+	mObjectCB = std::make_unique<Resources::CEUploadBuffer<Resources::ObjectConstants>>(d3dDevice.Get(), 1, true);
 
-	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 
 	D3D12_GPU_VIRTUAL_ADDRESS cbAddress = mObjectCB->Resource()->GetGPUVirtualAddress();
 	// Offset to the ith object constant buffer in the buffer.
@@ -86,7 +86,7 @@ void CEDX12BoxPlayground::Update(const CETimer& gt) {
 	XMMATRIX worldViewProj = world * view * proj;
 
 	//Update constant buffer with latest worldViewProj matrix;
-	Resources::CEObjectConstants objConstants;
+	Resources::ObjectConstants objConstants;
 	XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(worldViewProj));
 	mObjectCB->CopyData(0, objConstants);
 }

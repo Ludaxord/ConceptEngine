@@ -264,7 +264,7 @@ void CEDX12ShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 		if (e->NumFramesDirty > 0) {
 			XMMATRIX world = XMLoadFloat4x4(&e->World);
 
-			Resources::CEObjectConstants objConstants;
+			Resources::ObjectConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 
 			currObjectCB->CopyData(e->ObjCBIndex, objConstants);
@@ -532,7 +532,7 @@ void CEDX12ShapesPlayground::BuildDescriptorHeaps() {
 
 void CEDX12ShapesPlayground::BuildConstantBufferViews() {
 	auto device = m_dx12manager->GetD3D12Device();
-	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 
 	UINT objCount = (UINT)mOpaqueRitems.size();
 
@@ -582,7 +582,7 @@ void CEDX12ShapesPlayground::BuildConstantBufferViews() {
 
 void CEDX12ShapesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                              std::vector<Resources::RenderItem*>& ritems) const {
-	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
 

@@ -59,8 +59,6 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::unordered_map<std::string, std::unique_ptr<Resources::Material>> mMaterials;
 		std::unordered_map<std::string, std::shared_ptr<Resources::Texture>> mTextures;
 
-		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3DBlob>> mShaders;
-
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 
 		// Cache render items of interest.

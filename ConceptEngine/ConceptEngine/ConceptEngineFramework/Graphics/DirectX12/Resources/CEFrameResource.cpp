@@ -11,7 +11,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device, UINT passCount, UINT obje
 	commandAllocator->SetName(L"Frame Resource Command Allocator");
 
 	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
-	ObjectCB = std::make_unique<CEUploadBuffer<CEObjectConstants>>(device, objectCount, true);
+	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);
 }
 
 CEFrameResource::CEFrameResource(ID3D12Device* device,
@@ -27,7 +27,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	commandAllocator->SetName(L"Frame Resource Command Allocator");
 
 	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
-	ObjectCB = std::make_unique<CEUploadBuffer<CEObjectConstants>>(device, objectCount, true);
+	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);
 
 	if (waveVertexCount > 0) {
 		switch (waveType) {
@@ -60,7 +60,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 
 	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
 	MaterialCB = std::make_unique<CEUploadBuffer<MaterialConstants>>(device, materialCount, true);
-	ObjectCB = std::make_unique<CEUploadBuffer<CEObjectConstants>>(device, objectCount, true);
+	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);
 
 	if (wavesCount > 0) {
 		switch (waveType) {

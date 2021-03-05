@@ -247,7 +247,7 @@ void CEDX12TexShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 			XMMATRIX world = XMLoadFloat4x4(&e->World);
 			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
 
-			Resources::CEObjectConstants objConstants;
+			Resources::ObjectConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
 
@@ -625,7 +625,7 @@ void CEDX12TexShapesPlayground::BuildFrameResources() {
 
 void CEDX12TexShapesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                                 std::vector<Resources::RenderItem*>& ritems) const {
-	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 	UINT matCBByteSize = (sizeof(Resources::MaterialConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectCB->Resource();

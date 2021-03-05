@@ -58,7 +58,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::vector<std::int32_t> indices;
 	};
 
-	struct CEObjectConstants {
+	struct ObjectConstants {
 		XMFLOAT4X4 WorldViewProjection = MatrixIdentity4X4();
 		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
 	};

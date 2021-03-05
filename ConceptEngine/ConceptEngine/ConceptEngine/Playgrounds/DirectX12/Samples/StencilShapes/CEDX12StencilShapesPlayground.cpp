@@ -20,27 +20,27 @@ void CEDX12StencilShapesPlayground::Create() {
 	LoadTextures();
 	//RootSignatures
 	{
-		CD3DX12_DESCRIPTOR_RANGE textureTable;
-		textureTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+		CD3DX12_DESCRIPTOR_RANGE texTable;
+		texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
-		//Root parameter can be a table. root descriptor or root constants
+		// Root parameter can be a table, root descriptor or root constants.
 		CD3DX12_ROOT_PARAMETER slotRootParameter[4];
 
-		slotRootParameter[0].InitAsDescriptorTable(1, &textureTable, D3D12_SHADER_VISIBILITY_PIXEL);
+		// Perfomance TIP: Order from most frequent to least frequent.
+		slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[1].InitAsConstantBufferView(0);
 		slotRootParameter[2].InitAsConstantBufferView(1);
 		slotRootParameter[3].InitAsConstantBufferView(2);
 
 		auto staticSamplers = m_dx12manager->GetStaticSamplers();
 
-		CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc(4,
-		                                              slotRootParameter,
-		                                              (UINT)staticSamplers.size(),
-		                                              staticSamplers.data(),
-		                                              D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		// A root signature is an array of root parameters.
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4, slotRootParameter,
+		                                        (UINT)staticSamplers.size(), staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 		//create root signature with single slot which points to descriptor range consisting of single constant buffer
-		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
+		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
 	//Build shaders with fog
@@ -56,19 +56,19 @@ void CEDX12StencilShapesPlayground::Create() {
 			NULL, NULL
 		};
 
-		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEFogVertexShader.hlsl",
+		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEStencilVertexShader.hlsl",
 		                                                           nullptr,
 		                                                           "VS",
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
+		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEStencilPixelShader.hlsl",
 		                                                         defines,
 		                                                         "PS",
 		                                                         // "ps_6_3"
 		                                                         "ps_5_1"
 		);
-		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
+		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CEStencilPixelShader.hlsl",
 		                                                        alphaDefines,
 		                                                        "PS",
 		                                                        // "ps_6_3"
@@ -86,6 +86,10 @@ void CEDX12StencilShapesPlayground::Create() {
 		auto d3dDevice = m_dx12manager->GetD3D12Device();
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC basePsoDesc;
+
+		//
+		// PSO for opaque objects.
+		//
 		ZeroMemory(&basePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 		basePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
 		basePsoDesc.pRootSignature = m_rootSignature.Get();
@@ -93,7 +97,8 @@ void CEDX12StencilShapesPlayground::Create() {
 			reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
 			m_shadersMap["standardVS"]->GetBufferSize()
 		};
-		basePsoDesc.PS = {
+		basePsoDesc.PS =
+		{
 			reinterpret_cast<BYTE*>(m_shadersMap["opaquePS"]->GetBufferPointer()),
 			m_shadersMap["opaquePS"]->GetBufferSize()
 		};
@@ -105,13 +110,17 @@ void CEDX12StencilShapesPlayground::Create() {
 		basePsoDesc.NumRenderTargets = 1;
 		basePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
 		basePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
-		basePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState()
-			                                 ? (m_dx12manager->GetM4XMSAAQuality() - 1)
-			                                 : 0;
+		basePsoDesc.SampleDesc.Quality =
+			m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
 		basePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
+		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&basePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
 
-		//Transparent PSO
+		//
+		// PSO for transparent objects
+		//
+
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC transparentPsoDesc = basePsoDesc;
+
 		D3D12_RENDER_TARGET_BLEND_DESC transparencyBlendDesc;
 		transparencyBlendDesc.BlendEnable = true;
 		transparencyBlendDesc.LogicOpEnable = false;
@@ -125,9 +134,13 @@ void CEDX12StencilShapesPlayground::Create() {
 		transparencyBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 		transparentPsoDesc.BlendState.RenderTarget[0] = transparencyBlendDesc;
-		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&transparentPsoDesc, IID_PPV_ARGS(&mPSOs["transparent"])));
+		ThrowIfFailed(
+			d3dDevice->CreateGraphicsPipelineState(&transparentPsoDesc, IID_PPV_ARGS(&mPSOs["transparent"])));
 
-		//Stencil Mirrors PSO
+		//
+		// PSO for marking stencil mirrors.
+		//
+
 		CD3DX12_BLEND_DESC mirrorBlendState(D3D12_DEFAULT);
 		mirrorBlendState.RenderTarget[0].RenderTargetWriteMask = 0;
 
@@ -144,17 +157,17 @@ void CEDX12StencilShapesPlayground::Create() {
 		mirrorDSS.FrontFace.StencilPassOp = D3D12_STENCIL_OP_REPLACE;
 		mirrorDSS.FrontFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
 
-		//We are not rendering backfacing polygons, so these settings do not matter
+		// We are not rendering backfacing polygons, so these settings do not matter.
 		mirrorDSS.BackFace.StencilFailOp = D3D12_STENCIL_OP_KEEP;
 		mirrorDSS.BackFace.StencilDepthFailOp = D3D12_STENCIL_OP_KEEP;
 		mirrorDSS.BackFace.StencilPassOp = D3D12_STENCIL_OP_REPLACE;
 		mirrorDSS.BackFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
 
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC markMirrorPsoDesc = basePsoDesc;
-		markMirrorPsoDesc.BlendState = mirrorBlendState;
-		markMirrorPsoDesc.DepthStencilState = mirrorDSS;
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC markMirrorsPsoDesc = basePsoDesc;
+		markMirrorsPsoDesc.BlendState = mirrorBlendState;
+		markMirrorsPsoDesc.DepthStencilState = mirrorDSS;
 		ThrowIfFailed(
-			d3dDevice->CreateGraphicsPipelineState(&markMirrorPsoDesc, IID_PPV_ARGS(&mPSOs["markStencilMirrors"])));
+			d3dDevice->CreateGraphicsPipelineState(&markMirrorsPsoDesc, IID_PPV_ARGS(&mPSOs["markStencilMirrors"])));
 
 		//
 		// PSO for stencil reflections.
@@ -294,6 +307,7 @@ void CEDX12StencilShapesPlayground::Render(const CETimer& gt) {
 
 	auto currBackBuffView = m_dx12manager->CurrentBackBufferView();
 	auto currDepthStencilView = m_dx12manager->DepthStencilView();
+
 	// Specify the buffers we are going to render to.
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
 
@@ -302,37 +316,36 @@ void CEDX12StencilShapesPlayground::Render(const CETimer& gt) {
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
 
-	UINT passCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT passCBByteSize = (sizeof(Resources::PassConstants) + 255) & ~255;
 
-	//Draw opaque items -- floors, walls, skull
+	// Draw opaque items--floors, walls, skull.
 	auto passCB = mCurrFrameResource->PassCB->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
 
-	//Mark visible mirror pixels in stencil buffer with value 1
+	// Mark the visible mirror pixels in the stencil buffer with the value 1
 	m_dx12manager->GetD3D12CommandList()->OMSetStencilRef(1);
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["markStencilMirrors"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Mirrors]);
 
-	//Draw reflection into mirror only (only for pixels where stencil buffers is 1);
-	//Note that we must suply different per-pass constant buffer --- one with light reflected
+	// Draw the reflection into the mirror only (only for pixels where the stencil buffer is 1).
+	// Note that we must supply a different per-pass constant buffer--one with the lights reflected.
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(
 		2, passCB->GetGPUVirtualAddress() + 1 * passCBByteSize);
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["drawStencilReflections"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Reflected]);
 
-	//Restore main pass constant and stencil ref.
+	// Restore main pass constants and stencil ref.
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 	m_dx12manager->GetD3D12CommandList()->OMSetStencilRef(0);
 
-	//Draw mirror with transparency so reflection blends through
+	// Draw mirror with transparency so reflection blends through.
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["transparent"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Transparent]);
 
-	//Draw shadows
+	// Draw shadows
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["shadow"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Shadow]);
-
 	// Indicate a state transition on the resource usage.
 	auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
 	                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
@@ -474,6 +487,7 @@ void CEDX12StencilShapesPlayground::UpdateCamera(const CETimer& gt) {
 
 void CEDX12StencilShapesPlayground::AnimateMaterials(const CETimer& gt) {
 	CEDX12Playground::AnimateMaterials(gt);
+
 }
 
 void CEDX12StencilShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
@@ -487,7 +501,7 @@ void CEDX12StencilShapesPlayground::UpdateObjectCBs(const CETimer& gt) {
 			XMMATRIX world = XMLoadFloat4x4(&e->World);
 			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
 
-			Resources::CEObjectConstants objConstants;
+			Resources::ObjectConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
 
@@ -549,7 +563,6 @@ void CEDX12StencilShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.InvProj, XMMatrixTranspose(invProj));
 	XMStoreFloat4x4(&mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));
 	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
-
 	mMainPassCB.EyePosW = mEyePos;
 	mMainPassCB.RenderTargetSize = XMFLOAT2((float)width, (float)height);
 	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / width, 1.0f / height);
@@ -558,18 +571,14 @@ void CEDX12StencilShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
 	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
-	// mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
-	// mMainPassCB.Lights[0].Strength = {0.9f, 0.9f, 0.9f};
-	// mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
-	// mMainPassCB.Lights[1].Strength = {0.5f, 0.5f, 0.5f};
-	// mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
-	// mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
+	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[0].Strength = {0.6f, 0.6f, 0.6f};
+	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[1].Strength = {0.3f, 0.3f, 0.3f};
+	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
+	mMainPassCB.Lights[2].Strength = {0.15f, 0.15f, 0.15f};
 
-	XMVECTOR lightDirection = -m_dx12manager->SphericalToCartesian(1.0f, mSunTheta, mSunPhi);
-
-	XMStoreFloat3(&mMainPassCB.Lights[0].Direction, lightDirection);
-	mMainPassCB.Lights[0].Strength = {1.0f, 1.0f, 0.9f};
-
+	// Main pass stored in index 2
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
@@ -577,17 +586,17 @@ void CEDX12StencilShapesPlayground::UpdateMainPassCB(const CETimer& gt) {
 void CEDX12StencilShapesPlayground::UpdateReflectedPassCB(const CETimer& gt) {
 	mReflectedPassCB = mMainPassCB;
 
-	XMVECTOR mirrorPlane = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	XMVECTOR mirrorPlane = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f); // xy plane
 	XMMATRIX R = XMMatrixReflect(mirrorPlane);
 
-	//Reflect lighting
+	// Reflect the lighting.
 	for (int i = 0; i < 3; ++i) {
 		XMVECTOR lightDir = XMLoadFloat3(&mMainPassCB.Lights[i].Direction);
 		XMVECTOR reflectedLightDir = XMVector3TransformNormal(lightDir, R);
 		XMStoreFloat3(&mReflectedPassCB.Lights[i].Direction, reflectedLightDir);
 	}
 
-	//Reflected pass stored in index 1
+	// Reflected pass stored in index 1
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(1, mReflectedPassCB);
 }
@@ -994,17 +1003,19 @@ void CEDX12StencilShapesPlayground::BuildRenderItems() {
 
 void CEDX12StencilShapesPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
-		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-		                                                                       1,
-		                                                                       (UINT)mAllRitems.size(),
-		                                                                       (UINT)mMaterials.size(),
-		                                                                       (UINT)0));
+		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(
+			m_dx12manager->GetD3D12Device().Get(),
+			2,
+			(UINT)mAllRitems.size(),
+			(UINT)mMaterials.size(),
+			(UINT)0
+		));
 	}
 }
 
 void CEDX12StencilShapesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                                     std::vector<Resources::RenderItem*>& ritems) const {
-	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 	UINT matCBByteSize = (sizeof(Resources::MaterialConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectCB->Resource();

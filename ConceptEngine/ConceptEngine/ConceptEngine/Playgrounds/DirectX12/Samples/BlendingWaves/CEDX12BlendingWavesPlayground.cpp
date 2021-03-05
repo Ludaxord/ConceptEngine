@@ -385,7 +385,7 @@ void CEDX12BlendingWavesPlayground::UpdateObjectCBs(const CETimer& gt) {
 			XMMATRIX world = XMLoadFloat4x4(&e->World);
 			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
 
-			Resources::CEObjectConstants objConstants;
+			Resources::ObjectConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
 
@@ -744,7 +744,7 @@ void CEDX12BlendingWavesPlayground::BuildRenderItems() {
 void CEDX12BlendingWavesPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-		                                                                       1, (UINT)mAllRitems.size(),
+		                                                                       2, (UINT)mAllRitems.size(),
 		                                                                       (UINT)mMaterials.size(),
 		                                                                       m_waves->VertexCount(),
 		                                                                       Resources::WavesNormalTextureVertex));
@@ -753,7 +753,7 @@ void CEDX12BlendingWavesPlayground::BuildFrameResources() {
 
 void CEDX12BlendingWavesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                                     std::vector<Resources::RenderItem*>& ritems) const {
-	UINT objCBByteSize = (sizeof(Resources::CEObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 	UINT matCBByteSize = (sizeof(Resources::MaterialConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectCB->Resource();

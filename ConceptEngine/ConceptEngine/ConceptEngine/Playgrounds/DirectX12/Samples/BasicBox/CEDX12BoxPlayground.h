@@ -29,7 +29,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildPSO();
 
 	private:
-		std::unique_ptr<Resources::CEUploadBuffer<Resources::CEObjectConstants>> mObjectCB = nullptr;
+		std::unique_ptr<Resources::CEUploadBuffer<Resources::ObjectConstants>> mObjectCB = nullptr;
 
 		std::unique_ptr<Resources::MeshGeometry> m_boxGeo = nullptr;
 

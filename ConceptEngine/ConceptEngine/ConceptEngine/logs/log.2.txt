@@ -1,24 +1,24 @@
-[2021-03-05 18:30:50.150] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-03-05 18:30:50.175] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-03-05 18:30:50.175] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-03-05 18:30:50.175] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-03-05 18:30:50.176] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-03-05 18:30:50.405] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-03-05 18:30:50.595] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-03-05 18:30:50.595] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-03-05 18:30:50.595] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-03-05 18:30:50.608] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-03-05 18:30:50.670] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-03-05 18:30:50.670] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-03-05 18:30:50.670] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-03-05 18:30:50.670] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-03-05 18:30:50.670] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-03-05 18:30:50.670] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-03-05 18:30:50.676] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks3.dds
-[2021-03-05 18:30:50.677] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\checkboard.dds
-[2021-03-05 18:30:50.678] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\ice.dds
-[2021-03-05 18:30:50.679] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
-[2021-03-05 18:30:50.681] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEFogVertexShader.hlsl
-[2021-03-05 18:30:50.688] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEFogPixelShader.hlsl
-[2021-03-05 18:30:50.704] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEFogPixelShader.hlsl
-[2021-03-05 18:30:50.723] [ConceptEngine] [info] Loading Model from TXT: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\skull.txt
+[2021-03-05 19:21:52.921] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-03-05 19:21:52.961] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-03-05 19:21:52.961] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-03-05 19:21:52.961] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-03-05 19:21:52.961] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-03-05 19:21:53.114] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-03-05 19:21:53.276] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-03-05 19:21:53.276] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-03-05 19:21:53.277] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-03-05 19:21:53.293] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-03-05 19:21:53.349] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-03-05 19:21:53.349] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-03-05 19:21:53.349] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-03-05 19:21:53.349] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-03-05 19:21:53.349] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-03-05 19:21:53.349] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-03-05 19:21:53.353] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks3.dds
+[2021-03-05 19:21:53.355] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\checkboard.dds
+[2021-03-05 19:21:53.356] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\ice.dds
+[2021-03-05 19:21:53.357] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
+[2021-03-05 19:21:53.359] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEStencilVertexShader.hlsl
+[2021-03-05 19:21:53.366] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEStencilPixelShader.hlsl
+[2021-03-05 19:21:53.383] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEStencilPixelShader.hlsl
+[2021-03-05 19:21:53.407] [ConceptEngine] [info] Loading Model from TXT: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\skull.txt
