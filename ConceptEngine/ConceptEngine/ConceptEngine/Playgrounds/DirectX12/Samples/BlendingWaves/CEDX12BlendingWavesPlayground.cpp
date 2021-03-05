@@ -63,7 +63,7 @@ void CEDX12BlendingWavesPlayground::Create() {
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["t"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
+		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
 		                                                         defines,
 		                                                         "PS",
 		                                                         // "ps_6_3"
