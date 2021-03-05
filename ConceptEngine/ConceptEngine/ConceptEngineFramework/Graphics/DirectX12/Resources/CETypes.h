@@ -35,6 +35,14 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	};
 
 	struct CENormalTextureVertex {
+		CENormalTextureVertex() = default;
+
+		CENormalTextureVertex(float x, float y, float z, float nx, float ny, float nz, float u, float v) :
+			Pos(x, y, z),
+			Normal(nx, ny, nz),
+			TexCoord(u, v) {
+		}
+
 		XMFLOAT3 Pos;
 		XMFLOAT3 Normal;
 		XMFLOAT2 TexCoord;
@@ -191,12 +199,12 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT4 AmbientLight = {0.0f, 0.0f, 0.0f, 0.0f};
 
 		//NOTE: Might not work with previous Shader files
-		XMFLOAT4 FogColor = { 0.7f, 0.7f, 0.7f, 1.0f };
+		XMFLOAT4 FogColor = {0.7f, 0.7f, 0.7f, 1.0f};
 		float gFogStart = 5.0f;
 		float gFogRange = 150.0f;
 		XMFLOAT2 cbPerObjectPad2;
 		//NOTE END
-		
+
 		Light Lights[MaxLights];
 	};
 
@@ -206,8 +214,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 	enum class RenderLayer : int {
 		Opaque = 0,
+		Mirrors,
+		Reflected,
 		Transparent,
 		Alpha,
+		Shadow,
 		Count
 	};
 
