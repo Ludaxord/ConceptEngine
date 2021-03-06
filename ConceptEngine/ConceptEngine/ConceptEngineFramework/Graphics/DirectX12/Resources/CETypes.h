@@ -218,6 +218,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		Reflected,
 		Transparent,
 		Alpha,
+		AlphaSprites,
 		Shadow,
 		Count
 	};

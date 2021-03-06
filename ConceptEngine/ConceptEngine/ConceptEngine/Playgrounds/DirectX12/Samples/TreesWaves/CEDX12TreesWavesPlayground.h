@@ -35,6 +35,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void LoadTextures();
 		void BuildDescriptorHeaps();
 		void BuildLandGeometry();
+		void BuildTreeSpritesGeometry();
 		void BuildWavesGeometryBuffers();
 		void BuildBoxGeometry();
 		void BuildMaterials();
@@ -42,7 +43,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildFrameResources();
 
 		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-			std::vector<Resources::RenderItem*>& ritems) const;
+		                     std::vector<Resources::RenderItem*>& ritems) const;
 
 		float GetHillsHeight(float x, float z) const;
 		XMFLOAT3 GetHillsNormal(float x, float z) const;
@@ -54,11 +55,11 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::CEFrameResource* mCurrFrameResource = nullptr;
 		int mCurrFrameResourceIndex = 0;
 
+		std::vector<D3D12_INPUT_ELEMENT_DESC> m_spriteInputLayout;
+
 		std::unordered_map<std::string, std::unique_ptr<Resources::MeshGeometry>> mGeometries;
 		std::unordered_map<std::string, std::unique_ptr<Resources::Material>> mMaterials;
 		std::unordered_map<std::string, std::shared_ptr<Resources::Texture>> mTextures;
-
-		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3DBlob>> mShaders;
 
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> mOpaquePSO = nullptr;
@@ -75,7 +76,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		std::unique_ptr<Resources::CEWaves> m_waves;
 
-		XMFLOAT3 mEyePos = { 0.0f, 0.0f, 0.0f };
+		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
 		float mSunTheta = 1.25f * XM_PI;
 		float mSunPhi = XM_PIDIV4;
 	};

@@ -35,4 +35,22 @@ struct LitTexVertexOut {
 	float2 TexCoord : TEXCOORD;
 };
 
+struct SpriteVertexIn {
+	float3 PosW : POSITION;
+	float2 SizeW : SIZE;
+};
+
+struct SpriteVertexOut {
+	float3 CenterW : POSITION;
+	float2 SizeW : SIZE;
+};
+
+struct SpriteGeoOut {
+	float4 PosH : SV_POSITION;
+	float3 PosW : POSITION;
+	float3 NormalW : NORMAL;
+	float2 TexCoord : TEXCOORD;
+	uint PrimID : SV_PrimitiveID;
+};
+
 #endif

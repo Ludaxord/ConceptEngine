@@ -1,7 +1,5 @@
 #define MaxLights 16
 
-#define MaxLights 16
-
 struct Light {
 	float3 Strength;
 	float FalloffStart; // point/spot light only
