@@ -250,13 +250,8 @@ void CEDX12BlurWavesPlayground::Create() {
 		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&vertBlurPso, IID_PPV_ARGS(&mPSOs["vertBlur"])));
 	}
 
-	//execute command list
-	auto commandQueue = m_dx12manager->GetD3D12CommandQueue();
-	auto commandList = m_dx12manager->GetD3D12CommandList();
-
-	ThrowIfFailed(commandList->Close());
-	ID3D12CommandList* commandLists[] = {commandList.Get()};
-	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
+	m_dx12manager->ExecuteCommandLists();
 
 	//Wait until initialization is complete
 	m_dx12manager->FlushCommandQueue();
