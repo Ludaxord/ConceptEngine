@@ -914,6 +914,8 @@ void CEDX12Manager::CreateCommandList() {
 		)
 	);
 
+	m_commandList->SetName(L"Main DX12 Command List");
+
 	// Start off in a closed state.  This is because the first time we refer 
 	// to the command list we will Reset it, and it needs to be closed before
 	// calling Reset.

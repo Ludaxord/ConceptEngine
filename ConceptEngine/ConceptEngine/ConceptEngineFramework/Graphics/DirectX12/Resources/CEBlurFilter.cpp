@@ -61,7 +61,8 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	cmdList->SetComputeRoot32BitConstants(0, (UINT)weights.size(), weights.data(), 1);
 
 	auto trInput = CD3DX12_RESOURCE_BARRIER::Transition(input,
-	                                                    D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	                                                    D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                    D3D12_RESOURCE_STATE_COPY_SOURCE);
 	cmdList->ResourceBarrier(1, &trInput);
 
 	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
@@ -72,11 +73,13 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	cmdList->CopyResource(m_blurMap0.Get(), input);
 
 	auto trRead = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-	                                                   D3D12_RESOURCE_STATE_COPY_DEST,D3D12_RESOURCE_STATE_GENERIC_READ);
+	                                                   D3D12_RESOURCE_STATE_COPY_DEST,
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
 	cmdList->ResourceBarrier(1, &trRead);
 
 	auto trUA = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-	                                                 D3D12_RESOURCE_STATE_COMMON,D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	                                                 D3D12_RESOURCE_STATE_COMMON,
+	                                                 D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 	cmdList->ResourceBarrier(1, &trUA);
 
 	for (int i = 0; i < blurCount; ++i) {
@@ -95,11 +98,13 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		cmdList->Dispatch(numGroupsX, m_height, 1);
 
 		auto trGrUa = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-		                                                   D3D12_RESOURCE_STATE_GENERIC_READ,D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		                                                   D3D12_RESOURCE_STATE_GENERIC_READ,
+		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 		cmdList->ResourceBarrier(1, &trGrUa);
 
 		auto trUaGr = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS,D3D12_RESOURCE_STATE_GENERIC_READ);
+		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
 		cmdList->ResourceBarrier(1, &trUaGr);
 
 		//
@@ -117,11 +122,13 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		cmdList->Dispatch(m_width, numGroupsY, 1);
 
 		auto trUaGr1 = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS,D3D12_RESOURCE_STATE_GENERIC_READ);
+		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		                                                    D3D12_RESOURCE_STATE_GENERIC_READ);
 		cmdList->ResourceBarrier(1, &trUaGr1);
 
 		auto trGrUa1 = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-		                                                    D3D12_RESOURCE_STATE_GENERIC_READ,D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		                                                    D3D12_RESOURCE_STATE_GENERIC_READ,
+		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 		cmdList->ResourceBarrier(1, &trGrUa1);
 	}
 }
@@ -165,7 +172,6 @@ void CEBlurFilter::BuildDescriptors() {
 	srvDesc.Texture2D.MipLevels = 1;
 
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
-
 	uavDesc.Format = Format;
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
 	uavDesc.Texture2D.MipSlice = 0;
@@ -185,7 +191,6 @@ void CEBlurFilter::BuildDescriptors() {
 	// does not support D3D11_BIND_UNORDERED_ACCESS.
  */
 void CEBlurFilter::BuildResources() {
-
 	D3D12_RESOURCE_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(D3D12_RESOURCE_DESC));
 	texDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;

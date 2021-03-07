@@ -4,6 +4,8 @@
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
 
+static int countRender = 0;
+
 CEDX12BlurWavesPlayground::CEDX12BlurWavesPlayground() : CEDX12Playground() {
 }
 
@@ -288,6 +290,11 @@ void CEDX12BlurWavesPlayground::Update(const CETimer& gt) {
 
 void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
+
+	std::stringstream ss1;
+	ss1 << "============== Rendering " << countRender << " ==============" << std::endl;
+	OutputDebugStringA(ss1.str().c_str());
+
 	auto mScreenViewport = m_dx12manager->GetViewPort();
 	auto mScissorRect = m_dx12manager->GetScissorRect();
 
@@ -350,30 +357,27 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["transparent"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Transparent]);
 
-	// m_blurFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
-	//                       m_postProcessRootSignature.Get(),
-	//                       mPSOs["horzBlur"].Get(),
-	//                       mPSOs["vertBlur"].Get(),
-	//                       m_dx12manager->CurrentBackBuffer(),
-	//                       4);
+	m_blurFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
+	                      m_postProcessRootSignature.Get(),
+	                      mPSOs["horzBlur"].Get(),
+	                      mPSOs["vertBlur"].Get(),
+	                      m_dx12manager->CurrentBackBuffer(),
+	                      4);
 
-	// auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	//                                                    D3D12_RESOURCE_STATE_COPY_SOURCE,
-	//                                                    D3D12_RESOURCE_STATE_COPY_DEST);
-	
-	auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                 D3D12_RESOURCE_STATE_PRESENT);
+	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                   D3D12_RESOURCE_STATE_COPY_SOURCE,
+	                                                   D3D12_RESOURCE_STATE_COPY_DEST);
 	// Prepare to copy blurred output to the back buffer.
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trPr);
-	//
-	// m_dx12manager->GetD3D12CommandList()->CopyResource(m_dx12manager->CurrentBackBuffer(), m_blurFilter->Output());
-	//
-	// auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(
-	// 	m_dx12manager->CurrentBackBuffer(),
-	// 	D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PRESENT);
-	// // Transition to PRESENT state.
-	// m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopyPresent);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopy);
+
+	m_dx12manager->GetD3D12CommandList()->CopyResource(m_dx12manager->CurrentBackBuffer(), m_blurFilter->Output());
+
+	auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		D3D12_RESOURCE_STATE_PRESENT);
+	// Transition to PRESENT state.
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopyPresent);
 
 	// Done recording commands.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
@@ -389,7 +393,10 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 
 	m_dx12manager->FlushCommandQueue();
 
-	OutputDebugStringA("=====\nRendered!\n=====\n");
+	std::stringstream ss2;
+	ss2 << "============== Rendered " << countRender << "  ==============" << std::endl;
+	OutputDebugStringA(ss2.str().c_str());
+	countRender++;
 }
 
 void CEDX12BlurWavesPlayground::Resize() {
@@ -401,7 +408,10 @@ void CEDX12BlurWavesPlayground::Resize() {
 
 	if (m_blurFilter != nullptr) {
 		m_blurFilter->OnResize(m_dx12manager->GetWindowWidth(), m_dx12manager->GetWindowHeight());
+		OutputDebugStringA("============== Blur Filter Resized ==============\n");
 	}
+
+	OutputDebugStringA("============== Resized ==============\n");
 }
 
 void CEDX12BlurWavesPlayground::OnMouseDown(KeyCode key, int x, int y) {
