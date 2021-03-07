@@ -20,7 +20,7 @@ ID3D12Resource* CEBlurFilter::Output() {
 void CEBlurFilter::BuildDescriptors(CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDescriptor,
                                     CD3DX12_GPU_DESCRIPTOR_HANDLE hGpuDescriptor,
                                     UINT descriptorSize) {
-	//Save references to descriptors
+	// Save references to the descriptors. 
 	mBlur0CpuSrv = hCpuDescriptor;
 	mBlur0CpuUav = hCpuDescriptor.Offset(1, descriptorSize);
 	mBlur1CpuSrv = hCpuDescriptor.Offset(1, descriptorSize);
@@ -61,8 +61,7 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	cmdList->SetComputeRoot32BitConstants(0, (UINT)weights.size(), weights.data(), 1);
 
 	auto trInput = CD3DX12_RESOURCE_BARRIER::Transition(input,
-	                                                    D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                    D3D12_RESOURCE_STATE_COPY_SOURCE);
+	                                                    D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	cmdList->ResourceBarrier(1, &trInput);
 
 	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
@@ -73,13 +72,11 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	cmdList->CopyResource(m_blurMap0.Get(), input);
 
 	auto trRead = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-	                                                   D3D12_RESOURCE_STATE_COPY_DEST,
-	                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
+	                                                   D3D12_RESOURCE_STATE_COPY_DEST,D3D12_RESOURCE_STATE_GENERIC_READ);
 	cmdList->ResourceBarrier(1, &trRead);
 
 	auto trUA = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-	                                                 D3D12_RESOURCE_STATE_COMMON,
-	                                                 D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	                                                 D3D12_RESOURCE_STATE_COMMON,D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 	cmdList->ResourceBarrier(1, &trUA);
 
 	for (int i = 0; i < blurCount; ++i) {
@@ -98,13 +95,11 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		cmdList->Dispatch(numGroupsX, m_height, 1);
 
 		auto trGrUa = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-		                                                   D3D12_RESOURCE_STATE_GENERIC_READ,
-		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		                                                   D3D12_RESOURCE_STATE_GENERIC_READ,D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 		cmdList->ResourceBarrier(1, &trGrUa);
 
 		auto trUaGr = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-		                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
+		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS,D3D12_RESOURCE_STATE_GENERIC_READ);
 		cmdList->ResourceBarrier(1, &trUaGr);
 
 		//
@@ -122,22 +117,20 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		cmdList->Dispatch(m_width, numGroupsY, 1);
 
 		auto trUaGr1 = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-		                                                    D3D12_RESOURCE_STATE_GENERIC_READ);
+		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS,D3D12_RESOURCE_STATE_GENERIC_READ);
 		cmdList->ResourceBarrier(1, &trUaGr1);
 
 		auto trGrUa1 = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-		                                                    D3D12_RESOURCE_STATE_GENERIC_READ,
-		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		                                                    D3D12_RESOURCE_STATE_GENERIC_READ,D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 		cmdList->ResourceBarrier(1, &trGrUa1);
 	}
 }
 
 std::vector<float> CEBlurFilter::CalcGaussWeights(float sigma) {
-	float twoSignaPower2 = 2.0f * sigma * sigma;
+	float twoSigma2 = 2.0f * sigma * sigma;
 
-	//Estimate blur radius based on sigma since sigma control the "width"of bell curve
-	//for example, for sigma = 3, width of bell curve is
+	// Estimate the blur radius based on sigma since sigma controls the "width" of the bell curve.
+	// For example, for sigma = 3, the width of the bell curve is 
 	int blurRadius = (int)ceil(2.0f * sigma);
 
 	assert(blurRadius <= MaxBlurRadius);
@@ -146,13 +139,16 @@ std::vector<float> CEBlurFilter::CalcGaussWeights(float sigma) {
 	weights.resize(2 * blurRadius + 1);
 
 	float weightSum = 0.0f;
+
 	for (int i = -blurRadius; i <= blurRadius; ++i) {
 		float x = (float)i;
-		weights[i + blurRadius] = expf(-x * x / twoSignaPower2);
-		weightSum == weights[i + blurRadius];
+
+		weights[i + blurRadius] = expf(-x * x / twoSigma2);
+
+		weightSum += weights[i + blurRadius];
 	}
 
-	//divide by sum of all weights add up to 1.0f
+	// Divide by the sum so all the weights add up to 1.0.
 	for (int i = 0; i < weights.size(); ++i) {
 		weights[i] /= weightSum;
 	}
@@ -169,6 +165,7 @@ void CEBlurFilter::BuildDescriptors() {
 	srvDesc.Texture2D.MipLevels = 1;
 
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+
 	uavDesc.Format = Format;
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
 	uavDesc.Texture2D.MipSlice = 0;
@@ -188,6 +185,7 @@ void CEBlurFilter::BuildDescriptors() {
 	// does not support D3D11_BIND_UNORDERED_ACCESS.
  */
 void CEBlurFilter::BuildResources() {
+
 	D3D12_RESOURCE_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(D3D12_RESOURCE_DESC));
 	texDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;

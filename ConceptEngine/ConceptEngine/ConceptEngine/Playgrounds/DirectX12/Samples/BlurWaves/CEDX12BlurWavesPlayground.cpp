@@ -350,36 +350,30 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["transparent"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Transparent]);
 
-	m_blurFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
-	                      m_postProcessRootSignature.Get(),
-	                      mPSOs["horzBlur"].Get(),
-	                      mPSOs["vertBlur"].Get(),
-	                      m_dx12manager->CurrentBackBuffer(),
-	                      4);
+	// m_blurFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
+	//                       m_postProcessRootSignature.Get(),
+	//                       mPSOs["horzBlur"].Get(),
+	//                       mPSOs["vertBlur"].Get(),
+	//                       m_dx12manager->CurrentBackBuffer(),
+	//                       4);
 
-	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                   D3D12_RESOURCE_STATE_COPY_SOURCE,
-	                                                   D3D12_RESOURCE_STATE_COPY_DEST);
-	// Prepare to copy blurred output to the back buffer.
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopy);
-
-	m_dx12manager->GetD3D12CommandList()->CopyResource(m_dx12manager->CurrentBackBuffer(), m_blurFilter->Output());
-
-	auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(
-		m_dx12manager->CurrentBackBuffer(),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		D3D12_RESOURCE_STATE_PRESENT);
-	// Transition to PRESENT state.
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopyPresent);
-
-	//For non blur output
-	// Indicate a state transition on the resource usage.
-	/*
-	 auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	// auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	//                                                    D3D12_RESOURCE_STATE_COPY_SOURCE,
+	//                                                    D3D12_RESOURCE_STATE_COPY_DEST);
+	
+	auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
 	                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
 	                                                 D3D12_RESOURCE_STATE_PRESENT);
+	// Prepare to copy blurred output to the back buffer.
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trPr);
-	 */
+	//
+	// m_dx12manager->GetD3D12CommandList()->CopyResource(m_dx12manager->CurrentBackBuffer(), m_blurFilter->Output());
+	//
+	// auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(
+	// 	m_dx12manager->CurrentBackBuffer(),
+	// 	D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PRESENT);
+	// // Transition to PRESENT state.
+	// m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopyPresent);
 
 	// Done recording commands.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
@@ -394,6 +388,8 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
 
 	m_dx12manager->FlushCommandQueue();
+
+	OutputDebugStringA("=====\nRendered!\n=====\n");
 }
 
 void CEDX12BlurWavesPlayground::Resize() {
@@ -778,7 +774,7 @@ void CEDX12BlurWavesPlayground::BuildTreeSpritesGeometry() {
 
 	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
 	geo->VertexBufferGPU->SetName(L"Landscape TreeSprites Vertex Resource");
-	
+
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
 	geo->IndexBufferGPU->SetName(L"Landscape TreeSprites Index Resource");
 
