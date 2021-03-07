@@ -60,54 +60,57 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	cmdList->SetComputeRoot32BitConstants(0, 1, &blurRadius, 0);
 	cmdList->SetComputeRoot32BitConstants(0, (UINT)weights.size(), weights.data(), 1);
 
-	auto resBarrierTransitionCopySrc = CD3DX12_RESOURCE_BARRIER::Transition(input,
-	                                                                        D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                                        D3D12_RESOURCE_STATE_COPY_SOURCE);
-	cmdList->ResourceBarrier(1, &resBarrierTransitionCopySrc);
+	auto trInput = CD3DX12_RESOURCE_BARRIER::Transition(input,
+	                                                    D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                    D3D12_RESOURCE_STATE_COPY_SOURCE);
+	cmdList->ResourceBarrier(1, &trInput);
 
-	auto resBarrierTransitionCopyDest = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-	                                                                         D3D12_RESOURCE_STATE_COMMON,
-	                                                                         D3D12_RESOURCE_STATE_COPY_DEST);
-	cmdList->ResourceBarrier(1, &resBarrierTransitionCopyDest);
+	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
+	                                                   D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+	cmdList->ResourceBarrier(1, &trCopy);
 
-	auto resBarrierTransitionRead = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-	                                                                     D3D12_RESOURCE_STATE_COPY_DEST,
-	                                                                     D3D12_RESOURCE_STATE_GENERIC_READ);
-	cmdList->ResourceBarrier(1, &resBarrierTransitionRead);
+	// Copy the input (back-buffer in this example) to BlurMap0.
+	cmdList->CopyResource(m_blurMap0.Get(), input);
 
-	auto resBarrierTransitionUA = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-	                                                                   D3D12_RESOURCE_STATE_COMMON,
-	                                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-	cmdList->ResourceBarrier(1, &resBarrierTransitionUA);
+	auto trRead = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
+	                                                   D3D12_RESOURCE_STATE_COPY_DEST,
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
+	cmdList->ResourceBarrier(1, &trRead);
+
+	auto trUA = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
+	                                                 D3D12_RESOURCE_STATE_COMMON,
+	                                                 D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	cmdList->ResourceBarrier(1, &trUA);
 
 	for (int i = 0; i < blurCount; ++i) {
-		/*
-		 * Horizontal blur pass
-		 */
+		//
+		// Horizontal Blur pass.
+		//
+
 		cmdList->SetPipelineState(horzBlurPso);
 
 		cmdList->SetComputeRootDescriptorTable(1, mBlur0GpuSrv);
 		cmdList->SetComputeRootDescriptorTable(2, mBlur1GpuUav);
 
-		/*
-		 * How many groups do we need to dispatch to cover a row of pixels, where each group covers 256 pixels (the 256 is defined in ComputeShader)
-		 */
+		// How many groups do we need to dispatch to cover a row of pixels, where each
+		// group covers 256 pixels (the 256 is defined in the ComputeShader).
 		UINT numGroupsX = (UINT)ceilf(m_width / 256.0f);
 		cmdList->Dispatch(numGroupsX, m_height, 1);
 
-		auto uaTransition = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-		                                                         D3D12_RESOURCE_STATE_GENERIC_READ,
-		                                                         D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-		cmdList->ResourceBarrier(1, &uaTransition);
+		auto trGrUa = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
+		                                                   D3D12_RESOURCE_STATE_GENERIC_READ,
+		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		cmdList->ResourceBarrier(1, &trGrUa);
 
-		auto grTransition = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-		                                                         D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-		                                                         D3D12_RESOURCE_STATE_GENERIC_READ);
-		cmdList->ResourceBarrier(1, &grTransition);
+		auto trUaGr = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
+		                                                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
+		cmdList->ResourceBarrier(1, &trUaGr);
 
-		/*
-		 * Vertical blur pass
-		 */
+		//
+		// Vertical Blur pass.
+		//
+
 		cmdList->SetPipelineState(vertBlurPso);
 
 		cmdList->SetComputeRootDescriptorTable(1, mBlur1GpuSrv);
@@ -118,13 +121,15 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		UINT numGroupsY = (UINT)ceilf(m_height / 256.0f);
 		cmdList->Dispatch(m_width, numGroupsY, 1);
 
-		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-		                                                                  D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-		                                                                  D3D12_RESOURCE_STATE_GENERIC_READ));
+		auto trUaGr1 = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
+		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		                                                    D3D12_RESOURCE_STATE_GENERIC_READ);
+		cmdList->ResourceBarrier(1, &trUaGr1);
 
-		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
-		                                                                  D3D12_RESOURCE_STATE_GENERIC_READ,
-		                                                                  D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
+		auto trGrUa1 = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
+		                                                    D3D12_RESOURCE_STATE_GENERIC_READ,
+		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		cmdList->ResourceBarrier(1, &trGrUa1);
 	}
 }
 
@@ -135,7 +140,7 @@ std::vector<float> CEBlurFilter::CalcGaussWeights(float sigma) {
 	//for example, for sigma = 3, width of bell curve is
 	int blurRadius = (int)ceil(2.0f * sigma);
 
-	assert(blurRadius < MaxBlurRadius);
+	assert(blurRadius <= MaxBlurRadius);
 
 	std::vector<float> weights;
 	weights.resize(2 * blurRadius + 1);
@@ -205,6 +210,7 @@ void CEBlurFilter::BuildResources() {
 	                                                   D3D12_RESOURCE_STATE_COMMON,
 	                                                   nullptr,
 	                                                   IID_PPV_ARGS(&m_blurMap0)));
+	m_blurMap0->SetName(L"Blur Filter 0");
 
 	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(&heapPropsDef,
 	                                                   D3D12_HEAP_FLAG_NONE,
@@ -212,4 +218,5 @@ void CEBlurFilter::BuildResources() {
 	                                                   D3D12_RESOURCE_STATE_COMMON,
 	                                                   nullptr,
 	                                                   IID_PPV_ARGS(&m_blurMap1)));
+	m_blurMap1->SetName(L"Blur Filter 1");
 }

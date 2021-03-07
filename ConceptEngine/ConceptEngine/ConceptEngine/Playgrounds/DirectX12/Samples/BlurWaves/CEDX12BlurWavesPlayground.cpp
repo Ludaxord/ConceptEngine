@@ -16,6 +16,11 @@ void CEDX12BlurWavesPlayground::Create() {
 	//Create basic waves
 	m_waves = std::make_unique<Resources::CEWaves>(128, 128, 1.0f, 0.03f, 4.0f, 0.2f);
 
+	m_blurFilter = std::make_unique<Resources::CEBlurFilter>(m_dx12manager->GetD3D12Device().Get(),
+	                                                         m_dx12manager->GetWindowWidth(),
+	                                                         m_dx12manager->GetWindowHeight(),
+	                                                         DXGI_FORMAT_R8G8B8A8_UNORM);
+
 	LoadTextures();
 	//Root Signature
 	{
@@ -33,12 +38,32 @@ void CEDX12BlurWavesPlayground::Create() {
 		auto staticSamplers = m_dx12manager->GetStaticSamplers();
 
 		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4,
-			slotRootParameter,
-			(UINT)staticSamplers.size(),
-			staticSamplers.data(),
-			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		                                        slotRootParameter,
+		                                        (UINT)staticSamplers.size(),
+		                                        staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
+	}
+	// BuildPostProcessRootSignature
+	{
+		CD3DX12_DESCRIPTOR_RANGE srvTable;
+		srvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+
+		CD3DX12_DESCRIPTOR_RANGE uavTable;
+		uavTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
+
+		CD3DX12_ROOT_PARAMETER slotRootParameter[3];
+
+		slotRootParameter[0].InitAsConstants(12, 0);
+		slotRootParameter[1].InitAsDescriptorTable(1, &srvTable);
+		slotRootParameter[2].InitAsDescriptorTable(1, &uavTable);
+
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter,
+		                                        0, nullptr,
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+		m_postProcessRootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
 	//Build Shaders
@@ -55,41 +80,59 @@ void CEDX12BlurWavesPlayground::Create() {
 		};
 
 		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEFogVertexShader.hlsl",
-			nullptr,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                           nullptr,
+		                                                           "VS",
+		                                                           // "vs_6_3"
+		                                                           "vs_5_1"
 		);
 		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
-			defines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                         defines,
+		                                                         "PS",
+		                                                         // "ps_6_3"
+		                                                         "ps_5_1"
 		);
 		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                        alphaDefines,
+		                                                        "PS",
+		                                                        // "ps_6_3"
+		                                                        "ps_5_1"
 		);
 
 		m_shadersMap["treeSpriteVS"] = m_dx12manager->CompileShaders("CESpritesVertexShader.hlsl",
-			nullptr,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                             nullptr,
+		                                                             "VS",
+		                                                             // "vs_6_3"
+		                                                             "vs_5_1"
 		);
 		m_shadersMap["treeSpriteGS"] = m_dx12manager->CompileShaders("CESpritesGeometryShader.hlsl",
-			nullptr,
-			"GS",
-			// "gs_6_3"
-			"gs_5_1"
+		                                                             nullptr,
+		                                                             "GS",
+		                                                             // "gs_6_3"
+		                                                             "gs_5_1"
 		);
 		m_shadersMap["treeSpritePS"] = m_dx12manager->CompileShaders("CESpritesPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                             alphaDefines,
+		                                                             "PS",
+		                                                             // "ps_6_3"
+		                                                             "ps_5_1"
+		);
+		m_shadersMap["treeSpritePS"] = m_dx12manager->CompileShaders("CESpritesPixelShader.hlsl",
+		                                                             alphaDefines,
+		                                                             "PS",
+		                                                             // "ps_6_3"
+		                                                             "ps_5_1"
+		);
+		m_shadersMap["horzBlurCS"] = m_dx12manager->CompileShaders("CEBlurComputeShader.hlsl",
+		                                                           nullptr,
+		                                                           "HorzBlurCS",
+		                                                           // "cs_6_3"
+		                                                           "cs_5_1"
+		);
+		m_shadersMap["vertBlurCS"] = m_dx12manager->CompileShaders("CEBlurComputeShader.hlsl",
+		                                                           nullptr,
+		                                                           "VertBlurCS",
+		                                                           // "cs_6_3"
+		                                                           "cs_5_1"
 		);
 	}
 	BuildInputLayout();
@@ -113,7 +156,7 @@ void CEDX12BlurWavesPlayground::Create() {
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC basePsoDesc;
 		ZeroMemory(&basePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-		basePsoDesc.InputLayout = { m_inputLayout.data(), (UINT)m_inputLayout.size() };
+		basePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
 		basePsoDesc.pRootSignature = m_rootSignature.Get();
 		basePsoDesc.VS = {
 			reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
@@ -132,8 +175,8 @@ void CEDX12BlurWavesPlayground::Create() {
 		basePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
 		basePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
 		basePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState()
-			? (m_dx12manager->GetM4XMSAAQuality() - 1)
-			: 0;
+			                                 ? (m_dx12manager->GetM4XMSAAQuality() - 1)
+			                                 : 0;
 		basePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
 
 		//PSO for transparent objects
@@ -180,9 +223,29 @@ void CEDX12BlurWavesPlayground::Create() {
 			m_shadersMap["treeSpritePS"]->GetBufferSize()
 		};
 		spritePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
-		spritePsoDesc.InputLayout = { m_spriteInputLayout.data(), (UINT)m_spriteInputLayout.size() };
+		spritePsoDesc.InputLayout = {m_spriteInputLayout.data(), (UINT)m_spriteInputLayout.size()};
 		spritePsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&spritePsoDesc, IID_PPV_ARGS(&mPSOs["treeSprites"])));
+
+		//PSO for horizontal blur
+		D3D12_COMPUTE_PIPELINE_STATE_DESC horzBlurPso = {};
+		horzBlurPso.pRootSignature = m_postProcessRootSignature.Get();
+		horzBlurPso.CS = {
+			reinterpret_cast<BYTE*>(m_shadersMap["horzBlurCS"]->GetBufferPointer()),
+			m_shadersMap["horzBlurCS"]->GetBufferSize()
+		};
+		horzBlurPso.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&horzBlurPso, IID_PPV_ARGS(&mPSOs["horzBlur"])));
+
+		//PSO for vertical blur
+		D3D12_COMPUTE_PIPELINE_STATE_DESC vertBlurPso = {};
+		vertBlurPso.pRootSignature = m_postProcessRootSignature.Get();
+		vertBlurPso.CS = {
+			reinterpret_cast<BYTE*>(m_shadersMap["vertBlurCS"]->GetBufferPointer()),
+			m_shadersMap["vertBlurCS"]->GetBufferSize()
+		};
+		vertBlurPso.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&vertBlurPso, IID_PPV_ARGS(&mPSOs["vertBlur"])));
 	}
 
 	//execute command list
@@ -190,7 +253,7 @@ void CEDX12BlurWavesPlayground::Create() {
 	auto commandList = m_dx12manager->GetD3D12CommandList();
 
 	ThrowIfFailed(commandList->Close());
-	ID3D12CommandList* commandLists[] = { commandList.Get() };
+	ID3D12CommandList* commandLists[] = {commandList.Get()};
 	commandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
 
 	//Wait until initialization is complete
@@ -237,8 +300,8 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
 	// Reusing the command list reuses memory.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(),
-		mPSOs[(mIsWireframe ? "opaque_wireframe" : "opaque")].
-		Get()));
+	                                                          mPSOs[(mIsWireframe ? "opaque_wireframe" : "opaque")].
+	                                                          Get()));
 
 	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
 	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
@@ -252,15 +315,15 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 
 	// Clear the back buffer and depth buffer.
 	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
-		(float*)&mMainPassCB.FogColor,
-		0,
-		nullptr);
+	                                                            (float*)&mMainPassCB.FogColor,
+	                                                            0,
+	                                                            nullptr);
 	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
-		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
-		1.0f,
-		0,
-		0,
-		nullptr);
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                                            1.0f,
+	                                                            0,
+	                                                            0,
+	                                                            nullptr);
 
 	auto currBackBuffView = m_dx12manager->CurrentBackBufferView();
 	auto currDepthStencilView = m_dx12manager->DepthStencilView();
@@ -268,7 +331,7 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
 
 	//TODO: Add function as parameter to method to make creation of scene more dynamic
-	ID3D12DescriptorHeap* descriptorHeaps[] = { m_dx12manager->GetSRVDescriptorHeap().Get() };
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
 	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
@@ -287,11 +350,36 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["transparent"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Transparent]);
 
-	// Indicate a state transition on the resource usage.
-	auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
+	m_blurFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
+	                      m_postProcessRootSignature.Get(),
+	                      mPSOs["horzBlur"].Get(),
+	                      mPSOs["vertBlur"].Get(),
+	                      m_dx12manager->CurrentBackBuffer(),
+	                      4);
+
+	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                   D3D12_RESOURCE_STATE_COPY_SOURCE,
+	                                                   D3D12_RESOURCE_STATE_COPY_DEST);
+	// Prepare to copy blurred output to the back buffer.
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopy);
+
+	m_dx12manager->GetD3D12CommandList()->CopyResource(m_dx12manager->CurrentBackBuffer(), m_blurFilter->Output());
+
+	auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(
+		m_dx12manager->CurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_COPY_DEST,
 		D3D12_RESOURCE_STATE_PRESENT);
+	// Transition to PRESENT state.
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopyPresent);
+
+	//For non blur output
+	// Indicate a state transition on the resource usage.
+	/*
+	 auto trPr = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                 D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                 D3D12_RESOURCE_STATE_PRESENT);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trPr);
+	 */
 
 	// Done recording commands.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
@@ -314,6 +402,10 @@ void CEDX12BlurWavesPlayground::Resize() {
 	// The window resized, so update the aspect ratio and recompute the projection matrix.
 	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
 	XMStoreFloat4x4(&mProj, P);
+
+	if (m_blurFilter != nullptr) {
+		m_blurFilter->OnResize(m_dx12manager->GetWindowWidth(), m_dx12manager->GetWindowHeight());
+	}
 }
 
 void CEDX12BlurWavesPlayground::OnMouseDown(KeyCode key, int x, int y) {
@@ -512,16 +604,16 @@ void CEDX12BlurWavesPlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.FarZ = 1000.0f;
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
-	mMainPassCB.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
 
 	XMVECTOR lightDirection = -m_dx12manager->SphericalToCartesian(1.0f, mSunTheta, mSunPhi);
 
 	XMStoreFloat3(&mMainPassCB.Lights[0].Direction, lightDirection);
-	mMainPassCB.Lights[0].Strength = { 0.6f, 0.6f, 0.6f };
-	mMainPassCB.Lights[1].Strength = { 0.3f, 0.3f, 0.3f };
-	mMainPassCB.Lights[1].Direction = { -0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[2].Strength = { 0.15f, 0.15f, 0.15f };
-	mMainPassCB.Lights[2].Direction = { 0.0f, -0.707f, -0.707f };
+	mMainPassCB.Lights[0].Strength = {0.6f, 0.6f, 0.6f};
+	mMainPassCB.Lights[1].Strength = {0.3f, 0.3f, 0.3f};
+	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[2].Strength = {0.15f, 0.15f, 0.15f};
+	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
 
 	auto currPassCB = mCurrFrameResource->PassCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
@@ -540,7 +632,10 @@ void CEDX12BlurWavesPlayground::LoadTextures() {
 }
 
 void CEDX12BlurWavesPlayground::BuildDescriptorHeaps() {
-	m_dx12manager->CreateSRVDescriptorHeap(4);
+	const int textureDescriptorCount = 4;
+	const int blurDescriptorCount = 4;
+
+	m_dx12manager->CreateSRVDescriptorHeap(textureDescriptorCount + blurDescriptorCount);
 
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
 	auto size = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -584,6 +679,15 @@ void CEDX12BlurWavesPlayground::BuildDescriptorHeaps() {
 	srvDesc.Texture2DArray.ArraySize = treeArrayTex->GetDesc().DepthOrArraySize;
 	d3dDevice->CreateShaderResourceView(treeArrayTex.Get(), &srvDesc, hDescriptor);
 
+	//Fill out heap with descriptors to BlurFilter resources
+	m_blurFilter->BuildDescriptors(
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(m_dx12manager->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
+		                              textureDescriptorCount, size),
+		CD3DX12_GPU_DESCRIPTOR_HANDLE(m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart(),
+		                              textureDescriptorCount, size),
+		size
+	);
+
 }
 
 void CEDX12BlurWavesPlayground::BuildLandGeometry() {
@@ -619,8 +723,10 @@ void CEDX12BlurWavesPlayground::BuildLandGeometry() {
 	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
 	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
+	geo->VertexBufferGPU->SetName(L"Landscape Geometry Vertex Resource");
 
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+	geo->IndexBufferGPU->SetName(L"Landscape Geometry Index Resource");
 
 	geo->VertexByteStride = sizeof(Resources::CENormalTextureVertex);
 	geo->VertexBufferByteSize = vbByteSize;
@@ -671,8 +777,10 @@ void CEDX12BlurWavesPlayground::BuildTreeSpritesGeometry() {
 	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
 	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
-
+	geo->VertexBufferGPU->SetName(L"Landscape TreeSprites Vertex Resource");
+	
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+	geo->IndexBufferGPU->SetName(L"Landscape TreeSprites Index Resource");
 
 	geo->VertexByteStride = sizeof(TreeSpriteVertex);
 	geo->VertexBufferByteSize = vbByteSize;
@@ -725,6 +833,7 @@ void CEDX12BlurWavesPlayground::BuildWavesGeometryBuffers() {
 	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+	geo->IndexBufferGPU->SetName(L"Landscape Waves Index Resource");
 
 	geo->VertexByteStride = sizeof(Resources::CENormalTextureVertex);
 	geo->VertexBufferByteSize = vbByteSize;
@@ -768,8 +877,10 @@ void CEDX12BlurWavesPlayground::BuildBoxGeometry() {
 	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
 	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
+	geo->VertexBufferGPU->SetName(L"Landscape Box Vertex Resource");
 
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+	geo->IndexBufferGPU->SetName(L"Landscape Box Index Resource");
 
 	geo->VertexByteStride = sizeof(Resources::CENormalTextureVertex);
 	geo->VertexBufferByteSize = vbByteSize;
@@ -889,15 +1000,16 @@ void CEDX12BlurWavesPlayground::BuildRenderItems() {
 void CEDX12BlurWavesPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-			1, (UINT)mAllRitems.size(),
-			(UINT)mMaterials.size(),
-			m_waves->VertexCount(),
-			Resources::WavesNormalTextureVertex));
+		                                                                       1,
+		                                                                       (UINT)mAllRitems.size(),
+		                                                                       (UINT)mMaterials.size(),
+		                                                                       m_waves->VertexCount(),
+		                                                                       Resources::WavesNormalTextureVertex));
 	}
 }
 
 void CEDX12BlurWavesPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-	std::vector<Resources::RenderItem*>& ritems) const {
+                                                std::vector<Resources::RenderItem*>& ritems) const {
 	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
 	UINT matCBByteSize = (sizeof(Resources::MaterialConstants) + 255) & ~255;
 

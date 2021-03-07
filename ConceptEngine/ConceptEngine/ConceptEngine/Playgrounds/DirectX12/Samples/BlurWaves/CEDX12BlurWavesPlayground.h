@@ -2,6 +2,7 @@
 
 
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Playground.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEBlurFilter.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
@@ -62,6 +63,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::unordered_map<std::string, std::shared_ptr<Resources::Texture>> mTextures;
 
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_postProcessRootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> mOpaquePSO = nullptr;
 
 		Resources::RenderItem* mWavesRitem = nullptr;
@@ -75,6 +77,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::PassConstants mMainPassCB;
 
 		std::unique_ptr<Resources::CEWaves> m_waves;
+		std::unique_ptr<Resources::CEBlurFilter> m_blurFilter;
 
 		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
 		float mSunTheta = 1.25f * XM_PI;

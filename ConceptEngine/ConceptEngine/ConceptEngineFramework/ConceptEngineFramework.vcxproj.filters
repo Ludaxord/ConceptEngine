@@ -172,5 +172,6 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESpritesGeometryShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESpritesPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESpritesVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBlurComputeShader.hlsl" />
   </ItemGroup>
 </Project>
