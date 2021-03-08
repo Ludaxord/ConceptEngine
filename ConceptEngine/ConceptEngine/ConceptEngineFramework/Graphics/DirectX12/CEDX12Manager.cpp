@@ -254,7 +254,6 @@ void CEDX12Manager::ExecuteCommandLists(std::vector<ID3D12CommandList*> commandL
 	if (commandLists.size() == 0) {
 		commandLists.push_back(m_commandList.Get());
 	}
-
 	
 	m_commandQueue->ExecuteCommandLists(commandLists.size(), commandLists.data());
 }

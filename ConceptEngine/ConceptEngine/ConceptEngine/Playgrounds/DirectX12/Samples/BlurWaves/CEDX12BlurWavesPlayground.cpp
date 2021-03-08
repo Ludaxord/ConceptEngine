@@ -286,10 +286,6 @@ void CEDX12BlurWavesPlayground::Update(const CETimer& gt) {
 void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
 
-	std::stringstream ss1;
-	ss1 << "============== Rendering " << countRender << " ==============" << std::endl;
-	OutputDebugStringA(ss1.str().c_str());
-
 	auto mScreenViewport = m_dx12manager->GetViewPort();
 	auto mScissorRect = m_dx12manager->GetScissorRect();
 
@@ -362,15 +358,18 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
 	                                                   D3D12_RESOURCE_STATE_COPY_SOURCE,
 	                                                   D3D12_RESOURCE_STATE_COPY_DEST);
+	
 	// Prepare to copy blurred output to the back buffer.
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopy);
 
 	m_dx12manager->GetD3D12CommandList()->CopyResource(m_dx12manager->CurrentBackBuffer(), m_blurFilter->Output());
 
-	auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(
-		m_dx12manager->CurrentBackBuffer(),
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		D3D12_RESOURCE_STATE_PRESENT);
+	auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                          D3D12_RESOURCE_STATE_COPY_DEST,
+	                                                          D3D12_RESOURCE_STATE_PRESENT);
+	// auto trCopyPresent = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	//                                                           D3D12_RESOURCE_STATE_RENDER_TARGET,
+	//                                                           D3D12_RESOURCE_STATE_PRESENT);
 	// Transition to PRESENT state.
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCopyPresent);
 
@@ -381,17 +380,13 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 
 	// Swap the back and front buffers
 	auto swapChain = m_dx12manager->GetDXGISwapChain();
-	ThrowIfFailed(swapChain->Present(0, 0));
+	UINT presentFlags = (m_dx12manager->GetTearingSupport() && !m_dx12manager->IsFullScreen()) ? DXGI_PRESENT_ALLOW_TEARING : 0;
+	ThrowIfFailed(swapChain->Present(0, presentFlags));
 
 	auto currentBackBufferIndex = m_dx12manager->GetCurrentBackBufferIndex();
 	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
 
 	m_dx12manager->FlushCommandQueue();
-
-	std::stringstream ss2;
-	ss2 << "============== Rendered " << countRender << "  ==============" << std::endl;
-	OutputDebugStringA(ss2.str().c_str());
-	countRender++;
 }
 
 void CEDX12BlurWavesPlayground::Resize() {
