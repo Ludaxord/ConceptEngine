@@ -311,20 +311,21 @@ void CEDX12BlurWavesPlayground::Render(const CETimer& gt) {
 	// Indicate a state transition on the resource usage.
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trRt);
 
+	auto currBackBuffView = m_dx12manager->CurrentBackBufferView();
+	auto currDepthStencilView = m_dx12manager->DepthStencilView();
 	// Clear the back buffer and depth buffer.
-	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
+	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(currBackBuffView,
 	                                                            (float*)&mMainPassCB.FogColor,
 	                                                            0,
 	                                                            nullptr);
-	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
+	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(currDepthStencilView,
 	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
 	                                                            1.0f,
 	                                                            0,
 	                                                            0,
 	                                                            nullptr);
 
-	auto currBackBuffView = m_dx12manager->CurrentBackBufferView();
-	auto currDepthStencilView = m_dx12manager->DepthStencilView();
+
 	// Specify the buffers we are going to render to.
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBackBuffView, true, &currDepthStencilView);
 

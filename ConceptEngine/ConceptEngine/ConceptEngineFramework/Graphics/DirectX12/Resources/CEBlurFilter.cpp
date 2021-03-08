@@ -65,8 +65,12 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 	                                                    D3D12_RESOURCE_STATE_COPY_SOURCE);
 	cmdList->ResourceBarrier(1, &trInput);
 
+	// auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
+	//                                                    D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+
 	auto trCopy = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap0.Get(),
-	                                                   D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ,
+	                                                   D3D12_RESOURCE_STATE_COPY_DEST);
 	cmdList->ResourceBarrier(1, &trCopy);
 
 	// Copy the input (back-buffer in this example) to BlurMap0.
@@ -131,6 +135,9 @@ void CEBlurFilter::Execute(ID3D12GraphicsCommandList* cmdList,
 		                                                    D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 		cmdList->ResourceBarrier(1, &trGrUa1);
 	}
+	D3D12_RESOURCE_BARRIER blur1_ua2common = CD3DX12_RESOURCE_BARRIER::Transition(m_blurMap1.Get(),
+		D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COMMON);
+	cmdList->ResourceBarrier(1, &blur1_ua2common);
 }
 
 std::vector<float> CEBlurFilter::CalcGaussWeights(float sigma) {
@@ -210,7 +217,8 @@ void CEBlurFilter::BuildResources() {
 	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(&heapPropsDef,
 	                                                   D3D12_HEAP_FLAG_NONE,
 	                                                   &texDesc,
-	                                                   D3D12_RESOURCE_STATE_COMMON,
+	                                                   // D3D12_RESOURCE_STATE_COMMON,
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ,
 	                                                   nullptr,
 	                                                   IID_PPV_ARGS(&m_blurMap0)));
 	m_blurMap0->SetName(L"Blur Filter 0");
