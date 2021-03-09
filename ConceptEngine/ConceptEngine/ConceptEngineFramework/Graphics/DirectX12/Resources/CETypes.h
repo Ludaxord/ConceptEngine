@@ -220,6 +220,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		Alpha,
 		AlphaSprites,
 		Shadow,
+		GpuWaves,
 		Count
 	};
 
@@ -284,6 +285,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT4X4 World = MatrixIdentity4X4();
 
 		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
+
+		// Used for GPU waves render items.
+		DirectX::XMFLOAT2 DisplacementMapTexelSize = {1.0f, 1.0f};
+		float GridSpatialStep = 1.0f;
 
 		//Dirty flag indicating object data has changed and we need to update constant buffer
 		//Because we have an object cbuffer for each resource we have to apply update to each resource
