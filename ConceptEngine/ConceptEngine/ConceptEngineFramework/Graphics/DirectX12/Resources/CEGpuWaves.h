@@ -49,7 +49,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		float Width() const override;
 		float Depth() const override;
 		float SpatialStep()const;
-
 		void Update(float dt) override;
 		void Disturb(int i, int j, float magnitude) override;
 
