@@ -29,14 +29,38 @@ void CEDX12SobelWavesPlayground::Create() {
 	                                                           m_dx12manager->GetBackBufferFormat()
 	);
 
+	m_offscreenRT = std::make_unique<Resources::CERenderTarget>(m_dx12manager->GetD3D12Device().Get(),
+	                                                            m_dx12manager->GetWindowWidth(),
+	                                                            m_dx12manager->GetWindowHeight(),
+	                                                            m_dx12manager->GetBackBufferFormat());
+
 	LoadTextures();
 	//Root Signature
 	{
+		CD3DX12_DESCRIPTOR_RANGE texTable;
+		texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
+		CD3DX12_DESCRIPTOR_RANGE displacementMapTable;
+		displacementMapTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
+
+		CD3DX12_ROOT_PARAMETER slotRootParameter[5];
+
+		slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_ALL);
+		slotRootParameter[1].InitAsConstantBufferView(0);
+		slotRootParameter[2].InitAsConstantBufferView(1);
+		slotRootParameter[3].InitAsConstantBufferView(2);
+		slotRootParameter[4].InitAsDescriptorTable(1, &displacementMapTable, D3D12_SHADER_VISIBILITY_ALL);
+
+		auto staticSamplers = m_dx12manager->GetStaticSamplers();
+		CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc(5,
+		                                              slotRootParameter,
+		                                              (UINT)staticSamplers.size(),
+		                                              staticSamplers.data(),
+		                                              D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
 	}
 	// BuildPostProcessRootSignature
 	{
-
 	}
 	BuildDescriptorHeaps();
 	//Build Shaders
@@ -125,7 +149,6 @@ void CEDX12SobelWavesPlayground::Create() {
 	BuildFrameResources();
 	BuildPSOs(m_rootSignature);
 	{
-		
 	}
 
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());

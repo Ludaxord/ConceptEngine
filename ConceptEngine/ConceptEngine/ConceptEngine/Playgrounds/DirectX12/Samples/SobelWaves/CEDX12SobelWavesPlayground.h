@@ -4,6 +4,7 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEBlurFilter.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEGpuWaves.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CERenderTarget.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESobelFilter.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
@@ -79,6 +80,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		std::unique_ptr<Resources::CEGpuWaves> m_waves;
 		std::unique_ptr<Resources::CESobelFilter> m_sobelFilter;
+		std::unique_ptr<Resources::CERenderTarget> m_offscreenRT;
 
 		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
 		float mSunTheta = 1.25f * XM_PI;
