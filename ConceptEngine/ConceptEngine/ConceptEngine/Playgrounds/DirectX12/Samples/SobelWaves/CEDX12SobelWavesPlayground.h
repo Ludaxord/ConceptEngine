@@ -3,6 +3,8 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Playground.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEBlurFilter.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEGpuWaves.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESobelFilter.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
@@ -75,8 +77,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		Resources::PassConstants mMainPassCB;
 
-		std::unique_ptr<Resources::CEWaves> m_waves;
-		std::unique_ptr<Resources::CEBlurFilter> m_blurFilter;
+		std::unique_ptr<Resources::CEGpuWaves> m_waves;
+		std::unique_ptr<Resources::CESobelFilter> m_sobelFilter;
 
 		XMFLOAT3 mEyePos = {0.0f, 0.0f, 0.0f};
 		float mSunTheta = 1.25f * XM_PI;

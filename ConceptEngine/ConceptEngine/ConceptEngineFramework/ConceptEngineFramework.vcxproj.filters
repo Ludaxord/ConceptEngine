@@ -108,6 +108,9 @@
     <ClInclude Include="Graphics\DirectX12\Resources\CEGpuWaves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectX12\Resources\CERenderTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEFramework.cpp">
@@ -162,6 +165,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\DirectX12\Resources\CEGpuWaves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX12\Resources\CERenderTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

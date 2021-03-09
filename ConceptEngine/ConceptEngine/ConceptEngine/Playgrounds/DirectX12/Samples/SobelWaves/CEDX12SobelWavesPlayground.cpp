@@ -13,57 +13,30 @@ void CEDX12SobelWavesPlayground::Create() {
 	//Reset command list to prepare for initialization commands
 	m_dx12manager->ResetCommandList();
 
-	//Create basic waves
-	m_waves = std::make_unique<Resources::CEWaves>(128, 128, 1.0f, 0.03f, 4.0f, 0.2f);
+	//Create GPU based waves
+	m_waves = std::make_unique<Resources::CEGpuWaves>(m_dx12manager->GetD3D12Device().Get(),
+	                                                  m_dx12manager->GetD3D12CommandList().Get(),
+	                                                  256,
+	                                                  256,
+	                                                  0.25f,
+	                                                  0.03f,
+	                                                  2.0f,
+	                                                  0.2f);
 
-	m_blurFilter = std::make_unique<Resources::CEBlurFilter>(m_dx12manager->GetD3D12Device().Get(),
-	                                                         m_dx12manager->GetWindowWidth(),
-	                                                         m_dx12manager->GetWindowHeight(),
-	                                                         DXGI_FORMAT_R8G8B8A8_UNORM);
+	m_sobelFilter = std::make_unique<Resources::CESobelFilter>(m_dx12manager->GetD3D12Device().Get(),
+	                                                           m_dx12manager->GetWindowWidth(),
+	                                                           m_dx12manager->GetWindowHeight(),
+	                                                           m_dx12manager->GetBackBufferFormat()
+	);
 
 	LoadTextures();
 	//Root Signature
 	{
-		CD3DX12_DESCRIPTOR_RANGE texTable;
-		texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
-		//Root parameter can by a table, root descriptor or root constants
-		CD3DX12_ROOT_PARAMETER slotRootParameter[4];
-
-		slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
-		slotRootParameter[1].InitAsConstantBufferView(0);
-		slotRootParameter[2].InitAsConstantBufferView(1);
-		slotRootParameter[3].InitAsConstantBufferView(2);
-
-		auto staticSamplers = m_dx12manager->GetStaticSamplers();
-
-		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4,
-		                                        slotRootParameter,
-		                                        (UINT)staticSamplers.size(),
-		                                        staticSamplers.data(),
-		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-
-		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	// BuildPostProcessRootSignature
 	{
-		CD3DX12_DESCRIPTOR_RANGE srvTable;
-		srvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
-		CD3DX12_DESCRIPTOR_RANGE uavTable;
-		uavTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
-
-		CD3DX12_ROOT_PARAMETER slotRootParameter[3];
-
-		slotRootParameter[0].InitAsConstants(12, 0);
-		slotRootParameter[1].InitAsDescriptorTable(1, &srvTable);
-		slotRootParameter[2].InitAsDescriptorTable(1, &uavTable);
-
-		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter,
-		                                        0, nullptr,
-		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-
-		m_postProcessRootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
 	//Build Shaders
@@ -152,100 +125,7 @@ void CEDX12SobelWavesPlayground::Create() {
 	BuildFrameResources();
 	BuildPSOs(m_rootSignature);
 	{
-		auto d3dDevice = m_dx12manager->GetD3D12Device();
-
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC basePsoDesc;
-		ZeroMemory(&basePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-		basePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
-		basePsoDesc.pRootSignature = m_rootSignature.Get();
-		basePsoDesc.VS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
-			m_shadersMap["standardVS"]->GetBufferSize()
-		};
-		basePsoDesc.PS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["opaquePS"]->GetBufferPointer()),
-			m_shadersMap["opaquePS"]->GetBufferSize()
-		};
-		basePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-		basePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-		basePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-		basePsoDesc.SampleMask = UINT_MAX;
-		basePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-		basePsoDesc.NumRenderTargets = 1;
-		basePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
-		basePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
-		basePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState()
-			                                 ? (m_dx12manager->GetM4XMSAAQuality() - 1)
-			                                 : 0;
-		basePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
-
-		//PSO for transparent objects
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC transparentPsoDesc = basePsoDesc;
-
-		D3D12_RENDER_TARGET_BLEND_DESC transparencyBlendDesc;
-		transparencyBlendDesc.BlendEnable = true;
-		transparencyBlendDesc.LogicOpEnable = false;
-		transparencyBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-		transparencyBlendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-		transparencyBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
-		transparencyBlendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;
-		transparencyBlendDesc.DestBlendAlpha = D3D12_BLEND_ZERO;
-		transparencyBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-		transparencyBlendDesc.LogicOp = D3D12_LOGIC_OP_NOOP;
-		transparencyBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-
-		transparentPsoDesc.BlendState.RenderTarget[0] = transparencyBlendDesc;
-		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&transparentPsoDesc, IID_PPV_ARGS(&mPSOs["transparent"])));
-
-		//PSO for alpha tested objects
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC alphaPsoDesc = basePsoDesc;
-		alphaPsoDesc.PS = {
-			reinterpret_cast<BYTE*>(
-				m_shadersMap["alphaPS"]->GetBufferPointer()
-			),
-			m_shadersMap["alphaPS"]->GetBufferSize()
-		};
-		alphaPsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&alphaPsoDesc, IID_PPV_ARGS(&mPSOs["alpha"])));
-
-		//PSO for tree sprites
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC spritePsoDesc = basePsoDesc;
-		spritePsoDesc.VS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["treeSpriteVS"]->GetBufferPointer()),
-			m_shadersMap["treeSpriteVS"]->GetBufferSize()
-		};
-		spritePsoDesc.GS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["treeSpriteGS"]->GetBufferPointer()),
-			m_shadersMap["treeSpriteGS"]->GetBufferSize()
-		};
-		spritePsoDesc.PS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["treeSpritePS"]->GetBufferPointer()),
-			m_shadersMap["treeSpritePS"]->GetBufferSize()
-		};
-		spritePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
-		spritePsoDesc.InputLayout = {m_spriteInputLayout.data(), (UINT)m_spriteInputLayout.size()};
-		spritePsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&spritePsoDesc, IID_PPV_ARGS(&mPSOs["treeSprites"])));
-
-		//PSO for horizontal blur
-		D3D12_COMPUTE_PIPELINE_STATE_DESC horzBlurPso = {};
-		horzBlurPso.pRootSignature = m_postProcessRootSignature.Get();
-		horzBlurPso.CS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["horzBlurCS"]->GetBufferPointer()),
-			m_shadersMap["horzBlurCS"]->GetBufferSize()
-		};
-		horzBlurPso.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&horzBlurPso, IID_PPV_ARGS(&mPSOs["horzBlur"])));
-
-		//PSO for vertical blur
-		D3D12_COMPUTE_PIPELINE_STATE_DESC vertBlurPso = {};
-		vertBlurPso.pRootSignature = m_postProcessRootSignature.Get();
-		vertBlurPso.CS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["vertBlurCS"]->GetBufferPointer()),
-			m_shadersMap["vertBlurCS"]->GetBufferSize()
-		};
-		vertBlurPso.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&vertBlurPso, IID_PPV_ARGS(&mPSOs["vertBlur"])));
+		
 	}
 
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
