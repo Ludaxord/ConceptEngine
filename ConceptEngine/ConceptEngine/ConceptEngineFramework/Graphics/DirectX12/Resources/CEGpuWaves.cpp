@@ -124,29 +124,26 @@ void CEGpuWaves::BuildResources(ID3D12GraphicsCommandList* cmdList) {
 	 * Note that mCurrSol is put in GENERIC_READ state so it can be read by shader
 	 */
 
-	auto trPrevCommCopy = CD3DX12_RESOURCE_BARRIER::Transition(mPrevSol.Get(),
-	                                                           D3D12_RESOURCE_STATE_COMMON,
-	                                                           D3D12_RESOURCE_STATE_COPY_DEST);
-	cmdList->ResourceBarrier(1, &trPrevCommCopy);
-	UpdateSubresources(cmdList, mPrevSol.Get(), mPrevUploadBuffer.Get(), 0, 0, num2DSubresources, &subResourceData);
-	auto trPrevCopyUA = CD3DX12_RESOURCE_BARRIER::Transition(mPrevSol.Get(),
-	                                                         D3D12_RESOURCE_STATE_COPY_DEST,
-	                                                         D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-	cmdList->ResourceBarrier(1, &trPrevCopyUA);
 
-	auto trCurrCommonCopy = CD3DX12_RESOURCE_BARRIER::Transition(mCurrSol.Get(),
-	                                                             D3D12_RESOURCE_STATE_COMMON,
-	                                                             D3D12_RESOURCE_STATE_COPY_DEST);
-	cmdList->ResourceBarrier(1, &trCurrCommonCopy);
+	D3D12_RESOURCE_BARRIER prev_common2copydest = CD3DX12_RESOURCE_BARRIER::Transition(mPrevSol.Get(),
+		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+	D3D12_RESOURCE_BARRIER prev_copydest2read = CD3DX12_RESOURCE_BARRIER::Transition(mPrevSol.Get(),
+		D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
+	cmdList->ResourceBarrier(1, &prev_common2copydest);
+	UpdateSubresources(cmdList, mPrevSol.Get(), mPrevUploadBuffer.Get(), 0, 0, num2DSubresources, &subResourceData);
+	cmdList->ResourceBarrier(1, &prev_copydest2read);
+
+	D3D12_RESOURCE_BARRIER curr_common2copydest = CD3DX12_RESOURCE_BARRIER::Transition(mCurrSol.Get(),
+		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+	D3D12_RESOURCE_BARRIER curr_copydest2read = CD3DX12_RESOURCE_BARRIER::Transition(mCurrSol.Get(),
+		D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ);
+	cmdList->ResourceBarrier(1, &curr_common2copydest);
 	UpdateSubresources(cmdList, mCurrSol.Get(), mCurrUploadBuffer.Get(), 0, 0, num2DSubresources, &subResourceData);
-	auto trCurrCopyRead = CD3DX12_RESOURCE_BARRIER::Transition(mCurrSol.Get(),
-	                                                           D3D12_RESOURCE_STATE_COPY_DEST,
-	                                                           D3D12_RESOURCE_STATE_GENERIC_READ);
-	cmdList->ResourceBarrier(1, &trCurrCopyRead);
-	auto trNextCommUA = CD3DX12_RESOURCE_BARRIER::Transition(mNextSol.Get(),
-	                                                         D3D12_RESOURCE_STATE_COMMON,
-	                                                         D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-	cmdList->ResourceBarrier(1, &trNextCommUA);
+	cmdList->ResourceBarrier(1, &curr_copydest2read);
+
+	D3D12_RESOURCE_BARRIER next_common2ua = CD3DX12_RESOURCE_BARRIER::Transition(mNextSol.Get(),
+		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	cmdList->ResourceBarrier(1, &next_common2ua);
 }
 
 void CEGpuWaves::BuildDescriptors(CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDescriptor,
@@ -180,6 +177,13 @@ void CEGpuWaves::BuildDescriptors(CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDescriptor,
 	mPrevSolUav = hGpuDescriptor.Offset(1, descriptorSize);
 	mCurrSolUav = hGpuDescriptor.Offset(1, descriptorSize);
 	mNextSolUav = hGpuDescriptor.Offset(1, descriptorSize);
+
+	mPrevSol->SetName(L"mPrevSol Resource");
+	mCurrSol->SetName(L"mCurrSol Resource");
+	mNextSol->SetName(L"mNextSol Resource");
+
+	mCurrUploadBuffer->SetName(L"mCurrUploadBuffer Resource");
+	mPrevUploadBuffer->SetName(L"mPrevUploadBuffer Resource");
 }
 
 void CEGpuWaves::Update(const CETimer& gt,
@@ -206,8 +210,8 @@ void CEGpuWaves::Update(const CETimer& gt,
 		//How many groups do we need to dispatch to cover wave grid
 		//note that m_numRows and m_numCols should be divisible by 16
 		//so there is no remainder
-		UINT numGroupsX = m_numCols / 16;
-		UINT numGroupsY = m_numRows / 16;
+		UINT numGroupsX = (m_numCols + 15) / 16;
+		UINT numGroupsY = (m_numRows + 15) / 16;
 		cmdList->Dispatch(numGroupsX, numGroupsY, 1);
 
 		//Ping pong buffers in preparation for next update
@@ -237,6 +241,9 @@ void CEGpuWaves::Update(const CETimer& gt,
 		                                                              D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 		                                                              D3D12_RESOURCE_STATE_GENERIC_READ);
 		cmdList->ResourceBarrier(1, &currSolTransition);
+		D3D12_RESOURCE_BARRIER next_read2ua = CD3DX12_RESOURCE_BARRIER::Transition(mNextSol.Get(),
+			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		cmdList->ResourceBarrier(1, &next_read2ua);
 	}
 }
 
@@ -264,6 +271,11 @@ void CEGpuWaves::Disturb(ID3D12GraphicsCommandList* cmdList,
 
 	//One thread group kicks off one thread, which displaces the height of one vertex and its neighbors
 	cmdList->Dispatch(1, 1, 1);
+
+	D3D12_RESOURCE_BARRIER ua2read = CD3DX12_RESOURCE_BARRIER::Transition(mCurrSol.Get(),
+	                                                                      D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+	                                                                      D3D12_RESOURCE_STATE_GENERIC_READ);
+	cmdList->ResourceBarrier(1, &ua2read);
 }
 
 int CEGpuWaves::RowCount() const {

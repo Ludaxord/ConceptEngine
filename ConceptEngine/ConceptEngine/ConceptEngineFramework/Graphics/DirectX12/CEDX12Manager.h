@@ -138,7 +138,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateCommandList();
 		void CreateSwapChain();
 		std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
-		void CreateRTVDescriptorHeap();
+		void CreateRTVDescriptorHeap(UINT numDescriptors = BufferCount);
 		void CreateDSVDescriptorHeap();
 		void CreateCSVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateSRVDescriptorHeap(UINT numDescriptors = 1);

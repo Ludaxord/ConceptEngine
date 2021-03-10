@@ -53,4 +53,9 @@ struct SpriteGeoOut {
 	uint PrimID : SV_PrimitiveID;
 };
 
+struct CompositeVertexOut {
+	float4 PosH : SV_POSITION;
+	float2 TexCoord : TEXCOORD;
+};
+
 #endif

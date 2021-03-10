@@ -191,5 +191,11 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESpritesPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESpritesVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBlurComputeShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEWavesSimulationComputeShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESobelFogVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESobelFogPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESobelComputeShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECompositeVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECompositePixelShader.hlsl" />
   </ItemGroup>
 </Project>

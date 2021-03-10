@@ -34,7 +34,8 @@ void CEDX12Manager::Create() {
 	CreateCommandAllocator();
 	CreateCommandList();
 	CreateSwapChain();
-	CreateRTVDescriptorHeap();
+	//TODO: Fix problem with dynamic creation of RTVDescriptor heap
+	CreateRTVDescriptorHeap(BufferCount + 1);
 	CreateDSVDescriptorHeap();
 
 	LogDirectXInfo();
@@ -254,7 +255,7 @@ void CEDX12Manager::ExecuteCommandLists(std::vector<ID3D12CommandList*> commandL
 	if (commandLists.size() == 0) {
 		commandLists.push_back(m_commandList.Get());
 	}
-	
+
 	m_commandQueue->ExecuteCommandLists(commandLists.size(), commandLists.data());
 }
 
@@ -1026,9 +1027,9 @@ std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> CEDX12Manager::GetStaticSampler
 	};
 }
 
-void CEDX12Manager::CreateRTVDescriptorHeap() {
+void CEDX12Manager::CreateRTVDescriptorHeap(UINT numDescriptors) {
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
-	rtvHeapDesc.NumDescriptors = BufferCount;
+	rtvHeapDesc.NumDescriptors = numDescriptors;
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	rtvHeapDesc.NodeMask = 0;

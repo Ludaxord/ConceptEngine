@@ -16,12 +16,7 @@ void CEDX12SobelWavesPlayground::Create() {
 	//Create GPU based waves
 	m_waves = std::make_unique<Resources::CEGpuWaves>(m_dx12manager->GetD3D12Device().Get(),
 	                                                  m_dx12manager->GetD3D12CommandList().Get(),
-	                                                  256,
-	                                                  256,
-	                                                  0.25f,
-	                                                  0.03f,
-	                                                  2.0f,
-	                                                  0.2f);
+	                                                  256, 256, 1.0f, 0.03f, 4.0f, 0.2f);
 
 	m_sobelFilter = std::make_unique<Resources::CESobelFilter>(m_dx12manager->GetD3D12Device().Get(),
 	                                                           m_dx12manager->GetWindowWidth(),
@@ -65,20 +60,25 @@ void CEDX12SobelWavesPlayground::Create() {
 		uavTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
 
 		CD3DX12_DESCRIPTOR_RANGE uavTable1;
-		uavTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 1);
+		uavTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 1);
 
 		CD3DX12_DESCRIPTOR_RANGE uavTable2;
-		uavTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 2);
+		uavTable2.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 2);
 
+		// Root parameter can be a table, root descriptor or root constants.
 		CD3DX12_ROOT_PARAMETER slotRootParameter[4];
 
+		// Perfomance TIP: Order from most frequent to least frequent.
 		slotRootParameter[0].InitAsConstants(6, 0);
 		slotRootParameter[1].InitAsDescriptorTable(1, &uavTable0);
 		slotRootParameter[2].InitAsDescriptorTable(1, &uavTable1);
 		slotRootParameter[3].InitAsDescriptorTable(1, &uavTable2);
 
-		CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc(4, slotRootParameter, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_NONE);
-		m_wavesRootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
+		// A root signature is an array of root parameters.
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4, slotRootParameter,
+		                                        0, nullptr,
+		                                        D3D12_ROOT_SIGNATURE_FLAG_NONE);
+		m_wavesRootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	//BuildPostProcessRootSignature
 	{
@@ -126,25 +126,25 @@ void CEDX12SobelWavesPlayground::Create() {
 			NULL, NULL
 		};
 
-		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEFogVertexShader.hlsl",
+		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CESobelFogVertexShader.hlsl",
 		                                                           nullptr,
 		                                                           "VS",
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["wavesVS"] = m_dx12manager->CompileShaders("CEFogVertexShader.hlsl",
+		m_shadersMap["wavesVS"] = m_dx12manager->CompileShaders("CESobelFogVertexShader.hlsl",
 		                                                        waveDefines,
 		                                                        "VS",
 		                                                        // "vs_6_3"
 		                                                        "vs_5_1"
 		);
-		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
+		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CESobelFogPixelShader.hlsl",
 		                                                         defines,
 		                                                         "PS",
 		                                                         // "ps_6_3"
 		                                                         "ps_5_1"
 		);
-		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CEFogPixelShader.hlsl",
+		m_shadersMap["alphaPS"] = m_dx12manager->CompileShaders("CESobelFogPixelShader.hlsl",
 		                                                        alphaDefines,
 		                                                        "PS",
 		                                                        // "ps_6_3"
@@ -458,6 +458,7 @@ void CEDX12SobelWavesPlayground::Render(const CETimer& gt) {
 	auto trOffScreenRTGR = CD3DX12_RESOURCE_BARRIER::Transition(m_offscreenRT->Resource(),
 	                                                            D3D12_RESOURCE_STATE_RENDER_TARGET,
 	                                                            D3D12_RESOURCE_STATE_GENERIC_READ);
+	// Change offscreen texture to be used as an input.
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trOffScreenRTGR);
 
 	m_sobelFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
@@ -465,17 +466,20 @@ void CEDX12SobelWavesPlayground::Render(const CETimer& gt) {
 	                       mPSOs["sobel"].Get(),
 	                       m_offscreenRT->Srv());
 
-	//Switching back to back buffer rendering
+	//
+	// Switching back to back buffer rendering.
+	//
 
-	//Indicate a state transition on resource usage
-	auto trCBBSPRT = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                      D3D12_RESOURCE_STATE_PRESENT,
-	                                                      D3D12_RESOURCE_STATE_RENDER_TARGET);
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCBBSPRT);
+	// Indicate a state transition on the resource usage.
+	auto trCbb = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                  D3D12_RESOURCE_STATE_PRESENT,
+	                                                  D3D12_RESOURCE_STATE_RENDER_TARGET);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCbb);
 
-	//Specify buffers we are going tro render to
-	auto currBBV = m_dx12manager->CurrentBackBufferView();
-	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &currBBV, true, &dsv);
+	// Specify the buffers we are going to render to.
+	auto cBBV = m_dx12manager->CurrentBackBufferView();
+	auto cDSV = m_dx12manager->DepthStencilView();
+	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cBBV, true, &cDSV);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_postProcessRootSignature.Get());
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["composite"].Get());
@@ -483,11 +487,11 @@ void CEDX12SobelWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(1, m_sobelFilter->OutputSrv());
 	DrawFullscreenQuad(m_dx12manager->GetD3D12CommandList().Get());
 
-	//Indicate state transition on resource usage
-	auto trCBBRTSP = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                      D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                      D3D12_RESOURCE_STATE_PRESENT);
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCBBRTSP);
+	// Indicate a state transition on the resource usage.
+	auto trCbb2 = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                   D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                   D3D12_RESOURCE_STATE_PRESENT);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCbb2);
 
 	// Done recording commands.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
@@ -830,8 +834,7 @@ void CEDX12SobelWavesPlayground::BuildDescriptorHeaps() {
 	m_offscreenRT->BuildDescriptors(
 		CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, offscreenSrvOffset, srvUavSize),
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, offscreenSrvOffset, srvUavSize),
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvCpuStart, rtvOffset, rtvSize)
-	);
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvCpuStart, rtvOffset, rtvSize));
 }
 
 void CEDX12SobelWavesPlayground::BuildLandGeometry() {
@@ -942,46 +945,40 @@ void CEDX12SobelWavesPlayground::BuildTreeSpritesGeometry() {
 }
 
 void CEDX12SobelWavesPlayground::BuildWavesGeometryBuffers() {
-	std::vector<std::uint16_t> indices(3 * m_waves->TriangleCount()); // 3 indices per face
-	assert(m_waves->VertexCount() < 0x0000ffff);
 
-	// Iterate over each quad.
-	int m = m_waves->RowCount();
-	int n = m_waves->ColumnCount();
-	int k = 0;
-	for (int i = 0; i < m - 1; ++i) {
-		for (int j = 0; j < n - 1; ++j) {
-			indices[k] = i * n + j;
-			indices[k + 1] = i * n + j + 1;
-			indices[k + 2] = (i + 1) * n + j;
+	GeometryGenerator geoGen;
+	GeometryGenerator::MeshData grid = geoGen.CreateGrid(160.0f, 160.0f, m_waves->RowCount(), m_waves->ColumnCount());
 
-			indices[k + 3] = (i + 1) * n + j;
-			indices[k + 4] = i * n + j + 1;
-			indices[k + 5] = (i + 1) * n + j + 1;
-
-			k += 6; // next quad
-		}
+	std::vector<Resources::CENormalTextureVertex> vertices(grid.Vertices.size());
+	for (size_t i = 0; i < grid.Vertices.size(); ++i) {
+		vertices[i].Pos = grid.Vertices[i].Position;
+		vertices[i].Normal = grid.Vertices[i].Normal;
+		vertices[i].TexCoord = grid.Vertices[i].TexC;
 	}
 
+	std::vector<std::uint32_t> indices = grid.Indices32;
+
 	UINT vbByteSize = m_waves->VertexCount() * sizeof(Resources::CENormalTextureVertex);
-	UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
+	UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint32_t);
 
 	auto geo = std::make_unique<Resources::MeshGeometry>();
 	geo->Name = "waterGeo";
 
-	// Set dynamically.
-	geo->VertexBufferCPU = nullptr;
-	geo->VertexBufferGPU = nullptr;
+	ThrowIfFailed(D3DCreateBlob(vbByteSize, &geo->VertexBufferCPU));
+	CopyMemory(geo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
 
 	ThrowIfFailed(D3DCreateBlob(ibByteSize, &geo->IndexBufferCPU));
 	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
+
+	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
+	geo->VertexBufferGPU->SetName(L"Landscape Waves Vertex Resource");
 
 	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
 	geo->IndexBufferGPU->SetName(L"Landscape Waves Index Resource");
 
 	geo->VertexByteStride = sizeof(Resources::CENormalTextureVertex);
 	geo->VertexBufferByteSize = vbByteSize;
-	geo->IndexFormat = DXGI_FORMAT_R16_UINT;
+	geo->IndexFormat = DXGI_FORMAT_R32_UINT;
 	geo->IndexBufferByteSize = ibByteSize;
 
 	Resources::SubMeshGeometry submesh;

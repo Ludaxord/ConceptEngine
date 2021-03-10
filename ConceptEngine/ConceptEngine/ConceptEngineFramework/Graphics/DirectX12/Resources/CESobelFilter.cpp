@@ -88,6 +88,7 @@ void CESobelFilter::BuildDescriptors() {
 
 	m_d3dDevice->CreateShaderResourceView(mOutput.Get(), &srvDesc, mhCpuSrv);
 	m_d3dDevice->CreateUnorderedAccessView(mOutput.Get(), nullptr, &uavDesc, mhCpuUav);
+	mOutput->SetName(L"Sobel Filter");
 }
 
 void CESobelFilter::BuildResource() {

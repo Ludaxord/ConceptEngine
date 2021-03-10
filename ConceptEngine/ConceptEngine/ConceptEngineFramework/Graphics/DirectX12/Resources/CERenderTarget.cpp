@@ -10,6 +10,8 @@ CERenderTarget::CERenderTarget(ID3D12Device* device, UINT width, UINT height, DX
 	m_width = width;
 	m_height = height;
 	Format = format;
+
+	BuildResource();
 }
 
 ID3D12Resource* CERenderTarget::Resource() {
@@ -56,6 +58,8 @@ void CERenderTarget::BuildDescriptors() {
 
 	m_d3dDevice->CreateShaderResourceView(mOffscreenTex.Get(), &srvDesc, mhCpuSrv);
 	m_d3dDevice->CreateRenderTargetView(mOffscreenTex.Get(), nullptr, mhCpuRtv);
+
+	mOffscreenTex->SetName(L"OffScreen Render Target");
 }
 
 void CERenderTarget::BuildResource() {
@@ -74,6 +78,8 @@ void CERenderTarget::BuildResource() {
 	texDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 
 	auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-	
-	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &texDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&mOffscreenTex)));
+
+	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &texDesc,
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+	                                                   IID_PPV_ARGS(&mOffscreenTex)));
 }
