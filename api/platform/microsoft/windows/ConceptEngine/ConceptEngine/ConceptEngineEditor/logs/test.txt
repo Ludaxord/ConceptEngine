@@ -1,2 +1,0 @@
-[2021-01-01 18:53:24.164] [test_logger] [info] LoggingTest::ctor
-[2021-01-01 18:58:40.863] [test_logger] [info] LoggingTest::ctor
