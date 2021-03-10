@@ -15,6 +15,7 @@
 #include "Playgrounds/DirectX12/Samples/BasicShapes/CEDX12ShapesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/BlendingWaves/CEDX12BlendingWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/BlurWaves/CEDX12BlurWavesPlayground.h"
+#include "Playgrounds/DirectX12/Samples/ComputeWaves/CEDX12ComputeWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/SobelWaves/CEDX12SobelWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/StencilShapes/CEDX12StencilShapesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/TexShapes/CEDX12TexShapesPlayground.h"
