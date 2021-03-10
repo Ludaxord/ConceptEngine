@@ -13,6 +13,7 @@
 #include "Playgrounds/DirectX12/Samples/LitShapes/CEDX12LitShapesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/LitWaves/CEDX12LitWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/BasicShapes/CEDX12ShapesPlayground.h"
+#include "Playgrounds/DirectX12/Samples/BezierTessellationWaves/CEDX12BezierTessellationWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/BlendingWaves/CEDX12BlendingWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/BlurWaves/CEDX12BlurWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/ComputeWaves/CEDX12ComputeWavesPlayground.h"
@@ -46,7 +47,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12BlurWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12SobelWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
-	Graphics::CEPlayground* playground = new CEDX12TessellationWavesPlayground();
+	// Graphics::CEPlayground* playground = new CEDX12TessellationWavesPlayground();
+	Graphics::CEPlayground* playground = new CEDX12BezierTessellationWavesPlayground();
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
