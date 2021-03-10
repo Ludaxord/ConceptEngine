@@ -67,7 +67,6 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_wavesRootSignature;
-		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_postProcessRootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> mOpaquePSO = nullptr;
 
 		Resources::RenderItem* mWavesRitem = nullptr;
@@ -81,8 +80,6 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::PassConstants mMainPassCB;
 
 		std::unique_ptr<Resources::CEGpuWaves> m_waves;
-		std::unique_ptr<Resources::CESobelFilter> m_sobelFilter;
-		std::unique_ptr<Resources::CERenderTarget> m_offscreenRT;
 
 		XMFLOAT3 mEyePos = { 0.0f, 0.0f, 0.0f };
 		float mSunTheta = 1.25f * XM_PI;

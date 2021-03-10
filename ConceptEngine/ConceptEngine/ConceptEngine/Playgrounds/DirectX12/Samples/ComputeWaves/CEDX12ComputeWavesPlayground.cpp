@@ -18,17 +18,6 @@ void CEDX12ComputeWavesPlayground::Create() {
 	                                                  m_dx12manager->GetD3D12CommandList().Get(),
 	                                                  256, 256, 1.0f, 0.03f, 4.0f, 0.2f);
 
-	m_sobelFilter = std::make_unique<Resources::CESobelFilter>(m_dx12manager->GetD3D12Device().Get(),
-	                                                           m_dx12manager->GetWindowWidth(),
-	                                                           m_dx12manager->GetWindowHeight(),
-	                                                           m_dx12manager->GetBackBufferFormat()
-	);
-
-	m_offscreenRT = std::make_unique<Resources::CERenderTarget>(m_dx12manager->GetD3D12Device().Get(),
-	                                                            m_dx12manager->GetWindowWidth(),
-	                                                            m_dx12manager->GetWindowHeight(),
-	                                                            m_dx12manager->GetBackBufferFormat());
-
 	LoadTextures();
 	//Root Signature
 	{
@@ -79,33 +68,6 @@ void CEDX12ComputeWavesPlayground::Create() {
 		                                        0, nullptr,
 		                                        D3D12_ROOT_SIGNATURE_FLAG_NONE);
 		m_wavesRootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
-	}
-	//BuildPostProcessRootSignature
-	{
-		CD3DX12_DESCRIPTOR_RANGE srvTable0;
-		srvTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-
-		CD3DX12_DESCRIPTOR_RANGE srvTable1;
-		srvTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
-
-		CD3DX12_DESCRIPTOR_RANGE uavTable0;
-		uavTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
-
-		CD3DX12_ROOT_PARAMETER slotRootParameter[3];
-
-		slotRootParameter[0].InitAsDescriptorTable(1, &srvTable0);
-		slotRootParameter[1].InitAsDescriptorTable(1, &srvTable1);
-		slotRootParameter[2].InitAsDescriptorTable(1, &uavTable0);
-
-		auto staticSamplers = m_dx12manager->GetStaticSamplers();
-
-		CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc(3,
-		                                              slotRootParameter,
-		                                              (UINT)staticSamplers.size(),
-		                                              staticSamplers.data(),
-		                                              D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
-
-		m_postProcessRootSignature = m_dx12manager->CreateRootSignature(&rootSignatureDesc);
 	}
 	BuildDescriptorHeaps();
 	//Build Shaders
@@ -299,24 +261,6 @@ void CEDX12ComputeWavesPlayground::Create() {
 		};
 		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&wavesRenderPSO, IID_PPV_ARGS(&mPSOs["wavesRender"])));
 
-		//PSO for compositing post process
-		D3D12_GRAPHICS_PIPELINE_STATE_DESC compositePSO = basePsoDesc;
-		compositePSO.pRootSignature = m_postProcessRootSignature.Get();
-
-		//Disable depth test
-		compositePSO.DepthStencilState.DepthEnable = false;
-		compositePSO.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
-		compositePSO.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-		compositePSO.VS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["compositeVS"]->GetBufferPointer()),
-			m_shadersMap["compositeVS"]->GetBufferSize()
-		};
-		compositePSO.PS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["compositePS"]->GetBufferPointer()),
-			m_shadersMap["compositePS"]->GetBufferSize()
-		};
-		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&compositePSO, IID_PPV_ARGS(&mPSOs["composite"])));
-
 		//PSO for disturbing waves
 		D3D12_COMPUTE_PIPELINE_STATE_DESC wavesDisturbPSO = {};
 		wavesDisturbPSO.pRootSignature = m_wavesRootSignature.Get();
@@ -336,16 +280,6 @@ void CEDX12ComputeWavesPlayground::Create() {
 		};
 		wavesUpdatePSO.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
 		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&wavesUpdatePSO, IID_PPV_ARGS(&mPSOs["wavesUpdate"])));
-
-		//PSO for sobel
-		D3D12_COMPUTE_PIPELINE_STATE_DESC sobelPSO = {};
-		sobelPSO.pRootSignature = m_postProcessRootSignature.Get();
-		sobelPSO.CS = {
-			reinterpret_cast<BYTE*>(m_shadersMap["sobelCS"]->GetBufferPointer()),
-			m_shadersMap["sobelCS"]->GetBufferSize()
-		};
-		sobelPSO.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-		ThrowIfFailed(d3dDevice->CreateComputePipelineState(&sobelPSO, IID_PPV_ARGS(&mPSOs["sobel"])));
 	}
 
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
@@ -411,14 +345,14 @@ void CEDX12ComputeWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
 
 	//Change offscreen texture to be used as a render target output
-	auto trOffScrGRRT = CD3DX12_RESOURCE_BARRIER::Transition(m_offscreenRT->Resource(),
-	                                                         D3D12_RESOURCE_STATE_GENERIC_READ,
+	auto trOffScrGRRT = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
+	                                                         D3D12_RESOURCE_STATE_PRESENT,
 	                                                         D3D12_RESOURCE_STATE_RENDER_TARGET);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trOffScrGRRT);
 
 	//Clear back buffer and depth buffer
 	auto dsv = m_dx12manager->DepthStencilView();
-	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_offscreenRT->Rtv(),
+	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
 	                                                            (float*)&mMainPassCB.FogColor,
 	                                                            0,
 	                                                            nullptr);
@@ -429,9 +363,8 @@ void CEDX12ComputeWavesPlayground::Render(const CETimer& gt) {
 	                                                            0,
 	                                                            nullptr);
 
-	//Specify buffer we are going to render to
-	auto offScreenRTV = m_offscreenRT->Rtv();
-	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &offScreenRTV, true, &dsv);
+	auto cbbv = m_dx12manager->CurrentBackBufferView();
+	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cbbv, true, &dsv);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
 
@@ -453,39 +386,6 @@ void CEDX12ComputeWavesPlayground::Render(const CETimer& gt) {
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["wavesRender"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::GpuWaves]);
-
-	//Change offscreen texture to be used as an input
-	auto trOffScreenRTGR = CD3DX12_RESOURCE_BARRIER::Transition(m_offscreenRT->Resource(),
-	                                                            D3D12_RESOURCE_STATE_RENDER_TARGET,
-	                                                            D3D12_RESOURCE_STATE_GENERIC_READ);
-	// Change offscreen texture to be used as an input.
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trOffScreenRTGR);
-
-	m_sobelFilter->Execute(m_dx12manager->GetD3D12CommandList().Get(),
-	                       m_postProcessRootSignature.Get(),
-	                       mPSOs["sobel"].Get(),
-	                       m_offscreenRT->Srv());
-
-	//
-	// Switching back to back buffer rendering.
-	//
-
-	// Indicate a state transition on the resource usage.
-	auto trCbb = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
-	                                                  D3D12_RESOURCE_STATE_PRESENT,
-	                                                  D3D12_RESOURCE_STATE_RENDER_TARGET);
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCbb);
-
-	// Specify the buffers we are going to render to.
-	auto cBBV = m_dx12manager->CurrentBackBufferView();
-	auto cDSV = m_dx12manager->DepthStencilView();
-	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cBBV, true, &cDSV);
-
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_postProcessRootSignature.Get());
-	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["composite"].Get());
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(0, m_offscreenRT->Srv());
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(1, m_sobelFilter->OutputSrv());
-	DrawFullscreenQuad(m_dx12manager->GetD3D12CommandList().Get());
 
 	// Indicate a state transition on the resource usage.
 	auto trCbb2 = CD3DX12_RESOURCE_BARRIER::Transition(m_dx12manager->CurrentBackBuffer(),
@@ -517,14 +417,6 @@ void CEDX12ComputeWavesPlayground::Resize() {
 	// The window resized, so update the aspect ratio and recompute the projection matrix.
 	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
 	XMStoreFloat4x4(&mProj, P);
-
-	if (m_sobelFilter != nullptr) {
-		m_sobelFilter->OnResize(m_dx12manager->GetWindowWidth(), m_dx12manager->GetWindowHeight());
-	}
-
-	if (m_offscreenRT != nullptr) {
-		m_offscreenRT->OnResize(m_dx12manager->GetWindowWidth(), m_dx12manager->GetWindowHeight());
-	}
 }
 
 void CEDX12ComputeWavesPlayground::OnMouseDown(KeyCode key, int x, int y) {
@@ -757,21 +649,16 @@ void CEDX12ComputeWavesPlayground::BuildDescriptorHeaps() {
 
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
 	auto srvUavSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	auto rtvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
-	int rtvOffset = m_dx12manager->GetBackBufferCount();
 
 	UINT srvCount = 4;
 
 	int waveSrvOffset = srvCount;
-	int sobelSrvOffset = waveSrvOffset + m_waves->DescriptorCount();
-	int offscreenSrvOffset = sobelSrvOffset + m_sobelFilter->DescriptorCount();
 
 	/*
 	 * Create SRV heap
 	 */
 	m_dx12manager->
-		CreateSRVDescriptorHeap(srvCount + m_waves->DescriptorCount() + m_sobelFilter->DescriptorCount() + 1);
+		CreateSRVDescriptorHeap(srvCount + m_waves->DescriptorCount());
 
 	//Fill out heap with actual descriptors
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(
@@ -817,24 +704,11 @@ void CEDX12ComputeWavesPlayground::BuildDescriptorHeaps() {
 	auto srvCpuStart = m_dx12manager->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
 	auto srvGpuStart = m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
 
-	auto rtvCpuStart = m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-
 	m_waves->BuildDescriptors(
 		CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, waveSrvOffset, srvUavSize),
 		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, waveSrvOffset, srvUavSize),
 		srvUavSize
 	);
-
-	m_sobelFilter->BuildDescriptors(
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, sobelSrvOffset, srvUavSize),
-		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, sobelSrvOffset, srvUavSize),
-		srvUavSize
-	);
-
-	m_offscreenRT->BuildDescriptors(
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, offscreenSrvOffset, srvUavSize),
-		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, offscreenSrvOffset, srvUavSize),
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvCpuStart, rtvOffset, rtvSize));
 }
 
 void CEDX12ComputeWavesPlayground::BuildLandGeometry() {
