@@ -260,6 +260,7 @@ void CEGpuWaves::Disturb(ID3D12GraphicsCommandList* cmdList,
 	UINT distrubIndex[2] = {j, i};
 	cmdList->SetComputeRoot32BitConstants(0, 1, &magnitude, 3);
 	cmdList->SetComputeRoot32BitConstants(0, 2, distrubIndex, 4);
+	cmdList->SetComputeRootDescriptorTable(3, mCurrSolUav);
 
 	/*
 	 * Current solution is in GENERIC_READ state so it can be read by vertex shader

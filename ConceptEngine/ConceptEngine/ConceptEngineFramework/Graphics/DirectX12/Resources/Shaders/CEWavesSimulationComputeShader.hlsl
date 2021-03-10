@@ -36,6 +36,7 @@ void UpdateWavesCS(int3 dispatchThreadID : SV_DispatchThreadID) {
 			gCurrSolInput[int2(x, y - 1)].r +
 			gCurrSolInput[int2(x + 1, y)].r +
 			gCurrSolInput[int2(x - 1, y)].r);
+
 }
 
 [numthreads(1,1,1)]

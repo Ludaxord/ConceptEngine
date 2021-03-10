@@ -51,8 +51,8 @@ void CESobelFilter::Execute(ID3D12GraphicsCommandList* cmdList,
                             ID3D12RootSignature* rootSignature,
                             ID3D12PipelineState* Pso,
                             CD3DX12_GPU_DESCRIPTOR_HANDLE input) {
-	cmdList->SetComputeRootSignature(rootSignature);
 	cmdList->SetPipelineState(Pso);
+	cmdList->SetComputeRootSignature(rootSignature);
 
 	cmdList->SetComputeRootDescriptorTable(0, input);
 	cmdList->SetComputeRootDescriptorTable(2, mhGpuUav);
