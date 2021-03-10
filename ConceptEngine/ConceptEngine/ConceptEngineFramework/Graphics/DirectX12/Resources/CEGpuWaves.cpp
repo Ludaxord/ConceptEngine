@@ -185,10 +185,7 @@ void CEGpuWaves::BuildDescriptors(CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDescriptor,
 void CEGpuWaves::Update(const CETimer& gt,
                         ID3D12GraphicsCommandList* cmdList,
                         ID3D12RootSignature* rootSignature,
-                        ID3D12PipelineState* Pso,
-                        UINT i,
-                        UINT j,
-                        float magnitude) {
+                        ID3D12PipelineState* Pso) {
 	static float t = 0.0f;
 
 	//Accumulate time

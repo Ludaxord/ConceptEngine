@@ -50,8 +50,9 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		float GetHillsHeight(float x, float z) const;
 		XMFLOAT3 GetHillsNormal(float x, float z) const;
+		void DrawFullscreenQuad(ID3D12GraphicsCommandList* cmdList);
 
-		void UpdateWaves(const CETimer& gt);
+		void UpdateWavesGPU(const CETimer& gt);
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
@@ -65,6 +66,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::unordered_map<std::string, std::shared_ptr<Resources::Texture>> mTextures;
 
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_wavesRootSignature;
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_postProcessRootSignature;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> mOpaquePSO = nullptr;
 

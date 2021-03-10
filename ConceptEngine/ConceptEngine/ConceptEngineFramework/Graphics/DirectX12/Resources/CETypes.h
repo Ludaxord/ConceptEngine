@@ -61,6 +61,9 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	struct ObjectConstants {
 		XMFLOAT4X4 WorldViewProjection = MatrixIdentity4X4();
 		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
+		XMFLOAT2 DisplacementMapTexelSize = {1.0f, 1.0f};
+		float GridSpatialStep = 1.0f;
+		float Pad;
 	};
 
 	//Defines subrange of geometry in MeshGeometry.

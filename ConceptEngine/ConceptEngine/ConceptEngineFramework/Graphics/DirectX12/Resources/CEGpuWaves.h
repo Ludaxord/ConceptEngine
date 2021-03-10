@@ -30,10 +30,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		void Update(const CETimer& gt,
 		            ID3D12GraphicsCommandList* cmdList,
 		            ID3D12RootSignature* rootSignature,
-		            ID3D12PipelineState* Pso,
-		            UINT i,
-		            UINT j,
-		            float magnitude);
+		            ID3D12PipelineState* Pso);
 
 		void Disturb(ID3D12GraphicsCommandList* cmdList,
 		             ID3D12RootSignature* rootSignature,
