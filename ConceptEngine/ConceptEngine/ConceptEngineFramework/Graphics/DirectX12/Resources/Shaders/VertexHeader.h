@@ -58,4 +58,26 @@ struct CompositeVertexOut {
 	float2 TexCoord : TEXCOORD;
 };
 
+
+struct TessVertexIn {
+	float3 PosL : POSITION;
+};
+
+struct TessVertexOut {
+	float3 PosL : POSITION;
+};
+
+struct PatchTess {
+	float EdgeTess[4] : SV_TessFactor;
+	float InsideTess[2] : SV_InsideTessFactor;
+};
+
+struct HullOut {
+	float3 PosL : POSITION;
+};
+
+struct DomainOut {
+	float4 PosH : SV_POSITION;
+};
+
 #endif

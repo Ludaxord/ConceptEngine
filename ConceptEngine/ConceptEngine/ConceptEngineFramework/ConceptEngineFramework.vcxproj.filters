@@ -197,5 +197,9 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESobelComputeShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECompositeVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECompositePixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationHullShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationDomainShader.hlsl" />
   </ItemGroup>
 </Project>
