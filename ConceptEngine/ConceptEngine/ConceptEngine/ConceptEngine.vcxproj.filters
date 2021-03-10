@@ -60,6 +60,9 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

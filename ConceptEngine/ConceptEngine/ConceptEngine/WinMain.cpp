@@ -42,7 +42,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12StencilShapesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12TreesWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BlurWavesPlayground();
-	Graphics::CEPlayground* playground = new CEDX12SobelWavesPlayground();
+	// Graphics::CEPlayground* playground = new CEDX12SobelWavesPlayground();
+	Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
