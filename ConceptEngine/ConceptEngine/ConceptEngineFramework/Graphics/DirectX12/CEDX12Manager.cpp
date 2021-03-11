@@ -35,7 +35,9 @@ void CEDX12Manager::Create() {
 	CreateCommandList();
 	CreateSwapChain();
 	//TODO: Fix problem with dynamic creation of RTVDescriptor heap
-	CreateRTVDescriptorHeap(BufferCount + 1);
+	CreateRTVDescriptorHeap(
+		BufferCount + 1
+	);
 	CreateDSVDescriptorHeap();
 
 	LogDirectXInfo();

@@ -207,5 +207,7 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationHullShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationDomainShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEIndexingVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEIndexingPixelShader.hlsl" />
   </ItemGroup>
 </Project>

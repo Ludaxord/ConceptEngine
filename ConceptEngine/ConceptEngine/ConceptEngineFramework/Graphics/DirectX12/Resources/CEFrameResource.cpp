@@ -59,7 +59,9 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	commandAllocator->SetName(L"Frame Resource Command Allocator");
 
 	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
-	MaterialCB = std::make_unique<CEUploadBuffer<MaterialConstants>>(device, materialCount, true);
+	MaterialCB = std::make_unique<CEUploadBuffer<MaterialConstants>>(device, materialCount, 
+		true //TODO: TEMPORARY!!! normally set as constant buffer
+		);
 	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);
 
 	if (wavesCount > 0) {
