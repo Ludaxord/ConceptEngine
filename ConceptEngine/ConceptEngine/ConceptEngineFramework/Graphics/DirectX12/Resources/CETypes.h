@@ -17,6 +17,8 @@ extern const int gNumFrameResources;
 
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
+	static const float Pi = 3.1415926535f;
+
 	static XMFLOAT4X4 MatrixIdentity4X4() {
 		return XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
 		                  0.0f, 1.0f, 0.0f, 0.0f,
@@ -63,7 +65,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
 		XMFLOAT2 DisplacementMapTexelSize = {1.0f, 1.0f};
 		float GridSpatialStep = 1.0f;
-		float Pad;
+		UINT     MaterialIndex;
+		UINT     ObjPad0;
+		UINT     ObjPad1;
+		UINT     ObjPad2;
 	};
 
 	//Defines subrange of geometry in MeshGeometry.
@@ -145,6 +150,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 		// Used in texture mapping.
 		XMFLOAT4X4 MatTransform = MatrixIdentity4X4();
+		
+		UINT DiffuseMapIndex = 0;
+		UINT MaterialPad0;
+		UINT MaterialPad1;
+		UINT MaterialPad2;
 	};
 
 	struct Material {

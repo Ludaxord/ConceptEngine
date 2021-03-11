@@ -2,14 +2,17 @@
 
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Playground.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEBlurFilter.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECamera.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEGpuWaves.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CERenderTarget.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESobelFilter.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECamera.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 using namespace ConceptEngineFramework::Game;
+
 
 namespace ConceptEngine::Playgrounds::DirectX12 {
 	class CEDX12FPPCameraPlayground final : public CEDX12Playground {
@@ -38,6 +41,9 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void LoadTextures();
 		void BuildDescriptorHeaps();
 		void BuildLandGeometry();
+		void BuildTreeSpritesGeometry();
+		void BuildWavesGeometryBuffers();
+		void BuildBoxGeometry();
 		void BuildMaterials();
 		void BuildRenderItems();
 		void BuildFrameResources();
@@ -47,11 +53,16 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		float GetHillsHeight(float x, float z) const;
 		XMFLOAT3 GetHillsNormal(float x, float z) const;
+		void DrawFullscreenQuad(ID3D12GraphicsCommandList* cmdList);
+
+		void UpdateWavesGPU(const CETimer& gt);
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
 		Resources::CEFrameResource* mCurrFrameResource = nullptr;
 		int mCurrFrameResourceIndex = 0;
+
+		std::vector<D3D12_INPUT_ELEMENT_DESC> m_spriteInputLayout;
 
 		std::unordered_map<std::string, std::unique_ptr<Resources::MeshGeometry>> mGeometries;
 		std::unordered_map<std::string, std::unique_ptr<Resources::Material>> mMaterials;
@@ -63,8 +74,6 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		Resources::RenderItem* mWavesRitem = nullptr;
 
-		std::vector<D3D12_INPUT_ELEMENT_DESC> m_tessInputLayout;
-
 		//list of all render items.
 		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
 
@@ -72,6 +81,10 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
 		Resources::PassConstants mMainPassCB;
+
+		std::unique_ptr<Resources::CEGpuWaves> m_waves;
+
+		Resources::CECamera m_camera;
 
 		XMFLOAT3 mEyePos = { 0.0f, 0.0f, 0.0f };
 		float mSunTheta = 1.25f * XM_PI;

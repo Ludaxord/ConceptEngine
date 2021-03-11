@@ -460,6 +460,8 @@ void CEDX12ComputeWavesPlayground::OnMouseMove(KeyCode key, int x, int y) {
 		mRadius = m_dx12manager->Clamp(mRadius, 5.0f, 150.0f);
 	}
 
+	// spdlog::info("Camera Position -> X: {} Y: {} Z: {}", mEyePos.x, mEyePos.y, mEyePos.z);
+
 	mLastMousePos.x = x;
 	mLastMousePos.y = y;
 }

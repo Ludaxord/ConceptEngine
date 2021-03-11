@@ -78,24 +78,6 @@ void CEDX12Playground::OnKeyDown(Game::KeyCode key, char keyChar, const CETimer&
 	case Game::KeyCode::F1:
 		mIsWireframe = true;
 		break;
-	case Game::KeyCode::W:
-		m_forward = 1.0f;
-		break;
-	case Game::KeyCode::A:
-		m_left = 1.0f;
-		break;
-	case Game::KeyCode::S:
-		m_backward = 1.0f;
-		break;
-	case Game::KeyCode::D:
-		m_right = 1.0f;
-		break;
-	case Game::KeyCode::Q:
-		m_down = 1.0f;
-		break;
-	case Game::KeyCode::E:
-		m_up = 1.0f;
-		break;
 	case Game::KeyCode::ShiftKey:
 		m_shift = true;
 		break;

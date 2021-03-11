@@ -36,6 +36,7 @@
     <ClInclude Include="Graphics\CEGraphicsManager.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\DDSTextureLoader.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEBlurFilter.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CECamera.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEDefaultBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\GeometryGenerator.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEFrameResource.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="Graphics\DirectX12\Libraries\DDSTextureLoader.cpp" />
     <ClCompile Include="Graphics\DirectX12\Libraries\GeometryGenerator.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEBlurFilter.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Resources\CECamera.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEFrameResource.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEGpuWaves.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CERenderTarget.cpp" />

@@ -1,70 +1,44 @@
-[2021-03-10 20:59:11.291] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-03-10 20:59:11.347] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-03-10 20:59:11.347] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-03-10 20:59:11.347] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-03-10 20:59:11.348] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-03-10 20:59:11.559] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-03-10 20:59:11.723] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-03-10 20:59:11.723] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-03-10 20:59:11.723] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-03-10 20:59:11.738] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-03-10 20:59:11.782] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-03-10 20:59:11.783] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-03-10 20:59:11.783] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-03-10 20:59:11.783] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-03-10 20:59:11.783] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-03-10 20:59:11.783] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-03-10 20:59:11.790] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\grass.dds
-[2021-03-10 20:59:11.792] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\water1.dds
-[2021-03-10 20:59:11.792] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\WireFence.dds
-[2021-03-10 20:59:11.794] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\treeArray2.dds
-[2021-03-10 20:59:11.796] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\checkboard.dds
-[2021-03-10 20:59:11.797] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\ice.dds
-[2021-03-10 20:59:11.798] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
-[2021-03-10 20:59:11.799] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks.dds
-[2021-03-10 20:59:11.801] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogVertexShader.hlsl
-[2021-03-10 20:59:11.807] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogVertexShader.hlsl
-[2021-03-10 20:59:11.815] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogPixelShader.hlsl
-[2021-03-10 20:59:11.830] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogPixelShader.hlsl
-[2021-03-10 20:59:11.845] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESpritesVertexShader.hlsl
-[2021-03-10 20:59:11.850] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESpritesGeometryShader.hlsl
-[2021-03-10 20:59:11.860] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESpritesPixelShader.hlsl
-[2021-03-10 20:59:11.876] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEWavesSimulationComputeShader.hlsl
-[2021-03-10 20:59:11.880] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEWavesSimulationComputeShader.hlsl
-[2021-03-10 20:59:11.885] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECompositeVertexShader.hlsl
-[2021-03-10 20:59:11.889] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECompositePixelShader.hlsl
-[2021-03-10 20:59:11.893] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelComputeShader.hlsl
-[2021-03-10 20:59:11.903] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CETessellationVertexShader.hlsl
-[2021-03-10 20:59:11.907] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CETessellationHullShader.hlsl
-[2021-03-10 20:59:11.915] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CETessellationDomainShader.hlsl
-[2021-03-10 20:59:11.926] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CETessellationPixelShader.hlsl
-[2021-03-10 20:59:12.955] [ConceptEngine] [info] FPS: 2173
-[2021-03-10 20:59:12.955] [ConceptEngine] [info] MSPF: 0.46019328
-[2021-03-10 20:59:13.954] [ConceptEngine] [info] FPS: 2508
-[2021-03-10 20:59:13.954] [ConceptEngine] [info] MSPF: 0.39872408
-[2021-03-10 20:59:14.954] [ConceptEngine] [info] FPS: 2728
-[2021-03-10 20:59:14.954] [ConceptEngine] [info] MSPF: 0.36656892
-[2021-03-10 20:59:15.953] [ConceptEngine] [info] FPS: 2675
-[2021-03-10 20:59:15.953] [ConceptEngine] [info] MSPF: 0.37383178
-[2021-03-10 20:59:16.953] [ConceptEngine] [info] FPS: 2656
-[2021-03-10 20:59:16.953] [ConceptEngine] [info] MSPF: 0.37650603
-[2021-03-10 20:59:17.953] [ConceptEngine] [info] FPS: 2488
-[2021-03-10 20:59:17.953] [ConceptEngine] [info] MSPF: 0.40192926
-[2021-03-10 20:59:18.954] [ConceptEngine] [info] FPS: 2453
-[2021-03-10 20:59:18.954] [ConceptEngine] [info] MSPF: 0.4076641
-[2021-03-10 20:59:19.953] [ConceptEngine] [info] FPS: 2431
-[2021-03-10 20:59:19.953] [ConceptEngine] [info] MSPF: 0.41135335
-[2021-03-10 20:59:20.953] [ConceptEngine] [info] FPS: 2556
-[2021-03-10 20:59:20.953] [ConceptEngine] [info] MSPF: 0.3912363
-[2021-03-10 20:59:21.953] [ConceptEngine] [info] FPS: 2371
-[2021-03-10 20:59:21.953] [ConceptEngine] [info] MSPF: 0.42176297
-[2021-03-10 20:59:22.953] [ConceptEngine] [info] FPS: 2338
-[2021-03-10 20:59:22.953] [ConceptEngine] [info] MSPF: 0.427716
-[2021-03-10 20:59:23.953] [ConceptEngine] [info] FPS: 2015
-[2021-03-10 20:59:23.953] [ConceptEngine] [info] MSPF: 0.49627793
-[2021-03-10 20:59:24.953] [ConceptEngine] [info] FPS: 2219
-[2021-03-10 20:59:24.953] [ConceptEngine] [info] MSPF: 0.45065343
-[2021-03-10 20:59:25.954] [ConceptEngine] [info] FPS: 2217
-[2021-03-10 20:59:25.954] [ConceptEngine] [info] MSPF: 0.45106
-[2021-03-10 20:59:26.953] [ConceptEngine] [info] FPS: 2274
-[2021-03-10 20:59:26.953] [ConceptEngine] [info] MSPF: 0.43975374
+[2021-03-11 15:10:01.018] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-03-11 15:10:01.075] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-03-11 15:10:01.075] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-03-11 15:10:01.075] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-03-11 15:10:01.075] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-03-11 15:10:01.266] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-03-11 15:10:01.414] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-03-11 15:10:01.414] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-03-11 15:10:01.414] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-03-11 15:10:01.427] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-03-11 15:10:01.467] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-03-11 15:10:01.467] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-03-11 15:10:01.467] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-03-11 15:10:01.467] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-03-11 15:10:01.467] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-03-11 15:10:01.467] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-03-11 15:10:01.487] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\grass.dds
+[2021-03-11 15:10:01.489] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\water1.dds
+[2021-03-11 15:10:01.490] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\WireFence.dds
+[2021-03-11 15:10:01.491] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\treeArray2.dds
+[2021-03-11 15:10:01.493] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogVertexShader.hlsl
+[2021-03-11 15:10:01.500] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogVertexShader.hlsl
+[2021-03-11 15:10:01.508] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogPixelShader.hlsl
+[2021-03-11 15:10:01.523] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelFogPixelShader.hlsl
+[2021-03-11 15:10:01.538] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESpritesVertexShader.hlsl
+[2021-03-11 15:10:01.542] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESpritesGeometryShader.hlsl
+[2021-03-11 15:10:01.552] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESpritesPixelShader.hlsl
+[2021-03-11 15:10:01.567] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEWavesSimulationComputeShader.hlsl
+[2021-03-11 15:10:01.572] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEWavesSimulationComputeShader.hlsl
+[2021-03-11 15:10:01.576] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECompositeVertexShader.hlsl
+[2021-03-11 15:10:01.580] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECompositePixelShader.hlsl
+[2021-03-11 15:10:01.584] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CESobelComputeShader.hlsl
+[2021-03-11 15:10:02.696] [ConceptEngine] [info] FPS: 1612
+[2021-03-11 15:10:02.696] [ConceptEngine] [info] MSPF: 0.6203474
+[2021-03-11 15:10:03.696] [ConceptEngine] [info] FPS: 1864
+[2021-03-11 15:10:03.696] [ConceptEngine] [info] MSPF: 0.53648067
+[2021-03-11 15:10:04.696] [ConceptEngine] [info] FPS: 2017
+[2021-03-11 15:10:04.696] [ConceptEngine] [info] MSPF: 0.49578583
+[2021-03-11 15:10:05.696] [ConceptEngine] [info] FPS: 1996
+[2021-03-11 15:10:05.696] [ConceptEngine] [info] MSPF: 0.501002
+[2021-03-11 15:10:06.696] [ConceptEngine] [info] FPS: 2094
+[2021-03-11 15:10:06.696] [ConceptEngine] [info] MSPF: 0.47755492
+[2021-03-11 15:10:07.696] [ConceptEngine] [info] FPS: 2060
+[2021-03-11 15:10:07.696] [ConceptEngine] [info] MSPF: 0.4854369
