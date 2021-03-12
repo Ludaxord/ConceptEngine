@@ -65,10 +65,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
 		XMFLOAT2 DisplacementMapTexelSize = {1.0f, 1.0f};
 		float GridSpatialStep = 1.0f;
-		UINT     MaterialIndex;
-		UINT     ObjPad0;
-		UINT     ObjPad1;
-		UINT     ObjPad2;
+		UINT MaterialIndex;
+		UINT ObjPad0;
+		UINT ObjPad1;
+		UINT ObjPad2;
 	};
 
 	//Defines subrange of geometry in MeshGeometry.
@@ -143,6 +143,20 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		float SpotPower = 64.0f; // spot light only
 	};
 
+	struct MaterialData {
+		DirectX::XMFLOAT4 DiffuseAlbedo = {1.0f, 1.0f, 1.0f, 1.0f};
+		DirectX::XMFLOAT3 FresnelR0 = {0.01f, 0.01f, 0.01f};
+		float Roughness = 64.0f;
+
+		// Used in texture mapping.
+		DirectX::XMFLOAT4X4 MatTransform = MatrixIdentity4X4();
+
+		UINT DiffuseMapIndex = 0;
+		UINT MaterialPad0;
+		UINT MaterialPad1;
+		UINT MaterialPad2;
+	};
+
 	struct MaterialConstants {
 		XMFLOAT4 DiffuseAlbedo = {1.0f, 1.0f, 1.0f, 1.0f};
 		XMFLOAT3 FresnelR0 = {0.01f, 0.01f, 0.01f};
@@ -150,7 +164,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 		// Used in texture mapping.
 		XMFLOAT4X4 MatTransform = MatrixIdentity4X4();
-		
+
 		UINT DiffuseMapIndex = 0;
 		UINT MaterialPad0;
 		UINT MaterialPad1;

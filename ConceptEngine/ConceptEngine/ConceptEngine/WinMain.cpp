@@ -47,10 +47,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12TreesWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BlurWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12SobelWavesPlayground();
-	Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
+	// Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12TessellationWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BezierTessellationWavesPlayground();
-	// Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground();
+	Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground();
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
