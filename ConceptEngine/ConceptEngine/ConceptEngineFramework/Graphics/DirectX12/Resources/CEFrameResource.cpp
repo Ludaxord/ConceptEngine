@@ -50,7 +50,8 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
                                  UINT objectCount,
                                  UINT materialCount,
                                  UINT wavesCount,
-                                 WaveType waveType) {
+                                 WaveType waveType,
+                                 bool materialAsConstantBuffer) {
 	ThrowIfFailed(device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(commandAllocator.GetAddressOf())
@@ -59,9 +60,9 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	commandAllocator->SetName(L"Frame Resource Command Allocator");
 
 	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
-	MaterialCB = std::make_unique<CEUploadBuffer<MaterialConstants>>(device, materialCount, 
-		true //TODO: TEMPORARY!!! normally set as constant buffer
-		);
+	MaterialCB = std::make_unique<CEUploadBuffer<MaterialConstants>>(device, materialCount,
+	                                                                 materialAsConstantBuffer
+	);
 	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);
 
 	if (wavesCount > 0) {

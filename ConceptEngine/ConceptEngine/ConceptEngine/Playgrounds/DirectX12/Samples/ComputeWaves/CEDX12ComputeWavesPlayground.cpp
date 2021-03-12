@@ -10,8 +10,8 @@ CEDX12ComputeWavesPlayground::CEDX12ComputeWavesPlayground() : CEDX12Playground(
 void CEDX12ComputeWavesPlayground::Create() {
 	CEDX12Playground::Create();
 
-	//Reset command list to prepare for initialization commands
-	m_dx12manager->ResetCommandList();
+		//Reset command list to prepare for initialization commands
+		m_dx12manager->ResetCommandList();
 
 	//Create GPU based waves
 	m_waves = std::make_unique<Resources::CEGpuWaves>(m_dx12manager->GetD3D12Device().Get(),
