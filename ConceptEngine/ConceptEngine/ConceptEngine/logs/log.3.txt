@@ -1,24 +1,25 @@
-[2021-03-12 19:31:51.330] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-03-12 19:31:51.400] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-03-12 19:31:51.400] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-03-12 19:31:51.400] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-03-12 19:31:51.400] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-03-12 19:31:51.636] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-03-12 19:31:51.797] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-03-12 19:31:51.797] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-03-12 19:31:51.798] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-03-12 19:31:51.811] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-03-12 19:31:51.861] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-03-12 19:31:51.861] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-03-12 19:31:51.861] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-03-12 19:31:51.861] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-03-12 19:31:51.861] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-03-12 19:31:51.861] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-03-12 19:31:51.866] [ConceptEngine] [info] ======= Resized =======
-[2021-03-12 19:31:51.866] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks.dds
-[2021-03-12 19:31:51.867] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\stone.dds
-[2021-03-12 19:31:51.868] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile.dds
-[2021-03-12 19:31:51.869] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\WoodCrate01.dds
-[2021-03-12 19:31:51.871] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEIndexingVertexShader.hlsl
-[2021-03-12 19:31:51.878] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEIndexingPixelShader.hlsl
-[2021-03-12 19:31:51.919] [ConceptEngine] [info] ======= Created =======
+[2021-03-12 19:33:07.928] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-03-12 19:33:07.981] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-03-12 19:33:07.981] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-03-12 19:33:07.981] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-03-12 19:33:07.981] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-03-12 19:33:08.252] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-03-12 19:33:08.415] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-03-12 19:33:08.415] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-03-12 19:33:08.415] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-03-12 19:33:08.430] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-03-12 19:33:08.482] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-03-12 19:33:08.482] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-03-12 19:33:08.482] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-03-12 19:33:08.482] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-03-12 19:33:08.482] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-03-12 19:33:08.482] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-03-12 19:33:08.488] [ConceptEngine] [info] ======= Resized =======
+[2021-03-12 19:33:08.488] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks.dds
+[2021-03-12 19:33:08.490] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\stone.dds
+[2021-03-12 19:33:08.491] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile.dds
+[2021-03-12 19:33:08.492] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\WoodCrate01.dds
+[2021-03-12 19:33:08.494] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEIndexingVertexShader.hlsl
+[2021-03-12 19:33:08.501] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEIndexingPixelShader.hlsl
+[2021-03-12 19:33:08.544] [ConceptEngine] [info] ======= Created =======
+[2021-03-12 19:33:08.545] [ConceptEngine] [info] ======= Updated =======
