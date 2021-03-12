@@ -65,26 +65,25 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		void UpdateViewMatrix();
 	protected:
 	private:
+		// Camera coordinate system with coordinates relative to world space.
+		DirectX::XMFLOAT3 mPosition = { 0.0f, 0.0f, 0.0f };
+		DirectX::XMFLOAT3 mRight = { 1.0f, 0.0f, 0.0f };
+		DirectX::XMFLOAT3 mUp = { 0.0f, 1.0f, 0.0f };
+		DirectX::XMFLOAT3 mLook = { 0.0f, 0.0f, 1.0f };
 
-		//Camera coordinate system with coordinates relative to world space
-		DirectX::XMFLOAT3 m_position = {0.0f, 0.0f, 0.0f};
-		DirectX::XMFLOAT3 m_right = {1.0f, 0.0f, 0.0f};
-		DirectX::XMFLOAT3 m_up = {0.0f, 1.0f, 0.0f};
-		DirectX::XMFLOAT3 m_look = {0.0f, 0.0f, 1.0f};
+		// Cache frustum properties.
+		float mNearZ = 0.0f;
+		float mFarZ = 0.0f;
+		float mAspect = 0.0f;
+		float mFovY = 0.0f;
+		float mNearWindowHeight = 0.0f;
+		float mFarWindowHeight = 0.0f;
 
-		//Cache frustum properties
-		float m_nearZ = 0.0f;
-		float m_farZ = 0.0f;
-		float m_aspect = 0.0f;
-		float m_fovY = 0.0f;
-		float m_nearWindowHeight = 0.0f;
-		float m_farWindowHeight = 0.0f;
-
-		bool m_viewDirty = true;
+		bool mViewDirty = true;
 
 		//cache view/proj matrices.
-		DirectX::XMFLOAT4X4 m_view = Resources::MatrixIdentity4X4();
-		DirectX::XMFLOAT4X4 m_proj = Resources::MatrixIdentity4X4();
+		DirectX::XMFLOAT4X4 mView = Resources::MatrixIdentity4X4();
+		DirectX::XMFLOAT4X4 mProj = Resources::MatrixIdentity4X4();
 	};
 }
 

@@ -36,7 +36,7 @@ void CEDX12Manager::Create() {
 	CreateSwapChain();
 	//TODO: Fix problem with dynamic creation of RTVDescriptor heap
 	CreateRTVDescriptorHeap(
-		BufferCount + 1
+		// BufferCount + 1
 	);
 	CreateDSVDescriptorHeap();
 
@@ -259,8 +259,6 @@ void CEDX12Manager::ExecuteCommandLists(std::vector<ID3D12CommandList*> commandL
 	}
 
 	m_commandQueue->ExecuteCommandLists(commandLists.size(), commandLists.data());
-
-	spdlog::info("CommandLists Executed!");
 }
 
 DXGI_FORMAT CEDX12Manager::GetBackBufferFormat() const {

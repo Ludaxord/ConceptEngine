@@ -18,6 +18,7 @@ extern const int gNumFrameResources;
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 	static const float Pi = 3.1415926535f;
+	const float Infinity = FLT_MAX;
 
 	static XMFLOAT4X4 MatrixIdentity4X4() {
 		return XMFLOAT4X4(1.0f, 0.0f, 0.0f, 0.0f,
@@ -58,6 +59,16 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	struct CENode32 {
 		std::vector<CENormalVertex> vertices;
 		std::vector<std::int32_t> indices;
+	};
+
+
+	struct InstanceData {
+		DirectX::XMFLOAT4X4 World = MatrixIdentity4X4();
+		DirectX::XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
+		UINT MaterialIndex;
+		UINT InstancePad0;
+		UINT InstancePad1;
+		UINT InstancePad2;
 	};
 
 	struct ObjectConstants {
@@ -352,8 +363,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//Primitive Topology
 		D3D12_PRIMITIVE_TOPOLOGY PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
+		BoundingBox Bounds;
+		std::vector<InstanceData> Instances;
 		//DrawIndexedInstanced parameters
 		UINT IndexCount = 0;
+		UINT InstanceCount = 0;
 		UINT StartIndexLocation = 0;
 		int BaseVertexLocation = 0;
 	};

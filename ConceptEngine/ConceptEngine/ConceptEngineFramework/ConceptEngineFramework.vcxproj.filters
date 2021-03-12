@@ -209,5 +209,7 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CETessellationDomainShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEIndexingVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEIndexingPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEInstancingVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEInstancingPixelShader.hlsl" />
   </ItemGroup>
 </Project>
