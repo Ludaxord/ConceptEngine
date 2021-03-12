@@ -52,7 +52,7 @@ void CEDX12InstancingPlayground::Create() {
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEInstancingVertexShader.hlsl",
+		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEInstancingPixelShader.hlsl",
 		                                                         nullptr,
 		                                                         "PS",
 		                                                         // "ps_6_3"
@@ -228,16 +228,16 @@ void CEDX12InstancingPlayground::OnKeyDown(KeyCode key, char keyChar, const CETi
 	const float dt = gt.DeltaTime();
 	switch (key) {
 	case KeyCode::A:
-		m_camera.Strafe(-20.0f * dt);
+		m_camera.Strafe(-40.0f * dt);
 		break;
 	case KeyCode::D:
-		m_camera.Strafe(20.0f * dt);
+		m_camera.Strafe(40.0f * dt);
 		break;
 	case KeyCode::W:
-		m_camera.Walk(20.0f * dt);
+		m_camera.Walk(40.0f * dt);
 		break;
 	case KeyCode::S:
-		m_camera.Walk(-20.0f * dt);
+		m_camera.Walk(-40.0f * dt);
 		break;
 	case KeyCode::F:
 		mFrustumCullingEnabled = !mFrustumCullingEnabled;
@@ -291,13 +291,16 @@ void CEDX12InstancingPlayground::UpdateObjectCBs(const CETimer& gt) {
 
 		e->InstanceCount = visibleInstanceCount;
 
-		std::stringstream outs;
-		outs.precision(6);
-		outs << "Instancing and Culling Demo" <<
-			"    " << e->InstanceCount <<
-			" objects visible out of " << e->Instances.size();
-		auto v = outs.str();
-		spdlog::info(v.c_str());
+		if (m_visibleInstanceCount != e->InstanceCount) {
+			std::stringstream outs;
+			outs.precision(6);
+			outs << "Instancing and Culling Demo" <<
+				"    " << e->InstanceCount <<
+				" objects visible out of " << e->Instances.size();
+			auto v = outs.str();
+			spdlog::info(v.c_str());
+			m_visibleInstanceCount = e->InstanceCount;
+		}
 	}
 }
 

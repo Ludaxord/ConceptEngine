@@ -65,6 +65,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::CECamera m_camera;
 
 		UINT m_instanceCount = 0;
+		UINT m_visibleInstanceCount = -1;
 
 		bool mFrustumCullingEnabled = true;
 
