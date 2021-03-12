@@ -59,11 +59,12 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 
 	commandAllocator->SetName(L"Frame Resource Command Allocator");
 
-	PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
 	if (materialAsConstantBuffer) {
+		PassCB = std::make_unique<CEUploadBuffer<PassConstants>>(device, passCount, true);
 		MaterialCB = std::make_unique<CEUploadBuffer<MaterialConstants>>(device, materialCount, true);
 	}
 	else {
+		PassStructuredCB = std::make_unique<CEUploadBuffer<PassStructuredConstants>>(device, passCount, true);
 		MaterialBuffer = std::make_unique<CEUploadBuffer<MaterialData>>(device, materialCount, false);
 	}
 	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);

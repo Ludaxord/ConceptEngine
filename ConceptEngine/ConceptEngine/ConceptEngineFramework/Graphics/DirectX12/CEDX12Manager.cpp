@@ -259,6 +259,8 @@ void CEDX12Manager::ExecuteCommandLists(std::vector<ID3D12CommandList*> commandL
 	}
 
 	m_commandQueue->ExecuteCommandLists(commandLists.size(), commandLists.data());
+
+	spdlog::info("CommandLists Executed!");
 }
 
 DXGI_FORMAT CEDX12Manager::GetBackBufferFormat() const {

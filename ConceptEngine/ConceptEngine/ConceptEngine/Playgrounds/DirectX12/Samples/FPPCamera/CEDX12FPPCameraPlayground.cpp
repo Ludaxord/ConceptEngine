@@ -68,6 +68,8 @@ void CEDX12FPPCameraPlayground::Create() {
 
 	//Wait until initialization is complete
 	m_dx12manager->FlushCommandQueue();
+
+	spdlog::info("======= Created =======");
 }
 
 void CEDX12FPPCameraPlayground::Update(const CETimer& gt) {
@@ -93,6 +95,8 @@ void CEDX12FPPCameraPlayground::Update(const CETimer& gt) {
 	UpdateObjectCBs(gt);
 	UpdateMaterialCBs(gt);
 	UpdateMainPassCB(gt);
+
+	spdlog::info("======= Updated =======");
 }
 
 void CEDX12FPPCameraPlayground::Render(const CETimer& gt) {
@@ -139,7 +143,7 @@ void CEDX12FPPCameraPlayground::Render(const CETimer& gt) {
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
 
-	auto passCB = mCurrFrameResource->PassCB->Resource();
+	auto passCB = mCurrFrameResource->PassStructuredCB->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
 
 	// Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and 
@@ -176,11 +180,14 @@ void CEDX12FPPCameraPlayground::Render(const CETimer& gt) {
 	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
 
 	m_dx12manager->FlushCommandQueue();
+
+	spdlog::info("======= Rendered =======");
 }
 
 void CEDX12FPPCameraPlayground::Resize() {
 	CEDX12Playground::Resize();
 	m_camera.SetLens(0.25f * Resources::Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
+	spdlog::info("======= Resized =======");
 }
 
 void CEDX12FPPCameraPlayground::OnMouseDown(KeyCode key, int x, int y) {
@@ -300,7 +307,7 @@ void CEDX12FPPCameraPlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
 	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
-	auto currPassCB = mCurrFrameResource->PassCB.get();
+	auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
 
