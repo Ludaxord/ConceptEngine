@@ -68,8 +68,6 @@ void CEDX12FPPCameraPlayground::Create() {
 
 	//Wait until initialization is complete
 	m_dx12manager->FlushCommandQueue();
-
-	spdlog::info("======= Created =======");
 }
 
 void CEDX12FPPCameraPlayground::Update(const CETimer& gt) {
@@ -95,8 +93,6 @@ void CEDX12FPPCameraPlayground::Update(const CETimer& gt) {
 	UpdateObjectCBs(gt);
 	UpdateMaterialCBs(gt);
 	UpdateMainPassCB(gt);
-
-	spdlog::info("======= Updated =======");
 }
 
 void CEDX12FPPCameraPlayground::Render(const CETimer& gt) {
@@ -180,14 +176,11 @@ void CEDX12FPPCameraPlayground::Render(const CETimer& gt) {
 	m_dx12manager->SetCurrentBackBufferIndex((currentBackBufferIndex + 1) % CEDX12Manager::GetBackBufferCount());
 
 	m_dx12manager->FlushCommandQueue();
-
-	spdlog::info("======= Rendered =======");
 }
 
 void CEDX12FPPCameraPlayground::Resize() {
 	CEDX12Playground::Resize();
 	m_camera.SetLens(0.25f * Resources::Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
-	spdlog::info("======= Resized =======");
 }
 
 void CEDX12FPPCameraPlayground::OnMouseDown(KeyCode key, int x, int y) {
@@ -226,16 +219,16 @@ void CEDX12FPPCameraPlayground::OnKeyDown(KeyCode key, char keyChar, const CETim
 	const float dt = gt.DeltaTime();
 	switch (key) {
 	case KeyCode::A:
-		m_camera.Strafe(-10.0f * dt);
+		m_camera.Strafe(-50.0f * dt);
 		break;
 	case KeyCode::D:
-		m_camera.Strafe(10.0f * dt);
+		m_camera.Strafe(50.0f * dt);
 		break;
 	case KeyCode::W:
-		m_camera.Walk(10.0f * dt);
+		m_camera.Walk(50.0f * dt);
 		break;
 	case KeyCode::S:
-		m_camera.Walk(-10.0f * dt);
+		m_camera.Walk(-50.0f * dt);
 		break;
 	}
 }
@@ -246,7 +239,7 @@ void CEDX12FPPCameraPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int 
 
 void CEDX12FPPCameraPlayground::UpdateObjectCBs(const CETimer& gt) {
 	CEDX12Playground::UpdateObjectCBs(gt);
-	auto currObjectCB = mCurrFrameResource->ObjectCB.get();
+	auto currObjectCB = mCurrFrameResource->ObjectStructuredCB.get();
 	for (auto& ri : mAllRitems) {
 		Resources::LitShapesRenderItem* e = static_cast<Resources::LitShapesRenderItem*>(ri.get());
 		// Only update the cbuffer data if the constants have changed.  
@@ -255,7 +248,7 @@ void CEDX12FPPCameraPlayground::UpdateObjectCBs(const CETimer& gt) {
 			XMMATRIX world = XMLoadFloat4x4(&e->World);
 			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
 
-			Resources::ObjectConstants objConstants;
+			Resources::StructuredObjectConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
 			objConstants.MaterialIndex = e->Mat->MatCBIndex;
@@ -686,9 +679,9 @@ void CEDX12FPPCameraPlayground::BuildRenderItems() {
 
 void CEDX12FPPCameraPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                                 std::vector<Resources::RenderItem*>& ritems) const {
-	UINT objCBByteSize = (sizeof(Resources::ObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
 
-	auto objectCB = mCurrFrameResource->ObjectCB->Resource();
+	auto objectCB = mCurrFrameResource->ObjectStructuredCB->Resource();
 
 	// For each render item...
 	for (size_t i = 0; i < ritems.size(); ++i) {

@@ -52,9 +52,9 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12TessellationWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BezierTessellationWavesPlayground();
-	// Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground(); //TODO: Problem with Device Removal possibly due to problem with Shaders and StructuredBuffers inside Shader Files
+	Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground(); //TODO: Problem with Device Removal possibly due to problem with Shaders and StructuredBuffers inside Shader Files
 	// Graphics::CEPlayground* playground = new CEDX12InstancingPlayground(); 
-	Graphics::CEPlayground* playground = new CEDX12PickingPlayground(); 
+	// Graphics::CEPlayground* playground = new CEDX12PickingPlayground(); 
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
