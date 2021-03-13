@@ -17,6 +17,7 @@
 #include "Playgrounds/DirectX12/Samples/BlendingWaves/CEDX12BlendingWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/BlurWaves/CEDX12BlurWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/ComputeWaves/CEDX12ComputeWavesPlayground.h"
+#include "Playgrounds/DirectX12/Samples/CubeMap/CEDX12CubeMapPlayground.h"
 #include "Playgrounds/DirectX12/Samples/FPPCamera/CEDX12FPPCameraPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Instancing/CEDX12InstancingPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Picking/CEDX12PickingPlayground.h"
@@ -52,9 +53,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12TessellationWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BezierTessellationWavesPlayground();
-	Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground(); //TODO: Problem with Device Removal possibly due to problem with Shaders and StructuredBuffers inside Shader Files
+	// Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12InstancingPlayground(); 
 	// Graphics::CEPlayground* playground = new CEDX12PickingPlayground(); 
+	Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground(); 
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
