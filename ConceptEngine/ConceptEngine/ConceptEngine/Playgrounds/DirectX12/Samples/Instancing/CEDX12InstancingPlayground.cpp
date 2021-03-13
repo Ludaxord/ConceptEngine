@@ -150,10 +150,6 @@ void CEDX12InstancingPlayground::Render(const CETimer& gt) {
 	auto passCB = mCurrFrameResource->PassStructuredCB->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 
-	// Bind all the textures used in this scene.
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(
-		3, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-
 	// Bind all the textures used in this scene.  Observe
 	// that we only have to specify the first descriptor in the table.  
 	// The root signature knows how many descriptors are expected in the table.
@@ -605,7 +601,7 @@ void CEDX12InstancingPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
 		                                                                       1,
-		                                                                       (UINT)m_instanceCount,
+		                                                                       (UINT)mAllRitems.size(),
 		                                                                       (UINT)mMaterials.size(),
 		                                                                       0,
 		                                                                       Resources::WavesNormalTextureVertex,

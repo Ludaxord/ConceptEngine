@@ -82,6 +82,15 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		UINT ObjPad2;
 	};
 
+	struct StructuredObjectConstants {
+		XMFLOAT4X4 WorldViewProjection = MatrixIdentity4X4();
+		XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
+		UINT MaterialIndex;
+		UINT ObjPad0;
+		UINT ObjPad1;
+		UINT ObjPad2;
+	};
+
 	//Defines subrange of geometry in MeshGeometry.
 	//This is for when multiple geometries are stored in one vertex and index buffers.
 	//It provides offsets and data needed to draw subset of geometry stores in vertex and index buffers.
@@ -280,6 +289,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		AlphaSprites,
 		Shadow,
 		GpuWaves,
+		Highlight,
 		Count
 	};
 
@@ -339,6 +349,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	struct LitShapesRenderItem : RenderItem {
 		LitShapesRenderItem() = default;
 
+		bool Visible = true;
+		
 		//World matrix of shape that describes object's local space.
 		//Relative to world space, which defines position, orientation and scale of object in world
 		XMFLOAT4X4 World = MatrixIdentity4X4();

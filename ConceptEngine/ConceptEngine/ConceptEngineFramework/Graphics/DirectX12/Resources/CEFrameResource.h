@@ -35,6 +35,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::unique_ptr<CEUploadBuffer<MaterialConstants>> MaterialCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<MaterialData>> MaterialBuffer = nullptr;
 		std::unique_ptr<CEUploadBuffer<ObjectConstants>> ObjectCB = nullptr;
+		std::unique_ptr<CEUploadBuffer<StructuredObjectConstants>> ObjectStructuredCB = nullptr;
 
 		//We cannot update a dynamic vertex buffer until GPU is done processing commands that reference it.
 		//So each frame needs their own.

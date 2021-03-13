@@ -36,7 +36,7 @@ void CEDX12Manager::Create() {
 	CreateSwapChain();
 	//TODO: Fix problem with dynamic creation of RTVDescriptor heap
 	CreateRTVDescriptorHeap(
-		// BufferCount + 1
+		BufferCount + 1
 	);
 	CreateDSVDescriptorHeap();
 
@@ -1111,7 +1111,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> CEDX12Manager::CreateDefaultBuffer(const 
 
 
 	// Describe the data we want to copy into the default buffer.
-	D3D12_SUBRESOURCE_DATA subResourceData;
+	D3D12_SUBRESOURCE_DATA subResourceData = {};
 	subResourceData.pData = initData;
 	subResourceData.RowPitch = byteSize;
 	subResourceData.SlicePitch = subResourceData.RowPitch;

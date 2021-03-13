@@ -211,5 +211,6 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEIndexingPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEInstancingVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEInstancingPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEPickingVertexShader.hlsl" />
   </ItemGroup>
 </Project>

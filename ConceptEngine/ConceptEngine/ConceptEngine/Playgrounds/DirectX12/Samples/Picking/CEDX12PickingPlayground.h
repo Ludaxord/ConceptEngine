@@ -43,6 +43,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
 			std::vector<Resources::RenderItem*>& ritems) const;
 
+		void Pick(int sx, int sy);
+		
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
 		Resources::CEFrameResource* mCurrFrameResource = nullptr;
@@ -57,6 +59,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		//list of all render items.
 		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
 
+		Resources::RenderItem* mPickedRitem = nullptr;
+		
 		//Render items divided by PSO;
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
