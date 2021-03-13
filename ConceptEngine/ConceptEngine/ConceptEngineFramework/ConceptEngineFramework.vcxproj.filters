@@ -212,5 +212,12 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEInstancingVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEInstancingPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEPickingVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasePixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBaseVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECubeMapVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECubeMapPixelShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\DirectX12\Resources\Shaders\CETypes.hlsl" />
   </ItemGroup>
 </Project>

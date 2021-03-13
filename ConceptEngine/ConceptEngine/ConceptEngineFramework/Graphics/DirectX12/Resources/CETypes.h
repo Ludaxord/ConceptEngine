@@ -290,6 +290,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		Shadow,
 		GpuWaves,
 		Highlight,
+		Sky,
 		Count
 	};
 
@@ -350,7 +351,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		LitShapesRenderItem() = default;
 
 		bool Visible = true;
-		
+
 		//World matrix of shape that describes object's local space.
 		//Relative to world space, which defines position, orientation and scale of object in world
 		XMFLOAT4X4 World = MatrixIdentity4X4();

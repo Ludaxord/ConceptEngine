@@ -76,6 +76,22 @@
     <ClCompile Include="Graphics\Vulkan\CEVManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBaseVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBlurComputeShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -134,6 +150,22 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECubeMapPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECubeMapVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEFogPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -367,6 +399,14 @@
       </EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\DirectX12\Resources\Shaders\CETypes.hlsl">
+      <FileType>Document</FileType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

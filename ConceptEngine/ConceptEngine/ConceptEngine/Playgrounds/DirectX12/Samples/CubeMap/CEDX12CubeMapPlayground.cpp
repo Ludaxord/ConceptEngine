@@ -1,5 +1,8 @@
 #include "CEDX12CubeMapPlayground.h"
 
+#include <fstream>
+
+
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/GeometryGenerator.h"
 
@@ -19,45 +22,60 @@ void CEDX12CubeMapPlayground::Create() {
 	LoadTextures();
 	// BuildRootSignature
 	{
-		CD3DX12_DESCRIPTOR_RANGE texTable;
-		texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 4, 0, 0);
+		CD3DX12_DESCRIPTOR_RANGE texTable0;
+		texTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 0);
 
-		// Root parameter can be a table, root descriptor or root constants.
-		CD3DX12_ROOT_PARAMETER slotRootParameter[4];
+		CD3DX12_DESCRIPTOR_RANGE texTable1;
+		texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 5, 1, 0);
 
-		// Perfomance TIP: Order from most frequent to least frequent.
+		//Root parameter can be a table, root descriptor or root constants
+		CD3DX12_ROOT_PARAMETER slotRootParameter[5];
+
 		slotRootParameter[0].InitAsConstantBufferView(0);
 		slotRootParameter[1].InitAsConstantBufferView(1);
 		slotRootParameter[2].InitAsShaderResourceView(0, 1);
-		slotRootParameter[3].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
-
+		slotRootParameter[3].InitAsDescriptorTable(1, &texTable0, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[4].InitAsDescriptorTable(1, &texTable1, D3D12_SHADER_VISIBILITY_PIXEL);
 
 		auto staticSamplers = m_dx12manager->GetStaticSamplers();
 
 		// A root signature is an array of root parameters.
-		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4, slotRootParameter,
-			(UINT)staticSamplers.size(), staticSamplers.data(),
-			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(5, slotRootParameter,
+		                                        (UINT)staticSamplers.size(), staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
 	// BuildShaders
 	{
-		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEIndexingVertexShader.hlsl",
-			nullptr,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEBaseVertexShader.hlsl",
+		                                                           nullptr,
+		                                                           "VS",
+		                                                           // "vs_6_3"
+		                                                           "vs_5_1"
 		);
-		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEIndexingPixelShader.hlsl",
-			nullptr,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEBasePixelShader.hlsl",
+		                                                         nullptr,
+		                                                         "PS",
+		                                                         // "ps_6_3"
+		                                                         "ps_5_1"
+		);
+		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
+		                                                      nullptr,
+		                                                      "VS",
+		                                                      // "vs_6_3"
+		                                                      "vs_5_1"
+		);
+		m_shadersMap["skyPS"] = m_dx12manager->CompileShaders("CECubeMapPixelShader.hlsl",
+		                                                      nullptr,
+		                                                      "PS",
+		                                                      // "ps_6_3"
+		                                                      "ps_5_1"
 		);
 	}
 	BuildInputLayout();
 	BuildShapesGeometry();
+	BuildModelGeometry();
 	BuildMaterials();
 	BuildRenderItems();
 	BuildFrameResources();
@@ -123,18 +141,18 @@ void CEDX12CubeMapPlayground::Render(const CETimer& gt) {
 
 	// Clear the back buffer and depth buffer.
 	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
-		Colors::LightSteelBlue, 0, nullptr);
+	                                                            Colors::LightSteelBlue, 0, nullptr);
 	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
-		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f,
-		0, 0, nullptr);
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f,
+	                                                            0, 0, nullptr);
 
 	// Specify the buffers we are going to render to.
 	auto rtCBBV = m_dx12manager->CurrentBackBufferView();
 	auto rtDsv = m_dx12manager->DepthStencilView();
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &rtCBBV, true,
-		&rtDsv);
+	                                                         &rtDsv);
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = { m_dx12manager->GetSRVDescriptorHeap().Get() };
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
 	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
@@ -147,13 +165,20 @@ void CEDX12CubeMapPlayground::Render(const CETimer& gt) {
 	auto matBuffer = mCurrFrameResource->MaterialBuffer->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
 
-	// Bind all the textures used in this scene.  Observe
-	// that we only have to specify the first descriptor in the table.  
-	// The root signature knows how many descriptors are expected in the table.
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(
-		3, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	/*
+	 * Bind sky cube map. For our demos, we just use one "world" cubemap representing environment from far away, so all objects will use same cube map and we only need to set it once per-frame
+	 * If we wanted to use "local" cube maps, we would have to change them per-object, or dynamically index into an array of cube maps
+	 */
+	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(
+		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	skyTexDescriptor.Offset(m_skyTexHeapIndex,
+	                        m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
 
-	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mOpaqueRitems);
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+
+	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["sky"].Get());
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Sky]);
 
 	// Indicate a state transition on the resource usage.
 	auto trRTP = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -285,20 +310,20 @@ void CEDX12CubeMapPlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
 	mMainPassCB.EyePosW = m_camera.GetPosition3f();
 	mMainPassCB.RenderTargetSize = XMFLOAT2((float)m_dx12manager->GetWindowWidth(),
-		(float)m_dx12manager->GetWindowHeight());
+	                                        (float)m_dx12manager->GetWindowHeight());
 	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / m_dx12manager->GetWindowWidth(),
-		1.0f / m_dx12manager->GetWindowHeight());
+	                                           1.0f / m_dx12manager->GetWindowHeight());
 	mMainPassCB.NearZ = 1.0f;
 	mMainPassCB.FarZ = 1000.0f;
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
-	mMainPassCB.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
-	mMainPassCB.Lights[0].Direction = { 0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[0].Strength = { 0.8f, 0.8f, 0.8f };
-	mMainPassCB.Lights[1].Direction = { -0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[1].Strength = { 0.4f, 0.4f, 0.4f };
-	mMainPassCB.Lights[2].Direction = { 0.0f, -0.707f, -0.707f };
-	mMainPassCB.Lights[2].Strength = { 0.2f, 0.2f, 0.2f };
+	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
+	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[0].Strength = {0.6f, 0.6f, 0.6f};
+	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[1].Strength = {0.3f, 0.3f, 0.3f};
+	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
+	mMainPassCB.Lights[2].Strength = {0.15f, 0.15f, 0.15f};
 
 	auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
@@ -338,7 +363,7 @@ void CEDX12CubeMapPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignatu
 	 * PSO for opaque objects
 	 */
 	ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-	opaquePsoDesc.InputLayout = { m_inputLayout.data(), (UINT)m_inputLayout.size() };
+	opaquePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
 	opaquePsoDesc.pRootSignature = rootSignature.Get();
 	opaquePsoDesc.VS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
@@ -359,22 +384,45 @@ void CEDX12CubeMapPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignatu
 	opaquePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
 	opaquePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
+
+	//PSO for sky
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC skyPsoDesc = opaquePsoDesc;
+
+	//Camera is inside sky sphere so just turn off cuilling
+	skyPsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+
+	/*
+	 * Make sure depth function is LESS_EQUAL and not just LESS. Otherwise, normalized depth values at z = 1 (NDC) will fail depth test if depth buffer was cleared to 1.
+	 */
+	skyPsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	skyPsoDesc.pRootSignature = m_rootSignature.Get();
+	skyPsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["skyVS"]->GetBufferPointer()),
+		m_shadersMap["skyVS"]->GetBufferSize()
+	};
+	skyPsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["skyPS"]->GetBufferPointer()),
+		m_shadersMap["skyPS"]->GetBufferSize()
+	};
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&skyPsoDesc, IID_PPV_ARGS(&mPSOs["sky"])));
 }
 
 void CEDX12CubeMapPlayground::LoadTextures() {
-	auto bricksTex = m_dx12manager->LoadTextureFromFile("bricks.dds", "bricksTex");
-	auto stoneTex = m_dx12manager->LoadTextureFromFile("stone.dds", "stoneTex");
-	auto tileTex = m_dx12manager->LoadTextureFromFile("tile.dds", "tileTex");
-	auto crateTex = m_dx12manager->LoadTextureFromFile("WoodCrate01.dds", "crateTex");
+	std::unordered_map<std::string, std::string> textures = {
+		{"bricksDiffuseMap", "bricks2.dds"},
+		{"tileDiffuseMap", "tile.dds"},
+		{"defaultDiffuseMap", "white1x1.dds"},
+		{"skyCubeMap", "grasscube1024.dds"}
+	};
 
-	mTextures[bricksTex->Name] = std::move(bricksTex);
-	mTextures[stoneTex->Name] = std::move(stoneTex);
-	mTextures[tileTex->Name] = std::move(tileTex);
-	mTextures[crateTex->Name] = std::move(crateTex);
+	for (auto texPair : textures) {
+		auto tex = m_dx12manager->LoadTextureFromFile(texPair.second, texPair.first);
+		mTextures[tex->Name] = std::move(tex);
+	}
 }
 
 void CEDX12CubeMapPlayground::BuildDescriptorHeaps() {
-	m_dx12manager->CreateSRVDescriptorHeap(4);
+	m_dx12manager->CreateSRVDescriptorHeap(5);
 
 	auto srvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
@@ -383,10 +431,10 @@ void CEDX12CubeMapPlayground::BuildDescriptorHeaps() {
 
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
 
-	auto bricksTex = mTextures["bricksTex"]->Resource;
-	auto stoneTex = mTextures["stoneTex"]->Resource;
-	auto tileTex = mTextures["tileTex"]->Resource;
-	auto crateTex = mTextures["crateTex"]->Resource;
+	auto bricksTex = mTextures["bricksDiffuseMap"]->Resource;
+	auto tileTex = mTextures["tileDiffuseMap"]->Resource;
+	auto whiteTex = mTextures["defaultDiffuseMap"]->Resource;
+	auto skyTex = mTextures["skyCubeMap"]->Resource;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -400,13 +448,6 @@ void CEDX12CubeMapPlayground::BuildDescriptorHeaps() {
 	// next descriptor
 	hDescriptor.Offset(1, srvSize);
 
-	srvDesc.Format = stoneTex->GetDesc().Format;
-	srvDesc.Texture2D.MipLevels = stoneTex->GetDesc().MipLevels;
-	d3dDevice->CreateShaderResourceView(stoneTex.Get(), &srvDesc, hDescriptor);
-
-	// next descriptor
-	hDescriptor.Offset(1, srvSize);
-
 	srvDesc.Format = tileTex->GetDesc().Format;
 	srvDesc.Texture2D.MipLevels = tileTex->GetDesc().MipLevels;
 	d3dDevice->CreateShaderResourceView(tileTex.Get(), &srvDesc, hDescriptor);
@@ -414,9 +455,113 @@ void CEDX12CubeMapPlayground::BuildDescriptorHeaps() {
 	// next descriptor
 	hDescriptor.Offset(1, srvSize);
 
-	srvDesc.Format = crateTex->GetDesc().Format;
-	srvDesc.Texture2D.MipLevels = crateTex->GetDesc().MipLevels;
-	d3dDevice->CreateShaderResourceView(crateTex.Get(), &srvDesc, hDescriptor);
+	srvDesc.Format = whiteTex->GetDesc().Format;
+	srvDesc.Texture2D.MipLevels = whiteTex->GetDesc().MipLevels;
+	d3dDevice->CreateShaderResourceView(whiteTex.Get(), &srvDesc, hDescriptor);
+
+	// next descriptor
+	hDescriptor.Offset(1, srvSize);
+
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+	srvDesc.TextureCube.MostDetailedMip = 0;
+	srvDesc.Format = skyTex->GetDesc().Format;
+	srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
+	srvDesc.Texture2D.MipLevels = skyTex->GetDesc().MipLevels;
+	d3dDevice->CreateShaderResourceView(skyTex.Get(), &srvDesc, hDescriptor);
+
+	m_skyTexHeapIndex = 3;
+}
+
+
+void CEDX12CubeMapPlayground::BuildModelGeometry() {
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream modelsPathStream;
+	modelsPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
+		"skull.txt";
+	auto modelPath = modelsPathStream.str();
+	spdlog::info("Loading Model from TXT: {}", modelPath);
+
+	std::ifstream fin(modelPath);
+
+	UINT vcount = 0;
+	UINT tcount = 0;
+	std::string ignore;
+
+	fin >> ignore >> vcount;
+	fin >> ignore >> tcount;
+	fin >> ignore >> ignore >> ignore >> ignore;
+
+	XMFLOAT3 vMinf3(+Resources::Infinity, +Resources::Infinity, +Resources::Infinity);
+	XMFLOAT3 vMaxf3(-Resources::Infinity, -Resources::Infinity, -Resources::Infinity);
+
+	XMVECTOR vMin = XMLoadFloat3(&vMinf3);
+	XMVECTOR vMax = XMLoadFloat3(&vMaxf3);
+
+	std::vector<Resources::CENormalTextureVertex> vertices(vcount);
+	for (UINT i = 0; i < vcount; ++i) {
+		fin >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
+		fin >> vertices[i].Normal.x >> vertices[i].Normal.y >> vertices[i].Normal.z;
+
+		vertices[i].TexCoord = {0.0f, 0.0f};
+
+		XMVECTOR P = XMLoadFloat3(&vertices[i].Pos);
+
+		vMin = XMVectorMin(vMin, P);
+		vMax = XMVectorMax(vMax, P);
+	}
+
+	BoundingBox bounds;
+	XMStoreFloat3(&bounds.Center, 0.5f * (vMin + vMax));
+	XMStoreFloat3(&bounds.Extents, 0.5f * (vMax - vMin));
+
+	fin >> ignore;
+	fin >> ignore;
+	fin >> ignore;
+
+	std::vector<std::int32_t> indices(3 * tcount);
+	for (UINT i = 0; i < tcount; ++i) {
+		fin >> indices[i * 3 + 0] >> indices[i * 3 + 1] >> indices[i * 3 + 2];
+	}
+
+	fin.close();
+
+	//
+	// Pack the indices of all the meshes into one index buffer.
+	//
+
+	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Resources::CENormalTextureVertex);
+
+	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::int32_t);
+
+	auto geo = std::make_unique<Resources::MeshGeometry>();
+	geo->Name = "skullGeo";
+
+	ThrowIfFailed(D3DCreateBlob(vbByteSize, &geo->VertexBufferCPU));
+	CopyMemory(geo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
+
+	ThrowIfFailed(D3DCreateBlob(ibByteSize, &geo->IndexBufferCPU));
+	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
+
+	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize,
+	                                                          geo->VertexBufferUploader);
+
+	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize,
+	                                                         geo->IndexBufferUploader);
+
+	geo->VertexByteStride = sizeof(Resources::CENormalTextureVertex);
+	geo->VertexBufferByteSize = vbByteSize;
+	geo->IndexFormat = DXGI_FORMAT_R32_UINT;
+	geo->IndexBufferByteSize = ibByteSize;
+
+	Resources::SubMeshGeometry submesh;
+	submesh.IndexCount = (UINT)indices.size();
+	submesh.StartIndexLocation = 0;
+	submesh.BaseVertexLocation = 0;
+	submesh.Bounds = bounds;
+
+	geo->DrawArgs["skull"] = submesh;
+
+	mGeometries[geo->Name] = std::move(geo);
 }
 
 void CEDX12CubeMapPlayground::BuildShapesGeometry() {
@@ -539,82 +684,126 @@ void CEDX12CubeMapPlayground::BuildShapesGeometry() {
 void CEDX12CubeMapPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-			1,
-			(UINT)mAllRitems.size(),
-			(UINT)mMaterials.size(),
-			0,
-			Resources::WavesNormalTextureVertex,
-			false));
+		                                                                       1,
+		                                                                       (UINT)mAllRitems.size(),
+		                                                                       (UINT)mMaterials.size(),
+		                                                                       0,
+		                                                                       Resources::WavesNormalTextureVertex,
+		                                                                       false));
 	}
 }
 
 void CEDX12CubeMapPlayground::BuildMaterials() {
+
 	auto bricks0 = std::make_unique<Resources::Material>();
 	bricks0->Name = "bricks0";
 	bricks0->MatCBIndex = 0;
 	bricks0->DiffuseSrvHeapIndex = 0;
 	bricks0->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	bricks0->FresnelR0 = XMFLOAT3(0.02f, 0.02f, 0.02f);
-	bricks0->Roughness = 0.1f;
-
-	auto stone0 = std::make_unique<Resources::Material>();
-	stone0->Name = "stone0";
-	stone0->MatCBIndex = 1;
-	stone0->DiffuseSrvHeapIndex = 1;
-	stone0->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	stone0->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
-	stone0->Roughness = 0.3f;
+	bricks0->FresnelR0 = XMFLOAT3(0.1f, 0.1f, 0.1f);
+	bricks0->Roughness = 0.3f;
 
 	auto tile0 = std::make_unique<Resources::Material>();
 	tile0->Name = "tile0";
-	tile0->MatCBIndex = 2;
-	tile0->DiffuseSrvHeapIndex = 2;
-	tile0->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	tile0->FresnelR0 = XMFLOAT3(0.02f, 0.02f, 0.02f);
-	tile0->Roughness = 0.3f;
+	tile0->MatCBIndex = 1;
+	tile0->DiffuseSrvHeapIndex = 1;
+	tile0->DiffuseAlbedo = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+	tile0->FresnelR0 = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	tile0->Roughness = 0.1f;
 
-	auto crate0 = std::make_unique<Resources::Material>();
-	crate0->Name = "crate0";
-	crate0->MatCBIndex = 3;
-	crate0->DiffuseSrvHeapIndex = 3;
-	crate0->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	crate0->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
-	crate0->Roughness = 0.2f;
+	auto mirror0 = std::make_unique<Resources::Material>();
+	mirror0->Name = "mirror0";
+	mirror0->MatCBIndex = 2;
+	mirror0->DiffuseSrvHeapIndex = 2;
+	mirror0->DiffuseAlbedo = XMFLOAT4(0.0f, 0.0f, 0.1f, 1.0f);
+	mirror0->FresnelR0 = XMFLOAT3(0.98f, 0.97f, 0.95f);
+	mirror0->Roughness = 0.1f;
+
+	auto skullMat = std::make_unique<Resources::Material>();
+	skullMat->Name = "skullMat";
+	skullMat->MatCBIndex = 3;
+	skullMat->DiffuseSrvHeapIndex = 2;
+	skullMat->DiffuseAlbedo = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	skullMat->FresnelR0 = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	skullMat->Roughness = 0.2f;
+
+	auto sky = std::make_unique<Resources::Material>();
+	sky->Name = "sky";
+	sky->MatCBIndex = 4;
+	sky->DiffuseSrvHeapIndex = 3;
+	sky->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	sky->FresnelR0 = XMFLOAT3(0.1f, 0.1f, 0.1f);
+	sky->Roughness = 1.0f;
 
 	mMaterials["bricks0"] = std::move(bricks0);
-	mMaterials["stone0"] = std::move(stone0);
 	mMaterials["tile0"] = std::move(tile0);
-	mMaterials["crate0"] = std::move(crate0);
+	mMaterials["mirror0"] = std::move(mirror0);
+	mMaterials["skullMat"] = std::move(skullMat);
+	mMaterials["sky"] = std::move(sky);
 }
 
 void CEDX12CubeMapPlayground::BuildRenderItems() {
+
+	auto skyRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	XMStoreFloat4x4(&skyRitem->World, XMMatrixScaling(5000.0f, 5000.0f, 5000.0f));
+	skyRitem->TexTransform = Resources::MatrixIdentity4X4();
+	skyRitem->ObjCBIndex = 0;
+	skyRitem->Mat = mMaterials["sky"].get();
+	skyRitem->Geo = mGeometries["shapeGeo"].get();
+	skyRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	skyRitem->IndexCount = skyRitem->Geo->DrawArgs["sphere"].IndexCount;
+	skyRitem->StartIndexLocation = skyRitem->Geo->DrawArgs["sphere"].StartIndexLocation;
+	skyRitem->BaseVertexLocation = skyRitem->Geo->DrawArgs["sphere"].BaseVertexLocation;
+
+	mRitemLayer[(int)Resources::RenderLayer::Sky].push_back(skyRitem.get());
+	mAllRitems.push_back(std::move(skyRitem));
+
 	auto boxRitem = std::make_unique<Resources::LitShapesRenderItem>();
-	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(2.0f, 2.0f, 2.0f) * XMMatrixTranslation(0.0f, 1.0f, 0.0f));
+	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(2.0f, 1.0f, 2.0f) * XMMatrixTranslation(0.0f, 0.5f, 0.0f));
 	XMStoreFloat4x4(&boxRitem->TexTransform, XMMatrixScaling(1.0f, 1.0f, 1.0f));
-	boxRitem->ObjCBIndex = 0;
-	boxRitem->Mat = mMaterials["crate0"].get();
+	boxRitem->ObjCBIndex = 1;
+	boxRitem->Mat = mMaterials["bricks0"].get();
 	boxRitem->Geo = mGeometries["shapeGeo"].get();
 	boxRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	boxRitem->IndexCount = boxRitem->Geo->DrawArgs["box"].IndexCount;
 	boxRitem->StartIndexLocation = boxRitem->Geo->DrawArgs["box"].StartIndexLocation;
 	boxRitem->BaseVertexLocation = boxRitem->Geo->DrawArgs["box"].BaseVertexLocation;
+
+	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(boxRitem.get());
 	mAllRitems.push_back(std::move(boxRitem));
+
+	auto skullRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	XMStoreFloat4x4(&skullRitem->World, XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixTranslation(0.0f, 1.0f, 0.0f));
+	skullRitem->TexTransform = Resources::MatrixIdentity4X4();
+	skullRitem->ObjCBIndex = 2;
+	skullRitem->Mat = mMaterials["skullMat"].get();
+	skullRitem->Geo = mGeometries["skullGeo"].get();
+	skullRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	skullRitem->IndexCount = skullRitem->Geo->DrawArgs["skull"].IndexCount;
+	skullRitem->StartIndexLocation = skullRitem->Geo->DrawArgs["skull"].StartIndexLocation;
+	skullRitem->BaseVertexLocation = skullRitem->Geo->DrawArgs["skull"].BaseVertexLocation;
+
+	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(skullRitem.get());
+	mAllRitems.push_back(std::move(skullRitem));
 
 	auto gridRitem = std::make_unique<Resources::LitShapesRenderItem>();
 	gridRitem->World = Resources::MatrixIdentity4X4();
 	XMStoreFloat4x4(&gridRitem->TexTransform, XMMatrixScaling(8.0f, 8.0f, 1.0f));
-	gridRitem->ObjCBIndex = 1;
+	gridRitem->ObjCBIndex = 3;
 	gridRitem->Mat = mMaterials["tile0"].get();
 	gridRitem->Geo = mGeometries["shapeGeo"].get();
 	gridRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	gridRitem->IndexCount = gridRitem->Geo->DrawArgs["grid"].IndexCount;
 	gridRitem->StartIndexLocation = gridRitem->Geo->DrawArgs["grid"].StartIndexLocation;
 	gridRitem->BaseVertexLocation = gridRitem->Geo->DrawArgs["grid"].BaseVertexLocation;
+
+	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(gridRitem.get());
 	mAllRitems.push_back(std::move(gridRitem));
 
-	XMMATRIX brickTexTransform = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-	UINT objCBIndex = 2;
-	for (int i = 0; i < 5; ++i) {
+	XMMATRIX brickTexTransform = XMMatrixScaling(1.5f, 2.0f, 1.0f);
+	UINT objCBIndex = 4;
+	for (int i = 0; i < 5; ++i)
+	{
 		auto leftCylRitem = std::make_unique<Resources::LitShapesRenderItem>();
 		auto rightCylRitem = std::make_unique<Resources::LitShapesRenderItem>();
 		auto leftSphereRitem = std::make_unique<Resources::LitShapesRenderItem>();
@@ -649,7 +838,7 @@ void CEDX12CubeMapPlayground::BuildRenderItems() {
 		XMStoreFloat4x4(&leftSphereRitem->World, leftSphereWorld);
 		leftSphereRitem->TexTransform = Resources::MatrixIdentity4X4();
 		leftSphereRitem->ObjCBIndex = objCBIndex++;
-		leftSphereRitem->Mat = mMaterials["stone0"].get();
+		leftSphereRitem->Mat = mMaterials["mirror0"].get();
 		leftSphereRitem->Geo = mGeometries["shapeGeo"].get();
 		leftSphereRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		leftSphereRitem->IndexCount = leftSphereRitem->Geo->DrawArgs["sphere"].IndexCount;
@@ -659,26 +848,27 @@ void CEDX12CubeMapPlayground::BuildRenderItems() {
 		XMStoreFloat4x4(&rightSphereRitem->World, rightSphereWorld);
 		rightSphereRitem->TexTransform = Resources::MatrixIdentity4X4();
 		rightSphereRitem->ObjCBIndex = objCBIndex++;
-		rightSphereRitem->Mat = mMaterials["stone0"].get();
+		rightSphereRitem->Mat = mMaterials["mirror0"].get();
 		rightSphereRitem->Geo = mGeometries["shapeGeo"].get();
 		rightSphereRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		rightSphereRitem->IndexCount = rightSphereRitem->Geo->DrawArgs["sphere"].IndexCount;
 		rightSphereRitem->StartIndexLocation = rightSphereRitem->Geo->DrawArgs["sphere"].StartIndexLocation;
 		rightSphereRitem->BaseVertexLocation = rightSphereRitem->Geo->DrawArgs["sphere"].BaseVertexLocation;
 
+		mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(leftCylRitem.get());
+		mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(rightCylRitem.get());
+		mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(leftSphereRitem.get());
+		mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(rightSphereRitem.get());
+
 		mAllRitems.push_back(std::move(leftCylRitem));
 		mAllRitems.push_back(std::move(rightCylRitem));
 		mAllRitems.push_back(std::move(leftSphereRitem));
 		mAllRitems.push_back(std::move(rightSphereRitem));
 	}
-
-	// All the render items are opaque.
-	for (auto& e : mAllRitems)
-		mOpaqueRitems.push_back(e.get());
 }
 
 void CEDX12CubeMapPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-	std::vector<Resources::RenderItem*>& ritems) const {
+                                              std::vector<Resources::RenderItem*>& ritems) const {
 	UINT objCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectStructuredCB->Resource();
@@ -695,9 +885,6 @@ void CEDX12CubeMapPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList
 		cmdList->IASetPrimitiveTopology(ri->PrimitiveType);
 
 		D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress() + ri->ObjCBIndex * objCBByteSize;
-
-		// CD3DX12_GPU_DESCRIPTOR_HANDLE tex(mSrvDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
-		// tex.Offset(ri->Mat->DiffuseSrvHeapIndex, mCbvSrvDescriptorSize);
 
 		cmdList->SetGraphicsRootConstantBufferView(0, objCBAddress);
 

@@ -36,6 +36,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void LoadTextures();
 		void BuildDescriptorHeaps();
 		void BuildShapesGeometry();
+		void BuildModelGeometry();
 		void BuildFrameResources();
 		void BuildMaterials();
 		void BuildRenderItems();
@@ -63,5 +64,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::PassStructuredConstants mMainPassCB;
 
 		Resources::CECamera m_camera;
+
+		UINT m_skyTexHeapIndex = 0;
 	};
 }
