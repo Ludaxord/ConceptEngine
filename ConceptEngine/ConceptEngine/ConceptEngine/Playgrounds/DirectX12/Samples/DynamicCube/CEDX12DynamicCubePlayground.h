@@ -2,6 +2,7 @@
 
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Playground.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECamera.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECubeRenderTarget.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
@@ -44,6 +45,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		                     std::vector<Resources::RenderItem*>& ritems) const;
 
 		void BuildCubeFaceCamera(float x, float y, float z);
+		void BuildCubeDepthStencil();
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
@@ -67,9 +69,11 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::CECamera m_camera;
 
 		Resources::CECamera mCubeMapCamera[6];
-
-		std::unique_ptr<CECubeRenderTarget> m_dynamicCubeMap = nullptr;
+		std::unique_ptr<Resources::CECubeRenderTarget> m_dynamicCubeMap = nullptr;
+		CD3DX12_CPU_DESCRIPTOR_HANDLE m_cubeDSV;
+		Microsoft::WRL::ComPtr<ID3D12Resource> m_cubeDepthStencilBuffer;
 		
 		UINT m_skyTexHeapIndex = 0;
+		UINT m_dynamicTexHeapIndex = 0;
 	};
 }

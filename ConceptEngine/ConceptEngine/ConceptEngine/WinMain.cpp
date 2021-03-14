@@ -59,7 +59,10 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12InstancingPlayground(); 
 	// Graphics::CEPlayground* playground = new CEDX12PickingPlayground(); 
-	// Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground(); 
+	// Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground();
+
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
+	CEDX12Manager::DSVCount = 2;
 	Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",

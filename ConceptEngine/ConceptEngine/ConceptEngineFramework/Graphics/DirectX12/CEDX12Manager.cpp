@@ -34,8 +34,8 @@ void CEDX12Manager::Create() {
 	CreateCommandAllocator();
 	CreateCommandList();
 	CreateSwapChain();
-	CreateRTVDescriptorHeap();
-	CreateDSVDescriptorHeap();
+	CreateRTVDescriptorHeap(RTVCount);
+	CreateDSVDescriptorHeap(DSVCount);
 
 	LogDirectXInfo();
 
@@ -1035,9 +1035,9 @@ void CEDX12Manager::CreateRTVDescriptorHeap(UINT numDescriptors) {
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(m_rtvHeap.GetAddressOf())));
 }
 
-void CEDX12Manager::CreateDSVDescriptorHeap() {
+void CEDX12Manager::CreateDSVDescriptorHeap(UINT numDescriptors) {
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
-	dsvHeapDesc.NumDescriptors = 1;
+	dsvHeapDesc.NumDescriptors = numDescriptors;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	dsvHeapDesc.NodeMask = 0;

@@ -50,6 +50,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 	public:
 		static const UINT BufferCount = 3;
 		inline static UINT RTVCount = BufferCount;
+		inline static UINT DSVCount = 1;
 
 		void Create() override;
 		void InitPlayground(CEPlayground* playground) override;
@@ -143,7 +144,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateSwapChain();
 		std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 		void CreateRTVDescriptorHeap(UINT numDescriptors = RTVCount);
-		void CreateDSVDescriptorHeap();
+		void CreateDSVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateCSVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateSRVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress,

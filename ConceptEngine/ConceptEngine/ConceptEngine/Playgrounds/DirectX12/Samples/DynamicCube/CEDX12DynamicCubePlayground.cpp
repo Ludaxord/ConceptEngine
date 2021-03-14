@@ -423,11 +423,17 @@ void CEDX12DynamicCubePlayground::LoadTextures() {
 	for (auto texPair : textures) {
 		auto tex = m_dx12manager->LoadTextureFromFile(texPair.second, texPair.first);
 		mTextures[tex->Name] = std::move(tex);
+		spdlog::info("texture {} append to map by key {}", tex->Name, texPair.second);
 	}
 }
 
 void CEDX12DynamicCubePlayground::BuildDescriptorHeaps() {
-	m_dx12manager->CreateSRVDescriptorHeap(5);
+	m_cubeDSV = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
+		1,
+		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV));
+
+	m_dx12manager->CreateSRVDescriptorHeap(6);
 
 	auto srvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
@@ -475,6 +481,35 @@ void CEDX12DynamicCubePlayground::BuildDescriptorHeaps() {
 	d3dDevice->CreateShaderResourceView(skyTex.Get(), &srvDesc, hDescriptor);
 
 	m_skyTexHeapIndex = 3;
+	m_dynamicTexHeapIndex = m_skyTexHeapIndex + 1;
+
+	auto srvCpuStart = m_dx12manager->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+	auto srvGpuStart = m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
+	auto rtvCpuStart = m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+
+	//CubeMap RTV goes after swap chain descriptors
+	int rtvOffset = m_dx12manager->GetBackBufferCount();
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE cubeRtvHandles[6];
+	for (int i = 0; i < 6; ++i)
+		cubeRtvHandles[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvCpuStart, rtvOffset + i,
+		                                                  m_dx12manager->GetDescriptorSize(
+			                                                  D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+
+	//Dynamic CubeMap SRV is After sky SRV
+	m_dynamicCubeMap->BuildDescriptors(
+		CD3DX12_CPU_DESCRIPTOR_HANDLE(
+			srvCpuStart,
+			m_dynamicTexHeapIndex,
+			m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
+		),
+		CD3DX12_GPU_DESCRIPTOR_HANDLE(
+			srvGpuStart,
+			m_dynamicTexHeapIndex,
+			m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
+		),
+		cubeRtvHandles
+	);
 }
 
 
@@ -928,4 +963,45 @@ void CEDX12DynamicCubePlayground::BuildCubeFaceCamera(float x, float y, float z)
 		mCubeMapCamera[i].SetLens(0.5f * XM_PI, 1.0f, 0.1f, 1000.0f);
 		mCubeMapCamera[i].UpdateViewMatrix();
 	}
+}
+
+void CEDX12DynamicCubePlayground::BuildCubeDepthStencil() {
+	//Create depth/stencil buffer and view
+	D3D12_RESOURCE_DESC depthStencilDesc;
+	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthStencilDesc.Alignment = 0;
+	depthStencilDesc.Width = CubeMapSize;
+	depthStencilDesc.Height = CubeMapSize;
+	depthStencilDesc.DepthOrArraySize = 1;
+	depthStencilDesc.MipLevels = 1;
+	depthStencilDesc.Format = m_dx12manager->GetDepthStencilFormat();
+	depthStencilDesc.SampleDesc.Count = 1;
+	depthStencilDesc.SampleDesc.Quality = 0;
+	depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	D3D12_CLEAR_VALUE optClear;
+	optClear.Format = m_dx12manager->GetDepthStencilFormat();
+	optClear.DepthStencil.Depth = 1.0f;
+	optClear.DepthStencil.Stencil = 0;
+
+	auto defHeapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	ThrowIfFailed(
+		m_dx12manager->GetD3D12Device()->CreateCommittedResource(
+			&defHeapProps,
+			D3D12_HEAP_FLAG_NONE,
+			&depthStencilDesc,
+			D3D12_RESOURCE_STATE_COMMON,
+			&optClear,
+			IID_PPV_ARGS(m_cubeDepthStencilBuffer.GetAddressOf())
+		)
+	);
+
+	//Create descriptor to mip level 0 of entire resource using format of resource
+	m_dx12manager->GetD3D12Device()->CreateDepthStencilView(m_cubeDepthStencilBuffer.Get(), nullptr, m_cubeDSV);
+
+	//Transition resource from its initial state to be used as depth buffer
+	auto trCDW = CD3DX12_RESOURCE_BARRIER::Transition(m_cubeDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON,
+	                                                  D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCDW);	
 }
