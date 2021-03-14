@@ -159,6 +159,7 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.h" />
