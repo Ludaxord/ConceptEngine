@@ -6,6 +6,7 @@
 #include "Resources/CETypes.h"
 
 inline const int gNumFrameResources = 3;
+inline const UINT CubeMapSize = 512;
 
 namespace ConceptEngineFramework::Graphics::DirectX12 {
 	class CEDX12Manager;

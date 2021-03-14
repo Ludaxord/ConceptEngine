@@ -48,6 +48,9 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 	class CEDX12Manager : public CEGraphicsManager {
 
 	public:
+		static const UINT BufferCount = 3;
+		inline static UINT RTVCount = BufferCount;
+
 		void Create() override;
 		void InitPlayground(CEPlayground* playground) override;
 		void Destroy() override;
@@ -73,7 +76,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 
 		XMVECTOR SphericalToCartesian(float radius, float theta, float phi);
 
-		std::unique_ptr<Resources::Texture> LoadTextureFromFile(const std::string fileName, std::string textureName) const;
+		std::unique_ptr<Resources::Texture> LoadTextureFromFile(const std::string fileName,
+		                                                        std::string textureName) const;
 		const aiScene* LoadModelFromFile(std::string fileName) const;
 		Resources::CENode32 LoadNodeFromTxt(const std::string fileName);
 		Resources::CENode LoadNode(const std::string fileName);
@@ -138,7 +142,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateCommandList();
 		void CreateSwapChain();
 		std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
-		void CreateRTVDescriptorHeap(UINT numDescriptors = BufferCount);
+		void CreateRTVDescriptorHeap(UINT numDescriptors = RTVCount);
 		void CreateDSVDescriptorHeap();
 		void CreateCSVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateSRVDescriptorHeap(UINT numDescriptors = 1);
@@ -209,8 +213,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void LogAdapterOutputs(IDXGIAdapter* adapter);
 		void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
 		void LogDirectXInfo() const;
-
-		static const UINT BufferCount = 3;
 
 		Microsoft::WRL::ComPtr<IDXGIFactory4> m_dxgiFactory;
 		Microsoft::WRL::ComPtr<IDXGIAdapter1> m_adapter;

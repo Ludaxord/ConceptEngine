@@ -6,6 +6,7 @@
 #include "../ConceptEngineFramework/CEFramework.h"
 
 //Samples imports
+#include "../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
 #include "Playgrounds/DirectX12/Samples/BasicBox/CEDX12BoxPlayground.h"
 #include "Playgrounds/DirectX12/Samples/TexBox/CEDX12CratePlayground.h"
 #include "Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
@@ -18,6 +19,7 @@
 #include "Playgrounds/DirectX12/Samples/BlurWaves/CEDX12BlurWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/ComputeWaves/CEDX12ComputeWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/CubeMap/CEDX12CubeMapPlayground.h"
+#include "Playgrounds/DirectX12/Samples/DynamicCube/CEDX12DynamicCubePlayground.h"
 #include "Playgrounds/DirectX12/Samples/FPPCamera/CEDX12FPPCameraPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Instancing/CEDX12InstancingPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Picking/CEDX12PickingPlayground.h"
@@ -33,6 +35,7 @@ using namespace ConceptEngine::Playgrounds::DirectX12;
 
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 1;
 	/**
 	 * Playgrounds
 	 */
@@ -56,7 +59,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12InstancingPlayground(); 
 	// Graphics::CEPlayground* playground = new CEDX12PickingPlayground(); 
-	Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground(); 
+	// Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground(); 
+	Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,

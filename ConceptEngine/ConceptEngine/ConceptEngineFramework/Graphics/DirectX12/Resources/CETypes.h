@@ -13,6 +13,8 @@ using namespace DirectX;
 
 extern const int gNumFrameResources;
 
+extern const UINT CubeMapSize;
+
 #define MaxLights 16
 
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
@@ -291,6 +293,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		GpuWaves,
 		Highlight,
 		Sky,
+		OpaqueDynamicReflectors,
 		Count
 	};
 

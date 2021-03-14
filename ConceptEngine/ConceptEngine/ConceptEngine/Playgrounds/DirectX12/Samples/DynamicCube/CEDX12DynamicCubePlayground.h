@@ -43,6 +43,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
 		                     std::vector<Resources::RenderItem*>& ritems) const;
 
+		void BuildCubeFaceCamera(float x, float y, float z);
+
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
 		Resources::CEFrameResource* mCurrFrameResource = nullptr;
@@ -64,6 +66,10 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		Resources::CECamera m_camera;
 
+		Resources::CECamera mCubeMapCamera[6];
+
+		std::unique_ptr<CECubeRenderTarget> m_dynamicCubeMap = nullptr;
+		
 		UINT m_skyTexHeapIndex = 0;
 	};
 }
