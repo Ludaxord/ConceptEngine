@@ -2,7 +2,6 @@
 
 #include <fstream>
 
-
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/GeometryGenerator.h"
 
@@ -21,7 +20,9 @@ void CEDX12DynamicCubePlayground::Create() {
 
 	BuildCubeFaceCamera(0.0f, 2.0f, 0.0f);
 
-	m_dynamicCubeMap = std::make_unique<CECubeRenderTarget>(m_dx12manager->GetD3D12Device().Get(), Resources::CubeMapSize, Resources::CubeMapSize, DXGI_FORMAT_R8G8B8A8_UNORM);
+	m_dynamicCubeMap = std::make_unique<Resources::CECubeRenderTarget>(m_dx12manager->GetD3D12Device().Get(),
+	                                                                   CubeMapSize, CubeMapSize,
+	                                                                   DXGI_FORMAT_R8G8B8A8_UNORM);
 
 	LoadTextures();
 	// BuildRootSignature
