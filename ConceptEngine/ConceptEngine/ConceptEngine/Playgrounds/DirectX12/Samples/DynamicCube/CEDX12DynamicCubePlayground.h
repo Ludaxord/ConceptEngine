@@ -47,7 +47,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildCubeFaceCamera(float x, float y, float z);
 		void BuildCubeDepthStencil();
 		void DrawSceneToCubeMap();
-		void AnimateSkullMovement(const CETimer& gt);
+		void AnimateSkullMovement(const CETimer& gt) const;
+		void UpdateCubeMapFacePassCBs();
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 

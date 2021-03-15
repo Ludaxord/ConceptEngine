@@ -327,14 +327,16 @@ void CEDX12DynamicCubePlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.DeltaTime = gt.DeltaTime();
 	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
 	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
-	mMainPassCB.Lights[0].Strength = {0.6f, 0.6f, 0.6f};
+	mMainPassCB.Lights[0].Strength = {0.8f, 0.8f, 0.8f};
 	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
-	mMainPassCB.Lights[1].Strength = {0.3f, 0.3f, 0.3f};
+	mMainPassCB.Lights[1].Strength = {0.4f, 0.4f, 0.4f};
 	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
-	mMainPassCB.Lights[2].Strength = {0.15f, 0.15f, 0.15f};
+	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
 	auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
+
+	UpdateCubeMapFacePassCBs();
 }
 
 void CEDX12DynamicCubePlayground::UpdateMaterialCBs(const CETimer& gt) {
@@ -1083,4 +1085,38 @@ void CEDX12DynamicCubePlayground::AnimateSkullMovement(const CETimer& gt) const 
 	                skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
 	static_cast<Resources::ShapesRenderItem*>(mSkullRitem)->NumFramesDirty = gNumFrameResources;
 
+}
+
+void CEDX12DynamicCubePlayground::UpdateCubeMapFacePassCBs() {
+	for (int i = 0; i < 6; ++i) {
+		Resources::PassStructuredConstants cubeFacePassCB = mMainPassCB;
+		XMMATRIX view = mCubeMapCamera[i].GetView();
+		XMMATRIX proj = mCubeMapCamera[i].GetProj();
+
+		XMMATRIX viewProj = XMMatrixMultiply(view, proj);
+
+		auto detView = XMMatrixDeterminant(view);
+		XMMATRIX invView = XMMatrixInverse(&detView, view);
+
+		auto detProj = XMMatrixDeterminant(proj);
+		XMMATRIX invProj = XMMatrixInverse(&detProj, proj);
+
+		auto detViewProj = XMMatrixDeterminant(viewProj);
+		XMMATRIX invViewProj = XMMatrixInverse(&detViewProj, viewProj);
+
+		XMStoreFloat4x4(&cubeFacePassCB.View, XMMatrixTranspose(view));
+		XMStoreFloat4x4(&cubeFacePassCB.InvView, XMMatrixTranspose(invView));
+		XMStoreFloat4x4(&cubeFacePassCB.Proj, XMMatrixTranspose(proj));
+		XMStoreFloat4x4(&cubeFacePassCB.InvProj, XMMatrixTranspose(invProj));
+		XMStoreFloat4x4(&cubeFacePassCB.ViewProj, XMMatrixTranspose(viewProj));
+		XMStoreFloat4x4(&cubeFacePassCB.InvViewProj, XMMatrixTranspose(invViewProj));
+		cubeFacePassCB.EyePosW = mCubeMapCamera[i].GetPosition3f();
+		cubeFacePassCB.RenderTargetSize = XMFLOAT2((float)CubeMapSize, (float)CubeMapSize);
+		cubeFacePassCB.InvRenderTargetSize = XMFLOAT2(1.0f / CubeMapSize, 1.0f / CubeMapSize);
+
+		auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
+
+		//Cube map pass cbuffers are stored in elements 1-6
+		currPassCB->CopyData(1 + i, cubeFacePassCB);
+	}
 }
