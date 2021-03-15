@@ -51,6 +51,7 @@ void CEDX12DynamicCubePlayground::Create() {
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
+	BuildCubeDepthStencil();
 	// BuildShaders
 	{
 		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEBaseVertexShader.hlsl",
@@ -96,6 +97,8 @@ void CEDX12DynamicCubePlayground::Create() {
 void CEDX12DynamicCubePlayground::Update(const CETimer& gt) {
 	CEDX12Playground::Update(gt);
 	m_camera.UpdateViewMatrix();
+
+	AnimateSkullMovement(gt);
 
 	//Cycle through te circular frame resource array
 	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
@@ -724,7 +727,7 @@ void CEDX12DynamicCubePlayground::BuildShapesGeometry() {
 void CEDX12DynamicCubePlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-		                                                                       1,
+		                                                                       7,
 		                                                                       (UINT)mAllRitems.size(),
 		                                                                       (UINT)mMaterials.size(),
 		                                                                       0,
@@ -755,25 +758,25 @@ void CEDX12DynamicCubePlayground::BuildMaterials() {
 	mirror0->Name = "mirror0";
 	mirror0->MatCBIndex = 2;
 	mirror0->DiffuseSrvHeapIndex = 2;
-	mirror0->DiffuseAlbedo = XMFLOAT4(0.0f, 0.0f, 0.1f, 1.0f);
+	mirror0->DiffuseAlbedo = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 	mirror0->FresnelR0 = XMFLOAT3(0.98f, 0.97f, 0.95f);
 	mirror0->Roughness = 0.1f;
 
-	auto skullMat = std::make_unique<Resources::Material>();
-	skullMat->Name = "skullMat";
-	skullMat->MatCBIndex = 3;
-	skullMat->DiffuseSrvHeapIndex = 2;
-	skullMat->DiffuseAlbedo = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
-	skullMat->FresnelR0 = XMFLOAT3(0.2f, 0.2f, 0.2f);
-	skullMat->Roughness = 0.2f;
-
 	auto sky = std::make_unique<Resources::Material>();
 	sky->Name = "sky";
-	sky->MatCBIndex = 4;
+	sky->MatCBIndex = 3;
 	sky->DiffuseSrvHeapIndex = 3;
 	sky->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	sky->FresnelR0 = XMFLOAT3(0.1f, 0.1f, 0.1f);
 	sky->Roughness = 1.0f;
+
+	auto skullMat = std::make_unique<Resources::Material>();
+	skullMat->Name = "skullMat";
+	skullMat->MatCBIndex = 4;
+	skullMat->DiffuseSrvHeapIndex = 2;
+	skullMat->DiffuseAlbedo = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+	skullMat->FresnelR0 = XMFLOAT3(0.2f, 0.2f, 0.2f);
+	skullMat->Roughness = 0.2f;
 
 	mMaterials["bricks0"] = std::move(bricks0);
 	mMaterials["tile0"] = std::move(tile0);
@@ -783,14 +786,13 @@ void CEDX12DynamicCubePlayground::BuildMaterials() {
 }
 
 void CEDX12DynamicCubePlayground::BuildRenderItems() {
-
 	auto skyRitem = std::make_unique<Resources::LitShapesRenderItem>();
 	XMStoreFloat4x4(&skyRitem->World, XMMatrixScaling(5000.0f, 5000.0f, 5000.0f));
 	skyRitem->TexTransform = Resources::MatrixIdentity4X4();
 	skyRitem->ObjCBIndex = 0;
 	skyRitem->Mat = mMaterials["sky"].get();
 	skyRitem->Geo = mGeometries["shapeGeo"].get();
-	skyRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	skyRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	skyRitem->IndexCount = skyRitem->Geo->DrawArgs["sphere"].IndexCount;
 	skyRitem->StartIndexLocation = skyRitem->Geo->DrawArgs["sphere"].StartIndexLocation;
 	skyRitem->BaseVertexLocation = skyRitem->Geo->DrawArgs["sphere"].BaseVertexLocation;
@@ -798,13 +800,29 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 	mRitemLayer[(int)Resources::RenderLayer::Sky].push_back(skyRitem.get());
 	mAllRitems.push_back(std::move(skyRitem));
 
+	auto skullRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	skullRitem->World = Resources::MatrixIdentity4X4();
+	skullRitem->TexTransform = Resources::MatrixIdentity4X4();
+	skullRitem->ObjCBIndex = 1;
+	skullRitem->Mat = mMaterials["skullMat"].get();
+	skullRitem->Geo = mGeometries["skullGeo"].get();
+	skullRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	skullRitem->IndexCount = skullRitem->Geo->DrawArgs["skull"].IndexCount;
+	skullRitem->StartIndexLocation = skullRitem->Geo->DrawArgs["skull"].StartIndexLocation;
+	skullRitem->BaseVertexLocation = skullRitem->Geo->DrawArgs["skull"].BaseVertexLocation;
+
+	mSkullRitem = skullRitem.get();
+
+	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(skullRitem.get());
+	mAllRitems.push_back(std::move(skullRitem));
+
 	auto boxRitem = std::make_unique<Resources::LitShapesRenderItem>();
 	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(2.0f, 1.0f, 2.0f) * XMMatrixTranslation(0.0f, 0.5f, 0.0f));
 	XMStoreFloat4x4(&boxRitem->TexTransform, XMMatrixScaling(1.0f, 1.0f, 1.0f));
-	boxRitem->ObjCBIndex = 1;
+	boxRitem->ObjCBIndex = 2;
 	boxRitem->Mat = mMaterials["bricks0"].get();
 	boxRitem->Geo = mGeometries["shapeGeo"].get();
-	boxRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	boxRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	boxRitem->IndexCount = boxRitem->Geo->DrawArgs["box"].IndexCount;
 	boxRitem->StartIndexLocation = boxRitem->Geo->DrawArgs["box"].StartIndexLocation;
 	boxRitem->BaseVertexLocation = boxRitem->Geo->DrawArgs["box"].BaseVertexLocation;
@@ -812,27 +830,27 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(boxRitem.get());
 	mAllRitems.push_back(std::move(boxRitem));
 
-	auto skullRitem = std::make_unique<Resources::LitShapesRenderItem>();
-	XMStoreFloat4x4(&skullRitem->World, XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixTranslation(0.0f, 1.0f, 0.0f));
-	skullRitem->TexTransform = Resources::MatrixIdentity4X4();
-	skullRitem->ObjCBIndex = 2;
-	skullRitem->Mat = mMaterials["skullMat"].get();
-	skullRitem->Geo = mGeometries["skullGeo"].get();
-	skullRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	skullRitem->IndexCount = skullRitem->Geo->DrawArgs["skull"].IndexCount;
-	skullRitem->StartIndexLocation = skullRitem->Geo->DrawArgs["skull"].StartIndexLocation;
-	skullRitem->BaseVertexLocation = skullRitem->Geo->DrawArgs["skull"].BaseVertexLocation;
+	auto globeRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	XMStoreFloat4x4(&globeRitem->World, XMMatrixScaling(2.0f, 2.0f, 2.0f) * XMMatrixTranslation(0.0f, 2.0f, 0.0f));
+	XMStoreFloat4x4(&globeRitem->TexTransform, XMMatrixScaling(1.0f, 1.0f, 1.0f));
+	globeRitem->ObjCBIndex = 3;
+	globeRitem->Mat = mMaterials["mirror0"].get();
+	globeRitem->Geo = mGeometries["shapeGeo"].get();
+	globeRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	globeRitem->IndexCount = globeRitem->Geo->DrawArgs["sphere"].IndexCount;
+	globeRitem->StartIndexLocation = globeRitem->Geo->DrawArgs["sphere"].StartIndexLocation;
+	globeRitem->BaseVertexLocation = globeRitem->Geo->DrawArgs["sphere"].BaseVertexLocation;
 
-	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(skullRitem.get());
-	mAllRitems.push_back(std::move(skullRitem));
+	mRitemLayer[(int)Resources::RenderLayer::OpaqueDynamicReflectors].push_back(globeRitem.get());
+	mAllRitems.push_back(std::move(globeRitem));
 
 	auto gridRitem = std::make_unique<Resources::LitShapesRenderItem>();
 	gridRitem->World = Resources::MatrixIdentity4X4();
 	XMStoreFloat4x4(&gridRitem->TexTransform, XMMatrixScaling(8.0f, 8.0f, 1.0f));
-	gridRitem->ObjCBIndex = 3;
+	gridRitem->ObjCBIndex = 4;
 	gridRitem->Mat = mMaterials["tile0"].get();
 	gridRitem->Geo = mGeometries["shapeGeo"].get();
-	gridRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	gridRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	gridRitem->IndexCount = gridRitem->Geo->DrawArgs["grid"].IndexCount;
 	gridRitem->StartIndexLocation = gridRitem->Geo->DrawArgs["grid"].StartIndexLocation;
 	gridRitem->BaseVertexLocation = gridRitem->Geo->DrawArgs["grid"].BaseVertexLocation;
@@ -841,7 +859,7 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 	mAllRitems.push_back(std::move(gridRitem));
 
 	XMMATRIX brickTexTransform = XMMatrixScaling(1.5f, 2.0f, 1.0f);
-	UINT objCBIndex = 4;
+	UINT objCBIndex = 5;
 	for (int i = 0; i < 5; ++i) {
 		auto leftCylRitem = std::make_unique<Resources::LitShapesRenderItem>();
 		auto rightCylRitem = std::make_unique<Resources::LitShapesRenderItem>();
@@ -859,7 +877,7 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 		leftCylRitem->ObjCBIndex = objCBIndex++;
 		leftCylRitem->Mat = mMaterials["bricks0"].get();
 		leftCylRitem->Geo = mGeometries["shapeGeo"].get();
-		leftCylRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		leftCylRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		leftCylRitem->IndexCount = leftCylRitem->Geo->DrawArgs["cylinder"].IndexCount;
 		leftCylRitem->StartIndexLocation = leftCylRitem->Geo->DrawArgs["cylinder"].StartIndexLocation;
 		leftCylRitem->BaseVertexLocation = leftCylRitem->Geo->DrawArgs["cylinder"].BaseVertexLocation;
@@ -869,7 +887,7 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 		rightCylRitem->ObjCBIndex = objCBIndex++;
 		rightCylRitem->Mat = mMaterials["bricks0"].get();
 		rightCylRitem->Geo = mGeometries["shapeGeo"].get();
-		rightCylRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		rightCylRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		rightCylRitem->IndexCount = rightCylRitem->Geo->DrawArgs["cylinder"].IndexCount;
 		rightCylRitem->StartIndexLocation = rightCylRitem->Geo->DrawArgs["cylinder"].StartIndexLocation;
 		rightCylRitem->BaseVertexLocation = rightCylRitem->Geo->DrawArgs["cylinder"].BaseVertexLocation;
@@ -879,7 +897,7 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 		leftSphereRitem->ObjCBIndex = objCBIndex++;
 		leftSphereRitem->Mat = mMaterials["mirror0"].get();
 		leftSphereRitem->Geo = mGeometries["shapeGeo"].get();
-		leftSphereRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		leftSphereRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		leftSphereRitem->IndexCount = leftSphereRitem->Geo->DrawArgs["sphere"].IndexCount;
 		leftSphereRitem->StartIndexLocation = leftSphereRitem->Geo->DrawArgs["sphere"].StartIndexLocation;
 		leftSphereRitem->BaseVertexLocation = leftSphereRitem->Geo->DrawArgs["sphere"].BaseVertexLocation;
@@ -889,7 +907,7 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 		rightSphereRitem->ObjCBIndex = objCBIndex++;
 		rightSphereRitem->Mat = mMaterials["mirror0"].get();
 		rightSphereRitem->Geo = mGeometries["shapeGeo"].get();
-		rightSphereRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		rightSphereRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		rightSphereRitem->IndexCount = rightSphereRitem->Geo->DrawArgs["sphere"].IndexCount;
 		rightSphereRitem->StartIndexLocation = rightSphereRitem->Geo->DrawArgs["sphere"].StartIndexLocation;
 		rightSphereRitem->BaseVertexLocation = rightSphereRitem->Geo->DrawArgs["sphere"].BaseVertexLocation;
@@ -901,8 +919,8 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 
 		mAllRitems.push_back(std::move(leftCylRitem));
 		mAllRitems.push_back(std::move(rightCylRitem));
-		mAllRitems.push_back(std::move(leftSphereRitem));
-		mAllRitems.push_back(std::move(rightSphereRitem));
+		mAllRitems.push_back(std::move(leftCylRitem));
+		mAllRitems.push_back(std::move(leftCylRitem));
 	}
 }
 
@@ -1003,5 +1021,66 @@ void CEDX12DynamicCubePlayground::BuildCubeDepthStencil() {
 	//Transition resource from its initial state to be used as depth buffer
 	auto trCDW = CD3DX12_RESOURCE_BARRIER::Transition(m_cubeDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON,
 	                                                  D3D12_RESOURCE_STATE_DEPTH_WRITE);
-	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCDW);	
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCDW);
+}
+
+void CEDX12DynamicCubePlayground::DrawSceneToCubeMap() {
+
+	auto dynamicCubeMapViewPort = m_dynamicCubeMap->Viewport();
+	auto dynamicCubeMapScissorRect = m_dynamicCubeMap->ScissorRect();
+	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &dynamicCubeMapViewPort);
+	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &dynamicCubeMapScissorRect);
+
+	//CHANGE to RENDER TARGET
+	auto trGRRT = CD3DX12_RESOURCE_BARRIER::Transition(m_dynamicCubeMap->Resource(), D3D12_RESOURCE_STATE_GENERIC_READ,
+	                                                   D3D12_RESOURCE_STATE_RENDER_TARGET);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trGRRT);
+
+	UINT passCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
+
+	//For each cube map face
+	for (int i = 0; i < 6; ++i) {
+		//Clear the back buffer and depth buffer
+		m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dynamicCubeMap->Rtv(i), Colors::LightSteelBlue, 0,
+		                                                            nullptr);
+		m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(
+			m_cubeDSV, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+
+		//specify buffers we are going to render to
+		auto dcmRtv = m_dynamicCubeMap->Rtv(i);
+		m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &dcmRtv, true, &m_cubeDSV);
+
+		/*
+		 * Bind pass constant buffer for this cube map face so we use right view/proj matrix for this cube face
+		 */
+		auto passCB = mCurrFrameResource->PassStructuredCB->Resource();
+		D3D12_GPU_VIRTUAL_ADDRESS passCBAddress = passCB->GetGPUVirtualAddress() + (1 + i) * passCBByteSize;
+		m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCBAddress);
+
+		DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+
+		m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["sky"].Get());
+		DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Sky]);
+
+		m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["opaque"].Get());
+	}
+
+	//Change back to GENERIC_READ so we can read texture in a shader.
+	auto trRTGR = CD3DX12_RESOURCE_BARRIER::Transition(m_dynamicCubeMap->Resource(),
+	                                                   D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trRTGR);
+}
+
+void CEDX12DynamicCubePlayground::AnimateSkullMovement(const CETimer& gt) const {
+	//Animate skull around center sphere
+
+	XMMATRIX skullScale = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+	XMMATRIX skullOffset = XMMatrixTranslation(3.0f, 2.0f, 0.0f);
+	XMMATRIX skullLocalRotate = XMMatrixRotationY(2.0f * gt.TotalTime());
+	XMMATRIX skullGlobalRotate = XMMatrixRotationY(0.5f * gt.TotalTime());
+	XMStoreFloat4x4(&static_cast<Resources::ShapesRenderItem*>(mSkullRitem)->World,
+	                skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
+	static_cast<Resources::ShapesRenderItem*>(mSkullRitem)->NumFramesDirty = gNumFrameResources;
+
 }

@@ -46,6 +46,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		void BuildCubeFaceCamera(float x, float y, float z);
 		void BuildCubeDepthStencil();
+		void DrawSceneToCubeMap();
+		void AnimateSkullMovement(const CETimer& gt);
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
@@ -72,8 +74,10 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::unique_ptr<Resources::CECubeRenderTarget> m_dynamicCubeMap = nullptr;
 		CD3DX12_CPU_DESCRIPTOR_HANDLE m_cubeDSV;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_cubeDepthStencilBuffer;
-		
+
 		UINT m_skyTexHeapIndex = 0;
 		UINT m_dynamicTexHeapIndex = 0;
+
+		Resources::RenderItem* mSkullRitem = nullptr;
 	};
 }
