@@ -276,16 +276,16 @@ void CEDX12DynamicCubePlayground::OnKeyDown(KeyCode key, char keyChar, const CET
 	const float dt = gt.DeltaTime();
 	switch (key) {
 	case KeyCode::A:
-		m_camera.Strafe(-50.0f * dt);
+		m_camera.Strafe(-10.0f * dt);
 		break;
 	case KeyCode::D:
-		m_camera.Strafe(50.0f * dt);
+		m_camera.Strafe(10.0f * dt);
 		break;
 	case KeyCode::W:
-		m_camera.Walk(50.0f * dt);
+		m_camera.Walk(10.0f * dt);
 		break;
 	case KeyCode::S:
-		m_camera.Walk(-50.0f * dt);
+		m_camera.Walk(-10.0f * dt);
 		break;
 	}
 }
@@ -973,12 +973,13 @@ void CEDX12DynamicCubePlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmd
 }
 
 void CEDX12DynamicCubePlayground::BuildCubeFaceCamera(float x, float y, float z) {
-	//Generate cube map about given position
+	// Generate the cube map about the given position.
 	XMFLOAT3 center(x, y, z);
 	XMFLOAT3 worldUp(0.0f, 1.0f, 0.0f);
 
-	//Look along each coordinate axis.
-	XMFLOAT3 targets[6] = {
+	// Look along each coordinate axis.
+	XMFLOAT3 targets[6] =
+	{
 		XMFLOAT3(x + 1.0f, y, z), // +X
 		XMFLOAT3(x - 1.0f, y, z), // -X
 		XMFLOAT3(x, y + 1.0f, z), // +Y
@@ -987,10 +988,10 @@ void CEDX12DynamicCubePlayground::BuildCubeFaceCamera(float x, float y, float z)
 		XMFLOAT3(x, y, z - 1.0f) // -Z
 	};
 
-	/*
-	 * Use world up vector (0, 1, 0) for all directions except +Y/-Y. In these cases, we are looking down +Y or -Y, so we need a different "up" vector
-	 */
-	XMFLOAT3 ups[6] = {
+	// Use world up vector (0,1,0) for all directions except +Y/-Y.  In these cases, we
+	// are looking down +Y or -Y, so we need a different "up" vector.
+	XMFLOAT3 ups[6] =
+	{
 		XMFLOAT3(0.0f, 1.0f, 0.0f), // +X
 		XMFLOAT3(0.0f, 1.0f, 0.0f), // -X
 		XMFLOAT3(0.0f, 0.0f, -1.0f), // +Y
