@@ -13,7 +13,7 @@ CECubeRenderTarget::CECubeRenderTarget(ID3D12Device* device,
 	Format = format;
 
 	m_viewport = {0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f};
-	m_scissorRect = {0, 0, (long)width, (long)height};
+	m_scissorRect = {0, 0, (int)width, (int)height};
 
 	BuildResource();
 }

@@ -1027,6 +1027,7 @@ std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> CEDX12Manager::GetStaticSampler
 }
 
 void CEDX12Manager::CreateRTVDescriptorHeap(UINT numDescriptors) {
+	spdlog::info("RTV Descriptor Number: {}", numDescriptors);
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
 	rtvHeapDesc.NumDescriptors = numDescriptors;
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -1036,6 +1037,7 @@ void CEDX12Manager::CreateRTVDescriptorHeap(UINT numDescriptors) {
 }
 
 void CEDX12Manager::CreateDSVDescriptorHeap(UINT numDescriptors) {
+	spdlog::info("DSV Descriptor Number: {}", numDescriptors);
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
 	dsvHeapDesc.NumDescriptors = numDescriptors;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
@@ -1044,7 +1046,8 @@ void CEDX12Manager::CreateDSVDescriptorHeap(UINT numDescriptors) {
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(m_dsvHeap.GetAddressOf())));
 }
 
-void CEDX12Manager::CreateCSVDescriptorHeap(UINT numDescriptors) {
+void CEDX12Manager::CreateCBVDescriptorHeap(UINT numDescriptors) {
+	spdlog::info("CBV Descriptor Number: {}", numDescriptors);
 	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
 	cbvHeapDesc.NumDescriptors = numDescriptors;
 	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -1054,6 +1057,7 @@ void CEDX12Manager::CreateCSVDescriptorHeap(UINT numDescriptors) {
 }
 
 void CEDX12Manager::CreateSRVDescriptorHeap(UINT numDescriptors) {
+	spdlog::info("SRV Descriptor Number: {}", numDescriptors);
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.NumDescriptors = numDescriptors;
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;

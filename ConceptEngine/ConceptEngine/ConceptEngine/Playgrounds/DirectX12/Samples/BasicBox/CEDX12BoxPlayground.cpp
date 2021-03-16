@@ -19,7 +19,7 @@ void CEDX12BoxPlayground::Create() {
 	//Reset command list to prepare for initialization commands
 	m_dx12manager->ResetCommandList();
 
-	m_dx12manager->CreateCSVDescriptorHeap();
+	m_dx12manager->CreateCBVDescriptorHeap();
 
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
 	mObjectCB = std::make_unique<Resources::CEUploadBuffer<Resources::ObjectConstants>>(d3dDevice.Get(), 1, true);

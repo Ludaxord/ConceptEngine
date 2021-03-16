@@ -48,7 +48,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 	class CEDX12Manager : public CEGraphicsManager {
 
 	public:
-		static const UINT BufferCount = 3;
+		//BUFFER COUNT 2 OR 3
+		static const UINT BufferCount = 2;
 		inline static UINT RTVCount = BufferCount;
 		inline static UINT DSVCount = 1;
 
@@ -144,8 +145,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void CreateSwapChain();
 		std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 		void CreateRTVDescriptorHeap(UINT numDescriptors = RTVCount);
-		void CreateDSVDescriptorHeap(UINT numDescriptors = 1);
-		void CreateCSVDescriptorHeap(UINT numDescriptors = 1);
+		void CreateDSVDescriptorHeap(UINT numDescriptors = DSVCount);
+		void CreateCBVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateSRVDescriptorHeap(UINT numDescriptors = 1);
 		void CreateConstantBuffers(D3D12_GPU_VIRTUAL_ADDRESS cbAddress,
 		                           UINT sizeInBytes,

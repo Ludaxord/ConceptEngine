@@ -527,7 +527,7 @@ void CEDX12ShapesPlayground::BuildDescriptorHeaps() {
 	//Save an offset to start of pass CBVs. These are last 3 descriptors
 	mPassCbvOffset = objCount * gNumFrameResources;
 
-	m_dx12manager->CreateCSVDescriptorHeap(numDescriptors);
+	m_dx12manager->CreateCBVDescriptorHeap(numDescriptors);
 }
 
 void CEDX12ShapesPlayground::BuildConstantBufferViews() {

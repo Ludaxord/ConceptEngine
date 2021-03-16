@@ -21,7 +21,8 @@ void CEDX12DynamicCubePlayground::Create() {
 	BuildCubeFaceCamera(0.0f, 2.0f, 0.0f);
 
 	m_dynamicCubeMap = std::make_unique<Resources::CECubeRenderTarget>(m_dx12manager->GetD3D12Device().Get(),
-	                                                                   CubeMapSize, CubeMapSize,
+	                                                                   CubeMapSize,
+	                                                                   CubeMapSize,
 	                                                                   DXGI_FORMAT_R8G8B8A8_UNORM);
 
 	LoadTextures();
@@ -609,11 +610,9 @@ void CEDX12DynamicCubePlayground::BuildModelGeometry() {
 	ThrowIfFailed(D3DCreateBlob(ibByteSize, &geo->IndexBufferCPU));
 	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
 
-	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize,
-	                                                          geo->VertexBufferUploader);
+	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
 
-	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize,
-	                                                         geo->IndexBufferUploader);
+	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
 
 	geo->VertexByteStride = sizeof(Resources::CENormalTextureVertex);
 	geo->VertexBufferByteSize = vbByteSize;
@@ -1106,9 +1105,9 @@ void CEDX12DynamicCubePlayground::AnimateSkullMovement(const CETimer& gt) const 
 	XMMATRIX skullOffset = XMMatrixTranslation(3.0f, 2.0f, 0.0f);
 	XMMATRIX skullLocalRotate = XMMatrixRotationY(2.0f * gt.TotalTime());
 	XMMATRIX skullGlobalRotate = XMMatrixRotationY(0.5f * gt.TotalTime());
-	XMStoreFloat4x4(&static_cast<Resources::ShapesRenderItem*>(mSkullRitem)->World,
+	XMStoreFloat4x4(&static_cast<Resources::LitShapesRenderItem*>(mSkullRitem)->World,
 	                skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
-	static_cast<Resources::ShapesRenderItem*>(mSkullRitem)->NumFramesDirty = gNumFrameResources;
+	static_cast<Resources::LitShapesRenderItem*>(mSkullRitem)->NumFramesDirty = gNumFrameResources;
 
 }
 
