@@ -137,6 +137,36 @@ void CEDX12DynamicCubePlayground::Render(const CETimer& gt) {
 	// Reusing the command list reuses memory.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(), mPSOs["opaque"].Get()));
 
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
+	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
+
+	// Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and 
+	// set as a root descriptor.
+	auto matBuffer = mCurrFrameResource->MaterialBuffer->Resource();
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
+
+	/*
+	 * Bind sky cube map. For our demos, we just use one "world" cubemap representing environment from far away, so all objects will use same cube map and we only need to set it once per-frame
+	 * If we wanted to use "local" cube maps, we would have to change them per-object, or dynamically index into an array of cube maps
+	 */
+	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(
+		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	skyTexDescriptor.Offset(m_skyTexHeapIndex,
+	                        m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
+
+	/*
+	 * Bind all textures used in this scene. Observe that we only have to specify first descriptor in table
+	 * The root signature knows how many descriptors are expected in table
+	 */
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(
+		4, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+
+	DrawSceneToCubeMap();
+
+
 	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
 	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
 
@@ -160,27 +190,20 @@ void CEDX12DynamicCubePlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &rtCBBV, true,
 	                                                         &rtDsv);
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
-	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
-
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
-
 	auto passCB = mCurrFrameResource->PassStructuredCB->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
 
-	// Bind all the materials used in this scene.  For structured buffers, we can bypass the heap and 
-	// set as a root descriptor.
-	auto matBuffer = mCurrFrameResource->MaterialBuffer->Resource();
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
-
-	/*
-	 * Bind sky cube map. For our demos, we just use one "world" cubemap representing environment from far away, so all objects will use same cube map and we only need to set it once per-frame
-	 * If we wanted to use "local" cube maps, we would have to change them per-object, or dynamically index into an array of cube maps
-	 */
-	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(
+	//Use dynamic cube map for dynamic reflectors layer.
+	CD3DX12_GPU_DESCRIPTOR_HANDLE dynamicTexDescriptor(
 		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-	skyTexDescriptor.Offset(m_skyTexHeapIndex,
-	                        m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	dynamicTexDescriptor.Offset(m_skyTexHeapIndex + 1,
+	                            m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, dynamicTexDescriptor);
+
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(),
+	                mRitemLayer[(int)Resources::RenderLayer::OpaqueDynamicReflectors]);
+
+	// Use the static "background" cube map for the other objects (including the sky)
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
 
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
@@ -428,7 +451,6 @@ void CEDX12DynamicCubePlayground::LoadTextures() {
 	for (auto texPair : textures) {
 		auto tex = m_dx12manager->LoadTextureFromFile(texPair.second, texPair.first);
 		mTextures[tex->Name] = std::move(tex);
-		spdlog::info("texture {} append to map by key {}", tex->Name, texPair.second);
 	}
 }
 
@@ -921,8 +943,8 @@ void CEDX12DynamicCubePlayground::BuildRenderItems() {
 
 		mAllRitems.push_back(std::move(leftCylRitem));
 		mAllRitems.push_back(std::move(rightCylRitem));
-		mAllRitems.push_back(std::move(leftCylRitem));
-		mAllRitems.push_back(std::move(leftCylRitem));
+		mAllRitems.push_back(std::move(leftSphereRitem));
+		mAllRitems.push_back(std::move(rightSphereRitem));
 	}
 }
 
@@ -1043,8 +1065,11 @@ void CEDX12DynamicCubePlayground::DrawSceneToCubeMap() {
 	//For each cube map face
 	for (int i = 0; i < 6; ++i) {
 		//Clear the back buffer and depth buffer
-		m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dynamicCubeMap->Rtv(i), Colors::LightSteelBlue, 0,
-		                                                            nullptr);
+		m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(
+			m_dynamicCubeMap->Rtv(i),
+			Colors::LightSteelBlue,
+			0,
+			nullptr);
 		m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(
 			m_cubeDSV, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 

@@ -14,6 +14,8 @@ CECubeRenderTarget::CECubeRenderTarget(ID3D12Device* device,
 
 	m_viewport = {0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, 1.0f};
 	m_scissorRect = {0, 0, (long)width, (long)height};
+
+	BuildResource();
 }
 
 ID3D12Resource* CECubeRenderTarget::Resource() {
@@ -45,6 +47,9 @@ void CECubeRenderTarget::BuildDescriptors(
 
 	for (int i = 0; i < 6; ++i)
 		mhCpuRtv[i] = hCpuRtv[i];
+
+	//  Create the descriptors
+	BuildDescriptors();
 }
 
 void CECubeRenderTarget::Resize(UINT newWidth, UINT newHeight) {
@@ -96,6 +101,7 @@ void CECubeRenderTarget::BuildResource() {
 	 */
 	D3D12_RESOURCE_DESC texDesc;
 	ZeroMemory(&texDesc, sizeof(D3D12_RESOURCE_DESC));
+	texDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	texDesc.Alignment = 0;
 	texDesc.Width = m_width;
 	texDesc.Height = m_height;
@@ -111,7 +117,10 @@ void CECubeRenderTarget::BuildResource() {
 	ThrowIfFailed(
 		m_d3dDevice->CreateCommittedResource(
 			&heapProps,
-			D3D12_HEAP_FLAG_NONE, &texDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+			D3D12_HEAP_FLAG_NONE,
+			&texDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
 			IID_PPV_ARGS(&m_cubeMap)
 		)
 	);
