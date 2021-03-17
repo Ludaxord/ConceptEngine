@@ -22,6 +22,7 @@
 #include "Playgrounds/DirectX12/Samples/DynamicCube/CEDX12DynamicCubePlayground.h"
 #include "Playgrounds/DirectX12/Samples/FPPCamera/CEDX12FPPCameraPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Instancing/CEDX12InstancingPlayground.h"
+#include "Playgrounds/DirectX12/Samples/NormalMap/CEDX12NormalMapPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Picking/CEDX12PickingPlayground.h"
 #include "Playgrounds/DirectX12/Samples/SobelWaves/CEDX12SobelWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/StencilShapes/CEDX12StencilShapesPlayground.h"
@@ -63,7 +64,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
 	CEDX12Manager::DSVCount = 2;
-	Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
+	// Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
+	Graphics::CEPlayground* playground = new CEDX12NormalMapPlayground(); 
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
