@@ -130,8 +130,6 @@ void CEDX12DynamicCubePlayground::Update(const CETimer& gt) {
 void CEDX12DynamicCubePlayground::Render(const CETimer& gt) {
 	CEDX12Playground::Render(gt);
 
-	auto mScreenViewport = m_dx12manager->GetViewPort();
-	auto mScissorRect = m_dx12manager->GetScissorRect();
 
 	auto cmdListAlloc = mCurrFrameResource->commandAllocator;
 
@@ -172,7 +170,8 @@ void CEDX12DynamicCubePlayground::Render(const CETimer& gt) {
 
 	DrawSceneToCubeMap();
 
-
+	auto mScreenViewport = m_dx12manager->GetViewPort();
+	auto mScissorRect = m_dx12manager->GetScissorRect();
 	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
 	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
 
@@ -193,7 +192,9 @@ void CEDX12DynamicCubePlayground::Render(const CETimer& gt) {
 	// Specify the buffers we are going to render to.
 	auto rtCBBV = m_dx12manager->CurrentBackBufferView();
 	auto rtDsv = m_dx12manager->DepthStencilView();
-	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &rtCBBV, true,
+	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1,
+	                                                         &rtCBBV,
+	                                                         true,
 	                                                         &rtDsv);
 
 	auto passCB = mCurrFrameResource->PassStructuredCB->Resource();
@@ -1064,9 +1065,10 @@ void CEDX12DynamicCubePlayground::DrawSceneToCubeMap() {
 
 	//For each cube map face
 	for (int i = 0; i < 6; ++i) {
+		auto dynamicRtv = m_dynamicCubeMap->Rtv(i);
 		//Clear the back buffer and depth buffer
 		m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(
-			m_dynamicCubeMap->Rtv(i),
+			dynamicRtv,
 			Colors::LightSteelBlue,
 			0,
 			nullptr);
@@ -1074,8 +1076,7 @@ void CEDX12DynamicCubePlayground::DrawSceneToCubeMap() {
 			m_cubeDSV, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
 		//specify buffers we are going to render to
-		auto dcmRtv = m_dynamicCubeMap->Rtv(i);
-		m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &dcmRtv, true, &m_cubeDSV);
+		m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &dynamicRtv, true, &m_cubeDSV);
 
 		/*
 		 * Bind pass constant buffer for this cube map face so we use right view/proj matrix for this cube face
@@ -1113,6 +1114,39 @@ void CEDX12DynamicCubePlayground::AnimateSkullMovement(const CETimer& gt) const 
 }
 
 void CEDX12DynamicCubePlayground::UpdateCubeMapFacePassCBs() {
+
+	for (int i = 0; i < 6; ++i) {
+		Resources::PassStructuredConstants cubeFacePassCB = mMainPassCB;
+
+		XMMATRIX view = mCubeMapCamera[i].GetView();
+		XMMATRIX proj = mCubeMapCamera[i].GetProj();
+
+		XMMATRIX viewProj = XMMatrixMultiply(view, proj);
+
+		auto detView = XMMatrixDeterminant(view);
+		XMMATRIX invView = XMMatrixInverse(&detView, view);
+
+		auto detProj = XMMatrixDeterminant(proj);
+		XMMATRIX invProj = XMMatrixInverse(&detProj, proj);
+
+		auto detViewProj = XMMatrixDeterminant(viewProj);
+		XMMATRIX invViewProj = XMMatrixInverse(&detViewProj, viewProj);
+
+		XMStoreFloat4x4(&cubeFacePassCB.View, XMMatrixTranspose(view));
+		XMStoreFloat4x4(&cubeFacePassCB.InvView, XMMatrixTranspose(invView));
+		XMStoreFloat4x4(&cubeFacePassCB.Proj, XMMatrixTranspose(proj));
+		XMStoreFloat4x4(&cubeFacePassCB.InvProj, XMMatrixTranspose(invProj));
+		XMStoreFloat4x4(&cubeFacePassCB.ViewProj, XMMatrixTranspose(viewProj));
+		XMStoreFloat4x4(&cubeFacePassCB.InvViewProj, XMMatrixTranspose(invViewProj));
+		cubeFacePassCB.EyePosW = mCubeMapCamera[i].GetPosition3f();
+		cubeFacePassCB.RenderTargetSize = XMFLOAT2((float)CubeMapSize, (float)CubeMapSize);
+		cubeFacePassCB.InvRenderTargetSize = XMFLOAT2(1.0f / CubeMapSize, 1.0f / CubeMapSize);
+
+		auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
+
+		// Cube map pass cbuffers are stored in elements 1-6.
+		currPassCB->CopyData(1 + i, cubeFacePassCB);
+	}
 	for (int i = 0; i < 6; ++i) {
 		Resources::PassStructuredConstants cubeFacePassCB = mMainPassCB;
 		XMMATRIX view = mCubeMapCamera[i].GetView();
