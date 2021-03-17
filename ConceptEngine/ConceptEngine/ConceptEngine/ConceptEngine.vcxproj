@@ -162,6 +162,7 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\NormalMap\CEDX12NormalMapPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\NormalMap\CEDX12NormalMapPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.h" />
