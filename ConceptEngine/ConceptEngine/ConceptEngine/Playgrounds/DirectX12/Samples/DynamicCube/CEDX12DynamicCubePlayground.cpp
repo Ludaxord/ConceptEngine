@@ -13,6 +13,11 @@ CEDX12DynamicCubePlayground::CEDX12DynamicCubePlayground() : CEDX12Playground() 
 void CEDX12DynamicCubePlayground::Create() {
 	CEDX12Playground::Create();
 
+	m_cubeDSV = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
+		1,
+		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV));
+
 	//Reset command list to prepare for initialization commands
 	m_dx12manager->ResetCommandList();
 
@@ -456,11 +461,6 @@ void CEDX12DynamicCubePlayground::LoadTextures() {
 }
 
 void CEDX12DynamicCubePlayground::BuildDescriptorHeaps() {
-	m_cubeDSV = CD3DX12_CPU_DESCRIPTOR_HANDLE(
-		m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		1,
-		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV));
-
 	m_dx12manager->CreateSRVDescriptorHeap(6);
 
 	auto srvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -516,7 +516,7 @@ void CEDX12DynamicCubePlayground::BuildDescriptorHeaps() {
 	auto rtvCpuStart = m_dx12manager->GetRTVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
 
 	//CubeMap RTV goes after swap chain descriptors
-	int rtvOffset = m_dx12manager->GetBackBufferCount();
+	int rtvOffset = CEDX12Manager::BufferCount;
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE cubeRtvHandles[6];
 	for (int i = 0; i < 6; ++i)

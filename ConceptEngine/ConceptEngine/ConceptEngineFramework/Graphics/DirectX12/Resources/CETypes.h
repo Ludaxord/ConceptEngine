@@ -63,7 +63,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::vector<std::int32_t> indices;
 	};
 
-
 	struct InstanceData {
 		DirectX::XMFLOAT4X4 World = MatrixIdentity4X4();
 		DirectX::XMFLOAT4X4 TexTransform = MatrixIdentity4X4();
@@ -168,7 +167,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	struct MaterialData {
 		DirectX::XMFLOAT4 DiffuseAlbedo = {1.0f, 1.0f, 1.0f, 1.0f};
 		DirectX::XMFLOAT3 FresnelR0 = {0.01f, 0.01f, 0.01f};
-		float Roughness = 64.0f;
+		// float Roughness = 64.0f;
+		float Roughness = 0.5f;
 
 		// Used in texture mapping.
 		DirectX::XMFLOAT4X4 MatTransform = MatrixIdentity4X4();
