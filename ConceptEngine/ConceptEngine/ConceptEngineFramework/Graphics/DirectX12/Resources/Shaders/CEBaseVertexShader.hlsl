@@ -1,4 +1,14 @@
 #include "CETypes.hlsl"
+/*
+ * Put in space1 so texture array does not overlap with there resources
+ * Texture array will occupy registers t0, t1, ... t3 in space0
+ */
+StructuredBuffer<MaterialData> gMaterialData : register(t0, space1);
+
+/*
+ * Array of textures, which is only supported in shader model 5.1+ Unlike Texture2DArray, the textures in this array can be different sizes and formats, making it more flexible than texture arrays
+ */
+Texture2D gDiffuseMap[4] : register(t1);
 
 struct VertexIn {
 	float3 PosL : POSITION;
