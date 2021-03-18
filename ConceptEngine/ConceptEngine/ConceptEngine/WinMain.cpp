@@ -37,8 +37,8 @@ using namespace ConceptEngine::Playgrounds::DirectX12;
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
 	// CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 1;
-	// CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
-	// CEDX12Manager::DSVCount = 2;
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
+	CEDX12Manager::DSVCount = 2;
 	/**
 	 * Playgrounds
 	 */
@@ -64,7 +64,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12PickingPlayground(); 
 	// Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
-	Graphics::CEPlayground* playground = new CEDX12NormalMapPlayground(); 
+	// Graphics::CEPlayground* playground = new CEDX12NormalMapPlayground(); 
+	Graphics::CEPlayground* playground = new CEDX12ShadowsPlayground(); 
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",
 	                                                     hInstance,
