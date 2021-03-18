@@ -24,6 +24,7 @@
 #include "Playgrounds/DirectX12/Samples/Instancing/CEDX12InstancingPlayground.h"
 #include "Playgrounds/DirectX12/Samples/NormalMap/CEDX12NormalMapPlayground.h"
 #include "Playgrounds/DirectX12/Samples/Picking/CEDX12PickingPlayground.h"
+#include "Playgrounds/DirectX12/Samples/Shadows/CEDX12ShadowsPlayground.h"
 #include "Playgrounds/DirectX12/Samples/SobelWaves/CEDX12SobelWavesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/StencilShapes/CEDX12StencilShapesPlayground.h"
 #include "Playgrounds/DirectX12/Samples/TessellationWaves/CEDX12TessellationWavesPlayground.h"
