@@ -26,9 +26,9 @@ void CEDX12ShadowsPlayground::Create() {
 	BuildCubeFaceCamera(0.0f, 2.0f, 0.0f);
 
 	m_dynamicCubeMap = std::make_unique<Resources::CECubeRenderTarget>(m_dx12manager->GetD3D12Device().Get(),
-		CubeMapSize,
-		CubeMapSize,
-		DXGI_FORMAT_R8G8B8A8_UNORM);
+	                                                                   CubeMapSize,
+	                                                                   CubeMapSize,
+	                                                                   DXGI_FORMAT_R8G8B8A8_UNORM);
 
 	LoadTextures();
 	// BuildRootSignature
@@ -52,8 +52,8 @@ void CEDX12ShadowsPlayground::Create() {
 
 		// A root signature is an array of root parameters.
 		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(5, slotRootParameter,
-			(UINT)staticSamplers.size(), staticSamplers.data(),
-			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		                                        (UINT)staticSamplers.size(), staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
@@ -61,28 +61,28 @@ void CEDX12ShadowsPlayground::Create() {
 	// BuildShaders
 	{
 		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEBaseVertexShader.hlsl",
-			nullptr,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                           nullptr,
+		                                                           "VS",
+		                                                           // "vs_6_3"
+		                                                           "vs_5_1"
 		);
 		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEBasePixelShader.hlsl",
-			nullptr,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                         nullptr,
+		                                                         "PS",
+		                                                         // "ps_6_3"
+		                                                         "ps_5_1"
 		);
 		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
-			nullptr,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                      nullptr,
+		                                                      "VS",
+		                                                      // "vs_6_3"
+		                                                      "vs_5_1"
 		);
 		m_shadersMap["skyPS"] = m_dx12manager->CompileShaders("CECubeMapPixelShader.hlsl",
-			nullptr,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                      nullptr,
+		                                                      "PS",
+		                                                      // "ps_6_3"
+		                                                      "ps_5_1"
 		);
 	}
 	BuildInputLayout();
@@ -141,7 +141,7 @@ void CEDX12ShadowsPlayground::Render(const CETimer& gt) {
 	// Reusing the command list reuses memory.
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Reset(cmdListAlloc.Get(), mPSOs["opaque"].Get()));
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = { m_dx12manager->GetSRVDescriptorHeap().Get() };
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
 	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
@@ -158,7 +158,7 @@ void CEDX12ShadowsPlayground::Render(const CETimer& gt) {
 	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(
 		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 	skyTexDescriptor.Offset(m_skyTexHeapIndex,
-		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	                        m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
 
 	/*
@@ -184,18 +184,18 @@ void CEDX12ShadowsPlayground::Render(const CETimer& gt) {
 
 	// Clear the back buffer and depth buffer.
 	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
-		Colors::LightSteelBlue, 0, nullptr);
+	                                                            Colors::LightSteelBlue, 0, nullptr);
 	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
-		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f,
-		0, 0, nullptr);
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f,
+	                                                            0, 0, nullptr);
 
 	// Specify the buffers we are going to render to.
 	auto rtCBBV = m_dx12manager->CurrentBackBufferView();
 	auto rtDsv = m_dx12manager->DepthStencilView();
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1,
-		&rtCBBV,
-		true,
-		&rtDsv);
+	                                                         &rtCBBV,
+	                                                         true,
+	                                                         &rtDsv);
 
 	auto passCB = mCurrFrameResource->PassStructuredCB->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
@@ -204,11 +204,11 @@ void CEDX12ShadowsPlayground::Render(const CETimer& gt) {
 	CD3DX12_GPU_DESCRIPTOR_HANDLE dynamicTexDescriptor(
 		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 	dynamicTexDescriptor.Offset(m_skyTexHeapIndex + 1,
-		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	                            m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, dynamicTexDescriptor);
 
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(),
-		mRitemLayer[(int)Resources::RenderLayer::OpaqueDynamicReflectors]);
+	                mRitemLayer[(int)Resources::RenderLayer::OpaqueDynamicReflectors]);
 
 	// Use the static "background" cube map for the other objects (including the sky)
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
@@ -348,20 +348,20 @@ void CEDX12ShadowsPlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
 	mMainPassCB.EyePosW = m_camera.GetPosition3f();
 	mMainPassCB.RenderTargetSize = XMFLOAT2((float)m_dx12manager->GetWindowWidth(),
-		(float)m_dx12manager->GetWindowHeight());
+	                                        (float)m_dx12manager->GetWindowHeight());
 	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / m_dx12manager->GetWindowWidth(),
-		1.0f / m_dx12manager->GetWindowHeight());
+	                                           1.0f / m_dx12manager->GetWindowHeight());
 	mMainPassCB.NearZ = 1.0f;
 	mMainPassCB.FarZ = 1000.0f;
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
-	mMainPassCB.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
-	mMainPassCB.Lights[0].Direction = { 0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[0].Strength = { 0.8f, 0.8f, 0.8f };
-	mMainPassCB.Lights[1].Direction = { -0.57735f, -0.57735f, 0.57735f };
-	mMainPassCB.Lights[1].Strength = { 0.4f, 0.4f, 0.4f };
-	mMainPassCB.Lights[2].Direction = { 0.0f, -0.707f, -0.707f };
-	mMainPassCB.Lights[2].Strength = { 0.2f, 0.2f, 0.2f };
+	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
+	mMainPassCB.Lights[0].Direction = {0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[0].Strength = {0.8f, 0.8f, 0.8f};
+	mMainPassCB.Lights[1].Direction = {-0.57735f, -0.57735f, 0.57735f};
+	mMainPassCB.Lights[1].Strength = {0.4f, 0.4f, 0.4f};
+	mMainPassCB.Lights[2].Direction = {0.0f, -0.707f, -0.707f};
+	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
 	auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
@@ -403,7 +403,7 @@ void CEDX12ShadowsPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignatu
 	 * PSO for opaque objects
 	 */
 	ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-	opaquePsoDesc.InputLayout = { m_inputLayout.data(), (UINT)m_inputLayout.size() };
+	opaquePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
 	opaquePsoDesc.pRootSignature = rootSignature.Get();
 	opaquePsoDesc.VS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
@@ -522,8 +522,8 @@ void CEDX12ShadowsPlayground::BuildDescriptorHeaps() {
 	CD3DX12_CPU_DESCRIPTOR_HANDLE cubeRtvHandles[6];
 	for (int i = 0; i < 6; ++i)
 		cubeRtvHandles[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvCpuStart, rtvOffset + i,
-			m_dx12manager->GetDescriptorSize(
-				D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		                                                  m_dx12manager->GetDescriptorSize(
+			                                                  D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 
 	//Dynamic CubeMap SRV is After sky SRV
 	m_dynamicCubeMap->BuildDescriptors(
@@ -571,7 +571,7 @@ void CEDX12ShadowsPlayground::BuildModelGeometry() {
 		fin >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
 		fin >> vertices[i].Normal.x >> vertices[i].Normal.y >> vertices[i].Normal.z;
 
-		vertices[i].TexCoord = { 0.0f, 0.0f };
+		vertices[i].TexCoord = {0.0f, 0.0f};
 
 		XMVECTOR P = XMLoadFloat3(&vertices[i].Pos);
 
@@ -751,12 +751,12 @@ void CEDX12ShadowsPlayground::BuildShapesGeometry() {
 void CEDX12ShadowsPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-			7,
-			(UINT)mAllRitems.size(),
-			(UINT)mMaterials.size(),
-			0,
-			Resources::WavesNormalTextureVertex,
-			false));
+		                                                                       7,
+		                                                                       (UINT)mAllRitems.size(),
+		                                                                       (UINT)mMaterials.size(),
+		                                                                       0,
+		                                                                       Resources::WavesNormalTextureVertex,
+		                                                                       false));
 	}
 }
 
@@ -949,7 +949,7 @@ void CEDX12ShadowsPlayground::BuildRenderItems() {
 }
 
 void CEDX12ShadowsPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-	std::vector<Resources::RenderItem*>& ritems) const {
+                                              std::vector<Resources::RenderItem*>& ritems) const {
 	UINT objCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectStructuredCB->Resource();
@@ -1045,7 +1045,7 @@ void CEDX12ShadowsPlayground::BuildCubeDepthStencil() {
 
 	//Transition resource from its initial state to be used as depth buffer
 	auto trCDW = CD3DX12_RESOURCE_BARRIER::Transition(m_cubeDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON,
-		D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	                                                  D3D12_RESOURCE_STATE_DEPTH_WRITE);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCDW);
 }
 
@@ -1058,7 +1058,7 @@ void CEDX12ShadowsPlayground::DrawSceneToCubeMap() {
 
 	//CHANGE to RENDER TARGET
 	auto trGRRT = CD3DX12_RESOURCE_BARRIER::Transition(m_dynamicCubeMap->Resource(), D3D12_RESOURCE_STATE_GENERIC_READ,
-		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	                                                   D3D12_RESOURCE_STATE_RENDER_TARGET);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trGRRT);
 
 	UINT passCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
@@ -1095,8 +1095,8 @@ void CEDX12ShadowsPlayground::DrawSceneToCubeMap() {
 
 	//Change back to GENERIC_READ so we can read texture in a shader.
 	auto trRTGR = CD3DX12_RESOURCE_BARRIER::Transition(m_dynamicCubeMap->Resource(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		D3D12_RESOURCE_STATE_GENERIC_READ);
+	                                                   D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                   D3D12_RESOURCE_STATE_GENERIC_READ);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trRTGR);
 }
 
@@ -1108,7 +1108,7 @@ void CEDX12ShadowsPlayground::AnimateSkullMovement(const CETimer& gt) const {
 	XMMATRIX skullLocalRotate = XMMatrixRotationY(2.0f * gt.TotalTime());
 	XMMATRIX skullGlobalRotate = XMMatrixRotationY(0.5f * gt.TotalTime());
 	XMStoreFloat4x4(&static_cast<Resources::LitShapesRenderItem*>(mSkullRitem)->World,
-		skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
+	                skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
 	static_cast<Resources::LitShapesRenderItem*>(mSkullRitem)->NumFramesDirty = gNumFrameResources;
 
 }
