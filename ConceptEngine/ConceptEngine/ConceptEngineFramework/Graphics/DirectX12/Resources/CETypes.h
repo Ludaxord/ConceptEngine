@@ -329,8 +329,9 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		Shadow,
 		GpuWaves,
 		Highlight,
-		Sky,
 		OpaqueDynamicReflectors,
+		Debug,
+		Sky,
 		Count
 	};
 

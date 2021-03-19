@@ -37,12 +37,14 @@
     <ClInclude Include="Graphics\DirectX12\Libraries\DDSTextureLoader.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEBlurFilter.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CECamera.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CECubeMapFace.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CECubeRenderTarget.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEDefaultBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\GeometryGenerator.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEFrameResource.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEGpuWaves.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CERenderTarget.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CEShadowMap.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CESobelFilter.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CETypes.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEUploadBuffer.h" />
@@ -70,6 +72,7 @@
     <ClCompile Include="Graphics\DirectX12\Resources\CEFrameResource.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEGpuWaves.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CERenderTarget.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Resources\CEShadowMap.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CESobelFilter.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEWaves.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOGLManager.cpp" />
