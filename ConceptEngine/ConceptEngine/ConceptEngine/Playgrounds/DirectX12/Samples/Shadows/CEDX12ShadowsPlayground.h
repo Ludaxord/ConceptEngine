@@ -4,6 +4,7 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECamera.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECubeRenderTarget.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEShadowMap.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
@@ -42,14 +43,14 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildRenderItems();
 
 		void DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-			std::vector<Resources::RenderItem*>& ritems) const;
+		                     std::vector<Resources::RenderItem*>& ritems) const;
 
 		void BuildCubeFaceCamera(float x, float y, float z);
 		void BuildCubeDepthStencil();
-		void DrawSceneToCubeMap();
 		void AnimateSkullMovement(const CETimer& gt) const;
-		void UpdateCubeMapFacePassCBs();
-
+		void UpdateShadowTransform(const CETimer& gt);
+		void UpdateShadowPassCB(const CETimer& gt);
+		
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
 
 		Resources::CEFrameResource* mCurrFrameResource = nullptr;
@@ -72,13 +73,35 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::CECamera m_camera;
 
 		Resources::CECamera mCubeMapCamera[6];
-		std::unique_ptr<Resources::CECubeRenderTarget> m_dynamicCubeMap = nullptr;
 		CD3DX12_CPU_DESCRIPTOR_HANDLE m_cubeDSV;
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_cubeDepthStencilBuffer;
 
+		CD3DX12_GPU_DESCRIPTOR_HANDLE m_nullSrv;
+
 		UINT m_skyTexHeapIndex = 0;
-		UINT m_dynamicTexHeapIndex = 0;
+		UINT m_shadowMapHeapIndex = 0;
+
+		UINT m_nullCubeSrvIndex = 0;
+		UINT m_nullTexSrvIndex = 0;
 
 		Resources::RenderItem* mSkullRitem = nullptr;
+
+		std::unique_ptr<Resources::CEShadowMap> m_shadowMap;
+
+
+		float mLightNearZ = 0.0f;
+		float mLightFarZ = 0.0f;
+		XMFLOAT3 mLightPosW;
+		XMFLOAT4X4 mLightView = Resources::MatrixIdentity4X4();
+		XMFLOAT4X4 mLightProj = Resources::MatrixIdentity4X4();
+		XMFLOAT4X4 mShadowTransform = Resources::MatrixIdentity4X4();
+
+		float mLightRotationAngle = 0.0f;
+		XMFLOAT3 mBaseLightDirections[3] = {
+			XMFLOAT3(0.57735f, -0.57735f, 0.57735f),
+			XMFLOAT3(-0.57735f, -0.57735f, 0.57735f),
+			XMFLOAT3(0.0f, -0.707f, -0.707f)
+		};
+		XMFLOAT3 mRotatedLightDirections[3];
 	};
 }

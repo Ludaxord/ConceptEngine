@@ -9,7 +9,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		CEShadowMap(ID3D12Device* device, UINT width, UINT height);
 		CEShadowMap(const CEShadowMap& rhs) = delete;
 		CEShadowMap& operator=(const CEShadowMap& rhs) = delete;
-		~CEShadowMap() = delete;
+		~CEShadowMap() = default;
 
 		UINT Width() const;
 		UINT Height() const;
@@ -17,7 +17,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 		CD3DX12_GPU_DESCRIPTOR_HANDLE Srv() const;
 		CD3DX12_CPU_DESCRIPTOR_HANDLE Dsv() const;
-		
+
 		D3D12_VIEWPORT Viewport() const;
 		D3D12_RECT ScissorRect() const;
 
