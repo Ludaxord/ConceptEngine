@@ -233,6 +233,8 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CECubeMapPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CENormalVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CENormalPixelShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEShadowVertexShader.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\DirectX12\Resources\Shaders\CETypes.hlsl" />
