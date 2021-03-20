@@ -166,6 +166,7 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\Shadows\CEDX12ShadowsPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\TessellationWaves\CEDX12TessellationWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\Shadows\CEDX12ShadowsPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\TessellationWaves\CEDX12TessellationWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.h" />
