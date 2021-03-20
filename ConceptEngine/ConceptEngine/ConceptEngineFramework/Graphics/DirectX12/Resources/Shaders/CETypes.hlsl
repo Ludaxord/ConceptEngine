@@ -140,7 +140,7 @@ float CalcShadowFactor(float4 shadowPosH) {
 	shadowPosH.xyz /= shadowPosH.w;
 
 	//Depth in NDC space
-	float depth = shadowPosH;
+	float depth = shadowPosH.z;
 
 	uint width, height, numMips;
 #ifdef SHADOW
