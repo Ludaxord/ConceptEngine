@@ -68,7 +68,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		//Render items divided by PSO;
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
-		Resources::PassStructuredConstants mMainPassCB;
+		Resources::PassStructuredConstants mMainPassCB;  // index 0 of pass cbuffer.
+		Resources::PassStructuredConstants mShadowPassCB;// index 1 of pass cbuffer.
 
 		Resources::CECamera m_camera;
 
@@ -87,7 +88,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::RenderItem* mSkullRitem = nullptr;
 
 		std::unique_ptr<Resources::CEShadowMap> m_shadowMap;
-
+		DirectX::BoundingSphere mSceneBounds;
 
 		float mLightNearZ = 0.0f;
 		float mLightFarZ = 0.0f;
