@@ -32,6 +32,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		//that is reference it. So each frame need their own cbuffers
 		std::unique_ptr<CEUploadBuffer<PassConstants>> PassCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<PassStructuredConstants>> PassStructuredCB = nullptr;
+		std::unique_ptr<CEUploadBuffer<PassShadowConstants>> PassShadowCB = nullptr;
 		
 		std::unique_ptr<CEUploadBuffer<MaterialConstants>> MaterialCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<MaterialData>> MaterialBuffer = nullptr;

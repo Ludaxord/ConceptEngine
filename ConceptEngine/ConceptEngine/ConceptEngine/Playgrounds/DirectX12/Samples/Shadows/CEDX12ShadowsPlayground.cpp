@@ -279,7 +279,7 @@ void CEDX12ShadowsPlayground::UpdateObjectCBs(const CETimer& gt) {
 			XMMATRIX world = XMLoadFloat4x4(&e->World);
 			XMMATRIX texTransform = XMLoadFloat4x4(&e->TexTransform);
 
-			Resources::StructuredObjectConstants objConstants;
+			Resources::PassShadowConstants objConstants;
 			XMStoreFloat4x4(&objConstants.WorldViewProjection, XMMatrixTranspose(world));
 			XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(texTransform));
 			objConstants.MaterialIndex = e->Mat->MatCBIndex;
@@ -331,7 +331,7 @@ void CEDX12ShadowsPlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.Lights[2].Direction = mRotatedLightDirections[2];
 	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
-	auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
+	auto currPassCB = mCurrFrameResource->PassShadowCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
 
@@ -1001,7 +1001,7 @@ void CEDX12ShadowsPlayground::BuildRenderItems() {
 
 void CEDX12ShadowsPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                               std::vector<Resources::RenderItem*>& ritems) const {
-	UINT objCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
+	UINT objCBByteSize = (sizeof(Resources::PassShadowConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectStructuredCB->Resource();
 
@@ -1183,6 +1183,6 @@ void CEDX12ShadowsPlayground::UpdateShadowPassCB(const CETimer& gt) {
 	mShadowPassCB.NearZ = mLightNearZ;
 	mShadowPassCB.FarZ = mLightFarZ;
 
-	auto currPassCB = mCurrFrameResource->PassStructuredCB.get();
+	auto currPassCB = mCurrFrameResource->PassShadowCB.get();
 	currPassCB->CopyData(1, mShadowPassCB);
 }

@@ -68,8 +68,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		//Render items divided by PSO;
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
-		Resources::PassStructuredConstants mMainPassCB;  // index 0 of pass cbuffer.
-		Resources::PassStructuredConstants mShadowPassCB;// index 1 of pass cbuffer.
+		Resources::PassShadowConstants mMainPassCB;  // index 0 of pass cbuffer.
+		Resources::PassShadowConstants mShadowPassCB;// index 1 of pass cbuffer.
 
 		Resources::CECamera m_camera;
 
