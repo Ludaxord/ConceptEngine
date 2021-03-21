@@ -226,8 +226,10 @@ void CEDX12ShadowsPlayground::Render(const CETimer& gt) {
 
 	auto mScreenViewport = m_dx12manager->GetViewPort();
 	auto mScissorRect = m_dx12manager->GetScissorRect();
+
 	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
 	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
+
 
 	auto transitionPresentRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(
 		m_dx12manager->CurrentBackBuffer(),
@@ -1285,6 +1287,7 @@ void CEDX12ShadowsPlayground::UpdateShadowPassCB(const CETimer& gt) {
 void CEDX12ShadowsPlayground::DrawSceneToShadowMap() {
 	auto viewPort = m_shadowMap->Viewport();
 	auto scissorRect = m_shadowMap->ScissorRect();
+
 	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &viewPort);
 	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &scissorRect);
 
