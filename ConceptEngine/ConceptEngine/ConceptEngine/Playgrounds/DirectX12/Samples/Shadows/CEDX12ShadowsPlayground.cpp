@@ -1264,6 +1264,8 @@ void CEDX12ShadowsPlayground::UpdateShadowPassCB(const CETimer& gt) {
 	UINT w = m_shadowMap->Width();
 	UINT h = m_shadowMap->Height();
 
+	// spdlog::info("Shadow Pass Constant buffer width: {} height: {}", w, h);
+
 	XMStoreFloat4x4(&mShadowPassCB.View, XMMatrixTranspose(view));
 	XMStoreFloat4x4(&mShadowPassCB.InvView, XMMatrixTranspose(invView));
 	XMStoreFloat4x4(&mShadowPassCB.Proj, XMMatrixTranspose(proj));
