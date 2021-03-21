@@ -561,7 +561,8 @@ void CEDX12SSAOPlayground::LoadTextures() {
 		{"defaultDiffuseMap", "white1x1.dds"},
 		{"defaultNormalMap", "default_nmap.dds"},
 		// {"skyCubeMap", "grasscube1024.dds"}
-		{"skyCubeMap", "desertcube1024.dds"}
+		// {"skyCubeMap", "desertcube1024.dds"}
+		{"skyCubeMap", "sunsetcube1024.dds"}
 	};
 
 	for (auto texPair : textures) {
