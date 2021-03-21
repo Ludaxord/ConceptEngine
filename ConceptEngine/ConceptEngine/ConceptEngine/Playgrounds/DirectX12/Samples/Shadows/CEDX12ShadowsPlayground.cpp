@@ -101,16 +101,16 @@ void CEDX12ShadowsPlayground::Create() {
 		);
 		//Debug
 		m_shadersMap["debugVS"] = m_dx12manager->CompileShaders("CEShadowDebugVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                        alphaDefines,
+		                                                        "VS",
+		                                                        // "vs_6_3"
+		                                                        "vs_5_1"
 		);
 		m_shadersMap["debugPS"] = m_dx12manager->CompileShaders("CEShadowDebugPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                        alphaDefines,
+		                                                        "PS",
+		                                                        // "ps_6_3"
+		                                                        "ps_5_1"
 		);
 		//Sky
 		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
@@ -1208,7 +1208,7 @@ void CEDX12ShadowsPlayground::AnimateSkullMovement(const CETimer& gt) const {
 }
 
 void CEDX12ShadowsPlayground::UpdateShadowTransform(const CETimer& gt) {
-	//Only first "main" light casts a shadow.
+	// Only the first "main" light casts a shadow.
 	XMVECTOR lightDir = XMLoadFloat3(&mRotatedLightDirections[0]);
 	XMVECTOR lightPos = -2.0f * mSceneBounds.Radius * lightDir;
 	XMVECTOR targetPos = XMLoadFloat3(&mSceneBounds.Center);
@@ -1217,11 +1217,11 @@ void CEDX12ShadowsPlayground::UpdateShadowTransform(const CETimer& gt) {
 
 	XMStoreFloat3(&mLightPosW, lightPos);
 
-	//Transform bounding sphere to light space
+	// Transform bounding sphere to light space.
 	XMFLOAT3 sphereCenterLS;
-	XMStoreFloat3(&sphereCenterLS, XMVector3TransformNormal(targetPos, lightView));
+	XMStoreFloat3(&sphereCenterLS, XMVector3TransformCoord(targetPos, lightView));
 
-	//Orthographic frustum in lighgt space encloses scene
+	// Ortho frustum in light space encloses scene.
 	float l = sphereCenterLS.x - mSceneBounds.Radius;
 	float b = sphereCenterLS.y - mSceneBounds.Radius;
 	float n = sphereCenterLS.z - mSceneBounds.Radius;
@@ -1233,13 +1233,12 @@ void CEDX12ShadowsPlayground::UpdateShadowTransform(const CETimer& gt) {
 	mLightFarZ = f;
 	XMMATRIX lightProj = XMMatrixOrthographicOffCenterLH(l, r, b, t, n, f);
 
-	//Transform NDC space [-1, +1]^2 to texture space [0, 1]^2
+	// Transform NDC space [-1,+1]^2 to texture space [0,1]^2
 	XMMATRIX T(
 		0.5f, 0.0f, 0.0f, 0.0f,
 		0.0f, -0.5f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.0f, 1.0f
-	);
+		0.5f, 0.5f, 0.0f, 1.0f);
 
 	XMMATRIX S = lightView * lightProj * T;
 	XMStoreFloat4x4(&mLightView, lightView);
