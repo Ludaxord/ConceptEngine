@@ -39,7 +39,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 			ID3D12Resource* depthStencilBuffer,
 			CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv,
 			CD3DX12_GPU_DESCRIPTOR_HANDLE hGpuSrv,
-			CD3DX12_GPU_DESCRIPTOR_HANDLE hCpuRtv,
+			CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuRtv,
 			UINT cbvSrvUavDescriptorSize,
 			UINT rtvDescriptorSize
 		);
@@ -64,7 +64,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		 * Blurs the ambient map to smotth out the nouse caused by only taking a few random samples per pixel.
 		 * We use an edge preserving blur so that we do not blur across discontinuities -- we want edges to remain edges
 		 */
-		void BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, CEFrameResource currFrame, int blurCount);
+		void BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, CEFrameResource* currFrame, int blurCount);
 		void BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur);
 
 		void BuildResources();

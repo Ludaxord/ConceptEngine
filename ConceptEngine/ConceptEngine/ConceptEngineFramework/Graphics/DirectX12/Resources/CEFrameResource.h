@@ -41,6 +41,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::unique_ptr<CEUploadBuffer<ObjectConstants>> ObjectCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<StructuredObjectConstants>> ObjectStructuredCB = nullptr;
 
+		std::unique_ptr<CEUploadBuffer<SSAOConstants>> SSAOCB = nullptr;
+
 		//We cannot update a dynamic vertex buffer until GPU is done processing commands that reference it.
 		//So each frame needs their own.
 		std::unique_ptr<CEUploadBuffer<CEVertex>> WavesVB = nullptr;
