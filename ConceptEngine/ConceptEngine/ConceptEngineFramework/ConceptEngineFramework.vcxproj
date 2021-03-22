@@ -50,6 +50,7 @@
     <ClInclude Include="Graphics\DirectX12\Resources\CEUploadBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEWaves.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\Shaders\VertexHeader.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CESSAO.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLManager.h" />
     <ClInclude Include="Graphics\OpenGL\CEOGLPlayground.h" />
     <ClInclude Include="Graphics\Vulkan\CEVPlayground.h" />
@@ -75,6 +76,7 @@
     <ClCompile Include="Graphics\DirectX12\Resources\CEShadowMap.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CESobelFilter.cpp" />
     <ClCompile Include="Graphics\DirectX12\Resources\CEWaves.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Resources\CESSAO.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOGLManager.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOGLPlayground.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVPlayground.cpp" />
