@@ -5,6 +5,7 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECubeRenderTarget.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEShadowMap.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESSAO.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
@@ -63,6 +64,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::unordered_map<std::string, std::shared_ptr<Resources::Texture>> mTextures;
 
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_rootSignature;
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_ssaoRootSignature;
 
 		//list of all render items.
 		std::vector<std::unique_ptr<Resources::RenderItem>> mAllRitems;
@@ -84,12 +86,17 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		UINT m_skyTexHeapIndex = 0;
 		UINT m_shadowMapHeapIndex = 0;
 
+		UINT m_ssaoHeapIndexStart = 0;
+		UINT m_ssaoAmbientMapIndex = 0;
+
 		UINT m_nullCubeSrvIndex = 0;
-		UINT m_nullTexSrvIndex = 0;
+		UINT m_nullTexSrvIndex1 = 0;
+		UINT m_nullTexSrvIndex2 = 0;
 
 		Resources::RenderItem* mSkullRitem = nullptr;
 
 		std::unique_ptr<Resources::CEShadowMap> m_shadowMap;
+		std::unique_ptr<Resources::CESSAO> m_ssao;
 		DirectX::BoundingSphere mSceneBounds;
 
 		float mLightNearZ = 0.0f;

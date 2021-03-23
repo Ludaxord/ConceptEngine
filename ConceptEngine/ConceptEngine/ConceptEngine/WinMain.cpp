@@ -40,6 +40,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 1;
 	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 3;
 	CEDX12Manager::DSVCount = 2;
 	/**
 	 * Playgrounds

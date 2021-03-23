@@ -5,6 +5,7 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/GeometryGenerator.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEShadowMap.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESSAO.h"
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
 
@@ -33,14 +34,19 @@ void CEDX12SSAOPlayground::Create() {
 
 	m_shadowMap = std::make_unique<Resources::CEShadowMap>(m_dx12manager->GetD3D12Device().Get(), 2048, 2048);
 
+	m_ssao = std::make_unique<Resources::CESSAO>(m_dx12manager->GetD3D12Device().Get(),
+	                                             m_dx12manager->GetD3D12CommandList().Get(),
+	                                             m_dx12manager->GetWindowWidth(),
+	                                             m_dx12manager->GetWindowHeight());
+
 	LoadTextures();
 	// BuildRootSignature
 	{
 		CD3DX12_DESCRIPTOR_RANGE texTable0;
-		texTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 2, 0, 0);
+		texTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 3, 0, 0);
 
 		CD3DX12_DESCRIPTOR_RANGE texTable1;
-		texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 10, 2, 0);
+		texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 10, 3, 0);
 
 		//Root parameter can be a table, root descriptor or root constants
 		CD3DX12_ROOT_PARAMETER slotRootParameter[5];
@@ -58,6 +64,64 @@ void CEDX12SSAOPlayground::Create() {
 		                                        (UINT)staticSamplers.size(), staticSamplers.data(),
 		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
+	}
+	//Build SSAO RootSignature
+	{
+		CD3DX12_DESCRIPTOR_RANGE texTable0;
+		texTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 2, 0, 0);
+
+		CD3DX12_DESCRIPTOR_RANGE texTable1;
+		texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2, 0);
+
+		CD3DX12_ROOT_PARAMETER slotRootParameter[4];
+
+		slotRootParameter[0].InitAsConstantBufferView(0);
+		slotRootParameter[1].InitAsConstants(1, 1);
+		slotRootParameter[2].InitAsDescriptorTable(1, &texTable0, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[3].InitAsDescriptorTable(1, &texTable1, D3D12_SHADER_VISIBILITY_PIXEL);
+
+		const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
+			0, //ShaderRegister
+			D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressU
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressV
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP //addressW
+		);
+		const CD3DX12_STATIC_SAMPLER_DESC linearClamp(
+			0, //ShaderRegister
+			D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressU
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressV
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP //addressW
+		);
+		const CD3DX12_STATIC_SAMPLER_DESC depthMapSam(
+			0, //ShaderRegister
+			D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressU
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressV
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP //addressW
+		);
+		const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
+			0, //ShaderRegister
+			D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressU
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP, //addressV
+			D3D12_TEXTURE_ADDRESS_MODE_CLAMP //addressW
+		);
+
+		std::array<CD3DX12_STATIC_SAMPLER_DESC, 4> staticSamplers = {
+			pointClamp,
+			linearClamp,
+			depthMapSam,
+			linearWrap
+		};
+
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4,
+		                                        slotRootParameter,
+		                                        (UINT)staticSamplers.size(),
+		                                        staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		m_ssaoRootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
 	// BuildShaders
@@ -572,10 +636,11 @@ void CEDX12SSAOPlayground::LoadTextures() {
 }
 
 void CEDX12SSAOPlayground::BuildDescriptorHeaps() {
-	m_dx12manager->CreateSRVDescriptorHeap(14);
+	m_dx12manager->CreateSRVDescriptorHeap(18);
 
 	auto srvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	auto dsvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	auto rtvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	auto srvHeap = m_dx12manager->GetSRVDescriptorHeap();
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(
@@ -620,15 +685,16 @@ void CEDX12SSAOPlayground::BuildDescriptorHeaps() {
 	m_skyTexHeapIndex = (UINT)tex2DList.size();
 	m_shadowMapHeapIndex = m_skyTexHeapIndex + 1;
 
-	m_nullCubeSrvIndex = m_shadowMapHeapIndex + 1;
-	m_nullTexSrvIndex = m_nullCubeSrvIndex + 1;
+	m_ssaoHeapIndexStart = m_shadowMapHeapIndex + 1;
+	m_ssaoAmbientMapIndex = m_ssaoHeapIndexStart + 3;
 
-	auto srvCpuStart = m_dx12manager->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-	auto srvGpuStart = m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
-	auto dsvCpuStart = m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+	m_nullCubeSrvIndex = m_ssaoHeapIndexStart + 5;
+	m_nullTexSrvIndex1 = m_nullCubeSrvIndex + 1;
+	m_nullTexSrvIndex2 = m_nullTexSrvIndex1 + 1;
 
-	auto nullSrv = CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, m_nullCubeSrvIndex, srvSize);
-	m_nullSrv = CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, m_nullCubeSrvIndex, srvSize);
+
+	auto nullSrv = m_dx12manager->GetCpuSRV(m_nullCubeSrvIndex);
+	m_nullSrv = m_dx12manager->GetGpuSRV(m_nullCubeSrvIndex);
 
 	d3dDevice->CreateShaderResourceView(nullptr, &srvDesc, nullSrv);
 	nullSrv.Offset(1, srvSize);
@@ -640,12 +706,24 @@ void CEDX12SSAOPlayground::BuildDescriptorHeaps() {
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 	d3dDevice->CreateShaderResourceView(nullptr, &srvDesc, nullSrv);
 
+	nullSrv.Offset(1, srvSize);
+	d3dDevice->CreateShaderResourceView(nullptr, &srvDesc, nullSrv);
+	
 	m_shadowMap->BuildDescriptors(
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(srvCpuStart, m_shadowMapHeapIndex, srvSize),
-		CD3DX12_GPU_DESCRIPTOR_HANDLE(srvGpuStart, m_shadowMapHeapIndex, srvSize),
-		CD3DX12_CPU_DESCRIPTOR_HANDLE(dsvCpuStart, 1, dsvSize)
+		m_dx12manager->GetCpuSRV(m_shadowMapHeapIndex),
+		m_dx12manager->GetGpuSRV(m_shadowMapHeapIndex),
+		m_dx12manager->GetRTV(1)
 	);
 
+	m_ssao->BuildDescriptors(
+		m_dx12manager->GetDepthStencilBuffer().Get(),
+		m_dx12manager->GetCpuSRV(m_ssaoHeapIndexStart),
+		m_dx12manager->GetGpuSRV(m_ssaoHeapIndexStart),
+		m_dx12manager->GetRTV(m_dx12manager->BufferCount),
+		srvSize,
+		rtvSize
+	);
+	
 }
 
 void CEDX12SSAOPlayground::BuildModelGeometry() {

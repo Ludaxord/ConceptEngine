@@ -1227,6 +1227,34 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::string& fileName,
 	return byteCode;
 }
 
+CD3DX12_CPU_DESCRIPTOR_HANDLE CEDX12Manager::GetCpuSRV(int index) {
+	auto srv = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_srvHeap->GetCPUDescriptorHandleForHeapStart());
+	auto size = GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	srv.Offset(index, size);
+	return srv;
+}
+
+CD3DX12_GPU_DESCRIPTOR_HANDLE CEDX12Manager::GetGpuSRV(int index) {
+	auto srv = CD3DX12_GPU_DESCRIPTOR_HANDLE(m_srvHeap->GetGPUDescriptorHandleForHeapStart());
+	auto size = GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	srv.Offset(index, size);
+	return srv;
+}
+
+CD3DX12_CPU_DESCRIPTOR_HANDLE CEDX12Manager::GetDSV(int index) {
+	auto dsv = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_dsvHeap->GetCPUDescriptorHandleForHeapStart());
+	auto size = GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	dsv.Offset(index, size);
+	return dsv;
+}
+
+CD3DX12_CPU_DESCRIPTOR_HANDLE CEDX12Manager::GetRTV(int index) {
+	auto rtv = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	auto size = GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	rtv.Offset(index, size);
+	return rtv;
+}
+
 /*
  * Support functions
  */

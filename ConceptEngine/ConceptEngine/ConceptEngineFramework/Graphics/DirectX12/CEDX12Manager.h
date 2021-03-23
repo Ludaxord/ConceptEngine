@@ -164,6 +164,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		                         const std::string& target) const;
 
 
+		virtual CD3DX12_CPU_DESCRIPTOR_HANDLE GetCpuSRV(int index);
+		virtual CD3DX12_GPU_DESCRIPTOR_HANDLE GetGpuSRV(int index);
+		virtual CD3DX12_CPU_DESCRIPTOR_HANDLE GetDSV(int index);
+		virtual CD3DX12_CPU_DESCRIPTOR_HANDLE GetRTV(int index);
+
 		// Returns random float in [0, 1).
 		static float RandF() {
 			return (float)(rand()) / (float)RAND_MAX;

@@ -5,6 +5,8 @@
 #include "../CEPlayground.h"
 #include "Resources/CETypes.h"
 
+#include "Libraries/d3dx12.h"
+
 inline const int gNumFrameResources = 3;
 inline const UINT CubeMapSize = 512;
 
@@ -35,6 +37,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		virtual void UpdateObjectCBs(const CETimer& gt);
 		virtual void UpdateMainPassCB(const CETimer& gt);
 		virtual void UpdateMaterialCBs(const CETimer& gt);
+
 	protected:
 		virtual void BuildColorShadersAndInputLayout(std::string vertexShaderFileName, std::string pixelShaderFileName);
 		virtual void

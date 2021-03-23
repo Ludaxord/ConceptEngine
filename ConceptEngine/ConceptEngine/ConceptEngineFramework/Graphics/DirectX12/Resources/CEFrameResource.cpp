@@ -66,7 +66,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	else {
 		PassShadowCB = std::make_unique<CEUploadBuffer<PassShadowConstants>>(device, passCount, true);
 		PassStructuredCB = std::make_unique<CEUploadBuffer<PassStructuredConstants>>(device, passCount, true);
-		
+
 		MaterialBuffer = std::make_unique<CEUploadBuffer<MaterialData>>(device, materialCount, false);
 		MaterialIndexBuffer = std::make_unique<CEUploadBuffer<MaterialIndexData>>(device, materialCount, false);
 
@@ -75,6 +75,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 
 	ObjectCB = std::make_unique<CEUploadBuffer<ObjectConstants>>(device, objectCount, true);
 	ObjectStructuredCB = std::make_unique<CEUploadBuffer<StructuredObjectConstants>>(device, objectCount, true);
+	SSAOCB = std::make_unique<CEUploadBuffer<SSAOConstants>>(device, 1, true);
 
 	if (wavesCount > 0) {
 		switch (waveType) {
