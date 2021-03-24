@@ -131,7 +131,7 @@ void CEDX12SSAOPlayground::Create() {
 			"SHADOW", "1",
 			NULL, NULL
 		};
-		//Shadow
+		// ================= Standard
 		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEBaseShadowVertexShader.hlsl",
 		                                                           alphaDefines,
 		                                                           "VS",
@@ -144,7 +144,7 @@ void CEDX12SSAOPlayground::Create() {
 		                                                         // "ps_6_3"
 		                                                         "ps_5_1"
 		);
-		//Shadow
+		// ================= Shadow
 		m_shadersMap["shadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
 		                                                         alphaDefines,
 		                                                         "VS",
@@ -163,7 +163,7 @@ void CEDX12SSAOPlayground::Create() {
 		                                                              // "ps_6_3"
 		                                                              "ps_5_1"
 		);
-		//Debug
+		// ================= Debug
 		m_shadersMap["debugVS"] = m_dx12manager->CompileShaders("CEShadowDebugVertexShader.hlsl",
 		                                                        alphaDefines,
 		                                                        "VS",
@@ -176,7 +176,13 @@ void CEDX12SSAOPlayground::Create() {
 		                                                        // "ps_6_3"
 		                                                        "ps_5_1"
 		);
-		//Sky
+		// ================= Draw Normals
+
+		// ================= SSAO
+
+		// ================= SSAO Blur
+
+		// ================= Sky
 		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
 		                                                      alphaDefines,
 		                                                      "VS",
