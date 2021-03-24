@@ -178,42 +178,42 @@ void CEDX12SSAOPlayground::Create() {
 		);
 		// ================= Draw Normals
 		m_shadersMap["drawNormalsVS"] = m_dx12manager->CompileShaders("CEDrawNormalsVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                              alphaDefines,
+		                                                              "VS",
+		                                                              // "vs_6_3"
+		                                                              "vs_5_1"
 		);
 		m_shadersMap["drawNormalsPS"] = m_dx12manager->CompileShaders("CEDrawNormalsPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                              alphaDefines,
+		                                                              "PS",
+		                                                              // "ps_6_3"
+		                                                              "ps_5_1"
 		);
 		// ================= SSAO
 		m_shadersMap["ssaoVS"] = m_dx12manager->CompileShaders("CESSAOVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                       alphaDefines,
+		                                                       "VS",
+		                                                       // "vs_6_3"
+		                                                       "vs_5_1"
 		);
 		m_shadersMap["ssaoPS"] = m_dx12manager->CompileShaders("CESSAOPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                       alphaDefines,
+		                                                       "PS",
+		                                                       // "ps_6_3"
+		                                                       "ps_5_1"
 		);
 		// ================= SSAO Blur
 		m_shadersMap["ssaoBlurVS"] = m_dx12manager->CompileShaders("CESSAOBlurVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                           alphaDefines,
+		                                                           "VS",
+		                                                           // "vs_6_3"
+		                                                           "vs_5_1"
 		);
 		m_shadersMap["ssaoBlurPS"] = m_dx12manager->CompileShaders("CESSAOBlurPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                           alphaDefines,
+		                                                           "PS",
+		                                                           // "ps_6_3"
+		                                                           "ps_5_1"
 		);
 		// ================= Sky
 		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
@@ -559,38 +559,44 @@ void CEDX12SSAOPlayground::UpdateMaterialCBs(const CETimer& gt) {
 void CEDX12SSAOPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature) {
 	auto d3dDevice = m_dx12manager->GetD3D12Device();
 
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC basePsoDesc;
 
 	/*
 	 * PSO for opaque objects
 	 */
-	ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-	opaquePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
-	opaquePsoDesc.pRootSignature = rootSignature.Get();
-	opaquePsoDesc.VS = {
+	ZeroMemory(&basePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+	basePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
+	basePsoDesc.pRootSignature = rootSignature.Get();
+	basePsoDesc.VS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
 		m_shadersMap["standardVS"]->GetBufferSize()
 	};
-	opaquePsoDesc.PS = {
+	basePsoDesc.PS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["opaquePS"]->GetBufferPointer()),
 		m_shadersMap["opaquePS"]->GetBufferSize()
 	};
-	opaquePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	opaquePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	opaquePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
-	opaquePsoDesc.SampleMask = UINT_MAX;
-	opaquePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	opaquePsoDesc.NumRenderTargets = 1;
-	opaquePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
-	opaquePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
-	opaquePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
-	opaquePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
-	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
+	basePsoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	basePsoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	basePsoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	basePsoDesc.SampleMask = UINT_MAX;
+	basePsoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	basePsoDesc.NumRenderTargets = 1;
+	basePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
+	basePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
+	basePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
+	basePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
 
+	/*
+	 * PSO for Opaque Objects
+	 */
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc = basePsoDesc;
+	opaquePsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_EQUAL;
+	opaquePsoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
 	//
 	// PSO for shadow map pass.
 	//
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC smapPsoDesc = opaquePsoDesc;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC smapPsoDesc = basePsoDesc;
 	smapPsoDesc.RasterizerState.DepthBias = 100000;
 	smapPsoDesc.RasterizerState.DepthBiasClamp = 0.0f;
 	smapPsoDesc.RasterizerState.SlopeScaledDepthBias = 1.0f;
@@ -614,7 +620,7 @@ void CEDX12SSAOPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature>
 	//
 	// PSO for debug layer.
 	//
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC debugPsoDesc = opaquePsoDesc;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC debugPsoDesc = basePsoDesc;
 	debugPsoDesc.pRootSignature = m_rootSignature.Get();
 	debugPsoDesc.VS =
 	{
@@ -628,10 +634,66 @@ void CEDX12SSAOPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature>
 	};
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&debugPsoDesc, IID_PPV_ARGS(&mPSOs["debug"])));
 
+	/*
+	 * PSO for drawing normals
+	 */
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC drawNormalsPsoDesc = basePsoDesc;
+	drawNormalsPsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["drawNormalsVS"]->GetBufferPointer()),
+		m_shadersMap["drawNormalsVS"]->GetBufferSize()
+	};
+	drawNormalsPsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["drawNormalsPS"]->GetBufferPointer()),
+		m_shadersMap["drawNormalsPS"]->GetBufferSize()
+	};
+	drawNormalsPsoDesc.RTVFormats[0] = Resources::CESSAO::NormalMapFormat;
+	drawNormalsPsoDesc.SampleDesc.Count = 1;
+	drawNormalsPsoDesc.SampleDesc.Quality = 0;
+	drawNormalsPsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&drawNormalsPsoDesc, IID_PPV_ARGS(&mPSOs["drawNormals"])));
+
+	/*
+	 * PSO for SSAO
+	 */
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC ssaoPsoDesc = basePsoDesc;
+	ssaoPsoDesc.InputLayout = {nullptr, 0};
+	ssaoPsoDesc.pRootSignature = m_ssaoRootSignature.Get();
+	ssaoPsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["ssaoVS"]->GetBufferPointer()),
+		m_shadersMap["ssaoVS"]->GetBufferSize()
+	};
+	ssaoPsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["ssaoPS"]->GetBufferPointer()),
+		m_shadersMap["ssaoPS"]->GetBufferSize()
+	};
+
+	// SSAO effect does not need depth buffer
+	ssaoPsoDesc.DepthStencilState.DepthEnable = false;
+	ssaoPsoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	ssaoPsoDesc.RTVFormats[0] = Resources::CESSAO::AmbientMapFormat;
+	ssaoPsoDesc.SampleDesc.Count = 1;
+	ssaoPsoDesc.SampleDesc.Quality = 0;
+	ssaoPsoDesc.DSVFormat = DXGI_FORMAT_UNKNOWN;
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&ssaoPsoDesc, IID_PPV_ARGS(&mPSOs["ssao"])));
+
+	/*
+	 * PSO for SSAO Blur
+	 */
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC ssaoBlurPsoDesc = basePsoDesc;
+	ssaoBlurPsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["ssaoBlurVS"]->GetBufferPointer()),
+		m_shadersMap["ssaoBlurVS"]->GetBufferSize()
+	};
+	ssaoBlurPsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["ssaoBlurPS"]->GetBufferPointer()),
+		m_shadersMap["ssaoBlurPS"]->GetBufferSize()
+	};
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&ssaoBlurPsoDesc, IID_PPV_ARGS(&mPSOs["ssaoBlur"])));
+
 	//
 	// PSO for sky.
 	//
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC skyPsoDesc = opaquePsoDesc;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC skyPsoDesc = basePsoDesc;
 
 	// The camera is inside the sky sphere, so just turn off culling.
 	skyPsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
@@ -664,8 +726,8 @@ void CEDX12SSAOPlayground::LoadTextures() {
 		{"defaultDiffuseMap", "white1x1.dds"},
 		{"defaultNormalMap", "default_nmap.dds"},
 		// {"skyCubeMap", "grasscube1024.dds"}
-		// {"skyCubeMap", "desertcube1024.dds"}
-		{"skyCubeMap", "sunsetcube1024.dds"}
+		{"skyCubeMap", "desertcube1024.dds"}
+		// {"skyCubeMap", "sunsetcube1024.dds"}
 	};
 
 	for (auto texPair : textures) {
@@ -747,7 +809,7 @@ void CEDX12SSAOPlayground::BuildDescriptorHeaps() {
 
 	nullSrv.Offset(1, srvSize);
 	d3dDevice->CreateShaderResourceView(nullptr, &srvDesc, nullSrv);
-	
+
 	m_shadowMap->BuildDescriptors(
 		m_dx12manager->GetCpuSRV(m_shadowMapHeapIndex),
 		m_dx12manager->GetGpuSRV(m_shadowMapHeapIndex),
@@ -762,7 +824,7 @@ void CEDX12SSAOPlayground::BuildDescriptorHeaps() {
 		srvSize,
 		rtvSize
 	);
-	
+
 }
 
 void CEDX12SSAOPlayground::BuildModelGeometry() {
