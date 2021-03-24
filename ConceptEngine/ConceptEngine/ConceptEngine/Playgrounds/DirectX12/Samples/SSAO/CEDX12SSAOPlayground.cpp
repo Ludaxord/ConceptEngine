@@ -177,11 +177,44 @@ void CEDX12SSAOPlayground::Create() {
 		                                                        "ps_5_1"
 		);
 		// ================= Draw Normals
-
+		m_shadersMap["drawNormalsVS"] = m_dx12manager->CompileShaders("CEDrawNormalsVertexShader.hlsl",
+			alphaDefines,
+			"VS",
+			// "vs_6_3"
+			"vs_5_1"
+		);
+		m_shadersMap["drawNormalsPS"] = m_dx12manager->CompileShaders("CEDrawNormalsPixelShader.hlsl",
+			alphaDefines,
+			"PS",
+			// "ps_6_3"
+			"ps_5_1"
+		);
 		// ================= SSAO
-
+		m_shadersMap["ssaoVS"] = m_dx12manager->CompileShaders("CESSAOVertexShader.hlsl",
+			alphaDefines,
+			"VS",
+			// "vs_6_3"
+			"vs_5_1"
+		);
+		m_shadersMap["ssaoPS"] = m_dx12manager->CompileShaders("CESSAOPixelShader.hlsl",
+			alphaDefines,
+			"PS",
+			// "ps_6_3"
+			"ps_5_1"
+		);
 		// ================= SSAO Blur
-
+		m_shadersMap["ssaoBlurVS"] = m_dx12manager->CompileShaders("CESSAOBlurVertexShader.hlsl",
+			alphaDefines,
+			"VS",
+			// "vs_6_3"
+			"vs_5_1"
+		);
+		m_shadersMap["ssaoBlurPS"] = m_dx12manager->CompileShaders("CESSAOBlurPixelShader.hlsl",
+			alphaDefines,
+			"PS",
+			// "ps_6_3"
+			"ps_5_1"
+		);
 		// ================= Sky
 		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
 		                                                      alphaDefines,
