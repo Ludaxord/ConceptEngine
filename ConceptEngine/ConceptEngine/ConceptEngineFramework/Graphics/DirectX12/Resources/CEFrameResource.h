@@ -33,6 +33,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		std::unique_ptr<CEUploadBuffer<PassConstants>> PassCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<PassStructuredConstants>> PassStructuredCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<PassShadowConstants>> PassShadowCB = nullptr;
+		std::unique_ptr<CEUploadBuffer<PassSSAOConstants>> PassSSAOCB = nullptr;
 		
 		std::unique_ptr<CEUploadBuffer<MaterialConstants>> MaterialCB = nullptr;
 		std::unique_ptr<CEUploadBuffer<MaterialData>> MaterialBuffer = nullptr;

@@ -61,7 +61,7 @@ VertexOut VS(VertexIn vin) {
 	vout.TexC = mul(texC, matData.MatTransform).xy;
 
 	// Generate projective tex-coords to project shadow map onto scene.
-#ifdef SHADOW
+#if defined(SHADOW) || defined(SSAO)
 	vout.ShadowPosH = mul(posW, gShadowTransform);
 #endif
 	

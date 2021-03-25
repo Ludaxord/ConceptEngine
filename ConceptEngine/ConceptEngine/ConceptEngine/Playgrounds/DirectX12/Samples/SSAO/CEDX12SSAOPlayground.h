@@ -48,11 +48,14 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 
 		void BuildCubeFaceCamera(float x, float y, float z);
 		void BuildCubeDepthStencil();
+
 		void AnimateSkullMovement(const CETimer& gt) const;
+
 		void UpdateShadowTransform(const CETimer& gt);
 		void UpdateShadowPassCB(const CETimer& gt);
 		void UpdateSSAOCB(const CETimer& gt);
 
+		void DrawNormalsAndDepth();
 		void DrawSceneToShadowMap();
 
 		std::vector<std::unique_ptr<Resources::CEFrameResource>> mFrameResources;
@@ -73,8 +76,8 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		//Render items divided by PSO;
 		std::vector<Resources::RenderItem*> mOpaqueRitems;
 
-		Resources::PassShadowConstants mMainPassCB; // index 0 of pass cbuffer.
-		Resources::PassShadowConstants mShadowPassCB; // index 1 of pass cbuffer.
+		Resources::PassSSAOConstants mMainPassCB; // index 0 of pass cbuffer.
+		Resources::PassSSAOConstants mShadowPassCB; // index 1 of pass cbuffer.
 
 		Resources::CECamera m_camera;
 

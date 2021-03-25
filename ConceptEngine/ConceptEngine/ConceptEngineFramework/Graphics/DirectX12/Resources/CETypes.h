@@ -355,6 +355,29 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		Light Lights[MaxLights];
 	};
 
+	struct PassSSAOConstants {
+		XMFLOAT4X4 View = MatrixIdentity4X4();
+		XMFLOAT4X4 InvView = MatrixIdentity4X4();
+		XMFLOAT4X4 Proj = MatrixIdentity4X4();
+		XMFLOAT4X4 InvProj = MatrixIdentity4X4();
+		XMFLOAT4X4 ViewProj = MatrixIdentity4X4();
+		XMFLOAT4X4 InvViewProj = MatrixIdentity4X4();
+		XMFLOAT4X4 ViewProjTex = MatrixIdentity4X4();
+		XMFLOAT4X4 ShadowTransform = MatrixIdentity4X4();
+		XMFLOAT3 EyePosW = {0.0f, 0.0f, 0.0f};
+		float cbPerObjectPad1 = 0.0f;
+		XMFLOAT2 RenderTargetSize = {0.0f, 0.0f};
+		XMFLOAT2 InvRenderTargetSize = {0.0f, 0.0f};
+		float NearZ = 0.0f;
+		float FarZ = 0.0f;
+		float TotalTime = 0.0f;
+		float DeltaTime = 0.0f;
+
+		XMFLOAT4 AmbientLight = {0.0f, 0.0f, 0.0f, 0.0f};
+
+		Light Lights[MaxLights];
+	};
+
 	struct RenderItem {
 		RenderItem() = default;
 	};

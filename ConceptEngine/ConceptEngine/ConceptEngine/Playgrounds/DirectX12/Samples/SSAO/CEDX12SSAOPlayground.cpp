@@ -126,9 +126,10 @@ void CEDX12SSAOPlayground::Create() {
 	BuildDescriptorHeaps();
 	// BuildShaders
 	{
+
 		const D3D_SHADER_MACRO alphaDefines[] = {
 			"ALPHA", "1",
-			"SHADOW", "1",
+			"SSAO", "1",
 			NULL, NULL
 		};
 		// ================= Standard
@@ -317,6 +318,10 @@ void CEDX12SSAOPlayground::Render(const CETimer& gt) {
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
 
+	/*
+	 * Shadow map pass
+	 */
+
 	//Bind all materials used in this scene. For structured buffers, we can bypass heap and set as root descriptor
 	auto matBuffer = mCurrFrameResource->MaterialIndexBuffer->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
@@ -329,6 +334,27 @@ void CEDX12SSAOPlayground::Render(const CETimer& gt) {
 		4, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 
 	DrawSceneToShadowMap();
+
+	/*
+	 * Normal/Depth pass
+	 */
+	DrawNormalsAndDepth();
+
+	/*
+	 * Compute SSAO
+	 */
+
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_ssaoRootSignature.Get());
+	m_ssao->ComputeSSAO(m_dx12manager->GetD3D12CommandList().Get(), mCurrFrameResource, 3);
+
+	/*
+	 * Main rendering pass
+	 */
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
+
+	//Bind all materials used in this scene. For structured buffers, we can bypass heap and set as root descriptor
+	matBuffer = mCurrFrameResource->MaterialIndexBuffer->Resource();
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
 
 	auto mScreenViewport = m_dx12manager->GetViewPort();
 	auto mScissorRect = m_dx12manager->GetScissorRect();
@@ -346,19 +372,30 @@ void CEDX12SSAOPlayground::Render(const CETimer& gt) {
 	                                                            Colors::LightSteelBlue,
 	                                                            0,
 	                                                            nullptr);
-	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
+
+	// WE ALREADY WROTE THE DEPTH INFO TO THE DEPTH BUFFER IN DrawNormalsAndDepth,
+	// SO DO NOT CLEAR DEPTH.
+	// 
+	/*
+	 *
+		m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
 	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
 	                                                            1.0f,
 	                                                            0,
 	                                                            0,
 	                                                            nullptr);
+	 */
+
 
 	//specify buffers we are going to render to.
 	auto cbbv = m_dx12manager->CurrentBackBufferView();
 	auto dsv = m_dx12manager->DepthStencilView();
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cbbv, true, &dsv);
 
-	auto passCB = mCurrFrameResource->PassShadowCB->Resource();
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(
+		4, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+
+	auto passCB = mCurrFrameResource->PassSSAOCB->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
 
 	// Bind the sky cube map.  For our demos, we just use one "world" cube map representing the environment
@@ -510,6 +547,16 @@ void CEDX12SSAOPlayground::UpdateMainPassCB(const CETimer& gt) {
 	auto detViewProj = XMMatrixDeterminant(viewProj);
 	XMMATRIX invViewProj = XMMatrixInverse(&detViewProj, viewProj);
 
+	//Transform NDC space [-1, +1]^2 to texture space [0, 1]^2
+	XMMATRIX T(
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f
+	);
+
+	XMMATRIX viewProjTex = XMMatrixMultiply(viewProj, T);
+
 	XMMATRIX shadowTransform = XMLoadFloat4x4(&mShadowTransform);
 
 	XMStoreFloat4x4(&mMainPassCB.View, XMMatrixTranspose(view));
@@ -518,6 +565,7 @@ void CEDX12SSAOPlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.InvProj, XMMatrixTranspose(invProj));
 	XMStoreFloat4x4(&mMainPassCB.ViewProj, XMMatrixTranspose(viewProj));
 	XMStoreFloat4x4(&mMainPassCB.InvViewProj, XMMatrixTranspose(invViewProj));
+	XMStoreFloat4x4(&mMainPassCB.ViewProjTex, XMMatrixTranspose(viewProjTex));
 	XMStoreFloat4x4(&mMainPassCB.ShadowTransform, XMMatrixTranspose(shadowTransform));
 	mMainPassCB.EyePosW = m_camera.GetPosition3f();
 	mMainPassCB.RenderTargetSize = XMFLOAT2((float)m_dx12manager->GetWindowWidth(),
@@ -536,7 +584,7 @@ void CEDX12SSAOPlayground::UpdateMainPassCB(const CETimer& gt) {
 	mMainPassCB.Lights[2].Direction = mRotatedLightDirections[2];
 	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
-	auto currPassCB = mCurrFrameResource->PassShadowCB.get();
+	auto currPassCB = mCurrFrameResource->PassSSAOCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
 }
 
@@ -1436,6 +1484,78 @@ void CEDX12SSAOPlayground::UpdateShadowTransform(const CETimer& gt) {
 }
 
 void CEDX12SSAOPlayground::UpdateSSAOCB(const CETimer& gt) {
+	Resources::SSAOConstants ssaoCB;
+
+	XMMATRIX P = m_camera.GetProj();
+
+	//Transform NDC space [-1, +1]^2 to texture space [0, 1]^2
+	XMMATRIX T(
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, -0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f
+	);
+
+	ssaoCB.Proj = mMainPassCB.Proj;
+	ssaoCB.InvProj = mMainPassCB.InvProj;
+	XMStoreFloat4x4(&ssaoCB.ProjTex, XMMatrixTranspose(P * T));
+
+	m_ssao->GetOffsetVectors(ssaoCB.OffsetVectors);
+
+	auto blurWeights = m_ssao->CalcGaussWeights(2.5f);
+	ssaoCB.BlurWeights[0] = XMFLOAT4(&blurWeights[0]);
+	ssaoCB.BlurWeights[1] = XMFLOAT4(&blurWeights[4]);
+	ssaoCB.BlurWeights[2] = XMFLOAT4(&blurWeights[8]);
+
+	ssaoCB.InvRenderTargetSize = XMFLOAT2(1.0f / m_ssao->SSAOMapWidth(), 1.0f / m_ssao->SSAOMapHeight());
+
+	//Coordinates given in view space
+	ssaoCB.OcclusionRadius = 0.5f;
+	ssaoCB.OcclusionFadeStart = 0.2f;
+	ssaoCB.OcclusionFadeEnd = 1.0f;
+	ssaoCB.SurfaceEpsilon = 0.05f;
+}
+
+void CEDX12SSAOPlayground::DrawNormalsAndDepth() {
+	auto mScreenViewport = m_dx12manager->GetViewPort();
+	auto mScissorRect = m_dx12manager->GetScissorRect();
+	m_dx12manager->GetD3D12CommandList()->RSSetViewports(1, &mScreenViewport);
+	m_dx12manager->GetD3D12CommandList()->RSSetScissorRects(1, &mScissorRect);
+
+	auto normalMap = m_ssao->NormalMap();
+	auto normalMapRTV = m_ssao->NormalMapRtv();
+
+	//Change to RENDER_TARGET
+	auto transitionGenericReadRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(
+		normalMap, D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &transitionGenericReadRenderTarget);
+
+	auto dsv = m_dx12manager->DepthStencilView();
+
+	//Clear the screen normal map and depth buffer
+	float clearValue[] = {0.0f, 0.0f, 1.0f, 0.0f};
+	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(normalMapRTV, clearValue, 0, nullptr);
+	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(dsv,
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                                            1.0f,
+	                                                            0,
+	                                                            0,
+	                                                            nullptr);
+	//Specify buffers we are going to render to
+	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &normalMapRTV, true, &dsv);
+
+	//Bind constant buffer for this pass
+	auto passCB = mCurrFrameResource->PassSSAOCB->Resource();
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
+
+	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["drawNormals"].Get());
+
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+
+	//Change to GENERIC_READ so we can read texture in shader
+	auto transitionRenderTargetGenericRead = CD3DX12_RESOURCE_BARRIER::Transition(
+		normalMap, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ);
+	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &transitionRenderTargetGenericRead);
 }
 
 void CEDX12SSAOPlayground::UpdateShadowPassCB(const CETimer& gt) {
@@ -1468,7 +1588,7 @@ void CEDX12SSAOPlayground::UpdateShadowPassCB(const CETimer& gt) {
 	mShadowPassCB.NearZ = mLightNearZ;
 	mShadowPassCB.FarZ = mLightFarZ;
 
-	auto currPassCB = mCurrFrameResource->PassShadowCB.get();
+	auto currPassCB = mCurrFrameResource->PassSSAOCB.get();
 	currPassCB->CopyData(1, mShadowPassCB);
 }
 
@@ -1484,7 +1604,7 @@ void CEDX12SSAOPlayground::DrawSceneToShadowMap() {
 		D3D12_RESOURCE_STATE_DEPTH_WRITE);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &transitionGenericReadDepthWrite);
 
-	UINT passCBByteSize = (sizeof(Resources::PassShadowConstants) + 255) & ~255;
+	UINT passCBByteSize = (sizeof(Resources::PassSSAOConstants) + 255) & ~255;
 
 	//Clear back buffer and depth buffer 
 	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_shadowMap->Dsv(),
@@ -1503,7 +1623,7 @@ void CEDX12SSAOPlayground::DrawSceneToShadowMap() {
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(0, nullptr, false, &shadowDsv);
 
 	//Bind the pass constant buffer for shadow map pass
-	auto passCB = mCurrFrameResource->PassShadowCB->Resource();
+	auto passCB = mCurrFrameResource->PassSSAOCB->Resource();
 	D3D12_GPU_VIRTUAL_ADDRESS passCBAddress = passCB->GetGPUVirtualAddress() + 1 * passCBByteSize;
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCBAddress);
 

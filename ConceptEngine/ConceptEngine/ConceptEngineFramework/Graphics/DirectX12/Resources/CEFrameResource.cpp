@@ -65,6 +65,7 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	}
 	else {
 		PassShadowCB = std::make_unique<CEUploadBuffer<PassShadowConstants>>(device, passCount, true);
+		PassSSAOCB = std::make_unique<CEUploadBuffer<PassSSAOConstants>>(device, passCount, true);
 		PassStructuredCB = std::make_unique<CEUploadBuffer<PassStructuredConstants>>(device, passCount, true);
 
 		MaterialBuffer = std::make_unique<CEUploadBuffer<MaterialData>>(device, materialCount, false);
