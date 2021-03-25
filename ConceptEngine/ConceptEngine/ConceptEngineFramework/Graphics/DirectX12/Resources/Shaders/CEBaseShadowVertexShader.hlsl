@@ -1,15 +1,14 @@
 #include "CETypes.hlsl"
 
-struct NormalMapMaterialData
-{
-	float4   DiffuseAlbedo;
-	float3   FresnelR0;
-	float    Roughness;
+struct NormalMapMaterialData {
+	float4 DiffuseAlbedo;
+	float3 FresnelR0;
+	float Roughness;
 	float4x4 MatTransform;
-	uint     DiffuseMapIndex;
-	uint     NormalMapIndex;
-	uint     MatPad1;
-	uint     MatPad2;
+	uint DiffuseMapIndex;
+	uint NormalMapIndex;
+	uint MatPad1;
+	uint MatPad2;
 };
 
 /*
@@ -22,13 +21,15 @@ StructuredBuffer<NormalMapMaterialData> gMaterialData : register(t0, space1);
  * Array of textures, which is only supported in shader model 5.1+ Unlike Texture2DArray, the textures in this array can be different sizes and formats, making it more flexible than texture arrays
  */
 Texture2D gTextureMaps[10] : register(t2);
+
 struct VertexIn {
-	float3 PosL    : POSITION;
+	float3 PosL : POSITION;
 	float3 NormalL : NORMAL;
-	float2 TexC    : TEXCOORD;
+	float2 TexC : TEXCOORD;
 	float3 TangentU : TANGENT;
 };
 
+#if defined(SHADOW)
 struct VertexOut {
 	float4 PosH    : SV_POSITION;
 	float4 ShadowPosH : POSITION0;
@@ -37,6 +38,27 @@ struct VertexOut {
 	float3 TangentW : TANGENT;
 	float2 TexC    : TEXCOORD;
 };
+#elif defined(SSAO)
+struct VertexOut{
+	float4 PosH    : SV_POSITION;
+	float4 ShadowPosH : POSITION0;
+	float4 SsaoPosH   : POSITION1;
+	float3 PosW    : POSITION2;
+	float3 NormalW : NORMAL;
+	float3 TangentW : TANGENT;
+	float2 TexC    : TEXCOORD;
+};
+#else
+struct VertexOut {
+	float4 PosH : SV_POSITION;
+	float4 ShadowPosH : POSITION0;
+	float3 PosW : POSITION1;
+	float3 NormalW : NORMAL;
+	float3 TangentW : TANGENT;
+	float2 TexC : TEXCOORD;
+};
+#endif
+
 
 VertexOut VS(VertexIn vin) {
 	VertexOut vout = (VertexOut)0.0f;
@@ -56,6 +78,11 @@ VertexOut VS(VertexIn vin) {
 	// Transform to homogeneous clip space.
 	vout.PosH = mul(posW, gViewProj);
 
+	//Generate projective tex-coords to project SSAO Map onto scene
+#if defined (SSAO)
+	vout.SsaoPosH = mul(posW, gViewProjTex);
+#endif
+
 	// Output vertex attributes for interpolation across triangle.
 	float4 texC = mul(float4(vin.TexC, 0.0f, 1.0f), gTexTransform);
 	vout.TexC = mul(texC, matData.MatTransform).xy;
@@ -64,6 +91,6 @@ VertexOut VS(VertexIn vin) {
 #if defined(SHADOW) || defined(SSAO)
 	vout.ShadowPosH = mul(posW, gShadowTransform);
 #endif
-	
+
 	return vout;
 }

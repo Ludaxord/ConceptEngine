@@ -1,15 +1,14 @@
 #include "CETypes.hlsl"
 
-struct NormalMapMaterialData
-{
-	float4   DiffuseAlbedo;
-	float3   FresnelR0;
-	float    Roughness;
+struct NormalMapMaterialData {
+	float4 DiffuseAlbedo;
+	float3 FresnelR0;
+	float Roughness;
 	float4x4 MatTransform;
-	uint     DiffuseMapIndex;
-	uint     NormalMapIndex;
-	uint     MatPad1;
-	uint     MatPad2;
+	uint DiffuseMapIndex;
+	uint NormalMapIndex;
+	uint MatPad1;
+	uint MatPad2;
 };
 
 /*
@@ -30,6 +29,26 @@ struct VertexIn {
 	float3 TangentU : TANGENT;
 };
 
+#if defined(SHADOW)
+struct VertexOut {
+	float4 PosH    : SV_POSITION;
+	float4 ShadowPosH : POSITION0;
+	float3 PosW    : POSITION1;
+	float3 NormalW : NORMAL;
+	float3 TangentW : TANGENT;
+	float2 TexC    : TEXCOORD;
+};
+#elif defined(SSAO)
+struct VertexOut {
+	float4 PosH    : SV_POSITION;
+	float4 ShadowPosH : POSITION0;
+	float4 SsaoPosH   : POSITION1;
+	float3 PosW    : POSITION2;
+	float3 NormalW : NORMAL;
+	float3 TangentW : TANGENT;
+	float2 TexC    : TEXCOORD;
+};
+#else
 struct VertexOut {
 	float4 PosH : SV_POSITION;
 	float4 ShadowPosH : POSITION0;
@@ -38,6 +57,8 @@ struct VertexOut {
 	float3 TangentW : TANGENT;
 	float2 TexC : TEXCOORD;
 };
+#endif
+
 
 float4 PS(VertexOut pin) : SV_Target {
 	// Fetch the material data.
@@ -70,8 +91,15 @@ clip(diffuseAlbedo.a - 0.1f);
 	// Vector from point being lit to eye. 
 	float3 toEyeW = normalize(gEyePosW - pin.PosW);
 
+	float ambientAccess = 1.0f;
+
+#if defined(SSAO)
+	pin.SsaoPosH /= pin.SsaoPosH.w;
+	ambientAccess = gSsaoMap.Sample(gsamLinearClamp, pin.SsaoPosH.xy, 0.0f).r;
+#endif
+
 	// Light terms.
-	float4 ambient = gAmbientLight * diffuseAlbedo;
+	float4 ambient = ambientAccess * gAmbientLight * diffuseAlbedo;
 
 	// Only the first light casts a shadow.
 	float3 shadowFactor = float3(1.0f, 1.0f, 1.0f);
