@@ -51,6 +51,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void AnimateSkullMovement(const CETimer& gt) const;
 		void UpdateShadowTransform(const CETimer& gt);
 		void UpdateShadowPassCB(const CETimer& gt);
+		void UpdateSSAOCB(const CETimer& gt);
 
 		void DrawSceneToShadowMap();
 

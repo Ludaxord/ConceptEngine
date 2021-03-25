@@ -245,6 +245,8 @@ void CEDX12SSAOPlayground::Create() {
 	BuildFrameResources();
 	BuildPSOs(m_rootSignature);
 
+	m_ssao->SetPSOs(mPSOs["ssao"].Get(), mPSOs["ssaoBlur"].Get());
+
 	ThrowIfFailed(m_dx12manager->GetD3D12CommandList()->Close());
 	m_dx12manager->ExecuteCommandLists();
 
@@ -291,6 +293,7 @@ void CEDX12SSAOPlayground::Update(const CETimer& gt) {
 	UpdateShadowTransform(gt);
 	UpdateMainPassCB(gt);
 	UpdateShadowPassCB(gt);
+	UpdateSSAOCB(gt);
 }
 
 void CEDX12SSAOPlayground::Render(const CETimer& gt) {
@@ -404,6 +407,13 @@ void CEDX12SSAOPlayground::Render(const CETimer& gt) {
 void CEDX12SSAOPlayground::Resize() {
 	CEDX12Playground::Resize();
 	m_camera.SetLens(0.25f * Resources::Pi, m_dx12manager->GetAspectRatio(), 1.0f, 1000.0f);
+
+	if (m_ssao != nullptr) {
+		m_ssao->Resize(m_dx12manager->GetWindowWidth(), m_dx12manager->GetWindowHeight());
+
+		//Resource changed, so need to rebuild descriptors
+		m_ssao->RebuildDescriptors(m_dx12manager->GetDepthStencilBuffer().Get());
+	}
 }
 
 void CEDX12SSAOPlayground::OnMouseDown(KeyCode key, int x, int y) {
@@ -1423,6 +1433,9 @@ void CEDX12SSAOPlayground::UpdateShadowTransform(const CETimer& gt) {
 	XMStoreFloat4x4(&mLightView, lightView);
 	XMStoreFloat4x4(&mLightProj, lightProj);
 	XMStoreFloat4x4(&mShadowTransform, S);
+}
+
+void CEDX12SSAOPlayground::UpdateSSAOCB(const CETimer& gt) {
 }
 
 void CEDX12SSAOPlayground::UpdateShadowPassCB(const CETimer& gt) {
