@@ -1,44 +1,26 @@
-[2021-03-25 20:08:33.284] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-03-25 20:08:33.331] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-03-25 20:08:33.331] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-03-25 20:08:33.331] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-03-25 20:08:33.331] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-03-25 20:08:33.512] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-03-25 20:08:33.680] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-03-25 20:08:33.680] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-03-25 20:08:33.681] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-03-25 20:08:33.694] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-03-25 20:08:33.738] [ConceptEngine] [info] RTV Descriptor Number: 5
-[2021-03-25 20:08:33.738] [ConceptEngine] [info] DSV Descriptor Number: 2
-[2021-03-25 20:08:33.738] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-03-25 20:08:33.738] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-03-25 20:08:33.739] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-03-25 20:08:33.739] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-03-25 20:08:33.739] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-03-25 20:08:33.739] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-03-25 20:08:33.744] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\desertcube1024.dds
-[2021-03-25 20:08:33.749] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2.dds
-[2021-03-25 20:08:33.750] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
-[2021-03-25 20:08:33.752] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2_nmap.dds
-[2021-03-25 20:08:33.753] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile.dds
-[2021-03-25 20:08:33.754] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile_nmap.dds
-[2021-03-25 20:08:33.755] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\default_nmap.dds
-[2021-03-25 20:08:33.756] [ConceptEngine] [info] SRV Descriptor Number: 14
-[2021-03-25 20:08:33.757] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBaseShadowVertexShader.hlsl
-[2021-03-25 20:08:33.765] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBaseShadowPixelShader.hlsl
-[2021-03-25 20:08:33.789] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowVertexShader.hlsl
-[2021-03-25 20:08:33.795] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl
-[2021-03-25 20:08:33.802] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl
-[2021-03-25 20:08:33.807] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowDebugVertexShader.hlsl
-[2021-03-25 20:08:33.813] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowDebugPixelShader.hlsl
-[2021-03-25 20:08:33.818] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECubeMapVertexShader.hlsl
-[2021-03-25 20:08:33.826] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECubeMapPixelShader.hlsl
-[2021-03-25 20:08:33.844] [ConceptEngine] [info] Loading Model from TXT: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\skull.txt
-[2021-03-25 20:08:39.166] [ConceptEngine] [info] FPS: 623
-[2021-03-25 20:08:39.166] [ConceptEngine] [info] MSPF: 1.6051364
-[2021-03-25 20:08:40.165] [ConceptEngine] [info] FPS: 570
-[2021-03-25 20:08:40.165] [ConceptEngine] [info] MSPF: 1.754386
-[2021-03-25 20:08:41.166] [ConceptEngine] [info] FPS: 1029
-[2021-03-25 20:08:41.166] [ConceptEngine] [info] MSPF: 0.9718173
-[2021-03-25 20:08:42.166] [ConceptEngine] [info] FPS: 1068
-[2021-03-25 20:08:42.166] [ConceptEngine] [info] MSPF: 0.9363296
+[2021-03-26 20:07:28.844] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-03-26 20:07:28.890] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-03-26 20:07:28.890] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-03-26 20:07:28.890] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-03-26 20:07:28.890] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-03-26 20:07:29.156] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-03-26 20:07:29.560] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-03-26 20:07:29.560] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-03-26 20:07:29.561] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-03-26 20:07:29.575] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] RTV Descriptor Number: 5
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] DSV Descriptor Number: 2
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-03-26 20:07:29.633] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-03-26 20:07:29.643] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\desertcube1024.dds
+[2021-03-26 20:07:29.648] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2.dds
+[2021-03-26 20:07:29.650] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
+[2021-03-26 20:07:29.651] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2_nmap.dds
+[2021-03-26 20:07:29.652] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile.dds
+[2021-03-26 20:07:29.653] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile_nmap.dds
+[2021-03-26 20:07:29.656] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\default_nmap.dds
+[2021-03-26 20:07:29.657] [ConceptEngine] [info] SRV Descriptor Number: 18
