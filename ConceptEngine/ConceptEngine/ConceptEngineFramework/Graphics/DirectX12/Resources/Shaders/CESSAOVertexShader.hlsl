@@ -1,7 +1,8 @@
 cbuffer cbSsao : register(b0) {
 float4x4 gProj;
 float4x4 gInvProj;
-float4x4 ProjTex;
+float4x4 gProjTex;
+float4 gOffsetVectors[14];
 
 //For SSAO Blur
 float4 gBlurWeights[3];
