@@ -110,7 +110,7 @@ void CEDX12SSAOPlayground::Create() {
 			D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
 			D3D12_TEXTURE_ADDRESS_MODE_WRAP, //addressU
 			D3D12_TEXTURE_ADDRESS_MODE_WRAP, //addressV
-			D3D12_TEXTURE_ADDRESS_MODE_WRAP//addressW
+			D3D12_TEXTURE_ADDRESS_MODE_WRAP //addressW
 		);
 
 		std::array<CD3DX12_STATIC_SAMPLER_DESC, 4> staticSamplers = {
@@ -130,7 +130,6 @@ void CEDX12SSAOPlayground::Create() {
 	BuildDescriptorHeaps();
 	// BuildShaders
 	{
-
 		const D3D_SHADER_MACRO alphaDefines[] = {
 			"ALPHA", "1",
 			"SSAO", "1",
@@ -875,7 +874,7 @@ void CEDX12SSAOPlayground::BuildDescriptorHeaps() {
 	m_shadowMap->BuildDescriptors(
 		m_dx12manager->GetCpuSRV(m_shadowMapHeapIndex),
 		m_dx12manager->GetGpuSRV(m_shadowMapHeapIndex),
-		m_dx12manager->GetRTV(1)
+		m_dx12manager->GetDSV(1)
 	);
 
 	m_ssao->BuildDescriptors(
