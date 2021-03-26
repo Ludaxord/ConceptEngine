@@ -1218,8 +1218,9 @@ ID3DBlob* CEDX12Manager::CompileShaders(const std::string& fileName,
 	                        &byteCode,
 	                        &errors);
 	if (errors != nullptr) {
-		OutputDebugStringA((char*)errors->GetBufferPointer());
 		spdlog::error((char*)errors->GetBufferPointer());
+		OutputDebugStringA((char*)errors->GetBufferPointer());
+		Sleep(1000);
 	}
 
 	ThrowIfFailed(hr);

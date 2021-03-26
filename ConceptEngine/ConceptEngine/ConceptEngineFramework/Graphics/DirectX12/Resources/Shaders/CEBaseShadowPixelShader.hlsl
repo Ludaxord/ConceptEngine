@@ -20,7 +20,13 @@ StructuredBuffer<NormalMapMaterialData> gMaterialData : register(t0, space1);
 /*
  * Array of textures, which is only supported in shader model 5.1+ Unlike Texture2DArray, the textures in this array can be different sizes and formats, making it more flexible than texture arrays
  */
+#if defined(SHADOW)
 Texture2D gTextureMaps[10] : register(t2);
+#elif defined(SSAO)
+Texture2D gTextureMaps[10] : register(t3);
+#else
+Texture2D gTextureMaps[10] : register(t2);
+#endif
 
 struct VertexIn {
 	float3 PosL : POSITION;
