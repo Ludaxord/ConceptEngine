@@ -67,7 +67,7 @@ float OcclusionFunction(float distZ) {
 
 	float occlusion = 0.0f;
 	if (distZ > gSurfaceEpsilon) {
-		float fadeLength = gOcclusionFadeEnd = gOcclusionFadeStart;
+		float fadeLength = gOcclusionFadeEnd - gOcclusionFadeStart;
 
 		/*
 		 * Linearly decrease occlusion from 1 to 0 as distZ goes from gOcclusionFadeStart to gOcclusionFadeEnd
@@ -104,7 +104,7 @@ float4 PS(VertexOut pin) : SV_Target {
 	 * p.z = t * pin.PoxV.z;
 	 * t = p.z / pin.PosV.z;
 	 */
-	float p = (pz / pin.PosV.z) * pin.PosV;
+	float3 p = (pz / pin.PosV.z) * pin.PosV;
 
 	//Extract random vector and map from [0,1] --> [-1,+1].
 	float3 randVec = 2.0f * gRandomVecMap.SampleLevel(gsamLinearWrap, 4.0f * pin.TexC, 0.0f).rgb - 1.0f;
