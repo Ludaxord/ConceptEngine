@@ -740,7 +740,7 @@ void CEDX12SSAOPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootSignature>
 	/*
 	 * PSO for SSAO Blur
 	 */
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC ssaoBlurPsoDesc = basePsoDesc;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC ssaoBlurPsoDesc = ssaoPsoDesc;
 	ssaoBlurPsoDesc.VS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["ssaoBlurVS"]->GetBufferPointer()),
 		m_shadersMap["ssaoBlurVS"]->GetBufferSize()

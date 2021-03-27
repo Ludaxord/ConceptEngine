@@ -230,8 +230,8 @@ void CESSAO::BlurAmbientMap(ID3D12GraphicsCommandList* cmdList, bool horzBlur) {
 	 */
 	if (horzBlur == true) {
 		output = m_ambientMap1.Get();
-		inputSrv = mhAmbientMap1GpuSrv;
-		outputRtv = mhAmbientMap0CpuRtv;
+		inputSrv = mhAmbientMap0GpuSrv;
+		outputRtv = mhAmbientMap1CpuRtv;
 		cmdList->SetGraphicsRoot32BitConstant(1, 1, 0);
 	}
 	else {
