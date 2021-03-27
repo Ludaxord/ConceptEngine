@@ -386,6 +386,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 
 	enum class RenderLayer : int {
 		Opaque = 0,
+		SkinnedOpaque,
 		Mirrors,
 		Reflected,
 		Transparent,

@@ -4,6 +4,30 @@
 #include <vector>
 
 namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
+	/*
+	 * A CEKeyFrame defines transformation at an instance in time
+	 */
+	struct CEKeyFrame {
+
+	};
+
+	/*
+	 * CEAnimation is defined by a list of keyframes. For time values in between two keyframes, we interpolate between the two nearest keyframes that bound the time.
+	 *
+	 * We assume an animation always has two keyframes
+	 */
+	struct CEAnimation {
+
+	};
+
+	/*
+	 * Examples of AnimationClips are "walk", "run", "attack", "defend"
+	 * An CEAnimationClip requires a CEAnimation for every element to form animation clip.
+	 */
+	struct CEAnimationClip {
+
+	};
+
 	class CEModelData {
 
 	};
