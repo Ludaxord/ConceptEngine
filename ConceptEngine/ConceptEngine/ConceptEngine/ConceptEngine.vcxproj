@@ -157,6 +157,7 @@
     <ClCompile Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp" />
+    <ClCompile Include="Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.cpp" />
     <ClCompile Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.h" />
+    <ClInclude Include="Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.h" />
