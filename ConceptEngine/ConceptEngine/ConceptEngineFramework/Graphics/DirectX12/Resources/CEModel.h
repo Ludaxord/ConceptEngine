@@ -8,7 +8,13 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	 * A CEKeyFrame defines transformation at an instance in time
 	 */
 	struct CEKeyFrame {
+		CEKeyFrame();
+		~CEKeyFrame();
 
+		float TimePos;
+		DirectX::XMFLOAT3 Translation;
+		DirectX::XMFLOAT3 Scale;
+		DirectX::XMFLOAT4 Rotation;
 	};
 
 	/*
@@ -17,7 +23,12 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	 * We assume an animation always has two keyframes
 	 */
 	struct CEAnimation {
+		float GetStartTime() const;
+		float GetEndTime() const;
 
+		void Interpolate(float t, DirectX::XMFLOAT4X4& M) const;
+
+		std::vector<CEKeyFrame> KeyFrames;
 	};
 
 	/*
@@ -25,10 +36,17 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	 * An CEAnimationClip requires a CEAnimation for every element to form animation clip.
 	 */
 	struct CEAnimationClip {
+		float GetClipStartTime() const;
+		float GetClipEndTime() const;
 
+		void Interpolate(float t, std::vector<DirectX::XMFLOAT4X4>& transforms) const;
+		std::vector<CEAnimation> Animations;
 	};
 
 	class CEModelData {
+	public:
+	protected:
+	private:
 
 	};
 
