@@ -9,6 +9,8 @@
 #include <unordered_map>
 #include <wrl.h>
 
+#include "CEModel.h"
+
 using namespace DirectX;
 
 extern const int gNumFrameResources;
@@ -489,6 +491,12 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		UINT InstanceCount = 0;
 		UINT StartIndexLocation = 0;
 		int BaseVertexLocation = 0;
+
+		//Only applicable to skinned render-items
+		UINT SkinnedCBIndex = -1;
+
+		//nullptr if this render-item is not animated by model mesh.
+		CEModel* ModelInst = nullptr;
 	};
 
 	interface CEObject {

@@ -43,6 +43,7 @@
     <ClInclude Include="Graphics\DirectX12\Libraries\GeometryGenerator.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEFrameResource.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEGpuWaves.h" />
+    <ClInclude Include="Graphics\DirectX12\Resources\CEModel.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CERenderTarget.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CEShadowMap.h" />
     <ClInclude Include="Graphics\DirectX12\Resources\CESobelFilter.h" />
