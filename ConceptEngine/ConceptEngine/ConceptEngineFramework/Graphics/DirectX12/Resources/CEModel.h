@@ -95,10 +95,11 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		}
 
 	protected:
-	private:
 		CEModelData* m_modelInfo = nullptr;
 		std::vector<DirectX::XMFLOAT4X4> m_finalTransforms;
 		std::string m_clipName;
 		float m_timePos = 0.0f;
+	private:
+
 	};
 }
