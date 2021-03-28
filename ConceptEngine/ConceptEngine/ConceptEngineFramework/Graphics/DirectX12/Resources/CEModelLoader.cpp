@@ -80,26 +80,81 @@ bool CEModelLoader::LoadM3D(const std::string& fileName,
 }
 
 void CEModelLoader::ReadMaterials(std::ifstream& fin, UINT numMaterials, std::vector<Material>& materials) {
+	std::string ignore;
+	materials.resize(numMaterials);
+
+	std::string diffuseMapName;
+	std::string normalMapName;
+
+	fin >> ignore; //materials header text;
+	for (UINT i = 0; i < numMaterials; ++i) {
+
+	}
 }
 
 void CEModelLoader::ReadSubsetTable(std::ifstream& fin, UINT numSubsets, std::vector<Subset>& subsets) {
+	std::string ignore;
+	subsets.resize(numSubsets);
+
+	fin >> ignore; //subset header text;
+	for (UINT i = 0; i < numSubsets; ++i) {
+
+	}
 }
 
 void CEModelLoader::ReadVertices(std::ifstream& fin, UINT numVertices, std::vector<Vertex>& vertices) {
+	std::string ignore;
+	vertices.resize(numVertices);
+
+	fin >> ignore; //vertices header text;
+	for (UINT i = 0; i < numVertices; ++i) {
+
+	}
 }
 
 void CEModelLoader::ReadModelVertices(std::ifstream& fin, UINT numVertices, std::vector<ModelVertex>& vertices) {
+	std::string ignore;
+	vertices.resize(numVertices);
+
+	fin >> ignore; //vertices header text;
+	int elementIndices[4];
+	float weights[4];
+	for (UINT i = 0; i < numVertices; ++i) {
+
+	}
 }
 
 void CEModelLoader::ReadTriangles(std::ifstream& fin, UINT numTriangles, std::vector<USHORT>& indices) {
+	std::string ignore;
+	indices.resize(numTriangles * 3);
+
+	fin >> ignore; //triangle header text
+	for (UINT i = 0; i < numTriangles; ++i) {
+		fin >> indices[i * 3 + 0] >> indices[i * 3 + 1] >> indices[i * 3 + 2];
+	}
 }
 
 void CEModelLoader::ReadElementOffsets(std::ifstream& fin, UINT numElements,
                                        std::vector<DirectX::XMFLOAT4X4>& elementOffsets) {
+	std::string ignore;
+	elementOffsets.resize(numElements);
+
+	fin >> ignore; //elements header text;
+	for (UINT i = 0; i < numElements; ++i) {
+
+	}
 }
 
 void CEModelLoader::ReadElementHierarchy(std::ifstream& fin, UINT numElements,
                                          std::vector<int>& elementIndexToParentIndex) {
+	std::string ignore;
+	elementIndexToParentIndex.resize(numElements);
+
+	fin >> ignore; //ElementHierarchy header text;
+	for (UINT i = 0; i < numElements; ++i) {
+		fin >> ignore >> elementIndexToParentIndex[i];
+	}
+
 }
 
 void CEModelLoader::ReadAnimationClips(std::ifstream& fin, UINT numElements, UINT numAnimationClips,
