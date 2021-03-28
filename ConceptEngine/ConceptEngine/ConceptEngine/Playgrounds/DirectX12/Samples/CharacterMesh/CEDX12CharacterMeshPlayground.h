@@ -39,6 +39,9 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void BuildDescriptorHeaps();
 		void BuildShapesGeometry();
 		void BuildModelGeometry();
+
+		void LoadSkinnedModel();
+		
 		void BuildFrameResources();
 		void BuildMaterials();
 		void BuildRenderItems();
@@ -54,6 +57,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void UpdateShadowTransform(const CETimer& gt);
 		void UpdateShadowPassCB(const CETimer& gt);
 		void UpdateSSAOCB(const CETimer& gt);
+		void UpdateSkinnedModelCBs(const CETimer& gt);
 
 		void DrawNormalsAndDepth();
 		void DrawSceneToShadowMap();

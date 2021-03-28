@@ -22,11 +22,6 @@ CEDX12CharacterMeshPlayground::CEDX12CharacterMeshPlayground() : CEDX12Playgroun
 void CEDX12CharacterMeshPlayground::Create() {
 	CEDX12Playground::Create();
 
-	m_cubeDSV = CD3DX12_CPU_DESCRIPTOR_HANDLE(
-		m_dx12manager->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		1,
-		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV));
-
 	//Reset command list to prepare for initialization commands
 	m_dx12manager->ResetCommandList();
 
@@ -39,6 +34,7 @@ void CEDX12CharacterMeshPlayground::Create() {
 		m_dx12manager->GetWindowWidth(),
 		m_dx12manager->GetWindowHeight());
 
+	LoadSkinnedModel();
 	LoadTextures();
 	// BuildRootSignature
 	{
@@ -293,6 +289,7 @@ void CEDX12CharacterMeshPlayground::Update(const CETimer& gt) {
 
 	AnimateMaterials(gt);
 	UpdateObjectCBs(gt);
+	UpdateSkinnedModelCBs(gt);
 	UpdateMaterialCBs(gt);
 	UpdateShadowTransform(gt);
 	UpdateMainPassCB(gt);
@@ -327,14 +324,14 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 
 	 //Bind all materials used in this scene. For structured buffers, we can bypass heap and set as root descriptor
 	auto matBuffer = mCurrFrameResource->MaterialIndexBuffer->Resource();
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(3, matBuffer->GetGPUVirtualAddress());
 
 	//Bind null SRV for shadow map pass
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, m_nullSrv);
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(4, m_nullSrv);
 
 	//Bind all textures used in this scene . Observe that we only have to specify the first descriptor in table.
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(
-		4, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+		5, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 
 	DrawSceneToShadowMap();
 
@@ -348,7 +345,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 	 */
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_ssaoRootSignature.Get());
-	m_ssao->ComputeSSAO(m_dx12manager->GetD3D12CommandList().Get(), mCurrFrameResource, 3);
+	m_ssao->ComputeSSAO(m_dx12manager->GetD3D12CommandList().Get(), mCurrFrameResource, 2);
 
 	/*
 	 * Main rendering pass
@@ -357,7 +354,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 
 	//Bind all materials used in this scene. For structured buffers, we can bypass heap and set as root descriptor
 	matBuffer = mCurrFrameResource->MaterialIndexBuffer->Resource();
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(2, matBuffer->GetGPUVirtualAddress());
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(3, matBuffer->GetGPUVirtualAddress());
 
 	auto mScreenViewport = m_dx12manager->GetViewPort();
 	auto mScissorRect = m_dx12manager->GetScissorRect();
@@ -396,10 +393,10 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cbbv, true, &dsv);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(
-		4, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+		5, m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 
 	auto passCB = mCurrFrameResource->PassSSAOCB->Resource();
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 
 	// Bind the sky cube map.  For our demos, we just use one "world" cube map representing the environment
 	// from far away, so all objects will use the same cube map and we only need to set it once per-frame.  
@@ -410,7 +407,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 	skyTexDescriptor.Offset(m_skyTexHeapIndex,
 		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(4, skyTexDescriptor);
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["opaque"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
@@ -995,6 +992,9 @@ void CEDX12CharacterMeshPlayground::BuildModelGeometry() {
 	mGeometries[geo->Name] = std::move(geo);
 }
 
+void CEDX12CharacterMeshPlayground::LoadSkinnedModel() {
+}
+
 void CEDX12CharacterMeshPlayground::BuildShapesGeometry() {
 	GeometryGenerator geoGen;
 	GeometryGenerator::MeshData box = geoGen.CreateBox(1.0f, 1.0f, 1.0f, 3);
@@ -1517,6 +1517,9 @@ void CEDX12CharacterMeshPlayground::UpdateSSAOCB(const CETimer& gt) {
 	ssaoCB.OcclusionFadeStart = 0.2f;
 	ssaoCB.OcclusionFadeEnd = 1.0f;
 	ssaoCB.SurfaceEpsilon = 0.05f;
+}
+
+void CEDX12CharacterMeshPlayground::UpdateSkinnedModelCBs(const CETimer& gt) {
 }
 
 void CEDX12CharacterMeshPlayground::DrawNormalsAndDepth() {
