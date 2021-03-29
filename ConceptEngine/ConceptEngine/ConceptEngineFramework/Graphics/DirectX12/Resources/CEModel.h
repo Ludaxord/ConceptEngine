@@ -71,7 +71,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 	};
 
 	struct CEModel {
-	public:
 		/*
 		 * Called every frame and increments the time position, interpolates,
 		 * the animations for each element based on current animation clip, and generates final transforms which are ultimately set to effect for processing in vertex shader
@@ -79,27 +78,25 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		virtual void UpdateAnimation(float dt) = 0;
 
 		CEModelData* GetModelInfo() {
-			return m_modelInfo;
+			return ModelInfo;
 		}
 
 		float GetTimePos() {
-			return m_timePos;
+			return TimePos;
 		}
 
 		std::string GetClipName() {
-			return m_clipName;
+			return ClipName;
 		}
 
 		std::vector<DirectX::XMFLOAT4X4> GetFinalTransforms() {
-			return m_finalTransforms;
+			return FinalTransforms;
 		}
 
-	protected:
-		CEModelData* m_modelInfo = nullptr;
-		std::vector<DirectX::XMFLOAT4X4> m_finalTransforms;
-		std::string m_clipName;
-		float m_timePos = 0.0f;
-	private:
+		CEModelData* ModelInfo = nullptr;
+		std::vector<DirectX::XMFLOAT4X4> FinalTransforms;
+		std::string ClipName;
+		float TimePos = 0.0f;
 
 	};
 }

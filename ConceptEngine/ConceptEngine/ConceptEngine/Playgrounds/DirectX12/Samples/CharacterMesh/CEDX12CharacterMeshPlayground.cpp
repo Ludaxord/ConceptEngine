@@ -4,8 +4,10 @@
 
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Libraries/GeometryGenerator.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEModelLoader.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEShadowMap.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESSAO.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/ModelsInstances/CESkinnedModel.h"
 
 using namespace ConceptEngine::Playgrounds::DirectX12;
 
@@ -993,6 +995,24 @@ void CEDX12CharacterMeshPlayground::BuildModelGeometry() {
 }
 
 void CEDX12CharacterMeshPlayground::LoadSkinnedModel() {
+	std::vector<Resources::CEModelLoader::ModelVertex> vertices;
+	std::vector<std::uint16_t> indices;
+
+	std::string modelFileName = "soldier.m3d";
+	const auto currentPath = fs::current_path().parent_path().string();
+	std::stringstream modelPathStream;
+	modelPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
+		modelFileName;
+	auto modelPath = modelPathStream.str();
+	
+	Resources::CEModelLoader modelLoader;
+	modelLoader.LoadM3D(modelPath, vertices, indices, m_modelSubsets, m_modelMaterials, m_modelInfo);
+
+	m_model = std::make_unique<Resources::ModelsInstances::CESkinnedModel>();
+	m_model->ModelInfo = &m_modelInfo;
+	m_model->FinalTransforms.resize(m_modelInfo.ElementCount());
+	m_model->ClipName = "Take1";
+	m_model->TimePos = 0.0f;
 }
 
 void CEDX12CharacterMeshPlayground::BuildShapesGeometry() {

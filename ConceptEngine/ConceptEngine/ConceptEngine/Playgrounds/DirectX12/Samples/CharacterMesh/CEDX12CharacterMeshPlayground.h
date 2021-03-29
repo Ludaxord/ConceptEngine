@@ -4,6 +4,7 @@
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECamera.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CECubeRenderTarget.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEFrameResource.h"
+#include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEModelLoader.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEShadowMap.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CESSAO.h"
 #include "../../../../../ConceptEngineFramework/Graphics/DirectX12/Resources/CEWaves.h"
@@ -83,6 +84,15 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		Resources::PassSSAOConstants mMainPassCB; // index 0 of pass cbuffer.
 		Resources::PassSSAOConstants mShadowPassCB; // index 1 of pass cbuffer.
 
+		std::vector<D3D12_INPUT_ELEMENT_DESC> m_modelInputLayout;
+		std::unique_ptr<Resources::CEModel> m_model;
+
+		UINT m_modelSrvHeapStart = 0;
+		Resources::CEModelData m_modelInfo;
+		std::vector<Resources::CEModelLoader::Subset> m_modelSubsets;
+		std::vector<Resources::CEModelLoader::Material> m_modelMaterials;
+		std::vector<std::string> m_modelTextureNames;
+		
 		Resources::CECamera m_camera;
 
 		Resources::CECamera mCubeMapCamera[6];
