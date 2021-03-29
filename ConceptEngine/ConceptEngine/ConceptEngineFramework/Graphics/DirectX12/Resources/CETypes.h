@@ -77,6 +77,15 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		XMFLOAT3 TangentU;
 	};
 
+	struct CEModelVertex {
+		DirectX::XMFLOAT3 Pos;
+		DirectX::XMFLOAT3 Normal;
+		DirectX::XMFLOAT2 TexC;
+		DirectX::XMFLOAT3 TangentU;
+		DirectX::XMFLOAT3 ElementWeights;
+		BYTE ElementIndices[4];
+	};
+
 	struct CENode {
 		std::vector<CENormalVertex> vertices;
 		std::vector<std::uint64_t> indices;

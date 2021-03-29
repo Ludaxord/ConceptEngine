@@ -32,9 +32,9 @@ void CEDX12CharacterMeshPlayground::Create() {
 	m_shadowMap = std::make_unique<Resources::CEShadowMap>(m_dx12manager->GetD3D12Device().Get(), 2048, 2048);
 
 	m_ssao = std::make_unique<Resources::CESSAO>(m_dx12manager->GetD3D12Device().Get(),
-		m_dx12manager->GetD3D12CommandList().Get(),
-		m_dx12manager->GetWindowWidth(),
-		m_dx12manager->GetWindowHeight());
+	                                             m_dx12manager->GetD3D12CommandList().Get(),
+	                                             m_dx12manager->GetWindowWidth(),
+	                                             m_dx12manager->GetWindowHeight());
 
 	LoadSkinnedModel();
 	LoadTextures();
@@ -59,8 +59,8 @@ void CEDX12CharacterMeshPlayground::Create() {
 
 		// A root signature is an array of root parameters.
 		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(5, slotRootParameter,
-			(UINT)staticSamplers.size(), staticSamplers.data(),
-			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		                                        (UINT)staticSamplers.size(), staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	//Build SSAO RootSignature
@@ -119,10 +119,10 @@ void CEDX12CharacterMeshPlayground::Create() {
 		};
 
 		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(4,
-			slotRootParameter,
-			(UINT)staticSamplers.size(),
-			staticSamplers.data(),
-			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		                                        slotRootParameter,
+		                                        (UINT)staticSamplers.size(),
+		                                        staticSamplers.data(),
+		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 		m_ssaoRootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
 	}
 	BuildDescriptorHeaps();
@@ -135,100 +135,100 @@ void CEDX12CharacterMeshPlayground::Create() {
 		};
 		// ================= Standard
 		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEBaseShadowVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                           alphaDefines,
+		                                                           "VS",
+		                                                           // "vs_6_3"
+		                                                           "vs_5_1"
 		);
 		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEBaseShadowPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                         alphaDefines,
+		                                                         "PS",
+		                                                         // "ps_6_3"
+		                                                         "ps_5_1"
 		);
 		// ================= Shadow
 		m_shadersMap["shadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                         alphaDefines,
+		                                                         "VS",
+		                                                         // "vs_6_3"
+		                                                         "vs_5_1"
 		);
 		m_shadersMap["shadowOpaquePS"] = m_dx12manager->CompileShaders("CEShadowPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                               alphaDefines,
+		                                                               "PS",
+		                                                               // "ps_6_3"
+		                                                               "ps_5_1"
 		);
 		m_shadersMap["shadowAlphaPS"] = m_dx12manager->CompileShaders("CEShadowPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                              alphaDefines,
+		                                                              "PS",
+		                                                              // "ps_6_3"
+		                                                              "ps_5_1"
 		);
 		// ================= Debug
 		m_shadersMap["debugVS"] = m_dx12manager->CompileShaders("CEShadowDebugVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                        alphaDefines,
+		                                                        "VS",
+		                                                        // "vs_6_3"
+		                                                        "vs_5_1"
 		);
 		m_shadersMap["debugPS"] = m_dx12manager->CompileShaders("CEShadowDebugPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                        alphaDefines,
+		                                                        "PS",
+		                                                        // "ps_6_3"
+		                                                        "ps_5_1"
 		);
 		// ================= Draw Normals
 		m_shadersMap["drawNormalsVS"] = m_dx12manager->CompileShaders("CEDrawNormalsVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                              alphaDefines,
+		                                                              "VS",
+		                                                              // "vs_6_3"
+		                                                              "vs_5_1"
 		);
 		m_shadersMap["drawNormalsPS"] = m_dx12manager->CompileShaders("CEDrawNormalsPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                              alphaDefines,
+		                                                              "PS",
+		                                                              // "ps_6_3"
+		                                                              "ps_5_1"
 		);
 		// ================= SSAO
 		m_shadersMap["ssaoVS"] = m_dx12manager->CompileShaders("CESSAOVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                       alphaDefines,
+		                                                       "VS",
+		                                                       // "vs_6_3"
+		                                                       "vs_5_1"
 		);
 		m_shadersMap["ssaoPS"] = m_dx12manager->CompileShaders("CESSAOPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                       alphaDefines,
+		                                                       "PS",
+		                                                       // "ps_6_3"
+		                                                       "ps_5_1"
 		);
 		// ================= SSAO Blur
 		m_shadersMap["ssaoBlurVS"] = m_dx12manager->CompileShaders("CESSAOBlurVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                           alphaDefines,
+		                                                           "VS",
+		                                                           // "vs_6_3"
+		                                                           "vs_5_1"
 		);
 		m_shadersMap["ssaoBlurPS"] = m_dx12manager->CompileShaders("CESSAOBlurPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                           alphaDefines,
+		                                                           "PS",
+		                                                           // "ps_6_3"
+		                                                           "ps_5_1"
 		);
 		// ================= Sky
 		m_shadersMap["skyVS"] = m_dx12manager->CompileShaders("CECubeMapVertexShader.hlsl",
-			alphaDefines,
-			"VS",
-			// "vs_6_3"
-			"vs_5_1"
+		                                                      alphaDefines,
+		                                                      "VS",
+		                                                      // "vs_6_3"
+		                                                      "vs_5_1"
 		);
 		m_shadersMap["skyPS"] = m_dx12manager->CompileShaders("CECubeMapPixelShader.hlsl",
-			alphaDefines,
-			"PS",
-			// "ps_6_3"
-			"ps_5_1"
+		                                                      alphaDefines,
+		                                                      "PS",
+		                                                      // "ps_6_3"
+		                                                      "ps_5_1"
 		);
 	}
 	//Build Input Layout
@@ -315,7 +315,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 
 	// ================================= TODO: CODE HERE....
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = { m_dx12manager->GetSRVDescriptorHeap().Get() };
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
 	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
@@ -324,7 +324,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 	 * Shadow map pass
 	 */
 
-	 //Bind all materials used in this scene. For structured buffers, we can bypass heap and set as root descriptor
+	//Bind all materials used in this scene. For structured buffers, we can bypass heap and set as root descriptor
 	auto matBuffer = mCurrFrameResource->MaterialIndexBuffer->Resource();
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootShaderResourceView(3, matBuffer->GetGPUVirtualAddress());
 
@@ -371,9 +371,9 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 
 	//Clear back buffer and depth buffer
 	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(m_dx12manager->CurrentBackBufferView(),
-		Colors::LightSteelBlue,
-		0,
-		nullptr);
+	                                                            Colors::LightSteelBlue,
+	                                                            0,
+	                                                            nullptr);
 
 	// WE ALREADY WROTE THE DEPTH INFO TO THE DEPTH BUFFER IN DrawNormalsAndDepth,
 	// SO DO NOT CLEAR DEPTH.
@@ -389,7 +389,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 	 */
 
 
-	 //specify buffers we are going to render to.
+	//specify buffers we are going to render to.
 	auto cbbv = m_dx12manager->CurrentBackBufferView();
 	auto dsv = m_dx12manager->DepthStencilView();
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cbbv, true, &dsv);
@@ -408,7 +408,7 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(
 		m_dx12manager->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 	skyTexDescriptor.Offset(m_skyTexHeapIndex,
-		m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
+	                        m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV));
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootDescriptorTable(4, skyTexDescriptor);
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["opaque"].Get());
@@ -571,20 +571,20 @@ void CEDX12CharacterMeshPlayground::UpdateMainPassCB(const CETimer& gt) {
 	XMStoreFloat4x4(&mMainPassCB.ShadowTransform, XMMatrixTranspose(shadowTransform));
 	mMainPassCB.EyePosW = m_camera.GetPosition3f();
 	mMainPassCB.RenderTargetSize = XMFLOAT2((float)m_dx12manager->GetWindowWidth(),
-		(float)m_dx12manager->GetWindowHeight());
+	                                        (float)m_dx12manager->GetWindowHeight());
 	mMainPassCB.InvRenderTargetSize = XMFLOAT2(1.0f / m_dx12manager->GetWindowWidth(),
-		1.0f / m_dx12manager->GetWindowHeight());
+	                                           1.0f / m_dx12manager->GetWindowHeight());
 	mMainPassCB.NearZ = 1.0f;
 	mMainPassCB.FarZ = 1000.0f;
 	mMainPassCB.TotalTime = gt.TotalTime();
 	mMainPassCB.DeltaTime = gt.DeltaTime();
-	mMainPassCB.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+	mMainPassCB.AmbientLight = {0.25f, 0.25f, 0.35f, 1.0f};
 	mMainPassCB.Lights[0].Direction = mRotatedLightDirections[0];
-	mMainPassCB.Lights[0].Strength = { 0.9f, 0.8f, 0.7f };
+	mMainPassCB.Lights[0].Strength = {0.9f, 0.8f, 0.7f};
 	mMainPassCB.Lights[1].Direction = mRotatedLightDirections[1];
-	mMainPassCB.Lights[1].Strength = { 0.4f, 0.4f, 0.4f };
+	mMainPassCB.Lights[1].Strength = {0.4f, 0.4f, 0.4f};
 	mMainPassCB.Lights[2].Direction = mRotatedLightDirections[2];
-	mMainPassCB.Lights[2].Strength = { 0.2f, 0.2f, 0.2f };
+	mMainPassCB.Lights[2].Strength = {0.2f, 0.2f, 0.2f};
 
 	auto currPassCB = mCurrFrameResource->PassSSAOCB.get();
 	currPassCB->CopyData(0, mMainPassCB);
@@ -625,7 +625,7 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	 * PSO for opaque objects
 	 */
 	ZeroMemory(&basePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-	basePsoDesc.InputLayout = { m_inputLayout.data(), (UINT)m_inputLayout.size() };
+	basePsoDesc.InputLayout = {m_inputLayout.data(), (UINT)m_inputLayout.size()};
 	basePsoDesc.pRootSignature = rootSignature.Get();
 	basePsoDesc.VS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["standardVS"]->GetBufferPointer()),
@@ -716,7 +716,7 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	 * PSO for SSAO
 	 */
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC ssaoPsoDesc = basePsoDesc;
-	ssaoPsoDesc.InputLayout = { nullptr, 0 };
+	ssaoPsoDesc.InputLayout = {nullptr, 0};
 	ssaoPsoDesc.pRootSignature = m_ssaoRootSignature.Get();
 	ssaoPsoDesc.VS = {
 		reinterpret_cast<BYTE*>(m_shadersMap["ssaoVS"]->GetBufferPointer()),
@@ -917,7 +917,7 @@ void CEDX12CharacterMeshPlayground::BuildModelGeometry() {
 		fin >> vertices[i].Pos.x >> vertices[i].Pos.y >> vertices[i].Pos.z;
 		fin >> vertices[i].Normal.x >> vertices[i].Normal.y >> vertices[i].Normal.z;
 
-		vertices[i].TexCoord = { 0.0f, 0.0f };
+		vertices[i].TexCoord = {0.0f, 0.0f};
 
 		XMVECTOR P = XMLoadFloat3(&vertices[i].Pos);
 
@@ -1004,7 +1004,7 @@ void CEDX12CharacterMeshPlayground::LoadSkinnedModel() {
 	modelPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
 		modelFileName;
 	auto modelPath = modelPathStream.str();
-	
+
 	Resources::CEModelLoader modelLoader;
 	modelLoader.LoadM3D(modelPath, vertices, indices, m_modelSubsets, m_modelMaterials, m_modelInfo);
 
@@ -1013,6 +1013,40 @@ void CEDX12CharacterMeshPlayground::LoadSkinnedModel() {
 	m_model->FinalTransforms.resize(m_modelInfo.ElementCount());
 	m_model->ClipName = "Take1";
 	m_model->TimePos = 0.0f;
+
+	const UINT vbByteSize = (UINT)vertices.size() * sizeof(Resources::CEModelVertex);
+	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
+
+	auto geo = std::make_unique<Resources::MeshGeometry>();
+	geo->Name = modelFileName;
+
+	ThrowIfFailed(D3DCreateBlob(vbByteSize, &geo->VertexBufferCPU));
+	CopyMemory(geo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
+
+	ThrowIfFailed(D3DCreateBlob(ibByteSize, &geo->IndexBufferCPU));
+	CopyMemory(geo->IndexBufferCPU->GetBufferPointer(), indices.data(), ibByteSize);
+
+	geo->VertexBufferGPU = m_dx12manager->CreateDefaultBuffer(vertices.data(), vbByteSize, geo->VertexBufferUploader);
+
+	geo->IndexBufferGPU = m_dx12manager->CreateDefaultBuffer(indices.data(), ibByteSize, geo->IndexBufferUploader);
+
+	geo->VertexByteStride = sizeof(Resources::CEModelVertex);
+	geo->VertexBufferByteSize = vbByteSize;
+	geo->IndexFormat = DXGI_FORMAT_R16_UINT;
+	geo->IndexBufferByteSize = ibByteSize;
+
+	for (UINT i = 0; i < (UINT)m_modelSubsets.size(); ++i) {
+		Resources::SubMeshGeometry subMesh;
+		std::string name = "sm_" + std::to_string(i);
+
+		subMesh.IndexCount = (UINT)m_modelSubsets[i].FaceCount * 3;
+		subMesh.StartIndexLocation = m_modelSubsets[i].FaceStart * 3;
+		subMesh.BaseVertexLocation = 0;
+
+		geo->DrawArgs[name] = subMesh;
+	}
+
+	mGeometries[geo->Name] = std::move(geo);
 }
 
 void CEDX12CharacterMeshPlayground::BuildShapesGeometry() {
@@ -1152,12 +1186,12 @@ void CEDX12CharacterMeshPlayground::BuildShapesGeometry() {
 void CEDX12CharacterMeshPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
-			2,
-			(UINT)mAllRitems.size(),
-			(UINT)mMaterials.size(),
-			0,
-			Resources::WavesNormalTextureVertex,
-			false));
+		                                                                       2,
+		                                                                       (UINT)mAllRitems.size(),
+		                                                                       (UINT)mMaterials.size(),
+		                                                                       0,
+		                                                                       Resources::WavesNormalTextureVertex,
+		                                                                       false));
 	}
 }
 
@@ -1354,7 +1388,7 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 }
 
 void CEDX12CharacterMeshPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
-	std::vector<Resources::RenderItem*>& ritems) const {
+                                                    std::vector<Resources::RenderItem*>& ritems) const {
 	UINT objCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectStructuredCB->Resource();
@@ -1450,7 +1484,7 @@ void CEDX12CharacterMeshPlayground::BuildCubeDepthStencil() {
 
 	//Transition resource from its initial state to be used as depth buffer
 	auto trCDW = CD3DX12_RESOURCE_BARRIER::Transition(m_cubeDepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON,
-		D3D12_RESOURCE_STATE_DEPTH_WRITE);
+	                                                  D3D12_RESOURCE_STATE_DEPTH_WRITE);
 	m_dx12manager->GetD3D12CommandList()->ResourceBarrier(1, &trCDW);
 }
 
@@ -1462,7 +1496,7 @@ void CEDX12CharacterMeshPlayground::AnimateSkullMovement(const CETimer& gt) cons
 	XMMATRIX skullLocalRotate = XMMatrixRotationY(2.0f * gt.TotalTime());
 	XMMATRIX skullGlobalRotate = XMMatrixRotationY(0.5f * gt.TotalTime());
 	XMStoreFloat4x4(&static_cast<Resources::LitShapesRenderItem*>(mSkullRitem)->World,
-		skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
+	                skullScale * skullLocalRotate * skullOffset * skullGlobalRotate);
 	static_cast<Resources::LitShapesRenderItem*>(mSkullRitem)->NumFramesDirty = gNumFrameResources;
 
 }
@@ -1559,14 +1593,14 @@ void CEDX12CharacterMeshPlayground::DrawNormalsAndDepth() {
 	auto dsv = m_dx12manager->DepthStencilView();
 
 	//Clear the screen normal map and depth buffer
-	float clearValue[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+	float clearValue[] = {0.0f, 0.0f, 1.0f, 0.0f};
 	m_dx12manager->GetD3D12CommandList()->ClearRenderTargetView(normalMapRTV, clearValue, 0, nullptr);
 	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(dsv,
-		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
-		1.0f,
-		0,
-		0,
-		nullptr);
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                                            1.0f,
+	                                                            0,
+	                                                            0,
+	                                                            nullptr);
 	//Specify buffers we are going to render to
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &normalMapRTV, true, &dsv);
 
@@ -1634,11 +1668,11 @@ void CEDX12CharacterMeshPlayground::DrawSceneToShadowMap() {
 
 	//Clear back buffer and depth buffer 
 	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_shadowMap->Dsv(),
-		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
-		1.0f,
-		0,
-		0,
-		nullptr);
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                                            1.0f,
+	                                                            0,
+	                                                            0,
+	                                                            nullptr);
 
 	/*
 	 * Set null render target  because we are only going to draw to depth buffer.
