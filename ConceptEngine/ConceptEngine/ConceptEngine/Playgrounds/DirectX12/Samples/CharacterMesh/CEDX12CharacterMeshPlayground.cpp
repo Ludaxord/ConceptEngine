@@ -44,21 +44,22 @@ void CEDX12CharacterMeshPlayground::Create() {
 		texTable0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 3, 0, 0);
 
 		CD3DX12_DESCRIPTOR_RANGE texTable1;
-		texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 10, 3, 0);
+		texTable1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 48, 3, 0);
 
 		//Root parameter can be a table, root descriptor or root constants
-		CD3DX12_ROOT_PARAMETER slotRootParameter[5];
+		CD3DX12_ROOT_PARAMETER slotRootParameter[6];
 
 		slotRootParameter[0].InitAsConstantBufferView(0);
 		slotRootParameter[1].InitAsConstantBufferView(1);
-		slotRootParameter[2].InitAsShaderResourceView(0, 1);
-		slotRootParameter[3].InitAsDescriptorTable(1, &texTable0, D3D12_SHADER_VISIBILITY_PIXEL);
-		slotRootParameter[4].InitAsDescriptorTable(1, &texTable1, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[2].InitAsConstantBufferView(2);
+		slotRootParameter[3].InitAsShaderResourceView(0, 1);
+		slotRootParameter[4].InitAsDescriptorTable(1, &texTable0, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[5].InitAsDescriptorTable(1, &texTable1, D3D12_SHADER_VISIBILITY_PIXEL);
 
 		auto staticSamplers = m_dx12manager->GetStaticSamplers();
 
 		// A root signature is an array of root parameters.
-		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(5, slotRootParameter,
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(6, slotRootParameter,
 		                                        (UINT)staticSamplers.size(), staticSamplers.data(),
 		                                        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 		m_rootSignature = m_dx12manager->CreateRootSignature(&rootSigDesc);
