@@ -134,12 +134,23 @@ void CEDX12CharacterMeshPlayground::Create() {
 			"SSAO", "1",
 			NULL, NULL
 		};
+
+		const D3D_SHADER_MACRO modelDefines[] = {
+			"MODEL", "1",
+			NULL, NULL
+		};
 		// ================= Standard
 		m_shadersMap["standardVS"] = m_dx12manager->CompileShaders("CEBaseShadowVertexShader.hlsl",
 		                                                           alphaDefines,
 		                                                           "VS",
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
+		);
+		m_shadersMap["modelVS"] = m_dx12manager->CompileShaders("CEBaseShadowVertexShader.hlsl",
+		                                                        modelDefines,
+		                                                        "VS",
+		                                                        // "vs_6_3"
+		                                                        "vs_5_1"
 		);
 		m_shadersMap["opaquePS"] = m_dx12manager->CompileShaders("CEBaseShadowPixelShader.hlsl",
 		                                                         alphaDefines,
@@ -150,6 +161,12 @@ void CEDX12CharacterMeshPlayground::Create() {
 		// ================= Shadow
 		m_shadersMap["shadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
 		                                                         alphaDefines,
+		                                                         "VS",
+		                                                         // "vs_6_3"
+		                                                         "vs_5_1"
+		);
+		m_shadersMap["modelShadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
+			modelDefines,
 		                                                         "VS",
 		                                                         // "vs_6_3"
 		                                                         "vs_5_1"
@@ -181,6 +198,12 @@ void CEDX12CharacterMeshPlayground::Create() {
 		);
 		// ================= Draw Normals
 		m_shadersMap["drawNormalsVS"] = m_dx12manager->CompileShaders("CEDrawNormalsVertexShader.hlsl",
+		                                                              alphaDefines,
+		                                                              "VS",
+		                                                              // "vs_6_3"
+		                                                              "vs_5_1"
+		);
+		m_shadersMap["modelDrawNormalsVS"] = m_dx12manager->CompileShaders("CEDrawNormalsVertexShader.hlsl",
 		                                                              alphaDefines,
 		                                                              "VS",
 		                                                              // "vs_6_3"
@@ -239,6 +262,14 @@ void CEDX12CharacterMeshPlayground::Create() {
 			{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 			{"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		};
+		m_modelInputLayout = {
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"WEIGHTS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 44, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			{"BONEINDICES", 0, DXGI_FORMAT_R8G8B8A8_UINT, 0, 56, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
 		};
 	}
 	BuildShapesGeometry();
@@ -798,7 +829,7 @@ void CEDX12CharacterMeshPlayground::LoadTextures() {
 }
 
 void CEDX12CharacterMeshPlayground::BuildDescriptorHeaps() {
-	m_dx12manager->CreateSRVDescriptorHeap(18);
+	m_dx12manager->CreateSRVDescriptorHeap(64);
 
 	auto srvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	auto dsvSize = m_dx12manager->GetDescriptorSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
@@ -817,6 +848,14 @@ void CEDX12CharacterMeshPlayground::BuildDescriptorHeaps() {
 		mTextures["defaultDiffuseMap"]->Resource,
 		mTextures["defaultNormalMap"]->Resource
 	};
+
+	m_modelSrvHeapStart = (UINT)tex2DList.size();
+
+	for (UINT i = 0; i < (UINT)m_modelTextureNames.size(); ++i) {
+		auto texResource = mTextures[m_modelTextureNames[i]]->Resource;
+		assert(texResource != nullptr);
+		tex2DList.push_back(texResource);
+	}
 
 	auto skyCubeMap = mTextures["skyCubeMap"]->Resource;
 
@@ -853,7 +892,6 @@ void CEDX12CharacterMeshPlayground::BuildDescriptorHeaps() {
 	m_nullCubeSrvIndex = m_ssaoHeapIndexStart + 5;
 	m_nullTexSrvIndex1 = m_nullCubeSrvIndex + 1;
 	m_nullTexSrvIndex2 = m_nullTexSrvIndex1 + 1;
-
 
 	auto nullSrv = m_dx12manager->GetCpuSRV(m_nullCubeSrvIndex);
 	m_nullSrv = m_dx12manager->GetGpuSRV(m_nullCubeSrvIndex);
