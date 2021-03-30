@@ -166,10 +166,10 @@ void CEDX12CharacterMeshPlayground::Create() {
 		                                                         "vs_5_1"
 		);
 		m_shadersMap["modelShadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
-			modelDefines,
-		                                                         "VS",
-		                                                         // "vs_6_3"
-		                                                         "vs_5_1"
+		                                                              modelDefines,
+		                                                              "VS",
+		                                                              // "vs_6_3"
+		                                                              "vs_5_1"
 		);
 		m_shadersMap["shadowOpaquePS"] = m_dx12manager->CompileShaders("CEShadowPixelShader.hlsl",
 		                                                               alphaDefines,
@@ -204,10 +204,10 @@ void CEDX12CharacterMeshPlayground::Create() {
 		                                                              "vs_5_1"
 		);
 		m_shadersMap["modelDrawNormalsVS"] = m_dx12manager->CompileShaders("CEDrawNormalsVertexShader.hlsl",
-		                                                              alphaDefines,
-		                                                              "VS",
-		                                                              // "vs_6_3"
-		                                                              "vs_5_1"
+		                                                                   alphaDefines,
+		                                                                   "VS",
+		                                                                   // "vs_6_3"
+		                                                                   "vs_5_1"
 		);
 		m_shadersMap["drawNormalsPS"] = m_dx12manager->CompileShaders("CEDrawNormalsPixelShader.hlsl",
 		                                                              alphaDefines,
@@ -685,6 +685,19 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	opaquePsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_EQUAL;
 	opaquePsoDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC modelOpaquePsoDesc = opaquePsoDesc;
+	modelOpaquePsoDesc.InputLayout = {m_modelInputLayout.data(), (UINT)m_modelInputLayout.size()};
+	modelOpaquePsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["modelVS"]->GetBufferPointer()),
+		m_shadersMap["modelVS"]->GetBufferSize()
+	};
+	modelOpaquePsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["opaquePS"]->GetBufferPointer()),
+		m_shadersMap["opaquePS"]->GetBufferSize()
+	};
+	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&modelOpaquePsoDesc, IID_PPV_ARGS(&mPSOs["modelOpaque"])));
+
 	//
 	// PSO for shadow map pass.
 	//
@@ -708,6 +721,14 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	smapPsoDesc.RTVFormats[0] = DXGI_FORMAT_UNKNOWN;
 	smapPsoDesc.NumRenderTargets = 0;
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&smapPsoDesc, IID_PPV_ARGS(&mPSOs["shadow_opaque"])));
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC modelSmapPsoDesc = smapPsoDesc;
+	modelSmapPsoDesc.InputLayout = {};
+	modelSmapPsoDesc.VS = {};
+	modelSmapPsoDesc.PS = {};
+	ThrowIfFailed(
+		d3dDevice->CreateGraphicsPipelineState(&modelSmapPsoDesc, IID_PPV_ARGS(&mPSOs["modelShadow_opaque"]))
+	);
 
 	//
 	// PSO for debug layer.
@@ -743,6 +764,13 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	drawNormalsPsoDesc.SampleDesc.Quality = 0;
 	drawNormalsPsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&drawNormalsPsoDesc, IID_PPV_ARGS(&mPSOs["drawNormals"])));
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC modelDrawNormalsPsoDesc = drawNormalsPsoDesc;
+	modelDrawNormalsPsoDesc.InputLayout = {};
+	modelDrawNormalsPsoDesc.VS = {};
+	modelDrawNormalsPsoDesc.PS = {};
+	ThrowIfFailed(
+		d3dDevice->CreateGraphicsPipelineState(&modelDrawNormalsPsoDesc, IID_PPV_ARGS(&mPSOs["modelDrawNormals"])));
 
 	/*
 	 * PSO for SSAO
@@ -1224,6 +1252,7 @@ void CEDX12CharacterMeshPlayground::BuildShapesGeometry() {
 
 void CEDX12CharacterMeshPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
+		//TODO: create new constructor
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
 		                                                                       2,
 		                                                                       (UINT)mAllRitems.size(),
@@ -1263,18 +1292,9 @@ void CEDX12CharacterMeshPlayground::BuildMaterials() {
 	mirror0->FresnelR0 = XMFLOAT3(0.98f, 0.97f, 0.95f);
 	mirror0->Roughness = 0.1f;
 
-	auto skullMat = std::make_unique<Resources::Material>();
-	skullMat->Name = "skullMat";
-	skullMat->MatCBIndex = 3;
-	skullMat->DiffuseSrvHeapIndex = 4;
-	skullMat->NormalSrvHeapIndex = 5;
-	skullMat->DiffuseAlbedo = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
-	skullMat->FresnelR0 = XMFLOAT3(0.6f, 0.6f, 0.6f);
-	skullMat->Roughness = 0.2f;
-
 	auto sky = std::make_unique<Resources::Material>();
 	sky->Name = "sky";
-	sky->MatCBIndex = 4;
+	sky->MatCBIndex = 3;
 	sky->DiffuseSrvHeapIndex = 6;
 	sky->NormalSrvHeapIndex = 7;
 	sky->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1284,8 +1304,22 @@ void CEDX12CharacterMeshPlayground::BuildMaterials() {
 	mMaterials["bricks0"] = std::move(bricks0);
 	mMaterials["tile0"] = std::move(tile0);
 	mMaterials["mirror0"] = std::move(mirror0);
-	mMaterials["skullMat"] = std::move(skullMat);
 	mMaterials["sky"] = std::move(sky);
+
+	UINT matCBIndex = 4;
+	UINT srvHeapIndex = m_modelSrvHeapStart;
+	for (UINT i = 0; i < m_modelMaterials.size(); ++i) {
+		auto material = std::make_unique<Resources::Material>();
+		material->Name = m_modelMaterials[i].Name;
+		material->MatCBIndex = matCBIndex++;
+		material->DiffuseSrvHeapIndex = srvHeapIndex++;
+		material->NormalSrvHeapIndex = srvHeapIndex++;
+		material->DiffuseAlbedo = m_modelMaterials[i].DiffuseAlbedo;
+		material->FresnelR0 = m_modelMaterials[i].FresnelR0;
+		material->Roughness = m_modelMaterials[i].Roughness;
+
+		mMaterials[material->Name] = std::move(material);
+	}
 }
 
 void CEDX12CharacterMeshPlayground::BuildRenderItems() {

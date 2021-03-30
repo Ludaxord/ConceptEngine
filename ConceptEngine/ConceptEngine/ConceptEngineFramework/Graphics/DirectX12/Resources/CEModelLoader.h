@@ -47,8 +47,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		struct Material {
 			std::string Name;
 
-			DirectX::XMFLOAT4 DiffuseAlbedo = {};
-			DirectX::XMFLOAT4 FresnelR0 = {};
+			DirectX::XMFLOAT4 DiffuseAlbedo = {1.0f, 1.0f, 1.0f, 1.0f};
+			DirectX::XMFLOAT3 FresnelR0 = {0.01f, 0.01f, 0.01f};
 			float Roughness = 0.8f;
 			bool AlphaClip = false;
 
