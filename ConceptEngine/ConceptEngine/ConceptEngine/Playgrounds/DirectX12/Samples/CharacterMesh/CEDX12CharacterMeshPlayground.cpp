@@ -146,7 +146,7 @@ void CEDX12CharacterMeshPlayground::Create() {
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["modelVS"] = m_dx12manager->CompileShaders("CEBaseShadowVertexShader.hlsl",
+		m_shadersMap["modelVS"] = m_dx12manager->CompileShaders("CEBaseModelVertexShader.hlsl",
 		                                                        modelDefines,
 		                                                        "VS",
 		                                                        // "vs_6_3"
@@ -165,7 +165,7 @@ void CEDX12CharacterMeshPlayground::Create() {
 		                                                         // "vs_6_3"
 		                                                         "vs_5_1"
 		);
-		m_shadersMap["modelShadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
+		m_shadersMap["modelShadowVS"] = m_dx12manager->CompileShaders("CEModelShadowVertexShader.hlsl",
 		                                                              modelDefines,
 		                                                              "VS",
 		                                                              // "vs_6_3"
