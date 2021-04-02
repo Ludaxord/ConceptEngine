@@ -25,6 +25,10 @@ Texture2D gTextureMaps[10] : register(t2);
 struct VertexIn {
 	float3 PosL : POSITION;
 	float2 TexC : TEXCOORD;
+#if defined(MODEL)
+	float3 ElementsWeights : WEIGHTS;
+	uint ElementIndices : BONEINDICES;
+#endif
 };
 
 struct VertexOut {
@@ -36,6 +40,25 @@ VertexOut VS(VertexIn vIn) {
 	VertexOut vout = (VertexOut)0.0f;
 
 	NormalMapMaterialData matData = gMaterialData[gMaterialIndex];
+
+#if defined(MODEL)
+	float weights[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	weights[0] = vIn.ElementsWeights.x;
+	weights[1] = vIn.ElementsWeights.y;
+	weights[2] = vIn.ElementsWeights.z;
+	weights[3] = 1.0f - weights[0] - weights[1] - weights[2];
+
+	float posL = float3(0.0f, 0.0f, 0.0f);
+
+	for (int i = 0; i < 4; ++i) {
+		/*
+		 * Assume no nonuniform when transforming normals, so that we do not have to use inverse-transpose
+		 */
+		posL += weights[i] * mul(float4(vIn.PosL, 1.0f), gModelTransforms[vIn.ElementIndices[i]]).xyz;
+	}
+
+	vIn.PosL = posL;
+#endif
 
 	// Transform to world space.
 	float4 posW = mul(float4(vIn.PosL, 1.0f), gWorld);
