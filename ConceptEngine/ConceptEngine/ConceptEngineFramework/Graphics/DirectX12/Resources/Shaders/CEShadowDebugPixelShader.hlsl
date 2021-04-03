@@ -14,6 +14,7 @@ float4 PS(VertexOut pin) : SV_Target{
 #if defined(SHADOW)
 	return float4(gShadowMap.Sample(gsamLinearWrap, pin.TexC).rrr, 1.0f);
 #elif defined(SSAO)
+	//TODO: fix shadowMap
 	return float4(gShadowMap.Sample(gsamLinearWrap, pin.TexC).rrr, 1.0f);
 	// return float4(gSsaoMap.Sample(gsamLinearWrap, pin.TexC).rrr, 1.0f);
 #else
