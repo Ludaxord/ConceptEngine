@@ -39,7 +39,6 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		void LoadTextures();
 		void BuildDescriptorHeaps();
 		void BuildShapesGeometry();
-		void BuildModelGeometry();
 
 		void LoadSkinnedModel();
 		
