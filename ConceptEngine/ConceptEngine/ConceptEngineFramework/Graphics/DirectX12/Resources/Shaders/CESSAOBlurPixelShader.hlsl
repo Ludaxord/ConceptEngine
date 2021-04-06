@@ -88,7 +88,7 @@ float4 PS(VertexOut pin) : SV_Target {
 		if (i == 0)
 			continue;
 
-		float tex = pin.TexC + i * texOffset;
+		float2 tex = pin.TexC + i * texOffset;
 
 		float3 neighborNormal = gNormalMap.SampleLevel(gsamPointClamp, tex, 0.0f).xyz;
 		float neighborDepth = NdcDepthToViewDepth(gDepthMap.SampleLevel(gsamDepthMap, tex, 0.0f).r);

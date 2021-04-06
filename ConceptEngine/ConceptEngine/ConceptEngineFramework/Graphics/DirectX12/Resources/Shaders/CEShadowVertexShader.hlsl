@@ -48,13 +48,13 @@ VertexOut VS(VertexIn vIn) {
 	weights[2] = vIn.ElementsWeights.z;
 	weights[3] = 1.0f - weights[0] - weights[1] - weights[2];
 
-	float posL = float3(0.0f, 0.0f, 0.0f);
+	float3 posL = float3(0.0f, 0.0f, 0.0f);
 
 	for (int i = 0; i < 4; ++i) {
 		/*
 		 * Assume no nonuniform when transforming normals, so that we do not have to use inverse-transpose
 		 */
-		float4 tr = mul(float4(vIn.PosL, 1.0f), gModelTransforms[vIn.ElementIndices[i]]).xyz;
+		float3 tr = mul(float4(vIn.PosL, 1.0f), gModelTransforms[vIn.ElementIndices[i]]).xyz;
 		posL += weights[i] * tr;
 	}
 

@@ -724,9 +724,15 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&smapPsoDesc, IID_PPV_ARGS(&mPSOs["shadow_opaque"])));
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC modelSmapPsoDesc = smapPsoDesc;
-	modelSmapPsoDesc.InputLayout = {};
-	modelSmapPsoDesc.VS = {};
-	modelSmapPsoDesc.PS = {};
+	modelSmapPsoDesc.InputLayout = {m_modelInputLayout.data(), (UINT)m_modelInputLayout.size()};
+	modelSmapPsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["modelShadowVS"]->GetBufferPointer()),
+		m_shadersMap["modelShadowVS"]->GetBufferSize()
+	};
+	modelSmapPsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["shadowOpaquePS"]->GetBufferPointer()),
+		m_shadersMap["shadowOpaquePS"]->GetBufferSize()
+	};
 	ThrowIfFailed(
 		d3dDevice->CreateGraphicsPipelineState(&modelSmapPsoDesc, IID_PPV_ARGS(&mPSOs["modelShadow_opaque"]))
 	);
@@ -767,9 +773,15 @@ void CEDX12CharacterMeshPlayground::BuildPSOs(Microsoft::WRL::ComPtr<ID3D12RootS
 	ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&drawNormalsPsoDesc, IID_PPV_ARGS(&mPSOs["drawNormals"])));
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC modelDrawNormalsPsoDesc = drawNormalsPsoDesc;
-	modelDrawNormalsPsoDesc.InputLayout = {};
-	modelDrawNormalsPsoDesc.VS = {};
-	modelDrawNormalsPsoDesc.PS = {};
+	modelDrawNormalsPsoDesc.InputLayout = {m_modelInputLayout.data(), (UINT)m_modelInputLayout.size()};
+	modelDrawNormalsPsoDesc.VS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["modelDrawNormalsVS"]->GetBufferPointer()),
+		m_shadersMap["modelDrawNormalsVS"]->GetBufferSize()
+	};
+	modelDrawNormalsPsoDesc.PS = {
+		reinterpret_cast<BYTE*>(m_shadersMap["drawNormalsPS"]->GetBufferPointer()),
+		m_shadersMap["drawNormalsPS"]->GetBufferSize()
+	};
 	ThrowIfFailed(
 		d3dDevice->CreateGraphicsPipelineState(&modelDrawNormalsPsoDesc, IID_PPV_ARGS(&mPSOs["modelDrawNormals"])));
 
@@ -1066,11 +1078,10 @@ void CEDX12CharacterMeshPlayground::LoadSkinnedModel() {
 	std::vector<Resources::CEModelLoader::ModelVertex> vertices;
 	std::vector<std::uint16_t> indices;
 
-	std::string modelFileName = "soldier.m3d";
 	const auto currentPath = fs::current_path().parent_path().string();
 	std::stringstream modelPathStream;
 	modelPathStream << currentPath << "\\ConceptEngineFramework\\Graphics\\DirectX12\\Resources\\Models\\" <<
-		modelFileName;
+		m_modelFileName;
 	auto modelPath = modelPathStream.str();
 
 	Resources::CEModelLoader modelLoader;
@@ -1086,7 +1097,7 @@ void CEDX12CharacterMeshPlayground::LoadSkinnedModel() {
 	const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
 
 	auto geo = std::make_unique<Resources::MeshGeometry>();
-	geo->Name = modelFileName;
+	geo->Name = m_modelFileName;
 
 	ThrowIfFailed(D3DCreateBlob(vbByteSize, &geo->VertexBufferCPU));
 	CopyMemory(geo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
@@ -1367,24 +1378,10 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(boxRitem.get());
 	mAllRitems.push_back(std::move(boxRitem));
 
-	auto skullRitem = std::make_unique<Resources::LitShapesRenderItem>();
-	XMStoreFloat4x4(&skullRitem->World, XMMatrixScaling(0.4f, 0.4f, 0.4f) * XMMatrixTranslation(0.0f, 1.0f, 0.0f));
-	skullRitem->TexTransform = Resources::MatrixIdentity4X4();
-	skullRitem->ObjCBIndex = 3;
-	skullRitem->Mat = mMaterials["skullMat"].get();
-	skullRitem->Geo = mGeometries["skullGeo"].get();
-	skullRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	skullRitem->IndexCount = skullRitem->Geo->DrawArgs["skull"].IndexCount;
-	skullRitem->StartIndexLocation = skullRitem->Geo->DrawArgs["skull"].StartIndexLocation;
-	skullRitem->BaseVertexLocation = skullRitem->Geo->DrawArgs["skull"].BaseVertexLocation;
-
-	mRitemLayer[(int)Resources::RenderLayer::Opaque].push_back(skullRitem.get());
-	mAllRitems.push_back(std::move(skullRitem));
-
 	auto gridRitem = std::make_unique<Resources::LitShapesRenderItem>();
 	gridRitem->World = Resources::MatrixIdentity4X4();
 	XMStoreFloat4x4(&gridRitem->TexTransform, XMMatrixScaling(8.0f, 8.0f, 1.0f));
-	gridRitem->ObjCBIndex = 4;
+	gridRitem->ObjCBIndex = 3;
 	gridRitem->Mat = mMaterials["tile0"].get();
 	gridRitem->Geo = mGeometries["shapeGeo"].get();
 	gridRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -1396,7 +1393,7 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 	mAllRitems.push_back(std::move(gridRitem));
 
 	XMMATRIX brickTexTransform = XMMatrixScaling(1.5f, 2.0f, 1.0f);
-	UINT objCBIndex = 5;
+	UINT objCBIndex = 4;
 	for (int i = 0; i < 5; ++i) {
 		auto leftCylRitem = std::make_unique<Resources::LitShapesRenderItem>();
 		auto rightCylRitem = std::make_unique<Resources::LitShapesRenderItem>();
@@ -1458,6 +1455,36 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 		mAllRitems.push_back(std::move(rightCylRitem));
 		mAllRitems.push_back(std::move(leftSphereRitem));
 		mAllRitems.push_back(std::move(rightSphereRitem));
+	}
+
+	for (UINT i = 0; i < m_modelMaterials.size(); ++i) {
+		std::string subMeshName = "sm_" + std::to_string(i);
+		auto rItem = std::make_unique<Resources::LitShapesRenderItem>();
+
+		//Reflect to change coordintate system from RHS the data was exported out as.
+		XMMATRIX modelScale = XMMatrixScaling(0.05f, 0.05f, -0.05f);
+		XMMATRIX modelRot = XMMatrixRotationY(Resources::Pi);
+		XMMATRIX modelOffset = XMMatrixTranslation(0.0f, 0.0f, -5.0f);
+		XMStoreFloat4x4(&rItem->World, modelScale * modelRot * modelOffset);
+
+		rItem->TexTransform = Resources::MatrixIdentity4X4();
+		rItem->ObjCBIndex = objCBIndex++;
+		rItem->Mat = mMaterials[m_modelMaterials[i].Name].get();
+		rItem->Geo = mGeometries[m_modelFileName].get();
+		rItem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		rItem->IndexCount = rItem->Geo->DrawArgs[subMeshName].IndexCount;
+		rItem->StartIndexLocation = rItem->Geo->DrawArgs[subMeshName].StartIndexLocation;
+		rItem->BaseVertexLocation = rItem->Geo->DrawArgs[subMeshName].BaseVertexLocation;
+
+		/*
+		 * All render items for this model instance share.
+		 * Same model instance.
+		 */
+		rItem->SkinnedCBIndex = 0;
+		rItem->ModelInst = m_model.get();
+
+		mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque].push_back(rItem.get());
+		mAllRitems.push_back(std::move(rItem));
 	}
 }
 
@@ -1680,11 +1707,13 @@ void CEDX12CharacterMeshPlayground::DrawNormalsAndDepth() {
 
 	//Bind constant buffer for this pass
 	auto passCB = mCurrFrameResource->PassSSAOCB->Resource();
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCB->GetGPUVirtualAddress());
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["drawNormals"].Get());
-
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+
+	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["modelDrawNormals"].Get());
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
 
 	//Change to GENERIC_READ so we can read texture in shader
 	auto transitionRenderTargetGenericRead = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -1759,11 +1788,13 @@ void CEDX12CharacterMeshPlayground::DrawSceneToShadowMap() {
 	//Bind the pass constant buffer for shadow map pass
 	auto passCB = mCurrFrameResource->PassSSAOCB->Resource();
 	D3D12_GPU_VIRTUAL_ADDRESS passCBAddress = passCB->GetGPUVirtualAddress() + 1 * passCBByteSize;
-	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(1, passCBAddress);
+	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootConstantBufferView(2, passCBAddress);
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["shadow_opaque"].Get());
-
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+	
+	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["modelShadow_opaque"].Get());
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
 
 	//Change back to GENERIC_READ so we can read texture in a shader
 	auto transitionDepthWriteGenericRead = CD3DX12_RESOURCE_BARRIER::Transition(

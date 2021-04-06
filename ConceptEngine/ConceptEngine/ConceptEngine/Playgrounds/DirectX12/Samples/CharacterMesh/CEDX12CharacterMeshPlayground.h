@@ -92,6 +92,7 @@ namespace ConceptEngine::Playgrounds::DirectX12 {
 		std::vector<Resources::CEModelLoader::Subset> m_modelSubsets;
 		std::vector<Resources::CEModelLoader::Material> m_modelMaterials;
 		std::vector<std::string> m_modelTextureNames;
+		std::string m_modelFileName = "soldier.m3d";
 		
 		Resources::CECamera m_camera;
 
