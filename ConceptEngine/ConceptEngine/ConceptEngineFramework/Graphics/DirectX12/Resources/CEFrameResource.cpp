@@ -93,5 +93,24 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 	}
 }
 
+CEFrameResource::CEFrameResource(ID3D12Device* device,
+                                 UINT passCount,
+                                 UINT objectCount,
+                                 UINT modelObjectCount,
+                                 UINT materialCount,
+                                 bool modelLoaded) {
+	ThrowIfFailed(device->CreateCommandAllocator(
+			D3D12_COMMAND_LIST_TYPE_DIRECT,
+			IID_PPV_ARGS(commandAllocator.GetAddressOf())
+		)
+	);
+	spdlog::info("Frame Resource with Pass SSAO, SSAO, MaterialIndexBuffer, Structured, Model Constant Buffers ready!");
+	PassSSAOCB = std::make_unique<CEUploadBuffer<PassSSAOConstants>>(device, passCount, true);
+	SSAOCB = std::make_unique<CEUploadBuffer<SSAOConstants>>(device, 1, true);
+	MaterialIndexBuffer = std::make_unique<CEUploadBuffer<MaterialIndexData>>(device, materialCount, false);
+	ObjectStructuredCB = std::make_unique<CEUploadBuffer<StructuredObjectConstants>>(device, objectCount, true);
+	ModelCB = std::make_unique<CEUploadBuffer<ModelConstants>>(device, modelObjectCount, true);
+}
+
 CEFrameResource::~CEFrameResource() {
 }

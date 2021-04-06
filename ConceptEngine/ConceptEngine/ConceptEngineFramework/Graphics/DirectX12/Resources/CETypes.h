@@ -143,6 +143,10 @@ namespace ConceptEngineFramework::Graphics::DirectX12::Resources {
 		float SurfaceEpsilon = 0.05f;
 	};
 
+	struct ModelConstants {
+		DirectX::XMFLOAT4X4 ModelTransforms[96];
+	};
+
 	//Defines subrange of geometry in MeshGeometry.
 	//This is for when multiple geometries are stored in one vertex and index buffers.
 	//It provides offsets and data needed to draw subset of geometry stores in vertex and index buffers.

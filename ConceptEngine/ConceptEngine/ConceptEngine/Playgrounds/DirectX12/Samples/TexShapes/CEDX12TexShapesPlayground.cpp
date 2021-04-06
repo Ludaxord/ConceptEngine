@@ -617,7 +617,8 @@ void CEDX12TexShapesPlayground::BuildFrameResources() {
 				1,
 				(UINT)mAllRitems.size(),
 				(UINT)mMaterials.size(),
-				(UINT)0
+				(UINT)0,
+				Resources::WavesVertex
 			)
 		);
 	}

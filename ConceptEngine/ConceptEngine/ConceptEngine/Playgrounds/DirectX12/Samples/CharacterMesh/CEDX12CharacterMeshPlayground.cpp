@@ -274,7 +274,6 @@ void CEDX12CharacterMeshPlayground::Create() {
 		};
 	}
 	BuildShapesGeometry();
-	BuildModelGeometry();
 	BuildMaterials();
 	BuildRenderItems();
 	BuildFrameResources();
@@ -407,19 +406,12 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 	                                                            Colors::LightSteelBlue,
 	                                                            0,
 	                                                            nullptr);
-
-	// WE ALREADY WROTE THE DEPTH INFO TO THE DEPTH BUFFER IN DrawNormalsAndDepth,
-	// SO DO NOT CLEAR DEPTH.
-	// 
-	/*
-	 *
-		m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
-																D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
-																1.0f,
-																0,
-																0,
-																nullptr);
-	 */
+	m_dx12manager->GetD3D12CommandList()->ClearDepthStencilView(m_dx12manager->DepthStencilView(),
+	                                                            D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                                            1.0f,
+	                                                            0,
+	                                                            0,
+	                                                            nullptr);
 
 
 	//specify buffers we are going to render to.
@@ -446,6 +438,10 @@ void CEDX12CharacterMeshPlayground::Render(const CETimer& gt) {
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["opaque"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
+
+	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["modelOpaque"].Get());
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(),
+	                mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["debug"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Debug]);
@@ -1264,14 +1260,13 @@ void CEDX12CharacterMeshPlayground::BuildShapesGeometry() {
 
 void CEDX12CharacterMeshPlayground::BuildFrameResources() {
 	for (int i = 0; i < gNumFrameResources; ++i) {
-		//TODO: create new constructor
 		mFrameResources.push_back(std::make_unique<Resources::CEFrameResource>(m_dx12manager->GetD3D12Device().Get(),
 		                                                                       2,
 		                                                                       (UINT)mAllRitems.size(),
+		                                                                       1,
 		                                                                       (UINT)mMaterials.size(),
-		                                                                       0,
-		                                                                       Resources::WavesNormalTextureVertex,
-		                                                                       false));
+		                                                                       true
+		));
 	}
 }
 
@@ -1337,6 +1332,7 @@ void CEDX12CharacterMeshPlayground::BuildMaterials() {
 void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 	//
 	auto skyRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	skyRitem->Name = "SKY";
 	XMStoreFloat4x4(&skyRitem->World, XMMatrixScaling(5000.0f, 5000.0f, 5000.0f));
 	skyRitem->TexTransform = Resources::MatrixIdentity4X4();
 	skyRitem->ObjCBIndex = 0;
@@ -1351,6 +1347,7 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 	mAllRitems.push_back(std::move(skyRitem));
 
 	auto quadRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	quadRitem->Name = "QUAD";
 	quadRitem->World = Resources::MatrixIdentity4X4();
 	quadRitem->TexTransform = Resources::MatrixIdentity4X4();
 	quadRitem->ObjCBIndex = 1;
@@ -1365,6 +1362,7 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 	mAllRitems.push_back(std::move(quadRitem));
 
 	auto boxRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	boxRitem->Name = "BOX";
 	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(2.0f, 1.0f, 2.0f) * XMMatrixTranslation(0.0f, 0.5f, 0.0f));
 	XMStoreFloat4x4(&boxRitem->TexTransform, XMMatrixScaling(1.0f, 0.5f, 1.0f));
 	boxRitem->ObjCBIndex = 2;
@@ -1379,6 +1377,7 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 	mAllRitems.push_back(std::move(boxRitem));
 
 	auto gridRitem = std::make_unique<Resources::LitShapesRenderItem>();
+	gridRitem->Name = "DEBUG_GRID";
 	gridRitem->World = Resources::MatrixIdentity4X4();
 	XMStoreFloat4x4(&gridRitem->TexTransform, XMMatrixScaling(8.0f, 8.0f, 1.0f));
 	gridRitem->ObjCBIndex = 3;
@@ -1408,6 +1407,9 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 
 		XMStoreFloat4x4(&leftCylRitem->World, rightCylWorld);
 		XMStoreFloat4x4(&leftCylRitem->TexTransform, brickTexTransform);
+
+		leftCylRitem->Name = "LEFT_CYL_" + std::to_string(objCBIndex);
+
 		leftCylRitem->ObjCBIndex = objCBIndex++;
 		leftCylRitem->Mat = mMaterials["bricks0"].get();
 		leftCylRitem->Geo = mGeometries["shapeGeo"].get();
@@ -1418,6 +1420,9 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 
 		XMStoreFloat4x4(&rightCylRitem->World, leftCylWorld);
 		XMStoreFloat4x4(&rightCylRitem->TexTransform, brickTexTransform);
+
+		rightCylRitem->Name = "RIGHT_CYL_" + std::to_string(objCBIndex);
+
 		rightCylRitem->ObjCBIndex = objCBIndex++;
 		rightCylRitem->Mat = mMaterials["bricks0"].get();
 		rightCylRitem->Geo = mGeometries["shapeGeo"].get();
@@ -1427,6 +1432,9 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 		rightCylRitem->BaseVertexLocation = rightCylRitem->Geo->DrawArgs["cylinder"].BaseVertexLocation;
 
 		XMStoreFloat4x4(&leftSphereRitem->World, leftSphereWorld);
+
+		leftSphereRitem->Name = "LEFT_SPHERE_" + std::to_string(objCBIndex);
+
 		leftSphereRitem->TexTransform = Resources::MatrixIdentity4X4();
 		leftSphereRitem->ObjCBIndex = objCBIndex++;
 		leftSphereRitem->Mat = mMaterials["mirror0"].get();
@@ -1438,6 +1446,9 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 
 		XMStoreFloat4x4(&rightSphereRitem->World, rightSphereWorld);
 		rightSphereRitem->TexTransform = Resources::MatrixIdentity4X4();
+
+		rightSphereRitem->Name = "RIGHT_SPHERE_" + std::to_string(objCBIndex);
+
 		rightSphereRitem->ObjCBIndex = objCBIndex++;
 		rightSphereRitem->Mat = mMaterials["mirror0"].get();
 		rightSphereRitem->Geo = mGeometries["shapeGeo"].get();
@@ -1466,6 +1477,8 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 		XMMATRIX modelRot = XMMatrixRotationY(Resources::Pi);
 		XMMATRIX modelOffset = XMMatrixTranslation(0.0f, 0.0f, -5.0f);
 		XMStoreFloat4x4(&rItem->World, modelScale * modelRot * modelOffset);
+
+		rItem->Name = "MODEL_" + std::to_string(objCBIndex);
 
 		rItem->TexTransform = Resources::MatrixIdentity4X4();
 		rItem->ObjCBIndex = objCBIndex++;
@@ -1713,7 +1726,8 @@ void CEDX12CharacterMeshPlayground::DrawNormalsAndDepth() {
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["modelDrawNormals"].Get());
-	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(),
+	                mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
 
 	//Change to GENERIC_READ so we can read texture in shader
 	auto transitionRenderTargetGenericRead = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -1792,9 +1806,10 @@ void CEDX12CharacterMeshPlayground::DrawSceneToShadowMap() {
 
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["shadow_opaque"].Get());
 	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::Opaque]);
-	
+
 	m_dx12manager->GetD3D12CommandList()->SetPipelineState(mPSOs["modelShadow_opaque"].Get());
-	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(), mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
+	DrawRenderItems(m_dx12manager->GetD3D12CommandList().Get(),
+	                mRitemLayer[(int)Resources::RenderLayer::SkinnedOpaque]);
 
 	//Change back to GENERIC_READ so we can read texture in a shader
 	auto transitionDepthWriteGenericRead = CD3DX12_RESOURCE_BARRIER::Transition(
