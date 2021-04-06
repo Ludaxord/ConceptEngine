@@ -269,8 +269,6 @@
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESSAOPixelShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESSAOBlurVertexShader.hlsl" />
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CESSAOBlurPixelShader.hlsl" />
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBaseModelVertexShader.hlsl" />
-    <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEModelShadowVertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\DirectX12\Resources\Shaders\CETypes.hlsl" />

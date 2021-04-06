@@ -137,6 +137,7 @@ void CEDX12CharacterMeshPlayground::Create() {
 
 		const D3D_SHADER_MACRO modelDefines[] = {
 			"MODEL", "1",
+			"SSAO", "1",
 			NULL, NULL
 		};
 		// ================= Standard
@@ -146,7 +147,7 @@ void CEDX12CharacterMeshPlayground::Create() {
 		                                                           // "vs_6_3"
 		                                                           "vs_5_1"
 		);
-		m_shadersMap["modelVS"] = m_dx12manager->CompileShaders("CEBaseModelVertexShader.hlsl",
+		m_shadersMap["modelVS"] = m_dx12manager->CompileShaders("CEBaseShadowVertexShader.hlsl",
 		                                                        modelDefines,
 		                                                        "VS",
 		                                                        // "vs_6_3"
@@ -165,7 +166,7 @@ void CEDX12CharacterMeshPlayground::Create() {
 		                                                         // "vs_6_3"
 		                                                         "vs_5_1"
 		);
-		m_shadersMap["modelShadowVS"] = m_dx12manager->CompileShaders("CEModelShadowVertexShader.hlsl",
+		m_shadersMap["modelShadowVS"] = m_dx12manager->CompileShaders("CEShadowVertexShader.hlsl",
 		                                                              modelDefines,
 		                                                              "VS",
 		                                                              // "vs_6_3"

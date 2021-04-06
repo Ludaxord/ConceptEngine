@@ -27,7 +27,7 @@ struct VertexIn {
 	float2 TexC : TEXCOORD;
 #if defined(MODEL)
 	float3 ElementsWeights : WEIGHTS;
-	uint ElementIndices : BONEINDICES;
+	uint4 ElementIndices : BONEINDICES;
 #endif
 };
 
@@ -54,7 +54,8 @@ VertexOut VS(VertexIn vIn) {
 		/*
 		 * Assume no nonuniform when transforming normals, so that we do not have to use inverse-transpose
 		 */
-		posL += weights[i] * mul(float4(vIn.PosL, 1.0f), gModelTransforms[vIn.ElementIndices[i]]).xyz;
+		float4 tr = mul(float4(vIn.PosL, 1.0f), gModelTransforms[vIn.ElementIndices[i]]).xyz;
+		posL += weights[i] * tr;
 	}
 
 	vIn.PosL = posL;
