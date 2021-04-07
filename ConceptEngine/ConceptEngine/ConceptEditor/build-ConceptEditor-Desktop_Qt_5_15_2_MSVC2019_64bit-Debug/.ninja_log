@@ -1,0 +1,6 @@
+# ninja log v5
+2	185	639499958	ConceptEditor_autogen/timestamp	ff6445060d95c5e
+185	874	639499959	CMakeFiles/ConceptEditor.dir/ConceptEditor_autogen/mocs_compilation.cpp.obj	3f91343977ee7fdc
+188	948	639499959	CMakeFiles/ConceptEditor.dir/main.cpp.obj	4f3150cbb217d696
+190	967	639499959	CMakeFiles/ConceptEditor.dir/CEWindow.cpp.obj	58e7e22dac4acbcf
+967	1307	639499960	ConceptEditor.exe	aca84db9bd17ea7c
