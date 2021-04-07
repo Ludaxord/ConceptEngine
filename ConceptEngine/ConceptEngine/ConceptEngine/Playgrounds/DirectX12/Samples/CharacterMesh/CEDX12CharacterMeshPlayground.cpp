@@ -1397,8 +1397,10 @@ void CEDX12CharacterMeshPlayground::BuildRenderItems() {
 void CEDX12CharacterMeshPlayground::DrawRenderItems(ID3D12GraphicsCommandList* cmdList,
                                                     std::vector<Resources::RenderItem*>& ritems) const {
 	UINT objCBByteSize = (sizeof(Resources::StructuredObjectConstants) + 255) & ~255;
+	UINT modelCBByteSize = (sizeof(Resources::ModelConstants) + 255) & ~255;
 
 	auto objectCB = mCurrFrameResource->ObjectStructuredCB->Resource();
+	auto modelCB = mCurrFrameResource->ModelCB->Resource();
 
 	// For each render item...
 	for (size_t i = 0; i < ritems.size(); ++i) {
@@ -1414,6 +1416,15 @@ void CEDX12CharacterMeshPlayground::DrawRenderItems(ID3D12GraphicsCommandList* c
 		D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress() + ri->ObjCBIndex * objCBByteSize;
 
 		cmdList->SetGraphicsRootConstantBufferView(0, objCBAddress);
+
+		if (ri->ModelInst != nullptr) {
+			D3D12_GPU_VIRTUAL_ADDRESS modelCBAddress = modelCB->GetGPUVirtualAddress() + ri->SkinnedCBIndex *
+				modelCBByteSize;
+			cmdList->SetGraphicsRootConstantBufferView(1, modelCBAddress);
+		}
+		else {
+			cmdList->SetGraphicsRootConstantBufferView(1, 0);
+		}
 
 		cmdList->DrawIndexedInstanced(ri->IndexCount, 1, ri->StartIndexLocation, ri->BaseVertexLocation, 0);
 	}
@@ -1581,6 +1592,18 @@ void CEDX12CharacterMeshPlayground::UpdateSSAOCB(const CETimer& gt) {
 }
 
 void CEDX12CharacterMeshPlayground::UpdateSkinnedModelCBs(const CETimer& gt) {
+	auto currModelCB = mCurrFrameResource->ModelCB.get();
+
+	//we only have one skinned model being animated
+	m_model->UpdateAnimation(gt.DeltaTime());
+
+	Resources::ModelConstants modelConstants;
+	std::copy(
+		std::begin(m_model->FinalTransforms),
+		std::end(m_model->FinalTransforms),
+		&modelConstants.ModelTransforms[0]
+	);
+	currModelCB->CopyData(0, modelConstants);
 }
 
 void CEDX12CharacterMeshPlayground::DrawNormalsAndDepth() {

@@ -104,7 +104,6 @@ CEFrameResource::CEFrameResource(ID3D12Device* device,
 			IID_PPV_ARGS(commandAllocator.GetAddressOf())
 		)
 	);
-	spdlog::info("Frame Resource with Pass SSAO, SSAO, MaterialIndexBuffer, Structured, Model Constant Buffers ready!");
 	PassSSAOCB = std::make_unique<CEUploadBuffer<PassSSAOConstants>>(device, passCount, true);
 	SSAOCB = std::make_unique<CEUploadBuffer<SSAOConstants>>(device, 1, true);
 	MaterialIndexBuffer = std::make_unique<CEUploadBuffer<MaterialIndexData>>(device, materialCount, false);
