@@ -10,6 +10,8 @@ class ConceptEditor : public QMainWindow
 public:
     ConceptEditor(QWidget *parent = Q_NULLPTR);
 
+	QPaintEngine* paintEngine() const override;
+
 private:
     Ui::ConceptEditorClass ui;
 };

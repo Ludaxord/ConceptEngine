@@ -1,4 +1,5 @@
-﻿  ConceptEditor.cpp
+﻿  moc ConceptEditor.h
+  ConceptEditor.cpp
   main.cpp
   moc_ConceptEditor.cpp
   ConceptEditor.vcxproj -> F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEditor.exe
