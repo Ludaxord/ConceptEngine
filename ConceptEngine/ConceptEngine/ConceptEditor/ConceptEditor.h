@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_ConceptEditor.h"
+#include <memory>
 
 class ConceptEditor : public QMainWindow
 {
@@ -9,9 +10,10 @@ class ConceptEditor : public QMainWindow
 
 public:
     ConceptEditor(QWidget *parent = Q_NULLPTR);
-
+    ~ConceptEditor();
+	
 	QPaintEngine* paintEngine() const override;
 
 private:
-    Ui::ConceptEditorClass ui;
+    Ui::ConceptEditorClass* ui;
 };
