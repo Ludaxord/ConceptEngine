@@ -1,1 +1,12 @@
-﻿  ConceptEngineEditor.vcxproj -> F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineEditor.exe
+﻿  CEQTDirect3DWidget.cpp
+  ConceptEngineEditor.cpp
+  main.cpp
+  qrc_ConceptEngineEditor.cpp
+  moc_ConceptEngineEditor.cpp
+ConceptEngineEditor.obj : error LNK2019: unresolved external symbol "public: virtual __cdecl ConceptEngineEditor::~ConceptEngineEditor(void)" (??1ConceptEngineEditor@@UEAA@XZ) referenced in function "public: virtual void * __cdecl ConceptEngineEditor::`scalar deleting destructor'(unsigned int)" (??_GConceptEngineEditor@@UEAAPEAXI@Z)
+main.obj : error LNK2001: unresolved external symbol "public: virtual __cdecl ConceptEngineEditor::~ConceptEngineEditor(void)" (??1ConceptEngineEditor@@UEAA@XZ)
+ConceptEngineEditor.obj : error LNK2001: unresolved external symbol "private: virtual void __cdecl ConceptEngineEditor::closeEvent(class QCloseEvent *)" (?closeEvent@ConceptEngineEditor@@EEAAXPEAVQCloseEvent@@@Z)
+moc_ConceptEngineEditor.obj : error LNK2019: unresolved external symbol "public: void __cdecl ConceptEngineEditor::Create(void)" (?Create@ConceptEngineEditor@@QEAAXXZ) referenced in function "private: static void __cdecl ConceptEngineEditor::qt_static_metacall(class QObject *,enum QMetaObject::Call,int,void * *)" (?qt_static_metacall@ConceptEngineEditor@@CAXPEAVQObject@@W4Call@QMetaObject@@HPEAPEAX@Z)
+moc_ConceptEngineEditor.obj : error LNK2019: unresolved external symbol "public: void __cdecl ConceptEngineEditor::Update(void)" (?Update@ConceptEngineEditor@@QEAAXXZ) referenced in function "private: static void __cdecl ConceptEngineEditor::qt_static_metacall(class QObject *,enum QMetaObject::Call,int,void * *)" (?qt_static_metacall@ConceptEngineEditor@@CAXPEAVQObject@@W4Call@QMetaObject@@HPEAPEAX@Z)
+moc_ConceptEngineEditor.obj : error LNK2019: unresolved external symbol "public: void __cdecl ConceptEngineEditor::Render(struct ID3D12GraphicsCommandList *)" (?Render@ConceptEngineEditor@@QEAAXPEAUID3D12GraphicsCommandList@@@Z) referenced in function "private: static void __cdecl ConceptEngineEditor::qt_static_metacall(class QObject *,enum QMetaObject::Call,int,void * *)" (?qt_static_metacall@ConceptEngineEditor@@CAXPEAVQObject@@W4Call@QMetaObject@@HPEAPEAX@Z)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineEditor.exe : fatal error LNK1120: 5 unresolved externals
