@@ -10,7 +10,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngine", "ConceptEng
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineFramework", "ConceptEngineFramework\ConceptEngineFramework.vcxproj", "{72A5BD96-5023-4CCF-BC58-B6BB23366999}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEditor", "ConceptEditor\ConceptEditor.vcxproj", "{808D6DD5-E23E-491E-89F9-31E11FBD596D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineEditor", "ConceptEngineEditor\ConceptEngineEditor.vcxproj", "{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999} = {72A5BD96-5023-4CCF-BC58-B6BB23366999}
 	EndProjectSection
@@ -39,12 +39,12 @@ Global
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999}.Release|x64.Build.0 = Release|x64
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999}.Release|x86.ActiveCfg = Release|Win32
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999}.Release|x86.Build.0 = Release|Win32
-		{808D6DD5-E23E-491E-89F9-31E11FBD596D}.Debug|x64.ActiveCfg = Debug|x64
-		{808D6DD5-E23E-491E-89F9-31E11FBD596D}.Debug|x64.Build.0 = Debug|x64
-		{808D6DD5-E23E-491E-89F9-31E11FBD596D}.Debug|x86.ActiveCfg = Debug|x64
-		{808D6DD5-E23E-491E-89F9-31E11FBD596D}.Release|x64.ActiveCfg = Release|x64
-		{808D6DD5-E23E-491E-89F9-31E11FBD596D}.Release|x64.Build.0 = Release|x64
-		{808D6DD5-E23E-491E-89F9-31E11FBD596D}.Release|x86.ActiveCfg = Release|x64
+		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Debug|x64.ActiveCfg = Debug|x64
+		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Debug|x64.Build.0 = Debug|x64
+		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Debug|x86.ActiveCfg = Debug|x64
+		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Release|x64.ActiveCfg = Release|x64
+		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Release|x64.Build.0 = Release|x64
+		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
