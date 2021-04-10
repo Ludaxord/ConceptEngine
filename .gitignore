@@ -39,6 +39,8 @@ ConceptEngine/ConceptEngine/ConceptEngine/x64
 ConceptEngine/ConceptEngine/ConceptEngine/x64/*
 ConceptEngine/ConceptEngine/ConceptEditor/x64
 ConceptEngine/ConceptEngine/ConceptEditor/x64/*
+ConceptEngine/ConceptEngine/ConceptEngineEditor/x64
+ConceptEngine/ConceptEngine/ConceptEngineEditor/x64/*
 
 .vs/
 .vs

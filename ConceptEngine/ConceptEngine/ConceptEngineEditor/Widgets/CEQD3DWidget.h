@@ -1,9 +1,9 @@
 #pragma once
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <QWidget>
-#include <QTimer>
 #include <stdexcept>
+#include <QtWidgets/QWidget>
+#include <QtCore/QTimer>
 
 #include <wrl/client.h>
 
@@ -99,18 +99,19 @@ namespace ConceptEngine::Editor::Widgets {
 #endif
 
 	signals:
-		void DeviceInitialized(bool success);
+		void deviceInitialized(bool success);
 
-		void EventHandled();
-		void WidgetResized();
+		void eventHandled();
+		void widgetResized();
 
-		void Updated();
-		void Rendered(ID3D12GraphicsCommandList* commandList);
+		void ticked();
+		void rendered(ID3D12GraphicsCommandList* cl);
+		void renderedUI();
 
-		void KeyPressed(QKeyEvent*);
-		void MouseMoved(QMouseEvent*);
-		void MouseClicked(QMouseEvent*);
-		void MouseReleased(QMouseEvent*);
+		void keyPressed(QKeyEvent*);
+		void mouseMoved(QMouseEvent*);
+		void mouseClicked(QMouseEvent*);
+		void mouseReleased(QMouseEvent*);
 
 	private slots:
 		void OnFrame();
@@ -126,41 +127,41 @@ namespace ConceptEngine::Editor::Widgets {
 		bool RenderActive() const { return m_renderActive; };
 		void SetRenderActive(bool active) { m_renderActive = active; };
 
-		D3DCOLORVALUE* ClearColor() { &m_clearColor; };
+		D3DCOLORVALUE* ClearColor() { return &m_clearColor; };
 
 	private:
 		static int const FRAME_COUNT = 3;
-		UINT m_currFrameIndex;
+		UINT m_currFrameIndex = 0;
 
-		Microsoft::WRL::ComPtr<ID3D12Device> m_d3dDevice;
-		Microsoft::WRL::ComPtr<IDXGIFactory4> m_factory;
-		Microsoft::WRL::ComPtr<IDXGISwapChain3> m_swapChain;
-		Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_commandQueue;
-		std::vector<Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> m_commandAllocators[FRAME_COUNT];
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_commandList;
+		Microsoft::WRL::ComPtr<ID3D12Device> m_d3dDevice = nullptr;
+		Microsoft::WRL::ComPtr<IDXGIFactory4> m_factory = nullptr;
+		Microsoft::WRL::ComPtr<IDXGISwapChain3> m_swapChain = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_commandQueue = nullptr;
+		std::vector<Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> m_commandAllocators[FRAME_COUNT] = {};
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr;
 
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_RTVDescHeap;
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_DSVDescHeap;
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_SRVDescHeap;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_RTVDescHeap = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_DSVDescHeap = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_SRVDescHeap = nullptr;
 
-		UINT m_RTVDescSize;
+		UINT m_RTVDescSize = 0;
 
-		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> m_RTVResources[FRAME_COUNT];
-		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> m_RTVDescriptors[FRAME_COUNT];
+		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> m_RTVResources[FRAME_COUNT] = {};
+		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> m_RTVDescriptors[FRAME_COUNT] = {};
 
-		HANDLE m_swapChainEvent;
-		HANDLE m_fenceEvent;
-		Microsoft::WRL::ComPtr<ID3D12Fence> m_fence;
-		std::vector<UINT64> m_fenceValues[FRAME_COUNT];
+		HANDLE m_swapChainEvent = nullptr;
+		HANDLE m_fenceEvent = nullptr;
+		Microsoft::WRL::ComPtr<ID3D12Fence> m_fence = nullptr;
+		std::vector<UINT64> m_fenceValues[FRAME_COUNT] = {};
 
 		QTimer m_qTimer;
 
 		HWND m_hWnd;
-		bool m_deviceInitialized;
+		bool m_deviceInitialized = false;
 
-		bool m_renderActive;
-		bool m_started;
+		bool m_renderActive = false;
+		bool m_started = false;
 
-		D3DCOLORVALUE m_clearColor;
+		D3DCOLORVALUE m_clearColor = {0.0f, 0.135f, 0.481f, 1.0f};
 	};
 }

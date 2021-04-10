@@ -1,20 +1,11 @@
 #include "CEQD3DWidget.h"
 
+#include <QtWidgets/QMainWindow>
+
 using namespace ConceptEngine::Editor::Widgets;
 
-const QMetaObject* CEQD3DWidget::metaObject() const {
-}
-
-void* CEQD3DWidget::qt_metacast(const char*) {
-}
-
-int CEQD3DWidget::qt_metacall(QMetaObject::Call, int, void**) {
-}
-
-void CEQD3DWidget::qt_static_metacall(QObject*, QMetaObject::Call, int, void**) {
-}
-
-CEQD3DWidget::CEQD3DWidget(QWidget* parent) {
+CEQD3DWidget::CEQD3DWidget(QWidget* parent): QWidget(parent) {
+	m_hWnd = reinterpret_cast<HWND>(winId());
 }
 
 CEQD3DWidget::~CEQD3DWidget() {
@@ -36,9 +27,11 @@ void CEQD3DWidget::ContinueFrames() {
 }
 
 bool CEQD3DWidget::Create() {
+	return true;
 }
 
 bool CEQD3DWidget::CreateD3DDevice() {
+	return true;
 }
 
 void CEQD3DWidget::GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppAdapter) {
@@ -72,12 +65,14 @@ void CEQD3DWidget::MoveToNextFrame() {
 }
 
 bool CEQD3DWidget::event(QEvent* event) {
+	return false;
 }
 
 void CEQD3DWidget::showEvent(QShowEvent* event) {
 }
 
 QPaintEngine* CEQD3DWidget::paintEngine() const {
+	return nullptr;
 }
 
 void CEQD3DWidget::paintEvent(QPaintEvent* event) {
@@ -90,36 +85,14 @@ void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
 }
 
 LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
+
+	if (pMsg->message == WM_MOUSEWHEEL || pMsg->message == 0x020A) return false;
+
+	return false;
 }
 
 bool CEQD3DWidget::nativeEvent(const QByteArray& eventType, void* message, long* result) {
-}
-
-void CEQD3DWidget::DeviceInitialized(bool success) {
-}
-
-void CEQD3DWidget::EventHandled() {
-}
-
-void CEQD3DWidget::WidgetResized() {
-}
-
-void CEQD3DWidget::Updated() {
-}
-
-void CEQD3DWidget::Rendered(ID3D12GraphicsCommandList* commandList) {
-}
-
-void CEQD3DWidget::KeyPressed(QKeyEvent*) {
-}
-
-void CEQD3DWidget::MouseMoved(QMouseEvent*) {
-}
-
-void CEQD3DWidget::MouseClicked(QMouseEvent*) {
-}
-
-void CEQD3DWidget::MouseReleased(QMouseEvent*) {
+	return false;
 }
 
 void CEQD3DWidget::OnFrame() {
