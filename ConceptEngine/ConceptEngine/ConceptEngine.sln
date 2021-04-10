@@ -11,6 +11,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineFramework", "ConceptEngineFramework\ConceptEngineFramework.vcxproj", "{72A5BD96-5023-4CCF-BC58-B6BB23366999}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEditor", "ConceptEditor\ConceptEditor.vcxproj", "{808D6DD5-E23E-491E-89F9-31E11FBD596D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{72A5BD96-5023-4CCF-BC58-B6BB23366999} = {72A5BD96-5023-4CCF-BC58-B6BB23366999}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

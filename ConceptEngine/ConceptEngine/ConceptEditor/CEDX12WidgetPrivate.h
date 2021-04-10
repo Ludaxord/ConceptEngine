@@ -3,9 +3,9 @@
 #include <DirectXMath.h>
 #include <dxgi.h>
 #include <dxgi1_4.h>
-
+#include "../ConceptEngineFramework/Graphics/DirectX12/Libraries/d3dx12.h"
 #include "CEDX12Widget.h"
-#include <private/qwidget_p.h>
+#include <QtWidgets/private/qwidget_p.h>
 #include <wrl/client.h>
 
 class CEDX12WidgetPrivate final : public QWidgetPrivate {
@@ -17,36 +17,36 @@ public:
 
 private:
 	// Init DirectX12 3D.
-	void initialize();
+	void Create();
 
 	// DirectX12 3D Render.
-	void render();
+	void Render();
 
 	// Handle viewport size when window size change.
-	void resize();
+	void Resize();
 
 	// Helper function for resolving the full path of assets.
-	QString getAssetFullPath(const QString& assetName) const { return m_assetsPath + assetName; }
+	QString GetAssetsPath(const QString& assetName) const { return m_assetsPath + assetName; }
 
 	// Helper function for acquiring the first available hardware adapter that supports Direct3D 12.
 	// If no such adapter can be found, *ppAdapter will be set to nullptr.
-	void getHardwareAdapter(_In_ IDXGIFactory1* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter,
+	void GetHardwareAdapter(_In_ IDXGIFactory1* pFactory, _Outptr_result_maybenull_ IDXGIAdapter1** ppAdapter,
 	                        bool requestHighPerformanceAdapter = false);
 
 	// Specific initialization process.
-	CEDX12WidgetPrivate* initViewport();
-	CEDX12WidgetPrivate* loadPipeline();
-	CEDX12WidgetPrivate* loadAssets();
+	CEDX12WidgetPrivate* CreateViewport();
+	CEDX12WidgetPrivate* LoadPSO();
+	CEDX12WidgetPrivate* LoadAssets();
 
 	// Specific render process.
-	CEDX12WidgetPrivate* onUpdate();
-	CEDX12WidgetPrivate* onRender();
+	CEDX12WidgetPrivate* OnUpdate();
+	CEDX12WidgetPrivate* OnRender();
 
 	// Record all the commands we need to render the scene into the command list.
-	CEDX12WidgetPrivate* populateCommandList();
+	CEDX12WidgetPrivate* PopulateCommandList();
 
 	// WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-	CEDX12WidgetPrivate* waitForPreviousFrame();
+	CEDX12WidgetPrivate* WaitForPreviousFrame();
 
 	// Viewport aspect ratio.
 	float m_aspectRatio;
@@ -65,6 +65,8 @@ private:
 	};
 
 	// Pipeline objects.
+	CD3DX12_VIEWPORT m_viewport;
+	CD3DX12_RECT m_scissorRect;
 	Microsoft::WRL::ComPtr<IDXGISwapChain3> m_swapChain;
 	Microsoft::WRL::ComPtr<ID3D12Device> m_device;
 	Microsoft::WRL::ComPtr<ID3D12Resource> m_renderTargets[FrameCount];

@@ -55,8 +55,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>C:\Qt\5.15.2\msvc2019_64\include\QtGui\5.15.2;C:\Qt\5.15.2\msvc2019_64\include\QtWidgets\5.15.2;C:\Qt\5.15.2\msvc2019_64\include\QtCore\5.15.2;C:\Qt\5.15.2\msvc2019_64\include\QtCore\5.15.2\QtCore;C:\Qt\5.15.2\msvc2019_64\include\QtWidgets\5.15.2\QtWidgets;C:\Qt\5.15.2\msvc2019_64\include\QtGui\5.15.2\QtGui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -98,6 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CEDX12WidgetPrivate.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
+      <Project>{72a5bd96-5023-4ccf-bc58-b6bb23366999}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

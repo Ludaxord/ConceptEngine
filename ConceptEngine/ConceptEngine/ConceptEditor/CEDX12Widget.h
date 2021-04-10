@@ -14,7 +14,7 @@ public:
 
 protected:
 	// Disable Qt internal rendering process.
-	QPaintEngine* paintEngine() const { return nullptr; }
+	QPaintEngine* paintEngine() const override;
 
 	// Handle painter event.
 	virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
