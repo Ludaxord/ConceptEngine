@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d12.h>
 #include <dxgi1_6.h>
+#include <dxgidebug.h>
 #include <stdexcept>
 #include <QtWidgets/QWidget>
 #include <QtCore/QTimer>
@@ -67,7 +68,7 @@ namespace ConceptEngine::Editor::Widgets {
 		 * TODO: for test purposes create all Direct3D logic in Widget,
 		 * TODO: after successful initialization of QT use prepared Direct3D logic in ConceptEngineFramework project
 		 */
-		bool CreateD3DDevice();
+		void CreateD3DDevice();
 		void GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppAdapter);
 		void Resize(int width, int height);
 		void ClearRenderTarget();
@@ -137,7 +138,7 @@ namespace ConceptEngine::Editor::Widgets {
 		Microsoft::WRL::ComPtr<IDXGIFactory4> m_factory = nullptr;
 		Microsoft::WRL::ComPtr<IDXGISwapChain3> m_swapChain = nullptr;
 		Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_commandQueue = nullptr;
-		std::vector<Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> m_commandAllocators[FRAME_COUNT] = {};
+		std::vector<Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> m_commandAllocators = {};
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr;
 
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_RTVDescHeap = nullptr;
@@ -146,13 +147,13 @@ namespace ConceptEngine::Editor::Widgets {
 
 		UINT m_RTVDescSize = 0;
 
-		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> m_RTVResources[FRAME_COUNT] = {};
-		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> m_RTVDescriptors[FRAME_COUNT] = {};
+		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> m_RTVResources = {};
+		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> m_RTVDescriptors = {};
 
 		HANDLE m_swapChainEvent = nullptr;
 		HANDLE m_fenceEvent = nullptr;
 		Microsoft::WRL::ComPtr<ID3D12Fence> m_fence = nullptr;
-		std::vector<UINT64> m_fenceValues[FRAME_COUNT] = {};
+		std::vector<UINT64> m_fenceValues = {};
 
 		QTimer m_qTimer;
 
