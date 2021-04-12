@@ -7,6 +7,9 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QDebug>
+#include <QEvent>
+#include <QWheelEvent>
+
 
 #include "../../ConceptEngineFramework/Graphics/DirectX12/Libraries/d3dx12.h"
 
@@ -68,7 +71,7 @@ void CEQD3DWidget::ResetEnvironment() {
 	OnReset();
 
 	if (!m_renderActive)
-		Render();
+		Update();
 }
 
 void CEQD3DWidget::Run() {
@@ -225,34 +228,156 @@ void CEQD3DWidget::GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** p
 }
 
 void CEQD3DWidget::Resize(int width, int height) {
+	ClearRenderTarget();
+
+	if (m_swapChain) {
+		DXCall(m_swapChain->ResizeBuffers(FRAME_COUNT, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0));
+	}
+	else {
+		DXGI_SWAP_CHAIN_DESC1 sd = {};
+		sd.BufferCount = FRAME_COUNT;
+		sd.Width = width;
+		sd.Height = height;
+		sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		sd.Flags = 0;
+		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		sd.SampleDesc.Count = 1;
+		sd.SampleDesc.Quality = 0;
+		sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+		sd.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+		sd.Scaling = DXGI_SCALING_NONE;
+		sd.Stereo = FALSE;
+
+		DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSd = {};
+		fsSd.Windowed = TRUE;
+
+		Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain;
+		DXCall(
+			m_factory->CreateSwapChainForHwnd(
+				m_commandQueue.Get(), m_hWnd, &sd, &fsSd, nullptr, swapChain.GetAddressOf()
+			)
+		);
+		DXCall(swapChain->QueryInterface(IID_PPV_ARGS(&m_swapChain)));
+		m_currFrameIndex = m_swapChain->GetCurrentBackBufferIndex();
+	}
+
+	CreateRenderTarget();
+
+	m_currFrameIndex = m_swapChain->GetCurrentBackBufferIndex();
 }
 
 void CEQD3DWidget::ClearRenderTarget() {
+	WaitForGPU();
+
+	for (UINT i = 0; i < FRAME_COUNT; i++) {
+		ReleaseObject(m_RTVResources[i]);
+		m_fenceValues[i] = m_fenceValues[m_currFrameIndex];
+	}
 }
 
 void CEQD3DWidget::CreateRenderTarget() {
+	for (UINT i = 0; i < FRAME_COUNT; i++) {
+		DXCall(m_swapChain->GetBuffer(i, IID_PPV_ARGS(&m_RTVResources[i])));
+		m_d3dDevice->CreateRenderTargetView(m_RTVResources[i].Get(), nullptr, m_RTVDescriptors[i]);
+	}
 }
 
 void CEQD3DWidget::BeginScene() {
+	DXCall(m_commandAllocators[m_currFrameIndex]->Reset());
+	DXCall(m_commandList->Reset(m_commandAllocators[m_currFrameIndex].Get(), nullptr));
+
+	auto transitionPresentRenderTarget = CD3DX12_RESOURCE_BARRIER::Transition(m_RTVResources[m_currFrameIndex].Get(),
+	                                                                          D3D12_RESOURCE_STATE_PRESENT,
+	                                                                          D3D12_RESOURCE_STATE_RENDER_TARGET
+	);
+	m_commandList->ResourceBarrier(1, &transitionPresentRenderTarget);
 }
 
 void CEQD3DWidget::EndScene() {
+	auto transitionRenderTargetPresent = CD3DX12_RESOURCE_BARRIER::Transition(m_RTVResources[m_currFrameIndex].Get(),
+	                                                                          D3D12_RESOURCE_STATE_RENDER_TARGET,
+	                                                                          D3D12_RESOURCE_STATE_PRESENT
+	);
+	m_commandList->ResourceBarrier(1, &transitionRenderTargetPresent);
+	DXCall(m_commandList->Close());
+	auto cmdList = m_commandList.Get();
+	m_commandQueue->ExecuteCommandLists(1, reinterpret_cast<ID3D12CommandList* const*>(&cmdList));
+	DXCall(m_swapChain->Present(1, 0));
+	MoveToNextFrame();
 }
 
 void CEQD3DWidget::Update() {
+	//TODO: UPDATE SCENE HERE....
+
+	emit ticked();
+
 }
 
 void CEQD3DWidget::Render() {
+	m_commandList->ClearRenderTargetView(m_RTVDescriptors[m_currFrameIndex],
+	                                     reinterpret_cast<const float*>(&m_clearColor), 0, nullptr);
+	m_commandList->OMSetRenderTargets(1, &m_RTVDescriptors[m_currFrameIndex], FALSE, nullptr);
+	m_commandList->SetDescriptorHeaps(1, &m_SRVDescHeap);
+
+	emit rendered(m_commandList.Get());
 }
 
 void CEQD3DWidget::WaitForGPU() {
+	DXCall(m_commandQueue->Signal(m_fence.Get(), m_fenceValues[m_currFrameIndex]));
+
+	DXCall(m_fence->SetEventOnCompletion(m_fenceValues[m_currFrameIndex], m_fenceEvent));
+	WaitForSingleObject(m_fenceEvent, INFINITE);
+	m_fenceValues[m_currFrameIndex]++;
 }
 
 void CEQD3DWidget::MoveToNextFrame() {
+	const UINT64 currentFenceValue = m_fenceValues[m_currFrameIndex];
+	DXCall(m_commandQueue->Signal(m_fence.Get(), currentFenceValue));
+
+	m_currFrameIndex = m_swapChain->GetCurrentBackBufferIndex();
+	if (m_fence->GetCompletedValue() < m_fenceValues[m_currFrameIndex]) {
+		DXCall(m_fence->SetEventOnCompletion(m_fenceValues[m_currFrameIndex], m_fenceEvent));
+		WaitForSingleObject(m_fenceEvent, INFINITE);
+	}
+
+	m_fenceValues[m_currFrameIndex] = currentFenceValue + 1;
 }
 
 bool CEQD3DWidget::event(QEvent* event) {
-	return false;
+	switch (event->type()) {
+		// Workaround for https://bugreports.qt.io/browse/QTBUG-42183 to get key strokes.
+		// To make sure that we always have focus on the widget when we enter the rect area.
+	case QEvent::Enter:
+	case QEvent::FocusIn:
+	case QEvent::FocusAboutToChange:
+		if (::GetFocus() != m_hWnd) {
+			QWidget* nativeParent = this;
+			while (true) {
+				if (nativeParent->isWindow()) break;
+				QWidget* parent = nativeParent->nativeParentWidget();
+				if (!parent) break;
+				nativeParent = parent;
+			}
+
+			if (nativeParent && nativeParent != this && ::GetFocus() == reinterpret_cast<HWND>(nativeParent->winId()))
+				::SetFocus(m_hWnd);
+		}
+		break;
+	case QEvent::KeyPress:
+		emit keyPressed((QKeyEvent*)event);
+		break;
+	case QEvent::MouseMove:
+		emit mouseMoved((QMouseEvent*)event);
+		break;
+	case QEvent::MouseButtonPress:
+		emit mouseClicked((QMouseEvent*)event);
+		break;
+	case QEvent::MouseButtonRelease:
+		emit mouseReleased((QMouseEvent*)event);
+		break;
+	}
+
+	return QWidget::event(event);
 }
 
 void CEQD3DWidget::showEvent(QShowEvent* event) {
@@ -272,9 +397,23 @@ void CEQD3DWidget::paintEvent(QPaintEvent* event) {
 }
 
 void CEQD3DWidget::resizeEvent(QResizeEvent* event) {
+	if (m_deviceInitialized) {
+		OnReset();
+		emit widgetResized();
+	}
+
+	QWidget::resizeEvent(event);
 }
 
 void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
+	if (event->angleDelta().x() == 0) {
+	}
+	else if (event->angleDelta().x() != 0) {
+	}
+	else if (event->angleDelta().y() != 0) {
+	}
+
+	QWidget::wheelEvent(event);
 }
 
 LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
@@ -284,12 +423,45 @@ LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
 	return false;
 }
 
+#if QT_VERSION >= 0x050000
 bool CEQD3DWidget::nativeEvent(const QByteArray& eventType, void* message, long* result) {
-	return false;
+	Q_UNUSED(eventType);
+	Q_UNUSED(result);
+
+#if defined(Q_OS_WIN)
+	MSG* pMsg = reinterpret_cast<MSG*>(message);
+	return WndProc(pMsg);
+#endif
+
+	return QWidget::nativeEvent(eventType, message, result);
 }
 
+#else
+bool CEQD3DWidget::winEvent(MSG* message, long* result) {
+	Q_UNUSED(result);
+
+#    ifdef Q_OS_WIN
+	MSG* pMsg = reinterpret_cast<MSG*>(message);
+	return WndProc(pMsg);
+#    endif
+
+	return QWidget::winEvent(message, result);
+}
+#endif
+
 void CEQD3DWidget::OnFrame() {
+	if (m_renderActive)
+		Update();
+
+	BeginScene();
+	Render();
+	EndScene();
 }
 
 void CEQD3DWidget::OnReset() {
+	// DirectX-12 samples here: https://github.com/microsoft/DirectX-Graphics-Samples how to
+	// properly do this without leaking memory.
+	PauseFrames();
+	Resize(width(), height());
+	ContinueFrames();
 }
