@@ -7,11 +7,13 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QDebug>
+#include <QDirect3D12Widget.h>
 #include <QEvent>
 #include <QWheelEvent>
 
 
 #include "../../ConceptEngineFramework/Graphics/DirectX12/Libraries/d3dx12.h"
+
 
 using namespace ConceptEngine::Editor::Widgets;
 
@@ -24,7 +26,7 @@ CEQD3DWidget::CEQD3DWidget(QWidget* parent): QWidget(parent) {
 	qDebug() << "[CEQD3DWidget::CEQD3DWidget] - Widget Handle: " << m_hWnd;
 
 	QPalette palette = this->palette();
-	palette.setColor(QPalette::Window, Qt::gray);
+	palette.setColor(QPalette::Window, Qt::black);
 	setAutoFillBackground(true);
 	setPalette(palette);
 
@@ -308,7 +310,7 @@ void CEQD3DWidget::EndScene() {
 
 void CEQD3DWidget::Update() {
 	//TODO: UPDATE SCENE HERE....
-
+	OutputDebugStringA("Update...\n");
 	emit ticked();
 
 }

@@ -5,6 +5,7 @@
 #include <QCheckBox>
 #include "ui_ConceptEngineEditor.h"
 #include "Widgets/CEQD3DWidget.h"
+#include "Widgets/QDirect3D12Widget.h"
 
 class ConceptEngineEditor : public QMainWindow {
 Q_OBJECT
@@ -13,23 +14,22 @@ public:
 	ConceptEngineEditor(QWidget* parent = Q_NULLPTR);
 	~ConceptEngineEditor();
 
-	void Resize();
-	void AddToolBarWidgets();
-	void ConnectSlots();
-
-protected:
-
-public slots:
-	void Create(bool success);
-	void Update();
-	void Render(ID3D12GraphicsCommandList* commandList);
+	void adjustWindowSize();
+	void addToolbarWidgets();
+	void connectSlots();
 
 private:
 	void closeEvent(QCloseEvent* event) override;
 
-	Ui::ConceptEngineEditorClass* ui;
+public slots:
+	void init(bool success);
+	void tick();
+	void render(ID3D12GraphicsCommandList* cl);
 
-	ConceptEngine::Editor::Widgets::CEQD3DWidget* m_widget;
-	QSize m_windowSize;
-	QCheckBox* m_checkBoxDoFrames;
+private:
+	QDirect3D12Widget* m_pScene;
+	QSize m_WindowSize;
+	QCheckBox* m_pCbxDoFrames;
+	QMenuBar* m_menuBar;
+	QToolBar* m_mainToolBar;
 };

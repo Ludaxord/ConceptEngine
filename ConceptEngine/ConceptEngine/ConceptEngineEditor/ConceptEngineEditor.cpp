@@ -8,100 +8,97 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 
-ConceptEngineEditor::~ConceptEngineEditor() {
+using namespace ConceptEngine::Editor::Widgets;
+
+ConceptEngineEditor::~ConceptEngineEditor() = default;
+
+void ConceptEngineEditor::adjustWindowSize() {
+	resize(m_WindowSize.width(), m_WindowSize.height());
+	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
+	                                qApp->screens().first()->availableGeometry()));
 }
 
-void ConceptEngineEditor::Resize() {
-	resize(m_windowSize.width(), m_windowSize.height());
-	setGeometry(
-		QStyle::alignedRect(Qt::LeftToRight,
-		                    Qt::AlignCenter,
-		                    size(),
-		                    qApp->screens().first()->availableGeometry()
-		)
-	);
-}
-
-void ConceptEngineEditor::AddToolBarWidgets() {
-	//Add checkbox to toll-bar to stop/continue frames execution
-	m_checkBoxDoFrames->setText("Do Frames");
-	m_checkBoxDoFrames->setChecked(true);
-	connect(m_checkBoxDoFrames, &QCheckBox::stateChanged, [&] {
-		if (m_checkBoxDoFrames->isChecked())
-			m_widget->ContinueFrames();
+void ConceptEngineEditor::addToolbarWidgets() {
+	// Add CheckBox to tool-bar to stop/continue frames execution.
+	m_pCbxDoFrames->setText("Do Frames");
+	m_pCbxDoFrames->setChecked(true);
+	connect(m_pCbxDoFrames, &QCheckBox::stateChanged, [&] {
+		if (m_pCbxDoFrames->isChecked())
+			m_pScene->continueFrames();
 		else
-			m_widget->PauseFrames();
+			m_pScene->pauseFrames();
 	});
-	// ui->mainToolBar->addWidget(m_checkBoxDoFrames);
+	m_mainToolBar->addWidget(m_pCbxDoFrames);
 }
 
-void ConceptEngineEditor::ConnectSlots() {
-	connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::deviceInitialized, this,
-	        &ConceptEngineEditor::Create);
-	connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::ticked, this, &ConceptEngineEditor::Update);
-	connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::rendered, this, &ConceptEngineEditor::Render);
+void ConceptEngineEditor::connectSlots() {
+	connect(m_pScene, &QDirect3D12Widget::deviceInitialized, this, &ConceptEngineEditor::init);
+	connect(m_pScene, &QDirect3D12Widget::ticked, this, &ConceptEngineEditor::tick);
+	connect(m_pScene, &QDirect3D12Widget::rendered, this, &ConceptEngineEditor::render);
 
 	// NOTE: Additionally, you can listen to some basic IO events.
-	/*
-		connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::keyPressed, this, &ConceptEngineEditor::OnKeyPressed);
-		connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::mouseMoved, this, &ConceptEngineEditor::OnMouseMoved);
-		connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::mouseClicked, this, &ConceptEngineEditor::OnMouseClicked);
-		connect(m_widget, &ConceptEngine::Editor::Widgets::CEQD3DWidget::mouseReleased, this, &ConceptEngineEditor::OnMouseReleased); 
-	 */
-
+	// connect(m_pScene, &QDirect3D12Widget::keyPressed, this, &MainWindow::onKeyPressed);
+	// connect(m_pScene, &QDirect3D12Widget::mouseMoved, this, &MainWindow::onMouseMoved);
+	// connect(m_pScene, &QDirect3D12Widget::mouseClicked, this, &MainWindow::onMouseClicked);
+	// connect(m_pScene, &QDirect3D12Widget::mouseReleased, this,
+	// &MainWindow::onMouseReleased);
 }
 
-void ConceptEngineEditor::Create(bool success) {
+void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
+	event->ignore();
+	m_pScene->release();
+	QTime dieTime = QTime::currentTime().addMSecs(500);
+	while (QTime::currentTime() < dieTime)
+		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+	event->accept();
+}
+
+void ConceptEngineEditor::init(bool success) {
 	if (!success) {
 		QMessageBox::critical(this, "ERROR", "Direct3D widget initialization failed.",
 		                      QMessageBox::Ok);
 		return;
 	}
 
-	QTimer::singleShot(500, this, [&] {
-		m_widget->Run();
-	});
-	disconnect(
-		m_widget,
-		&ConceptEngine::Editor::Widgets::CEQD3DWidget::deviceInitialized,
-		this,
-		&ConceptEngineEditor::Create
-	);
+	// TODO: Add here your extra initialization here.
+	// ...
+
+	// Start processing frames with a short delay in case things are still initializing/loading
+	// in the background.
+	QTimer::singleShot(500, this, [&] { m_pScene->run(); });
+	disconnect(m_pScene, &QDirect3D12Widget::deviceInitialized, this, &ConceptEngineEditor::init);
 }
 
-void ConceptEngineEditor::Update() {
+void ConceptEngineEditor::tick() {
 }
 
-void ConceptEngineEditor::Render(ID3D12GraphicsCommandList* commandList) {
+void ConceptEngineEditor::render(ID3D12GraphicsCommandList* cl) {
 }
 
-void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
-	event->ignore();
-	if (m_widget != nullptr) {
-		m_widget->Release();
-		QTime dieTime = QTime::currentTime().addMSecs(500);
-		while (QTime::currentTime() < dieTime)
-			QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+ConceptEngineEditor::ConceptEngineEditor(QWidget* parent) : QMainWindow(parent),
+                                                            m_WindowSize(QSize(1280, 800)),
+                                                            m_pCbxDoFrames(new QCheckBox(this)) {
+	if (this->objectName().isEmpty())
+		this->setObjectName(QString::fromUtf8("ConceptEngineEditorClass"));
+	this->resize(1186, 685);
+	m_pScene = new QDirect3D12Widget(this);
+	m_pScene->setObjectName(QString::fromUtf8("mainWidget"));
+	this->setCentralWidget(m_pScene);
+	m_menuBar = new QMenuBar(this);
+	m_menuBar->setObjectName(QString::fromUtf8("menuBar"));
+	m_menuBar->setGeometry(QRect(0, 0, 1186, 21));
+	this->setMenuBar(m_menuBar);
+	m_mainToolBar = new QToolBar(this);
+	m_mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+	this->addToolBar(Qt::TopToolBarArea, m_mainToolBar);
 
-	}
-	event->accept();
-}
+	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngineEditor", nullptr));
 
-ConceptEngineEditor::ConceptEngineEditor(QWidget* parent)
-	: QMainWindow(parent) {
-	ui = new Ui::ConceptEngineEditorClass();
-	m_windowSize = QSize(1920, 1080);
-	m_checkBoxDoFrames = new QCheckBox(this);
+	QMetaObject::connectSlotsByName(this);
 
-	ui->setupUi(this);
-	m_widget = new ConceptEngine::Editor::Widgets::CEQD3DWidget(this);
-	m_widget->setObjectName(QString::fromUtf8("centralWidget"));
-	this->setCentralWidget(m_widget);
 
-	if (m_widget != nullptr) {
-		Resize();
-		AddToolBarWidgets();
-		ConnectSlots();
-	}
-
+	adjustWindowSize();
+	addToolbarWidgets();
+	connectSlots();
 }

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}</ProjectGuid>
+    <ProjectGuid>{E2122E5D-A7BC-448A-8A23-449C91051728}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
@@ -63,15 +63,6 @@
     <VcpkgTriplet>
     </VcpkgTriplet>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineEditor\Widgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -99,24 +90,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Widgets\CEQD3DWidget.cpp" />
-    <ClCompile Include="Widgets\QDirect3D12Widget.cpp" />
-    <QtRcc Include="ConceptEngineEditor.qrc" />
-    <QtUic Include="ConceptEngineEditor.ui" />
-    <QtMoc Include="ConceptEngineEditor.h" />
-    <ClCompile Include="ConceptEngineEditor.cpp" />
+    <QtRcc Include="ConceptEditor.qrc" />
+    <QtUic Include="ConceptEditor.ui" />
+    <QtMoc Include="ConceptEditor.h" />
+    <ClCompile Include="ConceptEditor.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
-      <Project>{72a5bd96-5023-4ccf-bc58-b6bb23366999}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Widgets\CEQD3DWidget.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Widgets\QDirect3D12Widget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

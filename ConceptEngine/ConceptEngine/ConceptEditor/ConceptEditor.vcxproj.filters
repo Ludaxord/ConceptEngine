@@ -23,16 +23,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="ConceptEngineEditor.qrc">
+    <QtRcc Include="ConceptEditor.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="ConceptEngineEditor.ui">
+    <QtUic Include="ConceptEditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="ConceptEngineEditor.h">
+    <QtMoc Include="ConceptEditor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="ConceptEngineEditor.cpp">
+    <ClCompile Include="ConceptEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,19 +40,5 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Widgets\CEQD3DWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Widgets\QDirect3D12Widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="Widgets\CEQD3DWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Widgets\QDirect3D12Widget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
 </Project>
