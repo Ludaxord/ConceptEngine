@@ -16,7 +16,7 @@ ConceptEngineEditor::~ConceptEngineEditor() = default;
 void ConceptEngineEditor::adjustWindowSize() {
 	resize(m_WindowSize.width(), m_WindowSize.height());
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
-		qApp->screens().first()->availableGeometry()));
+	                                qApp->screens().first()->availableGeometry()));
 }
 
 void ConceptEngineEditor::addToolbarWidgets() {
@@ -28,7 +28,7 @@ void ConceptEngineEditor::addToolbarWidgets() {
 			m_pScene->continueFrames();
 		else
 			m_pScene->pauseFrames();
-		});
+	});
 	m_mainToolBar->addWidget(m_pCbxDoFrames);
 }
 
@@ -65,18 +65,16 @@ void ConceptEngineEditor::prepareUi() {
 	m_mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
 	this->addToolBar(Qt::TopToolBarArea, m_mainToolBar);
 
-	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngineEditor", nullptr));
+	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngine Editor", nullptr));
 
 	auto consoleSize = QRect(0, 0, 1920, 300);
 	m_console = new CEConsoleWidget();
 	m_console->setGeometry(consoleSize);
-	auto mainLayout = new QVBoxLayout(this);
-	mainLayout->addWidget(m_console);
 
 	QMetaObject::connectSlotsByName(this);
 }
 
-void ConceptEngineEditor::closeEvent(QCloseEvent * event) {
+void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
 	event->ignore();
 	m_pScene->release();
 	QTime dieTime = QTime::currentTime().addMSecs(500);
@@ -89,7 +87,7 @@ void ConceptEngineEditor::closeEvent(QCloseEvent * event) {
 void ConceptEngineEditor::init(bool success) {
 	if (!success) {
 		QMessageBox::critical(this, "ERROR", "Direct3D widget initialization failed.",
-			QMessageBox::Ok);
+		                      QMessageBox::Ok);
 		return;
 	}
 
@@ -98,7 +96,9 @@ void ConceptEngineEditor::init(bool success) {
 
 	// Start processing frames with a short delay in case things are still initializing/loading
 	// in the background.
-	QTimer::singleShot(500, this, [&] { m_pScene->run(); });
+	QTimer::singleShot(500, this, [&] {
+		m_pScene->run();
+	});
 	disconnect(m_pScene, &QDirect3D12Widget::deviceInitialized, this, &ConceptEngineEditor::init);
 }
 
@@ -106,11 +106,11 @@ void ConceptEngineEditor::tick() {
 
 }
 
-void ConceptEngineEditor::render(ID3D12GraphicsCommandList * cl) {
+void ConceptEngineEditor::render(ID3D12GraphicsCommandList* cl) {
 
 }
 
-ConceptEngineEditor::ConceptEngineEditor(QWidget * parent) : QMainWindow(parent) {
+ConceptEngineEditor::ConceptEngineEditor(QWidget* parent) : QMainWindow(parent) {
 	prepareUi();
 
 	adjustWindowSize();

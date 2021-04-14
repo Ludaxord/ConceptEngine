@@ -9,7 +9,7 @@
 #include "Widgets/CEConsoleWidget.h"
 
 class ConceptEngineEditor : public QMainWindow {
-	Q_OBJECT
+Q_OBJECT
 
 public:
 	ConceptEngineEditor(QWidget* parent = Q_NULLPTR);
