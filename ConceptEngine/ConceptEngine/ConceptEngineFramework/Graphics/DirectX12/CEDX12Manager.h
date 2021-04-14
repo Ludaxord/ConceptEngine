@@ -34,11 +34,9 @@
 
 #include "Resources/CETypes.h"
 
-namespace ConceptEngineFramework {
-	namespace Game {
-		class CEWindow;
-	}
-}
+namespace ConceptEngineFramework { namespace Game {
+	class CEWindow;
+}}
 
 namespace wrl = Microsoft::WRL;
 
@@ -210,7 +208,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		CEDX12Manager(Game::CEWindow& window);
 		~CEDX12Manager();
 	private:
-
 		void TearingSupport();
 		void FeatureLevelSupport();
 		void DirectXRayTracingSupport();

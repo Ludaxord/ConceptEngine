@@ -17,6 +17,7 @@ CEDX12SSAOPlayground::CEDX12SSAOPlayground() : CEDX12Playground() {
 	 */
 	mSceneBounds.Center = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	mSceneBounds.Radius = sqrtf(10.0f * 10.0f + 15.0f * 15.0f);
+	spdlog::info("SSAO Run");
 }
 
 void CEDX12SSAOPlayground::Create() {

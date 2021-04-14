@@ -169,7 +169,7 @@ void CEDX12TessellationWavesPlayground::Create() {
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePsoDesc;
 
 		ZeroMemory(&opaquePsoDesc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-		opaquePsoDesc.InputLayout = { m_tessInputLayout.data(), (UINT)m_tessInputLayout.size()};
+		opaquePsoDesc.InputLayout = {m_tessInputLayout.data(), (UINT)m_tessInputLayout.size()};
 		opaquePsoDesc.pRootSignature = m_rootSignature.Get();
 		opaquePsoDesc.VS =
 		{
@@ -200,7 +200,9 @@ void CEDX12TessellationWavesPlayground::Create() {
 		opaquePsoDesc.NumRenderTargets = 1;
 		opaquePsoDesc.RTVFormats[0] = m_dx12manager->GetBackBufferFormat();
 		opaquePsoDesc.SampleDesc.Count = m_dx12manager->GetM4XMSAAState() ? 4 : 1;
-		opaquePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState() ? (m_dx12manager->GetM4XMSAAQuality() - 1) : 0;
+		opaquePsoDesc.SampleDesc.Quality = m_dx12manager->GetM4XMSAAState()
+			                                   ? (m_dx12manager->GetM4XMSAAQuality() - 1)
+			                                   : 0;
 		opaquePsoDesc.DSVFormat = m_dx12manager->GetDepthStencilFormat();
 		ThrowIfFailed(d3dDevice->CreateGraphicsPipelineState(&opaquePsoDesc, IID_PPV_ARGS(&mPSOs["opaque"])));
 	}
@@ -283,9 +285,9 @@ void CEDX12TessellationWavesPlayground::Render(const CETimer& gt) {
 	m_dx12manager->GetD3D12CommandList()->OMSetRenderTargets(1, &cbbv, true, &dsv);
 
 	//TODO: Add function as parameter to method to make creation of scene more dynamic
-	ID3D12DescriptorHeap* descriptorHeaps[] = { m_dx12manager->GetSRVDescriptorHeap().Get() };
+	ID3D12DescriptorHeap* descriptorHeaps[] = {m_dx12manager->GetSRVDescriptorHeap().Get()};
 	m_dx12manager->GetD3D12CommandList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
-	
+
 	m_dx12manager->GetD3D12CommandList()->SetGraphicsRootSignature(m_rootSignature.Get());
 
 	auto passCB = mCurrFrameResource->PassCB->Resource();

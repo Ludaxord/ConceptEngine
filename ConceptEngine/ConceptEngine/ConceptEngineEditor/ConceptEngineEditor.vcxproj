@@ -34,6 +34,7 @@
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
+    <QtQMLDebugEnable>true</QtQMLDebugEnable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.15.2_msvc2019_64</QtInstall>
@@ -71,6 +72,9 @@
     <Link>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <QtRcc>
+      <QmlCacheGenerate>true</QmlCacheGenerate>
+    </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -99,6 +103,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Widgets\CEConsoleWidget.cpp" />
     <ClCompile Include="Widgets\CEQD3DWidget.cpp" />
     <ClCompile Include="Widgets\QDirect3D12Widget.cpp" />
     <QtRcc Include="ConceptEngineEditor.qrc" />
@@ -117,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Widgets\QDirect3D12Widget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Widgets\CEConsoleWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

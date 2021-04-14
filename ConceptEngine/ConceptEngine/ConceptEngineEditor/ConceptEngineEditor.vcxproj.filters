@@ -46,12 +46,18 @@
     <ClCompile Include="Widgets\QDirect3D12Widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Widgets\CEConsoleWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Widgets\CEQD3DWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Widgets\QDirect3D12Widget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Widgets\CEConsoleWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

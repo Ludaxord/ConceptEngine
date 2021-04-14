@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QLayout>
 
 using namespace ConceptEngine::Editor::Widgets;
 
@@ -15,7 +16,7 @@ ConceptEngineEditor::~ConceptEngineEditor() = default;
 void ConceptEngineEditor::adjustWindowSize() {
 	resize(m_WindowSize.width(), m_WindowSize.height());
 	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
-	                                qApp->screens().first()->availableGeometry()));
+		qApp->screens().first()->availableGeometry()));
 }
 
 void ConceptEngineEditor::addToolbarWidgets() {
@@ -27,7 +28,7 @@ void ConceptEngineEditor::addToolbarWidgets() {
 			m_pScene->continueFrames();
 		else
 			m_pScene->pauseFrames();
-	});
+		});
 	m_mainToolBar->addWidget(m_pCbxDoFrames);
 }
 
@@ -44,7 +45,38 @@ void ConceptEngineEditor::connectSlots() {
 	// &MainWindow::onMouseReleased);
 }
 
-void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
+void ConceptEngineEditor::prepareUi() {
+	m_WindowSize = QSize(1920, 1080);
+	m_pCbxDoFrames = new QCheckBox(this);
+
+	this->resize(1920, 1080);
+
+	m_pScene = new QDirect3D12Widget(this);
+	m_pScene->setObjectName(QString::fromUtf8("mainWidget"));
+	this->setCentralWidget(m_pScene);
+
+	auto menuBarSize = QRect(0, 0, 1920, 30);
+	m_menuBar = new QMenuBar(this);
+	m_menuBar->setObjectName(QString::fromUtf8("menuBar"));
+	m_menuBar->setGeometry(menuBarSize);
+	this->setMenuBar(m_menuBar);
+
+	m_mainToolBar = new QToolBar(this);
+	m_mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+	this->addToolBar(Qt::TopToolBarArea, m_mainToolBar);
+
+	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngineEditor", nullptr));
+
+	auto consoleSize = QRect(0, 0, 1920, 300);
+	m_console = new CEConsoleWidget();
+	m_console->setGeometry(consoleSize);
+	auto mainLayout = new QVBoxLayout(this);
+	mainLayout->addWidget(m_console);
+
+	QMetaObject::connectSlotsByName(this);
+}
+
+void ConceptEngineEditor::closeEvent(QCloseEvent * event) {
 	event->ignore();
 	m_pScene->release();
 	QTime dieTime = QTime::currentTime().addMSecs(500);
@@ -57,7 +89,7 @@ void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
 void ConceptEngineEditor::init(bool success) {
 	if (!success) {
 		QMessageBox::critical(this, "ERROR", "Direct3D widget initialization failed.",
-		                      QMessageBox::Ok);
+			QMessageBox::Ok);
 		return;
 	}
 
@@ -71,32 +103,15 @@ void ConceptEngineEditor::init(bool success) {
 }
 
 void ConceptEngineEditor::tick() {
+
 }
 
-void ConceptEngineEditor::render(ID3D12GraphicsCommandList* cl) {
+void ConceptEngineEditor::render(ID3D12GraphicsCommandList * cl) {
+
 }
 
-ConceptEngineEditor::ConceptEngineEditor(QWidget* parent) : QMainWindow(parent),
-                                                            m_WindowSize(QSize(1280, 800)),
-                                                            m_pCbxDoFrames(new QCheckBox(this)) {
-	if (this->objectName().isEmpty())
-		this->setObjectName(QString::fromUtf8("ConceptEngineEditorClass"));
-	this->resize(1186, 685);
-	m_pScene = new QDirect3D12Widget(this);
-	m_pScene->setObjectName(QString::fromUtf8("mainWidget"));
-	this->setCentralWidget(m_pScene);
-	m_menuBar = new QMenuBar(this);
-	m_menuBar->setObjectName(QString::fromUtf8("menuBar"));
-	m_menuBar->setGeometry(QRect(0, 0, 1186, 21));
-	this->setMenuBar(m_menuBar);
-	m_mainToolBar = new QToolBar(this);
-	m_mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-	this->addToolBar(Qt::TopToolBarArea, m_mainToolBar);
-
-	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngineEditor", nullptr));
-
-	QMetaObject::connectSlotsByName(this);
-
+ConceptEngineEditor::ConceptEngineEditor(QWidget * parent) : QMainWindow(parent) {
+	prepareUi();
 
 	adjustWindowSize();
 	addToolbarWidgets();

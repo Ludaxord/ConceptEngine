@@ -29,7 +29,7 @@ void CEDX12Manager::Create() {
 #ifdef _DEBUG
 	LogAdapters();
 #endif
-
+	
 	CreateCommandQueue();
 	CreateCommandAllocator();
 	CreateCommandList();
