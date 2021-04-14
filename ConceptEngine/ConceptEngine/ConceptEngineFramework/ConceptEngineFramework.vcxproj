@@ -533,6 +533,11 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConceptEnginePython\ConceptEnginePython.vcxproj">
+      <Project>{f67a8750-7805-449b-aab7-94b921fe6c80}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
