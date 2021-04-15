@@ -14,21 +14,33 @@ using namespace ConceptEngine::Editor::Widgets;
 ConceptEngineEditor::~ConceptEngineEditor() = default;
 
 void ConceptEngineEditor::adjustWindowSize() {
-	resize(m_WindowSize.width(), m_WindowSize.height());
-	setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(),
-	                                qApp->screens().first()->availableGeometry()));
+	resize(
+		m_WindowSize.width(),
+		m_WindowSize.height()
+	);
+	setGeometry(
+		QStyle::alignedRect(
+			Qt::LeftToRight,
+			Qt::AlignCenter,
+			size(),
+			qApp->screens().first()->availableGeometry()
+		)
+	);
 }
 
 void ConceptEngineEditor::addToolbarWidgets() {
 	// Add CheckBox to tool-bar to stop/continue frames execution.
 	m_pCbxDoFrames->setText("Do Frames");
 	m_pCbxDoFrames->setChecked(true);
-	connect(m_pCbxDoFrames, &QCheckBox::stateChanged, [&] {
-		if (m_pCbxDoFrames->isChecked())
-			m_pScene->continueFrames();
-		else
-			m_pScene->pauseFrames();
-	});
+	connect(m_pCbxDoFrames,
+	        &QCheckBox::stateChanged,
+	        [&] {
+		        if (m_pCbxDoFrames->isChecked())
+			        m_pScene->continueFrames();
+		        else
+			        m_pScene->pauseFrames();
+	        }
+	);
 	m_mainToolBar->addWidget(m_pCbxDoFrames);
 }
 
@@ -67,11 +79,16 @@ void ConceptEngineEditor::prepareUi() {
 
 	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngine Editor", nullptr));
 
+	QMetaObject::connectSlotsByName(this);
+}
+
+void ConceptEngineEditor::PrepareDebugConsole() {
 	auto consoleSize = QRect(0, 0, 1920, 300);
 	m_console = new CEConsoleWidget();
 	m_console->setGeometry(consoleSize);
-
-	QMetaObject::connectSlotsByName(this);
+	m_console->setReadOnly(true);
+	m_console->PutData("Welcome to Concept Engine Editor");
+	this->setCentralWidget(m_console);
 }
 
 void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
@@ -112,6 +129,7 @@ void ConceptEngineEditor::render(ID3D12GraphicsCommandList* cl) {
 
 ConceptEngineEditor::ConceptEngineEditor(QWidget* parent) : QMainWindow(parent) {
 	prepareUi();
+	PrepareDebugConsole();
 
 	adjustWindowSize();
 	addToolbarWidgets();

@@ -17,6 +17,8 @@ namespace ConceptEngine::Editor::Widgets {
 
 		void PutData(const QByteArray& data);
 		void SetLocalEchoEnabled(bool echo);
+
+		void DisplayBuildInfo();
 	protected:
 		void keyPressEvent(QKeyEvent* e) override;
 		void mousePressEvent(QMouseEvent* e) override;

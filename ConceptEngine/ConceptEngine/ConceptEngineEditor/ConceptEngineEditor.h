@@ -8,6 +8,8 @@
 #include "Widgets/QDirect3D12Widget.h"
 #include "Widgets/CEConsoleWidget.h"
 
+using namespace ConceptEngine::Editor::Widgets;
+
 class ConceptEngineEditor : public QMainWindow {
 Q_OBJECT
 
@@ -21,6 +23,8 @@ public:
 
 	void prepareUi();
 
+	void PrepareDebugConsole();
+
 private:
 	void closeEvent(QCloseEvent* event) override;
 
@@ -31,7 +35,7 @@ public slots:
 
 private:
 	QDirect3D12Widget* m_pScene;
-	ConceptEngine::Editor::Widgets::CEConsoleWidget* m_console = nullptr;
+	CEConsoleWidget* m_console = nullptr;
 
 	QSize m_WindowSize;
 	QCheckBox* m_pCbxDoFrames;
