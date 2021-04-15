@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConceptEngineCSharp", "Conc
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ConceptEnginePython", "ConceptEnginePython\ConceptEnginePython.pyproj", "{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ConceptEngineJS", "ConceptEngineJS\ConceptEngineJS.njsproj", "{9F941BE8-BF44-477E-895A-71A5DD5986A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Release|x64.ActiveCfg = Release|Any CPU
 		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|x64.Build.0 = Debug|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|x86.Build.0 = Debug|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Release|x64.ActiveCfg = Release|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Release|x64.Build.0 = Release|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

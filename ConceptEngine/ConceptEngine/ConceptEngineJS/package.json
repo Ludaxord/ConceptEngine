@@ -1,0 +1,9 @@
+{
+  "name": "concept-engine-js",
+  "version": "0.0.0",
+  "description": "ConceptEngineJS",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}
