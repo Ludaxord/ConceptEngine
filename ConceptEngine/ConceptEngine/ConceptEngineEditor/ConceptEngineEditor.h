@@ -21,6 +21,7 @@ public:
 	void addToolbarWidgets();
 	void connectSlots();
 
+	void PrepareBoxLayout();
 	void prepareUi();
 
 	void PrepareDebugConsole();
@@ -39,6 +40,7 @@ private:
 
 	QSize m_WindowSize;
 	QCheckBox* m_pCbxDoFrames;
-	QMenuBar* m_menuBar;
-	QToolBar* m_mainToolBar;
+
+	QTabWidget* m_infoTab;
+
 };

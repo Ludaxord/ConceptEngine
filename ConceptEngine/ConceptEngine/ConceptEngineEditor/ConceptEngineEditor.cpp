@@ -8,6 +8,8 @@
 #include <QCloseEvent>
 #include <QDesktopWidget>
 #include <QLayout>
+#include <QTabWidget>
+#include <QVBoxLayout>
 
 using namespace ConceptEngine::Editor::Widgets;
 
@@ -41,7 +43,6 @@ void ConceptEngineEditor::addToolbarWidgets() {
 			        m_pScene->pauseFrames();
 	        }
 	);
-	m_mainToolBar->addWidget(m_pCbxDoFrames);
 }
 
 void ConceptEngineEditor::connectSlots() {
@@ -57,38 +58,41 @@ void ConceptEngineEditor::connectSlots() {
 	// &MainWindow::onMouseReleased);
 }
 
+void ConceptEngineEditor::PrepareBoxLayout() {
+	QVBoxLayout* layout = new QVBoxLayout;
+	m_infoTab = new QTabWidget(this);
+	auto tabSize = QRect(0, 0, 1920, 300);
+	m_infoTab->setGeometry(tabSize);
+	m_infoTab->addTab(m_console, tr("Output Log"));
+	layout->addWidget(m_pScene, 4, Qt::AlignTop);
+	layout->addWidget(m_infoTab, 2, Qt::AlignBottom);
+	setLayout(layout);
+}
+
 void ConceptEngineEditor::prepareUi() {
 	m_WindowSize = QSize(1920, 1080);
 	m_pCbxDoFrames = new QCheckBox(this);
 
-	this->resize(1920, 1080);
-
+	auto d3dSize = QRect(0, 0, 1920, 600);
 	m_pScene = new QDirect3D12Widget(this);
-	m_pScene->setObjectName(QString::fromUtf8("mainWidget"));
-	this->setCentralWidget(m_pScene);
-
-	auto menuBarSize = QRect(0, 0, 1920, 30);
-	m_menuBar = new QMenuBar(this);
-	m_menuBar->setObjectName(QString::fromUtf8("menuBar"));
-	m_menuBar->setGeometry(menuBarSize);
-	this->setMenuBar(m_menuBar);
-
-	m_mainToolBar = new QToolBar(this);
-	m_mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-	this->addToolBar(Qt::TopToolBarArea, m_mainToolBar);
+	m_pScene->setGeometry(d3dSize);
 
 	this->setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngine Editor", nullptr));
 
-	QMetaObject::connectSlotsByName(this);
+	PrepareDebugConsole();
+
+	PrepareBoxLayout();
+
+	this->resize(1920, 1080);
+
 }
 
 void ConceptEngineEditor::PrepareDebugConsole() {
 	auto consoleSize = QRect(0, 0, 1920, 300);
 	m_console = new CEConsoleWidget();
-	m_console->setGeometry(consoleSize);
 	m_console->setReadOnly(true);
+	m_console->setGeometry(consoleSize);
 	m_console->PutData("Welcome to Concept Engine Editor");
-	this->setCentralWidget(m_console);
 }
 
 void ConceptEngineEditor::closeEvent(QCloseEvent* event) {
@@ -129,9 +133,7 @@ void ConceptEngineEditor::render(ID3D12GraphicsCommandList* cl) {
 
 ConceptEngineEditor::ConceptEngineEditor(QWidget* parent) : QMainWindow(parent) {
 	prepareUi();
-	PrepareDebugConsole();
 
 	adjustWindowSize();
-	addToolbarWidgets();
 	connectSlots();
 }
