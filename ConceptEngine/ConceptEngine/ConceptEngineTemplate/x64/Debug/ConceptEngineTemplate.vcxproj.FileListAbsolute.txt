@@ -1,0 +1,2 @@
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineTemplate\x64\Debug\ConceptEngineTemplate.vcxprojAssemblyReference.cache
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineTemplate\x64\Debug\ConceptEngineTemplate.vcxproj.CopyComplete
