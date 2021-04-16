@@ -29,10 +29,10 @@
     <QtUic Include="ConceptEngineEditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="ConceptEngineEditor.h">
+    <QtMoc Include="Window\ConceptEngineEditor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="ConceptEngineEditor.cpp">
+    <ClCompile Include="Window\ConceptEngineEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,6 +49,12 @@
     <ClCompile Include="Widgets\CEConsoleWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Window\CEDXWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\CEMainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Widgets\CEQD3DWidget.h">
@@ -58,6 +64,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="Widgets\CEConsoleWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Window\CEMainWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Window\CEDXWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

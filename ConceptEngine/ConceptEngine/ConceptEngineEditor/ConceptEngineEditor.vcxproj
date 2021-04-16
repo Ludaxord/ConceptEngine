@@ -108,8 +108,10 @@
     <ClCompile Include="Widgets\QDirect3D12Widget.cpp" />
     <QtRcc Include="ConceptEngineEditor.qrc" />
     <QtUic Include="ConceptEngineEditor.ui" />
-    <QtMoc Include="ConceptEngineEditor.h" />
-    <ClCompile Include="ConceptEngineEditor.cpp" />
+    <QtMoc Include="Window\ConceptEngineEditor.h" />
+    <ClCompile Include="Window\CEDXWindow.cpp" />
+    <ClCompile Include="Window\CEMainWindow.cpp" />
+    <ClCompile Include="Window\ConceptEngineEditor.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Widgets\CEConsoleWidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Window\CEDXWindow.h" />
+    <QtMoc Include="Window\CEMainWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
