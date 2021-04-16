@@ -23,6 +23,6 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_infoTab->addTab(m_info, tr("Machine Info"));
 	m_infoTab->addTab(logWindow, tr("Output Log"));
 	layout->addWidget(wrapper, 5);
-	layout->addWidget(m_infoTab, 2);
+	layout->addWidget(m_infoTab, 1);
 	setLayout(layout);
 }
