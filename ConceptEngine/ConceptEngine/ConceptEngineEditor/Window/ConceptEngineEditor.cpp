@@ -64,30 +64,15 @@ void ConceptEngineEditor::PrepareBoxLayout() {
 
 void ConceptEngineEditor::prepareUi() {
 	m_WindowSize = QSize(1024, 720);
-	m_pCbxDoFrames = new QCheckBox(m_mainWidget);
-
-	m_console = new CEConsoleWidget();
-	m_console->setReadOnly(true);
-	m_console->PutData("Welcome to Concept Engine Editor");
-
-	QVBoxLayout* layout = new QVBoxLayout;
-	m_infoTab = new QTabWidget(this);
-	m_infoTab->addTab(m_console, tr("Output Log"));
-
-	m_mainWidget = new QWidget;
+	m_pCbxDoFrames = new QCheckBox(this);
 
 	m_pScene = new QDirect3D12Widget(this);
-	m_pScene->setMinimumSize(800, 600);
-	m_infoTab->setMinimumSize(1024, 720);
-	// QWidget* wrapper = QWidget::createWindowContainer(w);
-
-	layout->addWidget(m_pScene, 5, Qt::AlignTop);
-	layout->addWidget(m_infoTab, 2, Qt::AlignBottom);
-	setLayout(layout);
 
 	setWindowTitle(QCoreApplication::translate("ConceptEngineEditorClass", "ConceptEngine Editor", nullptr));
 
 	resize(1024, 720);
+
+	setCentralWidget(m_pScene);
 }
 
 void ConceptEngineEditor::PrepareDebugConsole() {

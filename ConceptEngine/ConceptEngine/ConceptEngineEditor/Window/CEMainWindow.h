@@ -8,7 +8,7 @@ class CEDXWindow;
 class CEMainWindow : public QWidget {
 Q_OBJECT
 public:
-	explicit CEMainWindow(CEDXWindow* w, QPlainTextEdit* logWindow);
+	explicit CEMainWindow(QPlainTextEdit* logWindow);
 
 private:
 	CEDXWindow* m_window;

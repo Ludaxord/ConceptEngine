@@ -5,8 +5,12 @@
 #include "CEDXWindow.h"
 
 
-CEMainWindow::CEMainWindow(CEDXWindow* w, QPlainTextEdit* logWindow) {
-	QWidget* wrapper = QWidget::createWindowContainer(w);
+CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
+	QWidget* wrapper = new QWidget();
+	// QWidget* wrapper = QWidget::createWindowContainer(w);
+	auto p = wrapper->palette();
+	p.setColor(QPalette::Base, QColor(46, 132, 84));
+	wrapper->setPalette(p);
 
 	m_info = new QPlainTextEdit;
 	m_info->setReadOnly(true);
