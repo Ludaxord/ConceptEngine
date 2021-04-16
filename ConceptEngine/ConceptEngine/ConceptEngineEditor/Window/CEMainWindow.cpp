@@ -6,11 +6,14 @@
 
 
 CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
-	QWidget* wrapper = new QWidget();
 	// QWidget* wrapper = QWidget::createWindowContainer(w);
-	auto p = wrapper->palette();
-	p.setColor(QPalette::Base, QColor(46, 132, 84));
-	wrapper->setPalette(p);
+	QWidget* wrapper = new QWidget();
+	// wrapper->setMinimumSize(800, 600);
+	// wrapper->setGeometry(0, 0, 300, 100);
+	QPalette pal = palette();
+	pal.setColor(QPalette::Background, QColor(46, 132, 84));
+	wrapper->setAutoFillBackground(true);
+	wrapper->setPalette(pal);
 
 	m_info = new QPlainTextEdit;
 	m_info->setReadOnly(true);
