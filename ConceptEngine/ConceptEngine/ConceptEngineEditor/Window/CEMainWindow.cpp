@@ -1,9 +1,12 @@
 #include "CEMainWindow.h"
 
 #include <QCheckBox>
+#include <qdialog.h>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QLCDNumber>
+#include <QMenuBar>
+#include <QPushButton>
 
 #include "CEDXWindow.h"
 
@@ -45,23 +48,43 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	counterLcd->display(10);
 
 
-	QGridLayout* layout = new QGridLayout;
-	layout->addWidget(meshSwitch, 0, 0);
-	layout->addWidget(counterLcd, 3, 0);
-	// setLayout(layout);
+	auto* rightLayout = new QGridLayout;
+	rightLayout->addWidget(meshSwitch, 0, 0);
+	rightLayout->addWidget(counterLcd, 3, 0);
 
-	// QVBoxLayout* layout = new QVBoxLayout;
-	// layout->addWidget(wrapper, 5);
-	// layout->addWidget(m_infoTab, 1);
-	// setLayout(layout);
+	auto leftLayout = new QGridLayout;
+	leftLayout->addWidget(infoLabel, 0, 0);
 
-	QVBoxLayout* vlayout = new QVBoxLayout();
-	vlayout->addWidget(wrapper, 3);
-	vlayout->addWidget(m_infoTab, 1);
 
-	QHBoxLayout* hlayout = new QHBoxLayout();
-	hlayout->addWidget(infoLabel);
-	hlayout->addLayout(vlayout);
-	hlayout->addLayout(layout);
-	setLayout(hlayout);
+	auto topLayout = new QHBoxLayout();
+	for (int i = 0; i < 5; i++) {
+		auto counter = new QPushButton(tr("Button"));
+		topLayout->addWidget(counter);
+	}
+
+	auto centerLayout = new QVBoxLayout();
+	centerLayout->addLayout(topLayout, 0);
+	centerLayout->addWidget(wrapper, 3);
+	centerLayout->addWidget(m_infoTab, 1);
+
+	auto toolbar = new QMenuBar();
+	QMenu* menus[] = {
+		new QMenu(tr("&File")),
+		new QMenu(tr("&Edit")),
+		new QMenu(tr("&Window")),
+		new QMenu(tr("&Help"))
+	};
+	for (auto menu : menus) {
+		toolbar->addMenu(menu);
+	}
+
+	auto mainViewLayout = new QHBoxLayout();
+	mainViewLayout->addLayout(leftLayout);
+	mainViewLayout->addLayout(centerLayout);
+	mainViewLayout->addLayout(rightLayout);
+
+	auto mainLayout = new QGridLayout();
+	mainLayout->setMenuBar(toolbar);
+	mainLayout->addLayout(mainViewLayout, 0, 0);
+	setLayout(mainLayout);
 }
