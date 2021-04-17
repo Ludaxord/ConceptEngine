@@ -12,21 +12,22 @@
 
 
 CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
-	// QWidget* wrapper = QWidget::createWindowContainer(w);
 	QWidget* wrapper = new QWidget();
-	// wrapper->setMinimumSize(800, 600);
-	// wrapper->setGeometry(0, 0, 300, 100);
+
+	// setStyleSheet("QWidget { border: 2px solid #3E3E3E; }");
+
 	QPalette pal = palette();
 	pal.setColor(QPalette::Background, QColor(46, 132, 84));
 	wrapper->setAutoFillBackground(true);
 	wrapper->setPalette(pal);
 
-	m_info = new QPlainTextEdit;
+	m_info = new ConceptEngine::Editor::Widgets::CEConsoleWidget();
 	m_info->setReadOnly(true);
 
 	m_infoTab = new QTabWidget(this);
-	m_infoTab->addTab(m_info, tr("Machine Info"));
-	m_infoTab->addTab(logWindow, tr("Output Log"));
+	m_infoTab->addTab(m_info, tr("Output Log"));
+	// m_infoTab->setStyleSheet("QTabBar::tab { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3); border: 2px solid #C4C4C3; border-bottom-color: #C2C7CB; border-top-left-radius: 4px; border-top-right-radius: 4px; min-width: 8ex; padding: 2px;}");
+	m_infoTab->setStyleSheet("QTabBar::tab { background-color: #3E3E3E; color: #BCBCBC }");
 
 	//debug
 	auto infoLabel = new QLabel;
@@ -41,7 +42,7 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 		"Click Add New to increase the number of instances."));
 
 	auto meshSwitch = new QCheckBox(tr("&Use Qt logo"));
-	meshSwitch->setFocusPolicy(Qt::NoFocus); // do not interfere with vulkanWindow's keyboard input
+	meshSwitch->setFocusPolicy(Qt::NoFocus);
 
 	auto counterLcd = new QLCDNumber(5);
 	counterLcd->setSegmentStyle(QLCDNumber::Filled);

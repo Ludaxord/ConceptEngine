@@ -9,6 +9,7 @@
 
 int main(int argc, char* argv[]) {
 	QApplication a(argc, argv);
+	a.setWindowIcon(QIcon("F:/Projects/ConceptEngine/assets/conceptenginelogo.png"));
 
 	QPlainTextEdit* messageLogWidget = new QPlainTextEdit(QLatin1String(QLibraryInfo::build()) + QLatin1Char('\n'));
 	messageLogWidget->setReadOnly(true);

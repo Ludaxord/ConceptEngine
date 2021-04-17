@@ -73,4 +73,7 @@
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Window\style.qss" />
+  </ItemGroup>
 </Project>

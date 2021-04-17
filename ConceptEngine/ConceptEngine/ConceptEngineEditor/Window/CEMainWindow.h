@@ -3,6 +3,8 @@
 #include <QTabWidget>
 #include <QWidget>
 
+#include "CEConsoleWidget.h"
+
 class CEDXWindow;
 
 class CEMainWindow : public QWidget {
@@ -13,5 +15,5 @@ public:
 private:
 	CEDXWindow* m_window;
 	QTabWidget* m_infoTab;
-	QPlainTextEdit* m_info;
+	ConceptEngine::Editor::Widgets::CEConsoleWidget* m_info;
 };
