@@ -12,6 +12,7 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <D3Dcompiler.h>
+#include <QElapsedTimer>
 #include "../../ConceptEngineFramework/Graphics/DirectX12/Libraries/d3dx12.h"
 
 class QDirect3D12Widget : public QWidget
@@ -120,6 +121,7 @@ private:
 
     // Widget objects.
     QTimer m_qTimer;
+	   QElapsedTimer m_elapsedTimer;
 
     HWND m_hWnd;
     bool m_bDeviceInitialized;
@@ -128,6 +130,8 @@ private:
     bool m_bStarted;
 
     D3DCOLORVALUE m_BackColor;
+
+    inline static int m_debugCounter = 1;
 };
 
 // ############################################################################

@@ -9,8 +9,6 @@
 #include "CEConsoleWidget.h"
 #include "QDirect3D12Widget.h"
 
-class CEDXWindow;
-
 class CEMainWindow : public QWidget {
 Q_OBJECT
 public:
@@ -29,7 +27,6 @@ public slots:
 private:
 	QVBoxLayout* m_centerLayout;
 	QDirect3D12Widget* m_scene;
-	CEDXWindow* m_window;
 	QTabWidget* m_infoTab;
 	ConceptEngine::Editor::Widgets::CEConsoleWidget* m_info;
 };

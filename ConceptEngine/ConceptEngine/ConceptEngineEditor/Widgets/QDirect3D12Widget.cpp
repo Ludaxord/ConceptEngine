@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QEvent>
 #include <QWheelEvent>
+#include <random>
 
 using Microsoft::WRL::ComPtr;
 
@@ -38,10 +39,11 @@ QDirect3D12Widget::QDirect3D12Widget(QWidget * parent)
     , m_bDeviceInitialized(false)
     , m_bRenderActive(false)
     , m_bStarted(false)
-    , m_BackColor{0.564f, 0.3, 0.1, 1.0f}
+    , m_BackColor{0.564f, 0.3f, 0.1f, 1.0f}
 {
     qDebug() << "[QDirect3D12Widget::QDirect3D12Widget] - Widget Handle: " << m_hWnd;
-
+    m_elapsedTimer.start();
+	
     QPalette pal = palette();
     pal.setColor(QPalette::Window, Qt::black);
     setAutoFillBackground(true);
@@ -299,7 +301,8 @@ void QDirect3D12Widget::render()
     // TODO: Present your scene here. For aesthetics reasons, only do it here if it's an
     // important component, otherwise do it in the MainWindow.
     // m_pCamera->Apply();
-
+    m_debugCounter++;
+	
     emit rendered(m_pCommandList);
 }
 
