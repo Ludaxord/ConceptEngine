@@ -14,6 +14,8 @@ int main(int argc, char* argv[]) {
 	QPlainTextEdit* messageLogWidget = new QPlainTextEdit(QLatin1String(QLibraryInfo::build()) + QLatin1Char('\n'));
 	messageLogWidget->setReadOnly(true);
 	CEMainWindow mainWindow(messageLogWidget);
+	mainWindow.resize(1024, 720);
+
 	mainWindow.show();
 
 	// ConceptEngineEditor w;

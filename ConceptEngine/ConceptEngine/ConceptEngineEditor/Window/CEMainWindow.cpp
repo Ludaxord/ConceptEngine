@@ -1,21 +1,31 @@
 #include "CEMainWindow.h"
 
 #include <QCheckBox>
+#include <qcoreapplication.h>
 #include <qdialog.h>
+#include <qeventloop.h>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QLCDNumber>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QStyle>
+#include <QTime>
 
 #include "CEDXWindow.h"
 
 
 CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
-	QWidget* wrapper = new QWidget();
 
-	// setStyleSheet("QWidget { border: 2px solid }");
+	// QWidget* wrapper = new QWidget();
+	// QPalette pal = palette();
+	// pal.setColor(QPalette::Background, QColor(46, 132, 84));
+	// wrapper->setAutoFillBackground(true);
+	// wrapper->setPalette(pal);
+	m_centerLayout = new QVBoxLayout();
+	m_scene = new QDirect3D12Widget(m_centerLayout->widget());
+
 	QPalette p = palette();
 	p.setColor(QPalette::Background, QColor(34, 34, 34));
 	p.setColor(QPalette::Text, QColor(192, 192, 192));
@@ -28,11 +38,6 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	this->setObjectName("ConceptEngineMainWindow");
 	style()->unpolish(this);
 	style()->polish(this);
-
-	QPalette pal = palette();
-	pal.setColor(QPalette::Background, QColor(46, 132, 84));
-	wrapper->setAutoFillBackground(true);
-	wrapper->setPalette(pal);
 
 	m_info = new ConceptEngine::Editor::Widgets::CEConsoleWidget();
 	m_info->setReadOnly(true);
@@ -57,12 +62,12 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 	auto counterLcd = new QLCDNumber(5);
 	counterLcd->setSegmentStyle(QLCDNumber::Filled);
-	counterLcd->display(10);
+	counterLcd->display(9999);
 
 
 	auto* rightLayout = new QGridLayout;
-	rightLayout->addWidget(meshSwitch, 0, 0);
-	rightLayout->addWidget(counterLcd, 3, 0);
+	rightLayout->addWidget(counterLcd, 0, 0);
+	rightLayout->addWidget(meshSwitch, 3, 0);
 
 	auto leftLayout = new QGridLayout;
 	leftLayout->addWidget(infoLabel, 0, 0);
@@ -77,10 +82,9 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 		topLayout->addWidget(counter);
 	}
 
-	auto centerLayout = new QVBoxLayout();
-	centerLayout->addLayout(topLayout, 0);
-	centerLayout->addWidget(wrapper, 3);
-	centerLayout->addWidget(m_infoTab, 1);
+	m_centerLayout->addLayout(topLayout, 0);
+	m_centerLayout->addWidget(m_scene, 3);
+	m_centerLayout->addWidget(m_infoTab, 1);
 
 	auto toolbar = new QMenuBar();
 	QMenu* menus[] = {
@@ -95,7 +99,7 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 	auto mainViewLayout = new QHBoxLayout();
 	mainViewLayout->addLayout(leftLayout);
-	mainViewLayout->addLayout(centerLayout);
+	mainViewLayout->addLayout(m_centerLayout);
 	mainViewLayout->addLayout(rightLayout);
 
 	auto mainLayout = new QGridLayout();
@@ -103,4 +107,38 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	mainLayout->addLayout(mainViewLayout, 0, 0);
 	setLayout(mainLayout);
 
+	connectSlots();
+}
+
+void CEMainWindow::connectSlots() {
+	connect(m_scene, &QDirect3D12Widget::deviceInitialized, this, &CEMainWindow::init);
+	connect(m_scene, &QDirect3D12Widget::ticked, this, &CEMainWindow::tick);
+	connect(m_scene, &QDirect3D12Widget::rendered, this, &CEMainWindow::render);
+}
+
+void CEMainWindow::closeEvent(QCloseEvent* event) {
+	event->ignore();
+	QTime dieTime = QTime::currentTime().addMSecs(500);
+	while (QTime::currentTime() < dieTime)
+		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+	event->accept();
+}
+
+void CEMainWindow::init(bool success) {
+	if (!success) {
+		QMessageBox::critical(m_centerLayout->widget(), "ERROR", "Direct3D widget initialization failed.",
+		                      QMessageBox::Ok);
+		return;
+	}
+
+	QTimer::singleShot(500, m_centerLayout->widget(), [&] {
+		m_scene->run();
+	});
+	disconnect(m_scene, &QDirect3D12Widget::deviceInitialized, this, &CEMainWindow::init);
+}
+
+void CEMainWindow::tick() {
+}
+
+void CEMainWindow::render(ID3D12GraphicsCommandList* cl) {
 }

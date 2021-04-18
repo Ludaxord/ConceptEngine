@@ -48,7 +48,7 @@ QDirect3D12Widget::QDirect3D12Widget(QWidget * parent)
     setPalette(pal);
 
     setFocusPolicy(Qt::StrongFocus);
-    // setAttribute(Qt::WA_NativeWindow);
+    setAttribute(Qt::WA_NativeWindow);
 
     // Setting these attributes to our widget and returning null on paintEngine event
     // tells Qt that we'll handle all drawing and updating the widget ourselves.
