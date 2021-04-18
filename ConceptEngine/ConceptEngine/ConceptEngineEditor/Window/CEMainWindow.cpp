@@ -25,7 +25,8 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	// wrapper->setPalette(pal);
 	m_centerLayout = new QVBoxLayout();
 	m_scene = new QDirect3D12Widget(m_centerLayout->widget());
-
+	m_scene->setMinimumSize(320, 240);
+	
 	QPalette p = palette();
 	p.setColor(QPalette::Background, QColor(34, 34, 34));
 	p.setColor(QPalette::Text, QColor(192, 192, 192));
@@ -77,8 +78,19 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	std::string names[] = {
 		"Save", "Compile", "Build", "Launch", "Settings"
 	};
+
+
 	for (std::string name : names) {
 		auto counter = new QPushButton(tr(name.c_str()));
+		QPalette buttonPapette = counter->palette();
+		buttonPapette.setColor(QPalette::Button, QColor(34, 34, 34));
+		buttonPapette.setColor(QPalette::Background, QColor(34, 34, 34));
+		buttonPapette.setColor(QPalette::Base, QColor(34, 34, 34));
+		buttonPapette.setColor(QPalette::ButtonText, QColor(192, 192, 192));
+
+		// counter->setAutoFillBackground(true);
+		counter->setPalette(buttonPapette);
+		counter->update();
 		topLayout->addWidget(counter);
 	}
 
