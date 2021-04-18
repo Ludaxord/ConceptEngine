@@ -7,6 +7,7 @@
 #include <QLCDNumber>
 #include <QMenuBar>
 #include <QPushButton>
+#include <QStyle>
 
 #include "CEDXWindow.h"
 
@@ -19,7 +20,14 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	p.setColor(QPalette::Background, QColor(34, 34, 34));
 	p.setColor(QPalette::Text, QColor(192, 192, 192));
 	setPalette(p);
-	setStyleSheet("border: 5px solid  #3E3E3E;");
+
+	auto o = objectName();
+	auto styleString = "QHBoxLayout { border: 3px solid #3E3E3E; };";
+	setStyleSheet(styleString);
+
+	this->setObjectName("ConceptEngineMainWindow");
+	style()->unpolish(this);
+	style()->polish(this);
 
 	QPalette pal = palette();
 	pal.setColor(QPalette::Background, QColor(46, 132, 84));
@@ -31,9 +39,6 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 	m_infoTab = new QTabWidget(this);
 	m_infoTab->addTab(m_info, tr("Output Log"));
-	// m_infoTab->setStyleSheet(
-	// 	"QTabBar::tab { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3); border: 2px solid #C4C4C3; border-bottom-color: #C2C7CB; border-top-left-radius: 4px; border-top-right-radius: 4px; min-width: 8ex; padding: 2px;}");
-	// m_infoTab->setStyleSheet("QTabBar::tab { background-color: #3E3E3E; color: #BCBCBC }");
 
 	//debug
 	auto infoLabel = new QLabel;
@@ -64,8 +69,11 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 
 	auto topLayout = new QHBoxLayout();
-	for (int i = 0; i < 5; i++) {
-		auto counter = new QPushButton(tr("Button"));
+	std::string names[] = {
+		"Save", "Compile", "Build", "Launch", "Settings"
+	};
+	for (std::string name : names) {
+		auto counter = new QPushButton(tr(name.c_str()));
 		topLayout->addWidget(counter);
 	}
 

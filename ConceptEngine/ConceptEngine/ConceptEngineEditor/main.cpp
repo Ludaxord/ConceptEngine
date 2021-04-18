@@ -18,6 +18,6 @@ int main(int argc, char* argv[]) {
 
 	// ConceptEngineEditor w;
 	// w.show();
-	
+
 	return a.exec();
 }
