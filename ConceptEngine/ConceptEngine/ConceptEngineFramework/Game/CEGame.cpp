@@ -80,6 +80,12 @@ GameEngine::CEGame::CEGame(std::wstring name,
 	m_playground(playground) {
 }
 
+GameEngine::CEGame::CEGame(HWND hWnd, Graphics::API graphicsAPI, Graphics::CEPlayground* playground): m_hwnd(hWnd),
+	m_graphicsAPI(graphicsAPI),
+	m_systemInfo{},
+	m_playground(playground) {
+}
+
 void GameEngine::CEGame::Init() {
 	SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 	CreateConsole(m_name);
@@ -89,10 +95,25 @@ void GameEngine::CEGame::Init() {
 	CreateGraphicsManager(m_graphicsAPI);
 }
 
+void GameEngine::CEGame::LinkWithEditor() {
+	SystemInfo();
+	CreateGraphicsManager(m_graphicsAPI);
+}
+
 GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,
                                                Graphics::API graphicsAPI, Graphics::CEPlayground* playground) {
 	if (!g_pGame) {
 		g_pGame = new CEGame(name, hInst, width, height, graphicsAPI, playground);
+		spdlog::info("ConceptEngineFramework Game class created.");
+	}
+
+	return *g_pGame;
+}
+
+ConceptEngineFramework::Game::CEGame& ConceptEngineFramework::Game::CEGame::Create(HWND hWnd, Graphics::API graphicsAPI,
+	Graphics::CEPlayground* playground) {
+	if (!g_pGame) {
+		g_pGame = new CEGame(hWnd, graphicsAPI, playground);
 		spdlog::info("ConceptEngineFramework Game class created.");
 	}
 

@@ -21,7 +21,15 @@ CEFramework::CEFramework(std::wstring name,
 	Game::CEGame::Get().Init();
 }
 
-int CEFramework::Run() const {
+CEFramework::CEFramework(HWND hWnd, Graphics::API graphicsApi, Graphics::CEPlayground* playground): m_hWnd(hWnd) {
+	Game::CEGame::Create(hWnd, graphicsApi, playground);
+	Game::CEGame::Get().LinkWithEditor();
+}
+
+int CEFramework::Run(bool editorMode) const {
+	if (editorMode) {
+		return 0;
+	}
 	return Game::CEGame::Get().Run();
 }
 

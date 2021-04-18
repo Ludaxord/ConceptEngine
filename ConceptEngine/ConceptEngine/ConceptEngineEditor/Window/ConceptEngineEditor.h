@@ -1,10 +1,8 @@
 #pragma once
 
 #include <d3d12.h>
-#include <QtWidgets/QMainWindow>
 #include <QCheckBox>
 #include "ui_ConceptEngineEditor.h"
-#include "../Widgets/CEQD3DWidget.h"
 #include "../Widgets/QDirect3D12Widget.h"
 #include "../Widgets/CEConsoleWidget.h"
 

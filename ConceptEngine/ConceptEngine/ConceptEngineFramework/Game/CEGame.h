@@ -12,8 +12,7 @@
 
 static LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-namespace ConceptEngineFramework {
-	namespace Graphics {
+namespace ConceptEngineFramework { namespace Graphics {
 		class CEPlayground;
 		struct CEGraphicsManager;
 	}
@@ -26,7 +25,6 @@ namespace ConceptEngineFramework {
 
 		class CEGame {
 		public:
-
 			virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 			static CEGame& Get();
@@ -81,14 +79,17 @@ namespace ConceptEngineFramework {
 			friend CEFramework;
 			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI,
 			                      Graphics::CEPlayground* playground);
+			static CEGame& Create(HWND hWnd, Graphics::API graphicsAPI, Graphics::CEPlayground* playground);
 
 			void Init();
+			void LinkWithEditor();
 			void SystemInfo();
 			void CalculateFPS(bool showInTitleBar = false) const;
 
 		private:
 			CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI,
 			       Graphics::CEPlayground* playground);
+			CEGame(HWND hWnd, Graphics::API graphicsAPI, Graphics::CEPlayground* playground);
 
 			std::shared_ptr<CEConsole> m_console;
 			std::shared_ptr<CEWindow> m_window;
@@ -112,6 +113,7 @@ namespace ConceptEngineFramework {
 			bool m_minimized = false; // is the application minimized?
 			bool m_maximized = false; // is the application maximized?
 			bool m_resizing = false; // are the resize bars being dragged?
+
+			HWND m_hwnd;
 		};
-	}
-}
+	}}

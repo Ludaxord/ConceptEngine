@@ -17,12 +17,6 @@
 
 
 CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
-
-	// QWidget* wrapper = new QWidget();
-	// QPalette pal = palette();
-	// pal.setColor(QPalette::Background, QColor(46, 132, 84));
-	// wrapper->setAutoFillBackground(true);
-	// wrapper->setPalette(pal);
 	m_centerLayout = new QVBoxLayout();
 	m_scene = new QDirect3D12Widget(m_centerLayout->widget());
 	m_scene->setMinimumSize(320, 240);
