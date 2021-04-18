@@ -41,6 +41,14 @@ ConceptEngine/ConceptEngine/ConceptEditor/x64
 ConceptEngine/ConceptEngine/ConceptEditor/x64/*
 ConceptEngine/ConceptEngine/ConceptEngineEditor/x64
 ConceptEngine/ConceptEngine/ConceptEngineEditor/x64/*
+ConceptEngine/ConceptEngine/ConceptEngineCSharp/x64
+ConceptEngine/ConceptEngine/ConceptEngineCSharp/x64/*
+ConceptEngine/ConceptEngine/ConceptEngineJS/x64
+ConceptEngine/ConceptEngine/ConceptEngineJS/x64/*
+ConceptEngine/ConceptEngine/ConceptEnginePython/x64
+ConceptEngine/ConceptEngine/ConceptEnginePython/x64/*
+ConceptEngine/ConceptEngine/ConceptEngineTemplate/x64
+ConceptEngine/ConceptEngine/ConceptEngineTemplate/x64/*
 
 .vs/
 .vs
