@@ -118,6 +118,7 @@ void CEMainWindow::connectSlots() {
 
 void CEMainWindow::closeEvent(QCloseEvent* event) {
 	event->ignore();
+	m_scene->release();
 	QTime dieTime = QTime::currentTime().addMSecs(500);
 	while (QTime::currentTime() < dieTime)
 		QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
