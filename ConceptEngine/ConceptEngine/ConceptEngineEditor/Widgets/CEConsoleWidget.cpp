@@ -1,6 +1,7 @@
 #include "CEConsoleWidget.h"
 #include <QScrollBar>
 #include <QLibraryInfo>
+#include <QTextStream>
 
 using namespace ConceptEngine::Editor::Widgets;
 

@@ -5,10 +5,17 @@
 #include <QWidget>
 #include <QTimer>
 #include <QPlainTextEdit>
+#include <QTextStream>
+
+static QTextStream engineOutput;
+
+static void log(const char* c) {
+	engineOutput << c << Qt::endl;
+}
 
 namespace ConceptEngine::Editor::Widgets {
 	class CEConsoleWidget : public QPlainTextEdit {
-		Q_OBJECT
+	Q_OBJECT
 
 	signals:
 		void getData(const QByteArray& data);

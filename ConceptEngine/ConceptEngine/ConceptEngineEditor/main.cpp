@@ -1,13 +1,13 @@
 #include <QLibraryInfo>
-#include <QtWidgets/QApplication>
-#include <QPlainTextEdit>
-#include <QPointer>
+#include <QMessageBox>
 
-#include "Window/CEDXWindow.h"
+#include <Windows.h>
+
 #include "Window/CEMainWindow.h"
 #include "Window/ConceptEngineEditor.h"
 
 int main(int argc, char* argv[]) {
+
 	QApplication a(argc, argv);
 	a.setWindowIcon(QIcon("F:/Projects/ConceptEngine/assets/conceptenginelogo.png"));
 
@@ -15,11 +15,9 @@ int main(int argc, char* argv[]) {
 	messageLogWidget->setReadOnly(true);
 	CEMainWindow mainWindow(messageLogWidget);
 	mainWindow.resize(1024, 720);
-
 	mainWindow.show();
 
-	// ConceptEngineEditor w;
-	// w.show();
+	qInstallMessageHandler(CEMainWindow::QMessageOutput);
 
 	return a.exec();
 }

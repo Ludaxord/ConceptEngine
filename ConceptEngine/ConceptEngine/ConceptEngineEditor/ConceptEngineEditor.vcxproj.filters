@@ -72,6 +72,9 @@
     <QtMoc Include="Window\CEDXWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Threads\ThreadLogStream.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <None Include="Window\style.qss" />

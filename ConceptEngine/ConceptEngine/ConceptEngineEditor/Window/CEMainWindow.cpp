@@ -1,5 +1,6 @@
 #include "CEMainWindow.h"
 
+#include <iostream>
 #include <QCheckBox>
 #include <qcoreapplication.h>
 #include <qdialog.h>
@@ -20,7 +21,7 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_centerLayout = new QVBoxLayout();
 	m_scene = new QDirect3D12Widget(m_centerLayout->widget());
 	m_scene->setMinimumSize(320, 240);
-	
+
 	QPalette p = palette();
 	p.setColor(QPalette::Background, QColor(34, 34, 34));
 	p.setColor(QPalette::Text, QColor(192, 192, 192));
@@ -113,13 +114,26 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	mainLayout->addLayout(mainViewLayout, 0, 0);
 	setLayout(mainLayout);
 
+	m_qd = new ThreadLogStream(std::cout);
+	this->msgHandler = new MessageHandler(m_info, this);
+
 	connectSlots();
 }
 
 void CEMainWindow::connectSlots() {
+	connect(m_qd, &ThreadLogStream::sendLogString, msgHandler, &MessageHandler::catchMessage);
+	
 	connect(m_scene, &QDirect3D12Widget::deviceInitialized, this, &CEMainWindow::init);
 	connect(m_scene, &QDirect3D12Widget::ticked, this, &CEMainWindow::tick);
 	connect(m_scene, &QDirect3D12Widget::rendered, this, &CEMainWindow::render);
+}
+
+ConceptEngine::Editor::Widgets::CEConsoleWidget* CEMainWindow::GetConsole() const {
+	return m_info;
+}
+
+void CEMainWindow::QMessageOutput(QtMsgType, const QMessageLogContext&, const QString& msg) {
+	std::cout << msg.toStdString().c_str() << std::endl;
 }
 
 void CEMainWindow::closeEvent(QCloseEvent* event) {
