@@ -76,18 +76,25 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 
 	for (std::string name : names) {
-		auto counter = new QPushButton(tr(name.c_str()));
-		QPalette buttonPapette = counter->palette();
+		auto topButton = new QPushButton(tr(name.c_str()));
+		QPalette buttonPapette = topButton->palette();
 		buttonPapette.setColor(QPalette::Button, QColor(34, 34, 34));
 		buttonPapette.setColor(QPalette::Background, QColor(34, 34, 34));
 		buttonPapette.setColor(QPalette::Base, QColor(34, 34, 34));
 		buttonPapette.setColor(QPalette::ButtonText, QColor(192, 192, 192));
 
 		// counter->setAutoFillBackground(true);
-		counter->setPalette(buttonPapette);
-		counter->update();
-		topLayout->addWidget(counter);
+		topButton->setPalette(buttonPapette);
+		topButton->update();
+		topLayout->addWidget(topButton);
 	}
+
+	m_topButtonSingleThread = new QPushButton(tr("Debug Output SingleThread"));
+	topLayout->addWidget(m_topButtonSingleThread);
+
+	m_topButtonMultiThread = new QPushButton(tr("Debug Output MultiThread"));
+	topLayout->addWidget(m_topButtonMultiThread);
+
 
 	m_centerLayout->addLayout(topLayout, 0);
 	m_centerLayout->addWidget(m_scene, 3);
@@ -122,7 +129,10 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 void CEMainWindow::connectSlots() {
 	connect(m_qd, &ThreadLogStream::sendLogString, msgHandler, &MessageHandler::catchMessage);
-	
+	connect(m_topButtonSingleThread, SIGNAL(clicked()), this,SLOT(SingleThreadTest()));
+	connect(m_topButtonMultiThread, SIGNAL(clicked()), this,SLOT(MultiThreadTest()));
+
+
 	connect(m_scene, &QDirect3D12Widget::deviceInitialized, this, &CEMainWindow::init);
 	connect(m_scene, &QDirect3D12Widget::ticked, this, &CEMainWindow::tick);
 	connect(m_scene, &QDirect3D12Widget::rendered, this, &CEMainWindow::render);
@@ -162,4 +172,21 @@ void CEMainWindow::tick() {
 }
 
 void CEMainWindow::render(ID3D12GraphicsCommandList* cl) {
+}
+
+void CEMainWindow::SingleThreadTest() {
+	std::cout << "Hello World1" << std::endl;
+	qDebug("Hello World1q");
+}
+
+void CEMainWindow::MultiThreadTest() {
+	QThread* workerThread = new QThread;
+	ThreadWorker* worker = new ThreadWorker();
+	worker->moveToThread(workerThread);
+	connect(workerThread, SIGNAL(started()), worker, SLOT(doWork()));
+	connect(worker, SIGNAL(finished()), workerThread, SLOT(quit()));
+
+	connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+	connect(workerThread, SIGNAL(finished()), workerThread, SLOT(deleteLater()));
+	workerThread->start();
 }

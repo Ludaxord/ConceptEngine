@@ -2,6 +2,7 @@
 #include <QMessageBox>
 
 #include <Windows.h>
+#include <spdlog/spdlog.h>
 
 #include "Window/CEMainWindow.h"
 #include "Window/ConceptEngineEditor.h"
@@ -17,7 +18,10 @@ int main(int argc, char* argv[]) {
 	mainWindow.resize(1024, 720);
 	mainWindow.show();
 
+	//TODO: Move QMessageOutput to ConsoleWidget
 	qInstallMessageHandler(CEMainWindow::QMessageOutput);
+
+	std::cout << "Concept Engine Editor Initialized\n" << std::endl;
 
 	return a.exec();
 }
