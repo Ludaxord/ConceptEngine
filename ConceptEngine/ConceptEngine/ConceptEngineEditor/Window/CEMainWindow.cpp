@@ -13,9 +13,11 @@
 #include <QPushButton>
 #include <QStyle>
 #include <QTime>
+#include <spdlog/spdlog.h>
 
 #include "CEDXWindow.h"
 
+static int debugIndx = 0;
 
 CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_centerLayout = new QVBoxLayout();
@@ -144,6 +146,7 @@ ConceptEngine::Editor::Widgets::CEConsoleWidget* CEMainWindow::GetConsole() cons
 
 void CEMainWindow::QMessageOutput(QtMsgType, const QMessageLogContext&, const QString& msg) {
 	std::cout << msg.toStdString().c_str() << std::endl;
+	// spdlog::info(msg.toStdString().c_str());
 }
 
 void CEMainWindow::closeEvent(QCloseEvent* event) {
@@ -169,6 +172,11 @@ void CEMainWindow::init(bool success) {
 }
 
 void CEMainWindow::tick() {
+	std::stringstream ss;
+	ss << "Tick " << debugIndx;
+	qDebug(ss.str().c_str());
+	qDebug("Tock");
+	debugIndx++;
 }
 
 void CEMainWindow::render(ID3D12GraphicsCommandList* cl) {

@@ -121,7 +121,6 @@ private:
 
     // Widget objects.
     QTimer m_qTimer;
-	   QElapsedTimer m_elapsedTimer;
 
     HWND m_hWnd;
     bool m_bDeviceInitialized;
