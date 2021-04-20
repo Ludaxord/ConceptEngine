@@ -2,11 +2,14 @@
 #ifndef ThreadLogStream_H
 #define ThreadLogStream_H
 #include <iostream>
+#include <QCoreApplication>
 #include <streambuf>
 #include <string>
 #include <QScrollBar>
 #include <QPlainTextEdit>
 #include "QDateTime"
+
+static bool AutoScrollConsole = true;
 
 // MessageHandler
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -14,32 +17,18 @@ class MessageHandler : public QObject {
 Q_OBJECT
 public :
 	MessageHandler(QPlainTextEdit* textEdit, QObject* parent = Q_NULLPTR) : QObject(parent), m_textEdit(textEdit) {
-		m_textEdit->installEventFilter(this);
-	}
-
-	bool eventFilter(QObject* watched, QEvent* event) override {
-		if (watched == m_textEdit && (event->type() == QEvent::Enter || event->type() == QEvent::Leave)) {
-
-			if (event->type() == QEvent::Enter) //user move mouse on widget:stop auto-scrolling
-				m_autoScroll = false;
-			else
-				m_autoScroll = true; // leave event:enable auto-scrolling
-		}
-
-		return QObject::eventFilter(watched, event);
 	}
 
 public slots:
 	void catchMessage(QString msg) {
 		this->m_textEdit->insertPlainText(msg + "\n");
-		if (m_autoScroll)
+		if (AutoScrollConsole)
 			this->m_textEdit->verticalScrollBar()->setValue(this->m_textEdit->verticalScrollBar()->maximum());
 	}
 
 	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 private:
 	QPlainTextEdit* m_textEdit;
-	bool m_autoScroll = true;
 };
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
