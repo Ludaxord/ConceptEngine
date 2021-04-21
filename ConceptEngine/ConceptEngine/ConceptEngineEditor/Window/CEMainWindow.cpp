@@ -172,11 +172,7 @@ void CEMainWindow::init(bool success) {
 }
 
 void CEMainWindow::tick() {
-	std::stringstream ss;
-	ss << "Tick " << debugIndx;
-	qDebug(ss.str().c_str());
-	qDebug("Tock");
-	debugIndx++;
+
 }
 
 void CEMainWindow::render(ID3D12GraphicsCommandList* cl) {
