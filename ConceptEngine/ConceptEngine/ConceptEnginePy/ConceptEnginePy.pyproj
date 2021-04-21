@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>80fc5f8a-fbd5-4d3a-9c62-e0542f0e163a</ProjectGuid>
+    <ProjectGuid>5755a851-5f51-4301-bfb8-aeff02940bde</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ConceptEnginePython.py</StartupFile>
+    <StartupFile>ConceptEnginePy.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>ConceptEnginePython</Name>
-    <RootNamespace>ConceptEnginePython</RootNamespace>
+    <Name>ConceptEnginePy</Name>
+    <RootNamespace>ConceptEnginePy</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,14 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ConceptEnginePython.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConceptEngineProject\ConceptEngineProject.vcxproj">
-      <Name>ConceptEngineProject</Name>
-      <Project>{1fde5b11-d413-4237-b48c-524b7c65d0b5}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <Compile Include="ConceptEnginePy.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
