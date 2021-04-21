@@ -6,3 +6,6 @@ F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\De
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.csproj.CoreCompileInputs.cache
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.dll
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.pdb
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\bin\Debug\ConceptEngineCLR.dll
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\bin\Debug\ConceptEngineCLR.pdb
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.csproj.CopyComplete
