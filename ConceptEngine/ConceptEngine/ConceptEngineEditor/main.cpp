@@ -1,11 +1,11 @@
 #include <QLibraryInfo>
 #include <QMessageBox>
+#include <QApplication>
 
 #include <Windows.h>
 #include <spdlog/spdlog.h>
 
 #include "Window/CEMainWindow.h"
-#include "Window/ConceptEngineEditor.h"
 
 int main(int argc, char* argv[]) {
 

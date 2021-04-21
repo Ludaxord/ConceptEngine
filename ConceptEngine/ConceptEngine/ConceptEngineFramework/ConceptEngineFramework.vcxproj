@@ -533,11 +533,6 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.3</ShaderModel>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConceptEngineTemplate\ConceptEngineTemplate.vcxproj">
-      <Project>{0718a51b-2984-4260-b615-2ecdcd4acb62}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

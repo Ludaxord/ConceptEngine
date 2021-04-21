@@ -182,11 +182,6 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
-      <Project>{72a5bd96-5023-4ccf-bc58-b6bb23366999}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.h" />
@@ -213,6 +208,11 @@
     <ClInclude Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.h" />
     <ClInclude Include="Playgrounds\DirectX12\Samples\TreesWaves\CEDX12TreesWavesPlayground.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConceptEnginePlaygrounds\ConceptEnginePlaygrounds.vcxproj">
+      <Project>{95741f74-fa28-4575-9cbe-bc65d7bb4768}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

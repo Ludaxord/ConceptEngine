@@ -105,18 +105,9 @@
     <ClCompile Include="Widgets\CEConsoleWidget.cpp" />
     <ClCompile Include="Widgets\CEQD3DWidget.cpp" />
     <ClCompile Include="Widgets\QDirect3D12Widget.cpp" />
-    <QtRcc Include="ConceptEngineEditor.qrc" />
-    <QtUic Include="ConceptEngineEditor.ui" />
-    <QtMoc Include="Window\ConceptEngineEditor.h" />
     <ClCompile Include="Window\CEDXWindow.cpp" />
     <ClCompile Include="Window\CEMainWindow.cpp" />
-    <ClCompile Include="Window\ConceptEngineEditor.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConceptEngineFramework\ConceptEngineFramework.vcxproj">
-      <Project>{72a5bd96-5023-4ccf-bc58-b6bb23366999}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Widgets\CEQD3DWidget.h" />
@@ -132,10 +123,12 @@
     <QtMoc Include="Window\CEMainWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Window\style.qss" />
+    <QtMoc Include="Threads\ThreadLogStream.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Threads\ThreadLogStream.h" />
+    <ProjectReference Include="..\ConceptEnginePlaygrounds\ConceptEnginePlaygrounds.vcxproj">
+      <Project>{95741f74-fa28-4575-9cbe-bc65d7bb4768}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
