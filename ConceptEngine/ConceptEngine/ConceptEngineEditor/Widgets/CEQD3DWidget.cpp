@@ -8,6 +8,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QDirect3D12Widget.h>
 
+#include "../../ConceptEngineFramework/CEFramework.h"
+
 
 using namespace ConceptEngine::Editor::Widgets;
 
@@ -32,6 +34,8 @@ CEQD3DWidget::~CEQD3DWidget() {
 }
 
 void CEQD3DWidget::Create() {
+	m_framework = std::make_shared<ConceptEngineFramework::CEFramework>(
+		m_hWnd, ConceptEngineFramework::Graphics::API::DirectX12_API, m_playground);
 }
 
 void CEQD3DWidget::Run() {

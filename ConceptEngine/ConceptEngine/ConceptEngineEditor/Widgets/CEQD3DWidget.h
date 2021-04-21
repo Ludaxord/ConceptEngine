@@ -8,6 +8,13 @@
 
 #include <wrl/client.h>
 
+namespace ConceptEngineFramework {namespace Graphics {
+		class CEPlayground;
+	}
+
+	class CEFramework;
+}
+
 namespace ConceptEngine::Editor::Widgets {
 
 	class CEQD3DWidget : public QWidget {
@@ -56,5 +63,7 @@ namespace ConceptEngine::Editor::Widgets {
 
 	private:
 		HWND m_hWnd;
+		std::shared_ptr<ConceptEngineFramework::CEFramework> m_framework;
+		ConceptEngineFramework::Graphics::CEPlayground* m_playground;
 	};
 }
