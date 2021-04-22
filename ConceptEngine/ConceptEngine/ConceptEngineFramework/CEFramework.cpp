@@ -21,8 +21,9 @@ CEFramework::CEFramework(std::wstring name,
 	Game::CEGame::Get().Init();
 }
 
-CEFramework::CEFramework(HWND hWnd, Graphics::API graphicsApi, Graphics::CEPlayground* playground): m_hWnd(hWnd) {
-	Game::CEGame::Create(hWnd, graphicsApi, playground);
+CEFramework::CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int height,
+                         Graphics::CEPlayground* playground): m_hWnd(hWnd) {
+	Game::CEGame::Create(hWnd, graphicsApi, width, height, playground);
 	Game::CEGame::Get().LinkWithEditor();
 }
 

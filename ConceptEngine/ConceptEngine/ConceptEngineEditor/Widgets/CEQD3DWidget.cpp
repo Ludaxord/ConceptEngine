@@ -44,7 +44,12 @@ void CEQD3DWidget::Create() {
 		throw std::exception("Playground not found!");
 	}
 	m_framework = std::make_shared<ConceptEngineFramework::CEFramework>(
-		m_hWnd, ConceptEngineFramework::Graphics::API::DirectX12_API, m_playground);
+		m_hWnd,
+		ConceptEngineFramework::Graphics::API::DirectX12_API,
+		width(),
+		height(),
+		m_playground
+	);
 }
 
 void CEQD3DWidget::Run() {

@@ -23,7 +23,7 @@ using namespace ConceptEngine::Editor::Widgets;
 CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_centerLayout = new QVBoxLayout();
 
-	auto testScene = new CEQD3DWidget(m_centerLayout->widget());
+	auto dxScene = new CEQD3DWidget(m_centerLayout->widget());
 	m_scene = new QDirect3D12Widget(m_centerLayout->widget());
 	m_scene->setMinimumSize(320, 240);
 

@@ -81,7 +81,8 @@ namespace ConceptEngineFramework { namespace Graphics {
 			friend CEFramework;
 			static CEGame& Create(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI,
 			                      Graphics::CEPlayground* playground);
-			static CEGame& Create(HWND hWnd, Graphics::API graphicsAPI, Graphics::CEPlayground* playground);
+			static CEGame& Create(HWND hWnd, Graphics::API graphicsAPI, int width, int height,
+			                      Graphics::CEPlayground* playground);
 
 			void Init();
 			void LinkWithEditor();
@@ -91,7 +92,7 @@ namespace ConceptEngineFramework { namespace Graphics {
 		private:
 			CEGame(std::wstring name, HINSTANCE hInst, int width, int height, Graphics::API graphicsAPI,
 			       Graphics::CEPlayground* playground);
-			CEGame(HWND hWnd, Graphics::API graphicsAPI, Graphics::CEPlayground* playground);
+			CEGame(HWND hWnd, Graphics::API graphicsAPI, int width, int height, Graphics::CEPlayground* playground);
 
 			std::shared_ptr<CEConsole> m_console;
 			std::shared_ptr<CEWindow> m_window;

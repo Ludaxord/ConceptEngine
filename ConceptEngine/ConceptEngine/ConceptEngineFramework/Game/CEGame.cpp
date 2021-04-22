@@ -89,10 +89,13 @@ GameEngine::CEGame::CEGame(std::wstring name,
 	m_playground(playground) {
 }
 
-GameEngine::CEGame::CEGame(HWND hWnd, Graphics::API graphicsAPI, Graphics::CEPlayground* playground): m_hwnd(hWnd),
-	m_graphicsAPI(graphicsAPI),
-	m_systemInfo{},
-	m_playground(playground) {
+GameEngine::CEGame::CEGame(HWND hWnd, Graphics::API graphicsAPI, int width, int height,
+                           Graphics::CEPlayground* playground): m_hwnd(hWnd),
+                                                                m_graphicsAPI(graphicsAPI),
+                                                                m_systemInfo{},
+                                                                m_width(width),
+                                                                m_height(height),
+                                                                m_playground(playground) {
 }
 
 void GameEngine::CEGame::Init() {
@@ -120,10 +123,11 @@ GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hIns
 	return *g_pGame;
 }
 
-ConceptEngineFramework::Game::CEGame& ConceptEngineFramework::Game::CEGame::Create(HWND hWnd, Graphics::API graphicsAPI,
+ConceptEngineFramework::Game::CEGame& ConceptEngineFramework::Game::CEGame::Create(
+	HWND hWnd, Graphics::API graphicsAPI, int width, int height,
 	Graphics::CEPlayground* playground) {
 	if (!g_pGame) {
-		g_pGame = new CEGame(hWnd, graphicsAPI, playground);
+		g_pGame = new CEGame(hWnd, graphicsAPI, width, height, playground);
 		spdlog::info("ConceptEngineFramework Game class created.");
 	}
 

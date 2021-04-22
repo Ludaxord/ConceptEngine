@@ -16,7 +16,7 @@ namespace ConceptEngineFramework {
 		            Graphics::API graphicsAPI,
 		            Graphics::CEPlayground* playground);
 
-		CEFramework(HWND hWnd, Graphics::API graphicsApi, Graphics::CEPlayground* playground);
+		CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int height, Graphics::CEPlayground* playground);
 		int Run(bool editorMode = false) const;
 
 		HINSTANCE GetHInstance() const;
