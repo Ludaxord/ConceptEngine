@@ -1,0 +1,11 @@
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\bin\Debug\ConceptEngineCSharp.dll
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\bin\Debug\ConceptEngineCSharp.pdb
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\bin\Debug\ConceptEngineCLR.dll
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\bin\Debug\ConceptEngineCLR.pdb
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCS.csprojAssemblyReference.cache
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.Properties.Resources.resources
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCS.csproj.GenerateResource.cache
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCS.csproj.CoreCompileInputs.cache
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCS.csproj.CopyComplete
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.dll
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineCSharp\obj\Debug\ConceptEngineCSharp.pdb

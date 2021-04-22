@@ -22,6 +22,7 @@ namespace ConceptEngine::Editor::Widgets {
 
 	public:
 		CEQD3DWidget(QWidget* parent);
+		CEQD3DWidget(QWidget* parent, ConceptEngineFramework::Graphics::CEPlayground* playground);
 		~CEQD3DWidget();
 
 		void Create();

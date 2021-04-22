@@ -45,7 +45,11 @@ public:
 
 class CEDX12ManagerInstance final : public DirectXGraphicsEngine::CEDX12Manager {
 public:
-	CEDX12ManagerInstance(ConceptEngineFramework::Game::CEWindow& window): CEDX12Manager(window) {
+	CEDX12ManagerInstance(ConceptEngineFramework::Game::CEWindow* window): CEDX12Manager(window) {
+		spdlog::info("ConceptEngineFramework DirectX 12 Manager class created.");
+	}
+
+	CEDX12ManagerInstance(): CEDX12Manager() {
 		spdlog::info("ConceptEngineFramework DirectX 12 Manager class created.");
 	}
 };
@@ -333,7 +337,7 @@ void GameEngine::CEGame::CreateMainWindow(const std::wstring& windowName, int wi
 void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 	switch (graphicsAPI) {
 	case Graphics::API::DirectX12_API:
-		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(*m_window);
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(m_window.get());
 		break;
 	case Graphics::API::Vulkan_API:
 		m_graphicsManager = std::make_shared<CEVManagerInstance>();
@@ -342,12 +346,31 @@ void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 		m_graphicsManager = std::make_shared<CEOGLManagerInstance>();
 		break;
 	default:
-		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(*m_window);
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(m_window.get());
 		break;
 	}
 	m_graphicsManager->InitPlayground(m_playground);
 	m_graphicsManager->Create();
 
+}
+
+void ConceptEngineFramework::Game::CEGame::CreateEditorGraphicsManager(Graphics::API graphicsAPI) {
+	switch (graphicsAPI) {
+	case Graphics::API::DirectX12_API:
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		break;
+	case Graphics::API::Vulkan_API:
+		m_graphicsManager = std::make_shared<CEVManagerInstance>();
+		break;
+	case Graphics::API::OpenGL_API:
+		m_graphicsManager = std::make_shared<CEOGLManagerInstance>();
+		break;
+	default:
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		break;
+	}
+	m_graphicsManager->InitPlayground(m_playground);
+	m_graphicsManager->Create();
 }
 
 void GameEngine::CEGame::CreateConsole(const std::wstring& windowName) {

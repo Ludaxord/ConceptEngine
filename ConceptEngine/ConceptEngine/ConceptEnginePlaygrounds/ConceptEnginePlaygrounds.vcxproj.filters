@@ -15,19 +15,163 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\NormalMap\CEDX12NormalMapPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\Shadows\CEDX12ShadowsPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TessellationWaves\CEDX12TessellationWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playgrounds\DirectX12\Samples\TreesWaves\CEDX12TreesWavesPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConceptEnginePlaygrounds.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\NormalMap\CEDX12NormalMapPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\Shadows\CEDX12ShadowsPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TessellationWaves\CEDX12TessellationWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Playgrounds\DirectX12\Samples\TreesWaves\CEDX12TreesWavesPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,32 +7,32 @@
 
 //Samples imports
 #include "../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
-#include "Playgrounds/DirectX12/Samples/BasicBox/CEDX12BoxPlayground.h"
-#include "Playgrounds/DirectX12/Samples/TexBox/CEDX12CratePlayground.h"
-#include "Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
-#include "Playgrounds/DirectX12/Samples/BasicWaves/CEDX12LandscapePlayground.h"
-#include "Playgrounds/DirectX12/Samples/LitShapes/CEDX12LitShapesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/LitWaves/CEDX12LitWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/BasicShapes/CEDX12ShapesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/BezierTessellationWaves/CEDX12BezierTessellationWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/BlendingWaves/CEDX12BlendingWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/BlurWaves/CEDX12BlurWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/CharacterMesh/CEDX12CharacterMeshPlayground.h"
-#include "Playgrounds/DirectX12/Samples/ComputeWaves/CEDX12ComputeWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/CubeMap/CEDX12CubeMapPlayground.h"
-#include "Playgrounds/DirectX12/Samples/DynamicCube/CEDX12DynamicCubePlayground.h"
-#include "Playgrounds/DirectX12/Samples/FPPCamera/CEDX12FPPCameraPlayground.h"
-#include "Playgrounds/DirectX12/Samples/Instancing/CEDX12InstancingPlayground.h"
-#include "Playgrounds/DirectX12/Samples/NormalMap/CEDX12NormalMapPlayground.h"
-#include "Playgrounds/DirectX12/Samples/Picking/CEDX12PickingPlayground.h"
-#include "Playgrounds/DirectX12/Samples/Shadows/CEDX12ShadowsPlayground.h"
-#include "Playgrounds/DirectX12/Samples/SobelWaves/CEDX12SobelWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/SSAO/CEDX12SSAOPlayground.h"
-#include "Playgrounds/DirectX12/Samples/StencilShapes/CEDX12StencilShapesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/TessellationWaves/CEDX12TessellationWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/TexShapes/CEDX12TexShapesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/TexWaves/CEDX12TexWavesPlayground.h"
-#include "Playgrounds/DirectX12/Samples/TreesWaves/CEDX12TreesWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BasicBox/CEDX12BoxPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/TexBox/CEDX12CratePlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BasicWaves/CEDX12LandscapePlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/LitShapes/CEDX12LitShapesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/LitWaves/CEDX12LitWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BasicShapes/CEDX12ShapesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BezierTessellationWaves/CEDX12BezierTessellationWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BlendingWaves/CEDX12BlendingWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BlurWaves/CEDX12BlurWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/CharacterMesh/CEDX12CharacterMeshPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/ComputeWaves/CEDX12ComputeWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/CubeMap/CEDX12CubeMapPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/DynamicCube/CEDX12DynamicCubePlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/FPPCamera/CEDX12FPPCameraPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/Instancing/CEDX12InstancingPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/NormalMap/CEDX12NormalMapPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/Picking/CEDX12PickingPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/Shadows/CEDX12ShadowsPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/SobelWaves/CEDX12SobelWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/SSAO/CEDX12SSAOPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/StencilShapes/CEDX12StencilShapesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/TessellationWaves/CEDX12TessellationWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/TexShapes/CEDX12TexShapesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/TexWaves/CEDX12TexWavesPlayground.h"
+#include "../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/TreesWaves/CEDX12TreesWavesPlayground.h"
 
 using namespace ConceptEngineFramework;
 using namespace ConceptEngine::Playgrounds::DirectX12;
@@ -69,8 +69,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
 	// Graphics::CEPlayground* playground = new CEDX12NormalMapPlayground(); 
-	// Graphics::CEPlayground* playground = new CEDX12ShadowsPlayground();
-	Graphics::CEPlayground* playground = new CEDX12SSAOPlayground(); 
+	Graphics::CEPlayground* playground = new CEDX12ShadowsPlayground();
+	// Graphics::CEPlayground* playground = new CEDX12SSAOPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12CharacterMeshPlayground();
 
 	const auto framework = std::make_shared<CEFramework>(L"ConceptEngine",

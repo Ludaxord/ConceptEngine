@@ -23,6 +23,13 @@
   <ItemGroup>
     <Compile Include="ConceptEnginePy.py" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConceptEngineProject\ConceptEngineProject.vcxproj">
+      <Name>ConceptEngineProject</Name>
+      <Project>{1fde5b11-d413-4237-b48c-524b7c65d0b5}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in

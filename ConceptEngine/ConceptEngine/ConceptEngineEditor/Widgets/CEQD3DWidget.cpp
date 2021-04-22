@@ -30,10 +30,19 @@ CEQD3DWidget::CEQD3DWidget(QWidget* parent): QWidget(parent) {
 	setAttribute(Qt::WA_NoSystemBackground);
 }
 
+CEQD3DWidget::CEQD3DWidget(QWidget* parent, ConceptEngineFramework::Graphics::CEPlayground* playground): CEQD3DWidget(
+	parent) {
+	m_playground = playground;
+}
+
 CEQD3DWidget::~CEQD3DWidget() {
 }
 
 void CEQD3DWidget::Create() {
+	if (m_playground == nullptr) {
+		//TODO: Generate CEEmptyPlayground ==> representing new project
+		throw std::exception("Playground not found!");
+	}
 	m_framework = std::make_shared<ConceptEngineFramework::CEFramework>(
 		m_hWnd, ConceptEngineFramework::Graphics::API::DirectX12_API, m_playground);
 }

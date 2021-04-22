@@ -205,7 +205,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		friend class CEGame;
 		friend class std::default_delete<CEDX12Manager>;
 
-		CEDX12Manager(Game::CEWindow& window);
+		CEDX12Manager(Game::CEWindow* window);
+		CEDX12Manager();
 		~CEDX12Manager();
 	private:
 		void TearingSupport();
@@ -243,7 +244,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		D3D12_VIEWPORT m_screenViewport;
 		D3D12_RECT m_scissorRect;
 
-		Game::CEWindow& m_window;
+		Game::CEWindow* m_window;
 
 		bool m_vSync = false;
 		bool m_tearingSupported;

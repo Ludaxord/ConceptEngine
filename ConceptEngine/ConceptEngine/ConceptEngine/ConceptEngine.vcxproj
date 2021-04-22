@@ -153,61 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\NormalMap\CEDX12NormalMapPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\Shadows\CEDX12ShadowsPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\TessellationWaves\CEDX12TessellationWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.cpp" />
-    <ClCompile Include="Playgrounds\DirectX12\Samples\TreesWaves\CEDX12TreesWavesPlayground.cpp" />
     <ClCompile Include="WinMain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\BezierTessellationWaves\CEDX12BezierTessellationWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\BlendingWaves\CEDX12BlendingWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\ComputeWaves\CEDX12ComputeWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\CubeMap\CEDX12CubeMapPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\DynamicCube\CEDX12DynamicCubePlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\FPPCamera\CEDX12FPPCameraPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Instancing\CEDX12InstancingPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\NormalMap\CEDX12NormalMapPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Picking\CEDX12PickingPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\Shadows\CEDX12ShadowsPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\StencilShapes\CEDX12StencilShapesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\TessellationWaves\CEDX12TessellationWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\TexBox\CEDX12CratePlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\InitDirect3D\CEDX12InitDirect3DPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicWaves\CEDX12LandscapePlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\LitShapes\CEDX12LitShapesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\LitWaves\CEDX12LitWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\BasicShapes\CEDX12ShapesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\TexShapes\CEDX12TexShapesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\TexWaves\CEDX12TexWavesPlayground.h" />
-    <ClInclude Include="Playgrounds\DirectX12\Samples\TreesWaves\CEDX12TreesWavesPlayground.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConceptEnginePlaygrounds\ConceptEnginePlaygrounds.vcxproj">

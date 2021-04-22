@@ -34,6 +34,7 @@ namespace ConceptEngineFramework { namespace Graphics {
 			void CreateMainWindow(const std::wstring& windowName, int width, int height);
 			void CreateConsole(const std::wstring& windowName);
 			void CreateGraphicsManager(Graphics::API graphicsAPI);
+			void CreateEditorGraphicsManager(Graphics::API graphicsAPI);
 
 			virtual void OnMouseDown(WPARAM btnState, int x, int y) {
 				const auto keyState = WParamToKeyCode(btnState);

@@ -12,9 +12,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineFramework", "C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineEditor", "ConceptEngineEditor\ConceptEngineEditor.vcxproj", "{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ConceptEnginePython", "ConceptEnginePython\ConceptEnginePython.pyproj", "{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}"
-EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ConceptEngineJS", "ConceptEngineJS\ConceptEngineJS.njsproj", "{9F941BE8-BF44-477E-895A-71A5DD5986A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1FDE5B11-D413-4237-B48C-524B7C65D0B5} = {1FDE5B11-D413-4237-B48C-524B7C65D0B5}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineProject", "ConceptEngineProject\ConceptEngineProject.vcxproj", "{1FDE5B11-D413-4237-B48C-524B7C65D0B5}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -23,13 +24,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineProject", "Con
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineCpp", "ConceptEngineCpp\ConceptEngineCpp.vcxproj", "{982E439D-E485-40F3-8AF6-D93135972FB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConceptEngineCSharp", "ConceptEngineCSharp\ConceptEngineCSharp.csproj", "{510AF591-95E8-43BE-9FF8-7C7C5743BCCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConceptEngineCS", "ConceptEngineCSharp\ConceptEngineCS.csproj", "{510AF591-95E8-43BE-9FF8-7C7C5743BCCE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{3E178E16-7EFF-495D-B22D-F6C2FC843F00}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEnginePlaygrounds", "ConceptEnginePlaygrounds\ConceptEnginePlaygrounds.vcxproj", "{95741F74-FA28-4575-9CBE-BC65D7BB4768}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineCLR", "ConceptEngineCLR\ConceptEngineCLR.vcxproj", "{8F2D0629-DD62-4D92-9FE2-C7526663F9F6}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ConceptEnginePy", "ConceptEnginePy\ConceptEnginePy.pyproj", "{5755A851-5F51-4301-BFB8-AEFF02940BDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,12 +72,6 @@ Global
 		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Release|x64.ActiveCfg = Release|x64
 		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Release|x64.Build.0 = Release|x64
 		{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}.Release|x86.ActiveCfg = Release|x64
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Release|x64.ActiveCfg = Release|Any CPU
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A}.Release|x86.ActiveCfg = Release|Any CPU
 		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F941BE8-BF44-477E-895A-71A5DD5986A1}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -139,16 +136,22 @@ Global
 		{8F2D0629-DD62-4D92-9FE2-C7526663F9F6}.Release|x64.Build.0 = Release|x64
 		{8F2D0629-DD62-4D92-9FE2-C7526663F9F6}.Release|x86.ActiveCfg = Release|Win32
 		{8F2D0629-DD62-4D92-9FE2-C7526663F9F6}.Release|x86.Build.0 = Release|Win32
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE}.Release|x64.ActiveCfg = Release|Any CPU
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{80FC5F8A-FBD5-4D3A-9C62-E0542F0E163A} = {3E178E16-7EFF-495D-B22D-F6C2FC843F00}
 		{9F941BE8-BF44-477E-895A-71A5DD5986A1} = {3E178E16-7EFF-495D-B22D-F6C2FC843F00}
 		{982E439D-E485-40F3-8AF6-D93135972FB9} = {3E178E16-7EFF-495D-B22D-F6C2FC843F00}
 		{510AF591-95E8-43BE-9FF8-7C7C5743BCCE} = {3E178E16-7EFF-495D-B22D-F6C2FC843F00}
 		{8F2D0629-DD62-4D92-9FE2-C7526663F9F6} = {3E178E16-7EFF-495D-B22D-F6C2FC843F00}
+		{5755A851-5F51-4301-BFB8-AEFF02940BDE} = {3E178E16-7EFF-495D-B22D-F6C2FC843F00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AEFE48E-5E65-4893-B22B-96A68AED28AA}

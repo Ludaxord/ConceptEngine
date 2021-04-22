@@ -29,7 +29,7 @@ void CEDX12Manager::Create() {
 #ifdef _DEBUG
 	LogAdapters();
 #endif
-	
+
 	CreateCommandQueue();
 	CreateCommandAllocator();
 	CreateCommandList();
@@ -85,8 +85,8 @@ void CEDX12Manager::Resize() {
 	swapChainFlags |= DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 	swapChainFlags |= DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	ThrowIfFailed(m_swapChain->ResizeBuffers(BufferCount,
-	                                         m_window.GetWidth(),
-	                                         m_window.GetHeight(),
+	                                         m_window->GetWidth(),
+	                                         m_window->GetHeight(),
 	                                         m_backBufferFormat,
 	                                         swapChainFlags));
 	m_currentBackBuffer = 0;
@@ -105,8 +105,8 @@ void CEDX12Manager::Resize() {
 	D3D12_RESOURCE_DESC depthStencilDesc;
 	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	depthStencilDesc.Alignment = 0;
-	depthStencilDesc.Width = m_window.GetWidth();
-	depthStencilDesc.Height = m_window.GetHeight();
+	depthStencilDesc.Width = m_window->GetWidth();
+	depthStencilDesc.Height = m_window->GetHeight();
 	depthStencilDesc.DepthOrArraySize = 1;
 	depthStencilDesc.MipLevels = 1;
 
@@ -158,12 +158,12 @@ void CEDX12Manager::Resize() {
 
 	m_screenViewport.TopLeftX = 0;
 	m_screenViewport.TopLeftY = 0;
-	m_screenViewport.Width = static_cast<float>(m_window.GetWidth());
-	m_screenViewport.Height = static_cast<float>(m_window.GetHeight());
+	m_screenViewport.Width = static_cast<float>(m_window->GetWidth());
+	m_screenViewport.Height = static_cast<float>(m_window->GetHeight());
 	m_screenViewport.MinDepth = 0.0f;
 	m_screenViewport.MaxDepth = 1.0f;
 
-	m_scissorRect = {0, 0, m_window.GetWidth(), m_window.GetHeight()};
+	m_scissorRect = {0, 0, m_window->GetWidth(), m_window->GetHeight()};
 
 	m_playground->Resize();
 }
@@ -287,23 +287,23 @@ bool CEDX12Manager::GetM4XMSAAQuality() const {
 }
 
 bool CEDX12Manager::IsFullScreen() const {
-	return m_window.IsFullScreen();
+	return m_window->IsFullScreen();
 }
 
 float CEDX12Manager::GetWindowWidth() const {
-	return (float)m_window.GetWidth();
+	return (float)m_window->GetWidth();
 }
 
 float CEDX12Manager::GetWindowHeight() const {
-	return (float)m_window.GetHeight();
+	return (float)m_window->GetHeight();
 }
 
 HWND CEDX12Manager::GetWindowHandle() const {
-	return m_window.GetWindowHandle();
+	return m_window->GetWindowHandle();
 }
 
 float CEDX12Manager::GetAspectRatio() const {
-	return static_cast<float>(m_window.GetWidth()) / m_window.GetHeight();
+	return static_cast<float>(m_window->GetWidth()) / m_window->GetHeight();
 }
 
 int CEDX12Manager::GetCurrentBackBufferIndex() const {
@@ -699,7 +699,7 @@ void CEDX12Manager::SetFenceValue(UINT64 newFence) {
 	m_currentFence = newFence;
 }
 
-CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
+CEDX12Manager::CEDX12Manager(Game::CEWindow* window) : m_window(window),
                                                        m_tearingSupported(false),
                                                        m_rayTracingSupported(false),
                                                        m_adapterIDOverride(UINT_MAX),
@@ -707,6 +707,15 @@ CEDX12Manager::CEDX12Manager(Game::CEWindow& window) : m_window(window),
                                                        m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
                                                        m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
 	spdlog::info("ConceptEngineFramework DirectX 12 class created.");
+}
+
+CEDX12Manager::CEDX12Manager(): m_window(nullptr),
+                                m_tearingSupported(false),
+                                m_rayTracingSupported(false),
+                                m_adapterIDOverride(UINT_MAX),
+                                m_adapterID(UINT_MAX),
+                                m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
+                                m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
 }
 
 
@@ -933,16 +942,16 @@ void CEDX12Manager::CreateSwapChain() {
 	ThrowIfFailed(dxgiFactory.As(&dxgiFactory5));
 
 	RECT windowRect;
-	::GetClientRect(m_window.GetWindowHandle(), &windowRect);
+	::GetClientRect(m_window->GetWindowHandle(), &windowRect);
 
-	m_window.SetWidth(windowRect.right - windowRect.left);
-	m_window.SetHeight(windowRect.bottom - windowRect.top);
+	m_window->SetWidth(windowRect.right - windowRect.left);
+	m_window->SetHeight(windowRect.bottom - windowRect.top);
 
-	auto* hwnd = m_window.GetWindowHandle();
+	auto* hwnd = m_window->GetWindowHandle();
 
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-	swapChainDesc.Width = m_window.GetWidth();
-	swapChainDesc.Height = m_window.GetHeight();
+	swapChainDesc.Width = m_window->GetWidth();
+	swapChainDesc.Height = m_window->GetHeight();
 	swapChainDesc.Format = DXGI_FORMAT_R10G10B10A2_UNORM;
 	swapChainDesc.Stereo = FALSE;
 	swapChainDesc.SampleDesc.Count = m_4xMsaaState ? 4 : 1;
