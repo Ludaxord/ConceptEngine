@@ -30,6 +30,7 @@ namespace ConceptEngineFramework::Game {
 		friend class std::default_delete<CEWindow>;
 
 		explicit CEWindow(std::wstring windowName, HINSTANCE hInstance, int width, int height);
+		explicit CEWindow(std::wstring windowName, HWND hwnd, int width, int height);
 		~CEWindow() = default;
 
 		bool RegisterWindow() const;

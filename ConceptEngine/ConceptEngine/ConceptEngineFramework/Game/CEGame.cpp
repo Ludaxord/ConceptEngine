@@ -41,6 +41,11 @@ public:
 		: CEWindow(windowName, hInstance, width, height) {
 		spdlog::info("ConceptEngineFramework Window class created.");
 	}
+
+	CEWindowInstance(const std::wstring& windowName, HWND hwnd, int width, int height)
+		: CEWindow(windowName, hwnd, width, height) {
+		spdlog::info("ConceptEngineFramework Window class created.");
+	}
 };
 
 class CEDX12ManagerInstance final : public DirectXGraphicsEngine::CEDX12Manager {
@@ -100,6 +105,7 @@ void GameEngine::CEGame::Init() {
 }
 
 void GameEngine::CEGame::LinkWithEditor() {
+	CreateEditorWindow(m_name, m_hwnd, m_width, m_height);
 	SystemInfo();
 	CreateEditorGraphicsManager(m_graphicsAPI);
 }
@@ -334,6 +340,11 @@ void GameEngine::CEGame::CreateMainWindow(const std::wstring& windowName, int wi
 	m_window->Create();
 }
 
+void ConceptEngineFramework::Game::CEGame::CreateEditorWindow(const std::wstring& windowName, HWND hwnd, int width,
+                                                              int height) {
+	m_window = std::make_shared<CEWindowInstance>(windowName, hwnd, width, height);
+}
+
 void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 	switch (graphicsAPI) {
 	case Graphics::API::DirectX12_API:
@@ -357,7 +368,7 @@ void GameEngine::CEGame::CreateGraphicsManager(Graphics::API graphicsAPI) {
 void ConceptEngineFramework::Game::CEGame::CreateEditorGraphicsManager(Graphics::API graphicsAPI) {
 	switch (graphicsAPI) {
 	case Graphics::API::DirectX12_API:
-		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(m_window.get());
 		break;
 	case Graphics::API::Vulkan_API:
 		m_graphicsManager = std::make_shared<CEVManagerInstance>();
@@ -366,7 +377,7 @@ void ConceptEngineFramework::Game::CEGame::CreateEditorGraphicsManager(Graphics:
 		m_graphicsManager = std::make_shared<CEOGLManagerInstance>();
 		break;
 	default:
-		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>();
+		m_graphicsManager = std::make_shared<CEDX12ManagerInstance>(m_window.get());
 		break;
 	}
 	m_graphicsManager->InitPlayground(m_playground);

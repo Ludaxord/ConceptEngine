@@ -19,6 +19,17 @@ CEWindow::CEWindow(std::wstring windowName, HINSTANCE hInstance, int width, int 
 	m_windowClassName = wss.str();
 }
 
+CEWindow::CEWindow(std::wstring windowName, HWND hwnd, int width, int height):
+	m_windowName(windowName),
+	m_hWnd(hwnd),
+	m_width(width),
+	m_height(height) {
+	std::wstring prefixName = L"Main";
+	std::wstringstream wss;
+	wss << prefixName << m_windowName;
+	m_windowClassName = wss.str();
+}
+
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	// Forward hwnd on because we can get messages (e.g., WM_CREATE)
 	// before CreateWindow returns, and thus before mhMainWnd is valid.
