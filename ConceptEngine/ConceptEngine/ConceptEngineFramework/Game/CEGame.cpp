@@ -101,7 +101,7 @@ void GameEngine::CEGame::Init() {
 
 void GameEngine::CEGame::LinkWithEditor() {
 	SystemInfo();
-	CreateGraphicsManager(m_graphicsAPI);
+	CreateEditorGraphicsManager(m_graphicsAPI);
 }
 
 GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,

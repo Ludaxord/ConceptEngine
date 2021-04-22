@@ -716,6 +716,7 @@ CEDX12Manager::CEDX12Manager(): m_window(nullptr),
                                 m_adapterID(UINT_MAX),
                                 m_minFeatureLevel(D3D_FEATURE_LEVEL_11_0),
                                 m_featureLevel(D3D_FEATURE_LEVEL_11_0) {
+	spdlog::info("ConceptEngineFramework DirectX 12 class created.");
 }
 
 
