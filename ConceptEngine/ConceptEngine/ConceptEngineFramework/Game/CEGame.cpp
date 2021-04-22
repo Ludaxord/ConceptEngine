@@ -303,6 +303,7 @@ GameEngine::CEGame& GameEngine::CEGame::Get() {
 	return *g_pGame;
 }
 
+//TODO: In editor mode instead of call Run, call every function from graphicsManager separately and use connect QT method to bind it with playground
 uint32_t GameEngine::CEGame::Run() {
 
 	MSG msg = {0};

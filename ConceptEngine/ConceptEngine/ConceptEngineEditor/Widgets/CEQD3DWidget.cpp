@@ -107,6 +107,8 @@ bool CEQD3DWidget::event(QEvent* event) {
 }
 
 void CEQD3DWidget::showEvent(QShowEvent* event) {
+
+	QWidget::showEvent(event);
 }
 
 QPaintEngine* CEQD3DWidget::paintEngine() const {
