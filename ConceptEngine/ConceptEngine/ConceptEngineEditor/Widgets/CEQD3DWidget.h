@@ -25,7 +25,7 @@ namespace ConceptEngine::Editor::Widgets {
 		CEQD3DWidget(QWidget* parent, ConceptEngineFramework::Graphics::CEPlayground* playground);
 		~CEQD3DWidget();
 
-		void Create();
+		bool Create();
 		void Run();
 		void Release();
 		void Pause();

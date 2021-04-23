@@ -76,6 +76,12 @@ namespace ConceptEngineFramework { namespace Graphics {
 				m_playground->OnMouseWheel(keyState, zDelta, (int)screenToClientPoint.x, (int)screenToClientPoint.y);
 			}
 
+			//FOR EDITOR
+			CETimer GetTimer();
+			void EditorUpdateTimer();
+			void EditorUpdate();
+			void EditorRender();
+
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;

@@ -113,6 +113,23 @@ void GameEngine::CEGame::LinkWithEditor() {
 	CreateEditorGraphicsManager(m_graphicsAPI);
 }
 
+CETimer ConceptEngineFramework::Game::CEGame::GetTimer() const {
+	return m_timer;
+}
+
+void ConceptEngineFramework::Game::CEGame::EditorUpdateTimer() {
+	m_timer.Tick();
+	CalculateFPS(false);
+}
+
+void ConceptEngineFramework::Game::CEGame::EditorUpdate() const {
+	m_graphicsManager->Update(m_timer);
+}
+
+void ConceptEngineFramework::Game::CEGame::EditorRender() const {
+	m_graphicsManager->Render(m_timer);
+}
+
 GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,
                                                Graphics::API graphicsAPI, Graphics::CEPlayground* playground) {
 	if (!g_pGame) {

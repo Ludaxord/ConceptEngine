@@ -40,7 +40,7 @@ CEQD3DWidget::CEQD3DWidget(QWidget* parent, ConceptEngineFramework::Graphics::CE
 CEQD3DWidget::~CEQD3DWidget() {
 }
 
-void CEQD3DWidget::Create() {
+bool CEQD3DWidget::Create() {
 	if (m_playground == nullptr) {
 		//TODO: Generate CEEmptyPlayground ==> representing new project
 		throw std::exception("Playground not found!");
@@ -52,6 +52,8 @@ void CEQD3DWidget::Create() {
 		height(),
 		m_playground
 	);
+
+	return true;
 }
 
 void CEQD3DWidget::Run() {
@@ -110,6 +112,8 @@ bool CEQD3DWidget::event(QEvent* event) {
 
 void CEQD3DWidget::showEvent(QShowEvent* event) {
 	if (!m_deviceCreated) {
+		qDebug("Show Event: Concept Engine QDirect3D 12");
+		m_deviceCreated = Create();
 	}
 	QWidget::showEvent(event);
 }

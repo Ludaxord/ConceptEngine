@@ -82,15 +82,15 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 
 	for (std::string name : names) {
 		auto topButton = new QPushButton(tr(name.c_str()));
-		QPalette buttonPapette = topButton->palette();
-		buttonPapette.setColor(QPalette::Button, QColor(34, 34, 34));
-		buttonPapette.setColor(QPalette::Background, QColor(34, 34, 34));
-		buttonPapette.setColor(QPalette::Base, QColor(34, 34, 34));
-		buttonPapette.setColor(QPalette::ButtonText, QColor(192, 192, 192));
+		// QPalette buttonPapette = topButton->palette();
+		// buttonPapette.setColor(QPalette::Button, QColor(34, 34, 34));
+		// buttonPapette.setColor(QPalette::Background, QColor(34, 34, 34));
+		// buttonPapette.setColor(QPalette::Base, QColor(34, 34, 34));
+		// buttonPapette.setColor(QPalette::ButtonText, QColor(192, 192, 192));
 
 		// counter->setAutoFillBackground(true);
-		topButton->setPalette(buttonPapette);
-		topButton->update();
+		// topButton->setPalette(buttonPapette);
+		// topButton->update();
 		topLayout->addWidget(topButton);
 	}
 
@@ -100,13 +100,11 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_topButtonMultiThread = new QPushButton(tr("Debug Output MultiThread"));
 	topLayout->addWidget(m_topButtonMultiThread);
 
-
 	m_centerLayout->addLayout(topLayout, 0);
 	m_centerLayout->addWidget(m_scene, 3);
 	m_centerLayout->addWidget(m_infoTab, 1);
 
 	auto toolbar = new QMenuBar();
-
 	std::map<QMenu*, std::vector<QAction*>> menus = {
 		{
 			new QMenu(tr("&File")),
