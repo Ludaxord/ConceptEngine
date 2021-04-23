@@ -77,10 +77,10 @@ namespace ConceptEngineFramework { namespace Graphics {
 			}
 
 			//FOR EDITOR
-			CETimer GetTimer();
+			CETimer GetTimer() const;
 			void EditorUpdateTimer();
-			void EditorUpdate();
-			void EditorRender();
+			void EditorUpdate() const;
+			void EditorRender() const;
 
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
