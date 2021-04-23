@@ -105,9 +105,15 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_centerLayout->addWidget(m_infoTab, 1);
 
 	auto toolbar = new QMenuBar();
-	std::map<QMenu*, std::vector<QAction*>> menus = {
-		{
-			new QMenu(tr("&File")),
+	struct CEMenu {
+		std::string Name;
+		QMenu* Menu;
+		std::vector<QAction*> Actions;
+	};
+
+	std::vector<CEMenu*> menus = {
+		new CEMenu{
+			"&File", new QMenu(tr("&File")),
 			std::vector<QAction*>{
 				new QAction(tr("&New Level...")),
 				new QAction(tr("&Open Level...")),
@@ -118,7 +124,8 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 				new QAction(tr("&Exit")),
 			}
 		},
-		{
+		new CEMenu{
+			"&Edit",
 			new QMenu(tr("&Edit")),
 			std::vector<QAction*>{
 				new QAction(tr("&Undo")),
@@ -127,13 +134,15 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 				new QAction(tr("&Project Settings")),
 			}
 		},
-		{
+		new CEMenu{
+			"&Window",
 			new QMenu(tr("&Window")),
 			std::vector<QAction*>{
 				new QAction(tr("&Enable Fullscreen")),
 			}
 		},
-		{
+		new CEMenu{
+			"&Examples",
 			new QMenu(tr("&Examples")),
 			std::vector<QAction*>{
 				new QAction(tr("&Box Playground")),
@@ -162,7 +171,8 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 				new QAction(tr("&Trees Waves Playground")),
 			}
 		},
-		{
+		new CEMenu{
+			"&Help",
 			new QMenu(tr("&Help")),
 			std::vector<QAction*>{
 				new QAction(tr("&New Level...")),
@@ -175,9 +185,10 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 			}
 		}
 	};
+
 	for (auto menuElement : menus) {
-		auto menu = menuElement.first;
-		auto actions = menuElement.second;
+		auto menu = menuElement->Menu;
+		auto actions = menuElement->Actions;
 		for (auto action : actions) {
 			menu->addAction(action);
 		}
