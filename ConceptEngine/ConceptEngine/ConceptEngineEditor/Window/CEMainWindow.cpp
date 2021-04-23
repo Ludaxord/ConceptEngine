@@ -172,13 +172,13 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 				new QAction(tr("&Open Project...")),
 				new QAction(tr("&New Component...")),
 				new QAction(tr("&Exit")),
-			} 
+			}
 		}
 	};
 	for (auto menuElement : menus) {
 		auto menu = menuElement.first;
 		auto actions = menuElement.second;
-		for (auto action: actions) {
+		for (auto action : actions) {
 			menu->addAction(action);
 		}
 		toolbar->addMenu(menu);
