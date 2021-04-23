@@ -14,6 +14,8 @@
 using namespace ConceptEngine::Editor::Widgets;
 
 CEQD3DWidget::CEQD3DWidget(QWidget* parent): QWidget(parent) {
+	m_deviceCreated = false;
+	m_renderActive = false;
 	m_hWnd = reinterpret_cast<HWND>(winId());
 
 	QPalette pal = palette();
@@ -107,7 +109,8 @@ bool CEQD3DWidget::event(QEvent* event) {
 }
 
 void CEQD3DWidget::showEvent(QShowEvent* event) {
-
+	if (!m_deviceCreated) {
+	}
 	QWidget::showEvent(event);
 }
 
@@ -137,6 +140,12 @@ LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
 	if (pMsg->message == WM_MOUSEWHEEL || pMsg->message == WM_MOUSEHWHEEL) return false;
 
 	return false;
+}
+
+void CEQD3DWidget::OnFrame() {
+}
+
+void CEQD3DWidget::OnReset() {
 }
 
 #if QT_VERSION >= 0x050000

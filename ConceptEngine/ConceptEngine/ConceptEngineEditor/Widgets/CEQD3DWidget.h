@@ -30,6 +30,10 @@ namespace ConceptEngine::Editor::Widgets {
 		void Release();
 		void Pause();
 		void Resume();
+
+		void Update();
+		void Render();
+
 		// Qt Events
 	private:
 		bool event(QEvent* event) override;
@@ -44,10 +48,8 @@ namespace ConceptEngine::Editor::Widgets {
 #else
     bool winEvent(MSG * message, long * result) override;
 #endif
-		LRESULT WINAPI WndProc(MSG* pMsg);
 
-		void Update();
-		void Render();
+		LRESULT WINAPI WndProc(MSG* pMsg);
 
 
 	signals:
@@ -62,9 +64,16 @@ namespace ConceptEngine::Editor::Widgets {
 		void SignalMouseClicked(QMouseEvent*);
 		void SignalMouseReleased(QMouseEvent*);
 
+	private slots:
+		void OnFrame();
+		void OnReset();
+
 	private:
 		HWND m_hWnd;
 		std::shared_ptr<ConceptEngineFramework::CEFramework> m_framework;
 		ConceptEngineFramework::Graphics::CEPlayground* m_playground;
+
+		bool m_deviceCreated;
+		bool m_renderActive;
 	};
 }

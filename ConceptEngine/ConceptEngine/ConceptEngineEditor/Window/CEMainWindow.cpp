@@ -106,13 +106,83 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_centerLayout->addWidget(m_infoTab, 1);
 
 	auto toolbar = new QMenuBar();
-	QMenu* menus[] = {
-		new QMenu(tr("&File")),
-		new QMenu(tr("&Edit")),
-		new QMenu(tr("&Window")),
-		new QMenu(tr("&Help"))
+
+	std::map<QMenu*, std::vector<QAction*>> menus = {
+		{
+			new QMenu(tr("&File")),
+			std::vector<QAction*>{
+				new QAction(tr("&New Level...")),
+				new QAction(tr("&Open Level...")),
+				new QAction(tr("&Save")),
+				new QAction(tr("&New Project...")),
+				new QAction(tr("&Open Project...")),
+				new QAction(tr("&New Component...")),
+				new QAction(tr("&Exit")),
+			}
+		},
+		{
+			new QMenu(tr("&Edit")),
+			std::vector<QAction*>{
+				new QAction(tr("&Undo")),
+				new QAction(tr("&Redo")),
+				new QAction(tr("&Edit Preferences")),
+				new QAction(tr("&Project Settings")),
+			}
+		},
+		{
+			new QMenu(tr("&Window")),
+			std::vector<QAction*>{
+				new QAction(tr("&Enable Fullscreen")),
+			}
+		},
+		{
+			new QMenu(tr("&Examples")),
+			std::vector<QAction*>{
+				new QAction(tr("&Box Playground")),
+				new QAction(tr("&Basic Shapes Playground")),
+				new QAction(tr("&Basic Waves Playground")),
+				new QAction(tr("&Tessellation Waves Playground")),
+				new QAction(tr("&Blur Waves Playground")),
+				new QAction(tr("&Init Direct3D Playground")),
+				new QAction(tr("&Character Mesh Playground")),
+				new QAction(tr("&Compute Waves Playground")),
+				new QAction(tr("&Cube Map Playground")),
+				new QAction(tr("&Dynamic Cube Playground")),
+				new QAction(tr("&FPP Camera Playground")),
+				new QAction(tr("&Instancing Playground")),
+				new QAction(tr("&Lit Shapes Playground")),
+				new QAction(tr("&Lit Waves Playground")),
+				new QAction(tr("&Normal Map Playground")),
+				new QAction(tr("&Picking Playground")),
+				new QAction(tr("&Shadows Playground")),
+				new QAction(tr("&Sobel Waves Playground")),
+				new QAction(tr("&SSAO Playground")),
+				new QAction(tr("&Stencil Shapes Playground")),
+				new QAction(tr("&Tessellation Waves Playground")),
+				new QAction(tr("&Texture Box Playground")),
+				new QAction(tr("&Tex Waves Playground")),
+				new QAction(tr("&Trees Waves Playground")),
+			}
+		},
+		{
+			new QMenu(tr("&Help")),
+			std::vector<QAction*>{
+				new QAction(tr("&New Level...")),
+				new QAction(tr("&Open Level...")),
+				new QAction(tr("&Save")),
+				new QAction(tr("&New Project...")),
+				new QAction(tr("&Open Project...")),
+				new QAction(tr("&New Component...")),
+				new QAction(tr("&Exit")),
+			} 
+		}
 	};
-	for (auto menu : menus) {
+	for (auto menuElement : menus) {
+		auto menu = menuElement.first;
+		auto actions = menuElement.second;
+		for (auto action: actions) {
+			menu->addAction(action);
+		}
 		toolbar->addMenu(menu);
 	}
 
