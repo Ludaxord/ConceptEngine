@@ -53,6 +53,7 @@ namespace ConceptEngine::Editor::Widgets {
 
 
 	signals:
+		void SignalDeviceCreated(bool success);
 		void SignalEventHandle();
 		void SignalWidgetResize();
 
@@ -73,7 +74,10 @@ namespace ConceptEngine::Editor::Widgets {
 		std::shared_ptr<ConceptEngineFramework::CEFramework> m_framework;
 		ConceptEngineFramework::Graphics::CEPlayground* m_playground;
 
+		QTimer m_qTimer;
+
 		bool m_deviceCreated;
 		bool m_renderActive;
+		bool m_started;
 	};
 }

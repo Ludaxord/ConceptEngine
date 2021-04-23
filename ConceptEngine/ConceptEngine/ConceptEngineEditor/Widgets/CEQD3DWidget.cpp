@@ -13,9 +13,13 @@
 
 using namespace ConceptEngine::Editor::Widgets;
 
+constexpr int FPS_LIMIT = 60.0f;
+constexpr int MS_PER_FRAME = (int)((1.0f / FPS_LIMIT) * 1000.0f);
+
 CEQD3DWidget::CEQD3DWidget(QWidget* parent): QWidget(parent) {
 	m_deviceCreated = false;
 	m_renderActive = false;
+	m_started = false;
 	m_hWnd = reinterpret_cast<HWND>(winId());
 
 	QPalette pal = palette();
@@ -53,10 +57,15 @@ bool CEQD3DWidget::Create() {
 		m_playground
 	);
 
+	connect(&m_qTimer, &QTimer::timeout, this, &CEQD3DWidget::OnFrame);
+
 	return true;
 }
 
 void CEQD3DWidget::Run() {
+	//TODO: Set Widget to edit PER_FRAME
+	m_qTimer.start(MS_PER_FRAME);
+	m_renderActive = m_started = true;
 }
 
 void CEQD3DWidget::Release() {
@@ -114,6 +123,7 @@ void CEQD3DWidget::showEvent(QShowEvent* event) {
 	if (!m_deviceCreated) {
 		qDebug("Show Event: Concept Engine QDirect3D 12");
 		m_deviceCreated = Create();
+		emit SignalDeviceCreated(m_deviceCreated);
 	}
 	QWidget::showEvent(event);
 }
@@ -133,9 +143,11 @@ void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
 
 
 void CEQD3DWidget::Update() {
+	m_framework->EditorUpdate();
 }
 
 void CEQD3DWidget::Render() {
+	m_framework->EditorRender();
 }
 
 
@@ -147,6 +159,9 @@ LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
 }
 
 void CEQD3DWidget::OnFrame() {
+	if (m_renderActive)
+		Update();
+	Render();
 }
 
 void CEQD3DWidget::OnReset() {
