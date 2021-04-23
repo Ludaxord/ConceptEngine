@@ -105,84 +105,81 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 	m_centerLayout->addWidget(m_infoTab, 1);
 
 	auto toolbar = new QMenuBar();
+	struct CEAction {
+		QAction* Action;
+		bool Separator = false;
+	};
+
 	struct CEMenu {
 		std::string Name;
 		QMenu* Menu;
-		std::vector<QAction*> Actions;
+		std::vector<CEAction*> Actions;
 	};
 
 	std::vector<CEMenu*> menus = {
 		new CEMenu{
 			"&File", new QMenu(tr("&File")),
-			std::vector<QAction*>{
-				new QAction(tr("&New Level...")),
-				new QAction(tr("&Open Level...")),
-				new QAction(tr("&Save")),
-				new QAction(tr("&New Project...")),
-				new QAction(tr("&Open Project...")),
-				new QAction(tr("&New Component...")),
-				new QAction(tr("&Exit")),
+			std::vector<CEAction*>{
+				new CEAction{new QAction(tr("&New Level..."))},
+				new CEAction{new QAction(tr("&Open Level..."))},
+				new CEAction{new QAction(tr("&Save"))},
+				new CEAction{new QAction(tr("&New Project...")), true},
+				new CEAction{new QAction(tr("&Open Project..."))},
+				new CEAction{new QAction(tr("&New Component...")), true},
+				new CEAction{new QAction(tr("&Exit")), true},
 			}
 		},
 		new CEMenu{
 			"&Edit",
 			new QMenu(tr("&Edit")),
-			std::vector<QAction*>{
-				new QAction(tr("&Undo")),
-				new QAction(tr("&Redo")),
-				new QAction(tr("&Edit Preferences")),
-				new QAction(tr("&Project Settings")),
+			std::vector<CEAction*>{
+				new CEAction{new QAction(tr("&Undo"))},
+				new CEAction{new QAction(tr("&Redo"))},
+				new CEAction{new QAction(tr("&Edit Preferences"))},
+				new CEAction{new QAction(tr("&Project Settings"))},
 			}
 		},
 		new CEMenu{
 			"&Window",
 			new QMenu(tr("&Window")),
-			std::vector<QAction*>{
-				new QAction(tr("&Enable Fullscreen")),
+			std::vector<CEAction*>{
+				new CEAction{new QAction(tr("&Enable Fullscreen"))}
 			}
 		},
 		new CEMenu{
 			"&Examples",
 			new QMenu(tr("&Examples")),
-			std::vector<QAction*>{
-				new QAction(tr("&Box Playground")),
-				new QAction(tr("&Basic Shapes Playground")),
-				new QAction(tr("&Basic Waves Playground")),
-				new QAction(tr("&Tessellation Waves Playground")),
-				new QAction(tr("&Blur Waves Playground")),
-				new QAction(tr("&Init Direct3D Playground")),
-				new QAction(tr("&Character Mesh Playground")),
-				new QAction(tr("&Compute Waves Playground")),
-				new QAction(tr("&Cube Map Playground")),
-				new QAction(tr("&Dynamic Cube Playground")),
-				new QAction(tr("&FPP Camera Playground")),
-				new QAction(tr("&Instancing Playground")),
-				new QAction(tr("&Lit Shapes Playground")),
-				new QAction(tr("&Lit Waves Playground")),
-				new QAction(tr("&Normal Map Playground")),
-				new QAction(tr("&Picking Playground")),
-				new QAction(tr("&Shadows Playground")),
-				new QAction(tr("&Sobel Waves Playground")),
-				new QAction(tr("&SSAO Playground")),
-				new QAction(tr("&Stencil Shapes Playground")),
-				new QAction(tr("&Tessellation Waves Playground")),
-				new QAction(tr("&Texture Box Playground")),
-				new QAction(tr("&Tex Waves Playground")),
-				new QAction(tr("&Trees Waves Playground")),
+			std::vector<CEAction*>{
+				new CEAction{new QAction(tr("&Box Playground"))},
+				new CEAction{new QAction(tr("&Basic Shapes Playground"))},
+				new CEAction{new QAction(tr("&Basic Waves Playground"))},
+				new CEAction{new QAction(tr("&Tessellation Waves Playground"))},
+				new CEAction{new QAction(tr("&Blur Waves Playground"))},
+				new CEAction{new QAction(tr("&Init Direct3D Playground"))},
+				new CEAction{new QAction(tr("&Character Mesh Playground"))},
+				new CEAction{new QAction(tr("&Compute Waves Playground"))},
+				new CEAction{new QAction(tr("&Cube Map Playground"))},
+				new CEAction{new QAction(tr("&Dynamic Cube Playground"))},
+				new CEAction{new QAction(tr("&FPP Camera Playground"))},
+				new CEAction{new QAction(tr("&Instancing Playground"))},
+				new CEAction{new QAction(tr("&Lit Shapes Playground"))},
+				new CEAction{new QAction(tr("&Lit Waves Playground"))},
+				new CEAction{new QAction(tr("&Normal Map Playground"))},
+				new CEAction{new QAction(tr("&Picking Playground"))},
+				new CEAction{new QAction(tr("&Shadows Playground"))},
+				new CEAction{new QAction(tr("&Sobel Waves Playground"))},
+				new CEAction{new QAction(tr("&SSAO Playground"))},
+				new CEAction{new QAction(tr("&Stencil Shapes Playground"))},
+				new CEAction{new QAction(tr("&Tessellation Waves Playground"))},
+				new CEAction{new QAction(tr("&Texture Box Playground"))},
+				new CEAction{new QAction(tr("&Tex Waves Playground"))},
+				new CEAction{new QAction(tr("&Trees Waves Playground"))}
 			}
 		},
 		new CEMenu{
 			"&Help",
 			new QMenu(tr("&Help")),
-			std::vector<QAction*>{
-				new QAction(tr("&New Level...")),
-				new QAction(tr("&Open Level...")),
-				new QAction(tr("&Save")),
-				new QAction(tr("&New Project...")),
-				new QAction(tr("&Open Project...")),
-				new QAction(tr("&New Component...")),
-				new QAction(tr("&Exit")),
-			}
+			std::vector<CEAction*>{}
 		}
 	};
 
@@ -190,7 +187,10 @@ CEMainWindow::CEMainWindow(QPlainTextEdit* logWindow) {
 		auto menu = menuElement->Menu;
 		auto actions = menuElement->Actions;
 		for (auto action : actions) {
-			menu->addAction(action);
+			menu->addAction(action->Action);
+			if (action->Separator) {
+				menu->insertSeparator(action->Action);
+			}
 		}
 		toolbar->addMenu(menu);
 	}
