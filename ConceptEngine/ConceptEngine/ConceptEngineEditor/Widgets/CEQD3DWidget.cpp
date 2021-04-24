@@ -138,6 +138,7 @@ void CEQD3DWidget::paintEvent(QPaintEvent* event) {
 void CEQD3DWidget::resizeEvent(QResizeEvent* event) {
 	if (m_deviceCreated) {
 		Resize();
+		qDebug("Resize");
 	}
 
 	QWidget::resizeEvent(event);
