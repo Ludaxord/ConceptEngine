@@ -7,6 +7,7 @@
 #include <QEvent>
 #include <QtWidgets/QMainWindow>
 #include <QDirect3D12Widget.h>
+#include <qevent.h>
 
 #include "../../ConceptEngineFramework/CEFramework.h"
 
@@ -84,6 +85,7 @@ bool CEQD3DWidget::event(QEvent* event) {
 	case QEvent::Enter:
 	case QEvent::FocusIn:
 	case QEvent::FocusAboutToChange:
+		qDebug("Enter Direct3D Area");
 		if (::GetFocus() != m_hWnd) {
 			QWidget* nativeParent = this;
 			while (true) {
@@ -100,9 +102,20 @@ bool CEQD3DWidget::event(QEvent* event) {
 				::SetFocus(m_hWnd);
 		}
 		break;
-	case QEvent::KeyPress:
-		emit SignalKeyPressed(reinterpret_cast<QKeyEvent*>(event));
+	case QEvent::Leave:
+		qDebug("Leave Direct3D Area");
 		break;
+	case QEvent::KeyPress: {
+		//TODO: FIX
+		auto keyEvent = (QKeyEvent*)event;
+		auto nativeKeyEvent = keyEvent->nativeScanCode();
+		auto keyText = keyEvent->text().toUtf8();
+		qDebug(keyText, nativeKeyEvent);
+		std::string keyChar(keyText.begin(), keyText.end());
+		m_framework->EditorKeyDown((WPARAM)nativeKeyEvent, keyChar);
+		emit SignalKeyPressed(reinterpret_cast<QKeyEvent*>(event));
+	}
+	break;
 	case QEvent::MouseMove:
 		emit SignalMouseMoved(reinterpret_cast<QMouseEvent*>(event));
 		break;

@@ -83,6 +83,11 @@ namespace ConceptEngineFramework { namespace Graphics {
 			void EditorRender() const;
 			void EditorResize() const;
 
+			virtual void EditorKeyDown(WPARAM keyCode, std::string keyChar, const CETimer& gt) {
+				auto keyState = WParamToKeyCode(keyCode);
+				m_playground->OnKeyDown(keyState, reinterpret_cast<char>(keyChar.c_str()), gt);
+			}
+
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;

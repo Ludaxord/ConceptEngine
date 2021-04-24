@@ -23,6 +23,7 @@ namespace ConceptEngineFramework {
 		void EditorUpdate() const;
 		void EditorRender() const;
 		void EditorResize() const;
+		void EditorKeyDown(WPARAM keyCode, std::string keyChar);
 	protected:
 	private:
 		//Game variables

@@ -39,6 +39,10 @@ void CEFramework::EditorResize() const {
 	Game::CEGame::Get().EditorResize();
 }
 
+void CEFramework::EditorKeyDown(WPARAM keyCode, std::string keyChar) {
+	Game::CEGame::Get().EditorKeyDown(keyCode, keyChar, Game::CEGame::Get().GetTimer());
+}
+
 int CEFramework::Run(bool editorMode) const {
 	if (editorMode) {
 		return 0;
