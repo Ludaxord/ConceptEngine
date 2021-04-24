@@ -19,6 +19,7 @@
 #include "CEQD3DWidget.h"
 
 #include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/Shadows/CEDX12ShadowsPlayground.h"
+#include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
 
 using namespace ConceptEngine::Editor::Widgets;
 
@@ -26,7 +27,7 @@ CEMainWindow::CEMainWindow(bool useCEWidget): m_useCEWidget(useCEWidget) {
 	m_centerLayout = new QVBoxLayout();
 
 	if (useCEWidget) {
-		m_dxScene = new CEQD3DWidget(m_centerLayout->widget(), new ConceptEngine::Playgrounds::DirectX12::CEDX12ShadowsPlayground());
+		m_dxScene = new CEQD3DWidget(m_centerLayout->widget(), new ConceptEngine::Playgrounds::DirectX12::CEDX12InitDirect3DPlayground());
 		m_dxScene->setMinimumSize(320, 240);
 	}
 	else {
