@@ -18,16 +18,28 @@
 #include "CEDXWindow.h"
 #include "CEQD3DWidget.h"
 
+#include "../../ConceptEngineFramework/Graphics/DirectX12/CEDX12Manager.h"
 #include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/Shadows/CEDX12ShadowsPlayground.h"
 #include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
+#include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BasicWaves/CEDX12LandscapePlayground.h"
 
 using namespace ConceptEngine::Editor::Widgets;
 
 CEMainWindow::CEMainWindow(bool useCEWidget): m_useCEWidget(useCEWidget) {
+
+	//DEBUG
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 1;
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 3;
+	CEDX12Manager::DSVCount = 2;
+	//
+
 	m_centerLayout = new QVBoxLayout();
 
 	if (useCEWidget) {
-		m_dxScene = new CEQD3DWidget(m_centerLayout->widget(), new ConceptEngine::Playgrounds::DirectX12::CEDX12InitDirect3DPlayground());
+		m_dxScene = new CEQD3DWidget(m_centerLayout->widget(),
+		                             new ConceptEngine::Playgrounds::DirectX12::CEDX12ShadowsPlayground()
+		);
 		m_dxScene->setMinimumSize(320, 240);
 	}
 	else {

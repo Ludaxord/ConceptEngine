@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 	a.setWindowIcon(QIcon("F:/Projects/ConceptEngine/assets/conceptenginelogo.png"));
 
 	CEMainWindow mainWindow(true);
-	mainWindow.resize(1024, 720);
+	mainWindow.resize(1920, 1080);
 	mainWindow.show();
 
 	//TODO: Move QMessageOutput to ConsoleWidget
