@@ -136,6 +136,10 @@ void CEQD3DWidget::paintEvent(QPaintEvent* event) {
 }
 
 void CEQD3DWidget::resizeEvent(QResizeEvent* event) {
+	if (m_deviceCreated) {
+	}
+
+	QWidget::resizeEvent(event);
 }
 
 void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
@@ -144,12 +148,15 @@ void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
 
 void CEQD3DWidget::Update() {
 	m_framework->EditorUpdate();
+
+	emit SignalUpdate();
 }
 
 void CEQD3DWidget::Render() {
 	m_framework->EditorRender();
-}
 
+	emit SignalRender();
+}
 
 LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
 	// Process wheel events using Qt's event-system.

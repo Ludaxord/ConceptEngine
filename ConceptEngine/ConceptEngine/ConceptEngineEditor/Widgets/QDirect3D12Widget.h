@@ -170,9 +170,9 @@ private:
     const HRESULT m_hr;
 };
 
-inline void ThrowIfFailed(HRESULT hr)
+inline void ThrowOnFail(HRESULT hr)
 {
     if (FAILED(hr)) { throw HrException(hr); }
 }
 
-#define DXCall(func) ThrowIfFailed(func)
+#define DXCall(func) ThrowOnFail(func)
