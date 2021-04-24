@@ -130,6 +130,10 @@ void ConceptEngineFramework::Game::CEGame::EditorRender() const {
 	m_graphicsManager->Render(m_timer);
 }
 
+void ConceptEngineFramework::Game::CEGame::EditorResize() const {
+	m_graphicsManager->Resize();
+}
+
 GameEngine::CEGame& GameEngine::CEGame::Create(std::wstring name, HINSTANCE hInst, int width, int height,
                                                Graphics::API graphicsAPI, Graphics::CEPlayground* playground) {
 	if (!g_pGame) {

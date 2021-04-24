@@ -12,6 +12,7 @@
 
 
 using namespace ConceptEngine::Editor::Widgets;
+using namespace ConceptEngineFramework::Graphics;
 
 constexpr int FPS_LIMIT = 60.0f;
 constexpr int MS_PER_FRAME = (int)((1.0f / FPS_LIMIT) * 1000.0f);
@@ -36,8 +37,7 @@ CEQD3DWidget::CEQD3DWidget(QWidget* parent): QWidget(parent) {
 	setAttribute(Qt::WA_NoSystemBackground);
 }
 
-CEQD3DWidget::CEQD3DWidget(QWidget* parent, ConceptEngineFramework::Graphics::CEPlayground* playground): CEQD3DWidget(
-	parent) {
+CEQD3DWidget::CEQD3DWidget(QWidget* parent, CEPlayground* playground): CEQD3DWidget(parent) {
 	m_playground = playground;
 }
 
@@ -137,6 +137,7 @@ void CEQD3DWidget::paintEvent(QPaintEvent* event) {
 
 void CEQD3DWidget::resizeEvent(QResizeEvent* event) {
 	if (m_deviceCreated) {
+		Resize();
 	}
 
 	QWidget::resizeEvent(event);
@@ -156,6 +157,12 @@ void CEQD3DWidget::Render() {
 	m_framework->EditorRender();
 
 	emit SignalRender();
+}
+
+void CEQD3DWidget::Resize() {
+	m_framework->EditorResize();
+
+	emit SignalWidgetResize();
 }
 
 LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {

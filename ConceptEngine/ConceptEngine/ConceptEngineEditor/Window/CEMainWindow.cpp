@@ -26,27 +26,8 @@
 using namespace ConceptEngine::Editor::Widgets;
 
 CEMainWindow::CEMainWindow(bool useCEWidget): m_useCEWidget(useCEWidget) {
-
-	//DEBUG
-	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 1;
-	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
-	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 3;
-	CEDX12Manager::DSVCount = 2;
-	//
-
 	m_centerLayout = new QVBoxLayout();
-
-	if (useCEWidget) {
-		m_dxScene = new CEQD3DWidget(m_centerLayout->widget(),
-		                             new ConceptEngine::Playgrounds::DirectX12::CEDX12ShadowsPlayground()
-		);
-		m_dxScene->setMinimumSize(320, 240);
-	}
-	else {
-		m_scene = new QDirect3D12Widget(m_centerLayout->widget());
-		m_scene->setMinimumSize(320, 240);
-	}
-
+	SetDirect3DWindow();
 	SetEditorPalette();
 	CreateMainLayout();
 	CreateLogThreadStream();
@@ -70,7 +51,7 @@ void CEMainWindow::connectSlots() {
 	}
 }
 
-ConceptEngine::Editor::Widgets::CEConsoleWidget* CEMainWindow::GetConsole() const {
+CEConsoleWidget* CEMainWindow::GetConsole() const {
 	return m_info;
 }
 
@@ -106,6 +87,26 @@ void CEMainWindow::SetEditorPalette() {
 	this->setObjectName("ConceptEngineMainWindow");
 	style()->unpolish(this);
 	style()->polish(this);
+}
+
+void CEMainWindow::SetDirect3DWindow() {
+	//DEBUG
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 1;
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 6;
+	CEDX12Manager::RTVCount = CEDX12Manager::BufferCount + 3;
+	CEDX12Manager::DSVCount = 2;
+	//
+
+	if (m_useCEWidget) {
+		m_dxScene = new CEQD3DWidget(m_centerLayout->widget(),
+		                             new ConceptEngine::Playgrounds::DirectX12::CEDX12ShadowsPlayground()
+		);
+		m_dxScene->setMinimumSize(320, 240);
+	}
+	else {
+		m_scene = new QDirect3D12Widget(m_centerLayout->widget());
+		m_scene->setMinimumSize(320, 240);
+	}
 }
 
 QMenuBar* CEMainWindow::CreateTopBarMenu() {

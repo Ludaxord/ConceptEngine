@@ -20,8 +20,9 @@ namespace ConceptEngineFramework {
 
 		//FOR EDITOR
 		CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int height, Graphics::CEPlayground* playground);
-		void EditorUpdate();
-		void EditorRender();
+		void EditorUpdate() const;
+		void EditorRender() const;
+		void EditorResize() const;
 	protected:
 	private:
 		//Game variables

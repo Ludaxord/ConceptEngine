@@ -50,6 +50,7 @@ private:
 	void closeEvent(QCloseEvent* event) override;
 
 	void SetEditorPalette();
+	void SetDirect3DWindow();
 	QMenuBar* CreateTopBarMenu();
 	QHBoxLayout* CreateActionMenu();
 	QGridLayout* CreateRightSideMenu();

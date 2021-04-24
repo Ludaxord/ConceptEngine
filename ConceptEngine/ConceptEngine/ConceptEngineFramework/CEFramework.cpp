@@ -27,12 +27,16 @@ CEFramework::CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int he
 	Game::CEGame::Get().LinkWithEditor();
 }
 
-void CEFramework::EditorUpdate() {
+void CEFramework::EditorUpdate() const {
 	Game::CEGame::Get().EditorUpdate();
 }
 
-void CEFramework::EditorRender() {
+void CEFramework::EditorRender() const {
 	Game::CEGame::Get().EditorRender();
+}
+
+void CEFramework::EditorResize() const {
+	Game::CEGame::Get().EditorResize();
 }
 
 int CEFramework::Run(bool editorMode) const {

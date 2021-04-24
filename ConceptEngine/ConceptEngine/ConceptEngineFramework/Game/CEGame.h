@@ -81,6 +81,7 @@ namespace ConceptEngineFramework { namespace Graphics {
 			void EditorUpdateTimer();
 			void EditorUpdate() const;
 			void EditorRender() const;
+			void EditorResize() const;
 
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);

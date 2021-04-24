@@ -33,6 +33,7 @@ namespace ConceptEngine::Editor::Widgets {
 
 		void Update();
 		void Render();
+		void Resize();
 
 		// Qt Events
 	private:
