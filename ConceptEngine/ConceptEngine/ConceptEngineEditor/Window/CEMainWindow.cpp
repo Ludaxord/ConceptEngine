@@ -229,17 +229,49 @@ QHBoxLayout* CEMainWindow::CreateActionMenu() {
 }
 
 QGridLayout* CEMainWindow::CreateRightSideMenu() {
-	auto meshSwitch = new QCheckBox(tr("&Use Qt logo"));
-	meshSwitch->setFocusPolicy(Qt::NoFocus);
+
 
 	m_fpsCounter = new QLCDNumber(5);
 	m_fpsCounter->setSegmentStyle(QLCDNumber::Filled);
 	m_fpsCounter->display(9999);
-
-
 	auto* rightLayout = new QGridLayout;
+
+
+	struct CEPlaygroundElement {
+		std::string Name;
+		bool Visible;
+		UINT Type = 0;
+
+	};
+
+	CEPlaygroundElement* elementsList[] = {
+		new CEPlaygroundElement{"Empty Object", false},
+		new CEPlaygroundElement{"Player Start", false},
+		new CEPlaygroundElement{"Cube", false},
+		new CEPlaygroundElement{"Sphere", false},
+		new CEPlaygroundElement{"Cylinder", false},
+		new CEPlaygroundElement{"Cone", false},
+		new CEPlaygroundElement{"Plane", false},
+		new CEPlaygroundElement{"Point Light", false},
+		new CEPlaygroundElement{"Spot Light", false},
+		new CEPlaygroundElement{"Sky Light", false},
+	};
+
+	auto elementLayout = new QVBoxLayout;
+	for (auto element : elementsList) {
+		auto itemLayout = new QGridLayout;
+		auto nameWidget = new QLabel();
+
+		QPalette p = palette();
+		p.setColor(QPalette::Text, QColor(205, 205, 205));
+		nameWidget->setPalette(p);
+		nameWidget->setText(tr(element->Name.data()));
+		itemLayout->addWidget(nameWidget, 0, 0);
+		elementLayout->addLayout(itemLayout);
+	}
+
 	rightLayout->addWidget(m_fpsCounter, 0, 0);
-	rightLayout->addWidget(meshSwitch, 3, 0);
+	rightLayout->addLayout(elementLayout, 1, 0);
 	return rightLayout;
 }
 
@@ -248,6 +280,7 @@ QGridLayout* CEMainWindow::CreateLeftSideMenu() {
 		std::string Name;
 		std::string Path;
 		bool Dragable;
+		UINT Type = 0;
 	};
 
 	CEElementList* elementsList[] = {
