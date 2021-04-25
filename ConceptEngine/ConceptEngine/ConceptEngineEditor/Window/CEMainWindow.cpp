@@ -232,13 +232,13 @@ QGridLayout* CEMainWindow::CreateRightSideMenu() {
 	auto meshSwitch = new QCheckBox(tr("&Use Qt logo"));
 	meshSwitch->setFocusPolicy(Qt::NoFocus);
 
-	auto counterLcd = new QLCDNumber(5);
-	counterLcd->setSegmentStyle(QLCDNumber::Filled);
-	counterLcd->display(9999);
+	m_fpsCounter = new QLCDNumber(5);
+	m_fpsCounter->setSegmentStyle(QLCDNumber::Filled);
+	m_fpsCounter->display(9999);
 
 
 	auto* rightLayout = new QGridLayout;
-	rightLayout->addWidget(counterLcd, 0, 0);
+	rightLayout->addWidget(m_fpsCounter, 0, 0);
 	rightLayout->addWidget(meshSwitch, 3, 0);
 	return rightLayout;
 }
@@ -288,7 +288,7 @@ QGridLayout* CEMainWindow::CreateLeftSideMenu() {
 
 		itemLayout->addWidget(iconWidget, 0, 0);
 		itemLayout->addWidget(nameWidget, 0, 1);
-		
+
 		elementLayout->addLayout(itemLayout);
 	}
 
@@ -360,7 +360,9 @@ void CEMainWindow::init(bool success) {
 }
 
 void CEMainWindow::tick() {
-
+	if (m_dxScene != nullptr) {
+		m_fpsCounter->display(m_dxScene->GetFPS());
+	}
 }
 
 void CEMainWindow::render(ID3D12GraphicsCommandList* cl) {

@@ -189,11 +189,11 @@ void ConceptEngineFramework::Game::CEGame::CalculateFPS(bool showInTitleBar) con
 
 		std::stringstream fpsSS;
 		fpsSS << "FPS: " << fps;
-		CE_LOG(fpsSS.str())
+		// CE_LOG(fpsSS.str())
 		
 		std::stringstream mspfSS;
 		mspfSS << "MSPF: " << msPerFrame;
-		CE_LOG(mspfSS.str())
+		// CE_LOG(mspfSS.str())
 
 		if (showInTitleBar) {
 			std::wstring wFps = std::to_wstring(fps);

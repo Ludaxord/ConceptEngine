@@ -1,5 +1,6 @@
 #pragma once
 #include <d3d12.h>
+#include <QLCDNumber>
 #include <QMenuBar>
 
 #include <QPlainTextEdit>
@@ -79,6 +80,8 @@ private:
 	QTabWidget* m_infoTab;
 	ConceptEngine::Editor::Widgets::CEConsoleWidget* m_info;
 
+	QLCDNumber* m_fpsCounter;
+	
 	// MessageHandler for display and ThreadLogStream for redirecting cout
 	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 	MessageHandler* msgHandler = Q_NULLPTR;

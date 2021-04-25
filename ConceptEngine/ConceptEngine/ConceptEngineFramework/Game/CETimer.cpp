@@ -8,6 +8,8 @@ CETimer::CETimer()
 	__int64 countsPerSec;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&countsPerSec);
 	mSecondsPerCount = 1.0 / (double)countsPerSec;
+
+	CE_LOG(" Seconds Per Count: " + std::to_string(mSecondsPerCount) + " countsPerSec: "+ std::to_string(countsPerSec));
 }
 
 // Returns the total time elapsed since Reset() was called, NOT counting any
@@ -58,7 +60,7 @@ void CETimer::Reset() {
 void CETimer::Start() {
 	__int64 startTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
-
+	CE_LOG("Start Time: " + std::to_string(startTime));
 
 	// Accumulate the time elapsed between stop and start pairs.
 	//
@@ -101,6 +103,9 @@ void CETimer::Tick() {
 	// Prepare for next frame.
 	mPrevTime = mCurrTime;
 
+	// CE_LOG(
+	// 	"Current Time: " + std::to_string(mCurrTime) + " Previous Time: " + std::to_string(mPrevTime) +
+	// 	" Seconds Per Count: " + std::to_string(mSecondsPerCount) + " Delta Time: "+ std::to_string(mDeltaTime));
 	// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the 
 	// processor goes into a power save mode or we get shuffled to another
 	// processor, then mDeltaTime can be negative.

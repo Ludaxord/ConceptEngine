@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
+#include <QElapsedTimer>
 #include <stdexcept>
 #include <QtWidgets/QWidget>
 #include <QtCore/QTimer>
@@ -35,6 +36,9 @@ namespace ConceptEngine::Editor::Widgets {
 		void Render();
 		void Resize();
 
+		void CalculateFPS();
+		float GetFPS();
+		float GetMsPerFrame();
 		// Qt Events
 	private:
 		bool event(QEvent* event) override;
@@ -76,9 +80,13 @@ namespace ConceptEngine::Editor::Widgets {
 		ConceptEngineFramework::Graphics::CEPlayground* m_playground;
 
 		QTimer m_qTimer;
+		QElapsedTimer m_qETimer;
 
 		bool m_deviceCreated;
 		bool m_renderActive;
 		bool m_started;
+
+		float m_msPerFrame;
+		float m_fps;
 	};
 }

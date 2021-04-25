@@ -10,7 +10,7 @@
 #include <qevent.h>
 
 #include "../../ConceptEngineFramework/CEFramework.h"
-
+#include "../../ConceptEngineFramework/Tools/CEUtils.h"
 
 using namespace ConceptEngine::Editor::Widgets;
 using namespace ConceptEngineFramework::Graphics;
@@ -67,6 +67,7 @@ void CEQD3DWidget::Run() {
 	//TODO: Set Widget to edit PER_FRAME
 	m_framework->EditorRun(width(), height());
 	m_qTimer.start(MS_PER_FRAME);
+	m_qETimer.start();
 	m_renderActive = m_started = true;
 }
 
@@ -77,6 +78,10 @@ void CEQD3DWidget::Pause() {
 }
 
 void CEQD3DWidget::Resume() {
+}
+
+float CEQD3DWidget::GetMsPerFrame() {
+	return m_msPerFrame;
 }
 
 bool CEQD3DWidget::event(QEvent* event) {
@@ -163,6 +168,7 @@ void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
 
 void CEQD3DWidget::Update() {
 	m_framework->EditorUpdateTimer();
+	CalculateFPS();
 	m_framework->EditorUpdate();
 
 	emit SignalUpdate();
@@ -180,6 +186,35 @@ void CEQD3DWidget::Resize() {
 
 	emit SignalWidgetResize();
 }
+
+void CEQD3DWidget::CalculateFPS() {
+	static int m_frameCount = 0;
+	static float m_timeElapsed = 0.0f;
+
+	m_frameCount++;
+
+	//Compute averages over one second period.
+	if ((((m_qETimer.elapsed() + 500) / 1000) - m_timeElapsed) >= 1.0f) {
+		m_fps = (float)m_frameCount;
+		m_msPerFrame = 1000.0f / m_fps;
+
+		std::stringstream fpsSS;
+		fpsSS << "FPS: " << m_fps;
+		CE_LOG(fpsSS.str());
+
+		std::stringstream mspfSS;
+		mspfSS << "MSPF: " << m_msPerFrame;
+		// CE_LOG(mspfSS.str());
+
+		m_frameCount = 0;
+		m_timeElapsed += 1.0f;
+	}
+}
+
+float CEQD3DWidget::GetFPS() {
+	return m_fps;
+}
+
 
 LRESULT CEQD3DWidget::WndProc(MSG* pMsg) {
 	// Process wheel events using Qt's event-system.
