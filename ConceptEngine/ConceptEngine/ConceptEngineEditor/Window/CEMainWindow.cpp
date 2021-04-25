@@ -13,6 +13,7 @@
 #include <QPushButton>
 #include <QStyle>
 #include <QTime>
+#include <QImageReader>
 #include <spdlog/spdlog.h>
 
 #include "CEDXWindow.h"
@@ -243,18 +244,56 @@ QGridLayout* CEMainWindow::CreateRightSideMenu() {
 }
 
 QGridLayout* CEMainWindow::CreateLeftSideMenu() {
-	auto infoLabel = new QLabel;
-	infoLabel->setFrameStyle(QFrame::Box | QFrame::Raised);
-	infoLabel->setAlignment(Qt::AlignCenter);
-	infoLabel->setText(tr("This example demonstrates instanced drawing\nof a mesh loaded from a file.\n"
-		"Uses a Phong material with a single light.\n"
-		"Also demonstrates dynamic uniform buffers\nand a bit of threading with QtConcurrent.\n"
-		"Uses 4x MSAA when available.\n"
-		"Comes with an FPS camera.\n"
-		"Hit [Shift+]WASD to walk and strafe.\nPress and move mouse to look around.\n"
-		"Click Add New to increase the number of instances."));
+	struct CEElementList {
+		std::string Name;
+		std::string Path;
+		bool Dragable;
+	};
+
+	CEElementList* elementsList[] = {
+		new CEElementList{"Empty Object", "", false},
+		new CEElementList{"Player Start", "F:/Projects/ConceptEngine/assets/player.png", false},
+		new CEElementList{"Cube", "F:/Projects/ConceptEngine/assets/cube.png", false},
+		new CEElementList{"Sphere", "F:/Projects/ConceptEngine/assets/sphere.png", false},
+		new CEElementList{"Cylinder", "F:/Projects/ConceptEngine/assets/cylinder.png", false},
+		new CEElementList{"Cone", "F:/Projects/ConceptEngine/assets/cone.png", false},
+		new CEElementList{"Plane", "F:/Projects/ConceptEngine/assets/plane.png", false},
+		new CEElementList{"Point Light", "", false},
+		new CEElementList{"Spot Light", "", false},
+		new CEElementList{"Sky Light", "", false},
+	};
+
+	auto elementLayout = new QVBoxLayout;
+	for (auto element : elementsList) {
+		auto itemLayout = new QGridLayout;
+		auto iconWidget = new QLabel();
+		auto nameWidget = new QLabel();
+
+		iconWidget->setMaximumSize(100, 100);
+		iconWidget->setMinimumSize(100, 100);
+		QImageReader reader((element->Path.data()));
+		reader.setAutoTransform(true);
+		const QImage newImage = reader.read();
+		if (!newImage.isNull()) {
+			auto pixMap = QPixmap::fromImage(newImage);
+			pixMap = pixMap.scaled(100, 100, Qt::KeepAspectRatio);
+			iconWidget->setPixmap(pixMap);
+		}
+
+		QPalette p = palette();
+		p.setColor(QPalette::Text, QColor(205, 205, 205));
+		nameWidget->setPalette(p);
+
+		nameWidget->setText(tr(element->Name.data()));
+
+		itemLayout->addWidget(iconWidget, 0, 0);
+		itemLayout->addWidget(nameWidget, 0, 1);
+		
+		elementLayout->addLayout(itemLayout);
+	}
+
 	auto leftLayout = new QGridLayout;
-	leftLayout->addWidget(infoLabel, 0, 0);
+	leftLayout->addLayout(elementLayout, 0, 0);
 
 	return leftLayout;
 }
