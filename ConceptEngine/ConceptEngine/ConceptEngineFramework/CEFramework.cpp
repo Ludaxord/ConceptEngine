@@ -27,6 +27,15 @@ CEFramework::CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int he
 	Game::CEGame::Get().LinkWithEditor();
 }
 
+void CEFramework::EditorRun(int width, int height) const {
+	EditorResize(width,height);
+	Game::CEGame::Get().GetTimer().Reset();
+}
+
+void CEFramework::EditorUpdateTimer() const {
+	Game::CEGame::Get().EditorUpdateTimer();
+}
+
 void CEFramework::EditorUpdate() const {
 	Game::CEGame::Get().EditorUpdate();
 }
@@ -35,8 +44,8 @@ void CEFramework::EditorRender() const {
 	Game::CEGame::Get().EditorRender();
 }
 
-void CEFramework::EditorResize() const {
-	Game::CEGame::Get().EditorResize();
+void CEFramework::EditorResize(int width, int height) const {
+	Game::CEGame::Get().EditorResize(width, height);
 }
 
 void CEFramework::EditorKeyDown(WPARAM keyCode, std::string keyChar) {

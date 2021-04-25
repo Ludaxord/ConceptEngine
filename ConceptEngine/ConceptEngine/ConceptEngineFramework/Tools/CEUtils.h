@@ -12,6 +12,12 @@ struct CESystemInfo {
 	float CPUCores;
 };
 
+inline void CELog(std::string s) {
+	std::cout << s << std::endl;
+}
+
+#define CE_LOG(log) CELog(log);
+
 inline std::string FormatError(HRESULT hr) {
 	std::string strError;
 	char strHR[64] = {};

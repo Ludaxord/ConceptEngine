@@ -65,6 +65,7 @@ bool CEQD3DWidget::Create() {
 
 void CEQD3DWidget::Run() {
 	//TODO: Set Widget to edit PER_FRAME
+	m_framework->EditorRun(width(), height());
 	m_qTimer.start(MS_PER_FRAME);
 	m_renderActive = m_started = true;
 }
@@ -151,7 +152,6 @@ void CEQD3DWidget::paintEvent(QPaintEvent* event) {
 void CEQD3DWidget::resizeEvent(QResizeEvent* event) {
 	if (m_deviceCreated) {
 		Resize();
-		qDebug("Resize");
 	}
 
 	QWidget::resizeEvent(event);
@@ -162,6 +162,7 @@ void CEQD3DWidget::wheelEvent(QWheelEvent* event) {
 
 
 void CEQD3DWidget::Update() {
+	m_framework->EditorUpdateTimer();
 	m_framework->EditorUpdate();
 
 	emit SignalUpdate();
@@ -174,7 +175,8 @@ void CEQD3DWidget::Render() {
 }
 
 void CEQD3DWidget::Resize() {
-	m_framework->EditorResize();
+
+	m_framework->EditorResize(width(), height());
 
 	emit SignalWidgetResize();
 }

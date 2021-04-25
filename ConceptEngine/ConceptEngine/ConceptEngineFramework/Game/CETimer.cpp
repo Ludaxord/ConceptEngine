@@ -1,5 +1,6 @@
 #include <windows.h>
 #include "CETimer.h"
+#include "../Tools/CEUtils.h"
 
 CETimer::CETimer()
 	: mSecondsPerCount(0.0), mDeltaTime(-1.0), mBaseTime(0),
@@ -103,6 +104,7 @@ void CETimer::Tick() {
 	// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the 
 	// processor goes into a power save mode or we get shuffled to another
 	// processor, then mDeltaTime can be negative.
+
 	if (mDeltaTime < 0.0) {
 		mDeltaTime = 0.0;
 	}

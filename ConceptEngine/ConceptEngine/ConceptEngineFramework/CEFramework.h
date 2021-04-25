@@ -19,10 +19,13 @@ namespace ConceptEngineFramework {
 		HINSTANCE GetHInstance() const;
 
 		//FOR EDITOR
+		//TODO: For editor Create Custom Timer from QTimer class that imitate behavior of CETimer;
 		CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int height, Graphics::CEPlayground* playground);
+		void EditorRun(int width, int height) const;
+		void EditorUpdateTimer() const;
 		void EditorUpdate() const;
 		void EditorRender() const;
-		void EditorResize() const;
+		void EditorResize(int width, int height) const;
 		void EditorKeyDown(WPARAM keyCode, std::string keyChar);
 	protected:
 	private:

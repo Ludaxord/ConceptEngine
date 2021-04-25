@@ -31,6 +31,7 @@ public:
 	explicit CEConsoleInstance(const Logger& logger)
 		: CEConsole(logger) {
 		spdlog::info("ConceptEngineFramework Console class created.");
+		CE_LOG("ConceptEngineFramework Console class created.");
 	}
 };
 
@@ -45,6 +46,7 @@ public:
 	CEWindowInstance(const std::wstring& windowName, HWND hwnd, int width, int height)
 		: CEWindow(windowName, hwnd, width, height) {
 		spdlog::info("ConceptEngineFramework Window class created.");
+		CE_LOG("ConceptEngineFramework Console class created.")
 	}
 };
 
@@ -56,6 +58,7 @@ public:
 
 	CEDX12ManagerInstance(): CEDX12Manager() {
 		spdlog::info("ConceptEngineFramework DirectX 12 Manager class created.");
+		CE_LOG("ConceptEngineFramework DirectX 12 Manager class created.")
 	}
 };
 
@@ -63,6 +66,7 @@ class CEVManagerInstance final : public VulkanGraphicsEngine::CEVManager {
 public:
 	CEVManagerInstance(): CEVManager() {
 		spdlog::info("ConceptEngineFramework Vulkan Manager class created.");
+		CE_LOG("ConceptEngineFramework Vulkan Manager class created.")
 	}
 };
 
@@ -70,6 +74,7 @@ class CEOGLManagerInstance final : public OpenGLGraphicsEngine::CEOGLManager {
 public:
 	CEOGLManagerInstance(): CEOGLManager() {
 		spdlog::info("ConceptEngineFramework OpenGL Manager class created.");
+		CE_LOG("ConceptEngineFramework OpenGL Manager class created.")
 	}
 };
 
@@ -130,7 +135,9 @@ void ConceptEngineFramework::Game::CEGame::EditorRender() const {
 	m_graphicsManager->Render(m_timer);
 }
 
-void ConceptEngineFramework::Game::CEGame::EditorResize() const {
+void ConceptEngineFramework::Game::CEGame::EditorResize(int width, int height) const {
+	m_window->SetWidth(width);
+	m_window->SetHeight(height);
 	m_graphicsManager->Resize();
 }
 
@@ -158,6 +165,12 @@ ConceptEngineFramework::Game::CEGame& ConceptEngineFramework::Game::CEGame::Crea
 void ConceptEngineFramework::Game::CEGame::SystemInfo() {
 	m_systemInfo = GetEngineSystemInfo();
 	spdlog::info("CPU: {}, Threads: {}, RAM: {} MB", m_systemInfo.CPUName, m_systemInfo.CPUCores, m_systemInfo.RamSize);
+
+	std::stringstream ss;
+	ss << "CPU: " << m_systemInfo.CPUName << ", Threads: " << m_systemInfo.CPUCores << " RAM: " << m_systemInfo.RamSize
+		<< "MB";
+	CE_LOG(ss.str())
+
 }
 
 void ConceptEngineFramework::Game::CEGame::CalculateFPS(bool showInTitleBar) const {
@@ -173,6 +186,15 @@ void ConceptEngineFramework::Game::CEGame::CalculateFPS(bool showInTitleBar) con
 
 		spdlog::info("FPS: {}", fps);
 		spdlog::info("MSPF: {}", msPerFrame);
+
+		std::stringstream fpsSS;
+		fpsSS << "FPS: " << fps;
+		CE_LOG(fpsSS.str())
+		
+		std::stringstream mspfSS;
+		mspfSS << "MSPF: " << msPerFrame;
+		CE_LOG(mspfSS.str())
+
 		if (showInTitleBar) {
 			std::wstring wFps = std::to_wstring(fps);
 			std::wstring wMsPerFrame = std::to_wstring(msPerFrame);

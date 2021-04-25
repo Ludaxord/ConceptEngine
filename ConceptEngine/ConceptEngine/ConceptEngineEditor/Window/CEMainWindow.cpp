@@ -299,7 +299,6 @@ QGridLayout* CEMainWindow::CreateLeftSideMenu() {
 }
 
 void CEMainWindow::CreateCenterMenu() {
-
 	m_info = new ConceptEngine::Editor::Widgets::CEConsoleWidget();
 	m_info->setReadOnly(true);
 

@@ -81,7 +81,7 @@ namespace ConceptEngineFramework { namespace Graphics {
 			void EditorUpdateTimer();
 			void EditorUpdate() const;
 			void EditorRender() const;
-			void EditorResize() const;
+			void EditorResize(int width, int height) const;
 
 			virtual void EditorKeyDown(WPARAM keyCode, std::string keyChar, const CETimer& gt) {
 				auto keyState = WParamToKeyCode(keyCode);
