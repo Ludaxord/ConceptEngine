@@ -187,7 +187,7 @@ void CEQD3DWidget::Resize() {
 	emit SignalWidgetResize();
 }
 
-void CEQD3DWidget::CalculateFPS() {
+void CEQD3DWidget::CalculateFPS(bool displayInConsole) {
 	static int m_frameCount = 0;
 	static float m_timeElapsed = 0.0f;
 
@@ -198,13 +198,15 @@ void CEQD3DWidget::CalculateFPS() {
 		m_fps = (float)m_frameCount;
 		m_msPerFrame = 1000.0f / m_fps;
 
-		std::stringstream fpsSS;
-		fpsSS << "FPS: " << m_fps;
-		CE_LOG(fpsSS.str());
+		if (displayInConsole) {
+			std::stringstream fpsSS;
+			fpsSS << "FPS: " << m_fps;
+			CE_LOG(fpsSS.str());
 
-		std::stringstream mspfSS;
-		mspfSS << "MSPF: " << m_msPerFrame;
-		// CE_LOG(mspfSS.str());
+			std::stringstream mspfSS;
+			mspfSS << "MSPF: " << m_msPerFrame;
+			CE_LOG(mspfSS.str());
+		}
 
 		m_frameCount = 0;
 		m_timeElapsed += 1.0f;

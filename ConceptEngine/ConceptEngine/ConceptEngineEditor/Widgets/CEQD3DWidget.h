@@ -36,7 +36,7 @@ namespace ConceptEngine::Editor::Widgets {
 		void Render();
 		void Resize();
 
-		void CalculateFPS();
+		void CalculateFPS(bool displayInConsole = false);
 		float GetFPS();
 		float GetMsPerFrame();
 		// Qt Events
