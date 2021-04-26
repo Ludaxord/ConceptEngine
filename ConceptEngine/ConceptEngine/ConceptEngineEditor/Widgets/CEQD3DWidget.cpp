@@ -115,10 +115,19 @@ bool CEQD3DWidget::event(QEvent* event) {
 		//TODO: FIX
 		auto keyEvent = (QKeyEvent*)event;
 		auto nativeKeyEvent = keyEvent->nativeScanCode();
+		auto keyCode = keyEvent->key();
+		auto virtualKeyCode = keyEvent->nativeVirtualKey();
 		auto keyText = keyEvent->text().toUtf8();
-		qDebug(keyText, nativeKeyEvent);
 		std::string keyChar(keyText.begin(), keyText.end());
-		m_framework->EditorKeyDown((WPARAM)nativeKeyEvent, keyChar);
+
+		CE_LOG(
+			"Native Key Code: " + std::to_string(nativeKeyEvent) +
+			" Key Code: " + std::to_string(keyCode) +
+			" Virtual Key Code: " + std::to_string(virtualKeyCode) +
+			"Char: " + keyChar
+		);
+
+		m_framework->EditorKeyDown((WPARAM)keyCode, keyChar);
 		emit SignalKeyPressed(reinterpret_cast<QKeyEvent*>(event));
 	}
 	break;

@@ -59,6 +59,7 @@ namespace ConceptEngineFramework { namespace Graphics {
 			}
 
 			virtual void OnKeyDown(WPARAM btnState, LPARAM btnValue, const CETimer& gt) {
+				spdlog::info(btnState);
 				auto keyState = WParamToKeyCode(btnState);
 				auto keyChar = CharFromParams(btnState, btnValue);
 				m_playground->OnKeyDown(keyState, (char)keyChar, gt);
