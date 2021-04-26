@@ -31,6 +31,7 @@ namespace ConceptEngineFramework {
 		void EditorMouseDown(WPARAM keyCode, int x, int y);
 		void EditorMouseUp(WPARAM keyCode, int x, int y);
 		void EditorMouseWheel(WPARAM keyCode, float wheelDelta, int x, int y);
+		void EditorChangePlayground(Graphics::CEPlayground* newPlayground);
 	protected:
 	private:
 		//Game variables

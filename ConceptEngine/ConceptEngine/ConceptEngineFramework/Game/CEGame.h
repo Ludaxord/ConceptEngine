@@ -110,6 +110,10 @@ namespace ConceptEngineFramework { namespace Graphics {
 				m_playground->OnMouseWheel(keyState, wheelDelta, x, y);
 			}
 
+			virtual void ChangePlayground(Graphics::CEPlayground* playground) {
+				m_playground = playground;
+			}
+
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;
