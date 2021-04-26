@@ -112,34 +112,48 @@ bool CEQD3DWidget::event(QEvent* event) {
 		qDebug("Leave Direct3D Area");
 		break;
 	case QEvent::KeyPress: {
-		//TODO: FIX
 		auto keyEvent = (QKeyEvent*)event;
 		auto nativeKeyEvent = keyEvent->nativeScanCode();
 		auto keyCode = keyEvent->key();
 		auto virtualKeyCode = keyEvent->nativeVirtualKey();
 		auto keyText = keyEvent->text().toUtf8();
 		std::string keyChar(keyText.begin(), keyText.end());
-
 		CE_LOG(
 			"Native Key Code: " + std::to_string(nativeKeyEvent) +
 			" Key Code: " + std::to_string(keyCode) +
 			" Virtual Key Code: " + std::to_string(virtualKeyCode) +
-			"Char: " + keyChar
+			" Char: " + keyChar
 		);
 
 		m_framework->EditorKeyDown((WPARAM)keyCode, keyChar);
 		emit SignalKeyPressed(reinterpret_cast<QKeyEvent*>(event));
 	}
 	break;
-	case QEvent::MouseMove:
-		emit SignalMouseMoved(reinterpret_cast<QMouseEvent*>(event));
-		break;
-	case QEvent::MouseButtonPress:
-		emit SignalMouseClicked(reinterpret_cast<QMouseEvent*>(event));
-		break;
-	case QEvent::MouseButtonRelease:
-		emit SignalMouseReleased(reinterpret_cast<QMouseEvent*>(event));
-		break;
+	case QEvent::MouseMove: {
+		auto mouseEvent = reinterpret_cast<QMouseEvent*>(event);
+		CE_LOG(
+			"Mouse Button Press: " + std::to_string(mouseEvent->button()) + " Mouse Buttons Press: " + std::to_string(
+				mouseEvent->buttons()) + " X: " + std::to_string(mouseEvent->x())
+			+ " Y: "+ std::to_string(mouseEvent->y()))
+		if (mouseEvent->buttons() & Qt::LeftButton) {
+			m_framework->EditorMouseMove((WPARAM)mouseEvent->buttons(), mouseEvent->x(), mouseEvent->y());
+		}
+		emit SignalMouseMoved(mouseEvent);
+	}
+	break;
+	case QEvent::MouseButtonPress: {
+		auto mousePressEvent = reinterpret_cast<QMouseEvent*>(event);
+		m_framework->EditorMouseUp((WPARAM)mousePressEvent->buttons(), mousePressEvent->x(), mousePressEvent->y());
+		emit SignalMouseClicked(mousePressEvent);
+	}
+	break;
+	case QEvent::MouseButtonRelease: {
+		auto mouseReleaseEvent = reinterpret_cast<QMouseEvent*>(event);
+		m_framework->EditorMouseUp((WPARAM)mouseReleaseEvent->buttons(), mouseReleaseEvent->x(),
+		                           mouseReleaseEvent->y());
+		emit SignalMouseReleased(mouseReleaseEvent);
+	}
+	break;
 	default:
 		break;
 	}

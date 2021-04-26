@@ -28,7 +28,7 @@ CEFramework::CEFramework(HWND hWnd, Graphics::API graphicsApi, int width, int he
 }
 
 void CEFramework::EditorRun(int width, int height) const {
-	EditorResize(width,height);
+	EditorResize(width, height);
 	Game::CEGame::Get().GetTimer().Reset();
 }
 
@@ -50,6 +50,18 @@ void CEFramework::EditorResize(int width, int height) const {
 
 void CEFramework::EditorKeyDown(WPARAM keyCode, std::string keyChar) {
 	Game::CEGame::Get().EditorKeyDown(keyCode, keyChar, Game::CEGame::Get().GetTimer());
+}
+
+void CEFramework::EditorMouseMove(WPARAM keyCode, int x, int y) {
+	Game::CEGame::Get().EditorMouseMove(keyCode, x, y);
+}
+
+void CEFramework::EditorMouseDown(WPARAM keyCode, int x, int y) {
+	Game::CEGame::Get().EditorMouseKeyDown(keyCode, x, y);
+}
+
+void CEFramework::EditorMouseUp(WPARAM keyCode, int x, int y) {
+	Game::CEGame::Get().EditorMouseKeyUp(keyCode, x, y);
 }
 
 int CEFramework::Run(bool editorMode) const {

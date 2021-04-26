@@ -27,6 +27,9 @@ namespace ConceptEngineFramework {
 		void EditorRender() const;
 		void EditorResize(int width, int height) const;
 		void EditorKeyDown(WPARAM keyCode, std::string keyChar);
+		void EditorMouseMove(WPARAM keyCode, int x, int y);
+		void EditorMouseDown(WPARAM keyCode, int x, int y);
+		void EditorMouseUp(WPARAM keyCode, int x, int y);
 	protected:
 	private:
 		//Game variables

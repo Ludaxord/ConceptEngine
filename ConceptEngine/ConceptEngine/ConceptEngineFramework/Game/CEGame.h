@@ -84,9 +84,25 @@ namespace ConceptEngineFramework { namespace Graphics {
 			void EditorRender() const;
 			void EditorResize(int width, int height) const;
 
+			//TODO: change playground specific movement to dedicated to Editor
 			virtual void EditorKeyDown(WPARAM keyCode, std::string keyChar, const CETimer& gt) {
 				auto keyState = WParamToKeyCode(keyCode);
 				m_playground->OnKeyDown(keyState, reinterpret_cast<char>(keyChar.c_str()), gt);
+			}
+
+			virtual void EditorMouseMove(WPARAM keyCode, int x, int y) {
+				auto keyState = WParamToKeyCode(keyCode);
+				m_playground->OnMouseMove(keyState, x, y);
+			}
+
+			virtual void EditorMouseKeyDown(WPARAM keyCode, int x, int y) {
+				auto keyState = WParamToKeyCode(keyCode);
+				m_playground->OnMouseDown(keyState, x, y);
+			}
+
+			virtual void EditorMouseKeyUp(WPARAM keyCode, int x, int y) {
+				auto keyState = WParamToKeyCode(keyCode);
+				m_playground->OnMouseUp(keyState, x, y);
 			}
 
 		protected:
