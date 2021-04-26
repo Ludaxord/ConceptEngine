@@ -357,6 +357,8 @@ void CEDX12ShadowsPlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer
 
 void CEDX12ShadowsPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
 	CEDX12Playground::OnMouseWheel(key, wheelDelta, x, y);
+	CE_LOG("Wheel Delta: " + std::to_string(wheelDelta));
+	m_camera.Walk(10.0f / (wheelDelta / 2));
 }
 
 void CEDX12ShadowsPlayground::UpdateObjectCBs(const CETimer& gt) {

@@ -508,6 +508,13 @@ void CEDX12SSAOPlayground::OnKeyDown(KeyCode key, char keyChar, const CETimer& g
 
 void CEDX12SSAOPlayground::OnMouseWheel(KeyCode key, float wheelDelta, int x, int y) {
 	CEDX12Playground::OnMouseWheel(key, wheelDelta, x, y);
+	CE_LOG("Wheel Delta: " + std::to_string(wheelDelta));
+	if (wheelDelta > 0) {
+		m_camera.Walk(10.0f);
+	}
+	else if (wheelDelta < 0) {
+		m_camera.Walk(-10.0f);
+	}
 }
 
 void CEDX12SSAOPlayground::UpdateObjectCBs(const CETimer& gt) {

@@ -64,6 +64,10 @@ void CEFramework::EditorMouseUp(WPARAM keyCode, int x, int y) {
 	Game::CEGame::Get().EditorMouseKeyUp(keyCode, x, y);
 }
 
+void CEFramework::EditorMouseWheel(WPARAM keyCode, float wheelDelta, int x, int y) {
+	Game::CEGame::Get().EditorMouseWheel(keyCode, wheelDelta, x, y);
+}
+
 int CEFramework::Run(bool editorMode) const {
 	if (editorMode) {
 		return 0;

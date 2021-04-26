@@ -154,6 +154,14 @@ bool CEQD3DWidget::event(QEvent* event) {
 		emit SignalMouseReleased(mouseReleaseEvent);
 	}
 	break;
+	case QEvent::Wheel: {
+		auto wheelEvent = reinterpret_cast<QWheelEvent*>(event);
+		CE_LOG("Wheel: " + std::to_string(wheelEvent->delta()));
+		m_framework->EditorMouseWheel(wheelEvent->buttons(), (float)wheelEvent->delta(), wheelEvent->x(),
+		                              wheelEvent->y());
+	}
+	break;
+	break;
 	default:
 		break;
 	}

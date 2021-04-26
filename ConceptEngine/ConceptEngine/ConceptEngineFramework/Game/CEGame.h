@@ -105,6 +105,11 @@ namespace ConceptEngineFramework { namespace Graphics {
 				m_playground->OnMouseUp(keyState, x, y);
 			}
 
+			virtual void EditorMouseWheel(WPARAM keyCode, float wheelDelta, int x, int y) {
+				auto keyState = WParamToKeyCode(keyCode);
+				m_playground->OnMouseWheel(keyState, wheelDelta, x, y);
+			}
+
 		protected:
 			friend LRESULT CALLBACK ::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 			friend CEFramework;
