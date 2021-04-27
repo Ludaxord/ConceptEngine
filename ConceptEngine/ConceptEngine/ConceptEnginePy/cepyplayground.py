@@ -1,0 +1,2 @@
+class CEPyPlayground():
+    pass

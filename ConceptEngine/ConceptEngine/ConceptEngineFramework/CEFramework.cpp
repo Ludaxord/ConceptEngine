@@ -69,7 +69,7 @@ void CEFramework::EditorMouseWheel(WPARAM keyCode, float wheelDelta, int x, int 
 }
 
 void CEFramework::EditorChangePlayground(Graphics::CEPlayground* newPlayground) {
-	Game::CEGame::Get().ChangePlayground();
+	Game::CEGame::Get().ChangePlayground(newPlayground);
 }
 
 int CEFramework::Run(bool editorMode) const {

@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="cepyplayground.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ConceptEnginePy.py" />
   </ItemGroup>
   <ItemGroup>
