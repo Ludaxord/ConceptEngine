@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CEConsumer.cs" />
     <Compile Include="CECSPlayground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
