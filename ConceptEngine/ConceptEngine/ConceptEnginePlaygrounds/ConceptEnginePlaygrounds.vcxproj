@@ -160,9 +160,6 @@
     <ProjectReference Include="..\ConceptEngineCpp\ConceptEngineCpp.vcxproj">
       <Project>{982e439d-e485-40f3-8af6-d93135972fb9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ConceptEngineCSharp\ConceptEngineCSharp.csproj">
-      <Project>{510af591-95e8-43be-9ff8-7c7c5743bcce}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Playgrounds\DirectX12\Samples\BasicBox\CEDX12BoxPlayground.cpp" />

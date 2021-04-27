@@ -68,12 +68,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ConceptEngineCLR\ConceptEngineCLR.vcxproj">
-      <Project>{8f2d0629-dd62-4d92-9fe2-c7526663f9f6}</Project>
-      <Name>ConceptEngineCLR</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

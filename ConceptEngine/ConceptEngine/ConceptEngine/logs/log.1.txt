@@ -1,58 +1,212 @@
-[2021-04-25 21:20:01.242] [ConceptEngine] [info] ConceptEngineFramework Window class created.
-[2021-04-25 21:20:01.284] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
-[2021-04-25 21:20:01.284] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
-[2021-04-25 21:20:01.285] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
-[2021-04-25 21:20:01.285] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
-[2021-04-25 21:20:01.453] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
-[2021-04-25 21:20:01.579] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
-[2021-04-25 21:20:01.579] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
-[2021-04-25 21:20:01.579] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
-[2021-04-25 21:20:01.593] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] RTV Descriptor Number: 5
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] DSV Descriptor Number: 2
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] Min Feature Level Support: 11.0
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] Max Feature Level Support: 12.1
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] Ray Tracing Support: TRUE
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] Tearing Support: TRUE
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
-[2021-04-25 21:20:01.628] [ConceptEngine] [info] RefreshRate: 144000/1001
-[2021-04-25 21:20:01.634] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\desertcube1024.dds
-[2021-04-25 21:20:01.639] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2.dds
-[2021-04-25 21:20:01.640] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
-[2021-04-25 21:20:01.641] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2_nmap.dds
-[2021-04-25 21:20:01.642] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile.dds
-[2021-04-25 21:20:01.643] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile_nmap.dds
-[2021-04-25 21:20:01.646] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\default_nmap.dds
-[2021-04-25 21:20:01.647] [ConceptEngine] [info] SRV Descriptor Number: 14
-[2021-04-25 21:20:01.648] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBaseShadowVertexShader.hlsl
-[2021-04-25 21:20:01.656] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBaseShadowPixelShader.hlsl
-[2021-04-25 21:20:01.680] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowVertexShader.hlsl
-[2021-04-25 21:20:01.686] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl
-[2021-04-25 21:20:01.691] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl
-[2021-04-25 21:20:01.696] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowDebugVertexShader.hlsl
-[2021-04-25 21:20:01.700] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowDebugPixelShader.hlsl
-[2021-04-25 21:20:01.705] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECubeMapVertexShader.hlsl
-[2021-04-25 21:20:01.711] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECubeMapPixelShader.hlsl
-[2021-04-25 21:20:01.727] [ConceptEngine] [info] Loading Model from TXT: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\skull.txt
-[2021-04-25 21:20:06.901] [ConceptEngine] [info] FPS: 1031
-[2021-04-25 21:20:06.901] [ConceptEngine] [info] MSPF: 0.9699321
-[2021-04-25 21:20:07.901] [ConceptEngine] [info] FPS: 1464
-[2021-04-25 21:20:07.901] [ConceptEngine] [info] MSPF: 0.6830601
-[2021-04-25 21:20:08.901] [ConceptEngine] [info] FPS: 1473
-[2021-04-25 21:20:08.901] [ConceptEngine] [info] MSPF: 0.67888665
-[2021-04-25 21:20:09.901] [ConceptEngine] [info] FPS: 1473
-[2021-04-25 21:20:09.901] [ConceptEngine] [info] MSPF: 0.67888665
-[2021-04-25 21:20:10.901] [ConceptEngine] [info] FPS: 1476
-[2021-04-25 21:20:10.901] [ConceptEngine] [info] MSPF: 0.6775068
-[2021-04-25 21:20:11.901] [ConceptEngine] [info] FPS: 1463
-[2021-04-25 21:20:11.901] [ConceptEngine] [info] MSPF: 0.683527
-[2021-04-25 21:20:12.901] [ConceptEngine] [info] FPS: 1454
-[2021-04-25 21:20:12.901] [ConceptEngine] [info] MSPF: 0.6877579
-[2021-04-25 21:20:13.901] [ConceptEngine] [info] FPS: 1414
-[2021-04-25 21:20:13.902] [ConceptEngine] [info] MSPF: 0.7072136
-[2021-04-25 21:20:14.901] [ConceptEngine] [info] FPS: 1450
-[2021-04-25 21:20:14.901] [ConceptEngine] [info] MSPF: 0.6896552
-[2021-04-25 21:20:15.901] [ConceptEngine] [info] FPS: 1495
-[2021-04-25 21:20:15.901] [ConceptEngine] [info] MSPF: 0.6688963
-[2021-04-25 21:20:16.901] [ConceptEngine] [info] FPS: 1492
-[2021-04-25 21:20:16.901] [ConceptEngine] [info] MSPF: 0.6702413
+[2021-04-26 18:34:14.390] [ConceptEngine] [info] ConceptEngineFramework Window class created.
+[2021-04-26 18:34:14.431] [ConceptEngine] [info] CPU: AMD Ryzen 9 3900X 12-Core Processor            , Threads: 24, RAM: 32689 MB
+[2021-04-26 18:34:14.450] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 class created.
+[2021-04-26 18:34:14.450] [ConceptEngine] [info] ConceptEngineFramework DirectX 12 Manager class created.
+[2021-04-26 18:34:14.450] [ConceptEngine] [info] InitPlayground Loaded Class Name: class ConceptEngineFramework::Graphics::CEPlayground * __ptr64
+[2021-04-26 18:34:14.628] [ConceptEngine] [info] Direct3D Adapter (0): VID:4318, PID:9348 - GPU: NVIDIA GeForce RTX 3070
+[2021-04-26 18:34:14.766] [ConceptEngine] [info] *** Adapter: NVIDIA GeForce RTX 3070
+[2021-04-26 18:34:14.766] [ConceptEngine] [info] *** Adapter: Microsoft Basic Render Driver
+[2021-04-26 18:34:14.766] [ConceptEngine] [info] *** Output: \\.\DISPLAY2
+[2021-04-26 18:34:14.780] [ConceptEngine] [info] *** Output: \\.\DISPLAY1
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] RTV Descriptor Number: 5
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] DSV Descriptor Number: 2
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] Min Feature Level Support: 11.0
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] Max Feature Level Support: 12.1
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] Ray Tracing Support: TRUE
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] Tearing Support: TRUE
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] 4x MSAA (MultiSampling) Quality: 1
+[2021-04-26 18:34:14.832] [ConceptEngine] [info] RefreshRate: 144000/1001
+[2021-04-26 18:34:14.838] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\desertcube1024.dds
+[2021-04-26 18:34:14.842] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2.dds
+[2021-04-26 18:34:14.844] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\white1x1.dds
+[2021-04-26 18:34:14.845] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\bricks2_nmap.dds
+[2021-04-26 18:34:14.846] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile.dds
+[2021-04-26 18:34:14.847] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\tile_nmap.dds
+[2021-04-26 18:34:14.850] [ConceptEngine] [info] Loading Texture: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Textures\default_nmap.dds
+[2021-04-26 18:34:14.851] [ConceptEngine] [info] SRV Descriptor Number: 14
+[2021-04-26 18:34:14.852] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBaseShadowVertexShader.hlsl
+[2021-04-26 18:34:14.860] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEBaseShadowPixelShader.hlsl
+[2021-04-26 18:34:14.884] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowVertexShader.hlsl
+[2021-04-26 18:34:14.891] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl
+[2021-04-26 18:34:14.897] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowPixelShader.hlsl
+[2021-04-26 18:34:14.902] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowDebugVertexShader.hlsl
+[2021-04-26 18:34:14.907] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CEShadowDebugPixelShader.hlsl
+[2021-04-26 18:34:14.912] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECubeMapVertexShader.hlsl
+[2021-04-26 18:34:14.917] [ConceptEngine] [info] Loading Shader: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Shaders\CECubeMapPixelShader.hlsl
+[2021-04-26 18:34:14.934] [ConceptEngine] [info] Loading Model from TXT: F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\Resources\Models\skull.txt
+[2021-04-26 18:34:20.163] [ConceptEngine] [info] FPS: 1063
+[2021-04-26 18:34:20.163] [ConceptEngine] [info] MSPF: 0.9407338
+[2021-04-26 18:34:21.163] [ConceptEngine] [info] FPS: 1356
+[2021-04-26 18:34:21.163] [ConceptEngine] [info] MSPF: 0.7374631
+[2021-04-26 18:34:21.401] [ConceptEngine] [info] 50
+[2021-04-26 18:34:21.401] [ConceptEngine] [info] 50
+[2021-04-26 18:34:21.957] [ConceptEngine] [info] 50
+[2021-04-26 18:34:21.957] [ConceptEngine] [info] 50
+[2021-04-26 18:34:22.163] [ConceptEngine] [info] FPS: 1353
+[2021-04-26 18:34:22.163] [ConceptEngine] [info] MSPF: 0.7390983
+[2021-04-26 18:34:22.948] [ConceptEngine] [info] 87
+[2021-04-26 18:34:22.948] [ConceptEngine] [info] 87
+[2021-04-26 18:34:23.163] [ConceptEngine] [info] FPS: 1346
+[2021-04-26 18:34:23.163] [ConceptEngine] [info] MSPF: 0.74294204
+[2021-04-26 18:34:23.378] [ConceptEngine] [info] 87
+[2021-04-26 18:34:23.378] [ConceptEngine] [info] 87
+[2021-04-26 18:34:23.623] [ConceptEngine] [info] 87
+[2021-04-26 18:34:23.623] [ConceptEngine] [info] 87
+[2021-04-26 18:34:23.812] [ConceptEngine] [info] 87
+[2021-04-26 18:34:23.812] [ConceptEngine] [info] 87
+[2021-04-26 18:34:24.061] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.061] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.163] [ConceptEngine] [info] FPS: 1325
+[2021-04-26 18:34:24.163] [ConceptEngine] [info] MSPF: 0.754717
+[2021-04-26 18:34:24.259] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.259] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.447] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.447] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.657] [ConceptEngine] [info] 65
+[2021-04-26 18:34:24.657] [ConceptEngine] [info] 65
+[2021-04-26 18:34:24.796] [ConceptEngine] [info] 83
+[2021-04-26 18:34:24.796] [ConceptEngine] [info] 83
+[2021-04-26 18:34:24.957] [ConceptEngine] [info] 68
+[2021-04-26 18:34:24.957] [ConceptEngine] [info] 68
+[2021-04-26 18:34:25.090] [ConceptEngine] [info] 65
+[2021-04-26 18:34:25.090] [ConceptEngine] [info] 65
+[2021-04-26 18:34:25.163] [ConceptEngine] [info] FPS: 1351
+[2021-04-26 18:34:25.163] [ConceptEngine] [info] MSPF: 0.7401925
+[2021-04-26 18:34:25.192] [ConceptEngine] [info] 87
+[2021-04-26 18:34:25.192] [ConceptEngine] [info] 87
+[2021-04-26 18:34:25.295] [ConceptEngine] [info] 68
+[2021-04-26 18:34:25.295] [ConceptEngine] [info] 68
+[2021-04-26 18:34:25.430] [ConceptEngine] [info] 65
+[2021-04-26 18:34:25.430] [ConceptEngine] [info] 65
+[2021-04-26 18:34:25.512] [ConceptEngine] [info] 83
+[2021-04-26 18:34:25.512] [ConceptEngine] [info] 83
+[2021-04-26 18:34:25.610] [ConceptEngine] [info] 68
+[2021-04-26 18:34:25.610] [ConceptEngine] [info] 68
+[2021-04-26 18:34:25.723] [ConceptEngine] [info] 65
+[2021-04-26 18:34:25.724] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.163] [ConceptEngine] [info] FPS: 1361
+[2021-04-26 18:34:26.163] [ConceptEngine] [info] MSPF: 0.73475385
+[2021-04-26 18:34:26.278] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.278] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.309] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.309] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.340] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.340] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.387] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.387] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.418] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.418] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.449] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.449] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.480] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.480] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.511] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.511] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.542] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.542] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.573] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.573] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.604] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.604] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.650] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.650] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.681] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.681] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.712] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.712] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.744] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.744] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.774] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.774] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.805] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.805] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.836] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.836] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.884] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.884] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.914] [ConceptEngine] [info] 65
+[2021-04-26 18:34:26.914] [ConceptEngine] [info] 65
+[2021-04-26 18:34:27.050] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.051] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.163] [ConceptEngine] [info] FPS: 1331
+[2021-04-26 18:34:27.163] [ConceptEngine] [info] MSPF: 0.7513148
+[2021-04-26 18:34:27.565] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.566] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.597] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.597] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.628] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.628] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.659] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.659] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.691] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.691] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.721] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.721] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.752] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.752] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.783] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.783] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.830] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.830] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.860] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.860] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.892] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.892] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.922] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.922] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.954] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.954] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.984] [ConceptEngine] [info] 68
+[2021-04-26 18:34:27.984] [ConceptEngine] [info] 68
+[2021-04-26 18:34:28.017] [ConceptEngine] [info] 68
+[2021-04-26 18:34:28.017] [ConceptEngine] [info] 68
+[2021-04-26 18:34:28.120] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.120] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.163] [ConceptEngine] [info] FPS: 1337
+[2021-04-26 18:34:28.163] [ConceptEngine] [info] MSPF: 0.74794316
+[2021-04-26 18:34:28.621] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.621] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.667] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.667] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.698] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.698] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.729] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.729] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.760] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.760] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.791] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.791] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.822] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.822] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.853] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.853] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.885] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.885] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.931] [ConceptEngine] [info] 87
+[2021-04-26 18:34:28.931] [ConceptEngine] [info] 87
+[2021-04-26 18:34:29.045] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.045] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.163] [ConceptEngine] [info] FPS: 1349
+[2021-04-26 18:34:29.163] [ConceptEngine] [info] MSPF: 0.74128985
+[2021-04-26 18:34:29.551] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.551] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.583] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.583] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.614] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.614] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.644] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.644] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.691] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.691] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.722] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.722] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.753] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.753] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.784] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.785] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.816] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.816] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.846] [ConceptEngine] [info] 83
+[2021-04-26 18:34:29.846] [ConceptEngine] [info] 83
+[2021-04-26 18:34:30.163] [ConceptEngine] [info] FPS: 1245
+[2021-04-26 18:34:30.163] [ConceptEngine] [info] MSPF: 0.8032129

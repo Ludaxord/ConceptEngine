@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-#include <spdlog/logger.h>
 
 #include "Graphics/CEGraphicsManager.h"
 
