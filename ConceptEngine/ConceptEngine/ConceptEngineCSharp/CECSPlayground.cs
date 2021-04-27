@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace ConceptEngineCSharp
 {
-    public class Class1
-    {
+    public static class CECSPlayground {
     }
 }
