@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "U4dJJng7zMAwmKq9utpQu+56dkz8pjwevQFgGPufWdznd6Fsm97R7whGxuC72ATdbrZF7/VcE648Nfzqaieajg==",
+  "success": true,
+  "projectFilePath": "F:\\Projects\\ConceptEngine\\ConceptEngine\\ConceptEngine\\ConceptEngineCSharp\\ConceptEngineCSharp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\konra\\.nuget\\packages\\dllexport\\1.7.4\\dllexport.1.7.4.nupkg.sha512"
+  ],
+  "logs": []
+}
