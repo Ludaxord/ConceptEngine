@@ -7,6 +7,10 @@
 
 #include "Window/CEMainWindow.h"
 
+// #include "../ConceptEngineCLR/ConceptEngineCLR.h"
+
+// __declspec(dllexport) void CompileCSProject();
+
 int main(int argc, char* argv[]) {
 	QApplication a(argc, argv);
 	a.setWindowIcon(QIcon("F:/Projects/ConceptEngine/assets/conceptenginelogo.png"));
