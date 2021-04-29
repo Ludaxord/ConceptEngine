@@ -2,7 +2,7 @@
 
 namespace ConceptEngineCSharp
 {
-    public class CEConsumer
+    public static class CEConsumer
     {
         public static CECSPlayground GetPlayground()
         {
@@ -34,10 +34,9 @@ namespace ConceptEngineCSharp
         }
 
         [DllExport]
-        public static int CompileProject(int x, int y)
+        public static void CompileProject()
         {
             Console.WriteLine("Compiling Project...");
-            return x * y;
         }
 
         [DllExport]

@@ -5,6 +5,7 @@
 #include "Game/CEGame.h"
 
 #include "../ConceptEngineProject/CEProjectBinder.h"
+#include "../ConceptEngineProject/Exceptions/CELibraryException.h"
 
 using namespace ConceptEngineFramework;
 
@@ -77,18 +78,18 @@ void CEFramework::EditorChangePlayground(Graphics::CEPlayground* newPlayground) 
 }
 
 void CEFramework::CompileCS() {
-	ConceptEngine::Project::CEProjectBinder csBinder(
-		_T(
-			"F:\\Projects\\ConceptEngine\\ConceptEngine\\ConceptEngine\\ConceptEngineCSharp\\bin\\Debug\\x64\\ConceptEngineCSharp.dll"
-		)
-	);
+	ConceptEngine::Project::CEProjectBinder csBinder(_T("ConceptEngineCSharp.dll"));
+	CE_LOG("CSharp Library Loaded... ");
 
-	int i = csBinder.Call<int, int, int>("CompileProject", 2, 2);
-
-	std::stringstream ss;
-	ss << "CSharp Project Compiled... with result: " << i << std::endl;
-
-	CE_LOG(ss.str().c_str());
+	try {
+		csBinder.Call<void>("CompileProject");
+		CE_LOG("CSharp Project Compiled... ");
+	}
+	catch (ConceptEngine::Project::Exceptions::CELibraryException e) {
+		std::stringstream ss;
+		ss << "Error: " << e.what() << std::endl;
+		CE_LOG(ss.str().c_str());
+	}
 }
 
 int CEFramework::Run(bool editorMode) const {
