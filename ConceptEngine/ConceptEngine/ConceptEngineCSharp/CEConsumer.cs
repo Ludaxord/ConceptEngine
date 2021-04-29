@@ -34,11 +34,13 @@ namespace ConceptEngineCSharp
         }
 
         [DllExport]
-        public static void CompileProject()
+        public static int CompileProject(int x, int y)
         {
             Console.WriteLine("Compiling Project...");
+            return x * y;
         }
 
+        [DllExport]
         public static void CleanProject()
         {
             Console.WriteLine("Cleaning Project...");

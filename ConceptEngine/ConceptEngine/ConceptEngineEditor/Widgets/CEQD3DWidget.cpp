@@ -265,6 +265,11 @@ void CEQD3DWidget::OnFrame() {
 void CEQD3DWidget::OnReset() {
 }
 
+void CEQD3DWidget::CompileCSProject() const {
+	CE_LOG("Compiling CSharp Project");
+	m_framework->CompileCS();
+}
+
 #if QT_VERSION >= 0x050000
 bool CEQD3DWidget::nativeEvent(const QByteArray& eventType,
                                void* message,

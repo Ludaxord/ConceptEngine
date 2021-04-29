@@ -39,6 +39,9 @@ namespace ConceptEngine::Editor::Widgets {
 		void CalculateFPS(bool displayInConsole = false);
 		float GetFPS();
 		float GetMsPerFrame();
+
+		void CompileCSProject() const;
+
 		// Qt Events
 	private:
 		bool event(QEvent* event) override;

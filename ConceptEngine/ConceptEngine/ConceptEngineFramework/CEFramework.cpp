@@ -1,6 +1,10 @@
 #include "CEFramework.h"
 
+#include <tchar.h>
+
 #include "Game/CEGame.h"
+
+#include "../ConceptEngineProject/CEProjectBinder.h"
 
 using namespace ConceptEngineFramework;
 
@@ -70,6 +74,21 @@ void CEFramework::EditorMouseWheel(WPARAM keyCode, float wheelDelta, int x, int 
 
 void CEFramework::EditorChangePlayground(Graphics::CEPlayground* newPlayground) {
 	Game::CEGame::Get().ChangePlayground(newPlayground);
+}
+
+void CEFramework::CompileCS() {
+	ConceptEngine::Project::CEProjectBinder csBinder(
+		_T(
+			"F:\\Projects\\ConceptEngine\\ConceptEngine\\ConceptEngine\\ConceptEngineCSharp\\bin\\Debug\\x64\\ConceptEngineCSharp.dll"
+		)
+	);
+
+	int i = csBinder.Call<int, int, int>("CompileProject", 2, 2);
+
+	std::stringstream ss;
+	ss << "CSharp Project Compiled... with result: " << i << std::endl;
+
+	CE_LOG(ss.str().c_str());
 }
 
 int CEFramework::Run(bool editorMode) const {

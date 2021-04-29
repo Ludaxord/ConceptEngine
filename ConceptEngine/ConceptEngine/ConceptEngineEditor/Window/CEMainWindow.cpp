@@ -209,13 +209,20 @@ QMenuBar* CEMainWindow::CreateTopBarMenu() {
 QHBoxLayout* CEMainWindow::CreateActionMenu() {
 
 	auto topLayout = new QHBoxLayout();
+
+
 	std::string names[] = {
 		"Save", "Compile", "Build", "Launch", "Settings"
 	};
 
-
 	for (std::string name : names) {
 		auto topButton = new QPushButton(tr(name.c_str()));
+
+		//Just to test purposes
+		if (name == "Compile") {
+			connect(topButton, &QPushButton::clicked, this, &CEMainWindow::CompileProject);
+
+		}
 		topLayout->addWidget(topButton);
 	}
 
@@ -402,6 +409,24 @@ void CEMainWindow::render(ID3D12GraphicsCommandList* cl) {
 }
 
 void CEMainWindow::Render() {
+}
+
+void CEMainWindow::CompileProject() {
+	CE_LOG("Compiling Project");
+	switch (m_compiler) {
+	case CEProjectCompiler::Cpp:
+		break;
+	case CEProjectCompiler::CSharp:
+		m_dxScene->CompileCSProject();
+		break;
+	case CEProjectCompiler::Python:
+		break;
+	case CEProjectCompiler::Schematics:
+		break;
+	default:
+		break;
+
+	}
 }
 
 void CEMainWindow::SingleThreadTest() {

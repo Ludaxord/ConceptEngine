@@ -17,6 +17,14 @@
 
 #include "CEQD3DWidget.h"
 
+enum class CEProjectCompiler {
+	Cpp,
+	CSharp,
+	Python,
+	Schematics,
+	Count
+};
+
 class ThreadWorker : public QObject {
 Q_OBJECT
 public:
@@ -67,6 +75,8 @@ public slots:
 	void render(ID3D12GraphicsCommandList* cl);
 	void Render();
 
+	void CompileProject();
+
 	void SingleThreadTest();
 	void MultiThreadTest();
 
@@ -81,7 +91,9 @@ private:
 	ConceptEngine::Editor::Widgets::CEConsoleWidget* m_info;
 
 	QLCDNumber* m_fpsCounter;
-	
+
+	CEProjectCompiler m_compiler = CEProjectCompiler::CSharp;
+
 	// MessageHandler for display and ThreadLogStream for redirecting cout
 	/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 	MessageHandler* msgHandler = Q_NULLPTR;
