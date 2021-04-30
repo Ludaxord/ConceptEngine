@@ -267,7 +267,6 @@ void CEQD3DWidget::OnReset() {
 }
 
 void CEQD3DWidget::CompileCSProject() const {
-	CE_LOG("Compiling CSharp Project...");
 	// m_framework->CompileCS();
 }
 
