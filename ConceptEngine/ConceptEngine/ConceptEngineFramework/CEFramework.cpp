@@ -83,6 +83,7 @@ void CEFramework::CompileCS() {
 
 	try {
 		csBinder.Call<void>("CompileProject");
+		
 		CE_LOG("CSharp Project Compiled... ");
 	}
 	catch (ConceptEngine::Project::Exceptions::CELibraryException e) {

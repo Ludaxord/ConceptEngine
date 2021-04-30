@@ -8,6 +8,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QDirect3D12Widget.h>
 #include <qevent.h>
+#include <tchar.h>
 
 #include "../../ConceptEngineFramework/CEFramework.h"
 #include "../../ConceptEngineFramework/Tools/CEUtils.h"
@@ -161,7 +162,7 @@ bool CEQD3DWidget::event(QEvent* event) {
 		                              wheelEvent->y());
 	}
 	break;
-	break;
+		break;
 	default:
 		break;
 	}
@@ -262,12 +263,12 @@ void CEQD3DWidget::OnFrame() {
 	Render();
 }
 
-void CEQD3DWidget::OnReset() {
+void CEQD3DWidget::OnReset() { 
 }
 
 void CEQD3DWidget::CompileCSProject() const {
-	CE_LOG("Compiling CSharp Project");
-	m_framework->CompileCS();
+	CE_LOG("Compiling CSharp Project...");
+	// m_framework->CompileCS();
 }
 
 #if QT_VERSION >= 0x050000
