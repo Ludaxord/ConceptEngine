@@ -22,6 +22,6 @@ namespace ConceptEngineFramework::Graphics::OpenGL {
 		~CEOGLManager() = default;
 	
 	private:
-		void InitPhysics() override;
+		void CreatePhysics() override;
 	};
 }

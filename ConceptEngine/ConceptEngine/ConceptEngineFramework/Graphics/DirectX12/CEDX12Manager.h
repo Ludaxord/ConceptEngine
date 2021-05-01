@@ -213,7 +213,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		CEDX12Manager();
 		~CEDX12Manager();
 	private:
-		void InitPhysics() override;
+		void CreatePhysics() override;
 		
 		void TearingSupport();
 		void FeatureLevelSupport();

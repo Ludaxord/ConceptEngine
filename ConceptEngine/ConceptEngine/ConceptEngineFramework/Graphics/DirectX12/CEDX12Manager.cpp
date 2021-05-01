@@ -43,6 +43,8 @@ void CEDX12Manager::Create() {
 
 	Resize();
 
+	CreatePhysics();
+	
 	m_playground->Create();
 }
 
@@ -726,8 +728,9 @@ CEDX12Manager::~CEDX12Manager() {
 	CEDX12Manager::Destroy();
 }
 
-void CEDX12Manager::InitPhysics() {
+void CEDX12Manager::CreatePhysics() {
 	m_physics = new Physics::PhysX::CEPhysX();
+	m_physics->InitPhysics();
 }
 
 ID3D12Resource* CEDX12Manager::CurrentBackBuffer() const {

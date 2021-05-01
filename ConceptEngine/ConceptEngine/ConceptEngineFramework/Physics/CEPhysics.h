@@ -5,6 +5,7 @@
 namespace ConceptEngineFramework::Physics {
 	interface CEPhysics {
 	public:
+		virtual ~CEPhysics() = default;
 		virtual void InitPhysics() = 0;
 		virtual void CreateScene() = 0;
 		virtual void CleanUpScene() = 0;

@@ -25,5 +25,5 @@ void ConceptEngineFramework::Graphics::Vulkan::CEVManager::Render(const CETimer&
 ConceptEngineFramework::Graphics::Vulkan::CEVManager::CEVManager() {
 }
 
-void ConceptEngineFramework::Graphics::Vulkan::CEVManager::InitPhysics() {
+void ConceptEngineFramework::Graphics::Vulkan::CEVManager::CreatePhysics() {
 }

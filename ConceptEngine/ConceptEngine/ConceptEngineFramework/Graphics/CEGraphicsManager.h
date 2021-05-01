@@ -25,6 +25,6 @@ namespace ConceptEngineFramework::Graphics {
 		virtual ~CEGraphicsManager() = default;
 
 	private:
-		virtual void InitPhysics() = 0;
+		virtual void CreatePhysics() = 0;
 	};
 }
