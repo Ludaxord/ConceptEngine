@@ -33,7 +33,6 @@ void CEDX12Manager::Create() {
 	CreateCommandQueue();
 	CreateCommandAllocator();
 	CreateCommandList();
-	//TODO: Change Native Window Swap Chain to Editor Swap Chain
 	CreateSwapChain();
 	CreateRTVDescriptorHeap(RTVCount);
 	CreateDSVDescriptorHeap(DSVCount);
