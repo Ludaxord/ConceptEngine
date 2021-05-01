@@ -3,6 +3,9 @@
 ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::CEOGLManager() {
 }
 
+void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::InitPhysics() {
+}
+
 void ConceptEngineFramework::Graphics::OpenGL::CEOGLManager::Create() {
 }
 

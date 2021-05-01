@@ -34,6 +34,10 @@
 
 #include "Resources/CETypes.h"
 
+namespace ConceptEngineFramework {namespace Physics {
+	class CEPhysics;
+}}
+
 namespace ConceptEngineFramework { namespace Game {
 	class CEWindow;
 }}
@@ -209,6 +213,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		CEDX12Manager();
 		~CEDX12Manager();
 	private:
+		void InitPhysics() override;
+		
 		void TearingSupport();
 		void FeatureLevelSupport();
 		void DirectXRayTracingSupport();
@@ -218,7 +224,7 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		void LogAdapterOutputs(IDXGIAdapter* adapter);
 		void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
 		void LogDirectXInfo() const;
-
+		
 		Microsoft::WRL::ComPtr<IDXGIFactory4> m_dxgiFactory;
 		Microsoft::WRL::ComPtr<IDXGIAdapter1> m_adapter;
 		Microsoft::WRL::ComPtr<ID3D12Device> m_d3dDevice;
@@ -263,5 +269,6 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		UINT m_adapterID;
 		std::wstring m_adapterDescription;
 
+		Physics::CEPhysics* m_physics;
 	};
 }

@@ -20,5 +20,8 @@ namespace ConceptEngineFramework::Graphics::Vulkan {
 
 		CEVManager();
 		~CEVManager() = default;
+	
+	private:
+		void InitPhysics() override;
 	};
 }

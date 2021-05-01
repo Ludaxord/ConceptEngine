@@ -1,10 +1,9 @@
 #pragma once
+#include <combaseapi.h>
 
 namespace ConceptEngineFramework::Physics {
-	class CEPhysics {
+	interface CEPhysics {
 	public:
-		CEPhysics();
-		~CEPhysics();
 	protected:
 	private:
 	};

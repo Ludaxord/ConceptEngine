@@ -58,6 +58,8 @@
     <ClInclude Include="Graphics\OpenGL\CEOGLPlayground.h" />
     <ClInclude Include="Graphics\Vulkan\CEVPlayground.h" />
     <ClInclude Include="Graphics\Vulkan\CEVManager.h" />
+    <ClInclude Include="Physics\CEPhysics.h" />
+    <ClInclude Include="Physics\PhysX\CEPhysX.h" />
     <ClInclude Include="Tools\CEUtils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +89,7 @@
     <ClCompile Include="Graphics\OpenGL\CEOGLPlayground.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVPlayground.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVManager.cpp" />
+    <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX12\Resources\Shaders\CEBasePixelShader.hlsl">

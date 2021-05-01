@@ -11,6 +11,8 @@
 #include "CEDX12Playground.h"
 #include "Libraries/DDSTextureLoader.h"
 
+#include "../../Physics/PhysX/CEPhysX.h"
+
 using namespace ConceptEngineFramework::Graphics::DirectX12;
 namespace fs = std::filesystem;
 
@@ -722,6 +724,10 @@ CEDX12Manager::CEDX12Manager(): m_window(nullptr),
 
 CEDX12Manager::~CEDX12Manager() {
 	CEDX12Manager::Destroy();
+}
+
+void CEDX12Manager::InitPhysics() {
+	m_physics = new Physics::PhysX::CEPhysX();
 }
 
 ID3D12Resource* CEDX12Manager::CurrentBackBuffer() const {
