@@ -24,6 +24,23 @@ void CEPhysX::InitPhysics() {
 }
 
 void CEPhysX::CreateScene() {
+	physx::PxSceneDesc sceneDesc(m_physics->getTolerancesScale());
+	sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
+	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+	m_scene = m_physics->createScene(sceneDesc);
+
+	m_controllerManager = PxCreateControllerManager(*m_scene);
+
+	physx::PxPvdSceneClient* pvdClient = m_scene->getScenePvdClient();
+	if (pvdClient) {
+		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
+		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
+		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
+	}
+
+	CE_LOG("Create PhysX Scene");
+	spdlog::info("Create PhysX Scene");
 }
 
 void CEPhysX::CleanUpScene() {
@@ -50,6 +67,15 @@ void CEPhysX::MoveCharacterController(const std::string& name,
 }
 
 void CEPhysX::Update(float delta) {
+	m_accumulator += delta;
+	if (m_accumulator < m_stepSize) {
+		return;
+	}
+
+	m_accumulator -= m_stepSize;
+
+	m_scene->simulate(m_stepSize);
+	m_scene->fetchResults(true);
 }
 
 void CEPhysX::CleanUpPhysics() {

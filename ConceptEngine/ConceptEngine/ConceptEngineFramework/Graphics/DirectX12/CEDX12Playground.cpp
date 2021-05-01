@@ -5,6 +5,7 @@
 
 #include "CEDX12Manager.h"
 #include "../CEGraphicsManager.h"
+#include "../../Physics/CEPhysics.h"
 #include "../../Tools/CEUtils.h"
 
 using namespace ConceptEngineFramework::Graphics::DirectX12;
@@ -18,9 +19,11 @@ void CEDX12Playground::Init(CEGraphicsManager* manager) {
 }
 
 void CEDX12Playground::Create() {
+	m_dx12manager->GetPhysics()->CreateScene();
 }
 
 void CEDX12Playground::Update(const CETimer& gt) {
+	m_dx12manager->GetPhysics()->Update(gt.DeltaTime());
 }
 
 void CEDX12Playground::Render(const CETimer& gt) {

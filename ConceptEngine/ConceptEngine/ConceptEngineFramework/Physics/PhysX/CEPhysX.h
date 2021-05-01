@@ -54,5 +54,8 @@ namespace ConceptEngineFramework::Physics::PhysX {
 		physx::PxControllerManager* m_controllerManager = nullptr;
 
 		physx::PxPvd* m_pvd = nullptr;
+
+		float m_accumulator = 0.0f;
+		float m_stepSize = 1.0f / 60.0f;
 	};
 }

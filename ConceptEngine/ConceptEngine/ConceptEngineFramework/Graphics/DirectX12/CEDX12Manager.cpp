@@ -346,6 +346,10 @@ Microsoft::WRL::ComPtr<ID3D12Fence> CEDX12Manager::GetFence() const {
 	return m_fence;
 }
 
+ConceptEngineFramework::Physics::CEPhysics* CEDX12Manager::GetPhysics() const {
+	return m_physics;
+}
+
 DirectX::XMVECTOR CEDX12Manager::SphericalToCartesian(float radius, float theta, float phi) {
 	return DirectX::XMVectorSet(
 		radius * sinf(phi) * cosf(theta),

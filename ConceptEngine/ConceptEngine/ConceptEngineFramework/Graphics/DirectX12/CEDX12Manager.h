@@ -78,6 +78,8 @@ namespace ConceptEngineFramework::Graphics::DirectX12 {
 		Microsoft::WRL::ComPtr<ID3D12Resource> GetDepthStencilBuffer() const;
 		Microsoft::WRL::ComPtr<ID3D12Fence> GetFence() const;
 
+		Physics::CEPhysics* GetPhysics() const; 
+
 		XMVECTOR SphericalToCartesian(float radius, float theta, float phi);
 
 		std::unique_ptr<Resources::Texture> LoadTextureFromFile(const std::string fileName,
