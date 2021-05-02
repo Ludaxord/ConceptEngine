@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
+    <ClCompile Include="Graphics\DirectX12\CEDirectX12.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CEGraphicsManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
