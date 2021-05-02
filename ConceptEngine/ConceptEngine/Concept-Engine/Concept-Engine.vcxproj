@@ -19,13 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Compilers\CECompiler.h" />
+    <ClInclude Include="Compilers\CSharp\CECSCompiler.h" />
+    <ClInclude Include="Compilers\JS\CEJSCompiler.h" />
+    <ClInclude Include="Compilers\Python\CEPyCompiler.h" />
+    <ClInclude Include="Compilers\Schematics\CESchematicsCompiler.h" />
     <ClInclude Include="ConceptEngine.h" />
+    <ClInclude Include="Core\CECore.h" />
+    <ClInclude Include="Core\Editor\CEEditor.h" />
+    <ClInclude Include="Core\Game\CEGame.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\Main\CEGraphics.h" />
     <ClInclude Include="Graphics\Main\Managers\CEGraphicsManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Compilers\CSharp\CECSCompiler.cpp" />
+    <ClCompile Include="Compilers\JS\CEJSCompiler.cpp" />
+    <ClCompile Include="Compilers\Python\CEPyCompiler.cpp" />
+    <ClCompile Include="Compilers\Schematics\CESchematicsCompiler.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />
+    <ClCompile Include="Core\Editor\CEEditor.cpp" />
+    <ClCompile Include="Core\Game\CEGame.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDirectX12.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CEGraphicsManager.cpp" />
   </ItemGroup>

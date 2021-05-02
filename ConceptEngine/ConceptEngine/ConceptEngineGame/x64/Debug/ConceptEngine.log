@@ -1,0 +1,190 @@
+﻿  CEDX12BoxPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12BezierTessellationWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12BlendingWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12BlurWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp(401,89): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp(401,55): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(3580,56): warning C4244: 'argument': conversion from '_Ty' to 'UINT', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\BlurWaves\CEDX12BlurWavesPlayground.cpp(24): message : see reference to function template instantiation 'std::unique_ptr<ConceptEngineFramework::Graphics::DirectX12::Resources::CEBlurFilter,std::default_delete<ConceptEngineFramework::Graphics::DirectX12::Resources::CEBlurFilter>> std::make_unique<ConceptEngineFramework::Graphics::DirectX12::Resources::CEBlurFilter,T*,float,float,DXGI_FORMAT,0>(T *&&,float &&,float &&,DXGI_FORMAT &&)' being compiled
+          with
+          [
+              T=ID3D12Device
+          ]
+  CEDX12CharacterMeshPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.cpp(480,81): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.cpp(480,47): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(3580,56): warning C4244: 'argument': conversion from '_Ty' to 'UINT', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\CharacterMesh\CEDX12CharacterMeshPlayground.cpp(37): message : see reference to function template instantiation 'std::unique_ptr<ConceptEngineFramework::Graphics::DirectX12::Resources::CESSAO,std::default_delete<ConceptEngineFramework::Graphics::DirectX12::Resources::CESSAO>> std::make_unique<ConceptEngineFramework::Graphics::DirectX12::Resources::CESSAO,T*,ID3D12GraphicsCommandList*,float,float,0>(T *&&,ID3D12GraphicsCommandList *&&,float &&,float &&)' being compiled
+          with
+          [
+              T=ID3D12Device
+          ]
+  CEDX12ComputeWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12CubeMapPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12DynamicCubePlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12FPPCameraPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12InstancingPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12NormalMapPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12PickingPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12ShadowsPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12SobelWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp(522,90): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp(522,56): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp(526,90): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp(526,56): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(3580,56): warning C4244: 'argument': conversion from '_Ty' to 'UINT', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SobelWaves\CEDX12SobelWavesPlayground.cpp(25): message : see reference to function template instantiation 'std::unique_ptr<ConceptEngineFramework::Graphics::DirectX12::Resources::CESobelFilter,std::default_delete<ConceptEngineFramework::Graphics::DirectX12::Resources::CESobelFilter>> std::make_unique<ConceptEngineFramework::Graphics::DirectX12::Resources::CESobelFilter,T*,float,float,DXGI_FORMAT,0>(T *&&,float &&,float &&,DXGI_FORMAT &&)' being compiled
+          with
+          [
+              T=ID3D12Device
+          ]
+  CEDX12SSAOPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.cpp(452,81): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.cpp(452,47): warning C4244: 'argument': conversion from 'float' to 'UINT', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\memory(3580,56): warning C4244: 'argument': conversion from '_Ty' to 'UINT', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngine\Playgrounds\DirectX12\Samples\SSAO\CEDX12SSAOPlayground.cpp(40): message : see reference to function template instantiation 'std::unique_ptr<ConceptEngineFramework::Graphics::DirectX12::Resources::CESSAO,std::default_delete<ConceptEngineFramework::Graphics::DirectX12::Resources::CESSAO>> std::make_unique<ConceptEngineFramework::Graphics::DirectX12::Resources::CESSAO,T*,ID3D12GraphicsCommandList*,float,float,0>(T *&&,ID3D12GraphicsCommandList *&&,float &&,float &&)' being compiled
+          with
+          [
+              T=ID3D12Device
+          ]
+  CEDX12StencilShapesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12TessellationWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12CratePlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12InitDirect3DPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+  CEDX12LandscapePlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  Generating Code...
+  Compiling...
+  CEDX12LitShapesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12LitWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12ShapesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12TexShapesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12TexWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  CEDX12TreesWavesPlayground.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+  WinMain.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208,50): warning C4099: 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>': type name first seen using 'struct' now seen using 'class'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Graphics\DirectX12\CEDX12Manager.h(208): message : see declaration of 'std::default_delete<ConceptEngineFramework::Graphics::DirectX12::CEDX12Manager>'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(57,31): warning C4244: '=': conversion from 'DWORD' to 'float', possible loss of data
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineFramework\Tools\CEUtils.h(62,52): warning C4244: '=': conversion from 'DWORDLONG' to 'float', possible loss of data
+  Generating Code...
+     Creating library F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngine.lib and object F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngine.exp
+  ConceptEngine.vcxproj -> F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngine.exe

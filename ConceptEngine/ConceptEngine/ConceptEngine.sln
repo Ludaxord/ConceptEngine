@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineGame", "ConceptEngine\ConceptEngine.vcxproj", "{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{72A5BD96-5023-4CCF-BC58-B6BB23366999} = {72A5BD96-5023-4CCF-BC58-B6BB23366999}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineFramework", "ConceptEngineFramework\ConceptEngineFramework.vcxproj", "{72A5BD96-5023-4CCF-BC58-B6BB23366999}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineEditor", "ConceptEngineEditor\ConceptEngineEditor.vcxproj", "{0F4CB8BF-C176-49D6-BA16-093DF3FA6CCC}"
@@ -34,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConceptEngineCSharp", "Conc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngine", "Concept-Engine\Concept-Engine.vcxproj", "{2377CFB9-88DE-4713-8F3D-64122F7CFD5C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineGame", "ConceptEngineGame\ConceptEngineGame.vcxproj", "{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,16 +41,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x64.ActiveCfg = Debug|x64
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x64.Build.0 = Debug|x64
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x86.ActiveCfg = Debug|Win32
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x86.Build.0 = Debug|Win32
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|Any CPU.ActiveCfg = Release|Win32
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x64.ActiveCfg = Release|x64
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x64.Build.0 = Release|x64
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x86.ActiveCfg = Release|Win32
-		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x86.Build.0 = Release|Win32
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999}.Debug|x64.ActiveCfg = Debug|x64
 		{72A5BD96-5023-4CCF-BC58-B6BB23366999}.Debug|x64.Build.0 = Debug|x64
@@ -142,6 +129,16 @@ Global
 		{2377CFB9-88DE-4713-8F3D-64122F7CFD5C}.Release|x64.Build.0 = Release|x64
 		{2377CFB9-88DE-4713-8F3D-64122F7CFD5C}.Release|x86.ActiveCfg = Release|Win32
 		{2377CFB9-88DE-4713-8F3D-64122F7CFD5C}.Release|x86.Build.0 = Release|Win32
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x64.ActiveCfg = Debug|x64
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x64.Build.0 = Debug|x64
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x86.ActiveCfg = Debug|Win32
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Debug|x86.Build.0 = Debug|Win32
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|Any CPU.ActiveCfg = Release|Win32
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x64.ActiveCfg = Release|x64
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x64.Build.0 = Release|x64
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x86.ActiveCfg = Release|Win32
+		{0FAF5F10-5EB4-4F4B-BE66-D8961BEC9AA3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
