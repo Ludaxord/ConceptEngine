@@ -1,7 +1,7 @@
 #pragma once
 #include "../CECompiler.h"
 
-namespace ConceptEngine::Compilers::Python {
+namespace ConceptEngine::Compilers::JS {
 	class CEJSCompiler : public CECompiler {
 	};
 }

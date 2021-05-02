@@ -39,7 +39,6 @@ namespace ConceptEngine {
 
 	private:
 
-		
 		std::wstring m_name;
 		HINSTANCE m_hInstance;
 		LPSTR m_lpCmdLine;
