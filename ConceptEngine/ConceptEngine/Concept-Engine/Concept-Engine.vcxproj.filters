@@ -67,6 +67,34 @@
     <ClInclude Include="Core\Platform\Linux\Cursor\CELinuxCursor.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
     <ClInclude Include="Graphics\Main\Common\CERayTracer.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
+    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsKeyboard.h" />
+    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsMouse.h" />
+    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsController.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CECommandList.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXConstants.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorCache.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXSwapChain.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorHeap.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDevice.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXFence.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXGPUProfiler.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXHelper.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXPipelineState.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXRayTracing.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXRenderLayer.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXRootSignature.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXSamplerState.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXResource.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXShader.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXShaderCompiler.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXTexture.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.h" />
+    <ClInclude Include="Core\Platform\Windows\Input\CEInputManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -125,5 +153,23 @@
     <ClCompile Include="Graphics\Main\CEGraphics.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
     <ClCompile Include="Graphics\Main\Common\CERayTracer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorCache.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXSwapChain.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorHeap.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDevice.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXFence.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXGPUProfiler.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXPipelineState.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXRayTracing.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXRenderLayer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXRootSignature.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXResource.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXShader.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXShaderCompiler.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Input\CEInputManager.cpp" />
   </ItemGroup>
 </Project>

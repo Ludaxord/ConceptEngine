@@ -15,16 +15,16 @@ namespace ConceptEngine::Core::Application {
 		virtual bool Init() = 0;
 		virtual int Run() = 0;
 
-		Graphics::Main::CEGraphics* GetGraphics() const;
-		Compilers::CECompiler* GetCompiler() const;
-		Generic::Platform::CEPlatform* GetPlatform() const;
-		Graphics::Main::Common::CEPlayground* GetPlayground() const;
+		static Graphics::Main::CEGraphics* GetGraphics();
+		static Compilers::CECompiler* GetCompiler();
+		static Generic::Platform::CEPlatform* GetPlatform();
+		static Graphics::Main::Common::CEPlayground* GetPlayground();
 
 	protected:
-		Graphics::Main::CEGraphics* m_graphics;
-		Compilers::CECompiler* m_compiler;
-		Generic::Platform::CEPlatform* m_platform;
-		Graphics::Main::Common::CEPlayground* m_playground = nullptr;
+		static Graphics::Main::CEGraphics* m_graphics;
+		static Compilers::CECompiler* m_compiler;
+		static Generic::Platform::CEPlatform* m_platform;
+		inline static Graphics::Main::Common::CEPlayground* m_playground = nullptr;
 
 	private:
 		Graphics::Main::CEGraphics* SelectGraphicsAPI(Graphics::Main::GraphicsAPI api);

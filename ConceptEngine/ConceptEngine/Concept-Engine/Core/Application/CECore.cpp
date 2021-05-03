@@ -35,19 +35,19 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
 	m_playground = playground;
 }
 
-CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() const {
+CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {
 	return m_graphics;
 }
 
-CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() const {
+CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() {
 	return m_compiler;
 }
 
-ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() const {
+ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() {
 	return m_platform;
 }
 
-Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() const {
+Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
 	return m_playground;
 }
 
