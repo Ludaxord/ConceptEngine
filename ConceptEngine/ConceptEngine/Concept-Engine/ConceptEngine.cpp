@@ -12,11 +12,13 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             int width,
                                             int height, bool showConsole,
                                             Graphics::Main::GraphicsAPI api,
+                                            Core::Platform::Platform platform,
                                             Core::Compilers::Language language): m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow),
 	m_api(api),
+	m_platform(platform),
 	m_language(language) {
 	if (showConsole) {
 		Create(EngineBoot::GameDebug);
@@ -32,11 +34,13 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             int nCmdShow,
                                             bool showConsole,
                                             Graphics::Main::GraphicsAPI api,
+                                            Core::Platform::Platform platform,
                                             Core::Compilers::Language language) : m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow),
 	m_api(api),
+	m_platform(platform),
 	m_language(language) {
 	int width, height;
 	GetScreenResolution(width, height);
@@ -52,9 +56,11 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             HWND hWnd,
                                             int width,
                                             int height,
-                                            Graphics::Main::GraphicsAPI api) : m_name(name),
-                                                                               m_hwnd(hWnd),
-                                                                               m_api(api) {
+                                            Graphics::Main::GraphicsAPI api,
+                                            Core::Platform::Platform platform) : m_name(name),
+	m_hwnd(hWnd),
+	m_api(api),
+	m_platform(platform) {
 	Create(EngineBoot::Editor);
 }
 
@@ -79,19 +85,19 @@ ConceptEngine::Core::Application::CECore* ConceptEngine::ConceptEngine::GetCore(
 }
 
 bool ConceptEngine::ConceptEngine::CreateEditor() {
-	auto editor = std::make_unique<Core::Application::Editor::CEEditor>(m_api, m_language);
+	auto editor = std::make_unique<Core::Application::Editor::CEEditor>(m_api, m_language, m_platform);
 	m_core = std::move(editor);
 	return true;
 }
 
 bool ConceptEngine::ConceptEngine::CreateGame() {
-	auto game = std::make_unique<Core::Application::Game::CEGame>(m_api, m_language);
+	auto game = std::make_unique<Core::Application::Game::CEGame>(m_api, m_language, m_platform);
 	m_core = std::move(game);
 	return true;
 }
 
 bool ConceptEngine::ConceptEngine::CreateGameDebug() {
-	auto gameDebug = std::make_unique<Core::Application::GameDebug::CEGameDebug>(m_api, m_language);
+	auto gameDebug = std::make_unique<Core::Application::GameDebug::CEGameDebug>(m_api, m_language, m_platform);
 	m_core = std::move(gameDebug);
 	return true;
 }

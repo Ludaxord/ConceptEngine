@@ -39,7 +39,13 @@
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXManager.h" />
     <ClInclude Include="Graphics\Main\CEGraphics.h" />
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
+    <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
     <ClInclude Include="Graphics\Main\Common\CEPlayground.h" />
+    <ClInclude Include="Graphics\Main\Common\CEShader.h" />
+    <ClInclude Include="Graphics\Main\Common\CETexture.h" />
+    <ClInclude Include="Graphics\Main\Common\CEViewport.h" />
+    <ClInclude Include="Graphics\Main\Components\CERigidDynamic.h" />
+    <ClInclude Include="Graphics\Main\Components\CERigidStatic.h" />
     <ClInclude Include="Graphics\Main\Managers\CEGraphicsManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CEObjectManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CEPlaygroundManager.h" />
@@ -83,7 +89,13 @@
     <ClCompile Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXManager.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEPlayground.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CEShader.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CETexture.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CEViewport.cpp" />
+    <ClCompile Include="Graphics\Main\Components\CERigidDynamic.cpp" />
+    <ClCompile Include="Graphics\Main\Components\CERigidStatic.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CEGraphicsManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CEObjectManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CEPlaygroundManager.cpp" />

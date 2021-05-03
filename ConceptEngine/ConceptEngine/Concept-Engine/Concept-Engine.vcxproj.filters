@@ -48,6 +48,12 @@
     <ClInclude Include="Graphics\Main\Objects\CEObject.h" />
     <ClInclude Include="Graphics\Main\Managers\CEObjectManager.h" />
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
+    <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
+    <ClInclude Include="Graphics\Main\Common\CETexture.h" />
+    <ClInclude Include="Graphics\Main\Common\CEShader.h" />
+    <ClInclude Include="Graphics\Main\Common\CEViewport.h" />
+    <ClInclude Include="Graphics\Main\Components\CERigidDynamic.h" />
+    <ClInclude Include="Graphics\Main\Components\CERigidStatic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -86,5 +92,11 @@
     <ClCompile Include="Graphics\Main\Objects\CEObject.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CEObjectManager.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CETexture.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CEShader.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CEViewport.cpp" />
+    <ClCompile Include="Graphics\Main\Components\CERigidDynamic.cpp" />
+    <ClCompile Include="Graphics\Main\Components\CERigidStatic.cpp" />
   </ItemGroup>
 </Project>

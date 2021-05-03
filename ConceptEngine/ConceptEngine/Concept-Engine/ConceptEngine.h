@@ -28,6 +28,7 @@ namespace ConceptEngine {
 			int height,
 			bool showConsole,
 			Graphics::Main::GraphicsAPI api,
+			Core::Platform::Platform platform,
 			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
 		ConceptEngine(
@@ -37,13 +38,15 @@ namespace ConceptEngine {
 			int nCmdShow,
 			bool showConsole,
 			Graphics::Main::GraphicsAPI api,
+			Core::Platform::Platform platform,
 			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
 
 		/*
 		 * Editor Constructors
 		 */
-		ConceptEngine(std::wstring name, HWND hWnd, int width, int height, Graphics::Main::GraphicsAPI api);
+		ConceptEngine(std::wstring name, HWND hWnd, int width, int height, Graphics::Main::GraphicsAPI api,
+		              Core::Platform::Platform platform);
 
 		int Run() const;
 
@@ -65,6 +68,7 @@ namespace ConceptEngine {
 
 		Graphics::Main::GraphicsAPI m_api;
 		Core::Compilers::Language m_language;
+		Core::Platform::Platform m_platform;
 
 		std::unique_ptr<Core::Application::CECore> m_core;
 	};
