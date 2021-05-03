@@ -7,6 +7,9 @@ namespace ConceptEngine::Core::Application::GameDebug {
 	public:
 		CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,
 		            Generic::Platform::Platform platform);
+		CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
+		           Graphics::Main::Common::CEPlayground* playground);
+
 		~CEGameDebug() override;
 
 		bool Init() override;

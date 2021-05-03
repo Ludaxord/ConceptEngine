@@ -7,6 +7,10 @@ CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language,
 	api, language, platform) {
 }
 
+CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
+               Graphics::Main::Common::CEPlayground* playground): CEGameCore(api, language, platform, playground) {
+}
+
 CEGame::~CEGame() {
 }
 

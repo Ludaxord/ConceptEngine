@@ -6,6 +6,12 @@ CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language la
                          Generic::Platform::Platform platform): CEGameCore(api, language, platform) {
 }
 
+CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,
+                         Generic::Platform::Platform platform,
+                         Graphics::Main::Common::CEPlayground* playground): CEGameCore(
+	api, language, platform, playground) {
+}
+
 CEGameDebug::~CEGameDebug() {
 }
 

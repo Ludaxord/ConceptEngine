@@ -28,6 +28,13 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language langu
 	m_platform = SelectPlatform(platform);
 }
 
+ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Language language,
+                                                 Generic::Platform::Platform platform,
+                                                 Graphics::Main::Common::CEPlayground* playground) :
+	CECore(api, language, platform) {
+	m_playground = playground;
+}
+
 CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() const {
 	return m_graphics;
 }
@@ -38,6 +45,10 @@ CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() const {
 
 ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() const {
 	return m_platform;
+}
+
+Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() const {
+	return m_playground;
 }
 
 
