@@ -10,10 +10,14 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             LPSTR lpCmdLine,
                                             int nCmdShow,
                                             int width,
-                                            int height, bool showConsole): m_name(name),
+                                            int height, bool showConsole,
+                                            Graphics::Main::GraphicsAPI api,
+                                            Compilers::Language language): m_name(name),
                                                                            m_hInstance(hInstance),
                                                                            m_lpCmdLine(lpCmdLine),
-                                                                           m_nCmdShow(nCmdShow) {
+                                                                           m_nCmdShow(nCmdShow),
+                                                                           m_api(api),
+                                                                           m_language(language) {
 	if (showConsole) {
 		Create(EngineBoot::GameDebug);
 	}
@@ -26,10 +30,14 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             HINSTANCE hInstance,
                                             LPSTR lpCmdLine,
                                             int nCmdShow,
-                                            bool showConsole) : m_name(name),
-                                                                m_hInstance(hInstance),
-                                                                m_lpCmdLine(lpCmdLine),
-                                                                m_nCmdShow(nCmdShow) {
+                                            bool showConsole,
+                                            Graphics::Main::GraphicsAPI api,
+                                            Compilers::Language language) : m_name(name),
+                                                                            m_hInstance(hInstance),
+                                                                            m_lpCmdLine(lpCmdLine),
+                                                                            m_nCmdShow(nCmdShow),
+                                                                            m_api(api),
+                                                                            m_language(language) {
 	int width, height;
 	GetScreenResolution(width, height);
 	if (showConsole) {
@@ -69,19 +77,19 @@ ConceptEngine::Core::CECore* ConceptEngine::ConceptEngine::GetCore() const {
 }
 
 bool ConceptEngine::ConceptEngine::CreateEditor() {
-	auto editor = std::make_unique<Core::Editor::CEEditor>();
+	auto editor = std::make_unique<Core::Editor::CEEditor>(m_api, m_language);
 	m_core = std::move(editor);
 	return true;
 }
 
 bool ConceptEngine::ConceptEngine::CreateGame() {
-	auto game = std::make_unique<Core::Game::CEGame>();
+	auto game = std::make_unique<Core::Game::CEGame>(m_api, m_language);
 	m_core = std::move(game);
 	return true;
 }
 
 bool ConceptEngine::ConceptEngine::CreateGameDebug() {
-	auto gameDebug = std::make_unique<Core::GameDebug::CEGameDebug>();
+	auto gameDebug = std::make_unique<Core::GameDebug::CEGameDebug>(m_api, m_language);
 	m_core = std::move(gameDebug);
 	return true;
 }

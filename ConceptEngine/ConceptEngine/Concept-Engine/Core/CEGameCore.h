@@ -3,6 +3,7 @@
 
 namespace ConceptEngine::Core {
 	class CEGameCore : public CECore {
-		virtual ~CEGameCore() = default;
+	public:
+		CEGameCore(Graphics::Main::GraphicsAPI api, Compilers::Language language);
 	};
 }

@@ -13,6 +13,33 @@
     <ClInclude Include="Compilers\Python\CEPyCompiler.h" />
     <ClInclude Include="Compilers\JS\CEJSCompiler.h" />
     <ClInclude Include="Compilers\Schematics\CESchematicsCompiler.h" />
+    <ClInclude Include="Core\GameDebug\CEGameDebug.h" />
+    <ClInclude Include="Core\CEGameCore.h" />
+    <ClInclude Include="Utilities\CEScreenUtilities.h" />
+    <ClInclude Include="Platform\CEPlatform.h" />
+    <ClInclude Include="Platform\Windows\CEWindows.h" />
+    <ClInclude Include="Platform\Mac\CEMac.h" />
+    <ClInclude Include="Platform\Linux\CELinux.h" />
+    <ClInclude Include="Platform\iOS\CEiOS.h" />
+    <ClInclude Include="Platform\Android\CEAndroid.h" />
+    <ClInclude Include="Physics\CEPhysics.h" />
+    <ClInclude Include="Physics\PhysX\CEPhysX.h" />
+    <ClInclude Include="Math\CEMath.h" />
+    <ClInclude Include="Time\CETimer.h" />
+    <ClInclude Include="Window\CEWindow.h" />
+    <ClInclude Include="Window\CEScreen.h" />
+    <ClInclude Include="Window\CEConsole.h" />
+    <ClInclude Include="Graphics\Metal\CEMetal.h" />
+    <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
+    <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
+    <ClInclude Include="Compilers\Cpp\CECppCompiler.h" />
+    <ClInclude Include="AI\CEAi.h" />
+    <ClInclude Include="Audio\CEAudio.h" />
+    <ClInclude Include="Save\CESave.h" />
+    <ClInclude Include="Save\Game\CEGameSave.h" />
+    <ClInclude Include="Save\Project\CEProjectSaveWriter.h" />
+    <ClInclude Include="Save\Project\CEProjectSaveReader.h" />
+    <ClInclude Include="Save\Game\CEGameSaveWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -24,5 +51,25 @@
     <ClCompile Include="Compilers\Python\CEPyCompiler.cpp" />
     <ClCompile Include="Compilers\JS\CEJSCompiler.cpp" />
     <ClCompile Include="Compilers\Schematics\CESchematicsCompiler.cpp" />
+    <ClCompile Include="Core\GameDebug\CEGameDebug.cpp" />
+    <ClCompile Include="Platform\Windows\CEWindows.cpp" />
+    <ClCompile Include="Platform\Mac\CEMac.cpp" />
+    <ClCompile Include="Platform\Linux\CELinux.cpp" />
+    <ClCompile Include="Platform\Android\CEAndroid.cpp" />
+    <ClCompile Include="Platform\iOS\CEiOS.cpp" />
+    <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
+    <ClCompile Include="Math\CEMath.cpp" />
+    <ClCompile Include="Time\CETimer.cpp" />
+    <ClCompile Include="Window\CEWindow.cpp" />
+    <ClCompile Include="Window\CEScreen.cpp" />
+    <ClCompile Include="Window\CEConsole.cpp" />
+    <ClCompile Include="Core\CECore.cpp" />
+    <ClCompile Include="Core\CEGameCore.cpp" />
+    <ClCompile Include="Graphics\Metal\CEMetal.cpp" />
+    <ClCompile Include="Graphics\OpenGL\CEOpenGL.cpp" />
+    <ClCompile Include="Graphics\Vulkan\CEVulkan.cpp" />
+    <ClCompile Include="Compilers\Cpp\CECppCompiler.cpp" />
+    <ClCompile Include="Save\Project\CEProjectSave.h" />
+    <ClCompile Include="Save\Game\CEGameSaveReader.h" />
   </ItemGroup>
 </Project>

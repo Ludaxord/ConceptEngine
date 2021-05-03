@@ -19,14 +19,32 @@ namespace ConceptEngine {
 		/*
 		 * Game Constructors
 		 */
-		ConceptEngine(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, bool showConsole);
-		ConceptEngine(std::wstring name, HINSTANCE hInstance, LPSTR lpCmdLine, int nCmdShow, bool showConsole);
+		ConceptEngine(
+			std::wstring name,
+			HINSTANCE hInstance,
+			LPSTR lpCmdLine,
+			int nCmdShow,
+			int width,
+			int height,
+			bool showConsole,
+			Graphics::Main::GraphicsAPI api,
+			Compilers::Language language = Compilers::Language::None
+		);
+		ConceptEngine(
+			std::wstring name,
+			HINSTANCE hInstance,
+			LPSTR lpCmdLine,
+			int nCmdShow,
+			bool showConsole,
+			Graphics::Main::GraphicsAPI api,
+			Compilers::Language language = Compilers::Language::None
+		);
 
 		/*
 		 * Editor Constructors
 		 */
 		ConceptEngine(std::wstring name, HWND hWnd, int width, int height);
-		
+
 		int Run() const;
 
 		Core::CECore* GetCore() const;
@@ -38,7 +56,6 @@ namespace ConceptEngine {
 		bool CreateGameDebug();
 
 	private:
-
 		std::wstring m_name;
 		HINSTANCE m_hInstance;
 		LPSTR m_lpCmdLine;
@@ -46,6 +63,9 @@ namespace ConceptEngine {
 
 		HWND m_hwnd;
 
+		Graphics::Main::GraphicsAPI m_api;
+		Compilers::Language m_language;
+		
 		std::unique_ptr<Core::CECore> m_core;
 	};
 }
