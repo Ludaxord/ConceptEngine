@@ -66,6 +66,7 @@
     <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
     <ClInclude Include="Core\Platform\Linux\Cursor\CELinuxCursor.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
+    <ClInclude Include="Graphics\Main\Common\CERayTracer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -123,5 +124,6 @@
     <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />
     <ClCompile Include="Graphics\Main\CEGraphics.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CERayTracer.cpp" />
   </ItemGroup>
 </Project>
