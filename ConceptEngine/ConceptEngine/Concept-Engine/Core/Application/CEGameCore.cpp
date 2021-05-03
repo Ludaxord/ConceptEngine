@@ -8,15 +8,11 @@ Application::CEGameCore::CEGameCore(Graphics::Main::GraphicsAPI api,
 }
 
 bool Application::CEGameCore::Init() {
-	return false;
+	m_platform->Create();
+	m_platform->CreateSystemWindow();
+	return true;
 }
 
 int Application::CEGameCore::Run() {
 	return 0;
-}
-
-void Application::CEGameCore::Update() {
-}
-
-void Application::CEGameCore::Render() {
 }

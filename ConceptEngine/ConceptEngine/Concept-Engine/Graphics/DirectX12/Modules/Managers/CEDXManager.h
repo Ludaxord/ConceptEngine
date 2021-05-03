@@ -10,8 +10,5 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Managers {
 
 		void Create() override;
 		void Destroy() override;
-		void Update() override;
-		void Render() override;
-		void Resize() override;
 	};
 }

@@ -54,7 +54,7 @@ namespace ConceptEngine {
 			Core::Generic::Platform::Platform platform
 		);
 
-		bool Init();
+		bool Init() const;
 		int Run() const;
 
 		Core::Application::CECore* GetCore() const;

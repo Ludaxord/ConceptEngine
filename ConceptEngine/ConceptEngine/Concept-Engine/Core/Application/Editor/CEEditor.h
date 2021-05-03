@@ -10,7 +10,5 @@ namespace ConceptEngine::Core::Application::Editor {
 
 		bool Init() override;
 		int Run() override;
-		void Update() override;
-		void Render() override;
 	};
 }

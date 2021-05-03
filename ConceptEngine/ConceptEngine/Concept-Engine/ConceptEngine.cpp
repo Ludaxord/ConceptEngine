@@ -64,7 +64,8 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
 	Create(EngineBoot::Editor);
 }
 
-bool ConceptEngine::ConceptEngine::Init() {
+bool ConceptEngine::ConceptEngine::Init() const {
+	return m_core->Init();
 }
 
 int ConceptEngine::ConceptEngine::Run() const {

@@ -3,12 +3,18 @@
 #include "../Main/CEGraphics.h"
 
 namespace ConceptEngine::Graphics::OpenGL {
-	class CEOpenGL : public Main::CEGraphics {
+	class CEOpenGL final : public Main::CEGraphics {
 	public:
 		CEOpenGL();
-		virtual ~CEOpenGL();
+		~CEOpenGL() override;
 		
 		void Create() override;
 		void CreateManagers() override;
+		void CreateGraphicsManager() override;
+		
+		void Update() override;
+		void Render() override;
+		void Resize() override;
+		void Destroy() override;
 	};
 }

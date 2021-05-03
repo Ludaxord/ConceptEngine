@@ -6,9 +6,15 @@ namespace ConceptEngine::Graphics::Metal {
 	class CEMetal : public Main::CEGraphics {
 	public:
 		CEMetal();
-		virtual ~CEMetal();
+		~CEMetal() override;
 		
 		void Create() override;
 		void CreateManagers() override;
+
+		void Update() override;
+		void Render() override;
+		void Resize() override;
+		void Destroy() override;
+		void CreateGraphicsManager() override;
 	};
 }

@@ -12,9 +12,11 @@ namespace ConceptEngine::Core::Application {
 
 		virtual bool Init() = 0;
 		virtual int Run() = 0;
-		virtual void Update() = 0;
-		virtual void Render() = 0;
 
+		Graphics::Main::CEGraphics* GetGraphics() const;
+		Compilers::CECompiler* GetCompiler() const;
+		Generic::Platform::CEPlatform* GetPlatform() const;
+	
 	protected:
 		Graphics::Main::CEGraphics* m_graphics;
 		Compilers::CECompiler* m_compiler;

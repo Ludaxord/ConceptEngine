@@ -44,6 +44,7 @@
     <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
     <ClInclude Include="Core\Platform\Mac\Window\CEMacWindow.h" />
     <ClInclude Include="Core\Platform\Windows\Cursor\CEWindowsCursor.h" />
+    <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsWindow.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.h" />
@@ -106,10 +107,12 @@
     <ClCompile Include="Core\Platform\Mac\Cursor\CEMacCursor.cpp" />
     <ClCompile Include="Core\Platform\Mac\Window\CEMacWindow.cpp" />
     <ClCompile Include="Core\Platform\Windows\Cursor\CEWindowsCursor.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsWindow.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDirectX12.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXManager.cpp" />
+    <ClCompile Include="Graphics\Main\CEGraphics.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEPlayground.cpp" />

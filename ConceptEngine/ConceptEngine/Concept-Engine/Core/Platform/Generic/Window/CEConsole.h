@@ -3,6 +3,8 @@
 
 namespace ConceptEngine::Core::Platform::Generic::Window {
 	class CEConsole : public CEScreen {
-		
+	public:
+		CEConsole();
+		~CEConsole();
 	};
 }

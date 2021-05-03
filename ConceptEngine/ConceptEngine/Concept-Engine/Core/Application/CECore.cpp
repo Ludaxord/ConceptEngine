@@ -21,11 +21,25 @@ using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
 using namespace ConceptEngine::Core::Platform;
 
-ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language, Generic::Platform::Platform platform) {
+ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language,
+                                                 Generic::Platform::Platform platform) {
 	m_graphics = SelectGraphicsAPI(api);
 	m_compiler = SelectLanguageCompiler(language);
 	m_platform = SelectPlatform(platform);
 }
+
+CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() const {
+	return m_graphics;
+}
+
+CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() const {
+	return m_compiler;
+}
+
+ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() const {
+	return m_platform;
+}
+
 
 CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(GraphicsAPI api) {
 	switch (api) {
@@ -45,7 +59,8 @@ CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(Graphics
 	}
 }
 
-ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::SelectPlatform(Generic::Platform::Platform platform) {
+ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::SelectPlatform(
+	Generic::Platform::Platform platform) {
 	switch (platform) {
 	case Generic::Platform::Platform::Android:
 		return new Android::CEAndroid();
