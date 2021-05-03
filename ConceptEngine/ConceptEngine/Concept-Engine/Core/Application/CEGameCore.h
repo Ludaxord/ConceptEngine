@@ -1,0 +1,12 @@
+#pragma once
+#include "CECore.h"
+
+namespace ConceptEngine::Core::Application {
+	class CEGameCore : public CECore {
+	public:
+		CEGameCore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Platform::Platform platform);
+		int Run() override;
+		void Update() override;
+		void Render() override;
+	};
+}

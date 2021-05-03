@@ -4,7 +4,7 @@
 #include <string>
 #include <Windows.h>
 
-#include "Core/CECore.h"
+#include "Core/Application/CECore.h"
 
 namespace ConceptEngine {
 
@@ -28,7 +28,7 @@ namespace ConceptEngine {
 			int height,
 			bool showConsole,
 			Graphics::Main::GraphicsAPI api,
-			Compilers::Language language = Compilers::Language::None
+			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
 		ConceptEngine(
 			std::wstring name,
@@ -37,17 +37,17 @@ namespace ConceptEngine {
 			int nCmdShow,
 			bool showConsole,
 			Graphics::Main::GraphicsAPI api,
-			Compilers::Language language = Compilers::Language::None
+			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
 
 		/*
 		 * Editor Constructors
 		 */
-		ConceptEngine(std::wstring name, HWND hWnd, int width, int height);
+		ConceptEngine(std::wstring name, HWND hWnd, int width, int height, Graphics::Main::GraphicsAPI api);
 
 		int Run() const;
 
-		Core::CECore* GetCore() const;
+		Core::Application::CECore* GetCore() const;
 	protected:
 		bool Create(EngineBoot boot);
 
@@ -64,8 +64,8 @@ namespace ConceptEngine {
 		HWND m_hwnd;
 
 		Graphics::Main::GraphicsAPI m_api;
-		Compilers::Language m_language;
-		
-		std::unique_ptr<Core::CECore> m_core;
+		Core::Compilers::Language m_language;
+
+		std::unique_ptr<Core::Application::CECore> m_core;
 	};
 }
