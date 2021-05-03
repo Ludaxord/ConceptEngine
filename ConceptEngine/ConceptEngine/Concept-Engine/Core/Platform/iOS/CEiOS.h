@@ -1,8 +1,8 @@
 #pragma once
-#include "../CEPlatform.h"
+#include "../Generic/CEPlatform.h"
 
 namespace ConceptEngine::Core::Platform::iOS {
-	class CEiOS : public CEPlatform {
+	class CEiOS : public Generic::Platform::CEPlatform {
 	public:
 		CEiOS();
 	protected:

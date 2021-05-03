@@ -1,8 +1,8 @@
 #pragma once
-#include "../CEPlatform.h"
+#include "../Generic/CEPlatform.h"
 
 namespace ConceptEngine::Core::Platform::Windows {
-	class CEWindows : public CEPlatform {
+	class CEWindows : public Generic::Platform::CEPlatform {
 	public:
 		CEWindows();
 	protected:

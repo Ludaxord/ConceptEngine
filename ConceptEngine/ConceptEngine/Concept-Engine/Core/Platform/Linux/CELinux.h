@@ -1,8 +1,8 @@
 #pragma once
-#include "../CEPlatform.h"
+#include "../Generic/CEPlatform.h"
 
 namespace ConceptEngine::Core::Platform::Linux {
-	class CELinux : public CEPlatform {
+	class CELinux : public Generic::Platform::CEPlatform {
 	public:
 		CELinux();
 	protected:

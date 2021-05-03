@@ -16,7 +16,7 @@
     <ClInclude Include="Core\Application\GameDebug\CEGameDebug.h" />
     <ClInclude Include="Core\Application\CEGameCore.h" />
     <ClInclude Include="Utilities\CEScreenUtilities.h" />
-    <ClInclude Include="Core\Platform\CEPlatform.h" />
+    <ClInclude Include="Core\Platform\Generic\CEPlatform.h" />
     <ClInclude Include="Core\Platform\Windows\CEWindows.h" />
     <ClInclude Include="Core\Platform\Mac\CEMac.h" />
     <ClInclude Include="Core\Platform\Linux\CELinux.h" />
@@ -26,14 +26,14 @@
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
     <ClInclude Include="Math\CEMath.h" />
     <ClInclude Include="Time\CETimer.h" />
-    <ClInclude Include="Window\CEWindow.h" />
-    <ClInclude Include="Window\CEScreen.h" />
-    <ClInclude Include="Window\CEConsole.h" />
+    <ClInclude Include="Core\Platform\Generic\Window\CEWindow.h" />
+    <ClInclude Include="Core\Platform\Generic\Window\CEScreen.h" />
+    <ClInclude Include="Core\Platform\Generic\Window\CEConsole.h" />
     <ClInclude Include="Graphics\Metal\CEMetal.h" />
     <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
     <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
     <ClInclude Include="Core\Compilers\Cpp\CECppCompiler.h" />
-    <ClInclude Include="AI\CEAi.h" />
+    <ClInclude Include="AI\CEAI.h" />
     <ClInclude Include="Audio\CEAudio.h" />
     <ClInclude Include="Save\CESave.h" />
     <ClInclude Include="Save\Game\CEGameSave.h" />
@@ -54,6 +54,17 @@
     <ClInclude Include="Graphics\Main\Common\CEViewport.h" />
     <ClInclude Include="Graphics\Main\Components\CERigidDynamic.h" />
     <ClInclude Include="Graphics\Main\Components\CERigidStatic.h" />
+    <ClInclude Include="Core\Delegates\CEDelegate.h" />
+    <ClInclude Include="Core\Delegates\CEDelegateBase.h" />
+    <ClInclude Include="Core\Platform\Generic\Cursor\CECursor.h" />
+    <ClInclude Include="Core\Platform\Android\Window\CEAndroidWindow.h" />
+    <ClInclude Include="Core\Platform\iOS\Window\CEiOSWindow.h" />
+    <ClInclude Include="Core\Platform\Linux\Window\CELinuxWindow.h" />
+    <ClInclude Include="Core\Platform\Mac\Window\CEMacWindow.h" />
+    <ClInclude Include="Core\Platform\Windows\Window\CEWindowsWindow.h" />
+    <ClInclude Include="Core\Platform\Windows\Cursor\CEWindowsCursor.h" />
+    <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
+    <ClInclude Include="Core\Platform\Linux\Cursor\CELinuxCursor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -74,9 +85,9 @@
     <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
     <ClCompile Include="Math\CEMath.cpp" />
     <ClCompile Include="Time\CETimer.cpp" />
-    <ClCompile Include="Window\CEWindow.cpp" />
-    <ClCompile Include="Window\CEScreen.cpp" />
-    <ClCompile Include="Window\CEConsole.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Window\CEWindow.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Window\CEScreen.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Window\CEConsole.cpp" />
     <ClCompile Include="Core\Application\CECore.cpp" />
     <ClCompile Include="Core\Application\CEGameCore.cpp" />
     <ClCompile Include="Graphics\Metal\CEMetal.cpp" />
@@ -98,5 +109,16 @@
     <ClCompile Include="Graphics\Main\Common\CEViewport.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidDynamic.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidStatic.cpp" />
+    <ClCompile Include="Core\Delegates\CEDelegate.cpp" />
+    <ClCompile Include="Core\Delegates\CEDelegateBase.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Cursor\CECursor.cpp" />
+    <ClCompile Include="Core\Platform\Android\Window\CEAndroidWindow.cpp" />
+    <ClCompile Include="Core\Platform\iOS\Window\CEiOSWindow.cpp" />
+    <ClCompile Include="Core\Platform\Linux\Window\CELinuxWindow.cpp" />
+    <ClCompile Include="Core\Platform\Mac\Window\CEMacWindow.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Window\CEWindowsWindow.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Cursor\CEWindowsCursor.cpp" />
+    <ClCompile Include="Core\Platform\Mac\Cursor\CEMacCursor.cpp" />
+    <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />
   </ItemGroup>
 </Project>

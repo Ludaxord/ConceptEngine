@@ -2,10 +2,14 @@
 
 using namespace ConceptEngine::Core::Application::Editor;
 
-CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language, Platform::Platform platform): CECore(api, language, platform) {
+CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform): CECore(api, language, platform) {
 }
 
 CEEditor::~CEEditor() {
+}
+
+bool CEEditor::Init() {
+	return false;
 }
 
 int CEEditor::Run() {

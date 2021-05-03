@@ -1,7 +1,7 @@
 #pragma once
 #include "CEScreen.h"
 
-namespace ConceptEngine::Window {
+namespace ConceptEngine::Core::Platform::Generic::Window {
 	class CEWindow : public CEScreen {
 		
 	};

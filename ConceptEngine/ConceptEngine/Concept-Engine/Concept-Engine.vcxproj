@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AI\CEAi.h" />
+    <ClInclude Include="AI\CEAI.h" />
     <ClInclude Include="Audio\CEAudio.h" />
     <ClInclude Include="Core\Common\CEManager.h" />
     <ClInclude Include="Core\Compilers\CECompiler.h" />
@@ -34,6 +34,17 @@
     <ClInclude Include="Core\Application\GameDebug\CEGameDebug.h" />
     <ClInclude Include="Core\Application\Game\CEGame.h" />
     <ClInclude Include="Core\Application\CEGameCore.h" />
+    <ClInclude Include="Core\Delegates\CEDelegate.h" />
+    <ClInclude Include="Core\Delegates\CEDelegateBase.h" />
+    <ClInclude Include="Core\Platform\Android\Window\CEAndroidWindow.h" />
+    <ClInclude Include="Core\Platform\Generic\Cursor\CECursor.h" />
+    <ClInclude Include="Core\Platform\iOS\Window\CEiOSWindow.h" />
+    <ClInclude Include="Core\Platform\Linux\Cursor\CELinuxCursor.h" />
+    <ClInclude Include="Core\Platform\Linux\Window\CELinuxWindow.h" />
+    <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
+    <ClInclude Include="Core\Platform\Mac\Window\CEMacWindow.h" />
+    <ClInclude Include="Core\Platform\Windows\Cursor\CEWindowsCursor.h" />
+    <ClInclude Include="Core\Platform\Windows\Window\CEWindowsWindow.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXManager.h" />
@@ -57,7 +68,7 @@
     <ClInclude Include="Physics\CEPhysics.h" />
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
     <ClInclude Include="Core\Platform\Android\CEAndroid.h" />
-    <ClInclude Include="Core\Platform\CEPlatform.h" />
+    <ClInclude Include="Core\Platform\Generic\CEPlatform.h" />
     <ClInclude Include="Core\Platform\iOS\CEiOS.h" />
     <ClInclude Include="Core\Platform\Linux\CELinux.h" />
     <ClInclude Include="Core\Platform\Mac\CEMac.h" />
@@ -69,9 +80,9 @@
     <ClInclude Include="Save\Project\CEProjectSaveWriter.h" />
     <ClInclude Include="Time\CETimer.h" />
     <ClInclude Include="Utilities\CEScreenUtilities.h" />
-    <ClInclude Include="Window\CEConsole.h" />
-    <ClInclude Include="Window\CEScreen.h" />
-    <ClInclude Include="Window\CEWindow.h" />
+    <ClInclude Include="Core\Platform\Generic\Window\CEConsole.h" />
+    <ClInclude Include="Core\Platform\Generic\Window\CEScreen.h" />
+    <ClInclude Include="Core\Platform\Generic\Window\CEWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Compilers\Cpp\CECppCompiler.cpp" />
@@ -85,6 +96,17 @@
     <ClCompile Include="Core\Application\Editor\CEEditor.cpp" />
     <ClCompile Include="Core\Application\GameDebug\CEGameDebug.cpp" />
     <ClCompile Include="Core\Application\Game\CEGame.cpp" />
+    <ClCompile Include="Core\Delegates\CEDelegate.cpp" />
+    <ClCompile Include="Core\Delegates\CEDelegateBase.cpp" />
+    <ClCompile Include="Core\Platform\Android\Window\CEAndroidWindow.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Cursor\CECursor.cpp" />
+    <ClCompile Include="Core\Platform\iOS\Window\CEiOSWindow.cpp" />
+    <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />
+    <ClCompile Include="Core\Platform\Linux\Window\CELinuxWindow.cpp" />
+    <ClCompile Include="Core\Platform\Mac\Cursor\CEMacCursor.cpp" />
+    <ClCompile Include="Core\Platform\Mac\Window\CEMacWindow.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Cursor\CEWindowsCursor.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Window\CEWindowsWindow.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDirectX12.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXManager.cpp" />
@@ -113,9 +135,9 @@
     <ClCompile Include="Save\Game\CEGameSaveReader.h" />
     <ClCompile Include="Save\Project\CEProjectSave.h" />
     <ClCompile Include="Time\CETimer.cpp" />
-    <ClCompile Include="Window\CEConsole.cpp" />
-    <ClCompile Include="Window\CEScreen.cpp" />
-    <ClCompile Include="Window\CEWindow.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Window\CEConsole.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Window\CEScreen.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Window\CEWindow.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

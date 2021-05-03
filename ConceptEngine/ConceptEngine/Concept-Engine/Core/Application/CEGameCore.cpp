@@ -4,7 +4,11 @@ using namespace ConceptEngine::Core;
 
 Application::CEGameCore::CEGameCore(Graphics::Main::GraphicsAPI api,
                                     Compilers::Language language,
-                                    Platform::Platform platform): CECore(api, language, platform) {
+                                    Generic::Platform::Platform platform): CECore(api, language, platform) {
+}
+
+bool Application::CEGameCore::Init() {
+	return false;
 }
 
 int Application::CEGameCore::Run() {

@@ -1,8 +1,8 @@
 #pragma once
-#include "../CEPlatform.h"
+#include "../Generic/CEPlatform.h"
 
 namespace ConceptEngine::Core::Platform::Android {
-	class CEAndroid : public CEPlatform {
+	class CEAndroid : public Generic::Platform::CEPlatform {
 	public:
 		CEAndroid();
 	protected:

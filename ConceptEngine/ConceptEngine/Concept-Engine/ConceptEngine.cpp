@@ -12,14 +12,14 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             int width,
                                             int height, bool showConsole,
                                             Graphics::Main::GraphicsAPI api,
-                                            Core::Platform::Platform platform,
+                                            Core::Generic::Platform::Platform platform,
                                             Core::Compilers::Language language): m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow),
 	m_api(api),
-	m_platform(platform),
-	m_language(language) {
+	m_language(language),
+	m_platform(platform) {
 	if (showConsole) {
 		Create(EngineBoot::GameDebug);
 	}
@@ -34,14 +34,14 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             int nCmdShow,
                                             bool showConsole,
                                             Graphics::Main::GraphicsAPI api,
-                                            Core::Platform::Platform platform,
+                                            Core::Generic::Platform::Platform platform,
                                             Core::Compilers::Language language) : m_name(name),
 	m_hInstance(hInstance),
 	m_lpCmdLine(lpCmdLine),
 	m_nCmdShow(nCmdShow),
 	m_api(api),
-	m_platform(platform),
-	m_language(language) {
+	m_language(language),
+	m_platform(platform) {
 	int width, height;
 	GetScreenResolution(width, height);
 	if (showConsole) {
@@ -57,11 +57,14 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             int width,
                                             int height,
                                             Graphics::Main::GraphicsAPI api,
-                                            Core::Platform::Platform platform) : m_name(name),
+                                            Core::Generic::Platform::Platform platform) : m_name(name),
 	m_hwnd(hWnd),
 	m_api(api),
 	m_platform(platform) {
 	Create(EngineBoot::Editor);
+}
+
+bool ConceptEngine::ConceptEngine::Init() {
 }
 
 int ConceptEngine::ConceptEngine::Run() const {

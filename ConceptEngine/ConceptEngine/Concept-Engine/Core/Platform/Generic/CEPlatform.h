@@ -1,5 +1,5 @@
 #pragma once
-namespace ConceptEngine::Core::Platform {
+namespace ConceptEngine::Core::Generic::Platform {
 	enum class Platform {
 		Android,
 		iOS,

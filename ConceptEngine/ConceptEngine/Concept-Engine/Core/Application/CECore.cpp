@@ -21,7 +21,7 @@ using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
 using namespace ConceptEngine::Core::Platform;
 
-ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language, Platform::Platform platform) {
+ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language, Generic::Platform::Platform platform) {
 	m_graphics = SelectGraphicsAPI(api);
 	m_compiler = SelectLanguageCompiler(language);
 	m_platform = SelectPlatform(platform);
@@ -45,19 +45,19 @@ CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(Graphics
 	}
 }
 
-CEPlatform* ConceptEngine::Core::Application::CECore::SelectPlatform(Platform::Platform platform) {
+ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::SelectPlatform(Generic::Platform::Platform platform) {
 	switch (platform) {
-	case Platform::Platform::Android:
+	case Generic::Platform::Platform::Android:
 		return new Android::CEAndroid();
-	case Platform::Platform::iOS:
+	case Generic::Platform::Platform::iOS:
 		return new iOS::CEiOS();
-	case Platform::Platform::Linux:
+	case Generic::Platform::Platform::Linux:
 		return new Linux::CELinux();
-	case Platform::Platform::Mac:
+	case Generic::Platform::Platform::Mac:
 		return new Mac::CEMac();
-	case Platform::Platform::Windows:
+	case Generic::Platform::Platform::Windows:
 		return new Windows::CEWindows();
-	case Platform::Platform::Unknown:
+	case Generic::Platform::Platform::Unknown:
 		return nullptr;
 	default:
 		return nullptr;

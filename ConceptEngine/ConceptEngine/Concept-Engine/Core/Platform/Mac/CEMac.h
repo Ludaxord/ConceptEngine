@@ -1,8 +1,8 @@
 #pragma once
-#include "../CEPlatform.h"
+#include "../Generic/CEPlatform.h"
 
 namespace ConceptEngine::Core::Platform::Mac {
-	class CEMac : public CEPlatform {
+	class CEMac : public Generic::Platform::CEPlatform {
 	public:
 		CEMac();
 	protected:

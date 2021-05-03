@@ -5,9 +5,10 @@
 namespace ConceptEngine::Core::Application::Editor {
 	class CEEditor final : public CECore {
 	public:
-		CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language, Platform::Platform platform);
+		CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform);
 		~CEEditor() override;
-		
+
+		bool Init() override;
 		int Run() override;
 		void Update() override;
 		void Render() override;

@@ -1,6 +1,6 @@
 #pragma once
 namespace ConceptEngine::AI {
-	class CEAi {
+	class CEAI {
 
 	};
 }
