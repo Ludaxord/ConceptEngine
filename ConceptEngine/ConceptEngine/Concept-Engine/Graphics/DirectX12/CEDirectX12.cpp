@@ -1,6 +1,7 @@
 #include "CEDirectX12.h"
 
 #include "Modules/Managers/CEDXManager.h"
+#include "Modules/Managers/CEDXTextureManager.h"
 
 using namespace ConceptEngine::Graphics::DirectX12;
 
@@ -11,15 +12,16 @@ CEDirectX12::~CEDirectX12() {
 }
 
 bool CEDirectX12::Create() {
-
+	if (!CEGraphics::Create()) {
+		return false;
+	}
 	return true;
 }
 
 bool CEDirectX12::CreateManagers() {
-	if (!CreateGraphicsManager()) {
+	if (!CEGraphics::CreateManagers()) {
 		return false;
 	}
-
 	return true;
 }
 
@@ -31,7 +33,8 @@ bool CEDirectX12::CreateGraphicsManager() {
 }
 
 bool CEDirectX12::CreateTextureManager() {
-
+	auto manager = std::make_unique<Modules::Managers::CEDXTextureManager>();
+	m_textureManager = std::move(manager);
 	return true;
 }
 

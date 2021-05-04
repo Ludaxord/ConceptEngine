@@ -36,12 +36,12 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             Graphics::Main::GraphicsAPI api,
                                             Core::Generic::Platform::Platform platform,
                                             Core::Compilers::Language language) : m_name(name),
-	m_hInstance(hInstance),
-	m_lpCmdLine(lpCmdLine),
-	m_nCmdShow(nCmdShow),
-	m_api(api),
-	m_language(language),
-	m_platform(platform) {
+                                                                                  m_hInstance(hInstance),
+                                                                                  m_lpCmdLine(lpCmdLine),
+                                                                                  m_nCmdShow(nCmdShow),
+                                                                                  m_api(api),
+                                                                                  m_language(language),
+                                                                                  m_platform(platform) {
 	int width, height;
 	GetScreenResolution(width, height);
 	if (showConsole) {

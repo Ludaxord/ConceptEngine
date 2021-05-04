@@ -2,7 +2,10 @@
 #include <combaseapi.h>
 
 namespace ConceptEngine::Core::Common {
-	interface CEManager {
+	class CEManager {
+	public:
+		CEManager() {
+		};
 		virtual ~CEManager() = default;
 	};
 }

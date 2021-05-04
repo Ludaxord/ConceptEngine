@@ -6,7 +6,7 @@ namespace ConceptEngine::Graphics::Main::Managers {
 	class CETextureManager : Core::Common::CEManager {
 	public:
 		CETextureManager();
-
+		~CETextureManager() override;
 		virtual bool Create();
 	};
 }

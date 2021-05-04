@@ -29,6 +29,7 @@ namespace ConceptEngine::Graphics::Main {
 
 		virtual bool CreateGraphicsManager() = 0;
 		virtual bool CreateTextureManager() = 0;
+
 	protected:
 		std::unique_ptr<Managers::CEGraphicsManager> m_graphicsManager;
 		std::unique_ptr<Managers::CETextureManager> m_textureManager;

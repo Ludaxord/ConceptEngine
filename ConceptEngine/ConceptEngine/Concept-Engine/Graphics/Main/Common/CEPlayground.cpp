@@ -7,3 +7,8 @@ CEPlayground::CEPlayground() {
 
 CEPlayground::~CEPlayground() {
 }
+
+bool CEPlayground::Create() {
+	return true;
+}
+

@@ -35,7 +35,7 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
                                                  Generic::Platform::Platform platform,
                                                  Graphics::Main::Common::CEPlayground* playground) :
 	CECore(api, language, platform) {
-	m_playground = playground;
+	::Common::GPlayground = playground;
 }
 
 bool ConceptEngine::Core::Application::CECore::Init() {
@@ -48,6 +48,14 @@ bool ConceptEngine::Core::Application::CECore::Init() {
 	}
 
 	if (!m_graphics->Create()) {
+		return false;
+	}
+
+	if (::Common::GPlayground == nullptr) {
+		::Common::GPlayground = ::Common::CreatePlayground();
+	}
+
+	if (!::Common::GPlayground->Create()) {
 		return false;
 	}
 
@@ -67,7 +75,7 @@ ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Applica
 }
 
 Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
-	return m_playground;
+	return ::Common::GPlayground;
 }
 
 

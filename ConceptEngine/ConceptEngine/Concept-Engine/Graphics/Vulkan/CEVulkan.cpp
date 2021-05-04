@@ -7,12 +7,14 @@ ConceptEngine::Graphics::Vulkan::CEVulkan::~CEVulkan() {
 }
 
 bool ConceptEngine::Graphics::Vulkan::CEVulkan::Create() {
-
+	if (!CEGraphics::Create()) {
+		return false;
+	}
 	return true;
 }
 
 bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateManagers() {
-	if (!CreateGraphicsManager()) {
+	if (!CEGraphics::CreateManagers()) {
 		return false;
 	}
 	return true;

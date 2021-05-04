@@ -7,11 +7,16 @@ ConceptEngine::Graphics::OpenGL::CEOpenGL::~CEOpenGL() {
 }
 
 bool ConceptEngine::Graphics::OpenGL::CEOpenGL::Create() {
-
+	if (!CEGraphics::Create()) {
+		return false;
+	}
 	return true;
 }
 
 bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateManagers() {
+	if (!CEGraphics::CreateManagers()) {
+		return false;
+	}
 	return true;
 }
 

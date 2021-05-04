@@ -7,11 +7,16 @@ ConceptEngine::Graphics::Metal::CEMetal::~CEMetal() {
 }
 
 bool ConceptEngine::Graphics::Metal::CEMetal::Create() {
-
+	if (!CEGraphics::Create()) {
+		return false;
+	}
 	return true;
 }
 
 bool ConceptEngine::Graphics::Metal::CEMetal::CreateManagers() {
+	if (!CEGraphics::CreateManagers()) {
+		return false;
+	}
 	return true;
 }
 

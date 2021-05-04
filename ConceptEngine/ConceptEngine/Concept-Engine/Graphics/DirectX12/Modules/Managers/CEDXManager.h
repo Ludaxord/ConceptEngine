@@ -6,7 +6,7 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Managers {
 	class CEDXManager final : public Main::Managers::CEGraphicsManager {
 	public:
 		CEDXManager();
-		~CEDXManager();
+		~CEDXManager() override;
 
 		void Create() override;
 		void Destroy() override;
