@@ -7,7 +7,7 @@ namespace ConceptEngine::Core::Application {
 		CEGameCore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform);
 		CEGameCore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform, Graphics::Main::Common::CEPlayground* playground);
 		
-		bool Init() override;
+		bool Create() override;
 		int Run() override;
 	};
 }

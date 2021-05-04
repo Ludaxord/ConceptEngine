@@ -39,3 +39,7 @@ void ConceptEngine::Graphics::OpenGL::CEOpenGL::Resize() {
 
 void ConceptEngine::Graphics::OpenGL::CEOpenGL::Destroy() {
 }
+
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateRendererManager() {
+	return true;
+}

@@ -5,5 +5,7 @@ namespace ConceptEngine::Core::Platform::Generic::Window {
 		friend class CEPlatform;
 		CEScreen();
 		virtual ~CEScreen();
+
+		virtual bool Create() = 0;
 	};
 }

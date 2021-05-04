@@ -10,7 +10,7 @@ namespace ConceptEngine::Core::Application::Editor {
 		       Graphics::Main::Common::CEPlayground* playground);
 		~CEEditor() override;
 
-		bool Init() override;
+		bool Create() override;
 		int Run() override;
 	};
 }

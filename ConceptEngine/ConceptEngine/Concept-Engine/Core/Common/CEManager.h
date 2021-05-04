@@ -7,5 +7,6 @@ namespace ConceptEngine::Core::Common {
 		CEManager() {
 		};
 		virtual ~CEManager() = default;
+		virtual bool Create() = 0;
 	};
 }

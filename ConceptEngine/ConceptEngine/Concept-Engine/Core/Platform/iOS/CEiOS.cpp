@@ -1,5 +1,7 @@
 #include "CEiOS.h"
 
+#include "../Generic/Input/CEInputManager.h"
+
 using namespace ConceptEngine::Core::Platform::iOS;
 
 CEiOS::CEiOS(): CEPlatform() {
@@ -18,4 +20,8 @@ void CEiOS::CreateSystemConsole() {
 }
 
 void CEiOS::CreateCursors() {
+}
+
+bool CEiOS::CreateInputManager() {
+	return true;
 }

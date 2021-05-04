@@ -24,6 +24,7 @@
     <ClInclude Include="Core\Common\CEAllocator.h" />
     <ClInclude Include="Core\Common\CEArray.h" />
     <ClInclude Include="Core\Common\CEManager.h" />
+    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Common\CETypes.h" />
     <ClInclude Include="Core\Compilers\CECompiler.h" />
@@ -49,7 +50,7 @@
     <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
     <ClInclude Include="Core\Platform\Mac\Window\CEMacWindow.h" />
     <ClInclude Include="Core\Platform\Windows\Cursor\CEWindowsCursor.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEInputManager.h" />
+    <ClInclude Include="Core\Platform\Generic\Input\CEInputManager.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsController.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsKeyboard.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsMouse.h" />
@@ -60,6 +61,8 @@
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXTextureManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
@@ -88,6 +91,7 @@
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
     <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
     <ClInclude Include="Graphics\Main\Common\CEPlayground.h" />
+    <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERayTracer.h" />
@@ -146,13 +150,16 @@
     <ClCompile Include="Core\Platform\Mac\Cursor\CEMacCursor.cpp" />
     <ClCompile Include="Core\Platform\Mac\Window\CEMacWindow.cpp" />
     <ClCompile Include="Core\Platform\Windows\Cursor\CEWindowsCursor.cpp" />
-    <ClCompile Include="Core\Platform\Windows\Input\CEInputManager.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Input\CEInputManager.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Input\CEWindowsInputManager.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsWindow.cpp" />
     <ClCompile Include="Core\Threading\CETaskManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDirectX12.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Common\CEDXPlayground.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXManager.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXTextureManager.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />
@@ -174,6 +181,7 @@
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEPlayground.cpp" />
+    <ClCompile Include="Graphics\Main\Managers\CERendererManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CETextureManager.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CECommandList.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CERayTracer.cpp" />

@@ -10,12 +10,14 @@ namespace ConceptEngine::Graphics::Vulkan {
 		
 		bool Create() override;
 		bool CreateManagers() override;
-		bool CreateGraphicsManager() override;
-		bool CreateTextureManager() override;
 		
 		void Update() override;
 		void Render() override;
 		void Resize() override;
 		void Destroy() override;
+	private:
+		bool CreateGraphicsManager() override;
+		bool CreateTextureManager() override;
+		bool CreateRendererManager() override;
 	};
 }

@@ -13,8 +13,8 @@ CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language
 CEEditor::~CEEditor() {
 }
 
-bool CEEditor::Init() {
-	if (!CECore::Init()) {
+bool CEEditor::Create() {
+	if (!CECore::Create()) {
 		return false;
 	}
 	return true;

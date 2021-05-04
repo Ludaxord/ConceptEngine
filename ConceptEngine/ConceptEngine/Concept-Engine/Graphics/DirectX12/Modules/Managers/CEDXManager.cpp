@@ -6,7 +6,9 @@ ConceptEngine::Graphics::DirectX12::Modules::Managers::CEDXManager::CEDXManager(
 ConceptEngine::Graphics::DirectX12::Modules::Managers::CEDXManager::~CEDXManager() {
 }
 
-void ConceptEngine::Graphics::DirectX12::Modules::Managers::CEDXManager::Create() {
+bool ConceptEngine::Graphics::DirectX12::Modules::Managers::CEDXManager::Create() {
+
+	return true;
 }
 
 void ConceptEngine::Graphics::DirectX12::Modules::Managers::CEDXManager::Destroy() {

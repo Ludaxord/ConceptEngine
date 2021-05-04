@@ -7,6 +7,8 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 	public:
 		CEWindowsWindow();
 		~CEWindowsWindow() override;
+		
+		bool Create() override;
 	protected:
 	private:
 	};

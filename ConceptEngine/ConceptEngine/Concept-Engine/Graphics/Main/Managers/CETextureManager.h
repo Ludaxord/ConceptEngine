@@ -3,10 +3,10 @@
 #include "../../../Core/Common/CEManager.h"
 
 namespace ConceptEngine::Graphics::Main::Managers {
-	class CETextureManager : Core::Common::CEManager {
+	class CETextureManager : public Core::Common::CEManager {
 	public:
 		CETextureManager();
 		~CETextureManager() override;
-		virtual bool Create();
+		virtual bool Create() override;
 	};
 }

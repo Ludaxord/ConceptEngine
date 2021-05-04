@@ -8,7 +8,7 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Managers {
 		CEDXManager();
 		~CEDXManager() override;
 
-		void Create() override;
+		bool Create() override;
 		void Destroy() override;
 	};
 }

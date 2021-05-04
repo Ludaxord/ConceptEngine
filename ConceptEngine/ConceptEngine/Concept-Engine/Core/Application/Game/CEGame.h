@@ -10,7 +10,7 @@ namespace ConceptEngine::Core::Application::Game {
 		       Graphics::Main::Common::CEPlayground* playground);
 		~CEGame() override;
 
-		bool Init() override;
+		bool Create() override;
 		int Run() override;
 	};
 }

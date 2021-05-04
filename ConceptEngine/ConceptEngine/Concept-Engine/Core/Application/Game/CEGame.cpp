@@ -14,8 +14,8 @@ CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language, Ge
 CEGame::~CEGame() {
 }
 
-bool CEGame::Init() {
-	if (!CEGameCore::Init()) {
+bool CEGame::Create() {
+	if (!CEGameCore::Create()) {
 		return false;
 	}
 	return true;

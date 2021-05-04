@@ -19,3 +19,7 @@ void CEMac::CreateSystemConsole() {
 
 void CEMac::CreateCursors() {
 }
+
+bool CEMac::CreateInputManager() {
+	return true;
+}

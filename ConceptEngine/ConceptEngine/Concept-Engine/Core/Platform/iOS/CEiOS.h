@@ -12,6 +12,8 @@ namespace ConceptEngine::Core::Platform::iOS {
 		void CreateSystemConsole() override;
 
 		void CreateCursors() override;
+	private:
+		bool CreateInputManager() override;
 	protected:
 	private:
 	};

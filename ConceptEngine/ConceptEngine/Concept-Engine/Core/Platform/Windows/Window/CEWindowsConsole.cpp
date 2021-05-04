@@ -7,3 +7,7 @@ CEWindowsConsole::CEWindowsConsole(): CEConsole() {
 
 CEWindowsConsole::~CEWindowsConsole() {
 }
+
+bool CEWindowsConsole::Create() {
+	return true;
+}

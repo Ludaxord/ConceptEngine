@@ -7,3 +7,7 @@ CEWindowsWindow::CEWindowsWindow(): CEWindow() {
 
 CEWindowsWindow::~CEWindowsWindow() {
 }
+
+bool CEWindowsWindow::Create() {
+	return true;
+}

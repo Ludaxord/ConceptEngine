@@ -16,7 +16,7 @@ namespace ConceptEngine::Core::Application {
 		       Graphics::Main::Common::CEPlayground* playground);
 		virtual ~CECore() = default;
 
-		virtual bool Init();
+		virtual bool Create();
 		virtual int Run() = 0;
 
 		static Graphics::Main::CEGraphics* GetGraphics();
@@ -28,7 +28,6 @@ namespace ConceptEngine::Core::Application {
 		static Graphics::Main::CEGraphics* m_graphics;
 		static Compilers::CECompiler* m_compiler;
 		static Generic::Platform::CEPlatform* m_platform;
-		// inline static Graphics::Main::Common::CEPlayground* m_playground = nullptr;
 
 	private:
 		Graphics::Main::CEGraphics* SelectGraphicsAPI(Graphics::Main::GraphicsAPI api);

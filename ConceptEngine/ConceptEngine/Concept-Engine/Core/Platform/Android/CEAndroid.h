@@ -6,11 +6,14 @@ namespace ConceptEngine::Core::Platform::Android {
 	public:
 		CEAndroid();
 		~CEAndroid() override;
-		
+
 		void Create() override;
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
 		void CreateCursors() override;
+
+	private:
+		bool CreateInputManager() override;
 	protected:
 	private:
 	};

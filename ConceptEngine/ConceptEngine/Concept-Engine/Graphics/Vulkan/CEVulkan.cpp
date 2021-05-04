@@ -39,3 +39,7 @@ bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateGraphicsManager() {
 bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateTextureManager() {
 	return true;
 }
+
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateRendererManager() {
+	return true;
+}

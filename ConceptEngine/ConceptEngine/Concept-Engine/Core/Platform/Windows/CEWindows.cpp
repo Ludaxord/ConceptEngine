@@ -2,6 +2,7 @@
 
 #include "Window/CEWindowsConsole.h"
 #include "Window/CEWindowsWindow.h"
+#include "Input/CEWindowsInputManager.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
 
@@ -23,4 +24,9 @@ void CEWindows::CreateSystemConsole() {
 }
 
 void CEWindows::CreateCursors() {
+}
+
+bool CEWindows::CreateInputManager() {
+	m_inputManager = new Input::CEWindowsInputManager();
+	return true;
 }

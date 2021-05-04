@@ -38,7 +38,7 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
 	::Common::GPlayground = playground;
 }
 
-bool ConceptEngine::Core::Application::CECore::Init() {
+bool ConceptEngine::Core::Application::CECore::Create() {
 	Debug::CEProfiler::Init();
 
 	m_platform->Create();

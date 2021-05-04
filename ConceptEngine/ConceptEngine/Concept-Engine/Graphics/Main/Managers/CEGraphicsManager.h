@@ -9,7 +9,7 @@ namespace ConceptEngine::Graphics::Main::Managers {
 		};
 		~CEGraphicsManager() override = default;
 
-		virtual void Create() = 0;
+		virtual bool Create() override;
 		virtual void Destroy() = 0;
 	};
 }

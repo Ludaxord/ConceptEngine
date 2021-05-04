@@ -15,11 +15,17 @@ CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language la
 CEGameDebug::~CEGameDebug() {
 }
 
-bool CEGameDebug::Init() {
-	if (!CEGameCore::Init()) {
+bool CEGameDebug::Create() {
+	if (!CEGameCore::Create()) {
 		return false;
 	}
+
 	m_platform->CreateSystemConsole();
+
+	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
+		return false;
+	}
+
 	return true;
 }
 

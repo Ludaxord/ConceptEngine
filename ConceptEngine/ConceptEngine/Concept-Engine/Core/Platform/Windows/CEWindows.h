@@ -11,6 +11,8 @@ namespace ConceptEngine::Core::Platform::Windows {
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
 		void CreateCursors() override;
+	private:
+		bool CreateInputManager() override;
 	protected:
 	private:
 	};

@@ -12,7 +12,7 @@ namespace ConceptEngine::Core::Application::GameDebug {
 
 		~CEGameDebug() override;
 
-		bool Init() override;
+		bool Create() override;
 		int Run() override;
 	};
 }

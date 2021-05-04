@@ -8,7 +8,7 @@ namespace ConceptEngine::Graphics::Main::Common {
 		CEPlayground();
 		virtual ~CEPlayground();
 
-		virtual bool Create() = 0;
+		virtual bool Create();
 	protected:
 	private:
 	};

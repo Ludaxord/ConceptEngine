@@ -32,6 +32,10 @@ void ConceptEngine::Graphics::Metal::CEMetal::Resize() {
 void ConceptEngine::Graphics::Metal::CEMetal::Destroy() {
 }
 
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateRendererManager() {
+	return true;
+}
+
 bool ConceptEngine::Graphics::Metal::CEMetal::CreateGraphicsManager() {
 	return true;
 }

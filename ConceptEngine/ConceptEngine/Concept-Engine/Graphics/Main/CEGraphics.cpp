@@ -20,5 +20,9 @@ bool CEGraphics::CreateManagers() {
 	if (!CreateTextureManager()) {
 		return false;
 	}
+
+	if (!CreateRendererManager()) {
+		return false;
+	}
 	return true;
 }

@@ -9,13 +9,16 @@ namespace ConceptEngine::Graphics::DirectX12 {
 		~CEDirectX12() override;
 
 		bool CreateManagers() override;
-		bool CreateGraphicsManager() override;
-		bool CreateTextureManager() override;
-		
+
 		bool Create() override;
 		void Update() override;
 		void Render() override;
 		void Resize() override;
 		void Destroy() override;
+	
+	private:
+		bool CreateGraphicsManager() override;
+		bool CreateTextureManager() override;
+		bool CreateRendererManager() override;
 	};
 }

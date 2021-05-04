@@ -19,3 +19,7 @@ void CELinux::CreateSystemConsole() {
 
 void CELinux::CreateCursors() {
 }
+
+bool CELinux::CreateInputManager() {
+	return true;
+}
