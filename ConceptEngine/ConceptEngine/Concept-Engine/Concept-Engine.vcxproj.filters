@@ -49,9 +49,9 @@
     <ClInclude Include="Graphics\Main\Managers\CEObjectManager.h" />
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
     <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
-    <ClInclude Include="Graphics\Main\Common\CETexture.h" />
-    <ClInclude Include="Graphics\Main\Common\CEShader.h" />
-    <ClInclude Include="Graphics\Main\Common\CEViewport.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CETexture.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEViewport.h" />
     <ClInclude Include="Graphics\Main\Components\CERigidDynamic.h" />
     <ClInclude Include="Graphics\Main\Components\CERigidStatic.h" />
     <ClInclude Include="Core\Delegates\CEDelegate.h" />
@@ -66,7 +66,7 @@
     <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
     <ClInclude Include="Core\Platform\Linux\Cursor\CELinuxCursor.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
-    <ClInclude Include="Graphics\Main\Common\CERayTracer.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERayTracer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsKeyboard.h" />
@@ -95,6 +95,15 @@
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXTexture.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEInputManager.h" />
+    <ClInclude Include="Core\Debug\CEProfiler.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CECommandList.h" />
+    <ClInclude Include="Core\Threading\CETaskManager.h" />
+    <ClInclude Include="Core\Common\CETypes.h" />
+    <ClInclude Include="Core\Common\CEArray.h" />
+    <ClInclude Include="Core\Common\CEAllocator.h" />
+    <ClInclude Include="Core\Threading\CEMutex.h" />
+    <ClInclude Include="Core\Threading\CEThreadSafe.h" />
+    <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -134,9 +143,9 @@
     <ClCompile Include="Graphics\Main\Managers\CEObjectManager.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
-    <ClCompile Include="Graphics\Main\Common\CETexture.cpp" />
-    <ClCompile Include="Graphics\Main\Common\CEShader.cpp" />
-    <ClCompile Include="Graphics\Main\Common\CEViewport.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CETexture.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CEShader.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CEViewport.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidDynamic.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidStatic.cpp" />
     <ClCompile Include="Core\Delegates\CEDelegate.cpp" />
@@ -152,7 +161,7 @@
     <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />
     <ClCompile Include="Graphics\Main\CEGraphics.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
-    <ClCompile Include="Graphics\Main\Common\CERayTracer.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CERayTracer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />
@@ -171,5 +180,9 @@
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXShaderCompiler.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.cpp" />
     <ClCompile Include="Core\Platform\Windows\Input\CEInputManager.cpp" />
+    <ClCompile Include="Core\Debug\CEProfiler.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CECommandList.cpp" />
+    <ClCompile Include="Core\Threading\CETaskManager.cpp" />
+    <ClCompile Include="Graphics\Main\Managers\CETextureManager.cpp" />
   </ItemGroup>
 </Project>

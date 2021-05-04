@@ -21,3 +21,6 @@ void CEWindows::CreateSystemWindow() {
 void CEWindows::CreateSystemConsole() {
 	m_console = new Window::CEWindowsConsole();
 }
+
+void CEWindows::CreateCursors() {
+}

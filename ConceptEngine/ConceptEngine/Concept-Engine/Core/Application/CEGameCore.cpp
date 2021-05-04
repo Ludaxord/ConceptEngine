@@ -13,7 +13,9 @@ Application::CEGameCore::CEGameCore(Graphics::Main::GraphicsAPI api, Compilers::
 }
 
 bool Application::CEGameCore::Init() {
-	m_platform->Create();
+	if (!CECore::Init()) {
+		return false;
+	}
 	m_platform->CreateSystemWindow();
 	return true;
 }

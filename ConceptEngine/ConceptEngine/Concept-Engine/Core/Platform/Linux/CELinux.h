@@ -10,6 +10,7 @@ namespace ConceptEngine::Core::Platform::Linux {
 		void Create() override;
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
+		void CreateCursors() override;
 	protected:
 	private:
 	};

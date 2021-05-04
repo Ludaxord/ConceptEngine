@@ -6,10 +6,16 @@ ConceptEngine::Graphics::Vulkan::CEVulkan::CEVulkan(): CEGraphics() {
 ConceptEngine::Graphics::Vulkan::CEVulkan::~CEVulkan() {
 }
 
-void ConceptEngine::Graphics::Vulkan::CEVulkan::Create() {
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::Create() {
+
+	return true;
 }
 
-void ConceptEngine::Graphics::Vulkan::CEVulkan::CreateManagers() {
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateManagers() {
+	if (!CreateGraphicsManager()) {
+		return false;
+	}
+	return true;
 }
 
 void ConceptEngine::Graphics::Vulkan::CEVulkan::Update() {
@@ -24,5 +30,10 @@ void ConceptEngine::Graphics::Vulkan::CEVulkan::Resize() {
 void ConceptEngine::Graphics::Vulkan::CEVulkan::Destroy() {
 }
 
-void ConceptEngine::Graphics::Vulkan::CEVulkan::CreateGraphicsManager() {
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateGraphicsManager() {
+	return true;
+}
+
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateTextureManager() {
+	return true;
 }

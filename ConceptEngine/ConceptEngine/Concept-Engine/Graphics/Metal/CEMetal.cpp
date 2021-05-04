@@ -6,10 +6,13 @@ ConceptEngine::Graphics::Metal::CEMetal::CEMetal() : CEGraphics() {
 ConceptEngine::Graphics::Metal::CEMetal::~CEMetal() {
 }
 
-void ConceptEngine::Graphics::Metal::CEMetal::Create() {
+bool ConceptEngine::Graphics::Metal::CEMetal::Create() {
+
+	return true;
 }
 
-void ConceptEngine::Graphics::Metal::CEMetal::CreateManagers() {
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateManagers() {
+	return true;
 }
 
 void ConceptEngine::Graphics::Metal::CEMetal::Update() {
@@ -24,5 +27,10 @@ void ConceptEngine::Graphics::Metal::CEMetal::Resize() {
 void ConceptEngine::Graphics::Metal::CEMetal::Destroy() {
 }
 
-void ConceptEngine::Graphics::Metal::CEMetal::CreateGraphicsManager() {
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateGraphicsManager() {
+	return true;
+}
+
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateTextureManager() {
+	return true;
 }

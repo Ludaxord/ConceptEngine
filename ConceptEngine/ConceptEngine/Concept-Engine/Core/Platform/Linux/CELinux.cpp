@@ -16,3 +16,6 @@ void CELinux::CreateSystemWindow() {
 
 void CELinux::CreateSystemConsole() {
 }
+
+void CELinux::CreateCursors() {
+}

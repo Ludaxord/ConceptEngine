@@ -10,16 +10,29 @@ CEDirectX12::CEDirectX12(): CEGraphics() {
 CEDirectX12::~CEDirectX12() {
 }
 
-void CEDirectX12::Create() {
+bool CEDirectX12::Create() {
+
+	return true;
 }
 
-void CEDirectX12::CreateManagers() {
-	CreateGraphicsManager();
+bool CEDirectX12::CreateManagers() {
+	if (!CreateGraphicsManager()) {
+		return false;
+	}
+
+	return true;
 }
 
-void CEDirectX12::CreateGraphicsManager() {
+bool CEDirectX12::CreateGraphicsManager() {
 	auto manager = std::make_unique<Modules::Managers::CEDXManager>();
 	m_graphicsManager = std::move(manager);
+
+	return true;
+}
+
+bool CEDirectX12::CreateTextureManager() {
+
+	return true;
 }
 
 void CEDirectX12::Update() {

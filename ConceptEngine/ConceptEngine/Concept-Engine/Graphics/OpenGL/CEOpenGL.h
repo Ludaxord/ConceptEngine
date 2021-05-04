@@ -8,9 +8,10 @@ namespace ConceptEngine::Graphics::OpenGL {
 		CEOpenGL();
 		~CEOpenGL() override;
 		
-		void Create() override;
-		void CreateManagers() override;
-		void CreateGraphicsManager() override;
+		bool Create() override;
+		bool CreateManagers() override;
+		bool CreateGraphicsManager() override;
+		bool CreateTextureManager() override;
 		
 		void Update() override;
 		void Render() override;

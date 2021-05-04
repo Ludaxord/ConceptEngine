@@ -17,6 +17,9 @@
 #include "../Platform/Android/CEAndroid.h"
 #include "../Platform/Linux/CELinux.h"
 
+#include "../Debug/CEProfiler.h"
+#include "../Threading/CETaskManager.h"
+
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
 using namespace ConceptEngine::Core::Platform;
@@ -33,6 +36,22 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
                                                  Graphics::Main::Common::CEPlayground* playground) :
 	CECore(api, language, platform) {
 	m_playground = playground;
+}
+
+bool ConceptEngine::Core::Application::CECore::Init() {
+	Debug::CEProfiler::Init();
+
+	m_platform->Create();
+
+	if (!Threading::CETaskManager::Get().Create()) {
+		return false;
+	}
+
+	if (!m_graphics->Create()) {
+		return false;
+	}
+
+	return true;
 }
 
 CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {

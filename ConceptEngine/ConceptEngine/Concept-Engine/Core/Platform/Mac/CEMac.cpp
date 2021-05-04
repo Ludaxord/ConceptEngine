@@ -16,3 +16,6 @@ void CEMac::CreateSystemWindow() {
 
 void CEMac::CreateSystemConsole() {
 }
+
+void CEMac::CreateCursors() {
+}

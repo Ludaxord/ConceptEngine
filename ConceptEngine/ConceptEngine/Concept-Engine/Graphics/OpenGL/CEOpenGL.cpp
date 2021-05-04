@@ -6,13 +6,21 @@ ConceptEngine::Graphics::OpenGL::CEOpenGL::CEOpenGL() : CEGraphics() {
 ConceptEngine::Graphics::OpenGL::CEOpenGL::~CEOpenGL() {
 }
 
-void ConceptEngine::Graphics::OpenGL::CEOpenGL::Create() {
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::Create() {
+
+	return true;
 }
 
-void ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateManagers() {
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateManagers() {
+	return true;
 }
 
-void ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateGraphicsManager() {
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateGraphicsManager() {
+	return true;
+}
+
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateTextureManager() {
+	return true;
 }
 
 void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update() {

@@ -16,3 +16,6 @@ void CEiOS::CreateSystemWindow() {
 
 void CEiOS::CreateSystemConsole() {
 }
+
+void CEiOS::CreateCursors() {
+}

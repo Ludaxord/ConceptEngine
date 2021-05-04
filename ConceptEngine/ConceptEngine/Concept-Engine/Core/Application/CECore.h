@@ -5,14 +5,18 @@
 #include "../Compilers/CECompiler.h"
 #include "../Platform/Generic/CEPlatform.h"
 
+#define _PREPROCESS_CONCAT(x, y) x##y
+#define PREPROCESS_CONCAT(x, y) _PREPROCESS_CONCAT(x, y)
+
 namespace ConceptEngine::Core::Application {
 	class CECore {
 	public:
 		CECore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform);
-		CECore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform, Graphics::Main::Common::CEPlayground* playground);
+		CECore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
+		       Graphics::Main::Common::CEPlayground* playground);
 		virtual ~CECore() = default;
 
-		virtual bool Init() = 0;
+		virtual bool Init();
 		virtual int Run() = 0;
 
 		static Graphics::Main::CEGraphics* GetGraphics();

@@ -22,6 +22,7 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual void Create() = 0;
 		virtual void CreateSystemWindow() = 0;
 		virtual void CreateSystemConsole() = 0;
+		virtual void CreateCursors() = 0;
 
 	protected:
 		Core::Platform::Generic::Window::CEWindow* m_window;

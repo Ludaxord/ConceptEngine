@@ -16,3 +16,6 @@ void CEAndroid::CreateSystemWindow() {
 
 void CEAndroid::CreateSystemConsole() {
 }
+
+void CEAndroid::CreateCursors() {
+}

@@ -8,10 +8,11 @@ namespace ConceptEngine::Graphics::DirectX12 {
 		CEDirectX12();
 		~CEDirectX12() override;
 
-		void CreateManagers() override;
-		void CreateGraphicsManager() override;
-
-		void Create() override;
+		bool CreateManagers() override;
+		bool CreateGraphicsManager() override;
+		bool CreateTextureManager() override;
+		
+		bool Create() override;
 		void Update() override;
 		void Render() override;
 		void Resize() override;

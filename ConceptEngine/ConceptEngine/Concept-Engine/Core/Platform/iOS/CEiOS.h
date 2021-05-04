@@ -10,7 +10,8 @@ namespace ConceptEngine::Core::Platform::iOS {
 		void Create() override;
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
-		
+
+		void CreateCursors() override;
 	protected:
 	private:
 	};

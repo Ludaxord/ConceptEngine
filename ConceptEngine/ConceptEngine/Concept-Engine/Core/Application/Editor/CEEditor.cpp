@@ -14,7 +14,9 @@ CEEditor::~CEEditor() {
 }
 
 bool CEEditor::Init() {
-	m_platform->Create();
+	if (!CECore::Init()) {
+		return false;
+	}
 	return true;
 }
 

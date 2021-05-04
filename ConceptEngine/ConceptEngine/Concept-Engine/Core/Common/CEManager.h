@@ -3,5 +3,6 @@
 
 namespace ConceptEngine::Core::Common {
 	interface CEManager {
+		virtual ~CEManager() = default;
 	};
 }

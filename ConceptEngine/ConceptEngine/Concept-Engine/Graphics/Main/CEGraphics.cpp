@@ -4,3 +4,17 @@ using namespace ConceptEngine::Graphics::Main;
 
 CEGraphics::CEGraphics() {
 }
+
+bool CEGraphics::Create() {
+	if (!CreateManagers()) {
+		return false;
+	}
+	return true;
+}
+
+bool CEGraphics::CreateManagers() {
+	if (!CreateGraphicsManager()) {
+		return false;
+	}
+	return true;
+}

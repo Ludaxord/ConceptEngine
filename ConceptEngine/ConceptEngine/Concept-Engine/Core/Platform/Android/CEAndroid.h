@@ -10,7 +10,7 @@ namespace ConceptEngine::Core::Platform::Android {
 		void Create() override;
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
-		
+		void CreateCursors() override;
 	protected:
 	private:
 	};
