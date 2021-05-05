@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Main/CEGraphics.h"
+#include "../../Time/CETimestamp.h"
 
 namespace ConceptEngine::Graphics::Vulkan {
 	class CEVulkan final : public Main::CEGraphics {
@@ -11,7 +12,7 @@ namespace ConceptEngine::Graphics::Vulkan {
 		bool Create() override;
 		bool CreateManagers() override;
 		
-		void Update() override;
+		void Update(Time::CETimestamp DeltaTime) override;
 		void Render() override;
 		void Resize() override;
 		void Destroy() override;
@@ -19,5 +20,6 @@ namespace ConceptEngine::Graphics::Vulkan {
 		bool CreateGraphicsManager() override;
 		bool CreateTextureManager() override;
 		bool CreateRendererManager() override;
+		bool CreateDebugUi() override;
 	};
 }

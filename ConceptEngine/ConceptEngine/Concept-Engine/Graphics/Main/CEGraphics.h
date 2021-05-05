@@ -7,6 +7,7 @@
 #include "Managers/CETextureManager.h"
 
 #include "Rendering/CEDebugUI.h"
+#include "../../Time/CETimestamp.h"
 
 namespace ConceptEngine::Graphics::Main {
 	enum class GraphicsAPI {
@@ -25,7 +26,7 @@ namespace ConceptEngine::Graphics::Main {
 		virtual bool Create();
 		virtual bool CreateManagers();
 
-		virtual void Update() = 0;
+		virtual void Update(Time::CETimestamp DeltaTime) = 0;
 		virtual void Render() = 0;
 		virtual void Resize() = 0;
 		virtual void Destroy() = 0;

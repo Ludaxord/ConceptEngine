@@ -28,7 +28,11 @@ bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateTextureManager() {
 	return true;
 }
 
-void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update() {
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateDebugUi() {
+	return true;
+}
+
+void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update(Time::CETimestamp DeltaTime) {
 }
 
 void ConceptEngine::Graphics::OpenGL::CEOpenGL::Render() {

@@ -63,6 +63,7 @@
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXManager.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXTextureManager.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Save\Project\CEProjectSaveReader.h" />
     <ClInclude Include="Save\Project\CEProjectSaveWriter.h" />
     <ClInclude Include="Time\CETimer.h" />
+    <ClInclude Include="Time\CETimestamp.h" />
     <ClInclude Include="Utilities\CEScreenUtilities.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEConsole.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEScreen.h" />
@@ -161,6 +163,7 @@
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXTextureManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />

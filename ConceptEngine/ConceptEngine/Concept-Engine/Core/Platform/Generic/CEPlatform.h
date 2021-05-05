@@ -29,30 +29,30 @@ namespace ConceptEngine::Core::Generic::Platform {
 			if (!CreateInputManager()) {
 				return false;
 			}
-			m_inputManager->Create();
+			InputManager->Create();
 
 			return true;
 		}
 
 		static Core::Platform::Generic::Window::CEWindow* GetWindow() {
-			return m_window;
+			return Window;
 		}
 
 		static Core::Platform::Generic::Window::CEConsole* GetConsole() {
-			return m_console;
+			return Console;
 		}
 
 		static Core::Platform::Generic::Input::CEInputManager* GetInputManager() {
-			return m_inputManager;
+			return InputManager;
 		}
 
 	private:
 		virtual bool CreateInputManager() = 0;
 
 	protected:
-		static Core::Platform::Generic::Window::CEWindow* m_window;
-		static Core::Platform::Generic::Window::CEConsole* m_console;
-		static Core::Platform::Generic::Input::CEInputManager* m_inputManager;
+		static Core::Platform::Generic::Window::CEWindow* Window;
+		static Core::Platform::Generic::Window::CEConsole* Console;
+		static Core::Platform::Generic::Input::CEInputManager* InputManager;
 
 	};
 }

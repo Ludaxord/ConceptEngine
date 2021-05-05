@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Main/CEGraphics.h"
+#include "../../Time/CETimestamp.h"
 
 namespace ConceptEngine::Graphics::DirectX12 {
 	class CEDirectX12 final : public Main::CEGraphics {
@@ -11,14 +12,15 @@ namespace ConceptEngine::Graphics::DirectX12 {
 		bool CreateManagers() override;
 
 		bool Create() override;
-		void Update() override;
+		void Update(Time::CETimestamp DeltaTime) override;
 		void Render() override;
 		void Resize() override;
 		void Destroy() override;
-	
+
 	private:
 		bool CreateGraphicsManager() override;
 		bool CreateTextureManager() override;
 		bool CreateRendererManager() override;
+		bool CreateDebugUi() override;
 	};
 }

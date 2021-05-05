@@ -20,7 +20,7 @@ bool CEGameDebug::Create() {
 		return false;
 	}
 
-	m_platform->CreateSystemConsole();
+	Platform->CreateSystemConsole();
 
 	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
 		return false;
@@ -29,6 +29,5 @@ bool CEGameDebug::Create() {
 	return true;
 }
 
-int CEGameDebug::Run() {
-	return CEGameCore::Run();
+void CEGameDebug::Update(Time::CETimestamp DeltaTime) {
 }

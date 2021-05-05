@@ -20,7 +20,7 @@ bool ConceptEngine::Graphics::Metal::CEMetal::CreateManagers() {
 	return true;
 }
 
-void ConceptEngine::Graphics::Metal::CEMetal::Update() {
+void ConceptEngine::Graphics::Metal::CEMetal::Update(Time::CETimestamp DeltaTime) {
 }
 
 void ConceptEngine::Graphics::Metal::CEMetal::Render() {
@@ -41,5 +41,9 @@ bool ConceptEngine::Graphics::Metal::CEMetal::CreateGraphicsManager() {
 }
 
 bool ConceptEngine::Graphics::Metal::CEMetal::CreateTextureManager() {
+	return true;
+}
+
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateDebugUi() {
 	return true;
 }

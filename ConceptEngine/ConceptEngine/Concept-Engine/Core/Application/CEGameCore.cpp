@@ -1,4 +1,5 @@
 #include "CEGameCore.h"
+#include "../../Time/CETimer.h"
 
 using namespace ConceptEngine::Core;
 
@@ -17,13 +18,19 @@ bool Application::CEGameCore::Create() {
 	if (!CECore::Create()) {
 		return false;
 	}
-	m_platform->CreateSystemWindow();
+	Platform->CreateSystemWindow();
 	if (!Generic::Platform::CEPlatform::GetWindow()->Create()) {
 		return false;
 	}
+
 	return true;
 }
 
 int Application::CEGameCore::Run() {
+	Time::CETimer Timer;
+	while (m_isRunning) {
+		Timer.Update();
+		Update(Timer.GetDeltaTime());
+	}
 	return 0;
 }

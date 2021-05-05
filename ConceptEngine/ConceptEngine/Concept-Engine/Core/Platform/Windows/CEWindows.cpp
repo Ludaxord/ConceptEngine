@@ -16,17 +16,17 @@ void CEWindows::Create() {
 }
 
 void CEWindows::CreateSystemWindow() {
-	m_window = new Window::CEWindowsWindow();
+	Window = new Window::CEWindowsWindow();
 }
 
 void CEWindows::CreateSystemConsole() {
-	m_console = new Window::CEWindowsConsole();
+	Console = new Window::CEWindowsConsole();
 }
 
 void CEWindows::CreateCursors() {
 }
 
 bool CEWindows::CreateInputManager() {
-	m_inputManager = new Input::CEWindowsInputManager();
+	InputManager = new Input::CEWindowsInputManager();
 	return true;
 }

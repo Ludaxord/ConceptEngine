@@ -20,7 +20,7 @@ bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateManagers() {
 	return true;
 }
 
-void ConceptEngine::Graphics::Vulkan::CEVulkan::Update() {
+void ConceptEngine::Graphics::Vulkan::CEVulkan::Update(Time::CETimestamp DeltaTime) {
 }
 
 void ConceptEngine::Graphics::Vulkan::CEVulkan::Render() {
@@ -41,5 +41,9 @@ bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateTextureManager() {
 }
 
 bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateRendererManager() {
+	return true;
+}
+
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateDebugUi() {
 	return true;
 }

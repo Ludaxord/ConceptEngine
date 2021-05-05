@@ -11,6 +11,6 @@ namespace ConceptEngine::Core::Application::Game {
 		~CEGame() override;
 
 		bool Create() override;
-		int Run() override;
+		void Update(Time::CETimestamp DeltaTime) override;
 	};
 }

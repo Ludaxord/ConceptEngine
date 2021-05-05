@@ -17,9 +17,14 @@ bool CEEditor::Create() {
 	if (!CECore::Create()) {
 		return false;
 	}
+
 	return true;
 }
 
 int CEEditor::Run() {
+	Timer = Time::CETimer();
 	return 0;
+}
+
+void CEEditor::Update(Time::CETimestamp DeltaTime) {
 }

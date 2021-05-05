@@ -1,5 +1,7 @@
 #include "CEGame.h"
 
+#include "../../../Time/CETimer.h"
+
 using namespace ConceptEngine::Core::Application::Game;
 
 CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language,
@@ -21,6 +23,5 @@ bool CEGame::Create() {
 	return true;
 }
 
-int CEGame::Run() {
-	return CEGameCore::Run();
+void CEGame::Update(Time::CETimestamp DeltaTime) {
 }

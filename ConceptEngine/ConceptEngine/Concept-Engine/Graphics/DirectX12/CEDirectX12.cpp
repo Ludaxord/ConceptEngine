@@ -3,6 +3,7 @@
 #include "Modules/Managers/CEDXManager.h"
 #include "Modules/Managers/CEDXRendererManager.h"
 #include "Modules/Managers/CEDXTextureManager.h"
+#include "Modules/Rendering/CEDXDebugUI.h"
 
 using namespace ConceptEngine::Graphics::DirectX12;
 
@@ -45,7 +46,13 @@ bool CEDirectX12::CreateRendererManager() {
 	return true;
 }
 
-void CEDirectX12::Update() {
+bool CEDirectX12::CreateDebugUi() {
+	auto debugUi = std::make_unique<Modules::Rendering::CEDXDebugUI>();
+	m_debugUi = std::move(debugUi);
+	return true;
+}
+
+void CEDirectX12::Update(Time::CETimestamp DeltaTime) {
 }
 
 void CEDirectX12::Render() {

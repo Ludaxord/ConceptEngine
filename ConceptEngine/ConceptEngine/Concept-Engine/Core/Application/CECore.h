@@ -18,6 +18,7 @@ namespace ConceptEngine::Core::Application {
 
 		virtual bool Create();
 		virtual int Run() = 0;
+		virtual void Update(Time::CETimestamp DeltaTime) = 0;
 
 		static Graphics::Main::CEGraphics* GetGraphics();
 		static Compilers::CECompiler* GetCompiler();
@@ -25,10 +26,11 @@ namespace ConceptEngine::Core::Application {
 		static Graphics::Main::Common::CEPlayground* GetPlayground();
 
 	protected:
-		static Graphics::Main::CEGraphics* m_graphics;
-		static Compilers::CECompiler* m_compiler;
-		static Generic::Platform::CEPlatform* m_platform;
+		static Graphics::Main::CEGraphics* Graphics;
+		static Compilers::CECompiler* Compiler;
+		static Generic::Platform::CEPlatform* Platform;
 
+		bool m_isRunning = false;
 	private:
 		Graphics::Main::CEGraphics* SelectGraphicsAPI(Graphics::Main::GraphicsAPI api);
 		Compilers::CECompiler* SelectLanguageCompiler(Compilers::Language language);

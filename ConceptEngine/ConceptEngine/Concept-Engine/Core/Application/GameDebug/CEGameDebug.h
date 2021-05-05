@@ -13,6 +13,6 @@ namespace ConceptEngine::Core::Application::GameDebug {
 		~CEGameDebug() override;
 
 		bool Create() override;
-		int Run() override;
+		void Update(Time::CETimestamp DeltaTime) override;
 	};
 }

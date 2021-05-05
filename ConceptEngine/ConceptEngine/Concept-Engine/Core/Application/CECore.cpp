@@ -26,9 +26,9 @@ using namespace ConceptEngine::Core::Platform;
 
 ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language,
                                                  Generic::Platform::Platform platform) {
-	m_graphics = SelectGraphicsAPI(api);
-	m_compiler = SelectLanguageCompiler(language);
-	m_platform = SelectPlatform(platform);
+	Graphics = SelectGraphicsAPI(api);
+	Compiler = SelectLanguageCompiler(language);
+	Platform = SelectPlatform(platform);
 }
 
 ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Language language,
@@ -41,13 +41,13 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
 bool ConceptEngine::Core::Application::CECore::Create() {
 	Debug::CEProfiler::Init();
 
-	m_platform->Create();
+	Platform->Create();
 
 	if (!Threading::CETaskManager::Get().Create()) {
 		return false;
 	}
 
-	if (!m_graphics->Create()) {
+	if (!Graphics->Create()) {
 		return false;
 	}
 
@@ -59,19 +59,21 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
+	m_isRunning = true;
+
 	return true;
 }
 
 CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {
-	return m_graphics;
+	return Graphics;
 }
 
 CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() {
-	return m_compiler;
+	return Compiler;
 }
 
 ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() {
-	return m_platform;
+	return Platform;
 }
 
 Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
