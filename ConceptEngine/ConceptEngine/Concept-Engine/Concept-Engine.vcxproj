@@ -93,6 +93,7 @@
     <ClInclude Include="Graphics\Main\Common\CEPlayground.h" />
     <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEDebugUI.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERayTracer.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Graphics\Main\Common\CEPlayground.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CERendererManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CETextureManager.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CECommandList.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CERayTracer.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEShader.cpp" />

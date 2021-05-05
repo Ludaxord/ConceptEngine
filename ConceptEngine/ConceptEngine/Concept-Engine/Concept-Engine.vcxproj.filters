@@ -108,6 +108,7 @@
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEDebugUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -192,5 +193,6 @@
     <ClCompile Include="Core\Platform\Windows\Input\CEWindowsInputManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CERendererManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
   </ItemGroup>
 </Project>
