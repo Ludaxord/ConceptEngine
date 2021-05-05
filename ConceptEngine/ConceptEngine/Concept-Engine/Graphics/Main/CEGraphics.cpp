@@ -17,12 +17,33 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
+	if (!m_graphicsManager->Create()) {
+		return false;
+	}
+
 	if (!CreateTextureManager()) {
+		return false;
+	}
+
+	if (!m_textureManager->Create()) {
 		return false;
 	}
 
 	if (!CreateRendererManager()) {
 		return false;
 	}
+
+	if (!m_rendererManager->Create()) {
+		return false;
+	}
+
+	if (!CreateDebugUi()) {
+		return false;
+	}
+
+	if (!m_debugUi->Create()) {
+		return false;
+	}
+
 	return true;
 }

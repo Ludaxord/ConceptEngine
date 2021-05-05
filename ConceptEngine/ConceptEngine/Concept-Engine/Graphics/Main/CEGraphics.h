@@ -6,6 +6,8 @@
 #include "Managers/CERendererManager.h"
 #include "Managers/CETextureManager.h"
 
+#include "Rendering/CEDebugUI.h"
+
 namespace ConceptEngine::Graphics::Main {
 	enum class GraphicsAPI {
 		DirectX,
@@ -32,9 +34,12 @@ namespace ConceptEngine::Graphics::Main {
 		std::unique_ptr<Managers::CEGraphicsManager> m_graphicsManager;
 		std::unique_ptr<Managers::CETextureManager> m_textureManager;
 		std::unique_ptr<Managers::CERendererManager> m_rendererManager;
+
+		std::unique_ptr<Rendering::CEDebugUI> m_debugUi;
 	private:
 		virtual bool CreateGraphicsManager() = 0;
 		virtual bool CreateTextureManager() = 0;
 		virtual bool CreateRendererManager() = 0;
+		virtual bool CreateDebugUi() = 0;
 	};
 }
