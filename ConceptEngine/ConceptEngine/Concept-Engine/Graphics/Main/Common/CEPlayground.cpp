@@ -12,3 +12,6 @@ bool CEPlayground::Create() {
 	return true;
 }
 
+void CEPlayground::Update(Time::CETimestamp DeltaTime) {
+}
+

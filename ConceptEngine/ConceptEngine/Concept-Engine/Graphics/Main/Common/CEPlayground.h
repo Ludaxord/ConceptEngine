@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../../Time/CETimestamp.h"
+
 namespace ConceptEngine::Graphics::Main::Common {
 	extern class CEPlayground* CreatePlayground();
 
@@ -9,6 +11,7 @@ namespace ConceptEngine::Graphics::Main::Common {
 		virtual ~CEPlayground();
 
 		virtual bool Create();
+		virtual void Update(Time::CETimestamp DeltaTime);
 	protected:
 	private:
 	};

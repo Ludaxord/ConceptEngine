@@ -99,8 +99,8 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CECommandList.h" />
     <ClInclude Include="Core\Threading\CETaskManager.h" />
     <ClInclude Include="Core\Common\CETypes.h" />
-    <ClInclude Include="Core\Common\CEArray.h" />
-    <ClInclude Include="Core\Common\CEAllocator.h" />
+    <ClInclude Include="Core\Containers\CEArray.h" />
+    <ClInclude Include="Core\Containers\CEAllocator.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Threading\CEThreadSafe.h" />
     <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
@@ -111,6 +111,15 @@
     <ClInclude Include="Graphics\Main\Rendering\CEDebugUI.h" />
     <ClInclude Include="Time\CETimestamp.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.h" />
+    <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
+    <ClInclude Include="Core\Platform\Generic\Callbacks\CEPlatformCallbacks.h" />
+    <ClInclude Include="Core\Common\CEEvents.h" />
+    <ClInclude Include="Core\Containers\CEStaticArray.h" />
+    <ClInclude Include="Core\Containers\CEArrayView.h" />
+    <ClInclude Include="Core\Containers\CEFunction.h" />
+    <ClInclude Include="Core\Containers\CEIterator.h" />
+    <ClInclude Include="Core\Containers\CESharedPtr.h" />
+    <ClInclude Include="Core\Containers\CEUniquePtr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

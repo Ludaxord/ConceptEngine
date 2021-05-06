@@ -12,6 +12,8 @@ namespace ConceptEngine::Core::Platform::Android {
 		void CreateSystemConsole() override;
 		void CreateCursors() override;
 
+		void Update() override;
+	
 	private:
 		bool CreateInputManager() override;
 	protected:

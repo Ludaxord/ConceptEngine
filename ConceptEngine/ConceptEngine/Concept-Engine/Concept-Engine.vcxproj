@@ -21,9 +21,18 @@
   <ItemGroup>
     <ClInclude Include="AI\CEAI.h" />
     <ClInclude Include="Audio\CEAudio.h" />
-    <ClInclude Include="Core\Common\CEAllocator.h" />
-    <ClInclude Include="Core\Common\CEArray.h" />
+    <ClInclude Include="Core\Containers\CEAllocator.h" />
+    <ClInclude Include="Core\Containers\CEArray.h" />
+    <ClInclude Include="Core\Common\CEEvents.h" />
     <ClInclude Include="Core\Common\CEManager.h" />
+    <ClInclude Include="Core\Containers\CEArrayView.h" />
+    <ClInclude Include="Core\Containers\CEFunction.h" />
+    <ClInclude Include="Core\Containers\CEIterator.h" />
+    <ClInclude Include="Core\Containers\CESharedPtr.h" />
+    <ClInclude Include="Core\Containers\CEStaticArray.h" />
+    <ClInclude Include="Core\Containers\CEUniquePtr.h" />
+    <ClInclude Include="Core\Platform\Generic\Callbacks\CEPlatformCallbacks.h" />
+    <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Common\CETypes.h" />

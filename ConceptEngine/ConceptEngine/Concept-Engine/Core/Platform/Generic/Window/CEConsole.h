@@ -6,5 +6,7 @@ namespace ConceptEngine::Core::Platform::Generic::Window {
 	public:
 		CEConsole();
 		~CEConsole();
+
+		virtual void Update() = 0;
 	};
 }

@@ -20,6 +20,9 @@ void CEAndroid::CreateSystemConsole() {
 void CEAndroid::CreateCursors() {
 }
 
+void CEAndroid::Update() {
+}
+
 bool CEAndroid::CreateInputManager() {
 	return true;
 }

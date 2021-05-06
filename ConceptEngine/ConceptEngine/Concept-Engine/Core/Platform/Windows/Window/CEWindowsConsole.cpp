@@ -11,3 +11,6 @@ CEWindowsConsole::~CEWindowsConsole() {
 bool CEWindowsConsole::Create() {
 	return true;
 }
+
+void CEWindowsConsole::Update() {
+}

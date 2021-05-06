@@ -15,7 +15,8 @@ namespace ConceptEngine::Core::Application::Editor {
 		bool Create() override;
 		int Run() override;
 		void Update(Time::CETimestamp DeltaTime) override;
-
+		void Release() override;
+		
 		Time::CETimer Timer;
 	};
 }

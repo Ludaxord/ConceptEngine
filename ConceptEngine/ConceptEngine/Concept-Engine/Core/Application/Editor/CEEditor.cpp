@@ -1,5 +1,7 @@
 #include "CEEditor.h"
 
+#include "../../Debug/CEProfiler.h"
+
 using namespace ConceptEngine::Core::Application::Editor;
 
 CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language,
@@ -27,4 +29,13 @@ int CEEditor::Run() {
 }
 
 void CEEditor::Update(Time::CETimestamp DeltaTime) {
+	Platform->Update();
+
+	GetPlayground()->Update(DeltaTime);
+	Debug::CEProfiler::Update();
+	Graphics->Update(DeltaTime);
+}
+
+void CEEditor::Release() {
+
 }

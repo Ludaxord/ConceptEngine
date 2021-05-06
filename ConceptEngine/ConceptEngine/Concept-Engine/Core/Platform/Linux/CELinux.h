@@ -6,11 +6,13 @@ namespace ConceptEngine::Core::Platform::Linux {
 	public:
 		CELinux();
 		~CELinux() override;
-		
+
 		void Create() override;
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
 		void CreateCursors() override;
+		
+		void Update() override;
 	private:
 		bool CreateInputManager() override;
 	protected:

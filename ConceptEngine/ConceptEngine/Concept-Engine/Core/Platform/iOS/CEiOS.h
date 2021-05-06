@@ -6,12 +6,13 @@ namespace ConceptEngine::Core::Platform::iOS {
 	public:
 		CEiOS();
 		~CEiOS() override;
-		
+
 		void Create() override;
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
-
 		void CreateCursors() override;
+
+		void Update() override;
 	private:
 		bool CreateInputManager() override;
 	protected:

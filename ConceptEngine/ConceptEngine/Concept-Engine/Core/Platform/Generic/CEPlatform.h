@@ -34,6 +34,9 @@ namespace ConceptEngine::Core::Generic::Platform {
 			return true;
 		}
 
+		virtual void Update() = 0;
+
+
 		static Core::Platform::Generic::Window::CEWindow* GetWindow() {
 			return Window;
 		}
@@ -53,6 +56,5 @@ namespace ConceptEngine::Core::Generic::Platform {
 		static Core::Platform::Generic::Window::CEWindow* Window;
 		static Core::Platform::Generic::Window::CEConsole* Console;
 		static Core::Platform::Generic::Input::CEInputManager* InputManager;
-
 	};
 }

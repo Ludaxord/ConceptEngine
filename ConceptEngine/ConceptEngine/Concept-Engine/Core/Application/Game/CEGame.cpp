@@ -1,6 +1,7 @@
 #include "CEGame.h"
 
 #include "../../../Time/CETimer.h"
+#include "../../Debug/CEProfiler.h"
 
 using namespace ConceptEngine::Core::Application::Game;
 
@@ -24,4 +25,8 @@ bool CEGame::Create() {
 }
 
 void CEGame::Update(Time::CETimestamp DeltaTime) {
+	Platform->Update();
+	GetPlayground()->Update(DeltaTime);
+	Debug::CEProfiler::Update();
+	Graphics->Update(DeltaTime);
 }

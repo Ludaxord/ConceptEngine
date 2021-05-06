@@ -5,9 +5,6 @@
 #include "../Compilers/CECompiler.h"
 #include "../Platform/Generic/CEPlatform.h"
 
-#define _PREPROCESS_CONCAT(x, y) x##y
-#define PREPROCESS_CONCAT(x, y) _PREPROCESS_CONCAT(x, y)
-
 namespace ConceptEngine::Core::Application {
 	class CECore {
 	public:
@@ -19,6 +16,7 @@ namespace ConceptEngine::Core::Application {
 		virtual bool Create();
 		virtual int Run() = 0;
 		virtual void Update(Time::CETimestamp DeltaTime) = 0;
+		virtual void Release() = 0;
 
 		static Graphics::Main::CEGraphics* GetGraphics();
 		static Compilers::CECompiler* GetCompiler();

@@ -26,6 +26,9 @@ void CEWindows::CreateSystemConsole() {
 void CEWindows::CreateCursors() {
 }
 
+void CEWindows::Update() {
+}
+
 bool CEWindows::CreateInputManager() {
 	InputManager = new Input::CEWindowsInputManager();
 	return true;

@@ -1,5 +1,7 @@
 #include "CEGameDebug.h"
 
+#include "../../Debug/CEProfiler.h"
+
 using namespace ConceptEngine::Core::Application::GameDebug;
 
 CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,
@@ -30,4 +32,9 @@ bool CEGameDebug::Create() {
 }
 
 void CEGameDebug::Update(Time::CETimestamp DeltaTime) {
+	Platform->Update();
+	GetPlayground()->Update(DeltaTime);
+	Generic::Platform::CEPlatform::GetConsole()->Update();
+	Debug::CEProfiler::Update();
+	Graphics->Update(DeltaTime);
 }

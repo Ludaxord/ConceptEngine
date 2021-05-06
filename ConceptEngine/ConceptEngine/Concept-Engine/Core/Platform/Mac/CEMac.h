@@ -11,6 +11,8 @@ namespace ConceptEngine::Core::Platform::Mac {
 		void CreateSystemWindow() override;
 		void CreateSystemConsole() override;
 		void CreateCursors() override;
+
+		void Update() override;
 	private:
 		bool CreateInputManager() override;
 	protected:

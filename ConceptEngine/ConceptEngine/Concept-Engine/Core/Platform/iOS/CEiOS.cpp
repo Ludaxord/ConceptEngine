@@ -22,6 +22,9 @@ void CEiOS::CreateSystemConsole() {
 void CEiOS::CreateCursors() {
 }
 
+void CEiOS::Update() {
+}
+
 bool CEiOS::CreateInputManager() {
 	return true;
 }
