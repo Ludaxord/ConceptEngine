@@ -69,9 +69,6 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CERayTracer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsKeyboard.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsMouse.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsController.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.h" />
@@ -121,6 +118,7 @@
     <ClInclude Include="Core\Containers\CESharedPtr.h" />
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
     <ClInclude Include="Core\Containers\CEContainerUtilities.h" />
+    <ClInclude Include="Core\Common\CERef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -207,5 +205,6 @@
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.cpp" />
+    <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
   </ItemGroup>
 </Project>

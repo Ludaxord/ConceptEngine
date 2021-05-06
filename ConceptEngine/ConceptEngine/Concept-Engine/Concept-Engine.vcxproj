@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="AI\CEAI.h" />
     <ClInclude Include="Audio\CEAudio.h" />
+    <ClInclude Include="Core\Common\CERef.h" />
     <ClInclude Include="Core\Containers\CEAllocator.h" />
     <ClInclude Include="Core\Containers\CEArray.h" />
     <ClInclude Include="Core\Common\CEEvents.h" />
@@ -61,9 +62,6 @@
     <ClInclude Include="Core\Platform\Mac\Window\CEMacWindow.h" />
     <ClInclude Include="Core\Platform\Windows\Cursor\CEWindowsCursor.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEInputManager.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsController.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsKeyboard.h" />
-    <ClInclude Include="Core\Platform\Windows\Input\CEWindowsMouse.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsWindow.h" />
     <ClInclude Include="Core\Threading\CETaskManager.h" />
@@ -156,6 +154,7 @@
     <ClCompile Include="Core\Delegates\CEDelegate.cpp" />
     <ClCompile Include="Core\Delegates\CEDelegateBase.cpp" />
     <ClCompile Include="Core\Platform\Android\Window\CEAndroidWindow.cpp" />
+    <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
     <ClCompile Include="Core\Platform\Generic\Cursor\CECursor.cpp" />
     <ClCompile Include="Core\Platform\iOS\Window\CEiOSWindow.cpp" />
     <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />

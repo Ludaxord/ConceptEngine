@@ -156,7 +156,7 @@ namespace ConceptEngine::Core::Platform::Generic::Input {
 		Key_Count = Key_Last + 1
 	};
 
-	enum EMouseButton : uint8 {
+	enum CEMouseButton : uint8 {
 		MouseButton_Unknown = 0,
 		MouseButton_Left = 1,
 		MouseButton_Right = 2,
@@ -168,7 +168,7 @@ namespace ConceptEngine::Core::Platform::Generic::Input {
 		MouseButton_Count = MouseButton_Last + 1
 	};
 
-	enum EModifierFlag {
+	enum CEModifierFlag {
 		ModifierFlag_None = 0,
 		ModifierFlag_Ctrl = FLAG(1),
 		ModifierFlag_Alt = FLAG(2),
@@ -178,7 +178,7 @@ namespace ConceptEngine::Core::Platform::Generic::Input {
 		ModifierFlag_NumLock = FLAG(6),
 	};
 
-	inline const char* ToString(EMouseButton Button) {
+	inline const char* ToString(CEMouseButton Button) {
 		switch (Button) {
 		case MouseButton_Left: return "LeftMouse";
 		case MouseButton_Right: return "RightMouse";

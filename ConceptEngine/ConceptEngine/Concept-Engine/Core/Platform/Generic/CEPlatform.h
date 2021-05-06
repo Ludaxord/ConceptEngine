@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Callbacks/CEPlatformCallbacks.h"
 #include "Window/CEConsole.h"
 #include "Window/CEWindow.h"
 #include "Input/CEInputManager.h"
@@ -20,7 +21,7 @@ namespace ConceptEngine::Core::Generic::Platform {
 		CEPlatform() = default;
 		virtual ~CEPlatform() = default;
 
-		virtual void Create() = 0;
+		virtual void Create();
 		virtual void CreateSystemWindow() = 0;
 		virtual void CreateSystemConsole() = 0;
 		virtual void CreateCursors() = 0;
@@ -36,6 +37,8 @@ namespace ConceptEngine::Core::Generic::Platform {
 
 		virtual void Update() = 0;
 
+		static void SetCallbacks(Core::Platform::Generic::Callbacks::CEPlatformCallbacks* InCallbacks);
+		static Core::Platform::Generic::Callbacks::CEPlatformCallbacks* GetCallbacks();
 
 		static Core::Platform::Generic::Window::CEWindow* GetWindow() {
 			return Window;
@@ -56,5 +59,6 @@ namespace ConceptEngine::Core::Generic::Platform {
 		static Core::Platform::Generic::Window::CEWindow* Window;
 		static Core::Platform::Generic::Window::CEConsole* Console;
 		static Core::Platform::Generic::Input::CEInputManager* InputManager;
+		static Core::Platform::Generic::Callbacks::CEPlatformCallbacks* Callbacks;
 	};
 }
