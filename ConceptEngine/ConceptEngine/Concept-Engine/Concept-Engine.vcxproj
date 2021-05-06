@@ -26,6 +26,7 @@
     <ClInclude Include="Core\Common\CEEvents.h" />
     <ClInclude Include="Core\Common\CEManager.h" />
     <ClInclude Include="Core\Containers\CEArrayView.h" />
+    <ClInclude Include="Core\Containers\CEContainerUtilities.h" />
     <ClInclude Include="Core\Containers\CEFunction.h" />
     <ClInclude Include="Core\Containers\CEIterator.h" />
     <ClInclude Include="Core\Containers\CESharedPtr.h" />

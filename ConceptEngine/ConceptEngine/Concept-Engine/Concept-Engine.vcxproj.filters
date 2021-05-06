@@ -120,6 +120,7 @@
     <ClInclude Include="Core\Containers\CEIterator.h" />
     <ClInclude Include="Core\Containers\CESharedPtr.h" />
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
+    <ClInclude Include="Core\Containers\CEContainerUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
