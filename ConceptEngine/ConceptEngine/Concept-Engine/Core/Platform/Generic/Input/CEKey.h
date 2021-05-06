@@ -2,13 +2,6 @@
 
 #include "../../../Common/CETypes.h"
 
-#define _PREPROCESS_CONCAT(x, y) x##y
-#define PREPROCESS_CONCAT(x, y) _PREPROCESS_CONCAT(x, y)
-
-// Bit-Mask helpers
-#define BIT(Bit)  (1 << Bit)
-#define FLAG(Bit) BIT(Bit)
-
 namespace ConceptEngine::Core::Platform::Generic::Input {
 
 	enum CEKey : uint8 {
