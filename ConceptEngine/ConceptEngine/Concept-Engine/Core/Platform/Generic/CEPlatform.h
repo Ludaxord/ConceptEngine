@@ -31,7 +31,7 @@ namespace ConceptEngine::Core::Generic::Platform {
 		CEPlatform() = default;
 		virtual ~CEPlatform() = default;
 
-		virtual void Create();
+		virtual bool Create();
 		virtual void CreateSystemWindow() = 0;
 		virtual void CreateSystemConsole() = 0;
 		virtual void CreateCursors() = 0;
@@ -48,19 +48,21 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual void Update() = 0;
 		virtual bool Release() = 0;
 
-		virtual CEModifierKeyState GetModifierKeyState() = 0;
+		virtual CEModifierKeyState GetModifierKeyState() {
+			return CEModifierKeyState();
+		};
 
-		virtual void SetCapture(CEWindow* window);
-		virtual void SetActiveWindow(CEWindow* window);
+		virtual void SetCapture(CEWindow* window) = 0;
+		virtual void SetActiveWindow(CEWindow* window) = 0;
 
-		virtual CEWindow* GetCapture();
-		virtual CEWindow* GetActiveWindow();
+		virtual CEWindow* GetCapture() = 0;
+		virtual CEWindow* GetActiveWindow() = 0;
 
-		virtual void SetCursor(CECursor* cursor);
-		virtual CECursor* GetCursor();
+		virtual void SetCursor(CECursor* cursor) = 0;
+		virtual CECursor* GetCursor() = 0;
 
-		virtual void SetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y);
-		virtual void GetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y);
+		virtual void SetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y) = 0;
+		virtual void GetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y) = 0;
 
 		virtual void SetCallbacks(CEPlatformCallbacks* InCallbacks);
 

@@ -37,7 +37,7 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Input {
 
 			}
 
-			virtual void OnMosuePressed(Input::CEMouseButton button,
+			virtual void OnMousePressed(Input::CEMouseButton button,
 			                            const Input::CEModifierKeyState& modifierKeyState) {
 
 			}

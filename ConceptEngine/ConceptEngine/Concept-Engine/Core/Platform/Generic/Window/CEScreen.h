@@ -1,4 +1,7 @@
 #pragma once
+
+#include "../../../../Utilities/CEScreenUtilities.h"
+
 namespace ConceptEngine::Core::Platform::Generic::Window {
 	class CEScreen {
 	public:

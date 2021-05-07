@@ -20,6 +20,8 @@
 #include "../Debug/CEProfiler.h"
 #include "../Threading/CETaskManager.h"
 
+#include "../Platform/Generic/Callbacks/CEEngineController.h"
+
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
 using namespace ConceptEngine::Core::Platform;
@@ -41,9 +43,15 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
 bool ConceptEngine::Core::Application::CECore::Create() {
 	Debug::CEProfiler::Init();
 
-	Platform->Create();
+	if (Platform->Create()) {
+		return false;
+	}
 
 	if (!Threading::CETaskManager::Get().Create()) {
+		return false;
+	}
+
+	if (!Platform::Generic::Callbacks::EngineController.Create()) {
 		return false;
 	}
 
@@ -59,7 +67,9 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
-	m_isRunning = true;
+	Platform->SetCallbacks(&Platform::Generic::Callbacks::EngineController);
+
+	IsRunning = true;
 
 	return true;
 }

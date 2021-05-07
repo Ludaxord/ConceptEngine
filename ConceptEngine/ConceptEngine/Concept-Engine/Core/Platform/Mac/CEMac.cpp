@@ -8,7 +8,8 @@ CEMac::CEMac(): CEPlatform() {
 CEMac::~CEMac() {
 }
 
-void CEMac::Create() {
+bool CEMac::Create() {
+	return true;
 }
 
 void CEMac::CreateSystemWindow() {
@@ -21,6 +22,44 @@ void CEMac::CreateCursors() {
 }
 
 void CEMac::Update() {
+}
+
+void CEMac::PreInit() {
+}
+
+bool CEMac::Release() {
+	return true;
+}
+
+ConceptEngine::Core::Platform::Generic::Input::CEModifierKeyState CEMac::GetModifierKeyState() {
+	return Generic::Input::CEModifierKeyState();
+}
+
+void CEMac::SetCapture(Generic::Window::CEWindow* window) {
+}
+
+void CEMac::SetActiveWindow(Generic::Window::CEWindow* window) {
+}
+
+ConceptEngine::Core::Platform::Generic::Window::CEWindow* CEMac::GetCapture() {
+	return nullptr;
+}
+
+ConceptEngine::Core::Platform::Generic::Window::CEWindow* CEMac::GetActiveWindow() {
+	return nullptr;
+}
+
+void CEMac::SetCursor(Generic::Cursor::CECursor* cursor) {
+}
+
+ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CEMac::GetCursor() {
+	return nullptr;
+}
+
+void CEMac::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+}
+
+void CEMac::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
 }
 
 bool CEMac::CreateInputManager() {

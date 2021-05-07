@@ -33,8 +33,13 @@
     <ClInclude Include="Core\Containers\CESharedPtr.h" />
     <ClInclude Include="Core\Containers\CEStaticArray.h" />
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
+    <ClInclude Include="Core\Delegates\CEEvent.h" />
+    <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
+    <ClInclude Include="Core\Platform\Generic\Callbacks\CEEngineController.h" />
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEPlatformCallbacks.h" />
+    <ClInclude Include="Core\Platform\Generic\Events\CEEvent.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
+    <ClInclude Include="Core\Platform\Generic\Input\CEModifierKeyState.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Common\CETypes.h" />
@@ -151,9 +156,8 @@
     <ClCompile Include="Core\Application\GameDebug\CEGameDebug.cpp" />
     <ClCompile Include="Core\Application\Game\CEGame.cpp" />
     <ClCompile Include="Core\Debug\CEProfiler.cpp" />
-    <ClCompile Include="Core\Delegates\CEDelegate.cpp" />
-    <ClCompile Include="Core\Delegates\CEDelegateBase.cpp" />
     <ClCompile Include="Core\Platform\Android\Window\CEAndroidWindow.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Callbacks\CEEngineController.cpp" />
     <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
     <ClCompile Include="Core\Platform\Generic\Cursor\CECursor.cpp" />
     <ClCompile Include="Core\Platform\iOS\Window\CEiOSWindow.cpp" />

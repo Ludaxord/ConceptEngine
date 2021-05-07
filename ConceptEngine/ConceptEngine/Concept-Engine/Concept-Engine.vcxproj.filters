@@ -119,6 +119,11 @@
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
     <ClInclude Include="Core\Containers\CEContainerUtilities.h" />
     <ClInclude Include="Core\Common\CERef.h" />
+    <ClInclude Include="Core\Platform\Generic\Input\CEModifierKeyState.h" />
+    <ClInclude Include="Core\Platform\Generic\Events\CEEvent.h" />
+    <ClInclude Include="Core\Platform\Generic\Callbacks\CEEngineController.h" />
+    <ClInclude Include="Core\Delegates\CEEvent.h" />
+    <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -163,8 +168,6 @@
     <ClCompile Include="Graphics\Main\RenderLayer\CEViewport.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidDynamic.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidStatic.cpp" />
-    <ClCompile Include="Core\Delegates\CEDelegate.cpp" />
-    <ClCompile Include="Core\Delegates\CEDelegateBase.cpp" />
     <ClCompile Include="Core\Platform\Generic\Cursor\CECursor.cpp" />
     <ClCompile Include="Core\Platform\Android\Window\CEAndroidWindow.cpp" />
     <ClCompile Include="Core\Platform\iOS\Window\CEiOSWindow.cpp" />
@@ -206,5 +209,6 @@
     <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.cpp" />
     <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Callbacks\CEEngineController.cpp" />
   </ItemGroup>
 </Project>

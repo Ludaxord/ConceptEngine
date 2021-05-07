@@ -4,7 +4,8 @@ using namespace ConceptEngine::Core::Generic::Platform;
 using namespace ConceptEngine::Core::Platform::Generic::Callbacks;
 
 
-void ::CEPlatform::Create() {
+bool ::CEPlatform::Create() {
+	return true;
 }
 
 void ::CEPlatform::SetCallbacks(CEPlatformCallbacks* InCallbacks) {

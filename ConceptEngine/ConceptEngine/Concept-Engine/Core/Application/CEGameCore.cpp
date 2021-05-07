@@ -28,7 +28,7 @@ bool Application::CEGameCore::Create() {
 
 int Application::CEGameCore::Run() {
 	Time::CETimer Timer;
-	while (m_isRunning) {
+	while (IsRunning) {
 		Timer.Update();
 		Update(Timer.GetDeltaTime());
 	}

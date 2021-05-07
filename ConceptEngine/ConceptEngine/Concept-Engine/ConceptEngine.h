@@ -16,40 +16,14 @@ namespace ConceptEngine {
 
 	class ConceptEngine {
 	public:
-		/*
-		 * Game Constructors
-		 */
 		ConceptEngine(
 			std::wstring name,
-			HINSTANCE hInstance,
-			LPSTR lpCmdLine,
-			int nCmdShow,
-			int width,
-			int height,
-			bool showConsole,
 			Graphics::Main::GraphicsAPI api,
 			Core::Generic::Platform::Platform platform,
 			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
 		ConceptEngine(
 			std::wstring name,
-			HINSTANCE hInstance,
-			LPSTR lpCmdLine,
-			int nCmdShow,
-			bool showConsole,
-			Graphics::Main::GraphicsAPI api,
-			Core::Generic::Platform::Platform platform,
-			Core::Compilers::Language language = Core::Compilers::Language::None
-		);
-
-		/*
-		 * Editor Constructors
-		 */
-		ConceptEngine(
-			std::wstring name,
-			HWND hWnd,
-			int width,
-			int height,
 			Graphics::Main::GraphicsAPI api,
 			Core::Generic::Platform::Platform platform
 		);
@@ -67,16 +41,11 @@ namespace ConceptEngine {
 
 	private:
 		std::wstring m_name;
-		HINSTANCE m_hInstance;
-		LPSTR m_lpCmdLine;
-		int m_nCmdShow;
 
-		HWND m_hwnd;
+		Graphics::Main::GraphicsAPI EnumApi;
+		Core::Compilers::Language EnumLanguage;
+		Core::Generic::Platform::Platform EnumPlatform;
 
-		Graphics::Main::GraphicsAPI m_api;
-		Core::Compilers::Language m_language;
-		Core::Generic::Platform::Platform m_platform;
-
-		std::unique_ptr<Core::Application::CECore> m_core;
+		std::unique_ptr<Core::Application::CECore> Core;
 	};
 }
