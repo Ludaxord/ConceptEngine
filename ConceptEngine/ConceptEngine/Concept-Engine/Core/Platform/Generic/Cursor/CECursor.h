@@ -1,5 +1,5 @@
 #pragma once
-namespace ConceptEngine::Core::Platform::Cursor {
+namespace ConceptEngine::Core::Platform::Generic::Cursor {
 	class CECursor {
 		
 	};

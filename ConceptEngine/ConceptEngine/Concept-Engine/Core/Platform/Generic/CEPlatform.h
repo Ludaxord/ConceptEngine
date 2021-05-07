@@ -1,11 +1,21 @@
 #pragma once
 
 #include "Callbacks/CEPlatformCallbacks.h"
+#include "Cursor/CECursor.h"
+#include "Events/CEEvent.h"
 #include "Window/CEConsole.h"
 #include "Window/CEWindow.h"
 #include "Input/CEInputManager.h"
+#include "Input/CEModifierKeyState.h"
+#include "../../Containers/CEArray.h"
+
 
 namespace ConceptEngine::Core::Generic::Platform {
+	using namespace Core::Platform::Generic::Input;
+	using namespace Core::Platform::Generic::Window;
+	using namespace Core::Platform::Generic::Cursor;
+	using namespace Core::Platform::Generic::Callbacks;
+
 	enum class Platform {
 		Android,
 		iOS,
@@ -36,29 +46,40 @@ namespace ConceptEngine::Core::Generic::Platform {
 		}
 
 		virtual void Update() = 0;
+		virtual bool Release() = 0;
 
-		static void SetCallbacks(Core::Platform::Generic::Callbacks::CEPlatformCallbacks* InCallbacks);
-		static Core::Platform::Generic::Callbacks::CEPlatformCallbacks* GetCallbacks();
+		virtual CEModifierKeyState GetModifierKeyState() = 0;
 
-		static Core::Platform::Generic::Window::CEWindow* GetWindow() {
-			return Window;
-		}
+		virtual void SetCapture(CEWindow* window);
+		virtual void SetActiveWindow(CEWindow* window);
 
-		static Core::Platform::Generic::Window::CEConsole* GetConsole() {
-			return Console;
-		}
+		virtual CEWindow* GetCapture();
+		virtual CEWindow* GetActiveWindow();
 
-		static Core::Platform::Generic::Input::CEInputManager* GetInputManager() {
-			return InputManager;
-		}
+		virtual void SetCursor(CECursor* cursor);
+		virtual CECursor* GetCursor();
+
+		virtual void SetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y);
+		virtual void GetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y);
+
+		virtual void SetCallbacks(CEPlatformCallbacks* InCallbacks);
+
+		static CEPlatformCallbacks* GetCallbacks();
+		static CEWindow* GetWindow();
+		static CEConsole* GetConsole();
+		static CEInputManager* GetInputManager();
 
 	private:
 		virtual bool CreateInputManager() = 0;
 
 	protected:
-		static Core::Platform::Generic::Window::CEWindow* Window;
-		static Core::Platform::Generic::Window::CEConsole* Console;
-		static Core::Platform::Generic::Input::CEInputManager* InputManager;
-		static Core::Platform::Generic::Callbacks::CEPlatformCallbacks* Callbacks;
+		static CECursor* Cursor;
+		static CEWindow* Window;
+		static CEConsole* Console;
+		static CEInputManager* InputManager;
+		static CEPlatformCallbacks* Callbacks;
+
+		static Containers::CEArray<CEEvent> Messages;
+		static bool IsTracingMouse;
 	};
 }
