@@ -8,6 +8,8 @@
 
 #include "Rendering/CEDebugUI.h"
 #include "../../Time/CETimestamp.h"
+#include "../../Core/Platform/CEPlatformActions.h"
+
 
 namespace ConceptEngine::Graphics::Main {
 	enum class GraphicsAPI {

@@ -8,8 +8,8 @@ namespace ConceptEngine::Core::Platform::Linux {
 		~CELinux() override;
 
 		bool Create() override;
-		void CreateSystemWindow() override;
-		void CreateSystemConsole() override;
+		bool CreateSystemWindow() override;
+		bool CreateSystemConsole() override;
 		void CreateCursors() override;
 		
 		void Update() override;

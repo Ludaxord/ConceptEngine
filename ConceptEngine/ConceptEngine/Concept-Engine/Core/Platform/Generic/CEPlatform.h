@@ -32,8 +32,8 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual ~CEPlatform() = default;
 
 		virtual bool Create();
-		virtual void CreateSystemWindow() = 0;
-		virtual void CreateSystemConsole() = 0;
+		virtual bool CreateSystemWindow() = 0;
+		virtual bool CreateSystemConsole() = 0;
 		virtual void CreateCursors() = 0;
 
 		virtual bool CreateManagers() {

@@ -11,3 +11,4 @@ namespace ConceptEngine::Graphics::Main::Managers {
 		bool Create() override;
 	};
 }
+	

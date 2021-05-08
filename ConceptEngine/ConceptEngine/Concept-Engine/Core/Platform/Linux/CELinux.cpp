@@ -9,13 +9,15 @@ CELinux::~CELinux() {
 }
 
 bool CELinux::Create() {
-return true;
+	return true;
 }
 
-void CELinux::CreateSystemWindow() {
+bool CELinux::CreateSystemWindow() {
+	return true;
 }
 
-void CELinux::CreateSystemConsole() {
+bool CELinux::CreateSystemConsole() {
+	return true;
 }
 
 void CELinux::CreateCursors() {

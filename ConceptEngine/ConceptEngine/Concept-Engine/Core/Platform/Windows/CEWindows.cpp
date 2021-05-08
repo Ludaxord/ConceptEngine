@@ -18,12 +18,14 @@ bool CEWindows::Create() {
 	return true;
 }
 
-void CEWindows::CreateSystemWindow() {
+bool CEWindows::CreateSystemWindow() {
 	Window = new Window::CEWindowsWindow();
+	return true;
 }
 
-void CEWindows::CreateSystemConsole() {
+bool CEWindows::CreateSystemConsole() {
 	Console = new Window::CEWindowsConsole();
+	return true;
 }
 
 void CEWindows::CreateCursors() {

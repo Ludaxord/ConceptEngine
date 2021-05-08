@@ -12,10 +12,12 @@ bool CEAndroid::Create() {
 	return true;
 }
 
-void CEAndroid::CreateSystemWindow() {
+bool CEAndroid::CreateSystemWindow() {
+	return true;
 }
 
-void CEAndroid::CreateSystemConsole() {
+bool CEAndroid::CreateSystemConsole() {
+	return true;
 }
 
 void CEAndroid::CreateCursors() {

@@ -18,6 +18,7 @@ bool CEGraphics::CreateManagers() {
 	}
 
 	if (!m_graphicsManager->Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to initialize Graphics Manager");
 		return false;
 	}
 
@@ -34,6 +35,7 @@ bool CEGraphics::CreateManagers() {
 	}
 
 	if (!m_rendererManager->Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to initialize Renderer Manager");
 		return false;
 	}
 

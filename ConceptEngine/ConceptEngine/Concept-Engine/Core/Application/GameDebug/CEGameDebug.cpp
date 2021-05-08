@@ -18,11 +18,14 @@ CEGameDebug::~CEGameDebug() {
 }
 
 bool CEGameDebug::Create() {
-	if (!CEGameCore::Create()) {
+	if (!Platform->CreateSystemConsole()) {
+		CEPlatformActions::MessageBox("Error", "Failed to Create System Debug Console");
 		return false;
 	}
 
-	Platform->CreateSystemConsole();
+	if (!CEGameCore::Create()) {
+		return false;
+	}
 
 	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
 		return false;

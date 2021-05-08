@@ -60,6 +60,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 	}
 
 	if (!Graphics->Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to initialize Graphics");
 		return false;
 	}
 

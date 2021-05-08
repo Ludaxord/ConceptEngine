@@ -14,10 +14,12 @@ bool CEiOS::Create() {
 	return true;
 }
 
-void CEiOS::CreateSystemWindow() {
+bool CEiOS::CreateSystemWindow() {
+	return true;
 }
 
-void CEiOS::CreateSystemConsole() {
+bool CEiOS::CreateSystemConsole() {
+	return true;
 }
 
 void CEiOS::CreateCursors() {

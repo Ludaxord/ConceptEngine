@@ -12,10 +12,12 @@ bool CEMac::Create() {
 	return true;
 }
 
-void CEMac::CreateSystemWindow() {
+bool CEMac::CreateSystemWindow() {
+	return true;
 }
 
-void CEMac::CreateSystemConsole() {
+bool CEMac::CreateSystemConsole() {
+	return true;
 }
 
 void CEMac::CreateCursors() {
