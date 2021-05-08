@@ -2,10 +2,18 @@
 
 using namespace ConceptEngine::Core::Platform::Windows::Window;
 
-CEWindowsConsole::CEWindowsConsole(): CEConsole() {
+CEWindowsConsole::CEWindowsConsole(): CEConsole(), ConsoleHandle(0) {
+	if (AllocConsole()) {
+		ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTitleA("Windows Console");
+	}
 }
 
 CEWindowsConsole::~CEWindowsConsole() {
+	if (ConsoleHandle) {
+		FreeConsole();
+		ConsoleHandle = 0;
+	}
 }
 
 bool CEWindowsConsole::Create() {
@@ -13,4 +21,16 @@ bool CEWindowsConsole::Create() {
 }
 
 void CEWindowsConsole::Update() {
+}
+
+void CEWindowsConsole::Print(const std::string& message) {
+}
+
+void CEWindowsConsole::Clear() {
+}
+
+void CEWindowsConsole::SetTitle(const std::string& title) {
+}
+
+void CEWindowsConsole::SetColor(Generic::Window::CEConsoleColor color) {
 }
