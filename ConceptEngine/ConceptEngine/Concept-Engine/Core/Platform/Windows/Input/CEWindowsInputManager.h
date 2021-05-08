@@ -9,5 +9,14 @@ namespace ConceptEngine::Core::Platform::Windows::Input {
 		
 		~CEWindowsInputManager() override;
 		bool Create() override;
+	protected:
+		void InitKeyTable() override;
+
+	private:
+		void CreateNumScanCodeTableKeys();
+		void CreateCharScanCodeTableKeys();
+		void CreateFunctionScanCodeTableKeys();
+		void CreateNumPadScanCodeTableKeys();
+		void CreateActionScanCodeTableKeys();
 	};
 }

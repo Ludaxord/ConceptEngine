@@ -123,6 +123,7 @@
     <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
     <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
     <ClInclude Include="Math\CEMath.h" />
+    <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Physics\CEPhysics.h" />
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
     <ClInclude Include="Core\Platform\Android\CEAndroid.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Graphics\OpenGL\CEOpenGL.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVulkan.cpp" />
     <ClCompile Include="Math\CEMath.cpp" />
+    <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
     <ClCompile Include="Core\Platform\Android\CEAndroid.cpp" />
     <ClCompile Include="Core\Platform\iOS\CEiOS.cpp" />

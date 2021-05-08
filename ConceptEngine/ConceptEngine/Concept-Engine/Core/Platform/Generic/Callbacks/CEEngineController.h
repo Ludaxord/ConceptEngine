@@ -6,7 +6,6 @@
 namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 	class CEEngineController final : public CEPlatformCallbacks {
 	public:
-
 		bool Create();
 		bool Release();
 		bool Exit();
@@ -38,24 +37,69 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 		DECLARE_EVENT(OnKeyReleasedEvent, CEEngineController, const Common::CEKeyReleasedEvent&);
 
 		OnKeyReleasedEvent OnKeyReleasedEvent;
+
 		DECLARE_EVENT(OnKeyPressedEvent, CEEngineController, const Common::CEKeyPressedEvent&);
 
 		OnKeyPressedEvent OnKeyPressedEvent;
+
 		DECLARE_EVENT(OnKeyTypedEvent, CEEngineController, const Common::CEKeyTypedEvent&);
 
 		OnKeyTypedEvent OnKeyTypedEvent;
 
+
 		/*
 		 * Mouse events
 		 */
+		DECLARE_EVENT(OnMouseMoveEvent, CEEngineController, const Common::CEMouseMovedEvent&);
+
+		OnMouseMoveEvent OnMouseMoveEvent;
+
+		DECLARE_EVENT(OnMousePressedEvent, CEEngineController, const Common::CEMousePressedEvent&);
+
+		OnMousePressedEvent OnMousePressedEvent;
+
+		DECLARE_EVENT(OnMouseReleasedEvent, CEEngineController, const Common::CEMouseReleasedEvent&);
+
+		OnMouseReleasedEvent OnMouseReleasedEvent;
+
+		DECLARE_EVENT(OnMouseScrolledEvent, CEEngineController, const Common::CEMouseScrolledEvent&);
+
+		OnMouseScrolledEvent OnMouseScrolledEvent;
 
 		/*
 		 * Window events
 		 */
+		DECLARE_EVENT(OnWindowResizedEvent, CEEngineController, const Common::CEWindowResizeEvent&);
+
+		OnWindowResizedEvent OnWindowResizedEvent;
+
+		DECLARE_EVENT(OnWindowMovedEvent, CEEngineController, const Common::CEWindowMovedEvent&);
+
+		OnWindowMovedEvent OnWindowMovedEvent;
+
+		DECLARE_EVENT(OnWindowFocusChangedEvent, CEEngineController, const Common::CEWindowFocusChangedEvent&);
+
+		OnWindowFocusChangedEvent OnWindowFocusChangedEvent;
+
+		DECLARE_EVENT(OnWindowMouseEnteredEvent, CEEngineController, const Common::CEWindowMouseEnteredEvent&);
+
+		OnWindowMouseEnteredEvent OnWindowMouseEnteredEvent;
+
+		DECLARE_EVENT(OnWindowMouseLeftEvent, CEEngineController, const Common::CEWindowMouseLeftEvent&);
+
+		OnWindowMouseLeftEvent OnWindowMouseLeftEvent;
+
+		DECLARE_EVENT(OnWindowClosedEvent, CEEngineController, const Common::CEWindowClosedEvent&);
+
+		OnWindowClosedEvent OnWindowClosedEvent;
 
 		/*
 		 * Engine events
 		 */
+		DECLARE_EVENT(OnApplicationExitEvent, CEEngineController, int32);
+
+		OnApplicationExitEvent OnApplicationExitEvent;
+
 
 	public:
 		bool IsRunning = false;

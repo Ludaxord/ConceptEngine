@@ -124,6 +124,7 @@
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEEngineController.h" />
     <ClInclude Include="Core\Delegates\CEEvent.h" />
     <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
+    <ClInclude Include="Memory\CEMemory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -210,5 +211,6 @@
     <ClCompile Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.cpp" />
     <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
     <ClCompile Include="Core\Platform\Generic\Callbacks\CEEngineController.cpp" />
+    <ClCompile Include="Memory\CEMemory.cpp" />
   </ItemGroup>
 </Project>
