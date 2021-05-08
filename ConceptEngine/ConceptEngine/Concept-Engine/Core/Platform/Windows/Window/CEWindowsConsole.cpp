@@ -24,13 +24,25 @@ void CEWindowsConsole::Update() {
 }
 
 void CEWindowsConsole::Print(const std::string& message) {
+	if (ConsoleHandle) {
+
+	}
 }
 
 void CEWindowsConsole::Clear() {
+	if (ConsoleHandle) {
+
+	}
 }
 
 void CEWindowsConsole::SetTitle(const std::string& title) {
+	if (ConsoleHandle) {
+
+	}
 }
 
 void CEWindowsConsole::SetColor(Generic::Window::CEConsoleColor color) {
+	if (ConsoleHandle) {
+
+	}
 }
