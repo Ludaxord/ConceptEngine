@@ -16,7 +16,7 @@ namespace ConceptEngine::Core::Application {
 		virtual bool Create();
 		virtual int Run() = 0;
 		virtual void Update(Time::CETimestamp DeltaTime) = 0;
-		virtual void Release() = 0;
+		virtual bool Release() = 0;
 
 		static Graphics::Main::CEGraphics* GetGraphics();
 		static Compilers::CECompiler* GetCompiler();

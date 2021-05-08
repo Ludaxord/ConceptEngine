@@ -36,6 +36,6 @@ void CEEditor::Update(Time::CETimestamp DeltaTime) {
 	Graphics->Update(DeltaTime);
 }
 
-void CEEditor::Release() {
-
+bool CEEditor::Release() {
+	return true;
 }

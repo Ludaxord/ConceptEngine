@@ -3,6 +3,7 @@
 #include "Core/Application/Game/CEGame.h"
 #include "Core/Application/Editor/CEEditor.h"
 #include "Core/Application/GameDebug/CEGameDebug.h"
+#include "Core/Platform/CEPlatformActions.h"
 #include "Core/Platform/Windows/CEWindows.h"
 #include "Utilities/CEScreenUtilities.h"
 
@@ -31,11 +32,25 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
 }
 
 bool ConceptEngine::ConceptEngine::Init() const {
-	return Core->Create();
+	if (!Core->Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to Initialize Concept Engine");
+		return false;
+	}
+
+	return true;
 }
 
 int ConceptEngine::ConceptEngine::Run() const {
 	return Core->Run();
+}
+
+bool ConceptEngine::ConceptEngine::Release() {
+	if (!Core->Release()) {
+		CEPlatformActions::MessageBox("Error", "Failed to Release Concept Engine");
+		return false;
+	}
+
+	return true;
 }
 
 bool ConceptEngine::ConceptEngine::Create(EngineBoot boot) {

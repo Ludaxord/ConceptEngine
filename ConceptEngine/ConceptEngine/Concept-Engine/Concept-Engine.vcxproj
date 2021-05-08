@@ -35,11 +35,15 @@
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
     <ClInclude Include="Core\Delegates\CEEvent.h" />
     <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
+    <ClInclude Include="Core\Platform\CEPlatformActions.h" />
+    <ClInclude Include="Core\Platform\Generic\Actions\CEActions.h" />
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEEngineController.h" />
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEPlatformCallbacks.h" />
     <ClInclude Include="Core\Platform\Generic\Events\CEEvent.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEModifierKeyState.h" />
+    <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
+    <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Common\CETypes.h" />

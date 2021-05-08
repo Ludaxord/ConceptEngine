@@ -21,10 +21,13 @@
 #include "../Threading/CETaskManager.h"
 
 #include "../Platform/Generic/Callbacks/CEEngineController.h"
+#include "../Platform/CEPlatformActions.h"
 
+using namespace ConceptEngine::Core::Application;
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
 using namespace ConceptEngine::Core::Platform;
+using namespace ConceptEngine::Core::Generic::Platform;
 
 ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language,
                                                  Generic::Platform::Platform platform) {
@@ -44,6 +47,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 	Debug::CEProfiler::Init();
 
 	if (Platform->Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to initialize Platform");
 		return false;
 	}
 
@@ -51,7 +55,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
-	if (!Platform::Generic::Callbacks::EngineController.Create()) {
+	if (!EngineController.Create()) {
 		return false;
 	}
 
@@ -67,7 +71,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
-	Platform->SetCallbacks(&Platform::Generic::Callbacks::EngineController);
+	Platform->SetCallbacks(&EngineController);
 
 	IsRunning = true;
 

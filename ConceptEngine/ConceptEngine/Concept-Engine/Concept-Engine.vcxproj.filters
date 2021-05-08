@@ -125,6 +125,10 @@
     <ClInclude Include="Core\Delegates\CEEvent.h" />
     <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
     <ClInclude Include="Memory\CEMemory.h" />
+    <ClInclude Include="Core\Platform\Generic\Actions\CEActions.h" />
+    <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
+    <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
+    <ClInclude Include="Core\Platform\CEPlatformActions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

@@ -35,5 +35,6 @@ int Application::CEGameCore::Run() {
 	return 0;
 }
 
-void Application::CEGameCore::Release() {
+bool Application::CEGameCore::Release() {
+	return true;
 }

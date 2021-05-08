@@ -10,6 +10,6 @@ namespace ConceptEngine::Core::Application {
 
 		bool Create() override;
 		int Run() override;
-		void Release() override;
+		bool Release() override;
 	};
 }

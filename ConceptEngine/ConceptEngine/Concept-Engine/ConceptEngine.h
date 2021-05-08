@@ -30,6 +30,7 @@ namespace ConceptEngine {
 
 		bool Init() const;
 		int Run() const;
+		bool Release() ;
 
 		Core::Application::CECore* GetCore() const;
 	protected:
