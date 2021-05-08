@@ -129,6 +129,7 @@
     <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\CEPlatformActions.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

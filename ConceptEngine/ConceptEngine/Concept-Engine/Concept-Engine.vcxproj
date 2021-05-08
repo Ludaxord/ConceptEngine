@@ -45,6 +45,7 @@
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Common\CETypes.h" />
     <ClInclude Include="Core\Compilers\CECompiler.h" />
