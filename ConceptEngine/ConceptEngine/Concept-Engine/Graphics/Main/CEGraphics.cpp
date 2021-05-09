@@ -49,3 +49,8 @@ bool CEGraphics::CreateManagers() {
 
 	return true;
 }
+
+//TODO: Change to static Variable for DebugUI and typedef for different rendering API
+Rendering::CEDebugUI* CEGraphics::GetDebugUI() {
+	return m_debugUi.get();
+}

@@ -137,6 +137,8 @@
     <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleObject.h" />
     <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleCommand.h" />
     <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleVariable.h" />
+    <ClInclude Include="Core\Delegates\CEMulticastDelegate.h" />
+    <ClInclude Include="Core\Log\CELog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

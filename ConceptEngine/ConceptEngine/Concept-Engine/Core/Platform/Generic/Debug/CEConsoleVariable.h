@@ -5,6 +5,7 @@
 #include "CEConsoleObject.h"
 
 #include "../../../Common/CETypes.h"
+#include "../../../Delegates/CEMulticastDelegate.h"
 
 namespace ConceptEngine::Core::Platform::Generic::Debug {
 	class CEConsoleVariable : public CEConsoleObject {
@@ -28,7 +29,7 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 		virtual bool IsBool() const = 0;
 		virtual bool IsString() const = 0;
 
-		CEMulticastDelegate<CEConsoleVariable*> OnChangedDelegate;
+		Delegates::CEMulticastDelegate<CEConsoleVariable*> OnChangedDelegate;
 	};
 
 	template <typename T>

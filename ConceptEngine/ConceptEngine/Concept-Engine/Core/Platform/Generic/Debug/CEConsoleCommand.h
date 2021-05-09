@@ -1,5 +1,6 @@
 #pragma once
 #include "CEConsoleObject.h"
+#include "../../../Delegates/CEMulticastDelegate.h"
 
 namespace ConceptEngine::Core::Platform::Generic::Debug {
 	class CEConsoleCommand : public CEConsoleObject {
@@ -12,6 +13,6 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 			OnExecute.Broadcast();
 		}
 
-		CEMulticastDelegate<void> OnExecute;
+		Delegates::CEMulticastDelegate<void> OnExecute;
 	};
 }

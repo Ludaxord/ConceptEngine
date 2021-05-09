@@ -33,12 +33,14 @@ namespace ConceptEngine::Graphics::Main {
 		virtual void Resize() = 0;
 		virtual void Destroy() = 0;
 
+		static Rendering::CEDebugUI* GetDebugUI();
+	
 	protected:
 		std::unique_ptr<Managers::CEGraphicsManager> m_graphicsManager;
 		std::unique_ptr<Managers::CETextureManager> m_textureManager;
 		std::unique_ptr<Managers::CERendererManager> m_rendererManager;
 
-		std::unique_ptr<Rendering::CEDebugUI> m_debugUi;
+		static std::unique_ptr<Rendering::CEDebugUI> m_debugUi;
 	private:
 		virtual bool CreateGraphicsManager() = 0;
 		virtual bool CreateTextureManager() = 0;

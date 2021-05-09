@@ -35,6 +35,8 @@
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
     <ClInclude Include="Core\Delegates\CEEvent.h" />
     <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
+    <ClInclude Include="Core\Delegates\CEMulticastDelegate.h" />
+    <ClInclude Include="Core\Log\CELog.h" />
     <ClInclude Include="Core\Platform\CEPlatformActions.h" />
     <ClInclude Include="Core\Platform\Generic\Actions\CEActions.h" />
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEEngineController.h" />

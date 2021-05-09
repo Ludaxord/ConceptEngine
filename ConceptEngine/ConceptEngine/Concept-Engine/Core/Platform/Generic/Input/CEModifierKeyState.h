@@ -1,4 +1,6 @@
 #pragma once
+#include "CEKey.h"
+
 namespace ConceptEngine::Core::Platform::Generic::Input {
 	struct CEModifierKeyState {
 	public:
