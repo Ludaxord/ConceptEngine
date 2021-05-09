@@ -39,11 +39,17 @@
     <ClInclude Include="Core\Platform\Generic\Actions\CEActions.h" />
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEEngineController.h" />
     <ClInclude Include="Core\Platform\Generic\Callbacks\CEPlatformCallbacks.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEActionConsole.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleCommand.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleObject.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleVariable.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CETypedConsole.h" />
     <ClInclude Include="Core\Platform\Generic\Events\CEEvent.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEModifierKeyState.h" />
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
+    <ClInclude Include="Core\Platform\Windows\Debug\CEWindowsCommandConsole.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
@@ -74,6 +80,7 @@
     <ClInclude Include="Core\Platform\Generic\Input\CEInputManager.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsWindow.h" />
+    <ClInclude Include="Core\Threading\CEScopedLock.h" />
     <ClInclude Include="Core\Threading\CETaskManager.h" />
     <ClInclude Include="Core\Threading\CEThreadSafe.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
@@ -166,6 +173,7 @@
     <ClCompile Include="Core\Platform\Generic\Callbacks\CEEngineController.cpp" />
     <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
     <ClCompile Include="Core\Platform\Generic\Cursor\CECursor.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Debug\CEActionConsole.cpp" />
     <ClCompile Include="Core\Platform\iOS\Window\CEiOSWindow.cpp" />
     <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />
     <ClCompile Include="Core\Platform\Linux\Window\CELinuxWindow.cpp" />

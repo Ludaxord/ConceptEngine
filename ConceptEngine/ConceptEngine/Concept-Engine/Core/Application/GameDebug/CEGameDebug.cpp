@@ -22,12 +22,15 @@ bool CEGameDebug::Create() {
 		CEPlatformActions::MessageBox("Error", "Failed to Create System Debug Console");
 		return false;
 	}
-
-	if (!CEGameCore::Create()) {
-		return false;
+	else {
+		Generic::Platform::CEPlatform::GetConsole()->SetTitle("Concept Engine Debug Console");
 	}
 
 	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
+		return false;
+	}
+
+	if (!CEGameCore::Create()) {
 		return false;
 	}
 

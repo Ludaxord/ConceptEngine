@@ -23,11 +23,15 @@
 #include "../Platform/Generic/Callbacks/CEEngineController.h"
 #include "../Platform/CEPlatformActions.h"
 
+#include "../Platform/Generic/Debug/CETypedConsole.h"
+
 using namespace ConceptEngine::Core::Application;
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
 using namespace ConceptEngine::Core::Platform;
 using namespace ConceptEngine::Core::Generic::Platform;
+
+CETypedConsole Console;
 
 ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language,
                                                  Generic::Platform::Platform platform) {
@@ -44,6 +48,7 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
 }
 
 bool ConceptEngine::Core::Application::CECore::Create() {
+
 	Debug::CEProfiler::Init();
 
 	if (Platform->Create()) {
@@ -68,11 +73,15 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		::Common::GPlayground = ::Common::CreatePlayground();
 	}
 
+	Assert(::Common::GPlayground != nullptr);
+
+	Platform->SetCallbacks(&EngineController);
+
 	if (!::Common::GPlayground->Create()) {
 		return false;
 	}
 
-	Platform->SetCallbacks(&EngineController);
+	GTypedConsole.Create();
 
 	IsRunning = true;
 

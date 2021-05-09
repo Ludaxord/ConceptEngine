@@ -1,6 +1,8 @@
 #pragma once
 #include "../../Generic/Window/CEConsole.h"
 #include "../../../Threading/CEMutex.h"
+#include "../../../Threading/CEScopedLock.h"
+#include "../../../../Memory/CEMemory.h"
 
 namespace ConceptEngine::Core::Platform::Windows::Window {
 	class CEWindowsConsole final : public Generic::Window::CEConsole {

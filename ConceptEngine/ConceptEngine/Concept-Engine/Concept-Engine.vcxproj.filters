@@ -130,6 +130,13 @@
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\CEPlatformActions.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
+    <ClInclude Include="Core\Threading\CEScopedLock.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEActionConsole.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CETypedConsole.h" />
+    <ClInclude Include="Core\Platform\Windows\Debug\CEWindowsCommandConsole.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleObject.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleCommand.h" />
+    <ClInclude Include="Core\Platform\Generic\Debug\CEConsoleVariable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -217,5 +224,6 @@
     <ClCompile Include="Core\Platform\Generic\CEPlatform.cpp" />
     <ClCompile Include="Core\Platform\Generic\Callbacks\CEEngineController.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
+    <ClCompile Include="Core\Platform\Generic\Debug\CEActionConsole.cpp" />
   </ItemGroup>
 </Project>

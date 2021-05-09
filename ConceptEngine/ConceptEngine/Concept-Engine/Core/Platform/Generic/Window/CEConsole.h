@@ -8,9 +8,9 @@
 namespace ConceptEngine::Core::Platform::Generic::Window {
 	enum class CEConsoleColor : uint8 {
 		Red = 0,
-		Green = 0,
-		Yellow = 0,
-		White = 0
+		Green = 1,
+		Yellow = 2,
+		White = 3
 	};
 	
 	class CEConsole : public CEScreen {

@@ -1,5 +1,8 @@
 #include "CEProfiler.h"
 
+#include "../Platform/Generic/Debug/CETypedConsole.h"
+#include "../Platform/Generic/Debug/CEConsoleVariable.h"
+
 constexpr float MICROSECONDS = 1000.0f;
 constexpr float MILLISECONDS = 1000.0f * 1000.0f;
 constexpr float SECONDS = 1000.0f * 1000.0f * 1000.0f;
@@ -9,7 +12,12 @@ constexpr float INV_SECONDS = 1.0f / SECONDS;
 
 constexpr float MAX_FRAMETIME_MS = 1000.0f / 30.0f;
 
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> ShowFPS(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> ShowProfiler(false);
+
 void ConceptEngine::Core::Debug::CEProfiler::Init() {
+	INIT_CONSOLE_VARIABLE("CE.FPS", &ShowFPS);
+	INIT_CONSOLE_VARIABLE("CE.Profiler", &ShowProfiler);
 }
 
 void ConceptEngine::Core::Debug::CEProfiler::Update() {
