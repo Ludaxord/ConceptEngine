@@ -1,9 +1,10 @@
 #pragma once
 
 #include "../../../../Utilities/CEScreenUtilities.h"
+#include "../../../Common/CERefCountedObject.h"
 
 namespace ConceptEngine::Core::Platform::Generic::Window {
-	class CEScreen {
+	class CEScreen : public Common::CERefCountedObject {
 	public:
 		friend class CEPlatform;
 		CEScreen();

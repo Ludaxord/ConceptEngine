@@ -23,6 +23,23 @@ namespace ConceptEngine::Core::Containers {
 	using CERemoveReference = typename _CERemoveReference<T>::TType;
 
 	/**
+	 * CEEnableIf
+	 */
+
+	template <bool B, typename T = void>
+	struct _CEEnableIf {
+
+	};
+
+	template <typename T>
+	struct _CEEnableIf<true, T> {
+		using CEType = T;
+	};
+
+	template <bool B, typename T = void>
+	using CEEnableIf = typename _CEEnableIf<B, T>::CEType;
+
+	/**
 	 * Move
 	 * Move an object by converting it into a rValue
 	 */

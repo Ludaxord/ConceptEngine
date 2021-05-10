@@ -56,4 +56,22 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 	protected:
 	private:
 	};
+
+	struct CEWindowsWindowHandle {
+		CEWindowsWindowHandle() = default;
+
+		CEWindowsWindowHandle(HWND handle) : Handle(handle) {
+
+		}
+
+		CEWindowsWindow* GetWindow() const {
+			CEWindowsWindow* window = (CEWindowsWindow*)GetWindowLongPtrA(Handle, GWLP_USERDATA);
+			if (window) {
+				window->AddRef();
+			}
+			return window;
+		}
+
+		HWND Handle;
+	};
 }

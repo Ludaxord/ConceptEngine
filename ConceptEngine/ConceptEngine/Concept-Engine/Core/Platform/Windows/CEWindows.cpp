@@ -132,8 +132,24 @@ LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(window, message, wParam, lParam);
 }
 
-//TODO: move it to CECore and create dynamic keyboard mapping for Game class to be able to create actual game
+//TODO: Create a link between type of call of engine (Game, GameDebug, Editor) to map controls from user preference (to make actual game)
+//NOTE: Use only for Game and Game Debug
 void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, LPARAM lParam) {
+	constexpr uint16 SCAN_CODE_MASK = 0x01ff;
+	constexpr uint32 KEY_REPEAT_MASK = 0x40000000;
+	constexpr uint16 BACK_BUTTON_MASK = 0x0001;
+
+	Common::CERef<Window::CEWindowsWindow> messageWindow = Window::CEWindowsWindowHandle(window).GetWindow();
+	switch (message) {
+	case WM_CLOSE: {
+		break;
+	}
+
+	case WM_SETFOCUS:
+	case WM_KILLFOCUS: {
+		break;
+	}
+	}
 }
 
 
