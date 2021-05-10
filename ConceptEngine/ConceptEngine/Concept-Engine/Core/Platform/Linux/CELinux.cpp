@@ -20,7 +20,8 @@ bool CELinux::CreateSystemConsole() {
 	return true;
 }
 
-void CELinux::CreateCursors() {
+bool CELinux::CreateCursors() {
+	return true;
 }
 
 void CELinux::Update() {

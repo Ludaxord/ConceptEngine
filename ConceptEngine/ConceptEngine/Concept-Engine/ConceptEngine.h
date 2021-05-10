@@ -30,9 +30,11 @@ namespace ConceptEngine {
 
 		bool Init() const;
 		int Run() const;
-		bool Release() ;
+		bool Release();
 
 		Core::Application::CECore* GetCore() const;
+
+		static std::wstring GetName();
 	protected:
 		bool Create(EngineBoot boot);
 
@@ -41,12 +43,13 @@ namespace ConceptEngine {
 		bool CreateGameDebug();
 
 	private:
-		std::wstring m_name;
-
 		Graphics::Main::GraphicsAPI EnumApi;
 		Core::Compilers::Language EnumLanguage;
 		Core::Generic::Platform::Platform EnumPlatform;
 
 		std::unique_ptr<Core::Application::CECore> Core;
+
+		friend class Core::Generic::Platform::CEPlatform;
+		static std::wstring Name;
 	};
 }

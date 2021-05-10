@@ -10,7 +10,7 @@ namespace ConceptEngine::Core::Platform::Mac {
 		bool Create() override;
 		bool CreateSystemWindow() override;
 		bool CreateSystemConsole() override;
-		void CreateCursors() override;
+		bool CreateCursors() override;
 
 		void Update() override;
 

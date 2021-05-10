@@ -20,7 +20,8 @@ bool CEMac::CreateSystemConsole() {
 	return true;
 }
 
-void CEMac::CreateCursors() {
+bool CEMac::CreateCursors() {
+	return true;
 }
 
 void CEMac::Update() {

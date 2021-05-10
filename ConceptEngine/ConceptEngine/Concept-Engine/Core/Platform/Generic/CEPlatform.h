@@ -9,7 +9,6 @@
 #include "Input/CEModifierKeyState.h"
 #include "../../Containers/CEArray.h"
 
-
 namespace ConceptEngine::Core::Generic::Platform {
 	using namespace Core::Platform::Generic::Input;
 	using namespace Core::Platform::Generic::Window;
@@ -34,7 +33,7 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual bool Create();
 		virtual bool CreateSystemWindow() = 0;
 		virtual bool CreateSystemConsole() = 0;
-		virtual void CreateCursors() = 0;
+		virtual bool CreateCursors() = 0;
 
 		virtual bool CreateManagers() {
 			if (!CreateInputManager()) {
@@ -75,13 +74,16 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual bool CreateInputManager() = 0;
 
 	protected:
+		static std::wstring Title;
+		static CEWindowSize* WindowSize;
+
 		static CECursor* Cursor;
 		static CEWindow* Window;
 		static CEConsole* Console;
 		static CEInputManager* InputManager;
 		static CEPlatformCallbacks* Callbacks;
 
-		static Containers::CEArray<CEEvent> Messages;
+		static Containers::CEArray<Core::Platform::Generic::Events::CEEvent> Messages;
 		static bool IsTracingMouse;
 	};
 }

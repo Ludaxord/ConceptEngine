@@ -22,7 +22,8 @@ bool CEiOS::CreateSystemConsole() {
 	return true;
 }
 
-void CEiOS::CreateCursors() {
+bool CEiOS::CreateCursors() {
+	return true;
 }
 
 void CEiOS::Update() {

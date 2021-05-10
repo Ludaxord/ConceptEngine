@@ -1,10 +1,14 @@
 #include "CEPlatform.h"
 
+#include "../../../ConceptEngine.h"
+
 using namespace ConceptEngine::Core::Generic::Platform;
 using namespace ConceptEngine::Core::Platform::Generic::Callbacks;
 
 
 bool ::CEPlatform::Create() {
+	Title = ConceptEngine::Name;
+	WindowSize = CEWindowSize::WndSize;
 	return true;
 }
 

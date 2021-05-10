@@ -10,11 +10,10 @@
 ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             Graphics::Main::GraphicsAPI api,
                                             Core::Generic::Platform::Platform platform,
-                                            Core::Compilers::Language language): m_name(name),
-
-	EnumApi(api),
+                                            Core::Compilers::Language language): EnumApi(api),
 	EnumLanguage(language),
 	EnumPlatform(platform) {
+	Name = name;
 	if (Core::Application::CECore::ShowConsole) {
 		Create(EngineBoot::GameDebug);
 	}
@@ -25,9 +24,10 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
 
 ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             Graphics::Main::GraphicsAPI api,
-                                            Core::Generic::Platform::Platform platform) : m_name(name),
-	EnumApi(api),
+                                            Core::Generic::Platform::Platform platform) : EnumApi(api),
+	EnumLanguage(Core::Compilers::Language::None),
 	EnumPlatform(platform) {
+	Name = name;
 	Create(EngineBoot::Editor);
 }
 
@@ -67,6 +67,10 @@ bool ConceptEngine::ConceptEngine::Create(EngineBoot boot) {
 
 ConceptEngine::Core::Application::CECore* ConceptEngine::ConceptEngine::GetCore() const {
 	return Core.get();
+}
+
+std::wstring ConceptEngine::ConceptEngine::GetName() {
+	return Name;
 }
 
 bool ConceptEngine::ConceptEngine::CreateEditor() {

@@ -20,7 +20,8 @@ bool CEAndroid::CreateSystemConsole() {
 	return true;
 }
 
-void CEAndroid::CreateCursors() {
+bool CEAndroid::CreateCursors() {
+	return true;
 }
 
 void CEAndroid::Update() {

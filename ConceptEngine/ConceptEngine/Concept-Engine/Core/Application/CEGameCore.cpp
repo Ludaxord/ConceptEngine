@@ -21,9 +21,6 @@ bool Application::CEGameCore::Create() {
 	if (!Platform->CreateSystemWindow()) {
 		return false;
 	}
-	if (!Generic::Platform::CEPlatform::GetWindow()->Create()) {
-		return false;
-	}
 
 	return true;
 }

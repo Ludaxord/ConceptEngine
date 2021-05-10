@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ConceptEngine::Core::Platform::Generic::Input {
+namespace ConceptEngine::Core::Platform::Generic::Events {
 	struct CEEvent {
 		
 	};

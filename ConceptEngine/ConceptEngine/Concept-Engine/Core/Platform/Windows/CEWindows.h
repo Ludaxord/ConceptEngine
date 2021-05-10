@@ -1,7 +1,10 @@
 #pragma once
 #include "../Generic/CEPlatform.h"
 
-namespace ConceptEngine::Core::Platform::Windows {
+namespace ConceptEngine::Core::Platform::Windows {namespace Window {
+		class CEWindowsWindow;
+	}
+
 	class CEWindows final : public Core::Generic::Platform::CEPlatform {
 	public:
 		CEWindows();
@@ -10,7 +13,7 @@ namespace ConceptEngine::Core::Platform::Windows {
 		bool Create() override;
 		bool CreateSystemWindow() override;
 		bool CreateSystemConsole() override;
-		void CreateCursors() override;
+		bool CreateCursors() override;
 
 		void Update() override;
 
@@ -29,6 +32,7 @@ namespace ConceptEngine::Core::Platform::Windows {
 
 	private:
 		bool CreateInputManager() override;
+
 	public:
 		bool Release() override;
 		void SetCapture(Generic::Window::CEWindow* window) override;
@@ -41,5 +45,9 @@ namespace ConceptEngine::Core::Platform::Windows {
 		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
 	protected:
 	private:
+		friend class Window::CEWindowsWindow;
+		static LRESULT MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
+		static void HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, LPARAM lParam);
+		static void StoreMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 	};
 }

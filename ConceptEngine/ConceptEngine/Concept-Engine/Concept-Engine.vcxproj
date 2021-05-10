@@ -52,6 +52,7 @@
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
     <ClInclude Include="Core\Platform\Windows\Debug\CEWindowsCommandConsole.h" />
+    <ClInclude Include="Core\Platform\Windows\Events\CEWindowsEvent.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />

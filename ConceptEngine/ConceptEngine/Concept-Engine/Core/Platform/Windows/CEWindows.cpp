@@ -5,6 +5,7 @@
 #include "Input/CEWindowsInputManager.h"
 #include "../../Application/CECore.h"
 #include "Cursor/CEWindowsCursor.h"
+#include "Events/CEWindowsEvent.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
 
@@ -20,6 +21,14 @@ bool CEWindows::Create() {
 
 bool CEWindows::CreateSystemWindow() {
 	Window = new Window::CEWindowsWindow();
+	if (!Window->Create(
+			std::string(Title.begin(), Title.end()),
+			Generic::Window::CEWindowSize::GetWidth(),
+			Generic::Window::CEWindowSize::GetHeight(),
+			Window::DefaultStyle)
+	) {
+		return false;
+	}
 	return true;
 }
 
@@ -28,7 +37,8 @@ bool CEWindows::CreateSystemConsole() {
 	return true;
 }
 
-void CEWindows::CreateCursors() {
+bool CEWindows::CreateCursors() {
+	return true;
 }
 
 void CEWindows::Update() {
@@ -83,4 +93,49 @@ void CEWindows::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int
 }
 
 void CEWindows::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+}
+
+
+LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message) {
+	case WM_CLOSE:
+	case WM_MOVE:
+	case WM_MOUSELEAVE:
+	case WM_SETFOCUS:
+	case WM_KILLFOCUS:
+	case WM_SIZE:
+	case WM_SYSKEYUP:
+	case WM_KEYUP:
+	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN:
+	case WM_SYSCHAR:
+	case WM_CHAR:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_XBUTTONDOWN:
+	case WM_LBUTTONDBLCLK:
+	case WM_MBUTTONDBLCLK:
+	case WM_RBUTTONDBLCLK:
+	case WM_XBUTTONDBLCLK:
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+	case WM_XBUTTONUP:
+	case WM_MOUSEWHEEL:
+	case WM_MOUSEHWHEEL: {
+		StoreMessage(window, message, wParam, lParam);
+	}
+	}
+
+	return DefWindowProc(window, message, wParam, lParam);
+}
+
+void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, LPARAM lParam) {
+}
+
+
+void CEWindows::StoreMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
+	Messages.EmplaceBack(Events::CEWindowsEvent(window, message, wParam, lParam));
 }
