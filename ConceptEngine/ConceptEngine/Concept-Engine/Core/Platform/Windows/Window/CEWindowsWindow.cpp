@@ -146,7 +146,8 @@ bool CEWindowsWindow::IsValid() const {
 }
 
 bool CEWindowsWindow::IsActiveWindow() const {
-	return true;
+	HWND hActive = GetForegroundWindow();
+	return (hActive == CEWindows::HWnd);
 }
 
 void CEWindowsWindow::SetTitle(const std::string& title) {
