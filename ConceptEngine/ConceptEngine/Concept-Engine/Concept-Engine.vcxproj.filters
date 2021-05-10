@@ -140,6 +140,7 @@
     <ClInclude Include="Core\Delegates\CEMulticastDelegate.h" />
     <ClInclude Include="Core\Log\CELog.h" />
     <ClInclude Include="Core\Platform\Windows\Events\CEWindowsEvent.h" />
+    <ClInclude Include="Core\Common\CERefCountedObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -228,5 +229,6 @@
     <ClCompile Include="Core\Platform\Generic\Callbacks\CEEngineController.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Core\Platform\Generic\Debug\CEActionConsole.cpp" />
+    <ClCompile Include="Core\Common\CERefCountedObject.cpp" />
   </ItemGroup>
 </Project>

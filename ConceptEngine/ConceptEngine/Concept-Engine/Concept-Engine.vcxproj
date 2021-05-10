@@ -22,6 +22,7 @@
     <ClInclude Include="AI\CEAI.h" />
     <ClInclude Include="Audio\CEAudio.h" />
     <ClInclude Include="Core\Common\CERef.h" />
+    <ClInclude Include="Core\Common\CERefCountedObject.h" />
     <ClInclude Include="Core\Containers\CEAllocator.h" />
     <ClInclude Include="Core\Containers\CEArray.h" />
     <ClInclude Include="Core\Common\CEEvents.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Core\Platform\Generic\Window\CEWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Common\CERefCountedObject.cpp" />
     <ClCompile Include="Core\Compilers\Cpp\CECppCompiler.cpp" />
     <ClCompile Include="Core\Compilers\CSharp\CECSCompiler.cpp" />
     <ClCompile Include="Core\Compilers\JS\CEJSCompiler.cpp" />

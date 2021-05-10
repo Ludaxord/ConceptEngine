@@ -95,6 +95,32 @@ void CEWindows::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int
 void CEWindows::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
 }
 
+void CEWindows::UpdateDefaultGame() {
+	UpdatePeekMessage();
+	UpdateStoredMessage();
+}
+
+void CEWindows::UpdatePeekMessage() {
+	MSG message;
+	while (PeekMessage(&message, 0, 0, 0, PM_REMOVE)) {
+		TranslateMessage(&message);
+		DispatchMessage(&message);
+
+		if (message.message == WM_QUIT) {
+			StoreMessage(message.hwnd, message.message, message.wParam, message.lParam);
+		}
+	}
+}
+
+void CEWindows::UpdateStoredMessage() {
+	for (const Generic::Events::CEEvent& messageEvent : Messages) {
+		auto tempEvent = reinterpret_cast<const Events::CEWindowsEvent&>(messageEvent);
+		HandleStoredMessage(tempEvent.Window, tempEvent.Message, tempEvent.wParam, tempEvent.lParam);
+	}
+
+	Messages.Clear();
+}
+
 
 LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
@@ -134,7 +160,7 @@ LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM 
 
 //TODO: Create a link between type of call of engine (Game, GameDebug, Editor) to map controls from user preference (to make actual game)
 //NOTE: Use only for Game and Game Debug
-void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, LPARAM lParam) {
+void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	constexpr uint16 SCAN_CODE_MASK = 0x01ff;
 	constexpr uint32 KEY_REPEAT_MASK = 0x40000000;
 	constexpr uint16 BACK_BUTTON_MASK = 0x0001;
@@ -149,6 +175,67 @@ void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, L
 	case WM_KILLFOCUS: {
 		break;
 	}
+
+	case WM_MOUSELEAVE: {
+		break;
+	}
+
+	case WM_SIZE: {
+		break;
+	}
+
+	case WM_MOVE: {
+		break;
+	}
+
+	case WM_SYSKEYUP:
+	case WM_KEYUP: {
+		break;
+	}
+
+	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN: {
+		break;
+	}
+
+	case WM_SYSCHAR:
+	case WM_CHAR: {
+		break;
+	}
+
+	case WM_MOUSEMOVE: {
+		break;
+	}
+
+	case WM_LBUTTONDOWN:
+	case WM_MBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+	case WM_XBUTTONDOWN:
+	case WM_LBUTTONDBLCLK:
+	case WM_MBUTTONDBLCLK:
+	case WM_RBUTTONDBLCLK:
+	case WM_XBUTTONDBLCLK: {
+		break;
+	}
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
+	case WM_XBUTTONUP: {
+		break;
+	}
+
+	case WM_MOUSEWHEEL: {
+		break;
+	}
+
+	case WM_QUIT: {
+		break;
+	}
+
+	default: {
+		break;
+	}
+
 	}
 }
 

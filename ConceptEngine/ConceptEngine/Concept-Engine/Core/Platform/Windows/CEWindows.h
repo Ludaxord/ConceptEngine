@@ -43,11 +43,16 @@ namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 		Generic::Cursor::CECursor* GetCursor() override;
 		void SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
 		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
+
+		void UpdateDefaultGame();
+	
+		void UpdatePeekMessage();
+		void UpdateStoredMessage();
 	protected:
 	private:
 		friend class Window::CEWindowsWindow;
 		static LRESULT MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
-		static void HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, LPARAM lParam);
+		static void HandleStoredMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 		static void StoreMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 	};
 }
