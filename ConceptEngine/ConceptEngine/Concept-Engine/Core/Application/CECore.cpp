@@ -51,7 +51,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 
 	Debug::CEProfiler::Init();
 
-	if (Platform->Create()) {
+	if (!Platform->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Platform");
 		return false;
 	}

@@ -132,6 +132,7 @@ LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(window, message, wParam, lParam);
 }
 
+//TODO: move it to CECore and create dynamic keyboard mapping for Game class to be able to create actual game
 void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM, WPARAM, LPARAM lParam) {
 }
 
