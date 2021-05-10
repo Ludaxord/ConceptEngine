@@ -55,6 +55,11 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 	private:
 	protected:
 	private:
+		DWORD Style;
+		DWORD StyleEx;
+
+		bool IsFullscreen;
+		WINDOWPLACEMENT StoredPlacement;
 	};
 
 	struct CEWindowsWindowHandle {

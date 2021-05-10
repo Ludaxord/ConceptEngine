@@ -25,6 +25,10 @@ namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 		                    int height,
 		                    bool showConsole);
 
+		static LPCWSTR GetWindowClassName() {
+			return L"WindowClass";
+		}
+
 		static HINSTANCE Instance;
 		static HWND HWnd;
 		static LPSTR CmdLine;
@@ -45,7 +49,7 @@ namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
 
 		void UpdateDefaultGame();
-	
+
 		void UpdatePeekMessage();
 		void UpdateStoredMessage();
 	protected:
