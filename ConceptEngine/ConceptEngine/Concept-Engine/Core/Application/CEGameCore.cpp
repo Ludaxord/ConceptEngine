@@ -25,7 +25,7 @@ bool Application::CEGameCore::Create() {
 	if (Platform->CreateCursors()) {
 		return false;
 	}
-	
+
 	return true;
 }
 

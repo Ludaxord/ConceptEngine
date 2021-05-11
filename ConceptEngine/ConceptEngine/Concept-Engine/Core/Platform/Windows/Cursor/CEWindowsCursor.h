@@ -2,6 +2,8 @@
 
 #include "../../Generic/Cursor/CECursor.h"
 
+#include <Windows.h>
+
 namespace ConceptEngine::Core::Platform::Windows::Cursor {
 	class CEWindowsCursor final : public Generic::Cursor::CECursor {
 	public:
@@ -22,6 +24,6 @@ namespace ConceptEngine::Core::Platform::Windows::Cursor {
 
 	private:
 		HCURSOR Cursor;
-		LPCWSTR cursorName;
+		LPCWSTR CursorName;
 	};
 }

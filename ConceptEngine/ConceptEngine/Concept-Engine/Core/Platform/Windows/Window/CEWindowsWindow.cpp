@@ -23,6 +23,7 @@ bool CEWindowsWindow::Create() {
 	if (!RegisterWindowClass()) {
 		return false;
 	}
+
 	return true;
 }
 
