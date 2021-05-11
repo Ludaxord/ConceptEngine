@@ -46,12 +46,14 @@ namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 		void SetCursor(Generic::Cursor::CECursor* cursor) override;
 		Generic::Cursor::CECursor* GetCursor() override;
 		void SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
-		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
+		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32& x, int32& y) override;
 
 		void UpdateDefaultGame();
 
 		void UpdatePeekMessage();
 		void UpdateStoredMessage();
+
+		Generic::Input::CEModifierKeyState GetModifierKeyState() override;
 	protected:
 	private:
 		friend class Window::CEWindowsWindow;

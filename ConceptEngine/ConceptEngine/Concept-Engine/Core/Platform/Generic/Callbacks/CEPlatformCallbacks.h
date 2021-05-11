@@ -21,7 +21,7 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Input {
 
 			}
 
-			virtual void OnKeyPressed(Input::CEKey keyCode, const Input::CEModifierKeyState& modifierKeyState) {
+			virtual void OnKeyPressed(Input::CEKey keyCode, bool isRepeat, const Input::CEModifierKeyState& modifierKeyState) {
 
 			}
 

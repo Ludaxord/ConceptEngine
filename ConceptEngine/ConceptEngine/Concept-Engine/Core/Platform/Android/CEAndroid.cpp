@@ -62,7 +62,7 @@ ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CEAndroid::GetCursor()
 void CEAndroid::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
 }
 
-void CEAndroid::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+void CEAndroid::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32& x, int32& y) {
 }
 
 bool CEAndroid::CreateInputManager() {

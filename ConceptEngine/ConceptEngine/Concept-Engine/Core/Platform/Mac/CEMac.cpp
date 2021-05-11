@@ -62,7 +62,7 @@ ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CEMac::GetCursor() {
 void CEMac::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
 }
 
-void CEMac::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+void CEMac::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32& x, int32& y) {
 }
 
 bool CEMac::CreateInputManager() {

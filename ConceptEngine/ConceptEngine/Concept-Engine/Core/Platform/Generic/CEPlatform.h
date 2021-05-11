@@ -61,7 +61,7 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual CECursor* GetCursor() = 0;
 
 		virtual void SetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y) = 0;
-		virtual void GetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y) = 0;
+		virtual void GetCursorPosition(CEWindow* relativeWindow, int32& x, int32& y) = 0;
 
 		virtual void SetCallbacks(CEPlatformCallbacks* InCallbacks);
 

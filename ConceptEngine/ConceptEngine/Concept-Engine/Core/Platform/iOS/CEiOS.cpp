@@ -64,7 +64,7 @@ ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CEiOS::GetCursor() {
 void CEiOS::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
 }
 
-void CEiOS::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+void CEiOS::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32& x, int32& y) {
 }
 
 bool CEiOS::CreateInputManager() {

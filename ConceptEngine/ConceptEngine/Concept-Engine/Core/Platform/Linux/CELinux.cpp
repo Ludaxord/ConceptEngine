@@ -62,7 +62,7 @@ ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CELinux::GetCursor() {
 void CELinux::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
 }
 
-void CELinux::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+void CELinux::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32& x, int32& y) {
 }
 
 bool CELinux::CreateInputManager() {

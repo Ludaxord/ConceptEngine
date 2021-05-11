@@ -56,6 +56,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
+	//TODO: implement threading
 	if (!Threading::CETaskManager::Get().Create()) {
 		return false;
 	}

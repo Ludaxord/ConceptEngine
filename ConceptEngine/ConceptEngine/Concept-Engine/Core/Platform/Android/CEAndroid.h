@@ -28,7 +28,7 @@ namespace ConceptEngine::Core::Platform::Android {
 		void SetCursor(Generic::Cursor::CECursor* cursor) override;
 		Generic::Cursor::CECursor* GetCursor() override;
 		void SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
-		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) override;
+		void GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32& x, int32& y) override;
 	protected:
 	private:
 	};

@@ -297,3 +297,7 @@ uint32 CEWindowsWindow::GetHeight() const {
 	}
 	return 0;
 }
+
+HWND CEWindowsWindow::GetHandle() const {
+	return CEWindows::HWnd;
+}

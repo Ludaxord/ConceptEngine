@@ -8,6 +8,9 @@
 #include "Events/CEWindowsEvent.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
+using namespace ConceptEngine::Core::Platform::Generic::Cursor;
+using namespace ConceptEngine::Core::Platform::Generic::Window;
+using namespace ConceptEngine::Core::Platform::Generic::Input;
 
 CEWindows::CEWindows(): CEPlatform() {
 }
@@ -23,8 +26,8 @@ bool CEWindows::CreateSystemWindow() {
 	Window = new Window::CEWindowsWindow();
 	if (!Window->Create(
 			std::string(Title.begin(), Title.end()),
-			Generic::Window::CEWindowSize::GetWidth(),
-			Generic::Window::CEWindowSize::GetHeight(),
+			CEWindowSize::GetWidth(),
+			CEWindowSize::GetHeight(),
 			Window::DefaultStyle)
 	) {
 		return false;
@@ -38,31 +41,31 @@ bool CEWindows::CreateSystemConsole() {
 }
 
 bool CEWindows::CreateCursors() {
-	if (!(Generic::Cursor::CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW))) {
+	if (!(CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM))) {
+	if (!(CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL))) {
+	if (!(CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE))) {
+	if (!(CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS))) {
+	if (!(CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW))) {
+	if (!(CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE))) {
+	if (!(CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND))) {
+	if (!(CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND))) {
 		return false;
 	}
-	if (!(Generic::Cursor::CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO))) {
+	if (!(CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO))) {
 		return false;
 	}
 
@@ -96,31 +99,87 @@ bool CEWindows::Release() {
 	return true;
 }
 
-void CEWindows::SetCapture(Generic::Window::CEWindow* window) {
+void CEWindows::SetCapture(CEWindow* window) {
+	if (window) {
+		Common::CERef<Window::CEWindowsWindow> wWindow = Common::MakeSharedRef<Window::CEWindowsWindow>(window);
+		HWND hCapture = wWindow->GetHandle();
+		if (wWindow->IsValid()) {
+			::SetCapture(hCapture);
+		}
+	}
+	else {
+		ReleaseCapture();
+	}
 }
 
-void CEWindows::SetActiveWindow(Generic::Window::CEWindow* window) {
+void CEWindows::SetActiveWindow(CEWindow* window) {
+	Common::CERef<Window::CEWindowsWindow> wWindow = Common::MakeSharedRef<Window::CEWindowsWindow>(window);
+	HWND hActiveWindow = wWindow->GetHandle();
+	if (wWindow->IsValid()) {
+		::SetActiveWindow(hActiveWindow);
+	}
 }
 
-ConceptEngine::Core::Platform::Generic::Window::CEWindow* CEWindows::GetCapture() {
+CEWindow* CEWindows::GetCapture() {
+	HWND hCapture = ::GetCapture();
+	return Window::CEWindowsWindowHandle(hCapture).GetWindow();
+}
+
+CEWindow* CEWindows::GetActiveWindow() {
+	HWND hActiveWindow = GetForegroundWindow();
+	return Window::CEWindowsWindowHandle(hActiveWindow).GetWindow();
+}
+
+void CEWindows::SetCursor(CECursor* cursor) {
+	if (cursor) {
+		// Common::CERef<Cursor::CEWindowsCursor> wCursor = Common::MakeSharedRef<Cursor::CEWindowsCursor>(cursor);
+		Cursor = cursor;
+		HCURSOR cursorHandle = reinterpret_cast<Cursor::CEWindowsCursor*>(cursor)->GetHandle();
+		::SetCursor(cursorHandle);
+	}
+	else {
+		::SetCursor(NULL);
+	}
+}
+
+CECursor* CEWindows::GetCursor() {
+	HCURSOR cursor = ::GetCursor();
+	if (Cursor) {
+		Cursor::CEWindowsCursor* wCursor = static_cast<Cursor::CEWindowsCursor*>(Cursor);
+		if (wCursor->GetHandle() == cursor) {
+			Cursor->AddRef();
+			return Cursor;
+		}
+	}
+
 	return nullptr;
 }
 
-ConceptEngine::Core::Platform::Generic::Window::CEWindow* CEWindows::GetActiveWindow() {
-	return nullptr;
+void CEWindows::SetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y) {
+	if (relativeWindow) {
+		Common::CERef<Window::CEWindowsWindow> wWindow = Common::MakeSharedRef<Window::CEWindowsWindow>(relativeWindow);
+		HWND hRelative = wWindow->GetHandle();
+		POINT cursorPos = {x, y};
+		if (ClientToScreen(hRelative, &cursorPos)) {
+			::SetCursorPos(cursorPos.x, cursorPos.y);
+		}
+	}
 }
 
-void CEWindows::SetCursor(Generic::Cursor::CECursor* cursor) {
-}
+void CEWindows::GetCursorPosition(CEWindow* relativeWindow, int32& x, int32& y) {
+	POINT cursorPos = {};
+	if (!::GetCursorPos(&cursorPos)) {
+		return;
+	}
 
-ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CEWindows::GetCursor() {
-	return nullptr;
-}
-
-void CEWindows::SetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
-}
-
-void CEWindows::GetCursorPosition(Generic::Window::CEWindow* relativeWindow, int32 x, int32 y) {
+	Common::CERef<Window::CEWindowsWindow> wRelative = Common::MakeSharedRef<Window::CEWindowsWindow>(relativeWindow);
+	if (wRelative) {
+		HWND relative = wRelative->GetHandle();
+		if (ScreenToClient(relative, &cursorPos)) {
+			x = cursorPos.x;
+			y = cursorPos.y;;
+		}
+	}
 }
 
 void CEWindows::UpdateDefaultGame() {
@@ -148,7 +207,6 @@ void CEWindows::UpdateStoredMessage() {
 
 	Messages.Clear();
 }
-
 
 LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
@@ -267,7 +325,30 @@ void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM wParam, LP
 	}
 }
 
-
 void CEWindows::StoreMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
 	Messages.EmplaceBack(Events::CEWindowsEvent(window, message, wParam, lParam));
+}
+
+CEModifierKeyState CEWindows::GetModifierKeyState() {
+	uint32 modifierMask = 0;
+	if (GetKeyState(VK_CONTROL) & 0x8000) {
+		modifierMask |= ModifierFlag_Ctrl;
+	}
+	if (GetKeyState(VK_MENU) & 0x8000) {
+		modifierMask |= ModifierFlag_Alt;
+	}
+	if (GetKeyState(VK_SHIFT) & 0x8000) {
+		modifierMask |= ModifierFlag_Shift;
+	}
+	if (GetKeyState(VK_CAPITAL) & 1) {
+		modifierMask |= ModifierFlag_CapsLock;
+	}
+	if ((GetKeyState(VK_LWIN) | GetKeyState(VK_RWIN)) & 0x8000) {
+		modifierMask |= ModifierFlag_Super;
+	}
+	if (GetKeyState(VK_NUMLOCK) & 1) {
+		modifierMask |= ModifierFlag_NumLock;
+	}
+
+	return CEModifierKeyState(modifierMask);
 }

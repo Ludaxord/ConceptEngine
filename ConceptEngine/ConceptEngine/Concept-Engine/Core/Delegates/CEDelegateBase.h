@@ -11,9 +11,9 @@ namespace ConceptEngine::Core::Delegates {
 		typedef TReturn (*FunctionType)(TArgs ...);
 
 		template <typename T>
-		using MemberFunctionType = TReturn (T::*)(TArgs ...);
+		using MemberFunctionType = TReturn (T::*)(TArgs...);
 		template <typename T>
-		using ConstMemberFunctionType = TReturn(T::*)(TArgs ...) const;
+		using ConstMemberFunctionType = TReturn(T::*)(TArgs...) const;
 
 		struct IDelegate {
 			virtual ~IDelegate() = default;

@@ -26,6 +26,7 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 
 	private:
 		friend class CEWindowsWindow;
+
 		CEWindowsWindowSize(int width, int height, int x, int y): CEWindowSize(width, height, x, y) {
 
 		}
@@ -55,6 +56,7 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		void GetWindowSize(Generic::Window::CEWindowSize& outShape) override;
 		uint32 GetWidth() const override;
 		uint32 GetHeight() const override;
+		HWND GetHandle() const;
 	private:
 	protected:
 	private:
