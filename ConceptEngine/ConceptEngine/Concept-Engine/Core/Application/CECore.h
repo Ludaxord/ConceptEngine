@@ -25,13 +25,13 @@ namespace ConceptEngine::Core::Application {
 		static Graphics::Main::Common::CEPlayground* GetPlayground();
 
 		static int ShowConsole;
+		inline static bool IsRunning = false;
 
 	protected:
 		static Graphics::Main::CEGraphics* Graphics;
 		static Compilers::CECompiler* Compiler;
 		static Generic::Platform::CEPlatform* Platform;
 
-		bool IsRunning = false;
 	private:
 		Graphics::Main::CEGraphics* SelectGraphicsAPI(Graphics::Main::GraphicsAPI api);
 		Compilers::CECompiler* SelectLanguageCompiler(Compilers::Language language);

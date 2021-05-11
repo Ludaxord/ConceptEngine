@@ -33,6 +33,7 @@ bool CEEngineController::Create() {
 	CommExit.OnExecute.AddObject(this, &CEEngineController::Exit);
 	INIT_CONSOLE_COMMAND("CE.Exit", &CommExit);
 
+	Application::CECore::IsRunning = true;
 	return true;
 }
 
@@ -41,6 +42,7 @@ bool CEEngineController::Release() {
 }
 
 void CEEngineController::Exit() {
+	Application::CECore::IsRunning = false;
 }
 
 void CEEngineController::OnKeyReleased(CEKey keyCode, const CEModifierKeyState& modifierKeyState) {
@@ -73,28 +75,58 @@ void CEEngineController::OnMouseReleased(CEMouseButton button, const CEModifierK
 }
 
 void CEEngineController::OnMousePressed(CEMouseButton button, const CEModifierKeyState& modifierKeyState) {
+	if (Application::CECore::GetPlatform()) {
+		CEWindow* captureWindow = Application::CECore::GetPlatform()->GetCapture();
+		if (!captureWindow) {
+			CEWindow* activeWindow = Application::CECore::GetPlatform()->GetActiveWindow();
+			Application::CECore::GetPlatform()->SetCapture(activeWindow);
+		}
+
+		Common::CEMousePressedEvent Event(button, modifierKeyState);
+		OnMousePressedEvent.Broadcast(Event);
+	}
 }
 
 void CEEngineController::OnMouseScrolled(float horizontalDelta, float verticalDelta) {
+	Common::CEMouseScrolledEvent Event(horizontalDelta, verticalDelta);
+	OnMouseScrolledEvent.Broadcast(Event);
 }
 
 void CEEngineController::OnWindowResized(const Common::CERef<Window::CEWindow>& window, uint16 width, uint16 height) {
+	Common::CEWindowResizeEvent Event(window, width, height);
+	OnWindowResizedEvent.Broadcast(Event);
 }
 
 void CEEngineController::OnWindowMoved(const Common::CERef<Window::CEWindow>& window, uint16 x, uint16 y) {
+	Common::CEWindowMovedEvent Event(window, x, y);
+	OnWindowMovedEvent.Broadcast(Event);
 }
 
 void CEEngineController::OnWindowFocusChanged(const Common::CERef<Window::CEWindow>& window, bool hasFocus) {
+	Common::CEWindowFocusChangedEvent Event(window, hasFocus);
+	OnWindowFocusChangedEvent.Broadcast(Event);
 }
 
 void CEEngineController::OnWindowMouseLeft(const Common::CERef<Window::CEWindow>& window) {
+	Common::CEWindowMouseLeftEvent Event(window);
+	OnWindowMouseLeftEvent.Broadcast(Event);
 }
 
 void CEEngineController::OnWindowMouseEntered(const Common::CERef<Window::CEWindow>& window) {
+	Common::CEWindowMouseEnteredEvent Event(window);
+	OnWindowMouseEnteredEvent.Broadcast(Event);
 }
 
 void CEEngineController::OnWindowClosed(const Common::CERef<Window::CEWindow>& window) {
+	Common::CEWindowClosedEvent Event(window);
+	OnWindowClosedEvent.Broadcast(Event);
+
+	if (window == Core::Generic::Platform::CEPlatform::GetWindow()) {
+		Actions::CEActions::RequestExit(0);
+	}
 }
 
 void CEEngineController::OnApplicationExit(int32 exitCode) {
+	Application::CECore::IsRunning = false;
+	OnApplicationExitEvent.Broadcast(exitCode);
 }

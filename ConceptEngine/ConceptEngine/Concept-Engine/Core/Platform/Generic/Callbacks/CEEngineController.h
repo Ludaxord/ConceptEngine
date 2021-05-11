@@ -13,7 +13,8 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 		virtual void
 		OnKeyReleased(Input::CEKey keyCode, const Input::CEModifierKeyState& modifierKeyState) override final;
 		virtual void
-		OnKeyPressed(Input::CEKey keyCode, bool isRepeat, const Input::CEModifierKeyState& modifierKeyState) override final;
+		OnKeyPressed(Input::CEKey keyCode, bool isRepeat,
+		             const Input::CEModifierKeyState& modifierKeyState) override final;
 		virtual void OnKeyTyped(uint32 character) override final;
 		virtual void OnMouseMove(int32 x, int32 y) override final;
 		virtual void
@@ -101,8 +102,6 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 		OnApplicationExitEvent OnApplicationExitEvent;
 
 
-	public:
-		bool IsRunning = false;
 	};
 
 	extern CEEngineController EngineController;
