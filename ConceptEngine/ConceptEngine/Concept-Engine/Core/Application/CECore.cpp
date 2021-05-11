@@ -25,6 +25,8 @@
 
 #include "../Platform/Generic/Debug/CETypedConsole.h"
 
+#include "../../Render/CERenderer.h"
+
 using namespace ConceptEngine::Core::Application;
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
@@ -79,6 +81,11 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 	Platform->SetCallbacks(&EngineController);
 
 	if (!::Common::GPlayground->Create()) {
+		return false;
+	}
+
+	if (!Renderer.Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to Create Renderer");
 		return false;
 	}
 
