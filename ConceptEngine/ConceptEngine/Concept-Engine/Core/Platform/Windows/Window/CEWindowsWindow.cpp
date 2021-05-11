@@ -6,13 +6,17 @@
 
 #include "../../../Log/CELog.h"
 
+
 using namespace ConceptEngine::Core::Platform::Windows::Window;
 
 
-CEWindowsWindow::CEWindowsWindow(): CEWindow() {
+CEWindowsWindow::CEWindowsWindow(): CEWindow(), Style(0), StyleEx(0), IsFullscreen(false) {
 }
 
 CEWindowsWindow::~CEWindowsWindow() {
+	if (IsValid()) {
+		DestroyWindow(CEWindows::HWnd);
+	}
 }
 
 bool CEWindowsWindow::Create() {
@@ -127,18 +131,76 @@ void CEWindowsWindow::Show(bool maximized) {
 }
 
 void CEWindowsWindow::Minimize() {
+	Assert(CEWindows::HWnd != 0);
+	if (WindowStyle.IsMinimizable()) {
+		if (IsValid()) {
+			ShowWindow(CEWindows::HWnd, SW_MINIMIZE);
+		}
+	}
 }
 
 void CEWindowsWindow::Maximize() {
+	Assert(CEWindows::HWnd != 0);
+	if (WindowStyle.IsMaximizable()) {
+		if (IsValid()) {
+			ShowWindow(CEWindows::HWnd, SW_MAXIMIZE);
+		}
+	}
 }
 
 void CEWindowsWindow::Close() {
+	Assert(CEWindows::HWnd != 0);
+	if (WindowStyle.IsClosable()) {
+		if (IsValid()) {
+			CloseWindow(CEWindows::HWnd);
+		}
+	}
 }
 
 void CEWindowsWindow::Restore() {
+	Assert(CEWindows::HWnd != 0);
+	if (IsValid()) {
+		bool result = ::IsIconic(CEWindows::HWnd);
+		if (result) {
+			::ShowWindow(CEWindows::HWnd, SW_RESTORE);
+		}
+	}
 }
 
 void CEWindowsWindow::ToggleFullscreen() {
+	Assert(CEWindows::HWnd != 0);
+	if (IsValid()) {
+		if (!IsFullscreen) {
+			IsFullscreen = true;
+
+			::GetWindowPlacement(CEWindows::HWnd, &StoredPlacement);
+			if (Style == 0) {
+				Style = ::GetWindowLong(CEWindows::HWnd, GWL_STYLE);
+			}
+			if (StyleEx == 0) {
+				Style = ::GetWindowLong(CEWindows::HWnd, GWL_EXSTYLE);
+			}
+
+			LONG newStyle = Style;
+			newStyle &= ~WS_BORDER;
+			newStyle &= ~WS_DLGFRAME;
+			newStyle &= ~WS_THICKFRAME;
+
+			LONG newStyleEx = StyleEx;
+			newStyleEx &= ~WS_EX_WINDOWEDGE;
+
+			SetWindowLong(CEWindows::HWnd, GWL_STYLE, newStyle | WS_POPUP);
+			SetWindowLong(CEWindows::HWnd, GWL_EXSTYLE, newStyleEx | WS_EX_TOPMOST);
+			ShowWindow(CEWindows::HWnd, SW_SHOWMAXIMIZED);
+		}
+		else {
+			IsFullscreen = false;
+			SetWindowLong(CEWindows::HWnd, GWL_STYLE, Style);
+			SetWindowLong(CEWindows::HWnd, GWL_EXSTYLE, StyleEx);
+			ShowWindow(CEWindows::HWnd, SW_SHOWNORMAL);
+			SetWindowPlacement(CEWindows::HWnd, &StoredPlacement);
+		}
+	}
 }
 
 bool CEWindowsWindow::IsValid() const {
@@ -151,21 +213,86 @@ bool CEWindowsWindow::IsActiveWindow() const {
 }
 
 void CEWindowsWindow::SetTitle(const std::string& title) {
+	Assert(CEWindows::HWnd != 0);
+	if (WindowStyle.IsTitled()) {
+		if (IsValid()) {
+			SetWindowTextA(CEWindows::HWnd, title.c_str());
+		}
+	}
 }
 
-void CEWindowsWindow::GetTitle(const std::string& outTitle) {
+void CEWindowsWindow::GetTitle(std::string& outTitle) {
+	if (IsValid()) {
+		int32 size = GetWindowTextLengthA(CEWindows::HWnd);
+		outTitle.resize(size);
+
+		GetWindowTextA(CEWindows::HWnd, outTitle.data(), size);
+	}
 }
 
 void CEWindowsWindow::SetWindowSize(const Generic::Window::CEWindowSize& shape, bool move) {
+	Assert(CEWindows::HWnd);
+	if (IsValid()) {
+		UINT flags = SWP_NOZORDER | SWP_NOACTIVATE;
+		if (!move) {
+			flags |= SWP_NOMOVE;
+		}
+
+		auto windowsShape = reinterpret_cast<const CEWindowsWindowSize&>(shape);
+
+		SetWindowPos(
+			CEWindows::HWnd,
+			NULL,
+			windowsShape.WindowPosition.x,
+			windowsShape.WindowPosition.y,
+			windowsShape.Width,
+			windowsShape.Height,
+			flags
+		);
+	}
 }
 
 void CEWindowsWindow::GetWindowSize(Generic::Window::CEWindowSize& outShape) {
+	Assert(CEWindows::HWnd != 0);
+	if (IsValid()) {
+		int32 x = 0;
+		int32 y = 0;
+		uint32 width = 0;
+		uint32 height = 0;
+
+		RECT Rect = {};
+		if (GetWindowRect(CEWindows::HWnd, &Rect) != 0) {
+			x = static_cast<int32>(Rect.left);
+			y = static_cast<int32>(Rect.top);
+		}
+
+		if (GetClientRect(CEWindows::HWnd, &Rect) != 0) {
+			width = static_cast<uint32>(Rect.right - Rect.left);
+			height = static_cast<uint32>(Rect.bottom - Rect.top);
+		}
+
+		outShape = CEWindowsWindowSize(width, height, x, y);
+	}
 }
 
 uint32 CEWindowsWindow::GetWidth() const {
+	if (IsValid()) {
+		RECT rect = {};
+		if (GetClientRect(CEWindows::HWnd, &rect) != 0) {
+			const uint32 width = static_cast<uint32>(rect.right - rect.left);
+			return width;
+		}
+	}
 	return 0;
 }
 
 uint32 CEWindowsWindow::GetHeight() const {
+	if (IsValid()) {
+		RECT rect = {};
+		if (GetClientRect(CEWindows::HWnd, &rect) != 0) {
+			const uint32 height = static_cast<uint32>(rect.bottom - rect.top);
+			return height;
+		}
+	}
 	return 0;
 }

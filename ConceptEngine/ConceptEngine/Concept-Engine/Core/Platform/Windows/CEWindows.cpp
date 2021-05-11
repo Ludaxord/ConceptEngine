@@ -38,6 +38,34 @@ bool CEWindows::CreateSystemConsole() {
 }
 
 bool CEWindows::CreateCursors() {
+	if (!(Generic::Cursor::CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND))) {
+		return false;
+	}
+	if (!(Generic::Cursor::CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO))) {
+		return false;
+	}
+
 	return true;
 }
 

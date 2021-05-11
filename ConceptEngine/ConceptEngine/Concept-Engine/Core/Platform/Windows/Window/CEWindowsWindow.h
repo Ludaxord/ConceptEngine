@@ -10,6 +10,8 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		Generic::Window::WindowStyleFlag_Maximizable |
 		Generic::Window::WindowStyleFlag_Resizable;
 
+	class CEWindowsWindow;
+
 	class CEWindowsWindowSize : public Generic::Window::CEWindowSize {
 	public:
 		static void Create(int width, int height, int x = 0, int y = 0) {
@@ -23,6 +25,7 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		};
 
 	private:
+		friend class CEWindowsWindow;
 		CEWindowsWindowSize(int width, int height, int x, int y): CEWindowSize(width, height, x, y) {
 
 		}
@@ -47,7 +50,7 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		bool IsValid() const override;
 		bool IsActiveWindow() const override;
 		void SetTitle(const std::string& title) override;
-		void GetTitle(const std::string& outTitle) override;
+		void GetTitle(std::string& outTitle) override;
 		void SetWindowSize(const Generic::Window::CEWindowSize& shape, bool move) override;
 		void GetWindowSize(Generic::Window::CEWindowSize& outShape) override;
 		uint32 GetWidth() const override;

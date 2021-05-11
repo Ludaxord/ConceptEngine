@@ -97,6 +97,7 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 			SetPosition(x, y);
 		}
 
+	public:
 		static int Width;
 		static int Height;
 
@@ -130,7 +131,7 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 		virtual bool IsActiveWindow() const = 0;
 
 		virtual void SetTitle(const std::string& title) = 0;
-		virtual void GetTitle(const std::string& outTitle) = 0;
+		virtual void GetTitle(std::string& outTitle) = 0;
 
 		virtual void SetWindowSize(const CEWindowSize& shape, bool move) = 0;
 		virtual void GetWindowSize(CEWindowSize& outShape) = 0;
