@@ -124,8 +124,10 @@
     <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEDebugUI.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEDeferredRenderer.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CECommandList.h" />
-    <ClInclude Include="Graphics\Main\RenderLayer\CERayTracer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CERayTracer.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERayTracing.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CETexture.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEViewport.h" />
@@ -148,6 +150,8 @@
     <ClInclude Include="Core\Platform\Linux\CELinux.h" />
     <ClInclude Include="Core\Platform\Mac\CEMac.h" />
     <ClInclude Include="Core\Platform\Windows\CEWindows.h" />
+    <ClInclude Include="Render\CERenderer.h" />
+    <ClInclude Include="Render\Scene\CEScene.h" />
     <ClInclude Include="Save\Game\CEGameSave.h" />
     <ClInclude Include="Save\CESave.h" />
     <ClInclude Include="Save\Game\CEGameSaveWriter.h" />
@@ -220,8 +224,10 @@
     <ClCompile Include="Graphics\Main\Managers\CERendererManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CETextureManager.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEDeferredRenderer.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CECommandList.cpp" />
-    <ClCompile Include="Graphics\Main\RenderLayer\CERayTracer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CERayTracer.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CERayTracing.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEShader.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CETexture.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEViewport.cpp" />
@@ -242,6 +248,8 @@
     <ClCompile Include="Core\Platform\Linux\CELinux.cpp" />
     <ClCompile Include="Core\Platform\Mac\CEMac.cpp" />
     <ClCompile Include="Core\Platform\Windows\CEWindows.cpp" />
+    <ClCompile Include="Render\CERenderer.cpp" />
+    <ClCompile Include="Render\Scene\CEScene.cpp" />
     <ClCompile Include="Save\Game\CEGameSaveReader.h" />
     <ClCompile Include="Save\Project\CEProjectSave.h" />
     <ClCompile Include="Time\CETimer.cpp" />

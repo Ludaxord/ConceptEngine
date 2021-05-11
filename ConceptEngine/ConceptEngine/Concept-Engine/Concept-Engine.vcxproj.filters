@@ -66,7 +66,7 @@
     <ClInclude Include="Core\Platform\Mac\Cursor\CEMacCursor.h" />
     <ClInclude Include="Core\Platform\Linux\Cursor\CELinuxCursor.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
-    <ClInclude Include="Graphics\Main\RenderLayer\CERayTracer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CERayTracer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.h" />
@@ -141,6 +141,10 @@
     <ClInclude Include="Core\Log\CELog.h" />
     <ClInclude Include="Core\Platform\Windows\Events\CEWindowsEvent.h" />
     <ClInclude Include="Core\Common\CERefCountedObject.h" />
+    <ClInclude Include="Render\CERenderer.h" />
+    <ClInclude Include="Render\Scene\CEScene.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEDeferredRenderer.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERayTracing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -196,7 +200,7 @@
     <ClCompile Include="Core\Platform\Linux\Cursor\CELinuxCursor.cpp" />
     <ClCompile Include="Graphics\Main\CEGraphics.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
-    <ClCompile Include="Graphics\Main\RenderLayer\CERayTracer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CERayTracer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />
@@ -230,5 +234,9 @@
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Core\Platform\Generic\Debug\CEActionConsole.cpp" />
     <ClCompile Include="Core\Common\CERefCountedObject.cpp" />
+    <ClCompile Include="Render\Scene\CEScene.cpp" />
+    <ClCompile Include="Render\CERenderer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEDeferredRenderer.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CERayTracing.cpp" />
   </ItemGroup>
 </Project>
