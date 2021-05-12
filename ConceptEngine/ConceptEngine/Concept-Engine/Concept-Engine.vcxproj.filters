@@ -145,6 +145,17 @@
     <ClInclude Include="Render\Scene\CEScene.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEDeferredRenderer.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERayTracing.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEShadowMapRenderer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEScreenSpaceOcclusionRenderer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CELightProbeRenderer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CESkyBoxRenderPass.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEPipelineState.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEBuffer.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEGPUProfiler.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEForwardRenderer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEFrameResources.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CELightSetup.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEResource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -238,5 +249,14 @@
     <ClCompile Include="Render\CERenderer.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEDeferredRenderer.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CERayTracing.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEShadowMapRenderer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEScreenSpaceOcclusionRenderer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CELightProbeRenderer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CESkyBoxRenderPass.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CEPipelineState.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEFrameResources.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CELightSetup.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CEGPUProfiler.cpp" />
   </ItemGroup>
 </Project>
