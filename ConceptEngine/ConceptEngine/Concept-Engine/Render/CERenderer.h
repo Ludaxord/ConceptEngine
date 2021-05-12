@@ -18,7 +18,12 @@
 #include "../Graphics/Main/RenderLayer/CEBuffer.h"
 #include "../Graphics/Main/RenderLayer/CEGPUProfiler.h"
 
+
 namespace ConceptEngine::Render {
+
+	using namespace Graphics::Main::Rendering;
+	using namespace Graphics::Main::RenderLayer;
+
 	class CERenderer {
 	public:
 		bool Create();
@@ -41,22 +46,22 @@ namespace ConceptEngine::Render {
 		void ResizeResources(uint32 width, uint32 height);
 
 	private:
-		Graphics::Main::RenderLayer::CECommandList CommandList;
+		CECommandList CommandList;
 
 		//TODO: Move to some kind of container because object types are same in some situations;
 
-		Graphics::Main::Rendering::CEDeferredRenderer DeferredRenderer;
-		Graphics::Main::Rendering::CEShadowMapRenderer ShadowMapRenderer;
-		Graphics::Main::Rendering::CEScreenSpaceOcclusionRenderer SSAORenderer;
-		Graphics::Main::Rendering::CELightProbeRenderer LightProbeRenderer;
-		Graphics::Main::Rendering::CESkyBoxRenderPass SkyBoxRenderPass;
-		Graphics::Main::Rendering::CEForwardRenderer ForwardRenderer;
-		Graphics::Main::Rendering::CERayTracer RayTracer;
+		CEDeferredRenderer DeferredRenderer;
+		CEShadowMapRenderer ShadowMapRenderer;
+		CEScreenSpaceOcclusionRenderer SSAORenderer;
+		CELightProbeRenderer LightProbeRenderer;
+		CESkyBoxRenderPass SkyBoxRenderPass;
+		CEForwardRenderer ForwardRenderer;
+		CERayTracer RayTracer;
 
-		Graphics::Main::Rendering::CEFrameResources Resources;
-		Graphics::Main::Rendering::CELightSetup LightSetup;
+		CEFrameResources Resources;
+		CELightSetup LightSetup;
 
-		Core::Common::CERef<Graphics::Main::RenderLayer::CETexture2D> ShadingImage;
+		Core::Common::CERef<CETexture2D> ShadingImage;
 		Core::Common::CERef<CEComputePipelineState> ShadingRatePipeline;
 		Core::Common::CERef<CEComputeShader> CEShadingRateShader;
 
@@ -64,7 +69,7 @@ namespace ConceptEngine::Render {
 		Core::Common::CERef<CEIndexBuffer> AABBIndexBuffer;
 		Core::Common::CERef<CEGraphicsPipelineState> AABBDebugPipelineState;
 		Core::Common::CERef<CEVertexShader> AABBVertexShader;
-		Core::Common::CERef<CEIndexShader> AABBIndexShader;
+		Core::Common::CERef<CEPixelShader> AABBPixelShader;
 
 		Core::Common::CERef<CEGraphicsPipelineState> PostPipelineState;
 		Core::Common::CERef<CEPixelShader> PostShader;
@@ -73,7 +78,7 @@ namespace ConceptEngine::Render {
 		Core::Common::CERef<CEGraphicsPipelineState> FXAADebugPipelineState;
 		Core::Common::CERef<CEPixelShader> FXAADebugShader;
 
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEGPUProfiler> GPUProfiler;
+		Core::Common::CERef<CEGPUProfiler> GPUProfiler;
 
 		uint32 LastFrameNumDrawCalls = 0;
 		uint32 LastFrameNumDispatchCalls = 0;
