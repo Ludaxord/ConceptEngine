@@ -2,13 +2,17 @@
 #include "CEBuffer.h"
 #include "CEGPUProfiler.h"
 #include "CEPipelineState.h"
+#include "CERayTracing.h"
 #include "CERenderCommand.h"
+#include "CERendering.h"
+#include "CEResourceViews.h"
 #include "CEShader.h"
 #include "CETexture.h"
 #include "../../../Memory/CELinearAllocator.h"
 #include "../../../Memory/CEMemory.h"
 #include "../../../Core/Common/CETypes.h"
 #include "../../../Core/Containers/CEContainerUtilities.h"
+#include "../../../Math/CEColor.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CECommandList {
@@ -47,7 +51,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			InsertCommand<CEEndTimeStampRenderCommand>(profiler, index);
 		}
 
-		void ClearRenderTargetView(CERenderTargetView* renderTargetView, const CEColorF& clearColor) {
+		void ClearRenderTargetView(CERenderTargetView* renderTargetView, const Math::CEColorF& clearColor) {
 			Assert(renderTargetView != nullptr);
 			renderTargetView->AddRef();
 			InsertCommand<CEClearRenderTargetViewRenderCommand>(renderTargetView, clearColor);
@@ -59,7 +63,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			InsertCommand<CEClearDepthStencilViewRenderCommand>(depthStencilView, clearValue);
 		}
 
-		void ClearUnorderedAccessView(CEUnorderedAccessView* unorderedAccessView, const CEColorF& clearColor) {
+		void ClearUnorderedAccessView(CEUnorderedAccessView* unorderedAccessView, const Math::CEColorF& clearColor) {
 			Assert(unorderedAccessView != nullptr);
 			unorderedAccessView->AddRef();
 			InsertCommand<CEClearUnorderedAccessViewFloatRenderCommand>(unorderedAccessView, clearColor);
@@ -92,7 +96,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			InsertCommand<CESetScissorRectRenderCommand>(width, height, x, y);
 		}
 
-		void SetBlendFactor(const CEColorF& color) {
+		void SetBlendFactor(const Math::CEColorF& color) {
 			InsertCommand<CESetBlendFactorRenderCommand>(color);
 		}
 

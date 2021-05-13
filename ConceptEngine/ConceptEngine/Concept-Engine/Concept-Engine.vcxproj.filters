@@ -159,6 +159,9 @@
     <ClInclude Include="Memory\CELinearAllocator.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERenderCommand.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEICommandContext.h" />
+    <ClInclude Include="Math\CEColor.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEResourceViews.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERendering.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

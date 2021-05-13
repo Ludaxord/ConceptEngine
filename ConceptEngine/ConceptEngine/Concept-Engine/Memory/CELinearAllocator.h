@@ -1,7 +1,11 @@
 #pragma once
+
+#include "../Core/Common/CETypes.h"
+
 namespace ConceptEngine::Memory {
 	class CELinearAllocator {
-
+	public:
+		void* Allocate(uint64 sizeInBytes, uint64 alignment);
 	};
 
 

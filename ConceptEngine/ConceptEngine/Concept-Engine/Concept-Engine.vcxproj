@@ -140,7 +140,9 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CEPipelineState.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERayTracing.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERenderCommand.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERendering.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEResource.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEResourceViews.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CETexture.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEViewport.h" />
@@ -153,6 +155,7 @@
     <ClInclude Include="Graphics\Metal\CEMetal.h" />
     <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
     <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
+    <ClInclude Include="Math\CEColor.h" />
     <ClInclude Include="Math\CEMath.h" />
     <ClInclude Include="Memory\CELinearAllocator.h" />
     <ClInclude Include="Memory\CEMemory.h" />

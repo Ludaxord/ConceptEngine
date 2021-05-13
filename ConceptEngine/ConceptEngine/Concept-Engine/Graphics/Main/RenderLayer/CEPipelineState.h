@@ -8,4 +8,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	class CEGraphicsPipelineState : public CEPipelineState {
 	};
+
+	class CERayTracingPipelineState : public CEPipelineState {
+
+	};
 }
