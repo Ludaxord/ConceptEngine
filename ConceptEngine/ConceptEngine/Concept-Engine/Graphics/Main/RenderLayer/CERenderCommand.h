@@ -2,6 +2,7 @@
 #include "CEICommandContext.h"
 #include "CERendering.h"
 #include "CEResourceViews.h"
+#include "CESamplerState.h"
 #include "CEShader.h"
 #include "CETexture.h"
 #include "../../../Core/Common/CERef.h"
@@ -226,6 +227,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					VertexBuffers[i] = nullptr;
 				}
 			}
+			VertexBuffers = nullptr;
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
@@ -263,6 +265,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					RenderTargetViews[i] = nullptr;
 				}
 			}
+			RenderTargetViews = nullptr;
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
@@ -387,6 +390,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					ShaderResourceViews[i] = nullptr;
 				}
 			}
+			ShaderResourceViews = nullptr;
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
@@ -418,53 +422,111 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CESetUnorderedAccessViewsRenderCommand : public CERenderCommand {
-		CESetUnorderedAccessViewsRenderCommand() {
+		CESetUnorderedAccessViewsRenderCommand(CEShader* shader, CEUnorderedAccessView** unorderedAccessViews,
+		                                       uint32 numUnorderedAccessViews, uint32 parametersIndex):
+			Shader(shader), UnorderedAccessViews(unorderedAccessViews),
+			NumUnorderedAccessViews(numUnorderedAccessViews),
+			ParametersIndex(parametersIndex) {
 
+		}
+
+		~CESetUnorderedAccessViewsRenderCommand() {
+			for (uint32 i = 0; i < NumUnorderedAccessViews; i ++) {
+				if (UnorderedAccessViews[i]) {
+					UnorderedAccessViews[i]->Release();
+					UnorderedAccessViews[i] = nullptr;
+				}
+			}
+
+			UnorderedAccessViews = nullptr;
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.SetUnorderedAccessViews(Shader.Get(), UnorderedAccessViews, NumUnorderedAccessViews,
+			                                       ParametersIndex);
 		}
+
+		Core::Common::CERef<CEShader> Shader;
+		CEUnorderedAccessView** UnorderedAccessViews;
+		uint32 NumUnorderedAccessViews;
+		uint32 ParametersIndex;
 	};
 
 	struct CESetConstantBufferRenderCommand : public CERenderCommand {
-		CESetConstantBufferRenderCommand() {
+		CESetConstantBufferRenderCommand(CEShader* shader, CEConstantBuffer* constantBuffer, uint32 parameterIndex) :
+			Shader(shader), ConstantBuffer(constantBuffer), ParameterIndex(parameterIndex) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.SetConstantBuffer(Shader.Get(), ConstantBuffer.Get(), ParameterIndex);
 		}
+
+		Core::Common::CERef<CEShader> Shader;
+		Core::Common::CERef<CEConstantBuffer> ConstantBuffer;
+		uint32 ParameterIndex;
 	};
 
 	struct CESetConstantBuffersRenderCommand : public CERenderCommand {
-		CESetConstantBuffersRenderCommand() {
+		CESetConstantBuffersRenderCommand(CEShader* shader, CEConstantBuffer** constantBuffers,
+		                                  uint32 numConstantBuffers, uint32 parameterIndex) {
 
+		}
+
+		~CESetConstantBuffersRenderCommand() {
+			for (uint32 i = 0; i < NumConstantBuffers; i++) {
+				if (ConstantBuffers[i]) {
+					ConstantBuffers[i]->Release();
+					ConstantBuffers[i] = nullptr;
+				}
+			}
+
+			ConstantBuffers = nullptr;
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.SetConstantBuffers(Shader.Get(), ConstantBuffers, NumConstantBuffers, ParameterIndex);
 		}
+
+		Core::Common::CERef<CEShader> Shader;
+		CEConstantBuffer** ConstantBuffers;
+		uint32 NumConstantBuffers;
+		uint32 ParameterIndex;
+
 	};
 
 	struct CESetSamplerStateRenderCommand : public CERenderCommand {
-		CESetSamplerStateRenderCommand() {
+		CESetSamplerStateRenderCommand(CEShader* shader, CESamplerState* samplerState, uint32 parameterIndex) :
+			Shader(shader), SamplerState(samplerState), ParameterIndex(parameterIndex) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.SetSamplerState(Shader.Get(), SamplerState.Get(), ParameterIndex);
 		}
+
+		Core::Common::CERef<CEShader> Shader;
+		Core::Common::CERef<CESamplerState> SamplerState;
+		uint32 ParameterIndex;
 	};
 
 	struct CESetSamplerStatesRenderCommand : public CERenderCommand {
-		CESetSamplerStatesRenderCommand() {
+		CESetSamplerStatesRenderCommand(CEShader* shader, CESamplerState** samplerStates, uint32 numSamplerStates,
+		                                uint32 parameterIndex) : Shader(shader), SamplerStates(samplerStates),
+		                                                         NumSamplerStates(numSamplerStates),
+		                                                         ParameterIndex(parameterIndex) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.SetSamplerStates(Shader.Get(), SamplerStates, NumSamplerStates, ParameterIndex);
 		}
+
+		Core::Common::CERef<CEShader> Shader;
+		CESamplerState** SamplerStates;
+		uint32 NumSamplerStates;
+		uint32 ParameterIndex;
+
 	};
 
 	struct CEResolveTextureRenderCommand : public CERenderCommand {
