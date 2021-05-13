@@ -10,15 +10,28 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			Execute(commandContext);
 		}
 
-		CERenderCommand* nextCommand = nullptr;
+		CERenderCommand* NextCommand = nullptr;
 	};
 
 	struct CEBeginRenderCommand : public CERenderCommand {
+		CEBeginRenderCommand() {
+
+		}
+
+		virtual void Execute(CEICommandContext& commandContext) override {
+			commandContext.Begin();
+		}
 
 	};
 
 	struct CEEndRenderCommand : public CERenderCommand {
+		CEEndRenderCommand() {
+			
+		}
 
+		virtual void Execute(CEICommandContext& commandContext) override {
+			commandContext.End();
+		}
 	};
 
 	struct CEBeginTimeStampRenderCommand : public CERenderCommand {

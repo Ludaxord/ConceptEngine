@@ -346,13 +346,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	private:
 		template <typename TCommand, typename... TArgs>
 		void InsertCommand(TArgs&&... Args) {
-			TCommand cmd = new(CommandAllocator) TCommand(Core::Containers::Forward<TArgs>(Args)...);
+			// TCommand cmd = new(CommandAllocator) TCommand(Core::Containers::Forward<TArgs>(Args)...);
+			TCommand* Cmd = new(CommandAllocator) TCommand(Core::Containers::Forward<TArgs>(Args)...);
 			if (LastCommand) {
-				LastCommand->nextCommand = cmd;
-				LastCommand = LastCommand->nextCommand;
+				LastCommand->NextCommand = Cmd;
+				LastCommand = LastCommand->NextCommand;
 			}
 			else {
-				FirstCommand = cmd;
+				FirstCommand = Cmd;
 				LastCommand = FirstCommand;
 			}
 			NumCommands++;
