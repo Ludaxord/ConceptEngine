@@ -518,6 +518,17 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
+		~CESetSamplerStatesRenderCommand() {
+			for (uint32 i = 0; i < NumSamplerStates; i++) {
+				if (SamplerStates[i]) {
+					SamplerStates[i]->Release();
+					SamplerStates[i] = nullptr;
+				}
+			}
+
+			SamplerStates = nullptr;
+		}
+
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetSamplerStates(Shader.Get(), SamplerStates, NumSamplerStates, ParameterIndex);
 		}
@@ -530,13 +541,17 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEResolveTextureRenderCommand : public CERenderCommand {
-		CEResolveTextureRenderCommand() {
+		CEResolveTextureRenderCommand(CETexture* destination, CETexture* source) : Destination(destination),
+			Source(source) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.ResolveTexture(Destination.Get(), Source.Get());
 		}
+
+		Core::Common::CERef<CETexture> Destination;
+		Core::Common::CERef<CETexture> Source;
 	};
 
 	struct CEUpdateBufferRenderCommand : public CERenderCommand {

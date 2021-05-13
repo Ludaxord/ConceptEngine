@@ -2,7 +2,7 @@
 #include "CEResource.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
-	class CESamplerState : CEResource {
-		
+	class CESamplerState : public CEResource {
+
 	};
 }
