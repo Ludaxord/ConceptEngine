@@ -2,5 +2,3 @@
 
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 
-CECommandList::CECommandList() {
-}

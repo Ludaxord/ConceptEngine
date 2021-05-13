@@ -156,6 +156,9 @@
     <ClInclude Include="Graphics\Main\Rendering\CEFrameResources.h" />
     <ClInclude Include="Graphics\Main\Rendering\CELightSetup.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEResource.h" />
+    <ClInclude Include="Memory\CELinearAllocator.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERenderCommand.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEICommandContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -258,5 +261,6 @@
     <ClCompile Include="Graphics\Main\Rendering\CEFrameResources.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CELightSetup.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEGPUProfiler.cpp" />
+    <ClCompile Include="Memory\CELinearAllocator.cpp" />
   </ItemGroup>
 </Project>

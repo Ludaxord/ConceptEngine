@@ -136,8 +136,10 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\Main\Rendering\CERayTracer.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEGPUProfiler.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEICommandContext.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEPipelineState.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CERayTracing.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CERenderCommand.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEResource.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CETexture.h" />
@@ -152,6 +154,7 @@
     <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
     <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
     <ClInclude Include="Math\CEMath.h" />
+    <ClInclude Include="Memory\CELinearAllocator.h" />
     <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Physics\CEPhysics.h" />
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
@@ -261,6 +264,7 @@
     <ClCompile Include="Graphics\OpenGL\CEOpenGL.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVulkan.cpp" />
     <ClCompile Include="Math\CEMath.cpp" />
+    <ClCompile Include="Memory\CELinearAllocator.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
     <ClCompile Include="Core\Platform\Android\CEAndroid.cpp" />
