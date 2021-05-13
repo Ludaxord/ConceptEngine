@@ -143,6 +143,7 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CERendering.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEResource.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEResourceViews.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CESamplerState.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CETexture.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEViewport.h" />
