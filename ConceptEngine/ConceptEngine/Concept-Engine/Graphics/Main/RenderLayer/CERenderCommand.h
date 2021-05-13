@@ -555,23 +555,40 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEUpdateBufferRenderCommand : public CERenderCommand {
-		CEUpdateBufferRenderCommand() {
-
+		CEUpdateBufferRenderCommand(CEBuffer* destination, uint64 destinationOffsetInBytes, uint64 sizeInBytes,
+		                            const void* sourceData): Destination(destination),
+		                                                     DestinationOffsetInBytes(destinationOffsetInBytes),
+		                                                     SizeInBytes(sizeInBytes), SourceData(sourceData) {
+			Assert(sourceData != nullptr);
+			Assert(sizeInBytes != 0);
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.UpdateBuffer(Destination, DestinationOffsetInBytes, SizeInBytes, SourceData);
 		}
+
+		Core::Common::CERef<CEBuffer> Destination;
+		uint64 DestinationOffsetInBytes;
+		uint64 SizeInBytes;
+		const void* SourceData;
 	};
 
 	struct CEUpdateTexture2DRenderCommand : public CERenderCommand {
-		CEUpdateTexture2DRenderCommand() {
-
+		CEUpdateTexture2DRenderCommand(CETexture2D* destination, uint32 width, uint32 height, uint32 mipLevel,
+		                               const void* sourceData): Destination(destination), Width(width), Height(height),
+		                                                        MipLevel(mipLevel), SourceData(sourceData) {
+			Assert(sourceData != nullptr);
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.UpdateTexture2D(Destination.Get(), Width, Height, MipLevel, SourceData);
 		}
+
+		Core::Common::CERef<CETexture2D> Destination;
+		uint32 Width;
+		uint32 Height;
+		uint32 MipLevel;
+		const void* SourceData;
 	};
 
 	struct CECopyBufferRenderCommand : public CERenderCommand {
