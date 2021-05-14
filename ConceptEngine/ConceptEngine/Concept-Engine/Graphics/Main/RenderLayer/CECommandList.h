@@ -16,6 +16,9 @@
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CECommandList {
+
+		friend class CECommandListExecutor;
+
 	public:
 		CECommandList() : CommandAllocator(), FirstCommand(nullptr), LastCommand(nullptr) {
 
@@ -211,124 +214,294 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                                     numShaderResourceViews, parameterIndex);
 		}
 
-		void SetUnorderedAccessView() {
+		void SetUnorderedAccessView(CEShader* shader, CEUnorderedAccessView* unorderedAccessView,
+		                            uint32 parameterIndex) {
+			if (shader) {
+				shader->AddRef();
+			}
+			if (unorderedAccessView) {
+				unorderedAccessView->AddRef();
+			}
+			InsertCommand<CESetUnorderedAccessViewRenderCommand>(shader, unorderedAccessView, parameterIndex);
+		}
+
+		void SetUnorderedAccessViews(CEShader* shader, CEUnorderedAccessView* const* unorderedAccessViews,
+		                             uint32 numUnorderedAccessViews, uint32 parameterIndex) {
+			CEUnorderedAccessView** tempUnorderedAccessViews = new(CommandAllocator) CEUnorderedAccessView*[
+				numUnorderedAccessViews];
+			for (uint32 i = 0; i < numUnorderedAccessViews; i++) {
+				tempUnorderedAccessViews[i] = unorderedAccessViews[i];
+				if (tempUnorderedAccessViews[i]) {
+					tempUnorderedAccessViews[i]->AddRef();
+				}
+			}
+			if (shader) {
+				shader->AddRef();
+			}
+			InsertCommand<CESetUnorderedAccessViewsRenderCommand>(shader, tempUnorderedAccessViews,
+			                                                      numUnorderedAccessViews, parameterIndex);
+		}
+
+		void SetConstantBuffer(CEShader* shader, CEConstantBuffer* constantBuffer, uint32 parameterIndex) {
+			if (shader) {
+				shader->AddRef();
+			}
+			if (constantBuffer) {
+				constantBuffer->AddRef();
+			}
+			InsertCommand<CESetConstantBufferRenderCommand>(shader, constantBuffer, parameterIndex);
+		}
+
+		void SetConstantBuffers(CEShader* shader, CEConstantBuffer* const* constantBuffers, uint32 numConstantBuffers,
+		                        uint32 parameterIndex) {
+			CEConstantBuffer** tempConstantBuffers = new(CommandAllocator) CEConstantBuffer*[numConstantBuffers];
+			for (uint32 i = 0; i < numConstantBuffers; i++) {
+				tempConstantBuffers[i] = constantBuffers[i];
+				if (tempConstantBuffers[i]) {
+					tempConstantBuffers[i]->AddRef();
+				}
+			}
+
+			if (shader) {
+				shader->AddRef();
+			}
+			InsertCommand<CESetConstantBuffersRenderCommand>(shader, tempConstantBuffers, numConstantBuffers,
+			                                                 parameterIndex);
+		}
+
+		void SetSamplerState(CEShader* shader, CESamplerState* samplerState, uint32 parameterIndex) {
+			if (shader) {
+				shader->AddRef();
+			}
+			if (samplerState) {
+				samplerState->AddRef();
+			}
+			InsertCommand<CESetSamplerStateRenderCommand>(shader, samplerState, parameterIndex);
+		}
+
+		void SetSamplerStates(CEShader* shader, CESamplerState* const* samplerStates, uint32 numSamplerStates,
+		                      uint32 parameterIndex) {
+			CESamplerState** tempSamplerStates = new(CommandAllocator)CESamplerState*[numSamplerStates];
+			for (uint32 i = 0; i < numSamplerStates; i++) {
+				tempSamplerStates[i] = samplerStates[i];
+				if (tempSamplerStates[i]) {
+					tempSamplerStates[i]->AddRef();
+				}
+			}
+
+			if (shader) {
+				shader->AddRef();
+			}
+			InsertCommand<CESetSamplerStatesRenderCommand>(shader, tempSamplerStates, numSamplerStates, parameterIndex);
+		}
+
+		void ResolveTexture(CETexture* destination, CETexture* source) {
+			if (destination) {
+				destination->AddRef();
+			}
+			if (source) {
+				source->AddRef();
+			}
+			InsertCommand<CEResolveTextureRenderCommand>(destination, source);
+		}
+
+		void UpdateBuffer(CEBuffer* destination, uint64 destinationOffsetInBytes, uint64 sizeInBytes,
+		                  const void* sourceData) {
+			void* tempSourceData = CommandAllocator.Allocate(sizeInBytes, 1);
+			Memory::CEMemory::Memcpy(tempSourceData, sourceData, sizeInBytes);
+			if (destination) {
+				destination->AddRef();
+			}
+			InsertCommand<CEUpdateBufferRenderCommand>(destination, destinationOffsetInBytes, sizeInBytes,
+			                                           tempSourceData);
+		}
+
+		void UpdateTexture2D(CETexture2D* destination, uint32 width, uint32 height, uint32 mipLevel,
+		                     const void* sourceData) {
+			Assert(destination != nullptr);
+			const uint32 sizeInBytes = width * height * GetByteStrideFromFormat(destination->GetFormat());
+
+			void* tempSourceData = CommandAllocator.Allocate(sizeInBytes, 1);
+			Memory::CEMemory::Memcpy(tempSourceData, sourceData, sizeInBytes);
+		}
+
+		void CopyBuffer(CEBuffer* destination, CEBuffer* source, const CECopyBufferInfo& copyInfo) {
+			if (destination) {
+				destination->AddRef();
+			}
+			if (source) {
+				source->AddRef();
+			}
+			InsertCommand<CECopyBufferRenderCommand>(destination, source, copyInfo);
+		}
+
+		void CopyTexture(CETexture* destination, CETexture* source) {
+			if (destination) {
+				destination->AddRef();
+			}
+			if (source) {
+				source->AddRef();
+			}
+			InsertCommand<CECopyTextureRenderCommand>(destination, source);
+		}
+
+		void CopyTextureRegion(CETexture* destination, CETexture* source, const CECopyTextureInfo& copyTextureInfo) {
+			if (destination) {
+				destination->AddRef();
+			}
+			if (source) {
+				source->AddRef();
+			}
+			InsertCommand<CECopyTextureRegionRenderCommand>(destination, source, copyTextureInfo);
+		}
+
+		void DiscardResource(CEResource* resource) {
+			if (resource) {
+				resource->AddRef();
+			}
+			InsertCommand<CEDiscardResourceRenderCommand>(resource);
+		}
+
+		void BuildRayTracingGeometry(CERayTracingGeometry* geometry, CEVertexBuffer* vertexBuffer,
+		                             CEIndexBuffer* indexBuffer, bool update) {
+			Assert(geometry != nullptr);
+			Assert(!update || (update && geometry->GetFlags() & RayTracingStructureBuildFlag_AllowUpdate));
+
+			if (geometry) {
+				geometry->AddRef();
+			}
+			if (vertexBuffer) {
+				vertexBuffer->AddRef();
+			}
+			if (indexBuffer) {
+				indexBuffer->AddRef();
+			}
+			InsertCommand<CEBuildRayTracingGeometryRenderCommand>(geometry, vertexBuffer, indexBuffer, update);
+		}
+
+		void BuildRayTracingScene(CERayTracingScene* scene, const CERayTracingGeometryInstance* instances,
+		                          uint32 numInstances, bool update) {
+			Assert(scene != nullptr);
+			Assert(!update || (update && scene->GetFlags() & RayTracingStructureBuildFlag_AllowUpdate));
+			if (scene) {
+				scene->AddRef();
+			}
+			InsertCommand<CEBuildRayTracingSceneRenderCommand>(scene, instances, numInstances, update);
 
 		}
 
-		void SetUnorderedAccessViews() {
-
+		void GenerateMips(CETexture* texture) {
+			Assert(texture != nullptr);
+			texture->AddRef();
+			InsertCommand<CEGenerateMipsRenderCommand>(texture);
 		}
 
-		void SetConstantBuffer() {
+		void TransitionTexture(CETexture* texture, CEResourceState beforeState, CEResourceState afterState) {
+			Assert(texture != nullptr);
+			if (beforeState != afterState) {
+				texture->AddRef();
+				InsertCommand<CETransitionTextureRenderCommand>(texture, beforeState, afterState);
+			}
+			else {
+				CE_LOG_WARNING(
+					"Texture '" + texture->GetName() + "' was transitioned with same before and afterState (" + ToString
+					(beforeState) + ")")
+			}
 		}
 
-		void SetConstantBuffers() {
-
+		void TransitionBuffer(CEBuffer* buffer, CEResourceState beforeState, CEResourceState afterState) {
+			Assert(buffer != nullptr);
+			if (beforeState != afterState) {
+				buffer->AddRef();
+				InsertCommand<CETransitionBufferRenderCommand>(buffer, beforeState, afterState);
+			}
 		}
 
-		void SetSamplerState() {
-
+		void UnorderedAccessTextureBarrier(CETexture* texture) {
+			Assert(texture != nullptr);
+			texture->AddRef();
+			InsertCommand<CEUnorderedAccessTextureBarrierRenderCommand>(texture);
 		}
 
-		void SetSamplerStates() {
-
+		void UnorderedAccessBufferBarrier(CEBuffer* buffer) {
+			Assert(buffer != nullptr);
+			buffer->AddRef();
+			InsertCommand<CEUnorderedAccessBufferBarrierRenderCommand>(buffer);
 		}
 
-		void ResolveTexture() {
-
+		void Draw(uint32 vertexCount, uint32 startVertexLocation) {
+			InsertCommand<CEDrawRenderCommand>(vertexCount, startVertexLocation);
+			NumDrawCalls++;
 		}
 
-		void UpdateBuffer() {
-
+		void DrawIndexed(uint32 indexCount, uint32 startIndexLocation, uint32 baseVertexLocation) {
+			InsertCommand<CEDrawIndexedRenderCommand>(indexCount, startIndexLocation, baseVertexLocation);
+			NumDrawCalls++;
 		}
 
-		void UpdateTexture2D() {
-
+		void DrawInstanced(uint32 vertexCountPerInstance, uint32 instanceCount, uint32 startVertexLocation,
+		                   uint32 startInstanceLocation) {
+			InsertCommand<CEDrawInstancedRenderCommand>(vertexCountPerInstance, instanceCount, startVertexLocation,
+			                                            startInstanceLocation);
+			NumDrawCalls++;
 		}
 
-		void CopyBuffer() {
-
+		void DrawIndexedInstanced(uint32 indexCountPerInstance, uint32 instanceCount, uint32 startIndexLocation,
+		                          uint32 baseVertexLocation, uint32 startInstanceLocation) {
+			InsertCommand<CEDrawIndexedInstancedRenderCommand>(indexCountPerInstance, instanceCount, startIndexLocation,
+			                                                   baseVertexLocation, startInstanceLocation);
+			NumDrawCalls++;
 		}
 
-		void CopyTexture() {
-
+		void Dispatch(uint32 threadGroupCountX, uint32 threadGroupCountY, uint32 threadGroupCountZ) {
+			InsertCommand<CEDispatchComputeRenderCommand>(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
+			NumDispatchCalls++;
 		}
 
-		void CopyTextureRegion() {
-
+		void DispatchRays(CERayTracingScene* scene, CERayTracingPipelineState* pipelineState, uint32 width,
+		                  uint32 height, uint32 depth) {
+			if (scene) {
+				scene->AddRef();
+			}
+			if (pipelineState) {
+				pipelineState->AddRef();
+			}
+			InsertCommand<CEDispatchRayRenderCommand>(scene, pipelineState, width, height, depth);
 		}
 
-		void DiscardResource() {
-
-		}
-
-		void BuildRayTracingGeometry() {
-
-		}
-
-		void BuildRayTracingScene() {
-
-		}
-
-		void GenerateMips() {
-
-		}
-
-		void TransitionTexture() {
-
-		}
-
-		void TransitionBuffer() {
-
-		}
-
-		void UnorderedAccessTextureBarrier() {
-
-		}
-
-		void UnorderedAccessBufferBarrier() {
-
-		}
-
-		void Draw() {
-
-		}
-
-		void DrawIndexed() {
-
-		}
-
-		void DrawInstanced() {
-
-		}
-
-		void DrawIndexedInstanced() {
-
-		}
-
-		void Dispatch() {
-		}
-
-		void DispatchRays() {
-		}
-
-		void InsertCommandListMaker() {
-
+		void InsertCommandListMaker(const std::string& marker) {
+			InsertCommand<CEInsertCommandListMakerRenderCommand>(marker);
 		}
 
 		void DebugBreak() {
+			InsertCommand<CEDebugBreakRenderCommand>();
 		}
 
 		void BeginExternalCapture() {
-
+			InsertCommand<CEBeginExternalCaptureRenderCommand>();
 		}
 
 		void EndExternalCapture() {
-
+			InsertCommand<CEEndExternalCaptureRenderCommand>();
 		}
 
 		void Reset() {
+			if (FirstCommand != nullptr) {
+				CERenderCommand* command = FirstCommand;
+				while (command != nullptr) {
+					CERenderCommand* oldCommand = command;
+					command = command->NextCommand;
+					oldCommand->~CERenderCommand();
+				}
+				FirstCommand = nullptr;
+				LastCommand = nullptr;
+			}
 
+			NumDrawCalls = 0;
+			NumDispatchCalls = 0;
+			NumCommands = 0;
+
+			CommandAllocator.Reset();
 		}
 
 		uint32 GetNumDrawCalls() const {

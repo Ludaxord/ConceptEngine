@@ -3,7 +3,13 @@
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CETexture : public CEResource {
+	public:
+		CEFormat GetFormat() const {
+			return Format;
+		}
 
+	private:
+		CEFormat Format;
 	};
 
 	class CETexture2D : public CETexture {
@@ -19,10 +25,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CETextureCubeArray : public CETextureCube {
-		
+
 	};
 
 	class CETexture3D : public CETexture {
-		
+
 	};
 }
