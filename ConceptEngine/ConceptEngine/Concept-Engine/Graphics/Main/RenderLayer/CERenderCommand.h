@@ -625,7 +625,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CECopyTextureRegionRenderCommand : public CERenderCommand {
-		CECopyTextureRegionRenderCommand(CETexture* destination, CETexture* source, CECopyTextureInfo& copyTextureInfo):
+		CECopyTextureRegionRenderCommand(CETexture* destination, CETexture* source,
+		                                 const CECopyTextureInfo& copyTextureInfo):
 			Destination(destination), Source(source), CopyTextureInfo(copyTextureInfo) {
 
 		}
