@@ -135,7 +135,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			if (indexBuffer) {
 				indexBuffer->AddRef();
 			}
-			InsertCommand<CESetIndexBufferRenderCommand>();
+			InsertCommand<CESetIndexBufferRenderCommand>(indexBuffer);
 		}
 
 		void SetRayTracingBindings(

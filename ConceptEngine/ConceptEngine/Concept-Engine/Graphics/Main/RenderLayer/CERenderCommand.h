@@ -434,7 +434,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		~CESetUnorderedAccessViewsRenderCommand() {
+		~CESetUnorderedAccessViewsRenderCommand() override {
 			for (uint32 i = 0; i < NumUnorderedAccessViews; i ++) {
 				if (UnorderedAccessViews[i]) {
 					UnorderedAccessViews[i]->Release();
@@ -568,7 +568,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-			commandContext.UpdateBuffer(Destination, DestinationOffsetInBytes, SizeInBytes, SourceData);
+			commandContext.UpdateBuffer(Destination.Get(), DestinationOffsetInBytes, SizeInBytes, SourceData);
 		}
 
 		Core::Common::CERef<CEBuffer> Destination;
@@ -886,7 +886,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		void Execute(CEICommandContext& commandContext) override {
 			(void)commandContext;
-			commandContext.DebugBreak();
 		}
 	};
 
