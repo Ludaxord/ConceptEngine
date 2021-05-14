@@ -1,5 +1,8 @@
 #pragma once
+#include <string>
+
 #include "CEICommandContext.h"
+#include "CERayTracing.h"
 #include "CERendering.h"
 #include "CEResourceViews.h"
 #include "CESamplerState.h"
@@ -7,6 +10,7 @@
 #include "CETexture.h"
 #include "../../../Core/Common/CERef.h"
 #include "../../../Math/CEColor.h"
+#include "../../../Core/Log/CELog.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CERenderCommand {
@@ -258,7 +262,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		~CESetRenderTargetsRenderCommand() {
+		~CESetRenderTargetsRenderCommand() override {
 			for (uint32 i = 0; i < RenderTargetViewCount; i++) {
 				if (RenderTargetViews[i]) {
 					RenderTargetViews[i]->Release();
@@ -310,10 +314,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		Core::Common::CERef<CERayTracingScene> Scene;
 		Core::Common::CERef<CERayTracingPipelineState> PipelineState;
-		Core::Common::CERef<CERayTracingShaderResources> GlobalResources;
-		Core::Common::CERef<CERayTracingShaderResources> RayGenLocalResources;
-		Core::Common::CERef<CERayTracingShaderResources> MissLocalResources;
-		Core::Common::CERef<CERayTracingShaderResources> HitGroupResources;
+		const CERayTracingShaderResources* GlobalResources;
+		const CERayTracingShaderResources* RayGenLocalResources;
+		const CERayTracingShaderResources* MissLocalResources;
+		const CERayTracingShaderResources* HitGroupResources;
 		uint32 NumHitGroupResources;
 	};
 
@@ -592,173 +596,287 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CECopyBufferRenderCommand : public CERenderCommand {
-		CECopyBufferRenderCommand() {
+		CECopyBufferRenderCommand(CEBuffer* destination, CEBuffer* source, const CECopyBufferInfo& copyBufferInfo) :
+			Destination(destination), Source(source), CopyBufferInfo(copyBufferInfo) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.CopyBuffer(Destination.Get(), Source.Get(), CopyBufferInfo);
 		}
+
+		Core::Common::CERef<CEBuffer> Destination;
+		Core::Common::CERef<CEBuffer> Source;
+		CECopyBufferInfo CopyBufferInfo;
 	};
 
 	struct CECopyTextureRenderCommand : public CERenderCommand {
-		CECopyTextureRenderCommand() {
+		CECopyTextureRenderCommand(CETexture* destination, CETexture* source) : Destination(destination),
+			Source(source) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
+			commandContext.CopyTexture(Destination.Get(), Source.Get());
+		}
+
+		Core::Common::CERef<CETexture> Destination;
+		Core::Common::CERef<CETexture> Source;
+	};
+
+	struct CECopyTextureRegionRenderCommand : public CERenderCommand {
+		CECopyTextureRegionRenderCommand(CETexture* destination, CETexture* source, CECopyTextureInfo& copyTextureInfo):
+			Destination(destination), Source(source), CopyTextureInfo(copyTextureInfo) {
 
 		}
+
+		void Execute(CEICommandContext& commandContext) override {
+			commandContext.CopyTextureRegion(Destination.Get(), Source.Get(), CopyTextureInfo);
+
+		}
+
+		Core::Common::CERef<CETexture> Destination;
+		Core::Common::CERef<CETexture> Source;
+		CECopyTextureInfo CopyTextureInfo;
 	};
 
 	struct CEDiscardResourceRenderCommand : public CERenderCommand {
-		CEDiscardResourceRenderCommand() {
+		CEDiscardResourceRenderCommand(CEResource* resource):
+			Resource(resource) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.DiscardResource(Resource.Get());
 		}
+
+		Core::Common::CERef<CEResource> Resource;
 	};
 
 	struct CEBuildRayTracingGeometryRenderCommand : public CERenderCommand {
-		CEBuildRayTracingGeometryRenderCommand() {
+		CEBuildRayTracingGeometryRenderCommand(CERayTracingGeometry* rayTracingGeometry, CEVertexBuffer* vertexBuffer,
+		                                       CEIndexBuffer* indexBuffer, bool update) :
+			RayTracingGeometry(rayTracingGeometry), VertexBuffer(vertexBuffer), IndexBuffer(indexBuffer),
+			Update(update) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.BuildRayTracingGeometry(RayTracingGeometry.Get(), VertexBuffer.Get(), IndexBuffer.Get(),
+			                                       Update);
 		}
+
+		Core::Common::CERef<CERayTracingGeometry> RayTracingGeometry;
+		Core::Common::CERef<CEVertexBuffer> VertexBuffer;
+		Core::Common::CERef<CEIndexBuffer> IndexBuffer;
+		bool Update;
 	};
 
 	struct CEBuildRayTracingSceneRenderCommand : public CERenderCommand {
-		CEBuildRayTracingSceneRenderCommand() {
+		CEBuildRayTracingSceneRenderCommand(CERayTracingScene* rayTracingScene,
+		                                    const CERayTracingGeometryInstance* instances, uint32 numInstances,
+		                                    bool update): RayTracingScene(rayTracingScene),
+		                                                  Instances(instances), NumInstances(numInstances),
+		                                                  Update(update) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.BuildRayTracingScene(RayTracingScene.Get(), Instances, NumInstances, Update);
 		}
+
+		Core::Common::CERef<CERayTracingScene> RayTracingScene;
+		const CERayTracingGeometryInstance* Instances;
+		uint32 NumInstances;
+		bool Update;
 	};
 
 	struct CEGenerateMipsRenderCommand : public CERenderCommand {
-		CEGenerateMipsRenderCommand() {
+		CEGenerateMipsRenderCommand(CETexture* texture): Texture(texture) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.GenerateMips(Texture.Get());
 		}
+
+		Core::Common::CERef<CETexture> Texture;
 	};
 
 	struct CETransitionTextureRenderCommand : public CERenderCommand {
-		CETransitionTextureRenderCommand() {
+		CETransitionTextureRenderCommand(CETexture* texture, CEResourceState beforeState, CEResourceState afterState) :
+			Texture(texture), BeforeState(beforeState), AfterState(afterState) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.TransitionTexture(Texture.Get(), BeforeState, AfterState);
 		}
+
+		Core::Common::CERef<CETexture> Texture;
+		CEResourceState BeforeState;
+		CEResourceState AfterState;
 	};
 
 	struct CETransitionBufferRenderCommand : public CERenderCommand {
-		CETransitionBufferRenderCommand() {
+		CETransitionBufferRenderCommand(CEBuffer* buffer, CEResourceState beforeState, CEResourceState afterState) :
+			Buffer(buffer), BeforeState(beforeState), AfterState(afterState) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.TransitionBuffer(Buffer.Get(), BeforeState, AfterState);
 		}
+
+		Core::Common::CERef<CEBuffer> Buffer;
+		CEResourceState BeforeState;
+		CEResourceState AfterState;
 	};
 
 	struct CEUnorderedAccessTextureBarrierRenderCommand : public CERenderCommand {
-		CEUnorderedAccessTextureBarrierRenderCommand() {
+		CEUnorderedAccessTextureBarrierRenderCommand(CETexture* texture): Texture(texture) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.UnorderedAccessTextureBarrier(Texture.Get());
 		}
+
+		Core::Common::CERef<CETexture> Texture;
 	};
 
 	struct CEUnorderedAccessBufferBarrierRenderCommand : public CERenderCommand {
-		CEUnorderedAccessBufferBarrierRenderCommand() {
+		CEUnorderedAccessBufferBarrierRenderCommand(CEBuffer* buffer): Buffer(buffer) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.UnorderedAccessBufferBarrier(Buffer.Get());
 		}
+
+		Core::Common::CERef<CEBuffer> Buffer;
 	};
 
 	struct CEDrawRenderCommand : public CERenderCommand {
-		CEDrawRenderCommand() {
+		CEDrawRenderCommand(uint32 vertexCount, uint32 startVertexLocation) : VertexCount(vertexCount),
+		                                                                      StartVertexLocation(startVertexLocation) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.Draw(VertexCount, StartVertexLocation);
 		}
+
+		uint32 VertexCount;
+		uint32 StartVertexLocation;
 	};
 
 	struct CEDrawIndexedRenderCommand : public CERenderCommand {
-		CEDrawIndexedRenderCommand() {
+		CEDrawIndexedRenderCommand(uint32 indexCount, uint32 startIndexLocation, int32 baseVertexLocation):
+			IndexCount(indexCount), StartIndexLocation(startIndexLocation), BaseVertexLocation(baseVertexLocation) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 		}
+
+		uint32 IndexCount;
+		uint32 StartIndexLocation;
+		int32 BaseVertexLocation;
 	};
 
 	struct CEDrawInstancedRenderCommand : public CERenderCommand {
-		CEDrawInstancedRenderCommand() {
+		CEDrawInstancedRenderCommand(uint32 vertexCountPerInstance, uint32 instanceCount, uint32 startVertexLocation,
+		                             uint32 startInstanceLocation): VertexCountPerInstance(vertexCountPerInstance),
+		                                                            InstanceCount(instanceCount),
+		                                                            StartVertexLocation(startVertexLocation),
+		                                                            StartInstanceLocation(startInstanceLocation) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.DrawInstanced(VertexCountPerInstance, InstanceCount, StartVertexLocation,
+			                             StartInstanceLocation);
 		}
+
+		uint32 VertexCountPerInstance;
+		uint32 InstanceCount;
+		uint32 StartVertexLocation;
+		uint32 StartInstanceLocation;
 	};
 
 	struct CEDrawIndexedInstancedRenderCommand : public CERenderCommand {
-		CEDrawIndexedInstancedRenderCommand() {
+		CEDrawIndexedInstancedRenderCommand(uint32 indexCountPerInstance, uint32 instanceCount,
+		                                    uint32 startIndexLocation, uint32 baseVertexLocation,
+		                                    uint32 startInstanceLocation):
+			IndexCountPerInstance(indexCountPerInstance),
+			InstanceCount(instanceCount),
+			StartIndexLocation(startIndexLocation),
+			BaseVertexLocation(baseVertexLocation),
+			StartInstanceLocation(startInstanceLocation) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation,
+			                                    BaseVertexLocation, StartInstanceLocation);
 		}
+
+		uint32 IndexCountPerInstance;
+		uint32 InstanceCount;
+		uint32 StartIndexLocation;
+		uint32 BaseVertexLocation;
+		uint32 StartInstanceLocation;
 	};
 
 	struct CEDispatchComputeRenderCommand : public CERenderCommand {
-		CEDispatchComputeRenderCommand() {
+		CEDispatchComputeRenderCommand(uint32 threadGroupCountX, uint32 threadGroupCountY, uint32 threadGroupCountZ):
+			ThreadGroupCountX(threadGroupCountX), ThreadGroupCountY(threadGroupCountY),
+			ThreadGroupCountZ(threadGroupCountZ) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.Dispatch(ThreadGroupCountX, ThreadGroupCountY, ThreadGroupCountZ);
 		}
+
+		uint32 ThreadGroupCountX;
+		uint32 ThreadGroupCountY;
+		uint32 ThreadGroupCountZ;
 	};
 
 	struct CEDispatchRayRenderCommand : public CERenderCommand {
-		CEDispatchRayRenderCommand() {
+		CEDispatchRayRenderCommand(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
+		                           uint32 width, uint32 height, uint32 depth): Scene(rayTracingScene),
+		                                                                       PipelineState(pipelineState),
+		                                                                       Width(width), Height(height),
+		                                                                       Depth(depth) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.DispatchRays(Scene.Get(), PipelineState.Get(), Width, Height, Depth);
 		}
+
+		Core::Common::CERef<CERayTracingScene> Scene;
+		Core::Common::CERef<CERayTracingPipelineState> PipelineState;
+		uint32 Width;
+		uint32 Height;
+		uint32 Depth;
 	};
 
 	struct CEInsertCommandListMakerRenderCommand : public CERenderCommand {
-		CEInsertCommandListMakerRenderCommand() {
+		CEInsertCommandListMakerRenderCommand(const std::string& marker): Marker(marker) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			CE_LOG_INFO(Marker);
+			commandContext.InsertMaker(Marker);
 		}
+
+		std::string Marker;
 	};
 
 	struct CEDebugBreakRenderCommand : public CERenderCommand {
@@ -767,7 +885,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			(void)commandContext;
+			commandContext.DebugBreak();
 		}
 	};
 
@@ -777,7 +896,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.BeginExternalCapture();
 		}
 	};
 
@@ -787,7 +906,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-
+			commandContext.EndExternalCapture();
 		}
 	};
 }

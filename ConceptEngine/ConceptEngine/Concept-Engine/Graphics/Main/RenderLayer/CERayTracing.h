@@ -13,4 +13,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CERayTracingShaderResources {
 
 	};
+
+	struct CERayTracingGeometryInstance {
+		
+	};
 }

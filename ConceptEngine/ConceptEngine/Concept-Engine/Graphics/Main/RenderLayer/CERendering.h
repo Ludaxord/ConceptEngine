@@ -1,6 +1,9 @@
 #pragma once
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 
+	enum class CEResourceState {
+	};
+
 	enum class CEShadingRate {
 	};
 
@@ -12,6 +15,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEClearValue {
+
+	};
+
+	struct CECopyBufferInfo {
+
+	};
+
+	struct CECopyTextureInfo {
 
 	};
 }
