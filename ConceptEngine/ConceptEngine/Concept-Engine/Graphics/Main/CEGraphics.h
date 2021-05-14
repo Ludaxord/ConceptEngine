@@ -13,11 +13,34 @@
 
 namespace ConceptEngine::Graphics::Main {
 	enum class GraphicsAPI {
-		DirectX,
-		Vulkan,
-		OpenGL,
-		Metal,
+		Unknown = 0,
+		DirectX = 1,
+		Vulkan = 2,
+		OpenGL = 3,
+		Metal = 4,
 		Count
+	};
+
+	enum class CEShadingRateTier {
+		NotSupported = 0,
+		Tier1 = 1,
+		Tier2 = 2
+	};
+
+	struct CEShadingRateSupport {
+		CEShadingRateTier Tier = CEShadingRateTier::NotSupported;
+		uint32 ShadingRateImageTileSize = 0;
+	};
+
+	enum class CERayTracingTier {
+		NotSupported = 0,
+		Tier1 = 1,
+		Tier1_1 = 2
+	};
+
+	struct CERayTracingSupport {
+		CERayTracingTier Tier;
+		uint32 MaxRecursionDepth;
 	};
 
 	class CEGraphics {
@@ -34,7 +57,7 @@ namespace ConceptEngine::Graphics::Main {
 		virtual void Destroy() = 0;
 
 		static Rendering::CEDebugUI* GetDebugUI();
-	
+
 	protected:
 		std::unique_ptr<Managers::CEGraphicsManager> m_graphicsManager;
 		std::unique_ptr<Managers::CETextureManager> m_textureManager;

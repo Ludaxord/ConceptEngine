@@ -19,6 +19,9 @@ CEWindows::~CEWindows() {
 }
 
 bool CEWindows::Create() {
+	if (!CEPlatform::Create()) {
+		return false;
+	} 
 	return true;
 }
 

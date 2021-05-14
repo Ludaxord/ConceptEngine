@@ -15,10 +15,10 @@ void CERenderer::Update(const Scene::CEScene& scene) {
 void CERenderer::PerformFrustumCulling(const Scene::CEScene& scene) {
 }
 
-void CERenderer::PerformFXAA(Graphics::Main::RenderLayer::CECommandList& commandList) {
+void CERenderer::PerformFXAA(CECommandList& commandList) {
 }
 
-void CERenderer::PerformBackBufferBlit(Graphics::Main::RenderLayer::CECommandList& commandList) {
+void CERenderer::PerformBackBufferBlit(CECommandList& commandList) {
 }
 
 void CERenderer::RenderDebugInterface() {

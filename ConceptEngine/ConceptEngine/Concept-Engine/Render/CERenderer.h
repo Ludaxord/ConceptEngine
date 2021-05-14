@@ -31,8 +31,8 @@ namespace ConceptEngine::Render {
 		void Update(const Scene::CEScene& scene);
 
 		void PerformFrustumCulling(const Scene::CEScene& scene);
-		void PerformFXAA(Graphics::Main::RenderLayer::CECommandList& commandList);
-		void PerformBackBufferBlit(Graphics::Main::RenderLayer::CECommandList& commandList);
+		void PerformFXAA(CECommandList& commandList);
+		void PerformBackBufferBlit(CECommandList& commandList);
 
 		void RenderDebugInterface();
 

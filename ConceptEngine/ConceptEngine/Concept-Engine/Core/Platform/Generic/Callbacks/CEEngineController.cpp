@@ -20,6 +20,7 @@ CEEngineController EngineController;
 
 bool CEEngineController::Create() {
 	if (Core::Generic::Platform::CEPlatform::GetWindow()) {
+		
 		Core::Generic::Platform::CEPlatform::GetWindow()->Show(false);
 		ToggleFullscreen.OnExecute.AddObject(Core::Generic::Platform::CEPlatform::GetWindow(),
 		                                     &CEWindow::ToggleFullscreen);
