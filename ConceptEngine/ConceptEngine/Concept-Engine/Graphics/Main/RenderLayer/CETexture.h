@@ -1,13 +1,10 @@
 #pragma once
 #include "CEResource.h"
+#include "CERendering.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CETexture : public CEResource {
 	public:
-		explicit CETexture(CEFormat format)
-			: Format(format) {
-		}
-
 		CEFormat GetFormat() const {
 			return Format;
 		}
@@ -17,7 +14,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CETexture2D : public CETexture {
-
+	public:
 	};
 
 	class CETexture2DArray : public CETexture2D {

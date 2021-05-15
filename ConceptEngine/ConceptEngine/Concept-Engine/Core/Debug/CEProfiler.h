@@ -45,7 +45,7 @@ namespace ConceptEngine::Core::Debug {
 		static void EndGPUFrame(CECommandList& commandList);
 		static void EndGPUTrace(CECommandList& commandList, const char* Name);
 
-		static void SetGPUProfiler(class CEGPUProfiler* Profiler);
+		static void SetGPUProfiler(class ConceptEngine::Graphics::Main::RenderLayer::CEGPUProfiler* Profiler);
 	protected:
 	private:
 	};

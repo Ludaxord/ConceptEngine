@@ -12,6 +12,8 @@
 #include "../RenderLayer/CEPipelineState.h"
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Platform/Generic/Window/CEWindow.h"
+#include "../RenderLayer/CEGPUProfiler.h"
+#include "../RenderLayer/CEViewport.h"
 
 
 namespace ConceptEngine::Graphics::Main {
@@ -172,7 +174,7 @@ namespace ConceptEngine::Graphics::Main {
 
 			virtual class CEGPUProfiler* CreateProfiler() = 0;
 
-			virtual class CeViewport CreateViewport(Core::Platform::Generic::Window::CEWindow* window, uint32 width,
+			virtual class CEViewport* CreateViewport(Core::Platform::Generic::Window::CEWindow* window, uint32 width,
 			                                        uint32 height, CEFormat colorFormat, CEFormat depthFormat) = 0;
 
 			virtual class CEICommandContext* GetDefaultCommandContext() = 0;
