@@ -47,3 +47,7 @@ bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateRendererManager() {
 bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateDebugUi() {
 	return true;
 }
+
+bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateShaderCompiler() {
+	return true;
+}

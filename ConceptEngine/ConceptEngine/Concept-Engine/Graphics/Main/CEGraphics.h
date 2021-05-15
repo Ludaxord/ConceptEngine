@@ -37,13 +37,15 @@ namespace ConceptEngine::Graphics::Main {
 		static Rendering::CEDebugUI* GetDebugUI();
 
 	protected:
-		std::unique_ptr<Managers::CEGraphicsManager> m_graphicsManager;
-		std::unique_ptr<Managers::CETextureManager> m_textureManager;
-		std::unique_ptr<Managers::CERendererManager> m_rendererManager;
+		std::unique_ptr<Managers::CEGraphicsManager> GraphicsManager;
+		std::unique_ptr<Managers::CETextureManager> TextureManager;
+		std::unique_ptr<Managers::CERendererManager> RendererManager;
+		RenderLayer::CEIShaderCompiler* Compiler = nullptr;
 
-		static std::unique_ptr<Rendering::CEDebugUI> m_debugUi;
+		static std::unique_ptr<Rendering::CEDebugUI> DebugUI;
 	private:
 		virtual bool CreateGraphicsManager() = 0;
+		virtual bool CreateShaderCompiler() = 0;
 		virtual bool CreateTextureManager() = 0;
 		virtual bool CreateRendererManager() = 0;
 		virtual bool CreateDebugUi() = 0;

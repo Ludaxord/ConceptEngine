@@ -93,7 +93,6 @@
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXTextureManager.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.h" />
-    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CECommandList.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandAllocator.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.h" />
@@ -103,6 +102,7 @@
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorCache.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorHeap.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDevice.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDeviceElement.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXFence.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXGPUProfiler.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXHelper.h" />
@@ -145,6 +145,7 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CEResourceViews.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CESamplerState.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShader.h" />
+    <ClInclude Include="Graphics\Main\RenderLayer\CEShaderCompiler.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CETexture.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEViewport.h" />
     <ClInclude Include="Graphics\Main\Components\CERigidDynamic.h" />
@@ -256,6 +257,7 @@
     <ClCompile Include="Graphics\Main\RenderLayer\CEPipelineState.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CERayTracing.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEShader.cpp" />
+    <ClCompile Include="Graphics\Main\RenderLayer\CEShaderCompiler.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CETexture.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEViewport.cpp" />
     <ClCompile Include="Graphics\Main\Components\CERigidDynamic.cpp" />

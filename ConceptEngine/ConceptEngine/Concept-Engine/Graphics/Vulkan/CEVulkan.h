@@ -21,5 +21,6 @@ namespace ConceptEngine::Graphics::Vulkan {
 		bool CreateTextureManager() override;
 		bool CreateRendererManager() override;
 		bool CreateDebugUi() override;
+		bool CreateShaderCompiler() override;
 	};
 }

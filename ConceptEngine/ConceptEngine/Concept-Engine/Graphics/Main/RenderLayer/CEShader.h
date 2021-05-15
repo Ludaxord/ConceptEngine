@@ -1,4 +1,7 @@
 #pragma once
+
+#include "CEResource.h"
+
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	enum class CEShaderStage {
 		Unknown = 0,

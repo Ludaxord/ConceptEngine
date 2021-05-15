@@ -22,5 +22,6 @@ namespace ConceptEngine::Graphics::DirectX12 {
 		bool CreateTextureManager() override;
 		bool CreateRendererManager() override;
 		bool CreateDebugUi() override;
+		bool CreateShaderCompiler() override;
 	};
 }

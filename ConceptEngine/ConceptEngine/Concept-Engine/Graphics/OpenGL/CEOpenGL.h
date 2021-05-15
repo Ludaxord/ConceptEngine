@@ -21,5 +21,6 @@ namespace ConceptEngine::Graphics::OpenGL {
 		bool CreateGraphicsManager() override;
 		bool CreateTextureManager() override;
 		bool CreateDebugUi() override;
+		bool CreateShaderCompiler() override;
 	};
 }

@@ -47,3 +47,7 @@ bool ConceptEngine::Graphics::Metal::CEMetal::CreateTextureManager() {
 bool ConceptEngine::Graphics::Metal::CEMetal::CreateDebugUi() {
 	return true;
 }
+
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateShaderCompiler() {
+	return true;
+}

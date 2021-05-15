@@ -34,6 +34,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	public:
 		virtual ~CEIShaderCompiler() = default;
 
+		virtual bool Create() = 0;
+
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
 		                             const Core::Containers::CEArray<CEShaderDefine>* defines,

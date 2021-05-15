@@ -17,7 +17,15 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!m_graphicsManager->Create()) {
+	if (!CreateShaderCompiler()) {
+		return false;
+	}
+
+	if (!Compiler->Create()) {
+		return false;
+	}
+
+	if (!GraphicsManager->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Graphics Manager");
 		return false;
 	}
@@ -26,7 +34,7 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!m_textureManager->Create()) {
+	if (!TextureManager->Create()) {
 		return false;
 	}
 
@@ -34,7 +42,7 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!m_rendererManager->Create()) {
+	if (!RendererManager->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Renderer Manager");
 		return false;
 	}
@@ -43,7 +51,7 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!m_debugUi->Create()) {
+	if (!DebugUI->Create()) {
 		return false;
 	}
 
@@ -52,5 +60,5 @@ bool CEGraphics::CreateManagers() {
 
 //TODO: Change to static Variable for DebugUI and typedef for different rendering API
 Rendering::CEDebugUI* CEGraphics::GetDebugUI() {
-	return m_debugUi.get();
+	return DebugUI.get();
 }

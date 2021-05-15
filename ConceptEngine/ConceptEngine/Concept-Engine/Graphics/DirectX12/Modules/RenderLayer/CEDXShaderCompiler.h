@@ -16,7 +16,7 @@ namespace ConceptEngine::Graphics { namespace DirectX12::Modules::RenderLayer {
 		CEDXShaderCompiler();
 		~CEDXShaderCompiler() override;
 
-		bool Create();
+		bool Create() override;
 
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
@@ -51,6 +51,7 @@ namespace ConceptEngine::Graphics { namespace DirectX12::Modules::RenderLayer {
 		bool InternalGetReflection(const ComPtr<IDxcBlob>& shaderBlob, REFIID IID, void** ppvObject);
 		bool ValidateRayTracingShader(const ComPtr<IDxcBlob>& shaderBlob, LPCWSTR entryPoint);
 
+	private:
 		ComPtr<IDxcCompiler> DXCompiler;
 		ComPtr<IDxcLibrary> DXLibrary;
 		ComPtr<IDxcLinker> DXLinker;

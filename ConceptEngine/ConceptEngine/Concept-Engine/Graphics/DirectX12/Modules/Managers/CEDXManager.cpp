@@ -1,5 +1,7 @@
 #include "CEDXManager.h"
 
+#include "../RenderLayer/CEDXShaderCompiler.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Managers;
 using namespace ConceptEngine::Graphics;
 
@@ -10,6 +12,7 @@ CEDXManager::~CEDXManager() {
 }
 
 bool CEDXManager::Create() {
+
 	return true;
 }
 
