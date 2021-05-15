@@ -4,6 +4,10 @@
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CETexture : public CEResource {
 	public:
+		explicit CETexture(CEFormat format)
+			: Format(format) {
+		}
+
 		CEFormat GetFormat() const {
 			return Format;
 		}

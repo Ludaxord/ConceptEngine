@@ -21,28 +21,6 @@ namespace ConceptEngine::Graphics::Main {
 		Count
 	};
 
-	enum class CEShadingRateTier {
-		NotSupported = 0,
-		Tier1 = 1,
-		Tier2 = 2
-	};
-
-	struct CEShadingRateSupport {
-		CEShadingRateTier Tier = CEShadingRateTier::NotSupported;
-		uint32 ShadingRateImageTileSize = 0;
-	};
-
-	enum class CERayTracingTier {
-		NotSupported = 0,
-		Tier1 = 1,
-		Tier1_1 = 2
-	};
-
-	struct CERayTracingSupport {
-		CERayTracingTier Tier;
-		uint32 MaxRecursionDepth;
-	};
-
 	class CEGraphics {
 	public:
 		friend class CECore;

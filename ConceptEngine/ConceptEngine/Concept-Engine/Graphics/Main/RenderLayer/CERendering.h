@@ -21,6 +21,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	enum class CEPrimitiveTopology {
 	};
 
+	struct CEResourceData {
+		
+	};
+
 	struct CEDepthStencilF {
 
 	};
