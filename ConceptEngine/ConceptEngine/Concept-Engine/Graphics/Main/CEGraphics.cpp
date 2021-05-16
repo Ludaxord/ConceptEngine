@@ -27,7 +27,7 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!GraphicsManager->Create()) {
+	if (GraphicsManager->Create()) {
 		RenderLayer::CEICommandContext* commandContext = GraphicsManager->GetDefaultCommandContext();
 		CommandListExecutor.SetContext(commandContext);
 	}
