@@ -1,5 +1,7 @@
 #include "CEGraphics.h"
 
+#include "RenderLayer/CECommandList.h"
+
 using namespace ConceptEngine::Graphics::Main;
 
 CEGraphics::CEGraphics() {
@@ -26,6 +28,10 @@ bool CEGraphics::CreateManagers() {
 	}
 
 	if (!GraphicsManager->Create()) {
+		RenderLayer::CEICommandContext* commandContext = GraphicsManager->GetDefaultCommandContext();
+		CommandListExecutor.SetContext(commandContext);
+	}
+	else {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Graphics Manager");
 		return false;
 	}
