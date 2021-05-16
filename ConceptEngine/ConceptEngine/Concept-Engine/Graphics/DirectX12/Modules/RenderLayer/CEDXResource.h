@@ -10,6 +10,10 @@
 namespace ConceptEngine::Graphics::DirectX12::Modules::RenderLayer {
 	class CEDXResource : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
 	public:
+		CEDXResource(CEDXDevice* device, const Microsoft::WRL::ComPtr<ID3D12Resource>& nativeResource);
+		CEDXResource(CEDXDevice* device, const D3D12_RESOURCE_DESC& desc, D3D12_HEAP_TYPE heapType);
+		~CEDXResource() = default;
+
 		bool Create(D3D12_RESOURCE_STATES initialState, const D3D12_CLEAR_VALUE* optimizedClearValue);
 
 		void* Map(uint32 subResource, const D3D12_RANGE* range);

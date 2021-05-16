@@ -140,7 +140,9 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::RenderLayer {
 		}
 
 		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHanndleAt(uint32 index) const {
-			return {Heap->GetGPUDescriptorHandleForHeapStart() + (index * Heap->GetDescriptorHandleIncrementSize())};
+			return {
+				Heap->GetGPUDescriptorHandleForHeapStart().ptr + (index * Heap->GetDescriptorHandleIncrementSize())
+			};
 		}
 
 		uint32 GetDescriptorHandleIncrementSize() const {

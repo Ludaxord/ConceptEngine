@@ -1,14 +1,19 @@
 #pragma once
 
 #include <d3d12.h>
+#include <wrl/client.h>
 
 #include "CEDXCommandList.h"
 #include "CEDXCommandQueue.h"
+#include "CEDXDescriptorCache.h"
 #include "CEDXDescriptorHeap.h"
 #include "CEDXDevice.h"
 #include "CEDXDeviceElement.h"
 #include "CEDXFence.h"
+#include "CEDXGPUProfiler.h"
+#include "CEDXPipelineState.h"
 #include "CEDXResource.h"
+#include "CEDXRootSignature.h"
 #include "../../../Main/RenderLayer/CEICommandContext.h"
 #include "../../../../Math/CEMath.h"
 #include "../../../../Core/Containers/CEArray.h"
@@ -50,7 +55,7 @@ namespace ConceptEngine::Graphics {
 				}
 			}
 
-			void AddInUseResource(const Microsoft::WRL::ComPtr<CEDXResource>* resource) {
+			void AddInUseResource(const Microsoft::WRL::ComPtr<ID3D12Resource>& resource) {
 				if (resource) {
 					NativeResources.EmplaceBack(resource);
 				}

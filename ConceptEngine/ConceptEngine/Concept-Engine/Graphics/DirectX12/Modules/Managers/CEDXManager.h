@@ -4,6 +4,7 @@
 #include "../RenderLayer/CEDXDescriptorHeap.h"
 #include "../RenderLayer/CEDXDevice.h"
 #include "../RenderLayer/CEDXCommandContext.h"
+#include "../RenderLayer/CEDXRootSignature.h"
 
 namespace ConceptEngine::Graphics {
 
@@ -174,7 +175,7 @@ namespace ConceptEngine::Graphics {
 
 			RenderLayer::CEDXDevice* Device;
 			Core::Common::CERef<RenderLayer::CEDXCommandContext> DirectCommandContext;
-			CEDXRootSignatureCache* RootSignatureCache;
+			RenderLayer::CEDXRootSignatureCache* RootSignatureCache;
 
 			RenderLayer::CEDXOfflineDescriptorHeap* ResourceOfflineDescriptorHeap = nullptr;
 			RenderLayer::CEDXOfflineDescriptorHeap* RenderTargetOfflineDescriptorHeap = nullptr;
