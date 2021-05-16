@@ -15,6 +15,7 @@
 #include "../RenderLayer/CEGPUProfiler.h"
 #include "../RenderLayer/CEViewport.h"
 #include "../RenderLayer/CEShaderCompiler.h"
+#include "../RenderLayer/CEICommandContext.h"
 
 
 namespace ConceptEngine::Graphics::Main {

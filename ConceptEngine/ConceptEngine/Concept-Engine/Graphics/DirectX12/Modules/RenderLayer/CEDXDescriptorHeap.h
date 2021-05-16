@@ -115,5 +115,56 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::RenderLayer {
 		uint32 DescriptorSize = 0;
 	};
 
-	
+	class CEDXOnlineDescriptorHeap : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
+	public:
+		CEDXOnlineDescriptorHeap(CEDXDevice* device, uint32 descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE type);
+		~CEDXOnlineDescriptorHeap() = default;
+
+		bool Create();
+
+		uint32 AllocateHandles(uint32 numHandles);
+		bool AllocateFreshHeap();
+
+		bool HasSpace(uint32 numHandles) const;
+
+		void Reset();
+
+		void SetName(const std::string& name) {
+			Heap->SetName(name);
+		}
+
+		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHanndleAt(uint32 index) const {
+			return {
+				Heap->GetCPUDescriptorHandleForHeapStart().ptr + (index * Heap->GetDescriptorHandleIncrementSize())
+			};
+		}
+
+		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHanndleAt(uint32 index) const {
+			return {Heap->GetGPUDescriptorHandleForHeapStart() + (index * Heap->GetDescriptorHandleIncrementSize())};
+		}
+
+		uint32 GetDescriptorHandleIncrementSize() const {
+			return Heap->GetDescriptorHandleIncrementSize();
+		}
+
+		ID3D12DescriptorHeap* GetNativeHeap() const {
+			return Heap->GetHeap();
+		}
+
+		CEDXDescriptorHeap* GetHeap() const {
+			return Heap.Get();
+		}
+
+	protected:
+	private:
+		Core::Common::CERef<CEDXDescriptorHeap> Heap;
+
+		Core::Containers::CEArray<Core::Common::CERef<CEDXDescriptorHeap>> HeapPool;
+		Core::Containers::CEArray<Core::Common::CERef<CEDXDescriptorHeap>> DiscardedHeaps;
+
+		D3D12_DESCRIPTOR_HEAP_TYPE Type;
+		uint32 CurrentHandle = 0;
+		uint32 DescriptorCount = 0;
+	};
+
 }

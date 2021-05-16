@@ -4,6 +4,7 @@
 
 #include "CEDXCommandList.h"
 #include "CEDXCommandQueue.h"
+#include "CEDXDescriptorHeap.h"
 #include "CEDXDevice.h"
 #include "CEDXDeviceElement.h"
 #include "CEDXFence.h"
@@ -95,7 +96,7 @@ namespace ConceptEngine::Graphics {
 
 			void FlushBarriers(CEDXCommandListHandle& commandList) {
 				if (!Barriers.IsEmpty()) {
-					commandList.ResourceBarrier(Barriers.Data(), Barriers.Data());
+					commandList.ResourceBarrier(Barriers.Data(), Barriers.Size());
 				}
 			}
 

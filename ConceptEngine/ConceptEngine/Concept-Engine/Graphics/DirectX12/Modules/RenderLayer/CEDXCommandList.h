@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 
+#include "CEDXCommandAllocator.h"
 #include "CEDXDevice.h"
 #include "CEDXDeviceElement.h"
 #include "../../../../Core/Common/CETypes.h"

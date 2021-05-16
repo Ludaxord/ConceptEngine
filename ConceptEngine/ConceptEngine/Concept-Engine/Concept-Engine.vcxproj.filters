@@ -164,6 +164,7 @@
     <ClInclude Include="Graphics\Main\RenderLayer\CESamplerState.h" />
     <ClInclude Include="Graphics\Main\RenderLayer\CEShaderCompiler.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDeviceElement.h" />
+    <ClInclude Include="Utilities\CEStringUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -221,7 +222,6 @@
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CERayTracer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorCache.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXSwapChain.cpp" />

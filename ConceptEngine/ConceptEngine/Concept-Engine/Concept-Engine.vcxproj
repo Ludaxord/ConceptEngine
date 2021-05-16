@@ -182,6 +182,7 @@
     <ClInclude Include="Core\Platform\Generic\Window\CEConsole.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEScreen.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEWindow.h" />
+    <ClInclude Include="Utilities\CEStringUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Common\CERefCountedObject.cpp" />
@@ -220,7 +221,6 @@
     <ClCompile Include="Graphics\DirectX12\Modules\Managers\CEDXRendererManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Rendering\CEDXDebugUI.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandContext.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandList.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXCommandQueue.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorCache.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDescriptorHeap.cpp" />

@@ -50,9 +50,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Set32BitShaderConstants(CEShader* shader, const void* shader32BitConstants,
 		                                     uint32 num32BitConstants) = 0;
 
-		virtual void SetShaderResourceView(CEShader* shader, CEShaderResourceView* ce_shader_resource_view,
+		virtual void SetShaderResourceView(CEShader* shader, CEShaderResourceView* shaderResourceView,
 		                                   uint32 parameterIndex) = 0;
-		virtual void SetShaderResourceViews(CEShader* ce_shader, CEShaderResourceView* const* ce_shader_resource_view,
+		virtual void SetShaderResourceViews(CEShader* shader, CEShaderResourceView* const* shaderResourceView,
 		                                    uint32 numShaderResourceViews, uint32 parameterIndex) = 0;
 
 		virtual void SetUnorderedAccessView(CEShader* shader, CEUnorderedAccessView* unorderedAccessView,
