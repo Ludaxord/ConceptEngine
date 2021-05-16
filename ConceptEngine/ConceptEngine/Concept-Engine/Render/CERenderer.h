@@ -26,24 +26,24 @@ namespace ConceptEngine::Render {
 
 	class CERenderer {
 	public:
-		bool Create();
-		void Release();
-		void Update(const Scene::CEScene& scene);
+		virtual bool Create();
+		virtual void Release();
+		virtual void Update(const Scene::CEScene& scene);
 
-		void PerformFrustumCulling(const Scene::CEScene& scene);
-		void PerformFXAA(CECommandList& commandList);
-		void PerformBackBufferBlit(CECommandList& commandList);
+		virtual void PerformFrustumCulling(const Scene::CEScene& scene);
+		virtual void PerformFXAA(CECommandList& commandList);
+		virtual void PerformBackBufferBlit(CECommandList& commandList);
 
-		void RenderDebugInterface();
+		virtual void RenderDebugInterface();
 
 	private:
-		void OnWindowResize(const Core::Common::CEWindowResizeEvent& Event);
+		virtual void OnWindowResize(const Core::Common::CEWindowResizeEvent& Event);
 
-		bool CreateBoundingBoxDebugPass();
-		bool CreateAA();
-		bool CreateShadingImage();
+		virtual bool CreateBoundingBoxDebugPass();
+		virtual bool CreateAA();
+		virtual bool CreateShadingImage();
 
-		void ResizeResources(uint32 width, uint32 height);
+		virtual void ResizeResources(uint32 width, uint32 height);
 
 	private:
 		CECommandList CommandList;

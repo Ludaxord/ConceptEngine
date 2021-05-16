@@ -1,0 +1,54 @@
+#include "CEDXRenderer.h"
+
+using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
+using namespace ConceptEngine::Render::Scene;
+
+
+bool CEDXRenderer::Create() {
+	if (!CERenderer::Create()) {
+		return false;
+	}
+	return false;
+}
+
+void CEDXRenderer::Release() {
+	CERenderer::Release();
+}
+
+void CEDXRenderer::Update(const CEScene& scene) {
+	CERenderer::Update(scene);
+}
+
+void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
+	CERenderer::PerformFrustumCulling(scene);
+}
+
+void CEDXRenderer::PerformFXAA(Main::RenderLayer::CECommandList& commandList) {
+	CERenderer::PerformFXAA(commandList);
+}
+
+void CEDXRenderer::PerformBackBufferBlit(Main::RenderLayer::CECommandList& commandList) {
+	CERenderer::PerformBackBufferBlit(commandList);
+}
+
+void CEDXRenderer::RenderDebugInterface() {
+	CERenderer::RenderDebugInterface();
+}
+
+void CEDXRenderer::OnWindowResize(const Core::Common::CEWindowResizeEvent& Event) {
+}
+
+bool CEDXRenderer::CreateBoundingBoxDebugPass() {
+	return false;
+}
+
+bool CEDXRenderer::CreateAA() {
+	return false;
+}
+
+bool CEDXRenderer::CreateShadingImage() {
+	return false;
+}
+
+void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
+}

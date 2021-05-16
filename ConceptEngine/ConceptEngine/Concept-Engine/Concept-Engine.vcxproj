@@ -117,6 +117,7 @@
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXSwapChain.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXTexture.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.h" />
     <ClInclude Include="Graphics\Main\CEGraphics.h" />
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
     <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXShaderCompiler.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXSwapChain.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.cpp" />
     <ClCompile Include="Graphics\Main\CEGraphics.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
