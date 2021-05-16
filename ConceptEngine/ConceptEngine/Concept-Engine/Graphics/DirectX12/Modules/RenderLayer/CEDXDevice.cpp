@@ -2,5 +2,5 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::Modules::RenderLayer;
 
-void DeviceRemovedHandler(CEDXDevice* Device) {
+void ConceptEngine::Graphics::DirectX12::Modules::RenderLayer::DeviceRemovedHandler(CEDXDevice* Device) {
 }

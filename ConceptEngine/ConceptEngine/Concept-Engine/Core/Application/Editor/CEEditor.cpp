@@ -6,6 +6,7 @@ using namespace ConceptEngine::Core::Application::Editor;
 
 CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language,
                    Generic::Platform::Platform platform): CECore(api, language, platform) {
+	EnableDebug = true;
 }
 
 CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,

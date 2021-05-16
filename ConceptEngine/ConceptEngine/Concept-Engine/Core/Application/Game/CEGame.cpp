@@ -8,6 +8,7 @@ using namespace ConceptEngine::Core::Application::Game;
 CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language,
                Generic::Platform::Platform platform) : CEGameCore(
 	api, language, platform) {
+	EnableDebug = false;
 }
 
 CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,

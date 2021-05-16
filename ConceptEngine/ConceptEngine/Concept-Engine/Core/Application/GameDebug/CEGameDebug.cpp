@@ -6,6 +6,7 @@ using namespace ConceptEngine::Core::Application::GameDebug;
 
 CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,
                          Generic::Platform::Platform platform): CEGameCore(api, language, platform) {
+	EnableDebug = true;
 }
 
 CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,

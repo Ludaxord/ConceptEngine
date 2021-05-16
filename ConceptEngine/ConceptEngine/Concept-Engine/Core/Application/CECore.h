@@ -26,7 +26,8 @@ namespace ConceptEngine::Core::Application {
 
 		static int ShowConsole;
 		inline static bool IsRunning = false;
-
+		inline static bool EnableDebug = false;
+	
 	protected:
 		static Graphics::Main::CEGraphics* Graphics;
 		static Compilers::CECompiler* Compiler;

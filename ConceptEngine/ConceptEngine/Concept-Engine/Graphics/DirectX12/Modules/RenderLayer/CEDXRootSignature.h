@@ -24,6 +24,13 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::RenderLayer {
 	};
 
 	class CEDXRootSignatureCache : public CEDXDeviceElement {
-		
+	public:
+		CEDXRootSignatureCache(CEDXDevice* device);
+		~CEDXRootSignatureCache();
+
+		bool Create();
+		void ReleaseAll();
+	private:
+		static CEDXRootSignatureCache* Instance;
 	};
 }

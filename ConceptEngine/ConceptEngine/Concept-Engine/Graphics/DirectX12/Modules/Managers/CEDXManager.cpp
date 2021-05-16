@@ -1,17 +1,74 @@
 #include "CEDXManager.h"
 
 #include "../RenderLayer/CEDXShaderCompiler.h"
+#include "../../../../Core/Application/CECore.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Managers;
 using namespace ConceptEngine::Graphics;
 
-CEDXManager::CEDXManager() {
+CEDXManager::CEDXManager(): CEGraphicsManager(), Device(nullptr), DirectCommandContext(nullptr) {
 }
 
 CEDXManager::~CEDXManager() {
+	DirectCommandContext.Reset();
+
+	//TODO: Safe delete all objects in private section
 }
 
 bool CEDXManager::Create() {
+	bool gpuBasedValidationOn =
+#if ENABLE_API_GPU_DEBUGGING
+		Core::Application::CECore::EnableDebug;
+#else
+		false;
+#endif
+
+	bool DREDOn =
+#if ENABLE_API_GPU_BREADCRUMBS
+        Core::Application::CECore::EnableDebug;
+#else
+		false;
+#endif
+
+	Device = new RenderLayer::CEDXDevice(Core::Application::CECore::EnableDebug, gpuBasedValidationOn, DREDOn);
+	if (!Device->Create()) {
+		return false;
+	}
+
+	RootSignatureCache = new RenderLayer::CEDXRootSignatureCache(Device);
+	if (!RootSignatureCache->Create()) {
+		return false;
+	}
+
+	ResourceOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
+		Device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	if (!ResourceOfflineDescriptorHeap->Create()) {
+		return false;
+	}
+
+	RenderTargetOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
+		Device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	if (!RenderTargetOfflineDescriptorHeap->Create()) {
+		return false;
+	}
+
+	DepthStencilOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
+		Device, D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	if (!DepthStencilOfflineDescriptorHeap->Create()) {
+		return false;
+	}
+
+	SamplerOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
+		Device, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
+	if (!SamplerOfflineDescriptorHeap->Create()) {
+		return false;
+	}
+
+	DirectCommandContext = new RenderLayer::CEDXCommandContext(Device);
+	if (!DirectCommandContext->Create()) {
+		return false;
+	}
+
 
 	return true;
 }

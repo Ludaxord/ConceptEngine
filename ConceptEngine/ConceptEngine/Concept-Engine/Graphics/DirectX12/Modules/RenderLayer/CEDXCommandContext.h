@@ -160,6 +160,19 @@ namespace ConceptEngine::Graphics {
 		public:
 			virtual void Begin() override final;
 			virtual void End() override final;
+
+			void BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
+			void EndTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
+			void DispatchRays(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
+			                  uint32 width, uint32 height, uint32 depth) override;
+			void SetRayTracingBindings(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
+			                           const CERayTracingShaderResources* globalResource,
+			                           const CERayTracingShaderResources* rayGenLocalResources,
+			                           const CERayTracingShaderResources* missLocalResources,
+			                           const CERayTracingShaderResources* hitGroupResources,
+			                           uint32 numHitGroupResources) override;
+			void InsertMaker(const std::string& message) override;
+
 			virtual void ClearRenderTargetView(CERenderTargetView* renderTargetView,
 			                                   Math::CEColorF& clearColor) override final;
 			virtual void ClearDepthStencilView(CEDepthStencilView* depthStencilView,
@@ -267,6 +280,7 @@ namespace ConceptEngine::Graphics {
 		private:
 			void InternalClearState();
 
+		private:
 			CEDXCommandListHandle CommandList;
 			CEDXFenceHandle Fence;
 			CEDXCommandQueueHandle CommandQueue;

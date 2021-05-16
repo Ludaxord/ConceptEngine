@@ -17,6 +17,9 @@
 #include "../RenderLayer/CEShaderCompiler.h"
 #include "../RenderLayer/CEICommandContext.h"
 
+#define ENABLE_API_DEBUGGING 0;
+#define ENABLE_API_GPU_DEBUGGING 0;
+#define ENABLE_API_GPU_BREADCRUMBS 0;
 
 namespace ConceptEngine::Graphics::Main {
 

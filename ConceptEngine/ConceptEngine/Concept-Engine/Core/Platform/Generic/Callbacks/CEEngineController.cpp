@@ -11,7 +11,6 @@
 
 using namespace ConceptEngine::Core::Platform::Generic::Callbacks;
 using namespace ConceptEngine::Core::Generic::Platform;
-using namespace ConceptEngine::Core::Generic::Platform;
 
 //TODO: Move to container
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleCommand ToggleFullscreen;
