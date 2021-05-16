@@ -196,3 +196,20 @@ void CEDXManager::CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) 
 
 void CEDXManager::CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) {
 }
+
+
+template <typename TCEDXTexture>
+TCEDXTexture* CEDXManager::CreateTexture(CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+                                         uint32 numMips, uint32 numSamplers, uint32 flags, CEResourceState initialState,
+                                         const CEResourceData* initialData, const CEClearValue* optimalClearValue) {
+	return nullptr;
+}
+
+template <typename TCEDXBuffer>
+bool CEDXManager::FinishBufferResource(TCEDXBuffer* buffer,
+                                       uint32 sizeInBytes,
+                                       uint32 flags,
+                                       CEResourceState initialState,
+                                       const CEResourceData* initialData) {
+	return false;
+}
