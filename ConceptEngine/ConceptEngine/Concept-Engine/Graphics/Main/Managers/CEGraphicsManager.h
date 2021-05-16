@@ -79,19 +79,16 @@ namespace ConceptEngine::Graphics::Main {
 			                                               const CEClearValue&
 			                                               optimizedClearValue) = 0;
 			virtual CETextureCube* CreateTextureCube(CEFormat format,
-			                                         uint32 width,
-			                                         uint32 height,
-			                                         uint32 depth,
+			                                         uint32 size,
 			                                         uint32 numMips,
 			                                         uint32 flags,
 			                                         CEResourceState initialState,
 			                                         const CEResourceData* initialData,
 			                                         const CEClearValue& optimizedClearValue) = 0;
 			virtual CETextureCubeArray* CreateTextureCubeArray(CEFormat format,
-			                                                   uint32 width,
-			                                                   uint32 height,
-			                                                   uint32 depth,
+			                                                   uint32 size,
 			                                                   uint32 numMips,
+			                                                   uint32 numArraySlices,
 			                                                   uint32 flags,
 			                                                   CEResourceState initialState,
 			                                                   const CEResourceData* initialData,
@@ -104,7 +101,7 @@ namespace ConceptEngine::Graphics::Main {
 			                                     uint32 flags,
 			                                     CEResourceState initialState,
 			                                     const CEResourceData* initialData,
-			                                     const CEClearValue* optimizedClearValue) = 0;
+			                                     const CEClearValue& optimizedClearValue) = 0;
 
 			virtual class CESamplerState* CreateSamplerState(const struct CESamplerStateCreateInfo& createInfo) = 0;
 

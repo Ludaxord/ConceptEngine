@@ -1,6 +1,8 @@
 #include "CEDXManager.h"
 
 #include "../RenderLayer/CEDXShaderCompiler.h"
+#include "../RenderLayer/CEDXTexture.h"
+
 #include "../../../../Core/Application/CECore.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Managers;
@@ -80,7 +82,8 @@ CETexture2D* CEDXManager::CreateTexture2D(CEFormat format, uint32 width, uint32 
                                           uint32 numSamples, uint32 flags, CEResourceState initialState,
                                           const CEResourceData* initialData,
                                           const CEClearValue& optimizedClearValue) {
-	return nullptr;
+	return CreateTexture<RenderLayer::CEDXTexture2D>(format, width, height, 1, numMips, numSamples, flags, initialState,
+	                                                 initialData, optimizedClearValue);
 }
 
 CETexture2DArray* CEDXManager::CreateTexture2DArray(CEFormat format, uint32 width, uint32 height, uint32 numMips,
@@ -88,27 +91,38 @@ CETexture2DArray* CEDXManager::CreateTexture2DArray(CEFormat format, uint32 widt
                                                     CEResourceState initialState,
                                                     const CEResourceData* initialData,
                                                     const CEClearValue& optimizedClearValue) {
-	return nullptr;
+	return CreateTexture<RenderLayer::CEDXTexture2DArray>(format, width, height, numArraySlices, numMips, numSamples,
+	                                                      flags, initialState, initialData, optimizedClearValue);
 }
 
-CETextureCube* CEDXManager::CreateTextureCube(CEFormat format, uint32 width, uint32 height, uint32 depth,
-                                              uint32 numMips, uint32 flags, CEResourceState initialState,
+CETextureCube* CEDXManager::CreateTextureCube(CEFormat format,
+                                              uint32 size,
+                                              uint32 numMips,
+                                              uint32 flags,
+                                              CEResourceState initialState,
                                               const CEResourceData* initialData,
                                               const CEClearValue& optimizedClearValue) {
-	return nullptr;
+	return CreateTexture<RenderLayer::CEDXTextureCube>(format, size, size, TEXTURE_CUBE_FACE_COUNT, numMips, 1,
+	                                                   flags, initialState, initialData, optimizedClearValue);
 }
 
-CETextureCubeArray* CEDXManager::CreateTextureCubeArray(CEFormat format, uint32 width, uint32 height, uint32 depth,
-                                                        uint32 numMips, uint32 flags, CEResourceState initialState,
+CETextureCubeArray* CEDXManager::CreateTextureCubeArray(CEFormat format,
+                                                        uint32 size,
+                                                        uint32 numMips,
+                                                        uint32 numArraySlices,
+                                                        uint32 flags, CEResourceState initialState,
                                                         const CEResourceData* initialData,
                                                         const CEClearValue& optimalClearValue) {
-	return nullptr;
+	const uint32 arraySlices = numArraySlices * TEXTURE_CUBE_FACE_COUNT;
+	return CreateTexture<RenderLayer::CEDXTextureCubeArray>(format, size, size, arraySlices, numMips, 1, flags,
+	                                                        initialState, initialData, optimalClearValue);
 }
 
 CETexture3D* CEDXManager::CreateTexture3D(CEFormat format, uint32 width, uint32 height, uint32 depth, uint32 numMips,
                                           uint32 flags, CEResourceState initialState, const CEResourceData* initialData,
-                                          const CEClearValue* optimizedClearValue) {
-	return nullptr;
+                                          const CEClearValue& optimizedClearValue) {
+	return CreateTexture<RenderLayer::CEDXTexture3D>(format, width, height, depth, numMips, 1, flags, initialState,
+	                                                 initialData, optimizedClearValue);
 }
 
 CESamplerState* CEDXManager::CreateSamplerState(const CESamplerStateCreateInfo& createInfo) {
@@ -258,7 +272,7 @@ void CEDXManager::CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport
 template <typename TCEDXTexture>
 TCEDXTexture* CEDXManager::CreateTexture(CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
                                          uint32 numMips, uint32 numSamplers, uint32 flags, CEResourceState initialState,
-                                         const CEResourceData* initialData, const CEClearValue* optimalClearValue) {
+                                         const CEResourceData* initialData, const CEClearValue& optimalClearValue) {
 	return nullptr;
 }
 

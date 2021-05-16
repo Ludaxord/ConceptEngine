@@ -49,15 +49,18 @@ namespace ConceptEngine::Graphics {
 			                                               const CEResourceData* initialData,
 			                                               const CEClearValue& optimizedClearValue) override final;
 
-			virtual CETextureCube* CreateTextureCube(CEFormat format, uint32 width, uint32 height, uint32 depth,
+			virtual CETextureCube* CreateTextureCube(CEFormat format,
+			                                         uint32 size,
 			                                         uint32 numMips,
 			                                         uint32 flags, CEResourceState initialState,
 			                                         const CEResourceData* initialData,
 			                                         const CEClearValue& optimizedClearValue) override final;
 
-			virtual CETextureCubeArray* CreateTextureCubeArray(CEFormat format, uint32 width, uint32 height,
-			                                                   uint32 depth,
-			                                                   uint32 numMips, uint32 flags,
+			virtual CETextureCubeArray* CreateTextureCubeArray(CEFormat format, 
+			                                                   uint32 size,
+			                                                   uint32 numMips,
+			                                                   uint32 numArraySlices,
+			                                                   uint32 flags,
 			                                                   CEResourceState initialState,
 			                                                   const CEResourceData* initialData,
 			                                                   const CEClearValue& optimalClearValue) override final;
@@ -66,7 +69,7 @@ namespace ConceptEngine::Graphics {
 			                                     uint32 numMips,
 			                                     uint32 flags, CEResourceState initialState,
 			                                     const CEResourceData* initialData,
-			                                     const CEClearValue* optimizedClearValue) override final;
+			                                     const CEClearValue& optimizedClearValue) override final;
 
 			virtual CESamplerState* CreateSamplerState(const CESamplerStateCreateInfo& createInfo) override final;
 
@@ -164,7 +167,7 @@ namespace ConceptEngine::Graphics {
 			                            uint32 flags,
 			                            CEResourceState initialState,
 			                            const CEResourceData* initialData,
-			                            const CEClearValue* optimalClearValue);
+			                            const CEClearValue& optimalClearValue);
 
 			template <typename TCEDXBuffer>
 			bool FinishBufferResource(TCEDXBuffer* buffer,
