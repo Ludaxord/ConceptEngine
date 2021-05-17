@@ -36,6 +36,8 @@ namespace ConceptEngine::Graphics::Main {
 
 		static Rendering::CEDebugUI* GetDebugUI();
 
+		 Core::Common::CEManager* GetManager(Core::Common::CEManagerType type) const;
+	
 	protected:
 		std::unique_ptr<Managers::CEGraphicsManager> GraphicsManager;
 		std::unique_ptr<Managers::CETextureManager> TextureManager;

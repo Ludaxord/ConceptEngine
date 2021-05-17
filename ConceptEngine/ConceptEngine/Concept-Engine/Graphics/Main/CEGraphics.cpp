@@ -68,3 +68,17 @@ bool CEGraphics::CreateManagers() {
 Rendering::CEDebugUI* CEGraphics::GetDebugUI() {
 	return DebugUI.get();
 }
+
+ConceptEngine::Core::Common::CEManager* CEGraphics::GetManager(Core::Common::CEManagerType type) const {
+	switch (type) {
+	case Core::Common::CEManagerType::GraphicsManager:
+		return GraphicsManager.get();
+	case Core::Common::CEManagerType::TextureManager:
+		return TextureManager.get();
+	case Core::Common::CEManagerType::RendererManager:
+		return RendererManager.get();
+	default:
+		return nullptr;
+
+	}
+}

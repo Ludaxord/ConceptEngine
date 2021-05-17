@@ -130,6 +130,7 @@
     <ClInclude Include="Graphics\Main\Rendering\CEFrameResources.h" />
     <ClInclude Include="Graphics\Main\Rendering\CELightProbeRenderer.h" />
     <ClInclude Include="Graphics\Main\Rendering\CELightSetup.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEMeshDrawCommand.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEScreenSpaceOcclusionRenderer.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEShadowMapRenderer.h" />
     <ClInclude Include="Graphics\Main\Rendering\CESkyBoxRenderPass.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Core\Platform\Mac\CEMac.h" />
     <ClInclude Include="Core\Platform\Windows\CEWindows.h" />
     <ClInclude Include="Render\CERenderer.h" />
+    <ClInclude Include="Render\Scene\CEActor.h" />
     <ClInclude Include="Render\Scene\CEScene.h" />
     <ClInclude Include="Save\Game\CEGameSave.h" />
     <ClInclude Include="Save\CESave.h" />
@@ -281,6 +283,7 @@
     <ClCompile Include="Core\Platform\Mac\CEMac.cpp" />
     <ClCompile Include="Core\Platform\Windows\CEWindows.cpp" />
     <ClCompile Include="Render\CERenderer.cpp" />
+    <ClCompile Include="Render\Scene\CEActor.cpp" />
     <ClCompile Include="Render\Scene\CEScene.cpp" />
     <ClCompile Include="Save\Game\CEGameSaveReader.h" />
     <ClCompile Include="Save\Project\CEProjectSave.h" />

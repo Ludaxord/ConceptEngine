@@ -2,6 +2,7 @@
 #include "CEPlatformCallbacks.h"
 #include "../../../Delegates/CEEvent.h"
 #include "../../../Common/CEEvents.h"
+#include "../CEPlatform.h"
 
 namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 	class CEEngineController final : public CEPlatformCallbacks {
@@ -31,6 +32,10 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 		virtual void OnWindowClosed(const Common::CERef<Window::CEWindow>& window) override final;
 		virtual void OnApplicationExit(int32 exitCode) override final;
 
+		static Window::CEWindow* GetWindow() {
+			return Core::Generic::Platform::CEPlatform::GetWindow();
+		}
+	
 	public:
 		/*
 		 * Key Events

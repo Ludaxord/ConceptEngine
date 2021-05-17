@@ -1,8 +1,42 @@
 #include "CERenderer.h"
 
-using namespace ConceptEngine::Render;
+#include "../Core/Platform/Generic/Debug/CETypedConsole.h"
+#include "../Core/Platform/Generic/Debug/CEConsoleVariable.h"
+#include "../Core/Platform/Generic/Callbacks/CEEngineController.h"
+#include "../Core/Application/CECore.h"
 
+using namespace ConceptEngine::Render;
+using namespace ConceptEngine::Core::Platform::Generic::Debug;
+using namespace ConceptEngine::Core::Generic::Platform;
+
+static const uint32 ShadowMapSampleCount = 2;
+
+static std::unordered_map<std::string, CEConsoleVariableEx<bool>> Variables = {
+	{"CE.DrawTextureDebugger", CEConsoleVariableEx(false)},
+	{"CE.DrawRendererInfo", CEConsoleVariableEx(false)},
+	{"CE.EnableSSAO", CEConsoleVariableEx(true)},
+	{"CE.EnableFXAA", CEConsoleVariableEx(true)},
+	{"CE.GFXAADebug", CEConsoleVariableEx(false)},
+	{"CE.EnableVariableRateShading", CEConsoleVariableEx(true)},
+	{"CE.PrePassEnabled", CEConsoleVariableEx(true)},
+	{"CE.DrawAABB", CEConsoleVariableEx(true)},
+	{"CE.VSyncEnabled", CEConsoleVariableEx(true)},
+	{"CE.FrustumCullEnabled", CEConsoleVariableEx(true)},
+	{"CE.RayTracingEnalbed", CEConsoleVariableEx(true)},
+};
+
+//TODO: right not initialize everything here for now, maybe move it to graphics api renderer in future
 bool CERenderer::Create() {
+	for (auto variable : Variables) {
+		INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
+	}
+
+	Resources.MainWindowViewport =
+		dynamic_cast<Graphics::Main::Managers::CEGraphicsManager*>(
+			Core::Application::CECore::GetGraphics()->
+			GetManager(Core::Common::CEManagerType::GraphicsManager))->
+		CreateViewport(EngineController.GetWindow(), 0, 0, CEFormat::R8G8B8A8_Unorm, CEFormat::Unknown);
+
 	return true;
 }
 

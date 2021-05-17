@@ -1,7 +1,5 @@
 #include "CEEngineController.h"
 
-#include "../CEPlatform.h"
-
 #include "../Debug/CEConsoleCommand.h"
 #include "../Debug/CETypedConsole.h"
 

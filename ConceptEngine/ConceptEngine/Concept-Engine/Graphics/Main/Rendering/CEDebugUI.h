@@ -1,6 +1,11 @@
 #pragma once
 
 namespace ConceptEngine::Graphics::Main::Rendering {
+	struct ImGuiImage {
+		ImGuiImage() = default;
+		
+	};
+
 	class CEDebugUI {
 	public:
 		CEDebugUI();

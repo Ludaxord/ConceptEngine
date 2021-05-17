@@ -3,6 +3,7 @@
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Render::Scene;
 
+ConceptEngine::Render::CERenderer Renderer;
 
 bool CEDXRenderer::Create() {
 	if (!CERenderer::Create()) {

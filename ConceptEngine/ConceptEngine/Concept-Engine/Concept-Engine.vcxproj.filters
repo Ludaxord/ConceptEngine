@@ -166,6 +166,8 @@
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXDeviceElement.h" />
     <ClInclude Include="Utilities\CEStringUtilities.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEMeshDrawCommand.h" />
+    <ClInclude Include="Render\Scene\CEActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -270,5 +272,6 @@
     <ClCompile Include="Memory\CELinearAllocator.cpp" />
     <ClCompile Include="Graphics\Main\RenderLayer\CEShaderCompiler.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.cpp" />
+    <ClCompile Include="Render\Scene\CEActor.cpp" />
   </ItemGroup>
 </Project>
