@@ -75,8 +75,8 @@ CERef<CEConstantBuffer> CEDXRenderer::CreateConstantBuffer(uint32 Flags, CEResou
 	);
 }
 
-CEInputLayoutStateCreateInfo CEDXRenderer::CreateInputLayoutCreateInfo() {
-	CEInputLayoutStateCreateInfo InputLayout = {
+const CEInputLayoutStateCreateInfo& CEDXRenderer::CreateInputLayoutCreateInfo() {
+	const CEInputLayoutStateCreateInfo InputLayout = {
 		{"POSITION", 0, CEFormat::R32G32B32_Float, 0, 0, CEInputClassification::Vertex, 0},
 		{"NORMAL", 0, CEFormat::R32G32B32_Float, 0, 12, CEInputClassification::Vertex, 0},
 		{"TANGENT", 0, CEFormat::R32G32B32_Float, 0, 24, CEInputClassification::Vertex, 0},

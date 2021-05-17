@@ -25,6 +25,6 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Render {
 			const Main::RenderLayer::CEResourceData* InitialData
 		) override;
 
-		Main::RenderLayer::CEInputLayoutStateCreateInfo CreateInputLayoutCreateInfo() override;
+		const Main::RenderLayer::CEInputLayoutStateCreateInfo& CreateInputLayoutCreateInfo() override;
 	};
 }

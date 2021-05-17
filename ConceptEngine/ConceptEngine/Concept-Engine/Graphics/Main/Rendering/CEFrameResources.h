@@ -59,7 +59,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		Core::Common::CERef<RenderLayer::CESamplerState> GBufferSampler;
 		Core::Common::CERef<RenderLayer::CESamplerState> FXAASampler;
 
-		Core::Common::CERef<RenderLayer::CESamplerState> StdInputLayout;
+		Core::Common::CERef<RenderLayer::CEInputLayoutState> StdInputLayout;
 
 		Core::Common::CERef<RenderLayer::CETexture2D> RTOutput;
 		Core::Common::CERef<RenderLayer::CERayTracingScene> RTScene;

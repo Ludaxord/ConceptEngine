@@ -12,6 +12,7 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegamedebug.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceeditor.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegamecore.obj
+f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cecore.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceschematicscompiler.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cepycompiler.obj
@@ -47,6 +48,7 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cemesh.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cematerial.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegraphics.obj
+f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxrenderer.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxviews.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxswapchain.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxshadercompiler.obj
@@ -100,13 +102,6 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cewindow.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cescreen.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceconsole.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cerenderer.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxrenderer.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cecore.obj
-f:\projects\conceptengine\conceptengine\conceptengine\x64\debug\conceptengine.lib
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.command.1.tlog
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.read.1.tlog
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.write.1.tlog
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\lib-link.read.1.tlog
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\lib-link.write.1.tlog
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\lib.command.1.tlog
