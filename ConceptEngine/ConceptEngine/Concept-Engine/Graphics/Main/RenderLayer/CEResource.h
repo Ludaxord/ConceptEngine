@@ -2,6 +2,8 @@
 
 #include "../../../Core/Common/CERefCountedObject.h"
 
+#include <string>
+
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CEResource : public Core::Common::CERefCountedObject {
 	public:

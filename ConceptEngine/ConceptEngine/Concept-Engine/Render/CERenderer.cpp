@@ -55,6 +55,17 @@ bool CERenderer::Create() {
 
 	Resources.CameraBuffer->SetName("CameraBuffer");
 
+	const CEInputLayoutStateCreateInfo inputLayout = CreateInputLayoutCreateInfo();
+
+	Resources.StdInputLayout = dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))->
+		CreateInputLayout(inputLayout);
+	if (!Resources.StdInputLayout) {
+		return false;
+	}
+
+	Resources.StdInputLayout->SetName("Standard InputLayoutState");
+
 	return true;
 }
 

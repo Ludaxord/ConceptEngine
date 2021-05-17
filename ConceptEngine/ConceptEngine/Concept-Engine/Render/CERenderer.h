@@ -48,6 +48,8 @@ namespace ConceptEngine::Render {
 		virtual Core::Common::CERef<CEConstantBuffer> CreateConstantBuffer(uint32 Flags, CEResourceState InitialState,
 		                                                                   const CEResourceData* InitialData) = 0;
 
+		virtual CEInputLayoutStateCreateInfo CreateInputLayoutCreateInfo() = 0;
+
 	private:
 		CECommandList CommandList;
 

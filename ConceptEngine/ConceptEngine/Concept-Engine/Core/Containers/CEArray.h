@@ -38,6 +38,10 @@ namespace ConceptEngine::Core::Containers {
 			InternalConstruct(List.begin(), List.end());
 		}
 
+		CEArray(const CEArray& Another) noexcept : Array(nullptr), ArraySize(0), ArrayCapacity(0), Allocator() {
+			InternalConstruct(Another.Begin(), Another.End());
+		}
+
 		CEArray(CEArray&& Another) noexcept : Array(nullptr), ArraySize(0), ArrayCapacity(0), Allocator() {
 			InternalMove(Containers::Forward<CEArray>(Another));
 		}
@@ -744,7 +748,7 @@ namespace ConceptEngine::Core::Containers {
 				while (InEnd != InBegin) {
 					InEnd--;
 					if constexpr (std::is_move_assignable<T>()) {
-						(*Dest) =Containers:: Move(*InEnd);
+						(*Dest) = Containers::Move(*InEnd);
 					}
 					else if constexpr (std::is_copy_assignable<T>()) {
 						(*Dest) = (*InEnd);
