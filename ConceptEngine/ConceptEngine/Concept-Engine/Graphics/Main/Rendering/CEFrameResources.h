@@ -64,9 +64,9 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		Core::Common::CERef<RenderLayer::CETexture2D> RTOutput;
 		Core::Common::CERef<RenderLayer::CERayTracingScene> RTScene;
 
-		Core::Common::CERef<RenderLayer::CERayTracingShaderResources> GlobalResources;
-		Core::Common::CERef<RenderLayer::CERayTracingShaderResources> RayGenLocalResources;
-		Core::Common::CERef<RenderLayer::CERayTracingShaderResources> MissLocalResources;
+		RenderLayer::CERayTracingShaderResources GlobalResources;
+		RenderLayer::CERayTracingShaderResources RayGenLocalResources;
+		RenderLayer::CERayTracingShaderResources MissLocalResources;
 		Core::Containers::CEArray<RenderLayer::CERayTracingGeometryInstance> RTGeometryInstances;
 
 		Core::Containers::CEArray<RenderLayer::CERayTracingShaderResources> RTHitGroupResources;

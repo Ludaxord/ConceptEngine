@@ -65,8 +65,8 @@ namespace ConceptEngine::Render {
 		Core::Common::CERef<CEComputePipelineState> ShadingRatePipeline;
 		Core::Common::CERef<CEComputeShader> CEShadingRateShader;
 
-		Core::Common::CERef<CEVertexBuffer> AABBVertexBuffer;
-		Core::Common::CERef<CEIndexBuffer> AABBIndexBuffer;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEVertexBuffer> AABBVertexBuffer;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEIndexBuffer> AABBIndexBuffer;
 		Core::Common::CERef<CEGraphicsPipelineState> AABBDebugPipelineState;
 		Core::Common::CERef<CEVertexShader> AABBVertexShader;
 		Core::Common::CERef<CEPixelShader> AABBPixelShader;
