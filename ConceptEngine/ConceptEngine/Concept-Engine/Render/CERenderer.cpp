@@ -66,6 +66,8 @@ bool CERenderer::Create() {
 
 	Resources.StdInputLayout->SetName("Standard InputLayoutState");
 
+	//TODO: Start from here...
+
 	return true;
 }
 
