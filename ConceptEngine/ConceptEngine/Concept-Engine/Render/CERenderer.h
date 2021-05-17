@@ -45,6 +45,9 @@ namespace ConceptEngine::Render {
 
 		virtual void ResizeResources(uint32 width, uint32 height);
 
+		virtual Core::Common::CERef<CEConstantBuffer> CreateConstantBuffer(uint32 Flags, CEResourceState InitialState,
+		                                                                   const CEResourceData* InitialData) = 0;
+
 	private:
 		CECommandList CommandList;
 
@@ -86,4 +89,4 @@ namespace ConceptEngine::Render {
 	};
 }
 
-extern ConceptEngine::Render::CERenderer Renderer;
+extern ConceptEngine::Render::CERenderer* Renderer;

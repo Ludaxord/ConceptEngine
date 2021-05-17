@@ -84,7 +84,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
-	if (!Renderer.Create()) {
+	if (!Renderer->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to Create Renderer");
 		return false;
 	}

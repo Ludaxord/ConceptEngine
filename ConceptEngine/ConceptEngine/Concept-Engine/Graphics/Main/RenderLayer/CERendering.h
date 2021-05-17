@@ -74,6 +74,23 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	}
 
 	enum class CEResourceState {
+		Common = 0,
+		VertexAndConstantBuffer = 1,
+		IndexBuffer = 2,
+		RenderTarget = 3,
+		UnorderedAccess = 4,
+		DepthWrite = 5,
+		DepthRead = 6,
+		NonPixelShaderResource = 7,
+		PixelShaderResource = 8,
+		CopyDest = 9,
+		CopySource = 10,
+		ResolveDest = 11,
+		ResolveSource = 12,
+		RayTracingAccelerationStructure = 13,
+		ShadingRateSource = 14,
+		Present = 15,
+		GenericRead = 16,
 	};
 
 	enum class CEShadingRate {

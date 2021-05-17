@@ -8,6 +8,8 @@
 using namespace ConceptEngine::Render;
 using namespace ConceptEngine::Core::Platform::Generic::Debug;
 using namespace ConceptEngine::Core::Generic::Platform;
+using namespace ConceptEngine::Graphics::Main::Managers;
+using namespace ConceptEngine::Core::Common;
 
 static const uint32 ShadowMapSampleCount = 2;
 
@@ -31,11 +33,27 @@ bool CERenderer::Create() {
 		INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
 	}
 
-	Resources.MainWindowViewport =
-		dynamic_cast<Graphics::Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()->
-			GetManager(Core::Common::CEManagerType::GraphicsManager))->
-		CreateViewport(EngineController.GetWindow(), 0, 0, CEFormat::R8G8B8A8_Unorm, CEFormat::Unknown);
+	Resources.MainWindowViewport = dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))
+		->CreateViewport(
+			EngineController.GetWindow(),
+			0,
+			0,
+			CEFormat::R8G8B8A8_Unorm,
+			CEFormat::Unknown
+		);
+
+	if (!Resources.MainWindowViewport) {
+		return false;
+	}
+
+	Resources.CameraBuffer = CreateConstantBuffer(BufferFlag_Default, CEResourceState::Common, nullptr);
+	if (!Resources.CameraBuffer) {
+		CE_LOG_ERROR("[CERenderer]: Failed to Create Camera Buffer");
+		return false;
+	}
+
+	Resources.CameraBuffer->SetName("CameraBuffer");
 
 	return true;
 }

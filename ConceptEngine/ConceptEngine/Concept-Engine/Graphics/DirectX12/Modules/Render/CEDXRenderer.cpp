@@ -1,9 +1,18 @@
 #include "CEDXRenderer.h"
 
+#include "../../../Main/Managers/CEGraphicsManager.h"
+#include "../../../../Core/Application/CECore.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Render::Scene;
+using namespace ConceptEngine::Graphics::Main::RenderLayer;
+using namespace ConceptEngine::Core::Common;
 
-ConceptEngine::Render::CERenderer Renderer;
+ConceptEngine::Render::CERenderer* Renderer = new CEDXRenderer();
+
+struct CEDXCameraBufferDesc {
+
+};
 
 bool CEDXRenderer::Create() {
 	if (!CERenderer::Create()) {
@@ -52,4 +61,16 @@ bool CEDXRenderer::CreateShadingImage() {
 }
 
 void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
+}
+
+CERef<CEConstantBuffer> CEDXRenderer::CreateConstantBuffer(uint32 Flags, CEResourceState InitialState,
+                                                           const CEResourceData* InitialData) {
+	return dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()
+		->GetManager(CEManagerType::GraphicsManager)
+	)->CreateConstantBuffer<CEDXCameraBufferDesc>(
+		BufferFlag_Default,
+		CEResourceState::Common,
+		nullptr
+	);
 }

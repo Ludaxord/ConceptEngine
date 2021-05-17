@@ -192,5 +192,20 @@ namespace ConceptEngine::Graphics::Main {
 				(void)format;
 				return false;
 			}
+
+			template <typename T>
+			CEVertexBuffer* CreateVertexBuffer(uint32 NumVertices, uint32 Flags, CEResourceState InitialState,
+			                                   const CEResourceData* InitialData) {
+				constexpr uint32 STRIDE = sizeof(T);
+				return CreateVertexBuffer(STRIDE, NumVertices, Flags, InitialState, InitialData);
+			}
+
+
+			template <typename T>
+			CEConstantBuffer* CreateConstantBuffer(uint32 Flags, CEResourceState InitialState,
+			                                       const CEResourceData* InitialData) {
+				constexpr uint32 SIZE_IN_BYTES = sizeof(T);
+				return CreateConstantBuffer(SIZE_IN_BYTES, Flags, InitialState, InitialData);
+			}
 		};
 	}}
