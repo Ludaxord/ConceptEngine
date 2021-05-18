@@ -9,34 +9,16 @@
 #include "../RenderLayer/CECommandList.h"
 #include "../Common/API.h"
 #include "../../../Render/Scene/CEScene.h"
-
-#include <DirectXMath.h>
-#include <glm/vec4.hpp>
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
+#include "../../../Math/CEMathTypes.h"
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	struct CEPointLightData {
-#if DIRECTX_API
-		DirectX::XMFLOAT3 Color = DirectX::XMFLOAT3();
-#elif VULKAN_API || OPENGL_API
-		glm::vec3 Color = glm::vec3();
-#else
-		DirectX::XMFLOAT3 Color = DirectX::XMFLOAT3();
-#endif
-
+		Math::CEVectorFloat3 Color = Math::CEVectorFloat3();
 		float Padding0;
 	};
 
 	struct CEShadowCastingPointLightData {
-#if DIRECTX_API
-		DirectX::XMFLOAT3 Color = DirectX::XMFLOAT3();
-#elif VULKAN_API || OPENGL_API
-		glm::vec3 Color = glm::vec3();
-#else
-		DirectX::XMFLOAT3 Color = DirectX::XMFLOAT3();
-#endif
-
+		Math::CEVectorFloat3 Color = Math::CEVectorFloat3();
 		float ShadowBias = 0.005f;
 		float FarPlane = 10.0f;
 		float MaxShadowBias = 0.05f;
@@ -45,56 +27,26 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	};
 
 	struct CEPointLightShadowMapGenerationData {
-#if DIRECTX_API
-		Core::Containers::CEStaticArray<DirectX::XMFLOAT4X4, 6> Matrix;
-		Core::Containers::CEStaticArray<DirectX::XMFLOAT4X4, 6> ViewMatrix;
-		Core::Containers::CEStaticArray<DirectX::XMFLOAT4X4, 6> ProjMatrix;
-		DirectX::XMFLOAT3 Position;
-#elif VULKAN_API || OPENGL_API
-		Core::Containers::CEStaticArray<glm::mat4x4, 6> Matrix;
-		Core::Containers::CEStaticArray<glm::mat4x4, 6> ViewMatrix;
-		Core::Containers::CEStaticArray<glm::mat4x4, 6> ProjMatrix;
-		glm::vec3 Position;
-#else
-		Core::Containers::CEStaticArray<DirectX::XMFLOAT4X4, 6> Matrix;
-		Core::Containers::CEStaticArray<DirectX::XMFLOAT4X4, 6> ViewMatrix;
-		Core::Containers::CEStaticArray<DirectX::XMFLOAT4X4, 6> ProjMatrix;
-		DirectX::XMFLOAT3 Position;
-#endif
+
+		Core::Containers::CEStaticArray<Math::CEMatrixFloat4X4, 6> Matrix;
+		Core::Containers::CEStaticArray<Math::CEMatrixFloat4X4, 6> ViewMatrix;
+		Core::Containers::CEStaticArray<Math::CEMatrixFloat4X4, 6> ProjMatrix;
+		Math::CEVectorFloat3 Position;
 
 		float FarPlane;
 	};
 
 	struct CEDirectionalLightData {
-#if DIRECTX_API
-		DirectX::XMFLOAT3 Color = DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f);
-		DirectX::XMFLOAT3 Direction = DirectX::XMFLOAT3(0.0f, -1.0f, 0.0f);
-		DirectX::XMFLOAT4X4 LightMatrix;
-#elif VULKAN_API || OPENGL_API
-		glm::vec3 Color = glm::vec3(1.0f, 1.0f, 1.0f);
-		glm::vec3 Direction = glm::vec3(0.0f, -1.0f, 0.0f);
-		glm::mat4x4 LightMatrix;
-#else
-		DirectX::XMFLOAT3 Color = DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f);
-		DirectX::XMFLOAT3 Direction = DirectX::XMFLOAT3(0.0f, -1.0f, 0.0f);
-		DirectX::XMFLOAT4X4 LightMatrix;
-#endif
-
+		Math::CEVectorFloat3 Color = Math::CEVectorFloat3(1.0f, 1.0f, 1.0f);
+		Math::CEVectorFloat3 Direction = Math::CEVectorFloat3(0.0f, -1.0f, 0.0f);
+		Math::CEMatrixFloat4X4 LightMatrix;
 		float ShadowBias = 0.005f;
 		float MaxShadowBias = 0.05f;
 	};
 
 	struct CEDirLightShadowMapGenerationData {
-#if DIRECTX_API
-		DirectX::XMFLOAT4X4 Matrix;
-		DirectX::XMFLOAT3 Position;
-#elif VULKAN_API || OPENGL_API
-		glm::mat4x4 Matrix;
-		glm::vec3 Position;
-#else
-		DirectX::XMFLOAT4X4 Matrix;
-		DirectX::XMFLOAT3 Position;
-#endif
+		Math::CEMatrixFloat4X4 Matrix;
+		Math::CEVectorFloat3 Position;
 		float FarPlane;
 
 	};
@@ -141,16 +93,8 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		Core::Containers::CEArray<Core::Common::CERef<RenderLayer::CEUnorderedAccessView>> SpecularIrradianceMapUAVs;
 		Core::Containers::CEArray<RenderLayer::CEUnorderedAccessView*> WeakSpecularIrradianceMapUAVs;
 
-#if DIRECTX_API
-		Core::Containers::CEArray<DirectX::XMFLOAT4> PointLightsPosRad;
-		Core::Containers::CEArray<DirectX::XMFLOAT4> ShadowCastingPointLightsPosRad;
-#elif VULKAN_API || OPENGL_API
-		Core::Containers::CEArray<glm::vec4> PointLightsPosRad;
-				Core::Containers::CEArray<glm::vec4> ShadowCastingPointLightsPosRad;
-#else
-		Core::Containers::CEArray<DirectX::XMFLOAT4> PointLightsPosRad;
-		Core::Containers::CEArray<DirectX::XMFLOAT4> ShadowCastingPointLightsPosRad;
-#endif
+		Core::Containers::CEArray<Math::CEVectorFloat4> PointLightsPosRad;
+		Core::Containers::CEArray<Math::CEVectorFloat4> ShadowCastingPointLightsPosRad;
 
 	};
 }

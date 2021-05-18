@@ -169,6 +169,12 @@
     <ClInclude Include="Graphics\Main\Rendering\CEMeshDrawCommand.h" />
     <ClInclude Include="Render\Scene\CEActor.h" />
     <ClInclude Include="Graphics\Main\Common\API.h" />
+    <ClInclude Include="Render\Scene\CECamera.h" />
+    <ClInclude Include="Render\Scene\CELight.h" />
+    <ClInclude Include="Core\Common\CEClassType.h" />
+    <ClInclude Include="Graphics\Main\Common\CETransform.h" />
+    <ClInclude Include="Graphics\DirectX12\Modules\Common\CEDXMaterial.h" />
+    <ClInclude Include="Math\CEMathTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -274,5 +280,8 @@
     <ClCompile Include="Graphics\Main\RenderLayer\CEShaderCompiler.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.cpp" />
     <ClCompile Include="Render\Scene\CEActor.cpp" />
+    <ClCompile Include="Render\Scene\CECamera.cpp" />
+    <ClCompile Include="Core\Common\CEClassType.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Modules\Common\CEDXMaterial.cpp" />
   </ItemGroup>
 </Project>

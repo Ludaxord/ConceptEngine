@@ -5,5 +5,6 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	class CEForwardRenderer {
 	public:
 		bool Create(const CEFrameResources& resources);
+		void Release();
 	};
 }

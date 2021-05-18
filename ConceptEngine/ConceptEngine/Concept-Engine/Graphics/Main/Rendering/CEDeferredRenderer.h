@@ -9,5 +9,6 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 
 		bool Create(CEFrameResources& FrameResources);
+		void Release();
 	};
 }

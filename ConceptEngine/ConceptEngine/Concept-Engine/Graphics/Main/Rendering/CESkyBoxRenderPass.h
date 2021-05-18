@@ -5,5 +5,6 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	class CESkyBoxRenderPass {
 	public:
 		bool Create(const CEFrameResources& resources);
+		void Release();
 	};
 }

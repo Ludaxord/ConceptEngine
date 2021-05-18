@@ -6,6 +6,8 @@
 #include "../Core/Application/CECore.h"
 #include "../Core/Debug/CEProfiler.h"
 
+#include "../Graphics/Main/Common/CEMaterial.h"
+
 #include <boost/bind.hpp>
 
 using namespace ConceptEngine::Render;
@@ -178,9 +180,63 @@ bool CERenderer::Create() {
 }
 
 void CERenderer::Release() {
+	CommandListExecutor.WaitForGPU();
+	CommandList.Reset();
+
+	DeferredRenderer.Release();
+	ShadowMapRenderer.Release();
+	SSAORenderer.Release();
+	LightProbeRenderer.Release();
+	SkyBoxRenderPass.Release();
+	ForwardRenderer.Release();
+	RayTracer.Release();
+
+	Resources.Release();
+	LightSetup.Release();
+
+	AABBVertexBuffer.Reset();
+	AABBIndexBuffer.Reset();
+	AABBDebugPipelineState.Reset();
+	AABBVertexShader.Reset();
+	AABBPixelShader.Reset();
+
+	PostPipelineState.Reset();
+	PostShader.Reset();
+	FXAAPipelineState.Reset();
+	FXAAShader.Reset();
+	FXAADebugPipelineState.Reset();
+	FXAADebugShader.Reset();
+
+	ShadingImage.Reset();
+	ShadingRatePipeline.Reset();
+	ShadingRateShader.Reset();
+
+	GPUProfiler.Reset();
+	Core::Debug::CEProfiler::SetGPUProfiler(nullptr);
+
+	LastFrameNumDrawCalls = 0;
+	LastFrameNumDispatchCalls = 0;
+	LastFrameNumCommands = 0;
 }
 
 void CERenderer::Update(const Scene::CEScene& scene) {
+	Resources.DeferredVisibleCommands.Clear();
+	Resources.ForwardVisibleCommands.Clear();
+	Resources.DebugTextures.Clear();
+
+	if (!Variables["CE.FrustumCullEnabled"].GetBool()) {
+		for (const CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+			if (command.Material->HasAlphaMask()) {
+				Resources.ForwardVisibleCommands.EmplaceBack(command);
+			}
+			else {
+				Resources.DeferredVisibleCommands.EmplaceBack(command);
+			}
+		}
+	}
+	else {
+		PerformFrustumCulling(scene);
+	}
 }
 
 void CERenderer::PerformFrustumCulling(const Scene::CEScene& scene) {
@@ -195,7 +251,8 @@ void CERenderer::PerformBackBufferBlit(CECommandList& commandList) {
 void CERenderer::RenderDebugInterface() {
 }
 
-void CERenderer::OnWindowResize(const Core::Common::CEWindowResizeEvent& Event) {
+void CERenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
+	ResizeResources(Event.Width, Event.Height);
 }
 
 bool CERenderer::CreateBoundingBoxDebugPass() {
