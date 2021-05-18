@@ -41,7 +41,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		CESamplerMode AddressW = CESamplerMode::Clamp;
 		CESamplerFilter Filter = CESamplerFilter::MinMagMipLinear;
 		CEComparisonFunc ComparisonFunc = CEComparisonFunc::Never;
-		float MipLOADBias = 0.0f;
+		float MipLODBias = 0.0f;
 		uint32 MaxAnisotropy = 1;
 		Math::CEColorF BorderColor;
 		float MinLOD = -FLT_MAX;
