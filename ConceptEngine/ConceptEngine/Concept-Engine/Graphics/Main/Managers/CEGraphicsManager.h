@@ -16,6 +16,7 @@
 #include "../RenderLayer/CEViewport.h"
 #include "../RenderLayer/CEShaderCompiler.h"
 #include "../RenderLayer/CEICommandContext.h"
+#include "../../../Core/Common/CETypes.h"
 
 #define ENABLE_API_DEBUGGING 0;
 #define ENABLE_API_GPU_DEBUGGING 0;

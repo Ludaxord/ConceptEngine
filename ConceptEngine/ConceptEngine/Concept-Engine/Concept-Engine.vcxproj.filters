@@ -168,6 +168,7 @@
     <ClInclude Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEMeshDrawCommand.h" />
     <ClInclude Include="Render\Scene\CEActor.h" />
+    <ClInclude Include="Graphics\Main\Common\API.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

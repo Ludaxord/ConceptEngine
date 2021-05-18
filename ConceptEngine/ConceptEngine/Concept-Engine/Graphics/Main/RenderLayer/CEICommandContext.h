@@ -6,6 +6,7 @@
 #include "CEShader.h"
 #include "CETexture.h"
 #include "../../../Core/Common/CERefCountedObject.h"
+#include "../../../Core/Common/CETypes.h"
 #include "../../../Math/CEColor.h"
 #include "../RenderLayer/CERayTracing.h"
 

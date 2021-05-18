@@ -8,6 +8,7 @@
 #include "../RenderLayer/CETexture.h"
 #include "../RenderLayer/CEBuffer.h"
 #include "../RenderLayer/CESamplerState.h"
+#include "../RenderLayer/CEPipelineState.h"
 #include "../RenderLayer/CERayTracing.h"
 #include "../RenderLayer/CEResourceViews.h"
 #include "../RenderLayer/CEViewport.h"

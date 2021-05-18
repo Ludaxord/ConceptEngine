@@ -119,6 +119,7 @@
     <ClInclude Include="Graphics\DirectX12\Modules\RenderLayer\CEDXViews.h" />
     <ClInclude Include="Graphics\DirectX12\Modules\Render\CEDXRenderer.h" />
     <ClInclude Include="Graphics\Main\CEGraphics.h" />
+    <ClInclude Include="Graphics\Main\Common\API.h" />
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
     <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
     <ClInclude Include="Graphics\Main\Common\CEPlayground.h" />

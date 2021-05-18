@@ -27,6 +27,8 @@
 
 #include "../../Render/CERenderer.h"
 
+#include "../../Graphics/Main/Common/API.h"
+
 using namespace ConceptEngine::Core::Application;
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
@@ -114,45 +116,21 @@ Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() 
 
 
 CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(GraphicsAPI api) {
+	SetAPI(api);
 	switch (api) {
 	case GraphicsAPI::DirectX: {
-#define DIRECTX_API 1;
-#define VULKAN_API 0;
-#define OPENGL_API 0;
-#define METAL_API 0;
-#define UNKNOWN_API 0;
 		return new Graphics::DirectX12::CEDirectX12();
 	}
 	case GraphicsAPI::Vulkan: {
-#define VULKAN_API 1;
-#define DIRECTX_API 0;
-#define OPENGL_API 0;
-#define METAL_API 0;
-#define UNKNOWN_API 0;
 		return new Graphics::Vulkan::CEVulkan();
 	}
 	case GraphicsAPI::OpenGL: {
-#define OPENGL_API 1;
-#define DIRECTX_API 0
-#define VULKAN_API 0;
-#define METAL_API 0;
-#define UNKNOWN_API 0;
 		return new Graphics::OpenGL::CEOpenGL();
 	}
 	case GraphicsAPI::Metal: {
-#define METAL_API 1;
-#define OPENGL_API 0;
-#define DIRECTX_API 0
-#define VULKAN_API 0;
-#define UNKNOWN_API 0;
 		return new Graphics::Metal::CEMetal();
 	}
 	default: {
-#define UNKNOWN_API 1;
-#define OPENGL_API 0;
-#define DIRECTX_API 0
-#define VULKAN_API 0;
-#define METAL_API 0;
 		return nullptr;
 	}
 	}

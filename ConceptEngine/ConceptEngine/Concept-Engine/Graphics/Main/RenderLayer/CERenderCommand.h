@@ -9,6 +9,7 @@
 #include "CEShader.h"
 #include "CETexture.h"
 #include "../../../Core/Common/CERef.h"
+#include "../../../Core/Common/CETypes.h"
 #include "../../../Math/CEColor.h"
 #include "../../../Core/Log/CELog.h"
 

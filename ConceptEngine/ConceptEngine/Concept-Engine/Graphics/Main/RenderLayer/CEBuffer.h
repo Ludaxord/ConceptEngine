@@ -1,5 +1,6 @@
 #pragma once
 #include "CEResource.h"
+#include "../../../Core/Common/CETypes.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	enum CEBufferFlags : uint32 {

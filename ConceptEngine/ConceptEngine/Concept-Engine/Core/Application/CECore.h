@@ -6,12 +6,6 @@
 #include "../Platform/Generic/CEPlatform.h"
 #include "../Platform/CEPlatformActions.h"
 
-#define DIRECTX_API 1;
-#define VULKAN_API 0;
-#define OPENGL_API 0;
-#define METAL_API 0;
-#define UNKNOWN_API 0;
-
 namespace ConceptEngine::Core::Application {
 	class CECore {
 	public:

@@ -6,7 +6,9 @@
 #include "../RenderLayer/CEBuffer.h"
 #include "../RenderLayer/CETexture.h"
 #include "../RenderLayer/CEResourceViews.h"
-#include "../../../Core/Application/CECore.h"
+#include "../RenderLayer/CECommandList.h"
+#include "../Common/API.h"
+#include "../../../Render/Scene/CEScene.h"
 
 #include <DirectXMath.h>
 #include <glm/vec4.hpp>

@@ -1,4 +1,6 @@
 #pragma once
+#include "../../../Core/Common/CETypes.h"
+
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	enum class CEFormat {
