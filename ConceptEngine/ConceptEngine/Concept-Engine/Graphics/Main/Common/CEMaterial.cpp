@@ -9,9 +9,39 @@ CEMaterial::CEMaterial(const CEMaterialProperties& Properties): AlbedoMap(), Nor
 }
 
 void CEMaterial::Create() {
+	MaterialBuffer = dynamic_cast<Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+			->GetManager(Core::Common::CEManagerType::GraphicsManager))
+		->CreateConstantBuffer<CEMaterialProperties>(BufferFlag_Default,
+		                                             CEResourceState::VertexAndConstantBuffer,
+		                                             nullptr);
+
+	if (MaterialBuffer) {
+		MaterialBuffer->SetName("Material Buffer");
+	}
+
+	CESamplerStateCreateInfo createInfo;
+	createInfo.AddressU = CESamplerMode::Wrap;
+	createInfo.AddressV = CESamplerMode::Wrap;
+	createInfo.AddressW = CESamplerMode::Wrap;
+	createInfo.ComparisonFunc = CEComparisonFunc::Never;
+	createInfo.Filter = CESamplerFilter::Anistrotopic;
+	createInfo.MaxAnisotropy = 16;
+	createInfo.MaxLOD = FLT_MAX;
+	createInfo.MinLOD = -FLT_MAX;
+	createInfo.MipLODBias = 0.0f;
+
+	Sampler = dynamic_cast<Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+			->GetManager(Core::Common::CEManagerType::GraphicsManager))
+		->CreateSamplerState(createInfo);
 }
 
-void CEMaterial::BuildBuffer() {
+void CEMaterial::BuildBuffer(RenderLayer::CECommandList& commandList) {
+	//TODO: Try to prepare something like CECommandList::Execute to prevent calling same function 2 times
+	commandList.TransitionBuffer(MaterialBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
+	                             CEResourceState::CopyDest);
+	commandList.UpdateBuffer(MaterialBuffer.Get(), 0, sizeof(CEMaterialProperties), &Properties);
+	commandList.TransitionBuffer(MaterialBuffer.Get(), CEResourceState::CopyDest,
+	                             CEResourceState::VertexAndConstantBuffer);
 }
 
 void CEMaterial::SetMetallic(float metallic) {

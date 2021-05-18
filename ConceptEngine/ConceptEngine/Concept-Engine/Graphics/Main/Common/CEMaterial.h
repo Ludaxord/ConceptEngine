@@ -10,6 +10,10 @@
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Containers/CEStaticArray.h"
 #include "../../../Math/CEMathTypes.h"
+#include "../../../Graphics/Main/RenderLayer/CECommandList.h"
+#include "../../../Graphics/Main/Managers/CEGraphicsManager.h"
+#include "../../../Core/Application/CECore.h"
+#include "../../../Core/Common/CEManager.h"
 
 namespace ConceptEngine::Graphics::Main::Common {
 	struct CEMaterialProperties {
@@ -27,7 +31,7 @@ namespace ConceptEngine::Graphics::Main::Common {
 
 		void Create();
 
-		void BuildBuffer();
+		void BuildBuffer(RenderLayer::CECommandList& commandList);
 
 		bool IsBufferDirty() const {
 			return MaterialBufferIsDirty;
