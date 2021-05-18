@@ -4,6 +4,9 @@
 #include "../Core/Platform/Generic/Debug/CEConsoleVariable.h"
 #include "../Core/Platform/Generic/Callbacks/CEEngineController.h"
 #include "../Core/Application/CECore.h"
+#include "../Core/Debug/CEProfiler.h"
+
+#include <boost/bind.hpp>
 
 using namespace ConceptEngine::Render;
 using namespace ConceptEngine::Core::Platform::Generic::Debug;
@@ -58,15 +61,118 @@ bool CERenderer::Create() {
 	const auto inputLayout = CreateInputLayoutCreateInfo();
 
 	Resources.StdInputLayout = dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-			->GetManager(CEManagerType::GraphicsManager))->
-		CreateInputLayout(inputLayout);
+		->GetManager(CEManagerType::GraphicsManager))->CreateInputLayout(inputLayout);
 	if (!Resources.StdInputLayout) {
 		return false;
 	}
 
 	Resources.StdInputLayout->SetName("Standard InputLayoutState");
 
-	//TODO: Start from here...
+	{
+		CESamplerStateCreateInfo createInfo;
+		createInfo.AddressU = CESamplerMode::Border;
+		createInfo.AddressV = CESamplerMode::Border;
+		createInfo.AddressW = CESamplerMode::Border;
+		createInfo.Filter = CESamplerFilter::Comparison_MinMagMipLinear;
+		createInfo.ComparisonFunc = CEComparisonFunc::LessEqual;
+		createInfo.BorderColor = Math::CEColorF(1.0f, 1.0f, 1.0f, 1.0f);
+
+		Resources.DirectionalShadowSampler = dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+		if (!Resources.DirectionalShadowSampler) {
+			return false;
+		}
+
+		Resources.DirectionalShadowSampler->SetName("ShadowMap Sampler");
+	}
+
+	{
+		CESamplerStateCreateInfo createInfo;
+		createInfo.AddressU = CESamplerMode::Wrap;
+		createInfo.AddressV = CESamplerMode::Wrap;
+		createInfo.AddressW = CESamplerMode::Wrap;
+		createInfo.Filter = CESamplerFilter::Comparison_MinMagMipLinear;
+		createInfo.ComparisonFunc = CEComparisonFunc::LessEqual;
+
+		Resources.PointShadowSampler = dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+		if (!Resources.PointShadowSampler) {
+			return false;
+		}
+
+		Resources.PointShadowSampler->SetName("ShadowMap Comparison Sampler");
+	}
+
+	GPUProfiler = dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+		->GetManager(CEManagerType::GraphicsManager))->CreateProfiler();
+	if (!GPUProfiler) {
+		return false;
+	}
+
+	Core::Debug::CEProfiler::SetGPUProfiler(GPUProfiler.Get());
+
+	if (!CreateAA()) {
+		return false;
+	}
+
+	if (!CreateBoundingBoxDebugPass()) {
+		return false;
+	}
+
+	if (!CreateShadingImage()) {
+		return false;
+	}
+
+	if (!LightSetup.Create()) {
+		return false;
+	}
+
+	if (!DeferredRenderer.Create(Resources)) {
+		return false;
+	}
+
+	if (!ShadowMapRenderer.Create(LightSetup, Resources)) {
+		return false;
+	}
+
+	if (!SSAORenderer.Create(Resources)) {
+		return false;
+	}
+
+	if (!LightProbeRenderer.Create(LightSetup, Resources)) {
+		return false;
+	}
+
+	if (!SkyBoxRenderPass.Create(Resources)) {
+		return false;
+	}
+
+	if (!ForwardRenderer.Create(Resources)) {
+		return false;
+	}
+
+	if (IsRayTracingSupported()) {
+		if (!RayTracer.Create(Resources)) {
+			return false;
+		}
+	}
+
+
+	//TODO: Try to create some kind of callback function
+	/*
+		CommandList.Begin();
+		LightProbeRenderer.RenderSkyLightProbe(CommandList, LightSetup, Resources);
+		CommandList.End();
+	 */
+
+	using namespace std::placeholders;
+	CommandList.Execute([this] {
+		LightProbeRenderer.RenderSkyLightProbe(CommandList, LightSetup, Resources);
+	});
+
+	CommandListExecutor.ExecuteCommandList(CommandList);
+
+	EngineController.OnWindowResizedEvent.AddObject(this, &CERenderer::OnWindowResize);
 
 	return true;
 }
@@ -105,4 +211,12 @@ bool CERenderer::CreateShadingImage() {
 }
 
 void CERenderer::ResizeResources(uint32 width, uint32 height) {
+}
+
+bool CERenderer::IsRayTracingSupported() {
+	Graphics::Main::CERayTracingSupport supportLevel;
+	dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+		->GetManager(CEManagerType::GraphicsManager))->CheckRayTracingSupport(supportLevel);
+
+	return supportLevel.Tier != Graphics::Main::CERayTracingTier::NotSupported;
 }

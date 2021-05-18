@@ -115,19 +115,26 @@ Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() 
 
 CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(GraphicsAPI api) {
 	switch (api) {
-	case GraphicsAPI::DirectX:
+	case GraphicsAPI::DirectX: {
+#define DIRECTX_API;
 		return new Graphics::DirectX12::CEDirectX12();
-	case GraphicsAPI::Vulkan:
+	}
+	case GraphicsAPI::Vulkan: {
+#define VULKAN_API
 		return new Graphics::Vulkan::CEVulkan();
-	case GraphicsAPI::OpenGL:
+	}
+	case GraphicsAPI::OpenGL: {
+#define OPENGL_API;
 		return new Graphics::OpenGL::CEOpenGL();
-	case GraphicsAPI::Metal:
+	}
+	case GraphicsAPI::Metal: {
+#define METAL_API;
 		return new Graphics::Metal::CEMetal();
-
-	case GraphicsAPI::Count:
+	}
+	default: {
+#define UNKNOWN_API;
 		return nullptr;
-	default:
-		return nullptr;
+	}
 	}
 }
 

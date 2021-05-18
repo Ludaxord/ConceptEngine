@@ -14,6 +14,8 @@
 #include "../../../Core/Containers/CEContainerUtilities.h"
 #include "../../../Math/CEColor.h"
 
+#include <boost/function/function0.hpp>
+
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CECommandList {
 
@@ -26,6 +28,12 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		~CECommandList() {
 			Reset();
+		}
+
+		void Execute(boost::function<void()> ExecuteFunction) {
+			Begin();
+			ExecuteFunction();
+			End();
 		}
 
 		void Begin() {

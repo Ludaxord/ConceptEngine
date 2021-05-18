@@ -49,6 +49,8 @@ namespace ConceptEngine::Render {
 		                                                                   const CEResourceData* InitialData) = 0;
 
 		virtual const CEInputLayoutStateCreateInfo& CreateInputLayoutCreateInfo() = 0;
+		
+		virtual bool IsRayTracingSupported();
 
 	private:
 		CECommandList CommandList;
