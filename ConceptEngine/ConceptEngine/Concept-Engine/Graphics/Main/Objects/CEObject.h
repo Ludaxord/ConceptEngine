@@ -14,7 +14,7 @@ public: \
         return &ClassInfo; \
     }
 
-#define CORE_OBJECT_INIT(This) \
+#define CORE_OBJECT_INIT() \
     this->SetClass(This::GetStaticClass())
 
 namespace ConceptEngine::Graphics::Main::Objects {
