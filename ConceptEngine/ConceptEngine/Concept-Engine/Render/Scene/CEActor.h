@@ -11,6 +11,8 @@ namespace ConceptEngine::Render::Scene {
 	class CEActor;
 
 	class CEComponent : public Graphics::Main::Objects::CEObject {
+	CORE_OBJECT(CEComponent, CEObject);
+
 	public:
 		CEComponent(CEActor* actor);
 		virtual ~CEComponent() = default;
