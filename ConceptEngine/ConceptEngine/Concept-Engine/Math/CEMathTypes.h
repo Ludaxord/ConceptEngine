@@ -6,8 +6,6 @@
 #include <glm/mat4x4.hpp>
 
 namespace ConceptEngine::Math {
-	// TODO: ADD OPERATORS TO NATIVE 
-
 	struct CEMatrixFloat4X4 {
 
 		CEMatrixFloat4X4() = default;
@@ -117,6 +115,111 @@ namespace ConceptEngine::Math {
 		                                  float m20, float m21, float m22, float m23,
 		                                  float m30, float m31, float m32, float m33) {
 			return DirectX::XMFLOAT4X4(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
+		}
+#endif
+	};
+
+	struct CEMatrixFloat3X4 {
+
+		CEMatrixFloat3X4() = default;
+
+		CEMatrixFloat3X4(const CEMatrixFloat3X4&) = default;
+		CEMatrixFloat3X4& operator=(const CEMatrixFloat3X4&) = default;
+
+		CEMatrixFloat3X4(CEMatrixFloat3X4&&) = default;
+		CEMatrixFloat3X4& operator=(CEMatrixFloat3X4&&) = default;
+
+		CEMatrixFloat3X4(float m00, float m01, float m02, float m03,
+		                 float m10, float m11, float m12, float m13,
+		                 float m20, float m21, float m22, float m23)
+			: _11(m00), _12(m01), _13(m02), _14(m03),
+			  _21(m10), _22(m11), _23(m12), _24(m13),
+			  _31(m20), _32(m21), _33(m22), _34(m23),
+			  Native(PrepareNative(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23)) {
+		}
+
+		float operator()(size_t Row, size_t Column) const {
+			return m[Row][Column];
+		}
+
+		float& operator()(size_t Row, size_t Column) {
+			return m[Row][Column];
+		}
+
+		union {
+			struct {
+				float _11, _12, _13, _14;
+				float _21, _22, _23, _24;
+				float _31, _32, _33, _34;
+			};
+
+			float m[3][4];
+			float f[12];
+		};
+
+
+#if DIRECTX_API
+		const CEMatrixFloat3X4& operator=(const DirectX::XMFLOAT3X4& native) const {
+			return CEMatrixFloat3X4(
+				native.m[0][0], native.m[0][1], native.m[0][2], native.m[0][3],
+				native.m[1][0], native.m[1][1], native.m[1][2], native.m[1][3],
+				native.m[2][0], native.m[2][1], native.m[2][2], native.m[2][3]
+			);
+		};
+		
+		DirectX::XMFLOAT3X4 Native;
+
+	private:
+		void SetNative(const DirectX::XMFLOAT3X4& native) {
+			Native = native;
+		};
+
+		DirectX::XMFLOAT3X4 PrepareNative(float m00, float m01, float m02, float m03,
+		                                  float m10, float m11, float m12, float m13,
+		                                  float m20, float m21, float m22, float m23) {
+			return DirectX::XMFLOAT3X4(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23);
+		}
+#elif VULKAN_API || OPENGL_API
+		const CEMatrixFloat3X4& operator=(const glm::mat3x4& native) const {
+			return CEMatrixFloat3X4(
+				native[0][0], native[0][1], native[0][2], native[0][3],
+				native[1][0], native[1][1], native[1][2], native[1][3],
+				native[2][0], native[2][1], native[2][2], native[2][3]
+			);
+		};
+		
+		glm::mat3x4 Native;
+
+	private:
+		void SetNative(const glm::mat3x4& native) {
+			Native = native;
+		};
+
+		glm::mat3x4 PrepareNative(float m00, float m01, float m02, float m03,
+		                          float m10, float m11, float m12, float m13,
+		                          float m20, float m21, float m22, float m23) {
+			return glm::mat3x4(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23);
+		}
+#else
+		const CEMatrixFloat3X4& operator=(const DirectX::XMFLOAT3X4& native) const {
+			return CEMatrixFloat3X4(
+				native.m[0][0], native.m[0][1], native.m[0][2], native.m[0][3],
+				native.m[1][0], native.m[1][1], native.m[1][2], native.m[1][3],
+				native.m[2][0], native.m[2][1], native.m[2][2], native.m[2][3]
+			);
+		};
+
+		DirectX::XMFLOAT3X4 Native;
+
+	private:
+		void SetNative(const DirectX::XMFLOAT3X4& native) {
+			Native = native;
+		};
+
+		DirectX::XMFLOAT3X4 PrepareNative(float m00, float m01, float m02, float m03,
+		                                  float m10, float m11, float m12, float m13,
+		                                  float m20, float m21, float m22, float m23) {
+			return DirectX::XMFLOAT3X4(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23);
 		}
 #endif
 	};
@@ -519,9 +622,9 @@ namespace ConceptEngine::Math {
 		CEVectorUint3& operator=(CEVectorUint3&&) = default;
 
 		CEVectorUint3(uint32_t _x, uint32_t _y, uint32_t _z) : x(_x),
-		                                                                    y(_y),
-		                                                                    z(_z),
-		                                                                    Native(PrepareNative(_x, _y, _z)) {
+		                                                       y(_y),
+		                                                       z(_z),
+		                                                       Native(PrepareNative(_x, _y, _z)) {
 		}
 
 		uint32_t x;
@@ -643,4 +746,135 @@ namespace ConceptEngine::Math {
 #endif
 
 	};
+
+	template <int L, typename T>
+	struct CEVector {
+		CEVector() = default;
+
+		CEVector(const CEVector&) = default;
+		CEVector& operator=(const CEVector&) = default;
+
+		CEVector(CEVector&&) = default;
+		CEVector& operator=(CEVector&&) = default;
+
+
+#if DIRECTX_API
+		DirectX::XMVECTOR Native;
+		
+		CEVector(const DirectX::XMVECTOR& matrix): Native(matrix) {
+		};
+#elif VULKAN_API || OPENGL_API
+		glm::vec<L, T> Native;
+
+		
+		CEVector(const glm::vec<L, T>& matrix): Native(matrix) {
+		};
+#else
+		DirectX::XMVECTOR Native;
+
+		CEVector(const DirectX::XMVECTOR& matrix): Native(matrix) {
+		};
+#endif
+	};
+
+	template <int L, int R, typename T>
+	struct CEMatrix {
+		CEMatrix() = default;
+
+		CEMatrix(const CEMatrix&) = default;
+		CEMatrix& operator=(const CEMatrix&) = default;
+
+		CEMatrix(CEMatrix&&) = default;
+		CEMatrix& operator=(CEMatrix&&) = default;
+
+
+#if DIRECTX_API
+		DirectX::XMMATRIX Native;
+
+		CEMatrix(const DirectX::XMMATRIX& matrix): Native(matrix) {
+		};
+#elif VULKAN_API || OPENGL_API
+		glm::mat<L, R, T> Native;
+
+
+		CEMatrix(const glm::mat<L, R, T>& matrix): Native(matrix) {
+		};
+#else
+		DirectX::XMMATRIX Native;
+
+		CEMatrix(const DirectX::XMMATRIX& matrix): Native(matrix) {
+		};
+#endif
+
+	};
+
+	inline CEVector<3, float> CELoadFloat3(const CEVectorFloat3* source) {
+#if DIRECTX_API
+	return CEVector<3, float>(XMLoadFloat3(&source->Native));
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return CEVector<3, float>(XMLoadFloat3(&source->Native));
+#endif
+	}
+
+	inline CEVector<4, float> CEVectorSet(float x, float y, float z, float w) {
+#if DIRECTX_API
+		return CEVector<4, float>(DirectX::XMVectorSet(x, y, z, w));
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return CEVector<4, float>(DirectX::XMVectorSet(x, y, z, w));
+#endif
+	}
+
+	inline CEMatrix<4, 4, float> CEMatrixMultiply(const CEMatrix<4, 4, float> m1, const CEMatrix<4, 4, float>& m2) {
+#if DIRECTX_API
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixMultiply(m1.Native, m2.Native));
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixMultiply(m1.Native, m2.Native));
+#endif
+	}
+
+	inline CEMatrix<4, 4, float> CEMatrixScalingFromVector(CEVector<3, float> scale) {
+#if DIRECTX_API
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixScalingFromVector(scale.Native));
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixScalingFromVector(scale.Native));
+#endif
+	}
+
+	inline CEMatrix<4, 4, float> CEMatrixRotationRollPitchYawFromVector(CEVector<4, float> angles) {
+#if DIRECTX_API
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixRotationRollPitchYawFromVector(angles.Native));
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixRotationRollPitchYawFromVector(angles.Native));
+#endif
+	}
+
+	inline CEMatrix<4, 4, float> CEMatrixTranslationFromVector(CEVector<3, float> offset) {
+#if DIRECTX_API
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixTranslationFromVector(offset.Native));
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return CEMatrix<4, 4, float>(DirectX::XMMatrixTranslationFromVector(offset.Native));
+#endif
+	}
+
+	inline void CEStoreFloat3x4(CEMatrixFloat3X4* destination, const CEMatrix<4, 4, float> M) {
+#if DIRECTX_API
+		DirectX::XMStoreFloat3x4(&destination->Native, M.Native);
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		DirectX::XMStoreFloat3x4(&destination->Native, M.Native);
+#endif
+	}
 }

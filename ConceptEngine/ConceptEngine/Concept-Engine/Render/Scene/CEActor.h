@@ -60,7 +60,7 @@ namespace ConceptEngine::Render::Scene {
 
 		void SetName(const std::string& name);
 
-		void SetTransform(Graphics::Main::Common::CETransform* transform) {
+		void SetTransform(Graphics::Main::Common::CETransform& transform) {
 			Transform = transform;
 		}
 
@@ -72,17 +72,17 @@ namespace ConceptEngine::Render::Scene {
 			return Scene;
 		}
 
-		Graphics::Main::Common::CETransform* GetTransform() {
+		Graphics::Main::Common::CETransform& GetTransform() {
 			return Transform;
 		}
 
-		const Graphics::Main::Common::CETransform* GetTransform() const {
+		const Graphics::Main::Common::CETransform& GetTransform() const {
 			return Transform;
 		}
 
 	private:
 		CEScene* Scene = nullptr;
-		Graphics::Main::Common::CETransform* Transform;
+		Graphics::Main::Common::CETransform Transform;
 		Core::Containers::CEArray<CEComponent*> Components;
 		std::string Name;
 	};
