@@ -877,4 +877,35 @@ namespace ConceptEngine::Math {
 		DirectX::XMStoreFloat3x4(&destination->Native, M.Native);
 #endif
 	}
+
+	inline void CEStoreFloat4x4(CEMatrixFloat4X4* destination, const CEMatrix<4, 4, float> M) {
+#if DIRECTX_API
+		DirectX::XMStoreFloat4x4(&destination->Native, M.Native);
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		DirectX::XMStoreFloat4x4(&destination->Native, M.Native);
+#endif
+	}
+
+	inline CEMatrix<4, 4, float> CEMatrixTranspose(const CEMatrix<4, 4, float> M) {
+#if DIRECTX_API
+		return DirectX::XMMatrixTranspose(M.Native);
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return DirectX::XMMatrixTranspose(M.Native);
+#endif
+	}
+
+	inline CEMatrix<4, 4, float> CEMatrixInverse(CEVector<3, float>* determinant, const CEMatrix<4, 4, float> M) {
+#if DIRECTX_API
+		return DirectX::XMMatrixTranspose(M.Native);
+#elif VULKAN_API || OPENGL_API
+		//TODO: find equivalent for GLM
+#else
+		return DirectX::XMMatrixInverse(&determinant->Native, M.Native);
+#endif
+	}
+
 }

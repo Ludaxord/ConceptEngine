@@ -44,8 +44,8 @@ void ConceptEngine::Graphics::Main::Common::CETransform::CalculateMatrix() {
 	);
 	Math::CEStoreFloat3x4(&TinyMatrix, matrix);
 	matrix = Math::CEMatrixTranspose(matrix);
-	Math::StoreFloat4x4(&Matrix, matrix);
+	Math::CEStoreFloat4x4(&Matrix, matrix);
 
 	Math::CEMatrix matrixInverse = Math::CEMatrixInverse(nullptr, matrix);
-	Math::StoreFloat4x4(&MatrixInverse, Math::CEMatrixTranspose(matrixInverse));
+	Math::CEStoreFloat4x4(&MatrixInverse, Math::CEMatrixTranspose(matrixInverse));
 }
