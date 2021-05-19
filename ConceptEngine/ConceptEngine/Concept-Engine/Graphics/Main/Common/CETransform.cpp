@@ -17,16 +17,21 @@ void ConceptEngine::Graphics::Main::Common::CETransform::SetTranslation(const Ma
 }
 
 void ConceptEngine::Graphics::Main::Common::CETransform::SetScale(float x, float y, float z) {
-
+	SetScale(Math::CEVectorFloat3(x, y, z));
 }
 
 void ConceptEngine::Graphics::Main::Common::CETransform::SetScale(const Math::CEVectorFloat3& scale) {
+	Scale = scale;
+	CalculateMatrix();
 }
 
 void ConceptEngine::Graphics::Main::Common::CETransform::SetRotation(float x, float y, float z) {
+	SetRotation(Math::CEVectorFloat3(x, y, z));
 }
 
 void ConceptEngine::Graphics::Main::Common::CETransform::SetRotation(const Math::CEVectorFloat3& rotation) {
+	Rotation = rotation;
+	CalculateMatrix();
 }
 
 void ConceptEngine::Graphics::Main::Common::CETransform::CalculateMatrix() {

@@ -283,5 +283,6 @@
     <ClCompile Include="Render\Scene\CECamera.cpp" />
     <ClCompile Include="Core\Common\CEClassType.cpp" />
     <ClCompile Include="Graphics\DirectX12\Modules\Common\CEDXMaterial.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CETransform.cpp" />
   </ItemGroup>
 </Project>

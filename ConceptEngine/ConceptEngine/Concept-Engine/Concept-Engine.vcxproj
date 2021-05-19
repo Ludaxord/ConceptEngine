@@ -253,6 +253,7 @@
     <ClCompile Include="Graphics\Main\Common\CEMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEMesh.cpp" />
     <ClCompile Include="Graphics\Main\Common\CEPlayground.cpp" />
+    <ClCompile Include="Graphics\Main\Common\CETransform.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CERendererManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CETextureManager.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
