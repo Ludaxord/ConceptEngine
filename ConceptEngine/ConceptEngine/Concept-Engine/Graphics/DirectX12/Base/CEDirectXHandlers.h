@@ -19,29 +19,65 @@ extern PFN_SetMarkerOnCommandList SetMarkerOnCommandListFunc;
 
 namespace ConceptEngine::Graphics::DirectX12::Base {
 
+	enum class CreateOption {
+		Lib,
+		DLL
+	};
+
 	class CEDirectXHandler {
 	public:
 		CEDirectXHandler() = default;
 		virtual ~CEDirectXHandler() = default;
 		virtual bool Create() = 0;
 		virtual void Destroy() = 0;
-		virtual HRESULT XCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) = 0;
-		virtual HRESULT XDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) = 0;
+		virtual HRESULT XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) = 0;
+		virtual HRESULT XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) = 0;
 		virtual HRESULT XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
 		                                   ID3D12Device* device) = 0;
-		virtual HRESULT XD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) = 0;
-		virtual HRESULT XD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-		                                             D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-		                                             ID3DBlob** errorBlob) = 0;
-		virtual HRESULT XD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                      const IID& pRootSignatureDeserializerInterface,
-		                                                      void** ppRootSignatureDeserializer) = 0;
-		virtual HRESULT XD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                               const IID&
-		                                                               pRootSignatureDeserializerInterface,
-		                                                               void** ppRootSignatureDeserializer) = 0;
+		virtual HRESULT XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) = 0;
+		virtual HRESULT XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+		                                             _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+		                                             _Out_ ID3DBlob** ppBlob,
+		                                             _Always_(_Outptr_opt_result_maybenull_) ID3DBlob** ppErrorBlob) =
+		0;
+		virtual HRESULT XD3D12CreateRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer) = 0;
+		virtual HRESULT XD3D12CreateVersionedRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer) = 0;
 		virtual void XSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
 		                                     PCSTR formatString) = 0;
+
+		static bool CECreate(CreateOption option, HMODULE DXGILib, HMODULE D3D12Lib, HMODULE PIXLib);
+
+		static void CEDestroy();
+
+		static HRESULT CECreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory);
+		static HRESULT CEDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug);
+		static HRESULT CED3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
+		                                   ID3D12Device* device);
+		static HRESULT CED3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug);
+		static HRESULT CED3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+		                                             _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+		                                             _Out_ ID3DBlob** ppBlob,
+		                                             _Always_(_Outptr_opt_result_maybenull_) ID3DBlob** ppErrorBlob);
+		static HRESULT CED3D12CreateRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer);
+		static HRESULT CED3D12CreateVersionedRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer);
+		static void CESetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
+		                                     PCSTR formatString);
 	};
 
 	class CEDirectXLibHandler : CEDirectXHandler {
@@ -49,45 +85,31 @@ namespace ConceptEngine::Graphics::DirectX12::Base {
 		CEDirectXLibHandler();
 		bool Create() override;
 		void Destroy() override;
-		HRESULT XCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) override;
-		HRESULT XDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) override;
+		HRESULT XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) override;
+		HRESULT XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) override;
 		HRESULT XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
 		                           ID3D12Device* device) override;
-		HRESULT XD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) override;
-		HRESULT XD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-		                                     D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-		                                     ID3DBlob** errorBlob) override;
-		HRESULT XD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                              const IID& pRootSignatureDeserializerInterface,
-		                                              void** ppRootSignatureDeserializer) override;
-		HRESULT XD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                       const IID&
-		                                                       pRootSignatureDeserializerInterface,
-		                                                       void** ppRootSignatureDeserializer) override;
+		HRESULT XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) override;
+		HRESULT XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+		                                     _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+		                                     _Out_ ID3DBlob** ppBlob,
+		                                     _Always_(_Outptr_opt_result_maybenull_) ID3DBlob** ppErrorBlob) override;
+		HRESULT XD3D12CreateRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer) override;
+		HRESULT XD3D12CreateVersionedRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer) override;
 		void XSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
 		                             PCSTR formatString) override;
 
 		static bool LibCreate();
 
 		static void LibDestroy();
-
-		static HRESULT LibCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory);
-		static HRESULT LibDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug);
-		static HRESULT LibD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-		                                    ID3D12Device* device);
-		static HRESULT LibD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug);
-		static HRESULT LibD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-		                                              D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-		                                              ID3DBlob** errorBlob);
-		static HRESULT LibD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                       const IID& pRootSignatureDeserializerInterface,
-		                                                       void** ppRootSignatureDeserializer);
-		static HRESULT LibD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                                const IID&
-		                                                                pRootSignatureDeserializerInterface,
-		                                                                void** ppRootSignatureDeserializer);
-		static void LibSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
-		                                      PCSTR formatString);
 
 	protected:
 	private:
@@ -98,45 +120,29 @@ namespace ConceptEngine::Graphics::DirectX12::Base {
 		CEDirectXDLLHandler(HMODULE DXGILib, HMODULE D3D12Lib, HMODULE PIXLib);
 		bool Create() override;
 		void Destroy() override;
-		HRESULT XCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) override;
-		HRESULT XDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) override;
+		HRESULT XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) override;
+		HRESULT XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) override;
 		HRESULT XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
 		                           ID3D12Device* device) override;
-		HRESULT XD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) override;
-		HRESULT XD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-		                                     D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-		                                     ID3DBlob** errorBlob) override;
+		HRESULT XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) override;
+		HRESULT XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+		                                     _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+		                                     _Out_ ID3DBlob** ppBlob,
+		                                     _Always_(_Outptr_opt_result_maybenull_) ID3DBlob** ppErrorBlob) override;
 		HRESULT XD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
 		                                              const IID& pRootSignatureDeserializerInterface,
 		                                              void** ppRootSignatureDeserializer) override;
-		HRESULT XD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                       const IID&
-		                                                       pRootSignatureDeserializerInterface,
-		                                                       void** ppRootSignatureDeserializer) override;
+		HRESULT XD3D12CreateVersionedRootSignatureDeserializer(
+			_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+			_In_ SIZE_T SrcDataSizeInBytes,
+			_In_ REFIID pRootSignatureDeserializerInterface,
+			_Out_ void** ppRootSignatureDeserializer) override;
 		void XSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
 		                             PCSTR formatString) override;
 
 		static bool DLLCreate(HMODULE DXGILib, HMODULE D3D12Lib, HMODULE PIXLib);
 
 		static void DLLDestroy();
-		
-		static HRESULT DLLCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory);
-		static HRESULT DLLDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug);
-		static HRESULT DLLD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-		                                    ID3D12Device* device);
-		static HRESULT DLLD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug);
-		static HRESULT DLLD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-		                                              D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-		                                              ID3DBlob** errorBlob);
-		static HRESULT DLLD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                       const IID& pRootSignatureDeserializerInterface,
-		                                                       void** ppRootSignatureDeserializer);
-		static HRESULT DLLD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-		                                                                const IID&
-		                                                                pRootSignatureDeserializerInterface,
-		                                                                void** ppRootSignatureDeserializer);
-		static void DLLSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
-		                                      PCSTR formatString);
 	protected:
 	private:
 		HMODULE DXGILib = 0;

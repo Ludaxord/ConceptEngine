@@ -24,13 +24,13 @@ bool CEDirectXLibHandler::Create() {
 	return true;
 }
 
-HRESULT CEDirectXLibHandler::XCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) {
-	const HRESULT hr = CreateDXGIFactory2(Flags, IID_PPV_ARGS(&ppFactory));
+HRESULT CEDirectXLibHandler::XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) {
+	const HRESULT hr = CreateDXGIFactory2(Flags, riid, ppFactory);
 	return hr;
 }
 
-HRESULT CEDirectXLibHandler::XDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) {
-	const HRESULT hr = DXGIGetDebugInterface1(Flags, IID_PPV_ARGS(&dxgiDebug));
+HRESULT CEDirectXLibHandler::XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) {
+	const HRESULT hr = DXGIGetDebugInterface1(Flags, riid, pDebug);
 	return hr;
 }
 
@@ -40,31 +40,36 @@ HRESULT CEDirectXLibHandler::XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEAT
 	return hr;
 }
 
-HRESULT CEDirectXLibHandler::XD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) {
-	const HRESULT hr = D3D12GetDebugInterface(IID_PPV_ARGS(&dxgiDebug));
+HRESULT CEDirectXLibHandler::XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) {
+	const HRESULT hr = D3D12GetDebugInterface(riid, ppvDebug);
 	return hr;
 }
 
-HRESULT CEDirectXLibHandler::XD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-                                                          D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-                                                          ID3DBlob** errorBlob) {
-	const HRESULT hr = D3D12SerializeRootSignature(rootSignatureDesc, version, blob, errorBlob);
+HRESULT CEDirectXLibHandler::XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+                                                          _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+                                                          _Out_ ID3DBlob** ppBlob,
+                                                          _Always_(_Outptr_opt_result_maybenull_) ID3DBlob**
+                                                          ppErrorBlob) {
+	const HRESULT hr = D3D12SerializeRootSignature(pRootSignature, Version, ppBlob, ppErrorBlob);
 	return hr;
 }
 
-HRESULT CEDirectXLibHandler::XD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-                                                                   const IID& pRootSignatureDeserializerInterface,
-                                                                   void** ppRootSignatureDeserializer) {
+HRESULT CEDirectXLibHandler::XD3D12CreateRootSignatureDeserializer(
+	_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSizeInBytes,
+	_In_ REFIID pRootSignatureDeserializerInterface,
+	_Out_ void** ppRootSignatureDeserializer) {
 	const HRESULT hr = D3D12CreateRootSignatureDeserializer(pSrcData, SrcDataSizeInBytes,
 	                                                        pRootSignatureDeserializerInterface,
 	                                                        ppRootSignatureDeserializer);
 	return hr;
 }
 
-HRESULT CEDirectXLibHandler::XD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-                                                                            const IID&
-                                                                            pRootSignatureDeserializerInterface,
-                                                                            void** ppRootSignatureDeserializer) {
+HRESULT CEDirectXLibHandler::XD3D12CreateVersionedRootSignatureDeserializer(
+	_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSizeInBytes,
+	_In_ REFIID pRootSignatureDeserializerInterface,
+	_Out_ void** ppRootSignatureDeserializer) {
 	const HRESULT hr = D3D12CreateVersionedRootSignatureDeserializer(pSrcData, SrcDataSizeInBytes,
 	                                                                 pRootSignatureDeserializerInterface,
 	                                                                 ppRootSignatureDeserializer);
@@ -92,48 +97,66 @@ void CEDirectXLibHandler::LibDestroy() {
 void CEDirectXLibHandler::Destroy() {
 }
 
-HRESULT CEDirectXLibHandler::LibCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) {
-	return DXHandler->XCreateDXGIFactory2(Flags, ppFactory);
+bool CEDirectXHandler::CECreate(CreateOption option, HMODULE DXGILib, HMODULE D3D12Lib, HMODULE PIXLib) {
+	switch (option) {
+	case CreateOption::Lib:
+		return CEDirectXLibHandler::LibCreate();
+	case CreateOption::DLL:
+		return CEDirectXDLLHandler::DLLCreate(DXGILib, D3D12Lib, PIXLib);
+	}
+	return false;
 }
 
-HRESULT CEDirectXLibHandler::LibDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) {
-	return DXHandler->XDXGIGetDebugInterface1(Flags, dxgiDebug);
+void CEDirectXHandler::CEDestroy() {
 }
 
-HRESULT CEDirectXLibHandler::LibD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-                                                  ID3D12Device* device) {
+HRESULT CEDirectXHandler::CECreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) {
+	return DXHandler->XCreateDXGIFactory2(Flags, riid, ppFactory);
+}
+
+HRESULT CEDirectXHandler::CEDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) {
+	return DXHandler->XDXGIGetDebugInterface1(Flags, riid, pDebug);
+}
+
+HRESULT CEDirectXHandler::CED3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
+                                              ID3D12Device* device) {
 	return DXHandler->XD3D12CreateDevice(adapter, featureLevel, device);
 }
 
-HRESULT CEDirectXLibHandler::LibD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) {
-	return DXHandler->XD3D12GetDebugInterface(dxgiDebug);
+HRESULT CEDirectXHandler::CED3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) {
+	return DXHandler->XD3D12GetDebugInterface(riid, ppvDebug);
 }
 
-HRESULT CEDirectXLibHandler::LibD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-                                                            D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-                                                            ID3DBlob** errorBlob) {
-	return DXHandler->XD3D12SerializeRootSignature(rootSignatureDesc, version, blob, errorBlob);
+HRESULT CEDirectXHandler::CED3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+                                                        _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+                                                        _Out_ ID3DBlob** ppBlob,
+                                                        _Always_(_Outptr_opt_result_maybenull_) ID3DBlob**
+                                                        ppErrorBlob) {
+	return DXHandler->XD3D12SerializeRootSignature(pRootSignature, Version, ppBlob, ppErrorBlob);
 }
 
-HRESULT CEDirectXLibHandler::LibD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-                                                                     const IID& pRootSignatureDeserializerInterface,
-                                                                     void** ppRootSignatureDeserializer) {
+HRESULT CEDirectXHandler::CED3D12CreateRootSignatureDeserializer(
+	_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSizeInBytes,
+	_In_ REFIID pRootSignatureDeserializerInterface,
+	_Out_ void** ppRootSignatureDeserializer) {
 	return DXHandler->XD3D12CreateRootSignatureDeserializer(pSrcData, SrcDataSizeInBytes,
 	                                                        pRootSignatureDeserializerInterface,
 	                                                        ppRootSignatureDeserializer);
 }
 
-HRESULT CEDirectXLibHandler::LibD3D12CreateVersionedRootSignatureDeserializer(
-	LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-	const IID& pRootSignatureDeserializerInterface,
-	void** ppRootSignatureDeserializer) {
+HRESULT CEDirectXHandler::CED3D12CreateVersionedRootSignatureDeserializer(
+	_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSizeInBytes,
+	_In_ REFIID pRootSignatureDeserializerInterface,
+	_Out_ void** ppRootSignatureDeserializer) {
 	return DXHandler->XD3D12CreateVersionedRootSignatureDeserializer(pSrcData, SrcDataSizeInBytes,
 	                                                                 pRootSignatureDeserializerInterface,
 	                                                                 ppRootSignatureDeserializer);
 }
 
-void CEDirectXLibHandler::LibSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
-                                                    PCSTR formatString) {
+void CEDirectXHandler::CESetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
+                                                PCSTR formatString) {
 	return DXHandler->XSetMarkerOnCommandList(commandList, color, formatString);
 }
 
@@ -199,13 +222,13 @@ void CEDirectXDLLHandler::DLLDestroy() {
 	DXHandler = nullptr;
 }
 
-HRESULT CEDirectXDLLHandler::XCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) {
-	const HRESULT hr = CreateDXGIFactory2Func(Flags, IID_PPV_ARGS(&ppFactory));
+HRESULT CEDirectXDLLHandler::XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) {
+	const HRESULT hr = CreateDXGIFactory2Func(Flags, riid, ppFactory);
 	return hr;
 }
 
-HRESULT CEDirectXDLLHandler::XDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) {
-	const HRESULT hr = DXGIGetDebugInterface1Func(Flags, IID_PPV_ARGS(&dxgiDebug));
+HRESULT CEDirectXDLLHandler::XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) {
+	const HRESULT hr = DXGIGetDebugInterface1Func(Flags, riid, pDebug);
 	return hr;
 }
 
@@ -215,31 +238,36 @@ HRESULT CEDirectXDLLHandler::XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEAT
 	return hr;
 }
 
-HRESULT CEDirectXDLLHandler::XD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) {
-	const HRESULT hr = D3D12GetDebugInterfaceFunc(IID_PPV_ARGS(&dxgiDebug));
+HRESULT CEDirectXDLLHandler::XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) {
+	const HRESULT hr = D3D12GetDebugInterfaceFunc(riid, ppvDebug);
 	return hr;
 }
 
-HRESULT CEDirectXDLLHandler::XD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-                                                          D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-                                                          ID3DBlob** errorBlob) {
-	const HRESULT hr = D3D12SerializeRootSignatureFunc(rootSignatureDesc, version, blob, errorBlob);
+HRESULT CEDirectXDLLHandler::XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
+                                                          _In_ D3D_ROOT_SIGNATURE_VERSION Version,
+                                                          _Out_ ID3DBlob** ppBlob,
+                                                          _Always_(_Outptr_opt_result_maybenull_) ID3DBlob**
+                                                          ppErrorBlob) {
+	const HRESULT hr = D3D12SerializeRootSignatureFunc(pRootSignature, Version, ppBlob, ppErrorBlob);
 	return hr;
 }
 
-HRESULT CEDirectXDLLHandler::XD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-                                                                   const IID& pRootSignatureDeserializerInterface,
-                                                                   void** ppRootSignatureDeserializer) {
+HRESULT CEDirectXDLLHandler::XD3D12CreateRootSignatureDeserializer(
+	_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSizeInBytes,
+	_In_ REFIID pRootSignatureDeserializerInterface,
+	_Out_ void** ppRootSignatureDeserializer) {
 	const HRESULT hr = D3D12CreateRootSignatureDeserializerFunc(pSrcData, SrcDataSizeInBytes,
 	                                                            pRootSignatureDeserializerInterface,
 	                                                            ppRootSignatureDeserializer);
 	return hr;
 }
 
-HRESULT CEDirectXDLLHandler::XD3D12CreateVersionedRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-                                                                            const IID&
-                                                                            pRootSignatureDeserializerInterface,
-                                                                            void** ppRootSignatureDeserializer) {
+HRESULT CEDirectXDLLHandler::XD3D12CreateVersionedRootSignatureDeserializer(
+                                     _In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+                                     _In_ SIZE_T SrcDataSizeInBytes,
+                                     _In_ REFIID pRootSignatureDeserializerInterface,
+                                     _Out_ void** ppRootSignatureDeserializer) {
 	const HRESULT hr = D3D12CreateVersionedRootSignatureDeserializerFunc(pSrcData, SrcDataSizeInBytes,
 	                                                                     pRootSignatureDeserializerInterface,
 	                                                                     ppRootSignatureDeserializer);
@@ -256,50 +284,4 @@ bool CEDirectXDLLHandler::DLLCreate(HMODULE DXGILib, HMODULE D3D12Lib, HMODULE P
 	DXHandler->Create();
 
 	return true;
-}
-
-HRESULT CEDirectXDLLHandler::DLLCreateDXGIFactory2(UINT Flags, IDXGIFactory2* ppFactory) {
-	return DXHandler->XCreateDXGIFactory2(Flags, ppFactory);
-}
-
-HRESULT CEDirectXDLLHandler::DLLDXGIGetDebugInterface1(UINT Flags, IDXGIDebug1* dxgiDebug) {
-	return DXHandler->XDXGIGetDebugInterface1(Flags, dxgiDebug);
-}
-
-HRESULT CEDirectXDLLHandler::DLLD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-                                                  ID3D12Device* device) {
-	return DXHandler->XD3D12CreateDevice(adapter, featureLevel, device);
-}
-
-HRESULT CEDirectXDLLHandler::DLLD3D12GetDebugInterface(IDXGIDebug1* dxgiDebug) {
-	return DXHandler->XD3D12GetDebugInterface(dxgiDebug);
-}
-
-HRESULT CEDirectXDLLHandler::DLLD3D12SerializeRootSignature(const D3D12_ROOT_SIGNATURE_DESC* rootSignatureDesc,
-                                                            D3D_ROOT_SIGNATURE_VERSION version, ID3DBlob** blob,
-                                                            ID3DBlob** errorBlob) {
-	return DXHandler->XD3D12SerializeRootSignature(rootSignatureDesc, version, blob, errorBlob);
-}
-
-HRESULT CEDirectXDLLHandler::DLLD3D12CreateRootSignatureDeserializer(LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-                                                                     const IID& pRootSignatureDeserializerInterface,
-                                                                     void** ppRootSignatureDeserializer) {
-	return DXHandler->XD3D12CreateRootSignatureDeserializer(pSrcData, SrcDataSizeInBytes,
-	                                                        pRootSignatureDeserializerInterface,
-	                                                        ppRootSignatureDeserializer);
-}
-
-HRESULT CEDirectXDLLHandler::DLLD3D12CreateVersionedRootSignatureDeserializer(
-	LPCVOID pSrcData, SIZE_T SrcDataSizeInBytes,
-	const IID&
-	pRootSignatureDeserializerInterface,
-	void** ppRootSignatureDeserializer) {
-	return DXHandler->XD3D12CreateVersionedRootSignatureDeserializer(pSrcData, SrcDataSizeInBytes,
-	                                                                 pRootSignatureDeserializerInterface,
-	                                                                 ppRootSignatureDeserializer);
-}
-
-void CEDirectXDLLHandler::DLLSetMarkerOnCommandList(ID3D12GraphicsCommandList* commandList, UINT64 color,
-                                                    PCSTR formatString) {
-	DXHandler->XSetMarkerOnCommandList(commandList, color, formatString);
 }

@@ -52,15 +52,38 @@ CEDXDevice::~CEDXDevice() {
 	}
 }
 
-bool CEDXDevice::Create(CreateOption option) {
+bool CEDXDevice::Create(Base::CreateOption option) {
 	DXFunc = option;
-	switch (option) {
-	case CreateOption::DLL:
-		return CreateDLL();
-	case CreateOption::Lib:
-		return CreateLib();
+	bool createContinue = false;
+	switch (DXFunc) {
+	case Base::CreateOption::DLL: {
+		createContinue = CreateDLL();
 	}
-	return false;
+	break;
+	case Base::CreateOption::Lib: {
+		createContinue = CreateLib();
+	}
+	break;
+	}
+	if (!createContinue) {
+		return false;
+	}
+
+	if (!Base::CEDirectXHandler::CECreate(option, DXGILib, D3D12Lib, PIXLib)) {
+		return false;
+	}
+
+	if (EnableDebugLayer) {
+		Microsoft::WRL::ComPtr<ID3D12Debug> DebugInterface;
+		if (FAILED(Base::CEDirectXHandler::CED3D12GetDebugInterface(IID_PPV_ARGS(&DebugInterface)))) {
+			CE_LOG_ERROR("[D3D12Device]: Failed to enable DebugLayer");
+			return false;
+		}
+
+		DebugInterface->EnableDebugLayer();
+	}
+
+	return true;
 }
 
 int32 CEDXDevice::GetMultiSampleQuality(DXGI_FORMAT format, uint32 sampleCount) {
@@ -95,6 +118,24 @@ bool CEDXDevice::CreateLib() {
 }
 
 bool CEDXDevice::CreateDLL() {
+	DXGILib = ::LoadLibraryA("dxgi.dll");
+	if (DXGILib == NULL) {
+		Core::Platform::Windows::Actions::CEWindowsActions::MessageBox("Error", "Failed to load dxgi.dll");
+		return false;
+	}
+
+	D3D12Lib = ::LoadLibraryA("d3d12.dll");
+	if (D3D12Lib == NULL) {
+		Core::Platform::Windows::Actions::CEWindowsActions::MessageBox("Error", "Failed to load d3d12.dll");
+		return false;
+	}
+
+	if (EnableDebugLayer) {
+		PIXLib = ::LoadLibraryA("WinPixEventRuntime.dll");
+		if (PIXLib == NULL) {
+			CE_LOG_WARNING("PIX Runtime NOT Loaded");
+		}
+	}
 
 	return true;
 }

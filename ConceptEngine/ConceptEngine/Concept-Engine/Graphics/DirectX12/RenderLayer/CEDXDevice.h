@@ -15,18 +15,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	void DeviceRemovedHandler(class CEDXDevice* Device);
 
-	enum class CreateOption {
-		Lib,
-		DLL
-	};
-
-
 	class CEDXDevice {
 	public:
 		CEDXDevice(bool enableDebugLayer, bool enableGPUValidation, bool EnableDRED);
 		~CEDXDevice();
 
-		bool Create(CreateOption create = CreateOption::DLL);
+		bool Create(Base::CreateOption create = Base::CreateOption::DLL);
 
 		int32 GetMultiSampleQuality(DXGI_FORMAT format, uint32 sampleCount);
 
@@ -198,6 +192,6 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		bool EnableGPUValidation = false;
 		bool EnableDRED = false;
 
-		CreateOption DXFunc;
+		Base::CreateOption DXFunc;
 	};
 }
