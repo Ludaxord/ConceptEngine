@@ -159,14 +159,6 @@ bool CERenderer::Create() {
 		}
 	}
 
-
-	//TODO: Try to create some kind of callback function
-	/*
-		CommandList.Begin();
-		LightProbeRenderer.RenderSkyLightProbe(CommandList, LightSetup, Resources);
-		CommandList.End();
-	 */
-
 	using namespace std::placeholders;
 	CommandList.Execute([this] {
 		LightProbeRenderer.RenderSkyLightProbe(CommandList, LightSetup, Resources);
@@ -268,6 +260,17 @@ bool CERenderer::CreateShadingImage() {
 }
 
 void CERenderer::ResizeResources(uint32 width, uint32 height) {
+	if (!Resources.MainWindowViewport->Resize(width, height)) {
+		return;
+	}
+
+	if (!DeferredRenderer.ResizeResources(Resources)) {
+		return;
+	}
+
+	if (!SSAORenderer.ResizeResources(Resources)) {
+		return;
+	}
 }
 
 bool CERenderer::IsRayTracingSupported() {

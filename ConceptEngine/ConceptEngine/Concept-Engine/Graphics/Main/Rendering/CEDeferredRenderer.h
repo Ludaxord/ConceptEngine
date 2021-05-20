@@ -10,5 +10,6 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 		bool Create(CEFrameResources& FrameResources);
 		void Release();
+		bool ResizeResources(CEFrameResources& resources);
 	};
 }

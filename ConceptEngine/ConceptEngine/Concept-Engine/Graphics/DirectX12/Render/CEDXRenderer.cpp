@@ -33,11 +33,11 @@ void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
 	CERenderer::PerformFrustumCulling(scene);
 }
 
-void CEDXRenderer::PerformFXAA(Main::RenderLayer::CECommandList& commandList) {
+void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
 	CERenderer::PerformFXAA(commandList);
 }
 
-void CEDXRenderer::PerformBackBufferBlit(Main::RenderLayer::CECommandList& commandList) {
+void CEDXRenderer::PerformBackBufferBlit(CECommandList& commandList) {
 	CERenderer::PerformBackBufferBlit(commandList);
 }
 
@@ -45,7 +45,7 @@ void CEDXRenderer::RenderDebugInterface() {
 	CERenderer::RenderDebugInterface();
 }
 
-void CEDXRenderer::OnWindowResize(const Core::Common::CEWindowResizeEvent& Event) {
+void CEDXRenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
 }
 
 bool CEDXRenderer::CreateBoundingBoxDebugPass() {
