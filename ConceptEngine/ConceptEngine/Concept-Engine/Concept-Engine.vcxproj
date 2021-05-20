@@ -88,6 +88,7 @@
     <ClInclude Include="Core\Threading\CEScopedLock.h" />
     <ClInclude Include="Core\Threading\CETaskManager.h" />
     <ClInclude Include="Core\Threading\CEThreadSafe.h" />
+    <ClInclude Include="Graphics\DirectX12\Base\CEDirectXHandlers.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXPlayground.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsWindow.cpp" />
     <ClCompile Include="Core\Threading\CETaskManager.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Base\CEDirectXHandlers.cpp" />
     <ClCompile Include="Graphics\DirectX12\CEDirectX12.cpp" />
     <ClCompile Include="Graphics\DirectX12\Common\CEDXMaterial.cpp" />
     <ClCompile Include="Graphics\DirectX12\Common\CEDXPlayground.cpp" />
@@ -302,6 +304,9 @@
     <ClCompile Include="Core\Platform\Generic\Window\CEConsole.cpp" />
     <ClCompile Include="Core\Platform\Generic\Window\CEScreen.cpp" />
     <ClCompile Include="Core\Platform\Generic\Window\CEWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -444,5 +449,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets" Condition="Exists('..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
+  </Target>
 </Project>

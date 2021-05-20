@@ -175,6 +175,7 @@
     <ClInclude Include="Graphics\Main\Common\CETransform.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />
     <ClInclude Include="Math\CEMathTypes.h" />
+    <ClInclude Include="Graphics\DirectX12\Base\CEDirectXHandlers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -284,5 +285,9 @@
     <ClCompile Include="Core\Common\CEClassType.cpp" />
     <ClCompile Include="Graphics\DirectX12\Common\CEDXMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CETransform.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Base\CEDirectXHandlers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

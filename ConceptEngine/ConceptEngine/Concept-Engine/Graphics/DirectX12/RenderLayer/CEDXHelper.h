@@ -5,11 +5,14 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include <dxgidebug.h>
+#include <pix3.h>
+#include <pix.h>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "WinPixEventRuntime.lib")
 
 
 #define D3D12_MAX_ROOT_PARAMETERS              (64)

@@ -1,7 +1,7 @@
 #pragma once
 #include "CEDXHelper.h"
 
-#include "../Base/CEDirectXHandler.h"
+#include "../Base/CEDirectXHandlers.h"
 
 #include <DXProgrammableCapture.h>
 #include <string>

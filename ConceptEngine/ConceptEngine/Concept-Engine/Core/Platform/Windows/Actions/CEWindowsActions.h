@@ -2,6 +2,7 @@
 #include <Windows.h>
 
 #include "../../Generic/Actions/CEActions.h"
+#include "../../../Log/CELog.h"
 
 #ifdef MessageBox
 #undef MessageBox
@@ -32,6 +33,17 @@ namespace ConceptEngine::Core::Platform::Windows::Actions {
 
 		static bool IsDebuggerPresent() {
 			return IsDebuggerPresent();
+		}
+
+		template <typename T>
+		static T GetTypedProcAddress(HMODULE hModule, LPCSTR lpProcName) {
+			T Func = reinterpret_cast<T>(GetProcAddress(hModule, lpProcName));
+			if (!Func) {
+				const char* procName = lpProcName;
+				CE_LOG_ERROR("Failed to load: " + std::string(procName));
+			}
+
+			return Func;
 		}
 	};
 }
