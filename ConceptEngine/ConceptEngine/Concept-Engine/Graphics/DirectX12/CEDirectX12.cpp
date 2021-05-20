@@ -1,12 +1,12 @@
 #include "CEDirectX12.h"
 
-#include "Modules/Managers/CEDXManager.h"
-#include "Modules/Managers/CEDXRendererManager.h"
-#include "Modules/Managers/CEDXTextureManager.h"
+#include "Managers/CEDXManager.h"
+#include "Managers/CEDXRendererManager.h"
+#include "Managers/CEDXTextureManager.h"
 
-#include "Modules/Rendering/CEDXDebugUI.h"
+#include "Rendering/CEDXDebugUI.h"
 
-#include "Modules/RenderLayer/CEDXShaderCompiler.h"
+#include "RenderLayer/CEDXShaderCompiler.h"
 
 using namespace ConceptEngine::Graphics::DirectX12;
 
@@ -31,32 +31,32 @@ bool CEDirectX12::CreateManagers() {
 }
 
 bool CEDirectX12::CreateGraphicsManager() {
-	auto manager = std::make_unique<Modules::Managers::CEDXManager>();
+	auto manager = std::make_unique<Managers::CEDXManager>();
 	GraphicsManager = std::move(manager);
 
 	return true;
 }
 
 bool CEDirectX12::CreateTextureManager() {
-	auto manager = std::make_unique<Modules::Managers::CEDXTextureManager>();
+	auto manager = std::make_unique<Managers::CEDXTextureManager>();
 	TextureManager = std::move(manager);
 	return true;
 }
 
 bool CEDirectX12::CreateRendererManager() {
-	auto manager = std::make_unique<Modules::Managers::CEDXRendererManager>();
+	auto manager = std::make_unique<Managers::CEDXRendererManager>();
 	RendererManager = std::move(manager);
 	return true;
 }
 
 bool CEDirectX12::CreateDebugUi() {
-	auto debugUi = std::make_unique<Modules::Rendering::CEDXDebugUI>();
+	auto debugUi = std::make_unique<Rendering::CEDXDebugUI>();
 	DebugUI = std::move(debugUi);
 	return true;
 }
 
 bool CEDirectX12::CreateShaderCompiler() {
-	Compiler = new Modules::RenderLayer::CEDXShaderCompiler();
+	Compiler = new RenderLayer::CEDXShaderCompiler();
 	return true;
 }
 

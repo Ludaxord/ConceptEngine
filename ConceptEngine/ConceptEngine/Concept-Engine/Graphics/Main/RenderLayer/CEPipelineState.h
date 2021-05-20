@@ -5,6 +5,7 @@
 
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Common/CETypes.h"
+#include "CEResource.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CEPipelineState : public CEResource {
