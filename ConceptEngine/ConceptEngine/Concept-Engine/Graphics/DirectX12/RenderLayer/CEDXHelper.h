@@ -6,7 +6,6 @@
 #include <wrl/client.h>
 #include <dxgidebug.h>
 #include <pix3.h>
-#include <pix.h>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
