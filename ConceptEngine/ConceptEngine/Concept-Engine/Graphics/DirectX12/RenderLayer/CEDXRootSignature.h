@@ -17,7 +17,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		RayTracingLocal = 4
 	};
 
-	enum CEStaticSamplers  : uint8 {
+	enum CEStaticSamplers : uint8 {
 		PointWrap = 0,
 		PointClamp = 1,
 		LinearWrap = 2,

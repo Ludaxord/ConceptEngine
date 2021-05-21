@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ConceptEngineFramework\Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="AI\CEAI.h" />
     <ClInclude Include="Audio\CEAudio.h" />
     <ClInclude Include="Core\Common\CEClassType.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXPlayground.h" />
+    <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXTextureManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXRendererManager.h" />

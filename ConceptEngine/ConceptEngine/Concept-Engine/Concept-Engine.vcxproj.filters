@@ -176,6 +176,8 @@
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />
     <ClInclude Include="Math\CEMathTypes.h" />
     <ClInclude Include="Graphics\DirectX12\Base\CEDirectXHandlers.h" />
+    <ClInclude Include="..\ConceptEngineFramework\Graphics\DirectX12\Libraries\d3dx12.h" />
+    <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
