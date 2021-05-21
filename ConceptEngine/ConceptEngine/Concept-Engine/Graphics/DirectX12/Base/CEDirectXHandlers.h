@@ -32,8 +32,10 @@ namespace ConceptEngine::Graphics::DirectX12::Base {
 		virtual void Destroy() = 0;
 		virtual HRESULT XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) = 0;
 		virtual HRESULT XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) = 0;
-		virtual HRESULT XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-		                                   ID3D12Device* device) = 0;
+		virtual HRESULT XD3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+		                                   D3D_FEATURE_LEVEL MinimumFeatureLevel,
+		                                   _In_ REFIID riid, // Expected: ID3D12Device
+		                                   _COM_Outptr_opt_ void** ppDevice) = 0;
 		virtual HRESULT XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) = 0;
 		virtual HRESULT XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
 		                                             _In_ D3D_ROOT_SIGNATURE_VERSION Version,
@@ -59,8 +61,10 @@ namespace ConceptEngine::Graphics::DirectX12::Base {
 
 		static HRESULT CECreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory);
 		static HRESULT CEDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug);
-		static HRESULT CED3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-		                                   ID3D12Device* device);
+		static HRESULT CED3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+		                                   D3D_FEATURE_LEVEL MinimumFeatureLevel,
+		                                   _In_ REFIID riid, // Expected: ID3D12Device
+		                                   _COM_Outptr_opt_ void** ppDevice);
 		static HRESULT CED3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug);
 		static HRESULT CED3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
 		                                             _In_ D3D_ROOT_SIGNATURE_VERSION Version,
@@ -87,8 +91,10 @@ namespace ConceptEngine::Graphics::DirectX12::Base {
 		void Destroy() override;
 		HRESULT XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) override;
 		HRESULT XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) override;
-		HRESULT XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-		                           ID3D12Device* device) override;
+		HRESULT XD3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+		                           D3D_FEATURE_LEVEL MinimumFeatureLevel,
+		                           _In_ REFIID riid, // Expected: ID3D12Device
+		                           _COM_Outptr_opt_ void** ppDevice) override;
 		HRESULT XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) override;
 		HRESULT XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
 		                                     _In_ D3D_ROOT_SIGNATURE_VERSION Version,
@@ -122,8 +128,10 @@ namespace ConceptEngine::Graphics::DirectX12::Base {
 		void Destroy() override;
 		HRESULT XCreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_ void** ppFactory) override;
 		HRESULT XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM_Outptr_ void** pDebug) override;
-		HRESULT XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-		                           ID3D12Device* device) override;
+		HRESULT XD3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+		                           D3D_FEATURE_LEVEL MinimumFeatureLevel,
+		                           _In_ REFIID riid, // Expected: ID3D12Device
+		                           _COM_Outptr_opt_ void** ppDevice) override;
 		HRESULT XD3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) override;
 		HRESULT XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_SIGNATURE_DESC* pRootSignature,
 		                                     _In_ D3D_ROOT_SIGNATURE_VERSION Version,

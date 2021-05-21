@@ -34,9 +34,11 @@ HRESULT CEDirectXLibHandler::XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _C
 	return hr;
 }
 
-HRESULT CEDirectXLibHandler::XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-                                                ID3D12Device* device) {
-	const HRESULT hr = D3D12CreateDevice(adapter, featureLevel, IID_PPV_ARGS(&device));
+HRESULT CEDirectXLibHandler::XD3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+                                                D3D_FEATURE_LEVEL MinimumFeatureLevel,
+                                                _In_ REFIID riid, // Expected: ID3D12Device
+                                                _COM_Outptr_opt_ void** ppDevice) {
+	const HRESULT hr = D3D12CreateDevice(pAdapter, MinimumFeatureLevel, riid, ppDevice);
 	return hr;
 }
 
@@ -118,9 +120,11 @@ HRESULT CEDirectXHandler::CEDXGIGetDebugInterface1(UINT Flags, REFIID riid, _COM
 	return DXHandler->XDXGIGetDebugInterface1(Flags, riid, pDebug);
 }
 
-HRESULT CEDirectXHandler::CED3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-                                              ID3D12Device* device) {
-	return DXHandler->XD3D12CreateDevice(adapter, featureLevel, device);
+HRESULT CEDirectXHandler::CED3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+                                              D3D_FEATURE_LEVEL MinimumFeatureLevel,
+                                              _In_ REFIID riid, // Expected: ID3D12Device
+                                              _COM_Outptr_opt_ void** ppDevice) {
+	return DXHandler->XD3D12CreateDevice(pAdapter, MinimumFeatureLevel, riid, ppDevice);
 }
 
 HRESULT CEDirectXHandler::CED3D12GetDebugInterface(_In_ REFIID riid, _COM_Outptr_opt_ void** ppvDebug) {
@@ -232,9 +236,11 @@ HRESULT CEDirectXDLLHandler::XDXGIGetDebugInterface1(UINT Flags, REFIID riid, _C
 	return hr;
 }
 
-HRESULT CEDirectXDLLHandler::XD3D12CreateDevice(IDXGIAdapter1* adapter, D3D_FEATURE_LEVEL featureLevel,
-                                                ID3D12Device* device) {
-	const HRESULT hr = D3D12CreateDeviceFunc(adapter, featureLevel, IID_PPV_ARGS(&device));
+HRESULT CEDirectXDLLHandler::XD3D12CreateDevice(_In_opt_ IUnknown* pAdapter,
+                                                D3D_FEATURE_LEVEL MinimumFeatureLevel,
+                                                _In_ REFIID riid, // Expected: ID3D12Device
+                                                _COM_Outptr_opt_ void** ppDevice) {
+	const HRESULT hr = D3D12CreateDeviceFunc(pAdapter, MinimumFeatureLevel, riid, ppDevice);
 	return hr;
 }
 
@@ -264,10 +270,10 @@ HRESULT CEDirectXDLLHandler::XD3D12CreateRootSignatureDeserializer(
 }
 
 HRESULT CEDirectXDLLHandler::XD3D12CreateVersionedRootSignatureDeserializer(
-                                     _In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
-                                     _In_ SIZE_T SrcDataSizeInBytes,
-                                     _In_ REFIID pRootSignatureDeserializerInterface,
-                                     _Out_ void** ppRootSignatureDeserializer) {
+	_In_reads_bytes_(SrcDataSizeInBytes) LPCVOID pSrcData,
+	_In_ SIZE_T SrcDataSizeInBytes,
+	_In_ REFIID pRootSignatureDeserializerInterface,
+	_Out_ void** ppRootSignatureDeserializer) {
 	const HRESULT hr = D3D12CreateVersionedRootSignatureDeserializerFunc(pSrcData, SrcDataSizeInBytes,
 	                                                                     pRootSignatureDeserializerInterface,
 	                                                                     ppRootSignatureDeserializer);
