@@ -1,4 +1,7 @@
 #pragma once
+
+#include "../Libraries/d3dx12.h"
+
 #include "CEDXDeviceElement.h"
 #include "CEDXShader.h"
 #include "../../../Core/Common/CERefCountedObject.h"
@@ -12,6 +15,17 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		Compute = 2,
 		RayTracingGlobal = 3,
 		RayTracingLocal = 4
+	};
+
+	enum CEStaticSamplers  : uint8 {
+		PointWrap = 0,
+		PointClamp = 1,
+		LinearWrap = 2,
+		LinearClamp = 3,
+		AnisotropicWrap = 4,
+		AnisotropicClamp = 5,
+		Shadow = 6,
+		All = 7,
 	};
 
 	struct CEDXRootSignatureResourceCount {
@@ -31,9 +45,27 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	private:
-		static void InitDescriptorRange();
-		static void InitDescriptorTable();
-		static void Init32BitConstantRange();
+		static void InitDescriptorRange(
+			D3D12_DESCRIPTOR_RANGE& range,
+			D3D12_DESCRIPTOR_RANGE_TYPE type,
+			uint32 numDescriptors,
+			uint32 baseShaderRegister,
+			uint32 registerSpace
+		);
+		static void InitDescriptorTable(
+			D3D12_ROOT_PARAMETER& parameter,
+			D3D12_SHADER_VISIBILITY shaderVisibility,
+			const D3D12_DESCRIPTOR_RANGE* descriptorRanges,
+			uint32 numDescriptorRanges
+		);
+
+		static void Init32BitConstantRange(
+			D3D12_ROOT_PARAMETER& parameter,
+			D3D12_SHADER_VISIBILITY shaderVisibility,
+			uint32 num32BitConstants,
+			uint32 shaderRegister,
+			uint32 registerSpace
+		);
 
 		D3D12_ROOT_SIGNATURE_DESC Desc;
 		D3D12_ROOT_PARAMETER Parameters[D3D12_MAX_ROOT_PARAMETERS];

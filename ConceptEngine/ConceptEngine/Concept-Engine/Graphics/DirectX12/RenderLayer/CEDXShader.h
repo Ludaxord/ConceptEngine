@@ -3,17 +3,22 @@
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
+	//TODO: create static sampler class right not put enums here:
+	enum CEStaticSampler {
+		
+	};
+	
 	enum CEShaderVisibility {
 		ShaderVisibility_All = 0,
-		ShaderVisibility_Vertex = 0,
-		ShaderVisibility_Hull = 0,
-		ShaderVisibility_Domain = 0,
-		ShaderVisibility_Geometry = 0,
-		ShaderVisibility_Pixel = 0,
+		ShaderVisibility_Vertex = 1,
+		ShaderVisibility_Hull = 2,
+		ShaderVisibility_Domain = 3,
+		ShaderVisibility_Geometry = 4,
+		ShaderVisibility_Pixel = 5,
 		ShaderVisibility_Count = ShaderVisibility_Pixel + 1,
 	};
 
-	enum EResourceType {
+	enum CEResourceType {
 		ResourceType_CBV = 0,
 		ResourceType_SRV = 1,
 		ResourceType_UAV = 2,
