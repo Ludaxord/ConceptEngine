@@ -75,6 +75,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 	}
 
+	enum class CEPrimitiveTopologyType {
+		Undefined = 0,
+		Point = 1,
+		Line = 2,
+		Triangle = 3,
+		Patch = 4
+	};
+
 	enum class CEComparisonFunc {
 		Never = 1,
 		Less = 2,
@@ -107,9 +115,22 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	enum class CEShadingRate {
+		    VRS_1x1 = 0x0,
+    VRS_1x2 = 0x1,
+    VRS_2x1 = 0x4,
+    VRS_2x2 = 0x5,
+    VRS_2x4 = 0x6,
+    VRS_4x2 = 0x9,
+    VRS_4x4 = 0xa,
 	};
 
 	enum class CEPrimitiveTopology {
+		Undefined = 0,
+		PointList = 1,
+		LineList = 2,
+		LineStrip = 3,
+		TriangleList = 4,
+		TriangleStrip = 5,
 	};
 
 	struct CEResourceData {

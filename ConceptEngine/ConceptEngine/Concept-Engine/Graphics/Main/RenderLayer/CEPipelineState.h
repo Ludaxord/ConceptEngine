@@ -41,6 +41,131 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CEBlendStateCreateInfo {
 	};
 
+	enum class CEDepthWriteMask {
+		Zero = 0,
+		All = 1
+	};
+
+	enum class CEStencilOp {
+		Keep = 1,
+		Zero = 2,
+		Replace = 3,
+		IncrSat = 4,
+		DecrSat = 5,
+		Invert = 6,
+		Incr = 7,
+		Decr = 8
+	};
+
+	struct CEDepthStencilOp {
+		CEStencilOp StencilFailOp = CEStencilOp::Keep;
+		CEStencilOp StencilDepthFailOp = CEStencilOp::Keep;
+		CEStencilOp StencilPassOp = CEStencilOp::Keep;
+		CEComparisonFunc StencilFunc = CEComparisonFunc::Always;
+	};
+
+	enum class CECullMode {
+		None = 1,
+		Front = 2,
+		Back = 3
+	};
+
+	enum class CEFillMode {
+		WireFrame = 1,
+		Solid = 2
+	};
+
+	enum class CEBlendOp {
+		Add = 1,
+		Subtract = 2,
+		RevSubtract = 3,
+		Min = 4,
+		Max = 5
+	};
+
+	enum class CELogicOp {
+		Clear = 0,
+		Set = 1,
+		Copy = 2,
+		CopyInverted = 3,
+		Noop = 4,
+		Invert = 5,
+		And = 6,
+		Nand = 7,
+		Or = 8,
+		Nor = 9,
+		Xor = 10,
+		Equiv = 11,
+		AndReverse = 12,
+		AndInverted = 13,
+		OrReverse = 14,
+		OrInverted = 15
+	};
+
+	enum class CEBlend {
+		Zero = 1,
+		One = 2,
+		SrcColor = 3,
+		InvSrcColor = 4,
+		SrcAlpha = 5,
+		InvSrcAlpha = 6,
+		DestAlpha = 7,
+		InvDestAlpha = 8,
+		DestColor = 9,
+		InvDestColor = 10,
+		SrcAlphaSat = 11,
+		BlendFactor = 12,
+		InvBlendFactor = 13,
+		Src1Color = 14,
+		InvSrc1Color = 15,
+		Src1Alpha = 16,
+		InvSrc1Alpha = 17
+	};
+
+	enum CEColorWriteFlag : uint8 {
+		ColorWriteFlag_None = 0,
+		ColorWriteFlag_Red = 1,
+		ColorWriteFlag_Green = 2,
+		ColorWriteFlag_Blue = 4,
+		ColorWriteFlag_Alpha = 8,
+		ColorWriteFlag_All = (((ColorWriteFlag_Red | ColorWriteFlag_Green) | ColorWriteFlag_Blue) |
+			ColorWriteFlag_Alpha)
+	};
+
+	struct CERenderTargetWriteState {
+		CERenderTargetWriteState() = default;
+
+		CERenderTargetWriteState(uint8 mask) : Mask(mask) {
+
+		}
+
+		bool WriteNone() const {
+			return Mask == ColorWriteFlag_None;
+		}
+
+		bool WriteRed() const {
+			return (Mask & ColorWriteFlag_Red);
+		}
+
+		bool WriteGreen() const {
+			return (Mask & ColorWriteFlag_Green);
+		}
+
+		bool WriteBlue() const {
+			return (Mask & ColorWriteFlag_Blue);
+		}
+
+		bool WriteAlpha() const {
+			return (Mask & ColorWriteFlag_Alpha);
+		}
+
+		bool WriteAll() const {
+			return Mask == ColorWriteFlag_All;
+		}
+
+		uint8 Mask = ColorWriteFlag_All;
+	};
+
 	enum class CEInputClassification { Vertex = 0, Instance = 1 };
 
 	struct CEInputElement {
