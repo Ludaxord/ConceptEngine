@@ -7,6 +7,7 @@
 #include "../../../Core/Common/CERefCountedObject.h"
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Utilities/CEStringUtilities.h"
+#include "../../../Math/CEMath.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	enum class CERootSignatureType {
@@ -131,7 +132,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		CEDXRootSignature* CreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount);
 
 		Core::Containers::CEArray<Core::Common::CERef<CEDXRootSignature>> RootSignatures;
-		Core::Containers::CEArray<Core::Common::CERef<CEDXRootSignatureResourceCount>> ResourceCounts;
+		Core::Containers::CEArray<CEDXRootSignatureResourceCount> ResourceCounts;
 
 		static CEDXRootSignatureCache* Instance;
 	};

@@ -181,16 +181,16 @@ CEDXRootSignatureDescHelper::CEDXRootSignatureDescHelper(const CEDXRootSignature
 		}
 	}
 
-	Core::Containers::CEArray<const D3D12_STATIC_SAMPLER_DESC> samplers;
+	std::vector<D3D12_STATIC_SAMPLER_DESC> samplers;
 	for (uint8 i = 0; i < CEStaticSamplers::All; ++i) {
-		samplers.EmplaceBack(GetStaticSamplers(static_cast<CEStaticSamplers>(i)));
+		samplers.emplace_back(GetStaticSamplers(static_cast<CEStaticSamplers>(i)));
 	}
 
 	Desc.NumParameters = numRootParameters;
 	Desc.pParameters = Parameters;
-	Desc.NumStaticSamplers = samplers.Size();
-	if (samplers.Size() > 0) {
-		Desc.pStaticSamplers = samplers.Data();
+	Desc.NumStaticSamplers = samplers.size();
+	if (!samplers.empty()) {
+		Desc.pStaticSamplers = samplers.data();
 	}
 	else {
 		Desc.pStaticSamplers = nullptr;
@@ -211,6 +211,11 @@ void CEDXRootSignatureDescHelper::InitDescriptorRange(
 	uint32 numDescriptors,
 	uint32 baseShaderRegister,
 	uint32 registerSpace) {
+	range.BaseShaderRegister = baseShaderRegister;
+	range.NumDescriptors = numDescriptors;
+	range.RangeType = type;
+	range.RegisterSpace = registerSpace;
+	range.OffsetInDescriptorsFromTableStart = 0;
 }
 
 void CEDXRootSignatureDescHelper::InitDescriptorTable(
@@ -218,37 +223,126 @@ void CEDXRootSignatureDescHelper::InitDescriptorTable(
 	D3D12_SHADER_VISIBILITY shaderVisibility,
 	const D3D12_DESCRIPTOR_RANGE* descriptorRanges,
 	uint32 numDescriptorRanges) {
+	parameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	parameter.ShaderVisibility = shaderVisibility;
+	parameter.DescriptorTable.NumDescriptorRanges = numDescriptorRanges;
+	parameter.DescriptorTable.pDescriptorRanges = descriptorRanges;
 }
 
-void CEDXRootSignatureDescHelper::Init32BitConstantRange(D3D12_ROOT_PARAMETER& parameter,
-                                                         D3D12_SHADER_VISIBILITY shaderVisibility,
-                                                         uint32 num32BitConstants,
-                                                         uint32 shaderRegister,
-                                                         uint32 registerSpace) {
+void CEDXRootSignatureDescHelper::Init32BitConstantRange(
+	D3D12_ROOT_PARAMETER& parameter,
+	D3D12_SHADER_VISIBILITY shaderVisibility,
+	uint32 num32BitConstants,
+	uint32 shaderRegister,
+	uint32 registerSpace) {
+	parameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS;
+	parameter.ShaderVisibility = shaderVisibility;
+	parameter.Constants.Num32BitValues = num32BitConstants;
+	parameter.Constants.ShaderRegister = shaderRegister;
+	parameter.Constants.RegisterSpace = registerSpace;
 }
 
 CEDXRootSignature::CEDXRootSignature(CEDXDevice* device): CEDXDeviceElement(device), RootSignature(nullptr),
                                                           RootParameterMap{},
                                                           ConstantRootParameterIndex(-1) {
+	constexpr uint32 numElements = sizeof(RootParameterMap) / sizeof(uint32);
+	int32* ptr = reinterpret_cast<int32*>(&RootParameterMap);
+	for (uint32 i = 0; i < numElements; i++) {
+		*(ptr) = -1;
+	}
 }
 
 bool CEDXRootSignature::Create(const CEDXRootSignatureResourceCount& rootSignatureInfo) {
+	CEDXRootSignatureDescHelper desc(rootSignatureInfo);
+	return Create(desc.GetDesc());
 }
 
 bool CEDXRootSignature::Create(const D3D12_ROOT_SIGNATURE_DESC& desc) {
+	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob;
+	if (!Serialize(desc, &signatureBlob)) {
+		return false;
+	}
+
+	CreateRootParameterMap(desc);
+
+	return InternalCreate(signatureBlob->GetBufferPointer(), signatureBlob->GetBufferSize());
 }
 
 bool CEDXRootSignature::Create(const void* blobWithRootSignature, uint64 blobLengthInBytes) {
+	Microsoft::WRL::ComPtr<ID3D12RootSignatureDeserializer> deserializer;
+	HRESULT hResult = Base::CEDirectXHandler::CED3D12CreateRootSignatureDeserializer(
+		blobWithRootSignature, blobLengthInBytes, IID_PPV_ARGS(&deserializer));
+	if (FAILED(hResult)) {
+		CE_LOG_ERROR("[D3D12RootSignature]: Failed to Retrive Root Signature Desc");
+
+		return false;
+	}
+
+
+	const D3D12_ROOT_SIGNATURE_DESC* desc = deserializer->GetRootSignatureDesc();
+	Assert(desc != nullptr);
+
+	CreateRootParameterMap(*desc);
+
+	Microsoft::WRL::ComPtr<ID3DBlob> blob;
+	if (!Serialize(*desc, &blob)) {
+		return false;
+	}
+
+	hResult = GetDevice()->CreateRootSignature(1, blob->GetBufferPointer(), blob->GetBufferSize(),
+	                                           IID_PPV_ARGS(&RootSignature));
+	if (FAILED(hResult)) {
+		CE_LOG_ERROR("[D3D12RootSignature]: Failed to Create Root Signature");
+		return false;
+	}
+
+	return InternalCreate(blobWithRootSignature, blobLengthInBytes);
 }
 
 bool CEDXRootSignature::Serialize(const D3D12_ROOT_SIGNATURE_DESC& desc, ID3DBlob** blob) {
+	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
+	HRESULT hResult = Base::CEDirectXHandler::CED3D12SerializeRootSignature(
+		&desc, D3D_ROOT_SIGNATURE_VERSION_1, blob, &errorBlob);
+	if (FAILED(hResult)) {
+		CE_LOG_ERROR("[D3D12RootSignature]: Failed to Serialize RootSignature");
+		CE_LOG_ERROR(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
+		return false;
+	}
+
+	return false;
 }
 
 void CEDXRootSignature::CreateRootParameterMap(const D3D12_ROOT_SIGNATURE_DESC& desc) {
+	for (uint32 i = 0; i < desc.NumParameters; i++) {
+		const D3D12_ROOT_PARAMETER& parameter = desc.pParameters[i];
+		if (parameter.ParameterType == D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE) {
+			uint32 shaderVisibility = GetShaderVisibility(parameter.ShaderVisibility);
+
+			Assert(parameter.DescriptorTable.NumDescriptorRanges == 1);
+			D3D12_DESCRIPTOR_RANGE range = parameter.DescriptorTable.pDescriptorRanges[0];
+
+			uint32 resourceType = GetResourceType(range.RangeType);
+			RootParameterMap[shaderVisibility][resourceType] = i;
+		}
+		else if (parameter.ParameterType == D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS) {
+			Assert(ConstantRootParameterIndex == -1);
+			ConstantRootParameterIndex = i;
+		}
+	}
 }
 
 bool CEDXRootSignature::InternalCreate(const void* blobWithRootSignature, uint64 blobLengthInBytes) {
+	HRESULT hResult = GetDevice()->CreateRootSignature(1, blobWithRootSignature, blobLengthInBytes,
+	                                                   IID_PPV_ARGS(&RootSignature));
+	if (FAILED(hResult)) {
+		CE_LOG_ERROR("[D3D12RootSignature]: Failed to create Root Signature");
+		return false;
+	}
+
+	return true;
 }
+
+CEDXRootSignatureCache* CEDXRootSignatureCache::Instance = nullptr;
 
 CEDXRootSignatureCache::CEDXRootSignatureCache(CEDXDevice* device) : CEDXDeviceElement(device), RootSignatures(),
                                                                      ResourceCounts() {
@@ -261,16 +355,134 @@ CEDXRootSignatureCache::~CEDXRootSignatureCache() {
 }
 
 bool CEDXRootSignatureCache::Create() {
+	CEDXRootSignatureResourceCount graphicsKey;
+	graphicsKey.Type = CERootSignatureType::Graphics;
+	graphicsKey.AllowInputAssembler = true;
+	graphicsKey.ResourceCounts[ShaderVisibility_All].Num32BitConstants = D3D12_MAX_32BIT_SHADER_CONSTANTS_COUNT;
+
+	for (uint32 i = 1; i < ShaderVisibility_Count; i++) {
+		graphicsKey.ResourceCounts[i].Ranges.NumCBVs = D3D12_DEFAULT_CONSTANT_BUFFER_COUNT;
+		graphicsKey.ResourceCounts[i].Ranges.NumSRVs = D3D12_DEFAULT_SHADER_RESOURCE_VIEW_COUNT;
+		graphicsKey.ResourceCounts[i].Ranges.NumUAVs = D3D12_DEFAULT_UNORDERED_ACCESS_VIEW_COUNT;
+		graphicsKey.ResourceCounts[i].Ranges.NumSamplers = D3D12_DEFAULT_SAMPLER_STATE_COUNT;
+	}
+
+	CEDXRootSignature* graphicsRootSignature = CreateRootSignature(graphicsKey);
+	if (!graphicsRootSignature) {
+		return false;
+	}
+
+	graphicsRootSignature->SetName("Default Graphics Root Signature");
+
+	CEDXRootSignatureResourceCount computeKey;
+	computeKey.Type = CERootSignatureType::Compute;
+	computeKey.AllowInputAssembler = false;
+	computeKey.ResourceCounts[ShaderVisibility_All].Num32BitConstants = D3D12_MAX_32BIT_SHADER_CONSTANTS_COUNT;
+	computeKey.ResourceCounts[ShaderVisibility_All].Ranges.NumCBVs = D3D12_DEFAULT_CONSTANT_BUFFER_COUNT;
+	computeKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSRVs = D3D12_DEFAULT_SHADER_RESOURCE_VIEW_COUNT;
+	computeKey.ResourceCounts[ShaderVisibility_All].Ranges.NumUAVs = D3D12_DEFAULT_UNORDERED_ACCESS_VIEW_COUNT;
+	computeKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSamplers = D3D12_DEFAULT_SAMPLER_STATE_COUNT;
+
+	CEDXRootSignature* computeRootSignature = CreateRootSignature(computeKey);
+	if (!computeRootSignature) {
+		return false;
+	}
+
+	computeRootSignature->SetName("Default Compute Root Signature");
+
+	if (GetDevice()->GetRayTracingTier() == D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
+		return true;
+	}
+
+	CEDXRootSignatureResourceCount rtGlobalKey;
+	rtGlobalKey.Type = CERootSignatureType::RayTracingGlobal;
+	rtGlobalKey.AllowInputAssembler = false;
+	rtGlobalKey.ResourceCounts[ShaderVisibility_All].Num32BitConstants = D3D12_MAX_32BIT_SHADER_CONSTANTS_COUNT;
+	rtGlobalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumCBVs = D3D12_DEFAULT_CONSTANT_BUFFER_COUNT;
+	rtGlobalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSRVs = D3D12_DEFAULT_SHADER_RESOURCE_VIEW_COUNT;
+	rtGlobalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumUAVs = D3D12_DEFAULT_UNORDERED_ACCESS_VIEW_COUNT;
+	rtGlobalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSamplers = D3D12_DEFAULT_SAMPLER_STATE_COUNT;
+
+	CEDXRootSignature* rtGlobalRootSignature = CreateRootSignature(rtGlobalKey);
+	if (!rtGlobalRootSignature) {
+		return false;
+	}
+
+	rtGlobalRootSignature->SetName("Default Global Ray Tracing RootSignature");
+
+	CEDXRootSignatureResourceCount rtLocalKey;
+	rtLocalKey.Type = CERootSignatureType::RayTracingLocal;
+	rtLocalKey.AllowInputAssembler = false;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumCBVs = D3D12_DEFAULT_CONSTANT_BUFFER_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSRVs = D3D12_DEFAULT_SHADER_RESOURCE_VIEW_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumUAVs = D3D12_DEFAULT_UNORDERED_ACCESS_VIEW_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSamplers = D3D12_DEFAULT_SAMPLER_STATE_COUNT;
+
+	CEDXRootSignature* rtLocalRootSignature = CreateRootSignature(rtLocalKey);
+	if (!rtLocalRootSignature) {
+		return false;
+	}
+
+	rtLocalRootSignature->SetName("Default Local Ray Tracing RootSignature");
+
+	return true;
 }
 
 void CEDXRootSignatureCache::ReleaseAll() {
+	for (Core::Common::CERef<CEDXRootSignature> rootSignature : RootSignatures) {
+		rootSignature.Reset();
+	}
+
+	RootSignatures.Clear();
+	ResourceCounts.Clear();
 }
 
 CEDXRootSignature* CEDXRootSignatureCache::GetRootSignature(const CEDXRootSignatureResourceCount& resourceCount) {
+	Assert(RootSignatures.Size() == ResourceCounts.Size());
+
+	for (uint32 i = 0; i < ResourceCounts.Size(); i++) {
+		if (resourceCount.IsCompatible(ResourceCounts[i])) {
+			return RootSignatures[i].Get();
+		}
+	}
+
+	CEDXRootSignatureResourceCount newResourceCount = resourceCount;
+	for (uint32 i = 0; i < ShaderVisibility_Count; i++) {
+		CEShaderResourceCount& count = newResourceCount.ResourceCounts[i];
+		if (count.Ranges.NumCBVs > 0) {
+			count.Ranges.NumCBVs = Math::CEMath::Max<uint32>(count.Ranges.NumCBVs, D3D12_DEFAULT_CONSTANT_BUFFER_COUNT);
+		}
+		if (count.Ranges.NumSRVs > 0) {
+			count.Ranges.NumSRVs = Math::CEMath::Max<uint32>(count.Ranges.NumSRVs,
+			                                                 D3D12_DEFAULT_SHADER_RESOURCE_VIEW_COUNT);
+		}
+		if (count.Ranges.NumUAVs > 0) {
+			count.Ranges.NumUAVs = Math::CEMath::Max<uint32>(count.Ranges.NumUAVs,
+			                                                 D3D12_DEFAULT_UNORDERED_ACCESS_VIEW_COUNT);
+		}
+		if (count.Ranges.NumSamplers > 0) {
+			count.Ranges.NumSamplers = Math::CEMath::Max<uint32>(count.Ranges.NumSamplers,
+			                                                     D3D12_DEFAULT_SAMPLER_STATE_COUNT);
+		}
+	}
+
+	return CreateRootSignature(newResourceCount);
 }
 
 CEDXRootSignatureCache& CEDXRootSignatureCache::Get() {
+	Assert(Instance != nullptr);
+	return *Instance;
 }
 
 CEDXRootSignature* CEDXRootSignatureCache::CreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount) {
+	Core::Common::CERef<CEDXRootSignature> rootSignature = new CEDXRootSignature(GetDevice());
+	if (!rootSignature->Create(resourceCount)) {
+		return nullptr;
+	}
+
+	CE_LOG_INFO("Create new root signature");
+
+	RootSignatures.EmplaceBack(rootSignature);
+	ResourceCounts.EmplaceBack(resourceCount);
+	return rootSignature.Get();
 }
