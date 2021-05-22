@@ -133,13 +133,13 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			Heap->SetName(name);
 		}
 
-		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHanndleAt(uint32 index) const {
+		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandleAt(uint32 index) const {
 			return {
 				Heap->GetCPUDescriptorHandleForHeapStart().ptr + (index * Heap->GetDescriptorHandleIncrementSize())
 			};
 		}
 
-		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHanndleAt(uint32 index) const {
+		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandleAt(uint32 index) const {
 			return {
 				Heap->GetGPUDescriptorHandleForHeapStart().ptr + (index * Heap->GetDescriptorHandleIncrementSize())
 			};
