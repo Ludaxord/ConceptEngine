@@ -25,14 +25,37 @@ namespace ConceptEngine::Graphics {
 
 	namespace DirectX12::RenderLayer {
 		struct CEDXUploadAllocation {
-
+			uint8* MappedPtr = nullptr;
+			uint64 ResourceOffset = 0;
 		};
 
-		struct CEDXGPUResourceUploader {
+		class CEDXGPUResourceUploader : public CEDXDeviceElement {
+		public:
+			CEDXGPUResourceUploader(CEDXDevice* device);
+			~CEDXGPUResourceUploader();
 
+			bool Reserve(uint32 sizeInBytes);
+			void Reset();
+
+			CEDXUploadAllocation LinearAllocate(uint32 sizeInBytes);
+
+			ID3D12Resource* GetGPUResource() const {
+				return Resource.Get();
+			}
+
+			uint32 GetSizeInBytes() const {
+				return SizeInBytes;
+			}
+
+		private:
+			uint8* MappedMemory = nullptr;
+			uint32 SizeInBytes = 0;
+			uint32 OffsetInBytes = 0;
+			Microsoft::WRL::ComPtr<ID3D12Resource> Resource;
+			Core::Containers::CEArray<Microsoft::WRL::ComPtr<ID3D12Resource>> GarbageResources;
 		};
 
-		struct CEDXCommandBatch {
+		class CEDXCommandBatch {
 		public:
 			CEDXCommandBatch(CEDXDevice* device);
 			~CEDXCommandBatch() = default;
@@ -40,6 +63,18 @@ namespace ConceptEngine::Graphics {
 			bool Create();
 
 			bool Reset() {
+				if (CommandAllocator.Reset()) {
+					Resources.Clear();
+					NativeResources.Clear();
+					DXResources.Clear();
+
+					GPUResourceUploader.Reset();
+
+					OnlineResourceDescriptorHeap->Reset();
+					OnlineSamplerDescriptorHeap->Reset();
+
+					return true;
+				}
 				return false;
 			}
 
@@ -61,8 +96,23 @@ namespace ConceptEngine::Graphics {
 				}
 			}
 
+			CEDXGPUResourceUploader& GetGpuResourceUploader() {
+				return GPUResourceUploader;
+			}
 
-		protected:
+			CEDXCommandAllocatorHandle& GetCommandAllocator() {
+				return CommandAllocator;
+			}
+
+			CEDXOnlineDescriptorHeap* GetOnlineResourceDescriptorHeap() const {
+				return OnlineResourceDescriptorHeap.Get();
+			}
+
+			CEDXOnlineDescriptorHeap* GetOnlineSamplerDescriptorHeap() const {
+				return OnlineSamplerDescriptorHeap.Get();
+			}
+
+
 		private:
 			CEDXDevice* Device = nullptr;
 
@@ -80,7 +130,7 @@ namespace ConceptEngine::Graphics {
 			Core::Containers::CEArray<Microsoft::WRL::ComPtr<ID3D12Resource>> NativeResources;
 		};
 
-		struct CEDXResourceBarrierBatcher {
+		class CEDXResourceBarrierBatcher {
 		public:
 			CEDXResourceBarrierBatcher() = default;
 			~CEDXResourceBarrierBatcher() = default;
@@ -102,6 +152,7 @@ namespace ConceptEngine::Graphics {
 			void FlushBarriers(CEDXCommandListHandle& commandList) {
 				if (!Barriers.IsEmpty()) {
 					commandList.ResourceBarrier(Barriers.Data(), Barriers.Size());
+					Barriers.Clear();
 				}
 			}
 

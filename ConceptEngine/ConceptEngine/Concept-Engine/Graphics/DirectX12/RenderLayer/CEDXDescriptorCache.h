@@ -3,7 +3,9 @@
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXDescriptorCache : public CEDXDeviceElement {
-
+	public:
+		CEDXDescriptorCache(CEDXDevice* device);
+		~CEDXDescriptorCache();
 	};
 
 	class CEDXShaderConstantsCache {
