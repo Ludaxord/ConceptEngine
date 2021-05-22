@@ -1,6 +1,7 @@
 #include "CEDXCommandContext.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
+using namespace ConceptEngine::Core::Containers;
 
 CEDXGPUResourceUploader::CEDXGPUResourceUploader(CEDXDevice* device): CEDXDeviceElement(device),
                                                                       MappedMemory(nullptr),
@@ -14,6 +15,51 @@ CEDXGPUResourceUploader::~CEDXGPUResourceUploader() {
 }
 
 bool CEDXGPUResourceUploader::Reserve(uint32 sizeInBytes) {
+	if (sizeInBytes == SizeInBytes) {
+		return true;
+	}
+
+	if (Resource) {
+		Resource->Unmap(0, nullptr);
+		GarbageResources.EmplaceBack(Resource);
+		Resource.Reset();
+	}
+
+	D3D12_HEAP_PROPERTIES heapProperties;
+	Memory::CEMemory::Memzero(&heapProperties);
+
+	heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	D3D12_RESOURCE_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	desc.Flags = D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.Width = sizeInBytes;
+	desc.Height = 1;
+	desc.DepthOrArraySize = 1;
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+	desc.SampleDesc.Quality = 0;
+
+	HRESULT hResult = GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &desc,
+	                                                       D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
+	                                                       IID_PPV_ARGS(&Resource));
+
+	if (SUCCEEDED(hResult)) {
+		Resource->SetName(L"[CEDXGpuResourceUploader] Buffer");
+		Resource->Map(0, nullptr, reinterpret_cast<void**>(&MappedMemory));
+
+		SizeInBytes = sizeInBytes;
+		OffsetInBytes = 0;
+		return true;
+	}
+
+	return false;
 }
 
 void CEDXGPUResourceUploader::Reset() {
@@ -33,6 +79,35 @@ bool CEDXCommandBatch::Create() {
 
 void CEDXResourceBarrierBatcher::AddTransitionBarrier(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState,
                                                       D3D12_RESOURCE_STATES afterState) {
+	Assert(resource != nullptr);
+
+	if (beforeState != afterState) {
+		for (CEArray<D3D12_RESOURCE_BARRIER>::Iterator it = Barriers.Begin(); it != Barriers.End(); it++) {
+			if ((*it).Type == D3D12_RESOURCE_BARRIER_TYPE_TRANSITION) {
+				if ((*it).Transition.pResource == resource) {
+					if ((*it).Transition.StateBefore == afterState) {
+						it = Barriers.Erase(it);
+					}
+					else {
+						(*it).Transition.StateAfter = afterState;
+					}
+
+					return;
+				}
+			}
+		}
+	}
+
+	D3D12_RESOURCE_BARRIER barrier;
+	Memory::CEMemory::Memzero(&barrier);
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Transition.pResource = resource;
+	barrier.Transition.StateAfter = afterState;
+	barrier.Transition.StateBefore = beforeState;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+	Barriers.EmplaceBack(barrier);
 }
 
 CEDXCommandContext::CEDXCommandContext(CEDXDevice* device): CEICommandContext(), CEDXDeviceElement(device),
