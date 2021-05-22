@@ -94,7 +94,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		bool Create();
 
-		D3D12_CPU_DESCRIPTOR_HANDLE Allocate(uint32& heapIndex);
+		D3D12_CPU_DESCRIPTOR_HANDLE Allocate(uint32& oHeapIndex);
 		void Free(D3D12_CPU_DESCRIPTOR_HANDLE handle, uint32 heapIndex);
 
 		void SetName(const std::string& name);
