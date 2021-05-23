@@ -63,9 +63,30 @@ bool CEDXGPUResourceUploader::Reserve(uint32 sizeInBytes) {
 }
 
 void CEDXGPUResourceUploader::Reset() {
+	constexpr uint32 MAX_RESERVED_GARBAGE_RESOURCES = 5;
+	constexpr uint32 NEW_RESERVED_GARBAGE_RESOURCES = 2;
+
+	GarbageResources.Clear();
+	if (GarbageResources.Capacity() >= MAX_RESERVED_GARBAGE_RESOURCES) {
+		GarbageResources.Reserve(NEW_RESERVED_GARBAGE_RESOURCES);
+	}
+
+	OffsetInBytes = 0;
 }
 
 CEDXUploadAllocation CEDXGPUResourceUploader::LinearAllocate(uint32 sizeInBytes) {
+	constexpr uint32 EXTRA_BYTES_ALLOCATED = 1024;
+
+	const uint32 requiredSize = OffsetInBytes + sizeInBytes;
+	if (requiredSize > sizeInBytes) {
+		Reserve(requiredSize + EXTRA_BYTES_ALLOCATED);
+	}
+
+	CEDXUploadAllocation allocation;
+	allocation.MappedPtr = MappedMemory + OffsetInBytes;
+	allocation.ResourceOffset = OffsetInBytes;
+	OffsetInBytes += sizeInBytes;
+	return allocation;
 }
 
 CEDXCommandBatch::CEDXCommandBatch(CEDXDevice* device): Device(device), CommandAllocator(device),
@@ -75,6 +96,36 @@ CEDXCommandBatch::CEDXCommandBatch(CEDXDevice* device): Device(device), CommandA
 }
 
 bool CEDXCommandBatch::Create() {
+	if (!CommandAllocator.Create(D3D12_COMMAND_LIST_TYPE_DIRECT)) {
+		return false;
+	}
+
+	OnlineResourceDescriptorHeap = new CEDXOnlineDescriptorHeap(Device, D3D12_DEFAULT_ONLINE_RESOURCE_DESCRIPTOR_COUNT,
+	                                                            D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	if (!OnlineResourceDescriptorHeap->Create()) {
+		return false;
+	}
+
+	OnlineSamplerDescriptorHeap = new CEDXOnlineDescriptorHeap(Device, D3D12_DEFAULT_ONLINE_SAMPLER_DESCRIPTOR_COUNT,
+	                                                           D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
+	if (!OnlineSamplerDescriptorHeap->Create()) {
+		return false;
+	}
+
+	OnlineRayTracingResourceDescriptorHeap = new CEDXOnlineDescriptorHeap(
+		Device, D3D12_DEFAULT_ONLINE_RESOURCE_DESCRIPTOR_COUNT, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	if (!OnlineRayTracingResourceDescriptorHeap->Create()) {
+		return false;
+	}
+
+	OnlineRayTracingSamplerDescriptorHeap = new CEDXOnlineDescriptorHeap(
+		Device, D3D12_DEFAULT_ONLINE_SAMPLER_DESCRIPTOR_COUNT, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
+	if (!OnlineRayTracingSamplerDescriptorHeap->Create()) {
+		return false;
+	}
+
+	GPUResourceUploader.Reserve(1024);
+	return true;
 }
 
 void CEDXResourceBarrierBatcher::AddTransitionBarrier(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState,
@@ -91,7 +142,6 @@ void CEDXResourceBarrierBatcher::AddTransitionBarrier(ID3D12Resource* resource, 
 					else {
 						(*it).Transition.StateAfter = afterState;
 					}
-
 					return;
 				}
 			}
@@ -117,9 +167,12 @@ CEDXCommandContext::CEDXCommandContext(CEDXDevice* device): CEICommandContext(),
 }
 
 CEDXCommandContext::~CEDXCommandContext() {
+	Flush();
 }
 
 bool CEDXCommandContext::Create() {
+
+	return true;
 }
 
 void CEDXCommandContext::UpdateBuffer(CEDXResource* Resource, uint64 offsetInBytes, uint64 sizeInBytes,
