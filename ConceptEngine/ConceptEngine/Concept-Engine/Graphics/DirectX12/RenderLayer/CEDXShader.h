@@ -224,7 +224,6 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return ThreadGroupXYZ;
 		}
 
-
 	protected:
 		CEVectorUint3 ThreadGroupXYZ;
 	};
