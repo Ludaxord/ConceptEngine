@@ -25,6 +25,7 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxtexturemanager.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxplayground.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxmaterial.obj
+f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedirectx12.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedirectxhandlers.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cetaskmanager.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cewindowswindow.obj
@@ -39,7 +40,6 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceplayground.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cemesh.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cematerial.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegraphics.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxviews.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxswapchain.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxshader.obj
@@ -91,7 +91,7 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceprojectsave.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegamesavereader.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cecamera.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedirectx12.obj
+f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegraphics.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.command.1.tlog
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.read.1.tlog
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.write.1.tlog

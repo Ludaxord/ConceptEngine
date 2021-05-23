@@ -3,8 +3,25 @@
 
 #include "CEShader.h"
 #include "../../../Core/Containers/CEArray.h"
+#include "../../../Core/Common/CETypes.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
+	enum class CEShaderStage {
+		Unknown = 0,
+		Vertex = 1,
+		Hull = 2,
+		Domain = 3,
+		Geometry = 4,
+		Mesh = 5,
+		Amplification = 6,
+		Pixel = 7,
+		Compute = 8,
+		RayGen = 9,
+		RayAnyHit = 10,
+		RayClosestHit = 11,
+		RayMiss = 12
+	};
+
 	enum class CEShaderModel {
 		Unknown = 0,
 		SM_5_0 = 1,
@@ -42,7 +59,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		                             CEShaderStage shaderStage,
 		                             CEShaderModel shaderModel,
 		                             Core::Containers::CEArray<uint8>& code) = 0;
-		
+
 
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,

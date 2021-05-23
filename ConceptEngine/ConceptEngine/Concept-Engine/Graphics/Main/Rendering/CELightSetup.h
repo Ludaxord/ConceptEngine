@@ -13,12 +13,12 @@
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	struct CEPointLightData {
-		Math::CEVectorFloat3 Color = Math::CEVectorFloat3();
+		CEVectorFloat3 Color = CEVectorFloat3();
 		float Padding0;
 	};
 
 	struct CEShadowCastingPointLightData {
-		Math::CEVectorFloat3 Color = Math::CEVectorFloat3();
+		CEVectorFloat3 Color = CEVectorFloat3();
 		float ShadowBias = 0.005f;
 		float FarPlane = 10.0f;
 		float MaxShadowBias = 0.05f;
@@ -28,25 +28,25 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 	struct CEPointLightShadowMapGenerationData {
 
-		Core::Containers::CEStaticArray<Math::CEMatrixFloat4X4, 6> Matrix;
-		Core::Containers::CEStaticArray<Math::CEMatrixFloat4X4, 6> ViewMatrix;
-		Core::Containers::CEStaticArray<Math::CEMatrixFloat4X4, 6> ProjMatrix;
-		Math::CEVectorFloat3 Position;
+		Core::Containers::CEStaticArray<CEMatrixFloat4X4, 6> Matrix;
+		Core::Containers::CEStaticArray<CEMatrixFloat4X4, 6> ViewMatrix;
+		Core::Containers::CEStaticArray<CEMatrixFloat4X4, 6> ProjMatrix;
+		CEVectorFloat3 Position;
 
 		float FarPlane;
 	};
 
 	struct CEDirectionalLightData {
-		Math::CEVectorFloat3 Color = Math::CEVectorFloat3(1.0f, 1.0f, 1.0f);
-		Math::CEVectorFloat3 Direction = Math::CEVectorFloat3(0.0f, -1.0f, 0.0f);
-		Math::CEMatrixFloat4X4 LightMatrix;
+		CEVectorFloat3 Color = CEVectorFloat3(1.0f, 1.0f, 1.0f);
+		CEVectorFloat3 Direction = CEVectorFloat3(0.0f, -1.0f, 0.0f);
+		CEMatrixFloat4X4 LightMatrix;
 		float ShadowBias = 0.005f;
 		float MaxShadowBias = 0.05f;
 	};
 
 	struct CEDirLightShadowMapGenerationData {
-		Math::CEMatrixFloat4X4 Matrix;
-		Math::CEVectorFloat3 Position;
+		CEMatrixFloat4X4 Matrix;
+		CEVectorFloat3 Position;
 		float FarPlane;
 
 	};
@@ -93,8 +93,8 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		Core::Containers::CEArray<Core::Common::CERef<RenderLayer::CEUnorderedAccessView>> SpecularIrradianceMapUAVs;
 		Core::Containers::CEArray<RenderLayer::CEUnorderedAccessView*> WeakSpecularIrradianceMapUAVs;
 
-		Core::Containers::CEArray<Math::CEVectorFloat4> PointLightsPosRad;
-		Core::Containers::CEArray<Math::CEVectorFloat4> ShadowCastingPointLightsPosRad;
+		Core::Containers::CEArray<CEVectorFloat4> PointLightsPosRad;
+		Core::Containers::CEArray<CEVectorFloat4> ShadowCastingPointLightsPosRad;
 
 	};
 }

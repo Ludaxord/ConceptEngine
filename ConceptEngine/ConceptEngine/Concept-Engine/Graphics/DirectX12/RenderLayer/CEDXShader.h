@@ -204,12 +204,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		bool Create();
 
-		virtual Math::CEVectorUint3 GetThreadGroupXYZ() const override {
-			return ThreadGroupXYZ;
-		}
-
 	protected:
-		Math::CEVectorUint3 ThreadGroupXYZ;
+		CEVectorUint3 ThreadGroupXYZ;
 	};
 
 	class CEDXBaseRayTracingShader : public CEDXBaseShader {

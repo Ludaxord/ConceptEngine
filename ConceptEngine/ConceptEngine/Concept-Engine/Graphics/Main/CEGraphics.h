@@ -1,17 +1,17 @@
 #pragma once
 #include <memory>
 
-#include "Managers/CEGraphicsManager.h"
 #include "Managers/CERendererManager.h"
 #include "Managers/CETextureManager.h"
+#include "RenderLayer/CEShaderCompiler.h"
 
 #include "Rendering/CEDebugUI.h"
 #include "../../Time/CETimestamp.h"
 
+#include "Managers/CEGraphicsManager.h"
+
 
 namespace ConceptEngine::Graphics::Main {
-
-
 	class CEGraphics {
 	public:
 		friend class CECore;
@@ -30,9 +30,9 @@ namespace ConceptEngine::Graphics::Main {
 		 Core::Common::CEManager* GetManager(Core::Common::CEManagerType type) const;
 	
 	protected:
-		std::unique_ptr<Managers::CEGraphicsManager> GraphicsManager;
-		std::unique_ptr<Managers::CETextureManager> TextureManager;
-		std::unique_ptr<Managers::CERendererManager> RendererManager;
+		Managers::CEGraphicsManager* GraphicsManager;
+		Managers::CETextureManager* TextureManager;
+		Managers::CERendererManager* RendererManager;
 		RenderLayer::CEIShaderCompiler* Compiler = nullptr;
 
 		static std::unique_ptr<Rendering::CEDebugUI> DebugUI;

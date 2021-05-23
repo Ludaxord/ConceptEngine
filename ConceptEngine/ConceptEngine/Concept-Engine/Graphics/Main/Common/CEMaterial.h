@@ -17,7 +17,7 @@
 
 namespace ConceptEngine::Graphics::Main::Common {
 	struct CEMaterialProperties {
-		Math::CEVectorFloat3 Albedo = Math::CEVectorFloat3(1.0f, 1.0f, 1.0f);
+		CEVectorFloat3 Albedo = CEVectorFloat3(1.0f, 1.0f, 1.0f);
 		float Roughness = 0.0f;
 		float Metallic = 0.0f;
 		float AO = 0.5f;

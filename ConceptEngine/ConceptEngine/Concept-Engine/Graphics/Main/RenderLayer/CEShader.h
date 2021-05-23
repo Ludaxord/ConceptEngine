@@ -5,22 +5,6 @@
 #include "../../../Math/CEMathTypes.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
-	enum class CEShaderStage {
-		Unknown = 0,
-		Vertex = 1,
-		Hull = 2,
-		Domain = 3,
-		Geometry = 4,
-		Mesh = 5,
-		Amplification = 6,
-		Pixel = 7,
-		Compute = 8,
-		RayGen = 9,
-		RayAnyHit = 10,
-		RayClosestHit = 11,
-		RayMiss = 12,
-	};
-
 	struct CEShaderParameterInfo {
 		uint32 NumConstantBuffers = 0;
 		uint32 NumShaderResourceViews = 0;
@@ -83,8 +67,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual CEComputeShader* AsComputeShader() override {
 			return this;
 		}
-
-		virtual Math::CEVectorUint3 GetThreadGroupXYZ() const = 0;
 	};
 
 	class CEVertexShader : public CEShader {

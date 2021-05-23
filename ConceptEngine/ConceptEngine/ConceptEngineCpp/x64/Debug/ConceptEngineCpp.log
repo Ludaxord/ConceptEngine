@@ -1,1 +1,3 @@
-﻿  ConceptEngineCpp.vcxproj -> F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineCpp.lib
+﻿  pch.cpp
+  ConceptEngineCpp.cpp
+  ConceptEngineCpp.vcxproj -> F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\x64\Debug\ConceptEngineCpp.lib

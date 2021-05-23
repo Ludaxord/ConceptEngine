@@ -31,21 +31,21 @@ bool CEDirectX12::CreateManagers() {
 }
 
 bool CEDirectX12::CreateGraphicsManager() {
-	auto manager = std::make_unique<Managers::CEDXManager>();
-	GraphicsManager = std::move(manager);
+	auto manager = new Managers::CEDXManager();
+	GraphicsManager = manager;
 
 	return true;
 }
 
 bool CEDirectX12::CreateTextureManager() {
-	auto manager = std::make_unique<Managers::CEDXTextureManager>();
-	TextureManager = std::move(manager);
+	auto manager = new Managers::CEDXTextureManager();
+	TextureManager = manager;
 	return true;
 }
 
 bool CEDirectX12::CreateRendererManager() {
-	auto manager = std::make_unique<Managers::CEDXRendererManager>();
-	RendererManager = std::move(manager);
+	auto manager = new Managers::CEDXRendererManager();
+	RendererManager = manager;
 	return true;
 }
 

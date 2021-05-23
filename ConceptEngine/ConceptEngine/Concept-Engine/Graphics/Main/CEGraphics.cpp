@@ -2,6 +2,8 @@
 
 #include "RenderLayer/CECommandList.h"
 
+#include "../../Core/Platform/CEPlatformActions.h"
+
 using namespace ConceptEngine::Graphics::Main;
 
 CEGraphics::CEGraphics() {
@@ -72,11 +74,11 @@ Rendering::CEDebugUI* CEGraphics::GetDebugUI() {
 ConceptEngine::Core::Common::CEManager* CEGraphics::GetManager(Core::Common::CEManagerType type) const {
 	switch (type) {
 	case Core::Common::CEManagerType::GraphicsManager:
-		return GraphicsManager.get();
+		return GraphicsManager;
 	case Core::Common::CEManagerType::TextureManager:
-		return TextureManager.get();
+		return TextureManager;
 	case Core::Common::CEManagerType::RendererManager:
-		return RendererManager.get();
+		return RendererManager;
 	default:
 		return nullptr;
 

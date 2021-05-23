@@ -6,14 +6,9 @@
 #include "../RenderLayer/CEDXCommandContext.h"
 #include "../RenderLayer/CEDXRootSignature.h"
 
-namespace ConceptEngine::Graphics {
+namespace ConceptEngine::Graphics::DirectX12::Managers {
 
-	using namespace Main::RenderLayer;
-	using namespace Main::Managers;
-
-	namespace DirectX12::Managers {
-
-		class CEDXManager final : public CEGraphicsManager {
+		class CEDXManager final : public Main::Managers::CEGraphicsManager {
 		public:
 			CEDXManager();
 			~CEDXManager() override;
@@ -38,143 +33,143 @@ namespace ConceptEngine::Graphics {
 			}
 
 
-			virtual CETexture2D* CreateTexture2D(CEFormat format, uint32 width, uint32 height, uint32 numMips,
-			                                     uint32 numSamples, uint32 flags, CEResourceState initialState,
-			                                     const CEResourceData* initialData,
-			                                     const CEClearValue& optimizedClearValue) override final;
+			virtual RenderLayer::CETexture2D* CreateTexture2D(RenderLayer::CEFormat format, uint32 width, uint32 height, uint32 numMips,
+			                                                  uint32 numSamples, uint32 flags, RenderLayer::CEResourceState initialState,
+			                                                  const RenderLayer::CEResourceData* initialData,
+			                                                  const RenderLayer::CEClearValue& optimizedClearValue) override final;
 
-			virtual CETexture2DArray* CreateTexture2DArray(CEFormat format, uint32 width, uint32 height, uint32 numMips,
-			                                               uint32 numSamples, uint32 numArraySlices, uint32 flags,
-			                                               CEResourceState initialState,
-			                                               const CEResourceData* initialData,
-			                                               const CEClearValue& optimizedClearValue) override final;
+			virtual RenderLayer::CETexture2DArray* CreateTexture2DArray(RenderLayer::CEFormat format, uint32 width, uint32 height, uint32 numMips,
+			                                                            uint32 numSamples, uint32 numArraySlices, uint32 flags,
+			                                                            RenderLayer::CEResourceState initialState,
+			                                                            const RenderLayer::CEResourceData* initialData,
+			                                                            const RenderLayer::CEClearValue& optimizedClearValue) override final;
 
-			virtual CETextureCube* CreateTextureCube(CEFormat format,
+			virtual RenderLayer::CETextureCube* CreateTextureCube(RenderLayer::CEFormat format,
 			                                         uint32 size,
 			                                         uint32 numMips,
-			                                         uint32 flags, CEResourceState initialState,
-			                                         const CEResourceData* initialData,
-			                                         const CEClearValue& optimizedClearValue) override final;
+			                                         uint32 flags,RenderLayer:: CEResourceState initialState,
+			                                         const RenderLayer::CEResourceData* initialData,
+			                                         const RenderLayer::CEClearValue& optimizedClearValue) override final;
 
-			virtual CETextureCubeArray* CreateTextureCubeArray(CEFormat format, 
-			                                                   uint32 size,
-			                                                   uint32 numMips,
-			                                                   uint32 numArraySlices,
-			                                                   uint32 flags,
-			                                                   CEResourceState initialState,
-			                                                   const CEResourceData* initialData,
-			                                                   const CEClearValue& optimalClearValue) override final;
+			virtual RenderLayer::CETextureCubeArray* CreateTextureCubeArray(RenderLayer::CEFormat format, 
+			                                                                uint32 size,
+			                                                                uint32 numMips,
+			                                                                uint32 numArraySlices,
+			                                                                uint32 flags,
+			                                                                RenderLayer::CEResourceState initialState,
+			                                                                const RenderLayer::CEResourceData* initialData,
+			                                                                const RenderLayer::CEClearValue& optimalClearValue) override final;
 
-			virtual CETexture3D* CreateTexture3D(CEFormat format, uint32 width, uint32 height, uint32 depth,
-			                                     uint32 numMips,
-			                                     uint32 flags, CEResourceState initialState,
-			                                     const CEResourceData* initialData,
-			                                     const CEClearValue& optimizedClearValue) override final;
+			virtual RenderLayer::CETexture3D* CreateTexture3D(RenderLayer::CEFormat format, uint32 width, uint32 height, uint32 depth,
+			                                                  uint32 numMips,
+			                                                  uint32 flags, RenderLayer::CEResourceState initialState,
+			                                                  const RenderLayer::CEResourceData* initialData,
+			                                                  const RenderLayer::CEClearValue& optimizedClearValue) override final;
 
-			virtual CESamplerState* CreateSamplerState(const CESamplerStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CESamplerState* CreateSamplerState(const RenderLayer::CESamplerStateCreateInfo& createInfo) override final;
 
-			virtual CEVertexBuffer* CreateVertexBuffer(uint32 stride, uint32 numVertices, uint32 flags,
-			                                           CEResourceState initialState,
-			                                           const CEResourceData* initialData) override final;
+			virtual RenderLayer::CEVertexBuffer* CreateVertexBuffer(uint32 stride, uint32 numVertices, uint32 flags,
+			                                                        RenderLayer::CEResourceState initialState,
+			                                                        const RenderLayer::CEResourceData* initialData) override final;
 
-			virtual CEIndexBuffer* CreateIndexBuffer(CEFormat format, uint32 numIndices, uint32 flags,
-			                                         CEResourceState initialState,
-			                                         const CEResourceData* initialData) override final;
+			virtual RenderLayer::CEIndexBuffer* CreateIndexBuffer(RenderLayer::CEFormat format, uint32 numIndices, uint32 flags,
+			                                                      RenderLayer::CEResourceState initialState,
+			                                                      const RenderLayer::CEResourceData* initialData) override final;
 
-			virtual CEConstantBuffer* CreateConstantBuffer(uint32 size, uint32 flags, CEResourceState initialState,
-			                                               const CEResourceData* initialData) override final;
+			virtual RenderLayer::CEConstantBuffer* CreateConstantBuffer(uint32 size, uint32 flags, RenderLayer::CEResourceState initialState,
+			                                               const RenderLayer::CEResourceData* initialData) override final;
 
-			virtual CEStructuredBuffer* CreateStructuredBuffer(uint32 stride, uint32 numElements, uint32 flags,
-			                                                   CEResourceState initialState,
-			                                                   const CEResourceData* initialData) override final;
+			virtual RenderLayer::CEStructuredBuffer* CreateStructuredBuffer(uint32 stride, uint32 numElements, uint32 flags,
+			                                                   RenderLayer::CEResourceState initialState,
+			                                                   const RenderLayer::CEResourceData* initialData) override final;
 
-			virtual CERayTracingScene* CreateRayTracingScene(uint32 flags, CERayTracingGeometryInstance* instances,
+			virtual RenderLayer::CERayTracingScene* CreateRayTracingScene(uint32 flags, RenderLayer::CERayTracingGeometryInstance* instances,
 			                                                 uint32 numInstances) override final;
 
-			virtual CERayTracingGeometry* CreateRayTracingGeometry(uint32 flags, CEVertexBuffer* vertexBuffer,
-			                                                       CEIndexBuffer* indexBuffer) override final;
+			virtual RenderLayer::CERayTracingGeometry* CreateRayTracingGeometry(uint32 flags, RenderLayer::CEVertexBuffer* vertexBuffer,
+			                                                       RenderLayer::CEIndexBuffer* indexBuffer) override final;
 
 
-			virtual CEShaderResourceView*
-			CreateShaderResourceView(const CEShaderResourceViewCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEShaderResourceView*
+			CreateShaderResourceView(const RenderLayer::CEShaderResourceViewCreateInfo& createInfo) override final;
 
-			virtual CEUnorderedAccessView*
-			CreateUnorderedAccessView(const CEUnorderedAccessViewCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEUnorderedAccessView*
+			CreateUnorderedAccessView(const RenderLayer::CEUnorderedAccessViewCreateInfo& createInfo) override final;
 
-			virtual CERenderTargetView*
-			CreateRenderTargetView(const CERenderTargetViewCreateInfo& createInfo) override final;
+			virtual RenderLayer::CERenderTargetView*
+			CreateRenderTargetView(const RenderLayer::CERenderTargetViewCreateInfo& createInfo) override final;
 
-			virtual CEDepthStencilView*
-			CreateDepthStencilView(const CEDepthStencilViewCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEDepthStencilView*
+			CreateDepthStencilView(const RenderLayer::CEDepthStencilViewCreateInfo& createInfo) override final;
 
-			virtual CEComputeShader*
+			virtual RenderLayer::CEComputeShader*
 			CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CEVertexShader*
+			virtual RenderLayer::CEVertexShader*
 			CreateVertexShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CEHullShader* CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CEDomainShader*
+			virtual RenderLayer::CEHullShader* CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+			virtual RenderLayer::CEDomainShader*
 			CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CEGeometryShader*
+			virtual RenderLayer::CEGeometryShader*
 			CreateGeometryShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 
-			virtual CEAmplificationShader*
+			virtual RenderLayer::CEAmplificationShader*
 			CreateAmplificationShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CEPixelShader* CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+			virtual RenderLayer::CEPixelShader* CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 
-			virtual CERayGenShader*
+			virtual RenderLayer::CERayGenShader*
 			CreateRayGenShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CERayGenHitShader*
-			CreateRayGenHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CEClosestHitShader*
+			virtual RenderLayer::CERayAnyHitShader*
+			CreateRayAnyHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+			virtual RenderLayer::CERayClosestHitShader*
 			CreateClosestHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
-			virtual CERayMissShader*
+			virtual RenderLayer::CERayMissShader*
 			CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 
-			virtual CEDepthStencilState*
-			CreateDepthStencilState(const CEDepthStencilStateCreateInfo& createInfo) override final;
-			virtual CERasterizerState*
-			CreateRasterizerState(const CERasterizerStateCreateInfo& createInfo) override final;
-			virtual CEBlendState* CreateBlendState(const CEBlendStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEDepthStencilState*
+			CreateDepthStencilState(const RenderLayer::CEDepthStencilStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CERasterizerState*
+			CreateRasterizerState(const RenderLayer::CERasterizerStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEBlendState* CreateBlendState(const RenderLayer::CEBlendStateCreateInfo& createInfo) override final;
 
-			virtual CEInputLayoutState*
-			CreateInputLayout(const CEInputLayoutStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEInputLayoutState*
+			CreateInputLayout(const RenderLayer::CEInputLayoutStateCreateInfo& createInfo) override final;
 
-			virtual CEGraphicsPipelineState*
-			CreateGraphicsPipelineState(const CEGraphicsPipelineStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEGraphicsPipelineState*
+			CreateGraphicsPipelineState(const RenderLayer::CEGraphicsPipelineStateCreateInfo& createInfo) override final;
 
-			virtual CEComputePipelineState*
-			CreateComputePipelineState(const CEComputePipelineStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CEComputePipelineState*
+			CreateComputePipelineState(const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) override final;
 
-			virtual CERayTracingPipelineState* CreatRayTracingPipelineState(
-				const CERayTracingPipelineStateCreateInfo& createInfo) override final;
+			virtual RenderLayer::CERayTracingPipelineState* CreatRayTracingPipelineState(
+				const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) override final;
 
-			virtual CEGPUProfiler* CreateProfiler() override final;
-			virtual CEViewport* CreateViewport(Core::Platform::Generic::Window::CEWindow* window, uint32 width,
-			                                   uint32 height,
-			                                   CEFormat colorFormat, CEFormat depthFormat) override final;
+			virtual RenderLayer::CEGPUProfiler* CreateProfiler() override final;
+			virtual RenderLayer::CEViewport* CreateViewport(Core::Platform::Generic::Window::CEWindow* window, uint32 width,
+			                                                uint32 height,
+			                                                RenderLayer::CEFormat colorFormat, RenderLayer::CEFormat depthFormat) override final;
 
-			virtual CEICommandContext* GetDefaultCommandContext() override final;
+			virtual RenderLayer::CEICommandContext* GetDefaultCommandContext() override final;
 
-			virtual void CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) override final;
-			virtual void CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) override final;
+			virtual void CheckRayTracingSupport(CERayTracingSupport& outSupport) override final;
+			virtual void CheckShadingRateSupport(CEShadingRateSupport& outSupport) override final;
 
 		private:
 			template <typename TCEDXTexture>
-			TCEDXTexture* CreateTexture(CEFormat format,
+			TCEDXTexture* CreateTexture(RenderLayer::CEFormat format,
 			                            uint32 sizeX, uint32 sizeY, uint32 sizeZ,
 			                            uint32 numMips,
 			                            uint32 numSamplers,
 			                            uint32 flags,
-			                            CEResourceState initialState,
-			                            const CEResourceData* initialData,
-			                            const CEClearValue& optimalClearValue);
+			                            RenderLayer::CEResourceState initialState,
+			                            const RenderLayer::CEResourceData* initialData,
+			                            const RenderLayer::CEClearValue& optimalClearValue);
 
 			template <typename TCEDXBuffer>
 			bool FinishBufferResource(TCEDXBuffer* buffer,
 			                          uint32 sizeInBytes,
 			                          uint32 flags,
-			                          CEResourceState initialState,
-			                          const CEResourceData* initialData);
+			                         RenderLayer:: CEResourceState initialState,
+			                          const RenderLayer::CEResourceData* initialData);
 
 			RenderLayer::CEDXDevice* Device;
 			Core::Common::CERef<RenderLayer::CEDXCommandContext> DirectCommandContext;
@@ -186,4 +181,4 @@ namespace ConceptEngine::Graphics {
 			RenderLayer::CEDXOfflineDescriptorHeap* SamplerOfflineDescriptorHeap = nullptr;
 		};
 
-	}}
+	}

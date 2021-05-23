@@ -2,6 +2,9 @@
 
 #include "CEDXShaderCompiler.h"
 
+#include "../../Main/RenderLayer/CEShaderCompiler.h"
+#include "../../Main/RenderLayer/CEShader.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 using namespace ConceptEngine::Core::Containers;
 

@@ -24,7 +24,7 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 		                             CEShaderStage shaderStage,
 		                             CEShaderModel shaderModel,
 		                             Core::Containers::CEArray<uint8>& code) override;
-
+		
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,
 		                           const Core::Containers::CEArray<CEShaderDefine>* defines,

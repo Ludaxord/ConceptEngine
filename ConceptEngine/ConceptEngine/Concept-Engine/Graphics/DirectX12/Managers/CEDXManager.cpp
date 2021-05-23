@@ -78,201 +78,201 @@ bool CEDXManager::Create() {
 void CEDXManager::Destroy() {
 }
 
-CETexture2D* CEDXManager::CreateTexture2D(CEFormat format, uint32 width, uint32 height, uint32 numMips,
-                                          uint32 numSamples, uint32 flags, CEResourceState initialState,
-                                          const CEResourceData* initialData,
-                                          const CEClearValue& optimizedClearValue) {
+Main::RenderLayer::CETexture2D* CEDXManager::CreateTexture2D(RenderLayer::CEFormat format, uint32 width, uint32 height, uint32 numMips,
+                                                             uint32 numSamples, uint32 flags, RenderLayer::CEResourceState initialState,
+                                                             const RenderLayer::CEResourceData* initialData,
+                                                             const RenderLayer::CEClearValue& optimizedClearValue) {
 	return CreateTexture<RenderLayer::CEDXTexture2D>(format, width, height, 1, numMips, numSamples, flags, initialState,
 	                                                 initialData, optimizedClearValue);
 }
 
-CETexture2DArray* CEDXManager::CreateTexture2DArray(CEFormat format, uint32 width, uint32 height, uint32 numMips,
-                                                    uint32 numSamples, uint32 numArraySlices, uint32 flags,
-                                                    CEResourceState initialState,
-                                                    const CEResourceData* initialData,
-                                                    const CEClearValue& optimizedClearValue) {
+Main::RenderLayer::CETexture2DArray* CEDXManager::CreateTexture2DArray(RenderLayer::CEFormat format, uint32 width, uint32 height, uint32 numMips,
+                                                                       uint32 numSamples, uint32 numArraySlices, uint32 flags,
+                                                                       RenderLayer::CEResourceState initialState,
+                                                                       const RenderLayer::CEResourceData* initialData,
+                                                                       const RenderLayer::CEClearValue& optimizedClearValue) {
 	return CreateTexture<RenderLayer::CEDXTexture2DArray>(format, width, height, numArraySlices, numMips, numSamples,
 	                                                      flags, initialState, initialData, optimizedClearValue);
 }
 
-CETextureCube* CEDXManager::CreateTextureCube(CEFormat format,
-                                              uint32 size,
-                                              uint32 numMips,
-                                              uint32 flags,
-                                              CEResourceState initialState,
-                                              const CEResourceData* initialData,
-                                              const CEClearValue& optimizedClearValue) {
+Main::RenderLayer::CETextureCube* CEDXManager::CreateTextureCube(RenderLayer::CEFormat format,
+                                                                 uint32 size,
+                                                                 uint32 numMips,
+                                                                 uint32 flags,
+                                                                 RenderLayer::CEResourceState initialState,
+                                                                 const RenderLayer::CEResourceData* initialData,
+                                                                 const RenderLayer::CEClearValue& optimizedClearValue) {
 	return CreateTexture<RenderLayer::CEDXTextureCube>(format, size, size, TEXTURE_CUBE_FACE_COUNT, numMips, 1,
 	                                                   flags, initialState, initialData, optimizedClearValue);
 }
 
-CETextureCubeArray* CEDXManager::CreateTextureCubeArray(CEFormat format,
-                                                        uint32 size,
-                                                        uint32 numMips,
-                                                        uint32 numArraySlices,
-                                                        uint32 flags, CEResourceState initialState,
-                                                        const CEResourceData* initialData,
-                                                        const CEClearValue& optimalClearValue) {
+Main::RenderLayer::CETextureCubeArray* CEDXManager::CreateTextureCubeArray(RenderLayer::CEFormat format,
+                                                                           uint32 size,
+                                                                           uint32 numMips,
+                                                                           uint32 numArraySlices,
+                                                                           uint32 flags, RenderLayer::CEResourceState initialState,
+                                                                           const RenderLayer::CEResourceData* initialData,
+                                                                           const RenderLayer::CEClearValue& optimalClearValue) {
 	const uint32 arraySlices = numArraySlices * TEXTURE_CUBE_FACE_COUNT;
 	return CreateTexture<RenderLayer::CEDXTextureCubeArray>(format, size, size, arraySlices, numMips, 1, flags,
 	                                                        initialState, initialData, optimalClearValue);
 }
 
-CETexture3D* CEDXManager::CreateTexture3D(CEFormat format, uint32 width, uint32 height, uint32 depth, uint32 numMips,
-                                          uint32 flags, CEResourceState initialState, const CEResourceData* initialData,
-                                          const CEClearValue& optimizedClearValue) {
+Main::RenderLayer::CETexture3D* CEDXManager::CreateTexture3D(RenderLayer::CEFormat format, uint32 width, uint32 height, uint32 depth, uint32 numMips,
+                                                             uint32 flags, RenderLayer::CEResourceState initialState, const RenderLayer::CEResourceData* initialData,
+                                                             const RenderLayer::CEClearValue& optimizedClearValue) {
 	return CreateTexture<RenderLayer::CEDXTexture3D>(format, width, height, depth, numMips, 1, flags, initialState,
 	                                                 initialData, optimizedClearValue);
 }
 
-CESamplerState* CEDXManager::CreateSamplerState(const CESamplerStateCreateInfo& createInfo) {
+Main::RenderLayer::CESamplerState* CEDXManager::CreateSamplerState(const RenderLayer::CESamplerStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEVertexBuffer* CEDXManager::CreateVertexBuffer(uint32 stride, uint32 numVertices, uint32 flags,
-                                                CEResourceState initialState, const CEResourceData* initialData) {
+Main::RenderLayer::CEVertexBuffer* CEDXManager::CreateVertexBuffer(uint32 stride, uint32 numVertices, uint32 flags,
+                                                                   RenderLayer::CEResourceState initialState, const RenderLayer::CEResourceData* initialData) {
 	return nullptr;
 }
 
-CEIndexBuffer* CEDXManager::CreateIndexBuffer(CEFormat format, uint32 numIndices, uint32 flags,
-                                              CEResourceState initialState, const CEResourceData* initialData) {
+Main::RenderLayer::CEIndexBuffer* CEDXManager::CreateIndexBuffer(RenderLayer::CEFormat format, uint32 numIndices, uint32 flags,
+                                                                 RenderLayer::CEResourceState initialState, const RenderLayer::CEResourceData* initialData) {
 	return nullptr;
 }
 
-CEConstantBuffer* CEDXManager::CreateConstantBuffer(uint32 size, uint32 flags, CEResourceState initialState,
-                                                    const CEResourceData* initialData) {
+Main::RenderLayer::CEConstantBuffer* CEDXManager::CreateConstantBuffer(uint32 size, uint32 flags, RenderLayer::CEResourceState initialState,
+                                                                       const RenderLayer::CEResourceData* initialData) {
 	return nullptr;
 }
 
-CEStructuredBuffer* CEDXManager::CreateStructuredBuffer(uint32 stride, uint32 numElements, uint32 flags,
-                                                        CEResourceState initialState,
-                                                        const CEResourceData* initialData) {
+Main::RenderLayer::CEStructuredBuffer* CEDXManager::CreateStructuredBuffer(uint32 stride, uint32 numElements, uint32 flags,
+                                                                           RenderLayer::CEResourceState initialState,
+                                                                           const RenderLayer::CEResourceData* initialData) {
 	return nullptr;
 }
 
-CERayTracingScene* CEDXManager::CreateRayTracingScene(uint32 flags, CERayTracingGeometryInstance* instances,
-                                                      uint32 numInstances) {
+Main::RenderLayer::CERayTracingScene* CEDXManager::CreateRayTracingScene(uint32 flags, RenderLayer::CERayTracingGeometryInstance* instances,
+                                                                         uint32 numInstances) {
 	return nullptr;
 }
 
-CERayTracingGeometry* CEDXManager::CreateRayTracingGeometry(uint32 flags, CEVertexBuffer* vertexBuffer,
-                                                            CEIndexBuffer* indexBuffer) {
+Main::RenderLayer::CERayTracingGeometry* CEDXManager::CreateRayTracingGeometry(uint32 flags, RenderLayer::CEVertexBuffer* vertexBuffer,
+                                                                               RenderLayer::CEIndexBuffer* indexBuffer) {
 	return nullptr;
 }
 
-CEShaderResourceView* CEDXManager::CreateShaderResourceView(const CEShaderResourceViewCreateInfo& createInfo) {
+Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(const RenderLayer::CEShaderResourceViewCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView(const CEUnorderedAccessViewCreateInfo& createInfo) {
+Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView(const RenderLayer::CEUnorderedAccessViewCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CERenderTargetView* CEDXManager::CreateRenderTargetView(const CERenderTargetViewCreateInfo& createInfo) {
+Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(const RenderLayer::CERenderTargetViewCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilViewCreateInfo& createInfo) {
+Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(const RenderLayer::CEDepthStencilViewCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEComputeShader* CEDXManager::CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEComputeShader* CEDXManager::CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEVertexShader* CEDXManager::CreateVertexShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEVertexShader* CEDXManager::CreateVertexShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEHullShader* CEDXManager::CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEHullShader* CEDXManager::CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEDomainShader* CEDXManager::CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEDomainShader* CEDXManager::CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEGeometryShader* CEDXManager::CreateGeometryShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEGeometryShader* CEDXManager::CreateGeometryShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEAmplificationShader* CEDXManager::CreateAmplificationShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEAmplificationShader* CEDXManager::CreateAmplificationShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEPixelShader* CEDXManager::CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CEPixelShader* CEDXManager::CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CERayGenShader* CEDXManager::CreateRayGenShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CERayGenShader* CEDXManager::CreateRayGenShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CERayGenHitShader* CEDXManager::CreateRayGenHitShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CERayAnyHitShader* CEDXManager::CreateRayAnyHitShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEClosestHitShader* CEDXManager::CreateClosestHitShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CERayClosestHitShader* CEDXManager::CreateClosestHitShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CERayMissShader* CEDXManager::CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+Main::RenderLayer::CERayMissShader* CEDXManager::CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) {
 	return nullptr;
 }
 
-CEDepthStencilState* CEDXManager::CreateDepthStencilState(const CEDepthStencilStateCreateInfo& createInfo) {
+Main::RenderLayer::CEDepthStencilState* CEDXManager::CreateDepthStencilState(const RenderLayer::CEDepthStencilStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CERasterizerState* CEDXManager::CreateRasterizerState(const CERasterizerStateCreateInfo& createInfo) {
+Main::RenderLayer::CERasterizerState* CEDXManager::CreateRasterizerState(const RenderLayer::CERasterizerStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEBlendState* CEDXManager::CreateBlendState(const CEBlendStateCreateInfo& createInfo) {
+Main::RenderLayer::CEBlendState* CEDXManager::CreateBlendState(const RenderLayer::CEBlendStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEInputLayoutState* CEDXManager::CreateInputLayout(const CEInputLayoutStateCreateInfo& createInfo) {
+Main::RenderLayer::CEInputLayoutState* CEDXManager::CreateInputLayout(const RenderLayer::CEInputLayoutStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEGraphicsPipelineState* CEDXManager::CreateGraphicsPipelineState(const CEGraphicsPipelineStateCreateInfo& createInfo) {
+Main::RenderLayer::CEGraphicsPipelineState* CEDXManager::CreateGraphicsPipelineState(const RenderLayer::CEGraphicsPipelineStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEComputePipelineState* CEDXManager::CreateComputePipelineState(const CEComputePipelineStateCreateInfo& createInfo) {
+Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineState(const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CERayTracingPipelineState* CEDXManager::CreatRayTracingPipelineState(
-	const CERayTracingPipelineStateCreateInfo& createInfo) {
+Main::RenderLayer::CERayTracingPipelineState* CEDXManager::CreatRayTracingPipelineState(
+	const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) {
 	return nullptr;
 }
 
-CEGPUProfiler* CEDXManager::CreateProfiler() {
+Main::RenderLayer::CEGPUProfiler* CEDXManager::CreateProfiler() {
 	return nullptr;
 }
 
-CEViewport* CEDXManager::CreateViewport(Core::Platform::Generic::Window::CEWindow* window, uint32 width, uint32 height,
-                                        CEFormat colorFormat, CEFormat depthFormat) {
+Main::RenderLayer::CEViewport* CEDXManager::CreateViewport(Core::Platform::Generic::Window::CEWindow* window, uint32 width, uint32 height,
+                                                           RenderLayer::CEFormat colorFormat, RenderLayer::CEFormat depthFormat) {
 	return nullptr;
 }
 
-CEICommandContext* CEDXManager::GetDefaultCommandContext() {
+Main::RenderLayer::CEICommandContext* CEDXManager::GetDefaultCommandContext() {
 	return nullptr;
 }
 
-void CEDXManager::CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) {
+void CEDXManager::CheckRayTracingSupport(CERayTracingSupport& outSupport) {
 }
 
-void CEDXManager::CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) {
+void CEDXManager::CheckShadingRateSupport(CEShadingRateSupport& outSupport) {
 }
 
 
 template <typename TCEDXTexture>
-TCEDXTexture* CEDXManager::CreateTexture(CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
-                                         uint32 numMips, uint32 numSamplers, uint32 flags, CEResourceState initialState,
-                                         const CEResourceData* initialData, const CEClearValue& optimalClearValue) {
+TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+                                         uint32 numMips, uint32 numSamplers, uint32 flags, RenderLayer::CEResourceState initialState,
+                                         const RenderLayer::CEResourceData* initialData, const RenderLayer::CEClearValue& optimalClearValue) {
 	return nullptr;
 }
 
@@ -280,7 +280,7 @@ template <typename TCEDXBuffer>
 bool CEDXManager::FinishBufferResource(TCEDXBuffer* buffer,
                                        uint32 sizeInBytes,
                                        uint32 flags,
-                                       CEResourceState initialState,
-                                       const CEResourceData* initialData) {
+                                       RenderLayer::CEResourceState initialState,
+                                       const RenderLayer::CEResourceData* initialData) {
 	return false;
 }
