@@ -15,6 +15,8 @@
 #include "CEDXResource.h"
 #include "CEDXRootSignature.h"
 
+#include "../../Main/RenderLayer/CEICommandContext.h"
+
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	struct CEDXUploadAllocation {
 		uint8* MappedPtr = nullptr;

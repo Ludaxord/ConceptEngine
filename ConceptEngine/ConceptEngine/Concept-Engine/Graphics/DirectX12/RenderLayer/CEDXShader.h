@@ -1,7 +1,6 @@
 #pragma once
 #include "CEDXDeviceElement.h"
 #include "../../Main/RenderLayer/CEShader.h"
-#include "../../../Math/CEMathTypes.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
@@ -152,17 +151,17 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		TCEDXShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code): TBaseShader(device, code) {
 
 		}
-		
+
 		virtual void GetShaderParameterInfo(CEShaderParameterInfo& shaderParameterInfo) const override;
-		
+
 		virtual bool GetShaderResourceViewIndexByName(const std::string& name, uint32& index) const override;
-		
+
 		virtual bool GetSamplerIndexByName(const std::string& name, uint32& index) const override;
-		
+
 		virtual bool GetUnorderedAccessViewIndexByName(const std::string& name, uint32& index) const override;
-		
+
 		virtual bool GetConstantBufferIndexByName(const std::string& name, uint32& index) const override;
-		
+
 		virtual bool IsValid() const override;
 
 	protected:
@@ -198,14 +197,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXBaseComputeShader : public CEComputeShader, public CEDXBaseShader {
 	public:
 		CEDXBaseComputeShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEComputeShader(),
-			CEDXBaseShader(device, code, ShaderVisibility_All), ThreadGroupXYZ(0, 0, 0) {
+			CEDXBaseShader(device, code, ShaderVisibility_All) {
 
 		}
 
 		bool Create();
 
-	protected:
-		CEVectorUint3 ThreadGroupXYZ;
 	};
 
 	class CEDXBaseRayTracingShader : public CEDXBaseShader {

@@ -64,7 +64,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	public:
 		virtual CEComputeShader* AsComputeShader() override {
 			return this;
-		}
+		};
 	};
 
 	class CEVertexShader : public CEShader {
