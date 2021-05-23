@@ -154,17 +154,32 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		}
 
-		virtual void GetShaderParameterInfo(CEShaderParameterInfo& shaderParameterInfo) const override;
+		virtual void GetShaderParameterInfo(CEShaderParameterInfo& shaderParameterInfo) const override {
+			shaderParameterInfo.NumConstantBuffers = this->ConstantBufferParameters.Size();
+			shaderParameterInfo.NumShaderResourceViews = this->ShaderResourceParameters.Size();
+			shaderParameterInfo.NumUnorderedAccessViews = this->UnorderedAccessParameters.Size();
+			shaderParameterInfo.NumSamplerStates = this->SamplerParameters.Size();
+		};
 
-		virtual bool GetShaderResourceViewIndexByName(const std::string& name, uint32& index) const override;
+		virtual bool GetShaderResourceViewIndexByName(const std::string& name, uint32& index) const override {
+			return InternalFindParameterIndexByName(this->ShaderResourceParameters, name, index);
+		};
 
-		virtual bool GetSamplerIndexByName(const std::string& name, uint32& index) const override;
+		virtual bool GetSamplerIndexByName(const std::string& name, uint32& index) const override {
+			return InternalFindParameterIndexByName(this->SamplerParameters, name, index);
+		};
 
-		virtual bool GetUnorderedAccessViewIndexByName(const std::string& name, uint32& index) const override;
+		virtual bool GetUnorderedAccessViewIndexByName(const std::string& name, uint32& index) const override {
+			return InternalFindParameterIndexByName(this->UnorderedAccessParameters, name, index);
+		};
 
-		virtual bool GetConstantBufferIndexByName(const std::string& name, uint32& index) const override;
+		virtual bool GetConstantBufferIndexByName(const std::string& name, uint32& index) const override {
+			return InternalFindParameterIndexByName(this->ConstantBufferParameters, name, index);
+		};
 
-		virtual bool IsValid() const override;
+		virtual bool IsValid() const override {
+			return this->ByteCode.pShaderBytecode != nullptr && this->ByteCode.BytecodeLength > 0;
+		};
 
 	protected:
 	private:
