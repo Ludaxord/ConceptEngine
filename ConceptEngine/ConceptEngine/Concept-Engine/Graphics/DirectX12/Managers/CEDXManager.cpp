@@ -1,5 +1,6 @@
 #include "CEDXManager.h"
 
+#include "../RenderLayer/CEDXShaderCompiler.h"
 #include "../RenderLayer/CEDXTexture.h"
 
 #include "../../../Core/Application/CECore.h"

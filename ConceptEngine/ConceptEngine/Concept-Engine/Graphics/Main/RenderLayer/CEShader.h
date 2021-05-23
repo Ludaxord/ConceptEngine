@@ -64,11 +64,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	class CEComputeShader : public CEShader {
 	public:
-		virtual CEComputeShader* AsComputeShader() {
+		virtual CEComputeShader* AsComputeShader() override {
 			return this;
 		}
-
-		virtual CEVectorUint3 GetThreadGroupXYZ() const = 0;
 	};
 
 	class CEVertexShader : public CEShader {
