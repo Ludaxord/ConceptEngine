@@ -2,8 +2,6 @@
 
 #include "CEResource.h"
 
-#include "../../../Math/CEMathTypes.h"
-
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CEShaderParameterInfo {
 		uint32 NumConstantBuffers = 0;
@@ -64,11 +62,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	class CEComputeShader : public CEShader {
 	public:
-		virtual CEComputeShader* AsComputeShader() {
+		virtual CEComputeShader* AsComputeShader() override {
 			return this;
 		}
-
-		virtual CEVectorUint3 GetThreadGroupXYZ() const = 0;
 	};
 
 	class CEVertexShader : public CEShader {

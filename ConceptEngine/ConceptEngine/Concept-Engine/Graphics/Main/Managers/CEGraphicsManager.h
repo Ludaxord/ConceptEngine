@@ -12,28 +12,16 @@
 #include "../RenderLayer/CEPipelineState.h"
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Platform/Generic/Window/CEWindow.h"
+#include "../RenderLayer/CEGPUProfiler.h"
+#include "../RenderLayer/CEViewport.h"
+#include "../RenderLayer/CEICommandContext.h"
 #include "../../../Core/Common/CETypes.h"
 
 #define ENABLE_API_DEBUGGING 0;
 #define ENABLE_API_GPU_DEBUGGING 0;
 #define ENABLE_API_GPU_BREADCRUMBS 0;
 
-namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
-		class CEICommandContext;
-		class CEGPUProfiler;
-		class CERayMissShader;
-		class CERayClosestHitShader;
-		class CERayAnyHitShader;
-		class CERayGenShader;
-		class CEPixelShader;
-		class CEAmplificationShader;
-		class CEGeometryShader;
-		class CEDomainShader;
-		class CEHullShader;
-		class CEVertexShader;
-		class CEComputeShader;
-		class CEViewport;
-	}
+namespace ConceptEngine::Graphics::Main {
 
 	enum class CEShadingRateTier {
 		NotSupported = 0,
@@ -56,8 +44,9 @@ namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
 		CERayTracingTier Tier;
 		uint32 MaxRecursionDepth;
 	};
-	
+
 	namespace Managers {
+
 
 		class CEGraphicsManager : public Core::Common::CEManager {
 		public:
