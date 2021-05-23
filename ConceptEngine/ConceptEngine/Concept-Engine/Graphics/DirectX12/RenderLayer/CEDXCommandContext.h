@@ -161,7 +161,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	};
 
 
-	class CEDXCommandContext : public ConceptEngine::Graphics::Main::RenderLayer::CEICommandContext, public CEDXDeviceElement {
+	class CEDXCommandContext : public CEICommandContext, public CEDXDeviceElement {
 	public:
 		CEDXCommandContext(CEDXDevice* device);
 		~CEDXCommandContext();

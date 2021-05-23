@@ -204,6 +204,9 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		bool Create();
 
+		::CEVectorUint3 GetThreadGroupXYZ() const override {
+			return ThreadGroupXYZ;
+		}
 	protected:
 		CEVectorUint3 ThreadGroupXYZ;
 	};
