@@ -150,8 +150,8 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 
 			virtual RenderLayer::CEICommandContext* GetDefaultCommandContext() override final;
 
-			virtual void CheckRayTracingSupport(CERayTracingSupport& outSupport) override final;
-			virtual void CheckShadingRateSupport(CEShadingRateSupport& outSupport) override final;
+			virtual void CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) override final;
+			virtual void CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) override final;
 
 		private:
 			template <typename TCEDXTexture>

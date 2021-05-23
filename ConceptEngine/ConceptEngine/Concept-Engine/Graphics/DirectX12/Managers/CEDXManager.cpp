@@ -262,10 +262,10 @@ Main::RenderLayer::CEICommandContext* CEDXManager::GetDefaultCommandContext() {
 	return nullptr;
 }
 
-void CEDXManager::CheckRayTracingSupport(CERayTracingSupport& outSupport) {
+void CEDXManager::CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) {
 }
 
-void CEDXManager::CheckShadingRateSupport(CEShadingRateSupport& outSupport) {
+void CEDXManager::CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) {
 }
 
 
