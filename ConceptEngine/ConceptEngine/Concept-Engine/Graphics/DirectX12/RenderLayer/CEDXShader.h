@@ -2,6 +2,8 @@
 #include "CEDXDeviceElement.h"
 #include "../../Main/RenderLayer/CEShader.h"
 
+#include "../../../Math/CEMathTypes.h"
+
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	//TODO: create static sampler class right not put enums here:
@@ -197,12 +199,19 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXBaseComputeShader : public CEComputeShader, public CEDXBaseShader {
 	public:
 		CEDXBaseComputeShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEComputeShader(),
-			CEDXBaseShader(device, code, ShaderVisibility_All) {
+			CEDXBaseShader(device, code, ShaderVisibility_All), ThreadGroupXYZ(0, 0, 0) {
 
 		}
 
 		bool Create();
 
+		virtual CEVectorUint3 GetThreadGroupXYZ() const override {
+			return ThreadGroupXYZ;
+		}
+
+
+	protected:
+		CEVectorUint3 ThreadGroupXYZ;
 	};
 
 	class CEDXBaseRayTracingShader : public CEDXBaseShader {

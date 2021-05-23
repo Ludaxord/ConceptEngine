@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 
-#include "CEShader.h"
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Common/CETypes.h"
 
