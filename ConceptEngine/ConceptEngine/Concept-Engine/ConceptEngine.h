@@ -18,13 +18,13 @@ namespace ConceptEngine {
 	public:
 		ConceptEngine(
 			std::wstring name,
-			Graphics::Main::GraphicsAPI api,
+			GraphicsAPI api,
 			Core::Generic::Platform::Platform platform,
 			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
 		ConceptEngine(
 			std::wstring name,
-			Graphics::Main::GraphicsAPI api,
+			GraphicsAPI api,
 			Core::Generic::Platform::Platform platform
 		);
 
@@ -43,7 +43,7 @@ namespace ConceptEngine {
 		bool CreateGameDebug();
 
 	private:
-		Graphics::Main::GraphicsAPI EnumApi;
+		GraphicsAPI EnumApi;
 		Core::Compilers::Language EnumLanguage;
 		Core::Generic::Platform::Platform EnumPlatform;
 

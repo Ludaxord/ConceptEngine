@@ -3,12 +3,12 @@
 
 using namespace ConceptEngine::Core;
 
-Application::CEGameCore::CEGameCore(Graphics::Main::GraphicsAPI api,
+Application::CEGameCore::CEGameCore(GraphicsAPI api,
                                     Compilers::Language language,
                                     Generic::Platform::Platform platform): CECore(api, language, platform) {
 }
 
-Application::CEGameCore::CEGameCore(Graphics::Main::GraphicsAPI api, Compilers::Language language,
+Application::CEGameCore::CEGameCore(GraphicsAPI api, Compilers::Language language,
                                     Generic::Platform::Platform platform,
                                     Graphics::Main::Common::CEPlayground* playground): CECore(
 	api, language, platform, playground) {

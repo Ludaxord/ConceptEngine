@@ -4,12 +4,12 @@
 
 using namespace ConceptEngine::Core::Application::GameDebug;
 
-CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,
+CEGameDebug::CEGameDebug(GraphicsAPI api, Compilers::Language language,
                          Generic::Platform::Platform platform): CEGameCore(api, language, platform) {
 	EnableDebug = true;
 }
 
-CEGameDebug::CEGameDebug(Graphics::Main::GraphicsAPI api, Compilers::Language language,
+CEGameDebug::CEGameDebug(GraphicsAPI api, Compilers::Language language,
                          Generic::Platform::Platform platform,
                          Graphics::Main::Common::CEPlayground* playground): CEGameCore(
 	api, language, platform, playground) {

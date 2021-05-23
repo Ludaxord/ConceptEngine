@@ -9,8 +9,8 @@
 namespace ConceptEngine::Core::Application {
 	class CECore {
 	public:
-		CECore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform);
-		CECore(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
+		CECore(GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform);
+		CECore(GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
 		       Graphics::Main::Common::CEPlayground* playground);
 		virtual ~CECore() = default;
 
@@ -34,7 +34,7 @@ namespace ConceptEngine::Core::Application {
 		static Generic::Platform::CEPlatform* Platform;
 
 	private:
-		Graphics::Main::CEGraphics* SelectGraphicsAPI(Graphics::Main::GraphicsAPI api);
+		Graphics::Main::CEGraphics* SelectGraphicsAPI(GraphicsAPI api);
 		Compilers::CECompiler* SelectLanguageCompiler(Compilers::Language language);
 		Generic::Platform::CEPlatform* SelectPlatform(Generic::Platform::Platform platform);
 	};

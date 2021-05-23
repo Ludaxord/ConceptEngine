@@ -8,7 +8,7 @@
 #include "Utilities/CEScreenUtilities.h"
 
 ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
-                                            Graphics::Main::GraphicsAPI api,
+                                            GraphicsAPI api,
                                             Core::Generic::Platform::Platform platform,
                                             Core::Compilers::Language language): EnumApi(api),
 	EnumLanguage(language),
@@ -23,7 +23,7 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
 }
 
 ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
-                                            Graphics::Main::GraphicsAPI api,
+                                            GraphicsAPI api,
                                             Core::Generic::Platform::Platform platform) : EnumApi(api),
 	EnumLanguage(Core::Compilers::Language::None),
 	EnumPlatform(platform) {

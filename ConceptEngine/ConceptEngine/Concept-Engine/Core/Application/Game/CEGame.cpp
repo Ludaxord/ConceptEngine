@@ -5,13 +5,13 @@
 
 using namespace ConceptEngine::Core::Application::Game;
 
-CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language,
+CEGame::CEGame(GraphicsAPI api, Compilers::Language language,
                Generic::Platform::Platform platform) : CEGameCore(
 	api, language, platform) {
 	EnableDebug = false;
 }
 
-CEGame::CEGame(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
+CEGame::CEGame(GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
                Graphics::Main::Common::CEPlayground* playground): CEGameCore(api, language, platform, playground) {
 }
 

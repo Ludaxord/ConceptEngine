@@ -8,6 +8,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		}
 
+		bool Create(uint64 initialValue) {
+			return true;
+		};
+	
 	private:
 		Microsoft::WRL::ComPtr<ID3D12Fence> Fence;
 		HANDLE Event = 0;

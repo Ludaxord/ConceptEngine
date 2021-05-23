@@ -2,15 +2,24 @@
 
 #include "../CEGraphics.h"
 
+enum class GraphicsAPI {
+	Unknown = 0,
+	DirectX = 1,
+	Vulkan = 2,
+	OpenGL = 3,
+	Metal = 4,
+	Count
+};
+
 static bool DirectXAPI;
 static bool VulkanAPI;
 static bool OpenGLAPI;
 static bool MetalAPI;
 static bool UnknownAPI;
 
-static void SetAPI(ConceptEngine::Graphics::Main::GraphicsAPI api) {
+static void SetAPI(GraphicsAPI api) {
 	switch (api) {
-	case ConceptEngine::Graphics::Main::GraphicsAPI::DirectX: {
+	case GraphicsAPI::DirectX: {
 		DirectXAPI = true;
 		VulkanAPI = false;
 		OpenGLAPI = false;
@@ -18,7 +27,7 @@ static void SetAPI(ConceptEngine::Graphics::Main::GraphicsAPI api) {
 		UnknownAPI = false;
 		break;
 	}
-	case ConceptEngine::Graphics::Main::GraphicsAPI::Vulkan: {
+	case GraphicsAPI::Vulkan: {
 		DirectXAPI = false;
 		VulkanAPI = true;
 		OpenGLAPI = false;
@@ -26,7 +35,7 @@ static void SetAPI(ConceptEngine::Graphics::Main::GraphicsAPI api) {
 		UnknownAPI = false;
 		break;
 	}
-	case ConceptEngine::Graphics::Main::GraphicsAPI::OpenGL: {
+	case GraphicsAPI::OpenGL: {
 		DirectXAPI = false;
 		VulkanAPI = false;
 		OpenGLAPI = true;
@@ -34,7 +43,7 @@ static void SetAPI(ConceptEngine::Graphics::Main::GraphicsAPI api) {
 		UnknownAPI = false;
 		break;
 	}
-	case ConceptEngine::Graphics::Main::GraphicsAPI::Metal: {
+	case GraphicsAPI::Metal: {
 		DirectXAPI = false;
 		VulkanAPI = false;
 		OpenGLAPI = false;
@@ -42,8 +51,8 @@ static void SetAPI(ConceptEngine::Graphics::Main::GraphicsAPI api) {
 		UnknownAPI = false;
 		break;
 	}
-	case ConceptEngine::Graphics::Main::GraphicsAPI::Count:
-	case ConceptEngine::Graphics::Main::GraphicsAPI::Unknown: {
+	case GraphicsAPI::Count:
+	case GraphicsAPI::Unknown: {
 		DirectXAPI = false;
 		VulkanAPI = false;
 		OpenGLAPI = false;

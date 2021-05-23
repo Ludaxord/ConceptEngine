@@ -1,5 +1,4 @@
 #pragma once
-#include <combaseapi.h>
 #include <memory>
 
 #include "Managers/CEGraphicsManager.h"
@@ -8,18 +7,10 @@
 
 #include "Rendering/CEDebugUI.h"
 #include "../../Time/CETimestamp.h"
-#include "../../Core/Platform/CEPlatformActions.h"
 
 
 namespace ConceptEngine::Graphics::Main {
-	enum class GraphicsAPI {
-		Unknown = 0,
-		DirectX = 1,
-		Vulkan = 2,
-		OpenGL = 3,
-		Metal = 4,
-		Count
-	};
+
 
 	class CEGraphics {
 	public:

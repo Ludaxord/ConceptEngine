@@ -42,6 +42,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		                             CEShaderStage shaderStage,
 		                             CEShaderModel shaderModel,
 		                             Core::Containers::CEArray<uint8>& code) = 0;
+		
 
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,

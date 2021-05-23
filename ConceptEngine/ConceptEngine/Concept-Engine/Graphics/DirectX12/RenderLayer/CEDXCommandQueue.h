@@ -8,9 +8,14 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		}
 
+		bool Create(D3D12_COMMAND_LIST_TYPE type) {
+			return true;
+		}
+
 	protected:
 	private:
 		Microsoft::WRL::ComPtr<ID3D12CommandQueue> Queue;
 		D3D12_COMMAND_QUEUE_DESC Desc;
+
 	};
 }

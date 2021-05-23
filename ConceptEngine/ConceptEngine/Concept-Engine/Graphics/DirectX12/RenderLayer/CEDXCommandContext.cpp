@@ -1,5 +1,7 @@
 #include "CEDXCommandContext.h"
 
+#include "CEDXShaderCompiler.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 using namespace ConceptEngine::Core::Containers;
 
@@ -171,6 +173,47 @@ CEDXCommandContext::~CEDXCommandContext() {
 }
 
 bool CEDXCommandContext::Create() {
+	if (!CommandQueue.Create(D3D12_COMMAND_LIST_TYPE_DIRECT)) {
+		return false;
+	}
+
+	for (uint32 i = 0; i < 3; i++) {
+		CEDXCommandBatch& batch = CommandBatches.EmplaceBack(GetDevice());
+		if (!batch.Create()) {
+			return false;
+		}
+	}
+
+	if (!CommandList.Create(D3D12_COMMAND_LIST_TYPE_DIRECT, CommandBatches[0].GetCommandAllocator(), nullptr)) {
+		return false;
+	}
+
+	FenceValue = 0;
+	if (!Fence.Create(FenceValue)) {
+		return false;
+	}
+
+	if (!DescriptorCache.Create()) {
+		return false;
+	}
+
+	CEArray<uint8> code;
+	if (!CED3DShaderCompiler->
+		CompileFromFile("", "Main", nullptr, CEShaderStage::Compute, CEShaderModel::SM_6_0, code)) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to compile GenerateMipsTex2D shader");
+		return false;
+	}
+
+	Core::Common::CERef<CEDXComputeShader> shader = new CEDXComputeShader(GetDevice(), code);
+	if (shader->Create()) {
+		return false;
+	}
+
+	GenerateMipsTex2D_PSO = new CEDXComputePipelineState(GetDevice(), shader);
+	if (!GenerateMipsTex2D_PSO->Create()) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to create GenerateMipsTex2D PipelineState");
+		return false;
+	}
 
 	return true;
 }

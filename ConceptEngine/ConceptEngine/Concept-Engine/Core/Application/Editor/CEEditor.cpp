@@ -4,12 +4,12 @@
 
 using namespace ConceptEngine::Core::Application::Editor;
 
-CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language,
+CEEditor::CEEditor(GraphicsAPI api, Compilers::Language language,
                    Generic::Platform::Platform platform): CECore(api, language, platform) {
 	EnableDebug = true;
 }
 
-CEEditor::CEEditor(Graphics::Main::GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
+CEEditor::CEEditor(GraphicsAPI api, Compilers::Language language, Generic::Platform::Platform platform,
                    Graphics::Main::Common::CEPlayground* playground): CECore(api, language, platform, playground) {
 }
 

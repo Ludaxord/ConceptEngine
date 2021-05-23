@@ -3,7 +3,6 @@
 #include "CERendering.h"
 #include "CEResourceViews.h"
 #include "CESamplerState.h"
-#include "CEShader.h"
 #include "CETexture.h"
 #include "../../../Core/Common/CERefCountedObject.h"
 #include "../../../Core/Common/CETypes.h"
@@ -11,8 +10,11 @@
 #include "../RenderLayer/CERayTracing.h"
 
 #include "../RenderLayer/CEBuffer.h"
+#include "../RenderLayer/CEShader.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
+	class CEShader;
+
 	class CEICommandContext : public Core::Common::CERefCountedObject {
 	public:
 		virtual void Begin() = 0;

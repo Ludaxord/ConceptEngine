@@ -6,6 +6,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	public:
 		CEDXDescriptorCache(CEDXDevice* device);
 		~CEDXDescriptorCache();
+		bool Create();	
 	};
 
 	class CEDXShaderConstantsCache {

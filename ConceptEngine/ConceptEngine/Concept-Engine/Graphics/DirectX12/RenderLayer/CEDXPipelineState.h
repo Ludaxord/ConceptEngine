@@ -2,6 +2,7 @@
 #include <d3d12.h>
 
 #include "CEDXDeviceElement.h"
+#include "CEDXShader.h"
 
 #include "../../Main/RenderLayer/CEPipelineState.h"
 
@@ -27,7 +28,11 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	};
 
 	class CEDXComputePipelineState : public Main::RenderLayer::CEComputePipelineState, public CEDXDeviceElement {
+	public:
+		CEDXComputePipelineState(CEDXDevice* device, const Core::Common::CERef<CEDXComputeShader>& shader);
+		~CEDXComputePipelineState() = default;
 
+		bool Create();
 	};
 
 	struct CERayTracingShaderIdentifier {
