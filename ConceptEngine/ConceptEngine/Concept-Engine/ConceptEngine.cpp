@@ -1,11 +1,5 @@
 #include "ConceptEngine.h"
 
-#include "Core/Application/Game/CEGame.h"
-#include "Core/Application/Editor/CEEditor.h"
-#include "Core/Application/GameDebug/CEGameDebug.h"
-#include "Core/Platform/CEPlatformActions.h"
-#include "Core/Platform/Windows/CEWindows.h"
-#include "Utilities/CEScreenUtilities.h"
 
 ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             GraphicsAPI api,

@@ -1,6 +1,5 @@
 #include "CEDXRenderer.h"
 
-#include "../../Main/Managers/CEGraphicsManager.h"
 #include "../../../Core/Application/CECore.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;

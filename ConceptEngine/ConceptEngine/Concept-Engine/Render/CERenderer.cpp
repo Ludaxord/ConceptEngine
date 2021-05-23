@@ -274,9 +274,9 @@ void CERenderer::ResizeResources(uint32 width, uint32 height) {
 }
 
 bool CERenderer::IsRayTracingSupported() {
-	CERayTracingSupport supportLevel;
+	Graphics::Main::CERayTracingSupport supportLevel;
 	dynamic_cast<CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
 		->GetManager(CEManagerType::GraphicsManager))->CheckRayTracingSupport(supportLevel);
 
-	return supportLevel.Tier != CERayTracingTier::NotSupported;
+	return supportLevel.Tier != Graphics::Main::CERayTracingTier::NotSupported;
 }

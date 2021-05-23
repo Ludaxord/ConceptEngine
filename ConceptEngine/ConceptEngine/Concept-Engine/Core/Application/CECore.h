@@ -5,6 +5,7 @@
 #include "../Compilers/CECompiler.h"
 #include "../Platform/Generic/CEPlatform.h"
 #include "../Platform/CEPlatformActions.h"
+#include "../../Graphics/Main/Common/API.h"
 
 namespace ConceptEngine::Core::Application {
 	class CECore {

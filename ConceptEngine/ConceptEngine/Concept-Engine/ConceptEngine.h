@@ -4,7 +4,13 @@
 #include <string>
 #include <Windows.h>
 
-#include "Core/Application/CECore.h"
+#include "Core/Application/Game/CEGame.h"
+#include "Core/Application/Editor/CEEditor.h"
+#include "Core/Application/GameDebug/CEGameDebug.h"
+#include "Core/Platform/CEPlatformActions.h"
+#include "Core/Platform/Windows/CEWindows.h"
+#include "Graphics/Main/Common/API.h"
+#include "Utilities/CEScreenUtilities.h"
 
 namespace ConceptEngine {
 

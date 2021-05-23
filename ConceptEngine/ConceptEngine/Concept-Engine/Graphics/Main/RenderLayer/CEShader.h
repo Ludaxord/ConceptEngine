@@ -2,8 +2,6 @@
 
 #include "CEResource.h"
 
-#include "../../../Math/CEMathTypes.h"
-
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CEShaderParameterInfo {
 		uint32 NumConstantBuffers = 0;

@@ -14,10 +14,6 @@
 #include "CEDXPipelineState.h"
 #include "CEDXResource.h"
 #include "CEDXRootSignature.h"
-#include "../../Main/RenderLayer/CEICommandContext.h"
-#include "../../../Math/CEMath.h"
-#include "../../../Core/Containers/CEArray.h"
-#include "../../../Memory/CEMemory.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	struct CEDXUploadAllocation {
