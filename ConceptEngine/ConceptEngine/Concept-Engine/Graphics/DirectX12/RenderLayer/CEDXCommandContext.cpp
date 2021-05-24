@@ -240,8 +240,23 @@ bool CEDXCommandContext::Create() {
 	return true;
 }
 
-void CEDXCommandContext::UpdateBuffer(CEDXResource* Resource, uint64 offsetInBytes, uint64 sizeInBytes,
+void CEDXCommandContext::UpdateBuffer(CEDXResource* resource, uint64 offsetInBytes, uint64 sizeInBytes,
                                       const void* sourceData) {
+	if (sizeInBytes != 0) {
+		FlushResourceBarriers();
+
+		CEDXGPUResourceUploader& gpuResourceUploader = CommandBatch->GetGpuResourceUploader();
+
+		CEDXUploadAllocation allocation = gpuResourceUploader.LinearAllocate((uint32)sizeInBytes);
+		Memory::CEMemory::Memcpy(allocation.MappedPtr, sourceData, sizeInBytes);
+
+		CommandList.CopyBufferRegion(resource->GetResource(),
+		                             offsetInBytes,
+		                             gpuResourceUploader.GetGPUResource(),
+		                             allocation.ResourceOffset,
+		                             sizeInBytes);
+		CommandBatch->AddInUseResource(resource);
+	}
 }
 
 void CEDXCommandContext::Begin() {
