@@ -10,7 +10,9 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		bool Create(uint64 initialValue) {
 			return true;
-		};
+		}
+
+		void WaitForValue(const uint64 waitValue);
 	
 	private:
 		Microsoft::WRL::ComPtr<ID3D12Fence> Fence;

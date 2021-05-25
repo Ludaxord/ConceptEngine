@@ -1,5 +1,6 @@
 #include "CEDXCommandContext.h"
 
+#include "CEDXSamplerState.h"
 #include "CEDXShaderCompiler.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
@@ -260,19 +261,84 @@ void CEDXCommandContext::UpdateBuffer(CEDXResource* resource, uint64 offsetInByt
 }
 
 void CEDXCommandContext::Begin() {
+	Assert(IsReady == false);
+
+	CommandBatch = &CommandBatches[NextCommandBatch];
+	NextCommandBatch = (NextCommandBatch + 1) % CommandBatches.Size();
+
+	if (FenceValue >= CommandBatches.Size()) {
+		const uint64 waitValue = Math::CEMath::Max<uint64>(FenceValue - (CommandBatches.Size() - 1), 0);
+		Fence.WaitForValue(waitValue);
+	}
+
+	if (!CommandBatch->Reset()) {
+		return;
+	}
+
+	InternalClearState();
+
+	if (!CommandList.Reset(CommandBatch->GetCommandAllocator())) {
+		return;
+	}
+
+	IsReady = true;
 }
 
 void CEDXCommandContext::End() {
+	Assert(IsReady == true);
+
+	FlushResourceBarriers();
+
+	CommandBatch = nullptr;
+	IsReady = false;
+
+	const uint64 newFenceValue = ++FenceValue;
+	for (uint32 i = 0; i < ResolveProfilers.Size(); i++) {
+		ResolveProfilers[i]->ResolveQueries(*this);
+	}
+	ResolveProfilers.Clear();
 }
 
 void CEDXCommandContext::BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) {
+	ID3D12GraphicsCommandList* commandList = CommandList.GetGraphicsCommandList();
+	CEDXGPUProfiler* dxProfiler = static_cast<CEDXGPUProfiler*>(profiler);
+	Assert(profiler);
+	dxProfiler->BeginQuery(commandList, index);
+	ResolveProfilers.EmplaceBack(Core::Common::MakeSharedRef<CEDXGPUProfiler>(dxProfiler));
 }
 
 void CEDXCommandContext::EndTimeStamp(CEGPUProfiler* profiler, uint32 index) {
+	Assert(profiler);
+	ID3D12GraphicsCommandList* commandList = CommandList.GetGraphicsCommandList();
+	CEDXGPUProfiler* dxProfiler = static_cast<CEDXGPUProfiler*>(profiler);
+	Assert(profiler);
+	dxProfiler->EndQuery(commandList, index);
 }
 
 void CEDXCommandContext::DispatchRays(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
                                       uint32 width, uint32 height, uint32 depth) {
+	CEDXRayTracingScene* dxrScene = static_cast<CEDXRayTracingScene*>(rayTracingScene);
+	CEDXRayTracingPipelineState* dxrPipelineState = static_cast<CEDXRayTracingPipelineState*>(pipelineState);
+	Assert(dxrScene != nullptr);
+	Assert(dxrPipelineState != nullptr);
+
+	ID3D12GraphicsCommandList4* dxrCommandList = CommandList.GetDXRCommandList();
+
+	FlushResourceBarriers();
+
+	D3D12_DISPATCH_RAYS_DESC rayDispatchDesc;
+	Memory::CEMemory::Memzero(&rayDispatchDesc);
+
+	rayDispatchDesc.RayGenerationShaderRecord = dxrScene->GetRayGenShaderRecord();
+	rayDispatchDesc.MissShaderTable = dxrScene->GetMissShaderTable();
+	rayDispatchDesc.HitGroupTable = dxrScene->GetMissGroupTable();
+
+	rayDispatchDesc.Width = width;
+	rayDispatchDesc.Height = height;
+	rayDispatchDesc.Depth = depth;
+
+	dxrCommandList->SetPipelineState1(dxrPipelineState->GetStateObject());
+	dxrCommandList->DispatchRays(&rayDispatchDesc);
 }
 
 void CEDXCommandContext::SetRayTracingBindings(CERayTracingScene* rayTracingScene,
@@ -282,6 +348,86 @@ void CEDXCommandContext::SetRayTracingBindings(CERayTracingScene* rayTracingScen
                                                const CERayTracingShaderResources* missLocalResources,
                                                const CERayTracingShaderResources* hitGroupResources,
                                                uint32 numHitGroupResources) {
+	CEDXRayTracingScene* dxrScene = static_cast<CEDXRayTracingScene*>(rayTracingScene);
+	CEDXRayTracingPipelineState* dxrPipelineState = static_cast<CEDXRayTracingPipelineState*>(pipelineState);
+
+	Assert(dxrScene != nullptr);
+	Assert(dxrPipelineState != nullptr);
+
+	uint32 numDescriptorsNeeded = 0;
+	uint32 numSamplersNeeded = 0;
+	if (globalResource) {
+		numDescriptorsNeeded += globalResource->NumResources();
+		numSamplersNeeded += globalResource->NumSamplers();
+	}
+	if (rayGenLocalResources) {
+		numDescriptorsNeeded += rayGenLocalResources->NumResources();
+		numSamplersNeeded += rayGenLocalResources->NumSamplers();
+	}
+	if (missLocalResources) {
+		numDescriptorsNeeded += missLocalResources->NumResources();
+		numSamplersNeeded += missLocalResources->NumSamplers();
+	}
+	for (uint32 i = 0; i < numHitGroupResources; i++) {
+		numDescriptorsNeeded += hitGroupResources[i].NumResources();
+		numSamplersNeeded += hitGroupResources[i].NumSamplers();
+	}
+
+	Assert(numDescriptorsNeeded < D3D12_MAX_ONLINE_DESCRIPTOR_COUNT);
+	CEDXOnlineDescriptorHeap* resourceHeap = CommandBatch->GetOnlineResourceDescriptorHeap();
+	if (!resourceHeap->HasSpace(numDescriptorsNeeded)) {
+		resourceHeap->AllocateFreshHeap();
+	}
+
+	Assert(numSamplersNeeded < D3D12_MAX_ONLINE_DESCRIPTOR_COUNT);
+	CEDXOnlineDescriptorHeap* samplerHeap = CommandBatch->GetOnlineSamplerDescriptorHeap();
+	if (!samplerHeap->HasSpace(numSamplersNeeded)) {
+		samplerHeap->AllocateFreshHeap();
+	}
+
+	if (!dxrScene->BuildBindingTable(*this,
+	                                 dxrPipelineState,
+	                                 resourceHeap,
+	                                 samplerHeap,
+	                                 rayGenLocalResources,
+	                                 missLocalResources,
+	                                 hitGroupResources,
+	                                 numHitGroupResources)) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to build shader binding table");
+	}
+
+	Assert(globalResource != nullptr);
+
+	if (!globalResource->ConstantBuffers.IsEmpty()) {
+		for (uint32 i = 0; i < globalResource->ConstantBuffers.Size(); i++) {
+			CEDXConstantBufferView& dxConstantBufferView = static_cast<CEDXConstantBuffer*>(globalResource->
+				ConstantBuffers[i])->GetView();
+			DescriptorCache.SetConstantBufferView(&dxConstantBufferView, ShaderVisibility_All, i);
+		}
+	}
+
+	if (!globalResource->ShaderResourceViews.IsEmpty()) {
+		for (uint32 i = 0; i < globalResource->ShaderResourceViews.Size(); i++) {
+			CEDXShaderResourceView* dxShaderResourceView = static_cast<CEDXShaderResourceView*>(globalResource->
+				ShaderResourceViews[i]);
+			DescriptorCache.SetShaderResourceView(dxShaderResourceView, ShaderVisibility_All, i);
+		}
+	}
+
+	if (!globalResource->UnorderedAccessViews.IsEmpty()) {
+		for (uint32 i = 0; i < globalResource->UnorderedAccessViews.Size(); i++) {
+			CEDXUnorderedAccessView* dxUnorderedAccessView = static_cast<CEDXUnorderedAccessView*>(globalResource->
+				UnorderedAccessViews[i]);
+			DescriptorCache.SetUnorderedAccessView(dxUnorderedAccessView, ShaderVisibility_All, i);
+		}
+	}
+
+	if (!globalResource->SamplerStates.IsEmpty()) {
+		for (uint32 i = 0; i < globalResource->SamplerStates.Size(); i++) {
+			CEDXSamplerState* dxSampler = static_cast<CEDXSamplerState*>(globalResource->SamplerStates[i]);
+			DescriptorCache.SetSamplerState(dxSampler, ShaderVisibility_All, i);
+		}
+	}
 }
 
 void CEDXCommandContext::InsertMaker(const std::string& message) {

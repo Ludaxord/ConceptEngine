@@ -27,28 +27,100 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	};
 
 	class CEDXConstantBufferView : public CEDXView {
+	public:
+		CEDXConstantBufferView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap);
+		~CEDXConstantBufferView() = default;
 
+		bool CreateView(CEDXResource* resource, const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc);
+
+		const D3D12_CONSTANT_BUFFER_VIEW_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	protected:
+	private:
+		D3D12_CONSTANT_BUFFER_VIEW_DESC Desc;
 	};
 
 	class CEDXBaseShaderResourceView : public CEShaderResourceView, public CEDXView {
+	public:
+		CEDXBaseShaderResourceView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap);
+		~CEDXBaseShaderResourceView() = default;
 
+		bool CreateView(CEDXResource* resource, const D3D12_SHADER_RESOURCE_VIEW_DESC& desc);
+
+		const D3D12_SHADER_RESOURCE_VIEW_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	protected:
+	private:
+		D3D12_SHADER_RESOURCE_VIEW_DESC Desc;
 	};
 
 	class CEDXBaseUnorderedAccessView : public CEUnorderedAccessView, public CEDXView {
+	public:
+		CEDXBaseUnorderedAccessView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap);
+		~CEDXBaseUnorderedAccessView() = default;
 
+		bool CreateView(CEDXResource* resource, const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
+
+		const D3D12_UNORDERED_ACCESS_VIEW_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	protected:
+	private:
+		D3D12_UNORDERED_ACCESS_VIEW_DESC Desc;
 	};
 
 	class CEDXBaseRenderTargetView : public CERenderTargetView, public CEDXView {
+	public:
+		CEDXBaseRenderTargetView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap);
+		~CEDXBaseRenderTargetView() = default;
 
+		bool CreateView(CEDXResource* resource, const D3D12_RENDER_TARGET_VIEW_DESC& desc);
+
+		const D3D12_RENDER_TARGET_VIEW_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	protected:
+	private:
+		D3D12_RENDER_TARGET_VIEW_DESC Desc;
 	};
 
 	class CEDXBaseDepthStencilView : public CEDepthStencilView, public CEDXView {
+	public:
+		CEDXBaseDepthStencilView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap);
+		~CEDXBaseDepthStencilView() = default;
 
+		bool CreateView(CEDXResource* resource, const D3D12_DEPTH_STENCIL_VIEW_DESC& desc);
+
+		const D3D12_DEPTH_STENCIL_VIEW_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	protected:
+	private:
+		D3D12_DEPTH_STENCIL_VIEW_DESC Desc;
 	};
 
 	template <typename TBaseView>
 	class CEDXBaseView : public TBaseView {
+	public:
+		CEDXBaseView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap) : TBaseView(device, heap) {
 
+		};
+
+		~CEDXBaseView() = default;
+
+		virtual bool IsValid() const override {
+			return this->OfflineHandle != 0;
+		}
+
+	protected:
+	private:
 	};
 
 	using CEDXRenderTargetView = CEDXBaseView<CEDXBaseRenderTargetView>;
