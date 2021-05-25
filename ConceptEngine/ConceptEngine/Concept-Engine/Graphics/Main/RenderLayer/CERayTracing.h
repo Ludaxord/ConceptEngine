@@ -104,6 +104,12 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CERayTracingGeometryInstance {
-
+		Core::Common::CERef<CERayTracingGeometry> Instance;
+		uint32 InstanceIndex = 0;
+		uint32 HitGroupIndex = 0;
+		uint32 Flags = RayTracingInstanceFlags_None;
+		uint32 Mask = 0xff;
+				//TODO: Comment before figure out way to fix bug with importing header
+		// CEMatrixFloat3X4 Transform;
 	};
 }
