@@ -1,5 +1,7 @@
 #include "CEDXCommandContext.h"
 
+#include "CEDXBuffer.h"
+#include "CEDXRayTracing.h"
 #include "CEDXSamplerState.h"
 #include "CEDXShaderCompiler.h"
 
@@ -297,6 +299,16 @@ void CEDXCommandContext::End() {
 		ResolveProfilers[i]->ResolveQueries(*this);
 	}
 	ResolveProfilers.Clear();
+
+	if (!CommandList.Close()) {
+		return;
+	}
+
+	CommandQueue.ExecuteCommandList(&CommandList);
+
+	if (!CommandQueue.SignalFence(Fence, newFenceValue)) {
+		return;
+	}
 }
 
 void CEDXCommandContext::BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) {
@@ -331,7 +343,7 @@ void CEDXCommandContext::DispatchRays(CERayTracingScene* rayTracingScene, CERayT
 
 	rayDispatchDesc.RayGenerationShaderRecord = dxrScene->GetRayGenShaderRecord();
 	rayDispatchDesc.MissShaderTable = dxrScene->GetMissShaderTable();
-	rayDispatchDesc.HitGroupTable = dxrScene->GetMissGroupTable();
+	rayDispatchDesc.HitGroupTable = dxrScene->GetHitGroupTable();
 
 	rayDispatchDesc.Width = width;
 	rayDispatchDesc.Height = height;

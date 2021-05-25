@@ -5,6 +5,36 @@
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXGPUProfiler : public Main::RenderLayer::CEGPUProfiler, public CEDXDeviceElement {
+	public:
+		CEDXGPUProfiler(CEDXDevice* device);
+		~CEDXGPUProfiler() = default;
 
+		virtual void GetTimeQuery(TimeQuery& query, uint32 index) const override final;
+
+		virtual uint64 GetFrequency() const override final {
+			return (uint64)Frequency;
+		}
+
+		void BeginQuery(ID3D12GraphicsCommandList* commandList, uint32 index);
+		void EndQuery(ID3D12GraphicsCommandList* commandList, uint32 index);
+
+		void ResolveQueries(class CEDXCommandContext& commandContext);
+
+		ID3D12QueryHeap* GetQueryHeap() const {
+			return QueryHeap.Get();
+		}
+
+		static CEDXGPUProfiler* Create(CEDXDevice* device);
+
+	private:
+		bool AllocateReadResources();
+
+		Microsoft::WRL::ComPtr<ID3D12QueryHeap> QueryHeap;
+		Core::Common::CERef<CEDXResource> WriteResource;
+
+		Core::Containers::CEArray<Core::Common::CERef<CEDXResource>> ReadResources;
+		Core::Containers::CEArray<TimeQuery> TimeQueries;
+
+		UINT64 Frequency;
 	};
 }

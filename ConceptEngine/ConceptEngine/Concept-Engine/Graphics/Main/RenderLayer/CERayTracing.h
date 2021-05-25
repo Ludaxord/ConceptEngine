@@ -1,5 +1,9 @@
 #pragma once
+#include "CEBuffer.h"
 #include "CEResource.h"
+#include "CEResourceViews.h"
+#include "CESamplerState.h"
+#include "../../../Core/Containers/CEArray.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	enum CERayTracingStructureBuildFlag {
@@ -18,15 +22,80 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CERayTracingScene : public CEResource {
+	public:
+		CERayTracingScene(uint32 flags) : Flags(flags) {
 
+		}
+
+		virtual CEShaderResourceView* GetShaderResourceView() const = 0;
+
+		uint32 GetFlags() const {
+			return Flags;
+		}
+
+	private:
+		uint32 Flags;
 	};
 
 	class CERayTracingGeometry : public CEResource {
+	public:
+		CERayTracingGeometry(uint32 flags) : Flags(flags) {
 
+		}
+
+		uint32 GetFlags() const {
+			return Flags;
+		}
+
+	private:
+		uint32 Flags;
 	};
 
 	struct CERayTracingShaderResources {
+		void AddConstantBuffer(CEConstantBuffer* buffer) {
+			ConstantBuffers.EmplaceBack(buffer);
+		}
 
+		void AddShaderResourceView(CEShaderResourceView* view) {
+			ShaderResourceViews.EmplaceBack(view);
+		}
+
+		void AddUnorderedAccessView(CEUnorderedAccessView* view) {
+			UnorderedAccessViews.EmplaceBack(view);
+		}
+
+		void AddSamplerState(CESamplerState* samplerState) {
+			SamplerStates.EmplaceBack(samplerState);
+		}
+
+		uint32 NumResources() const {
+			return ConstantBuffers.Size() + ShaderResourceViews.Size() + UnorderedAccessViews.Size();
+		}
+
+		uint32 NumSamplers() const {
+			return SamplerStates.Size();
+		}
+
+		void Reset() {
+			ConstantBuffers.Clear();
+			ShaderResourceViews.Clear();
+			UnorderedAccessViews.Clear();
+			SamplerStates.Clear();
+		}
+
+		std::string Identifier;
+		Core::Containers::CEArray<CEConstantBuffer*> ConstantBuffers;
+		Core::Containers::CEArray<CEShaderResourceView*> ShaderResourceViews;
+		Core::Containers::CEArray<CEUnorderedAccessView*> UnorderedAccessViews;
+		Core::Containers::CEArray<CESamplerState*> SamplerStates;
+	};
+
+	struct CERayPayload {
+	};
+
+	struct CERayIntersectionAttributes {
+		float Attribute0;
+		float Attribute1;
 	};
 
 	struct CERayTracingGeometryInstance {

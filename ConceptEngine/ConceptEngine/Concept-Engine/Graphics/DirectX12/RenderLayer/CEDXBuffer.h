@@ -3,6 +3,7 @@
 #include "CEDXDeviceElement.h"
 #include "CEDXResource.h"
 #include "CEDXViews.h"
+#include "../../../Core/Containers/CEContainerUtilities.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXBaseBuffer : public CEDXDeviceElement {
@@ -87,6 +88,20 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		virtual void SetResource(CEDXResource* resource) override {
 			CEDXBaseBuffer::SetResource(resource);
+
+			D3D12_CONSTANT_BUFFER_VIEW_DESC viewDesc;
+			Memory::CEMemory::Memzero(&viewDesc);
+
+			viewDesc.BufferLocation = Resource->GetGPUVirtualAddress();
+			viewDesc.SizeInBytes = (uint32)GetSizeInBytes();
+
+			if (View.GetOfflineHandle() == 0) {
+				if (!View.Create()) {
+					return;
+				}
+			}
+
+			View.CreateView(Resource.Get(), viewDesc);
 		}
 
 		CEDXConstantBufferView& GetView() {
@@ -100,4 +115,93 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	private:
 		CEDXConstantBufferView View;
 	};
+
+	class CEDXBaseStructuredBuffer : public CEStructuredBuffer, public CEDXBaseBuffer {
+	public:
+		CEDXBaseStructuredBuffer(CEDXDevice* device, uint32 sizeInBytes, uint32 stride, uint32 flags) :
+			CEStructuredBuffer(sizeInBytes, stride, flags), CEDXBaseBuffer(device) {
+
+		}
+	};
+
+	template <typename TBaseBuffer>
+	class TCEDXBaseBuffer : public TBaseBuffer {
+	public:
+		template <typename... TBufferArgs>
+		TCEDXBaseBuffer(CEDXDevice* device, TBufferArgs&&... BufferArgs) : TBaseBuffer(
+			device, Core::Containers::Forward<TBufferArgs>(BufferArgs)...) {
+		}
+
+		virtual void* Map(uint32 offset, uint32 size) override {
+			if (offset != 0 || size != 0) {
+				D3D12_RANGE mapRange = {offset, size};
+				return CEDXBaseBuffer::Resource->Map(0, &mapRange);
+			}
+			else {
+				CEDXBaseBuffer::Resource->Unmap(0, nullptr);
+			}
+		}
+
+		virtual void SetName(const std::string& name) override final {
+			CEResource::SetName(name);
+			CEDXBaseBuffer::Resource->SetName(name);
+		}
+
+		virtual void* GetNativeResource() const override final {
+			return reinterpret_cast<void*>(CEDXBaseBuffer::Resource->GetResource());
+		}
+
+		virtual bool IsValid() const override {
+			return CEDXBaseBuffer::Resource->GetResource() != nullptr;
+		}
+	};
+
+	class CEDXVertexBuffer : public TCEDXBaseBuffer<CEDXBaseVertexBuffer> {
+	public:
+		CEDXVertexBuffer(CEDXDevice* device, uint32 numVertices, uint32 stride, uint32 flags) : TCEDXBaseBuffer<
+			CEDXBaseVertexBuffer>(device, numVertices, stride, flags) {
+
+		}
+	};
+
+	class CEDXIndexBuffer : public TCEDXBaseBuffer<CEDXBaseIndexBuffer> {
+	public:
+		CEDXIndexBuffer(CEDXDevice* device, CEIndexFormat indexFormat, uint32 numIndices, uint32 flags) :
+			TCEDXBaseBuffer<CEDXBaseIndexBuffer>(device, indexFormat, numIndices, flags) {
+
+		}
+	};
+
+	class CEDXConstantBuffer : public TCEDXBaseBuffer<CEDXBaseConstantBuffer> {
+	public:
+		CEDXConstantBuffer(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap, uint32 sizeInBytes, uint32 flags) :
+			TCEDXBaseBuffer<CEDXBaseConstantBuffer>(device, heap, sizeInBytes, flags) {
+		}
+	};
+
+	class CEDXStructuredBuffer : public TCEDXBaseBuffer<CEDXBaseStructuredBuffer> {
+	public:
+		CEDXStructuredBuffer(CEDXDevice* device, uint32 numElements, uint32 stride, uint32 flags) : TCEDXBaseBuffer<
+			CEDXBaseStructuredBuffer>(device, numElements, stride, flags) {
+
+		}
+	};
+
+	inline CEDXBaseBuffer* CEDXBufferCast(CEBuffer* buffer) {
+		if (buffer->AsVertexBuffer()) {
+			return static_cast<CEDXVertexBuffer*>(buffer);
+		}
+		else if (buffer->AsIndexBuffer()) {
+			return static_cast<CEDXIndexBuffer*>(buffer);
+		}
+		else if (buffer->AsConstantBuffer()) {
+			return static_cast<CEDXConstantBuffer*>(buffer);
+		}
+		else if (buffer->AsStructuredBuffer()) {
+			return static_cast<CEDXStructuredBuffer*>(buffer);
+		}
+		else {
+			return nullptr;
+		}
+	}
 }
