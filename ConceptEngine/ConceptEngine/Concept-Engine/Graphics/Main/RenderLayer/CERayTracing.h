@@ -4,6 +4,8 @@
 #include "CEResourceViews.h"
 #include "CESamplerState.h"
 #include "../../../Core/Containers/CEArray.h"
+// #include "../../../Math/CEMathTypes.h"
+
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	enum CERayTracingStructureBuildFlag {
@@ -91,6 +93,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CERayPayload {
+		//TODO: Comment before figure out way to fix bug with importing header
+		// CEVectorFloat3 Color;
+		uint32 CurrentDepth;
 	};
 
 	struct CERayIntersectionAttributes {

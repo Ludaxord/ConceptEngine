@@ -5,6 +5,8 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
+//TODO: Fix problem with importing MathTypes header file
+
 struct CEMatrixFloat4X4 {
 
 	CEMatrixFloat4X4() = default;

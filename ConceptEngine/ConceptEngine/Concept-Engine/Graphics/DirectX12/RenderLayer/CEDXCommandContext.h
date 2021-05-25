@@ -206,9 +206,9 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		virtual void Begin() override final;
 		virtual void End() override final;
 
-		void BeginTimeStamp(ConceptEngine::Graphics::Main::RenderLayer::CEGPUProfiler* profiler, uint32 index) override;
-		void EndTimeStamp(ConceptEngine::Graphics::Main::RenderLayer::CEGPUProfiler* profiler, uint32 index) override;
-		void DispatchRays(CERayTracingScene* rayTracingScene, ConceptEngine::Graphics::Main::RenderLayer::CERayTracingPipelineState* pipelineState,
+		void BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
+		void EndTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
+		void DispatchRays(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
 		                  uint32 width, uint32 height, uint32 depth) override;
 		void SetRayTracingBindings(CERayTracingScene* rayTracingScene, ConceptEngine::Graphics::Main::RenderLayer::CERayTracingPipelineState* pipelineState,
 		                           const CERayTracingShaderResources* globalResource,
