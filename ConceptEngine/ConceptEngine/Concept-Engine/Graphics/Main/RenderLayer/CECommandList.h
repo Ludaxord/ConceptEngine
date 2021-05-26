@@ -91,8 +91,12 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			InsertCommand<CESetShadingRateImageRenderCommand>(shadingRateImage);
 		}
 
-		void BeginRenderPass() {
-			InsertCommand<CEBeginRenderPassRenderCommand>();
+		void BeginRenderPass(CERenderTargetView* renderTargetView, CEDepthStencilView* depthStencilView,
+		                     const Math::CEColorF& color) {
+			Assert(renderTargetView != nullptr && depthStencilView != nullptr);
+			renderTargetView->AddRef();
+			depthStencilView->AddRef();
+			InsertCommand<CEBeginRenderPassRenderCommand>(renderTargetView, depthStencilView, color);
 		}
 
 		void EndRenderPass() {

@@ -65,5 +65,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	using CEDXTexture3D = TCEDXBaseTexture<CEDXBaseTexture3D>;
 
 	inline CEDXBaseTexture* D3D12TextureCast(CETexture* Texture) {
+		return nullptr;
 	}
+	
 }

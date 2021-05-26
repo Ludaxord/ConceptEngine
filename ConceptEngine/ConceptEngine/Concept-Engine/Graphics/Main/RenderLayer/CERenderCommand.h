@@ -187,13 +187,21 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEBeginRenderPassRenderCommand : public CERenderCommand {
-		CEBeginRenderPassRenderCommand() {
+		CEBeginRenderPassRenderCommand(CERenderTargetView* renderTargetView,
+		                               CEDepthStencilView* depthStencilView,
+		                               const Math::CEColorF& color): Color(color),
+		                                                             RenderTargetView(renderTargetView),
+		                                                             DepthStencilView(depthStencilView) {
 
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
-			commandContext.BeginRenderPass();
+			commandContext.BeginRenderPass(Color, RenderTargetView.Get(), DepthStencilView.Get());
 		}
+
+		Math::CEColorF Color;
+		Core::Common::CERef<CERenderTargetView> RenderTargetView;
+		Core::Common::CERef<CEDepthStencilView> DepthStencilView;
 	};
 
 	struct CEEndRenderPassRenderCommand : public CERenderCommand {
