@@ -637,6 +637,18 @@ void CEDXCommandContext::SetGraphicsPipelineState(CEGraphicsPipelineState* pipel
 }
 
 void CEDXCommandContext::SetComputePipelineState(CEComputePipelineState* pipelineState) {
+	Assert(pipelineState != nullptr);
+	CEDXComputePipelineState* dxPipelineState = static_cast<CEDXComputePipelineState*>(pipelineState);
+	if (dxPipelineState != CurrentComputePipelineState.Get()) {
+		CurrentComputePipelineState = Core::Common::MakeSharedRef<CEDXComputePipelineState>(dxPipelineState);
+		CommandList.SetPipelineState(CurrentComputePipelineState->GetPipeline());
+	}
+
+	CEDXRootSignature* dxRootSignature = dxPipelineState->GetRootSignature();
+	if (dxRootSignature != CurrentRootSignature.Get()) {
+		CurrentRootSignature = Core::Common::MakeSharedRef<CEDXRootSignature>(dxRootSignature);
+		CommandList.SetComputeRootSignature(CurrentRootSignature.Get());
+	}
 }
 
 void CEDXCommandContext::Set32BitShaderConstants(CEShader* shader, const void* shader32BitConstants,
