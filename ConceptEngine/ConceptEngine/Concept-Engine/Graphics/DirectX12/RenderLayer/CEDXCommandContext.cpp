@@ -443,13 +443,31 @@ void CEDXCommandContext::SetRayTracingBindings(CERayTracingScene* rayTracingScen
 }
 
 void CEDXCommandContext::InsertMaker(const std::string& message) {
+	if (Base::CEDirectXHandler::CESetMarkerOnCommandList) {
+		Base::CEDirectXHandler::CESetMarkerOnCommandList(CommandList.GetGraphicsCommandList(), PIX_COLOR(255, 255, 255),
+		                                                 message.c_str());
+	}
 }
 
 void CEDXCommandContext::ClearRenderTargetView(CERenderTargetView* renderTargetView, Math::CEColorF& clearColor) {
+	Assert(renderTargetView != nullptr);
+	FlushResourceBarriers();
+
+	CEDXRenderTargetView* dxRenderTargetView = static_cast<CEDXRenderTargetView*>(renderTargetView);
+	CommandBatch->AddInUseResource(dxRenderTargetView);
+
+	CommandList.ClearRenderTargetView(dxRenderTargetView->GetOfflineHandle(), clearColor.Elements, 0, nullptr);
 }
 
-void CEDXCommandContext::
-ClearDepthStencilView(CEDepthStencilView* depthStencilView, const CEDepthStencilF& clearColor) {
+void CEDXCommandContext::ClearDepthStencilView(CEDepthStencilView* depthStencilView,
+                                               const CEDepthStencilF& clearColor) {
+	Assert(depthStencilView != nullptr);
+	FlushResourceBarriers();
+
+	CEDXDepthStencilView* dxDepthStencilView = static_cast<CEDXDepthStencilView*>(depthStencilView);
+	CommandBatch->AddInUseResource(dxDepthStencilView);
+
+	CommandList.ClearDepthStencilView(dxDepthStencilView->GetOfflineHandle(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, clearColor.Depth, clearColor.Stencil);
 }
 
 void CEDXCommandContext::ClearUnorderedAccessViewFloat(CEUnorderedAccessView* unorderedAccessView,
@@ -604,10 +622,26 @@ void CEDXCommandContext::Flush() {
 }
 
 void CEDXCommandContext::BeginExternalCapture() {
+	IDXGraphicsAnalysis* pix = GetDevice()->GetPIXCaptureInterface();
+	if (pix && !IsCapturing) {
+		pix->BeginCapture();
+		IsCapturing = true;
+	}
 }
 
 void CEDXCommandContext::EndExternalCapture() {
+	IDXGraphicsAnalysis* pix = GetDevice()->GetPIXCaptureInterface();
+	if (pix && IsCapturing) {
+		pix->EndCapture();
+		IsCapturing = false;
+	}
 }
 
 void CEDXCommandContext::InternalClearState() {
+	DescriptorCache.Reset();
+	ShaderConstantsCache.Reset();
+
+	CurrentGraphicsPipelineState.Reset();
+	CurrentRootSignature.Reset();
+	CurrentComputePipelineState.Reset();
 }
