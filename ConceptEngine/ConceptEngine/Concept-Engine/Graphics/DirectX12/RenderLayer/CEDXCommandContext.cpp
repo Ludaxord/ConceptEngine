@@ -508,7 +508,7 @@ void CEDXCommandContext::SetShadingRate(CEShadingRate shadingRate) {
 void CEDXCommandContext::SetShadingRateImage(CETexture2D* shadingImage) {
 	FlushResourceBarriers();
 	if (shadingImage) {
-		CEDXBaseTexture* dxTexture = D3D12TextureCast(shadingImage);
+		CEDXBaseTexture* dxTexture = TextureCast(shadingImage);
 		CommandList.SetShadingRateImage(dxTexture->GetResource()->GetResource());
 		CommandBatch->AddInUseResource(shadingImage);
 	}
@@ -653,39 +653,157 @@ void CEDXCommandContext::SetComputePipelineState(CEComputePipelineState* pipelin
 
 void CEDXCommandContext::Set32BitShaderConstants(CEShader* shader, const void* shader32BitConstants,
                                                  uint32 num32BitConstants) {
+	(void)shader;
+	Assert(num32BitConstants <= D3D12_MAX_32BIT_SHADER_CONSTANTS_COUNT);
+	ShaderConstantsCache.Set32BitShaderConstants((uint32*)shader32BitConstants, num32BitConstants);
 }
 
 void CEDXCommandContext::SetShaderResourceView(CEShader* shader, CEShaderResourceView* shaderResourceView,
                                                uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetShaderResourceParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == 1);
+
+	CEDXShaderResourceView* dxShaderResourceView = static_cast<CEDXShaderResourceView*>(shaderResourceView);
+	DescriptorCache.SetShaderResourceView(dxShaderResourceView,
+	                                      dxShader->GetShaderVisibility(),
+	                                      parameterInfo.Register);
 }
 
 void CEDXCommandContext::SetShaderResourceViews(CEShader* shader, CEShaderResourceView* const* shaderResourceView,
                                                 uint32 numShaderResourceViews, uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetShaderResourceParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == numShaderResourceViews);
+
+	for (uint32 i = 0; i < numShaderResourceViews; i++) {
+		CEDXShaderResourceView* dxShaderResourceView = static_cast<CEDXShaderResourceView*>(shaderResourceView[i]);
+		DescriptorCache.SetShaderResourceView(dxShaderResourceView, dxShader->GetShaderVisibility(),
+		                                      parameterInfo.Register + i);
+	}
 }
 
 void CEDXCommandContext::SetUnorderedAccessView(CEShader* shader, CEUnorderedAccessView* unorderedAccessView,
                                                 uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetUnorderedAccessParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == 1);
+
+	CEDXUnorderedAccessView* dxUnorderedAccessView = static_cast<CEDXUnorderedAccessView*>(unorderedAccessView);
+	DescriptorCache.SetUnorderedAccessView(dxUnorderedAccessView, dxShader->GetShaderVisibility(),
+	                                       parameterInfo.Register);
 }
 
 void CEDXCommandContext::SetUnorderedAccessViews(CEShader* shader, CEUnorderedAccessView* const* unorderedAccessViews,
                                                  uint32 numUnorderedAccessViews, uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetUnorderedAccessParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == numUnorderedAccessViews);
+
+	for (uint32 i = 0; i < numUnorderedAccessViews; i++) {
+		CEDXUnorderedAccessView* dxUnorderedAccessView = static_cast<CEDXUnorderedAccessView*>(unorderedAccessViews[i]);
+		DescriptorCache.SetUnorderedAccessView(dxUnorderedAccessView, dxShader->GetShaderVisibility(),
+		                                       parameterInfo.Register + i);
+	}
 }
 
 void CEDXCommandContext::SetConstantBuffer(CEShader* shader, CEConstantBuffer* constantBuffer, uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetConstantBufferParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == 1);
+
+	if (constantBuffer) {
+		CEDXConstantBufferView& dxConstantBufferView = static_cast<CEDXConstantBuffer*>(constantBuffer)->GetView();
+		DescriptorCache.SetConstantBufferView(&dxConstantBufferView, dxShader->GetShaderVisibility(),
+		                                      parameterInfo.Register);
+	}
+	else {
+		DescriptorCache.SetConstantBufferView(nullptr, dxShader->GetShaderVisibility(), parameterInfo.Register);
+	}
+
 }
 
 void CEDXCommandContext::SetConstantBuffers(CEShader* shader, CEConstantBuffer* const* constantBuffers,
                                             uint32 numConstantBuffers, uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetConstantBufferParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == numConstantBuffers);
+
+	for (uint32 i = 0; i < numConstantBuffers; i++) {
+		if (constantBuffers[i]) {
+			CEDXConstantBufferView& dxConstantBufferView = static_cast<CEDXConstantBuffer*>(constantBuffers[i])->
+				GetView();
+			//TODO: Probably add index to register but keep note that it is thing to check
+			DescriptorCache.SetConstantBufferView(&dxConstantBufferView, dxShader->GetShaderVisibility(),
+			                                      parameterInfo.Register + 1);
+		}
+		else {
+			DescriptorCache.SetConstantBufferView(nullptr, dxShader->GetShaderVisibility(), parameterInfo.Register + 1);
+		}
+	}
 }
 
 void CEDXCommandContext::SetSamplerState(CEShader* shader, CESamplerState* samplerState, uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetSamplerStateParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == 1);
+
+	CEDXSamplerState* dxSamplerState = static_cast<CEDXSamplerState*>(samplerState);
+	DescriptorCache.SetSamplerState(dxSamplerState, dxShader->GetShaderVisibility(), parameterInfo.Register);
 }
 
 void CEDXCommandContext::SetSamplerStates(CEShader* shader, CESamplerState* const* samplerStates,
                                           uint32 numSamplerStates, uint32 parameterIndex) {
+	CEDXBaseShader* dxShader = ShaderCast(shader);
+	Assert(dxShader != nullptr);
+
+	CEDXShaderParameter parameterInfo = dxShader->GetSamplerStateParameter(parameterIndex);
+	Assert(parameterInfo.Space == 0);
+	Assert(parameterInfo.NumDescriptors == 1);
+
+	for (uint32 i = 0; i < numSamplerStates; i++) {
+		CEDXSamplerState* dxSamplerState = static_cast<CEDXSamplerState*>(samplerStates[i]);
+
+		//TODO: Probably add index to register but keep note that it is thing to check
+		DescriptorCache.SetSamplerState(dxSamplerState, dxShader->GetShaderVisibility(), parameterInfo.Register + i);
+	}
 }
 
 void CEDXCommandContext::ResolveTexture(CETexture* destination, CETexture* source) {
+	FlushResourceBarriers();
+
+	CEDXBaseTexture* dxDestination = TextureCast(destination);
+	CEDXBaseTexture* dxSource = TextureCast(source);
+	const DXGI_FORMAT destinationFormat = dxDestination->GetNativeFormat();
+	const DXGI_FORMAT sourceFormat = dxSource->GetNativeFormat();
+
+	Assert(destinationFormat == sourceFormat);
+
+	CommandList.ResolveSubresource(dxDestination->GetResource(), dxSource->GetResource(), destinationFormat);
+
+	CommandBatch->AddInUseResource(destination);
+	CommandBatch->AddInUseResource(source);
 }
 
 void CEDXCommandContext::UpdateBuffer(CEBuffer* destination, uint64 offsetInBytes, uint64 sizeInBytes,
@@ -721,8 +839,8 @@ void CEDXCommandContext::BuildRayTracingScene(CERayTracingScene* scene, const CE
 void CEDXCommandContext::GenerateMips(CETexture* texture) {
 }
 
-void CEDXCommandContext::
-TransitionTexture(CETexture* texture, CEResourceState beforeState, CEResourceState afterState) {
+void CEDXCommandContext::TransitionTexture(CETexture* texture, CEResourceState beforeState,
+                                           CEResourceState afterState) {
 }
 
 void CEDXCommandContext::TransitionBuffer(CEBuffer* buffer, CEResourceState beforeState, CEResourceState afterState) {
