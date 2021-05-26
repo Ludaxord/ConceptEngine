@@ -12,23 +12,137 @@
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXInputLayoutState : public Main::RenderLayer::CEInputLayoutState, public CEDXDeviceElement {
+	public:
+		CEDXInputLayoutState(CEDXDevice* device, const CEInputLayoutStateCreateInfo& createInfo) : CEInputLayoutState(),
+			CEDXDeviceElement(device), SemanticNames(), ElementDesc(), Desc() {
+			SemanticNames.Reserve(createInfo.Elements.Size());
+			for (const CEInputElement& element : createInfo.Elements) {
+				D3D12_INPUT_ELEMENT_DESC dxElement;
+				dxElement.SemanticName = SemanticNames.EmplaceBack(element.Semantic).c_str();
+				dxElement.SemanticIndex = element.SemanticIndex;
+				dxElement.Format = ConvertFormat(element.Format);
+				dxElement.InputSlot = element.InputSlot;
+				dxElement.InputSlotClass = ConvertInputClassification(element.InputClassification);
+				dxElement.InstanceDataStepRate = element.InstanceStepRate;
+				ElementDesc.EmplaceBack(dxElement);
+			}
 
+			Desc.NumElements = GetElementCount();
+			Desc.pInputElementDescs = GetElementData();
+		}
+
+		virtual bool IsValid() const override {
+			return true;
+		}
+
+		const D3D12_INPUT_ELEMENT_DESC* GetElementData() const {
+			return ElementDesc.Data();
+		}
+
+		uint32 GetElementCount() const {
+			return ElementDesc.Size();
+		}
+
+		const D3D12_INPUT_LAYOUT_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	private:
+		Core::Containers::CEArray<std::string> SemanticNames;
+		Core::Containers::CEArray<D3D12_INPUT_ELEMENT_DESC> ElementDesc;
+		D3D12_INPUT_LAYOUT_DESC Desc;
 	};
 
 	class CEDXDepthStencilState : public Main::RenderLayer::CEDepthStencilState, public CEDXDeviceElement {
+	public:
+		CEDXDepthStencilState(CEDXDevice* device, const D3D12_DEPTH_STENCIL_DESC& desc) : CEDepthStencilState(),
+			CEDXDeviceElement(device), Desc(desc) {
 
+		}
+
+		virtual bool IsValid() const override {
+			return true;
+		}
+
+		const D3D12_DEPTH_STENCIL_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	private:
+		D3D12_DEPTH_STENCIL_DESC Desc;
 	};
 
 	class CEDXRasterizerState : public Main::RenderLayer::CERasterizerState, public CEDXDeviceElement {
+	public:
+		CEDXRasterizerState(CEDXDevice* device, const D3D12_RASTERIZER_DESC& desc): CERasterizerState(),
+			CEDXDeviceElement(device), Desc(desc) {
 
+		}
+
+		virtual bool IsValid() const override {
+			return true;
+		}
+
+		const D3D12_RASTERIZER_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	private:
+		D3D12_RASTERIZER_DESC Desc;
 	};
 
 	class CEDXBlendState : public Main::RenderLayer::CEBlendState, public CEDXDeviceElement {
+	public:
+		CEDXBlendState(CEDXDevice* device, const D3D12_BLEND_DESC& desc): CEBlendState(), CEDXDeviceElement(device),
+		                                                                  Desc(desc) {
 
+		}
+
+		virtual bool IsValid() const override {
+			return true;
+		}
+
+		const D3D12_BLEND_DESC& GetDesc() const {
+			return Desc;
+		}
+
+	private:
+		D3D12_BLEND_DESC Desc;
 	};
 
 	class CEDXGraphicsPipelineState : public Main::RenderLayer::CEGraphicsPipelineState, public CEDXDeviceElement {
+	public:
+		CEDXGraphicsPipelineState(CEDXDevice* device);
+		~CEDXGraphicsPipelineState() = default;
 
+		bool Create(const CEGraphicsPipelineStateCreateInfo& createInfo);
+
+		virtual void SetName(const std::string& name) override {
+			CEResource::SetName(name);
+
+			std::wstring wName = ConvertToWString(name);
+			PipelineState->SetName(wName.c_str());
+		}
+
+		virtual void* GetNativeResource() const override {
+			return reinterpret_cast<void*>(PipelineState.Get());
+		}
+
+		virtual bool IsValid() const override {
+			return PipelineState != nullptr && RootSignature != nullptr;
+		}
+
+		ID3D12PipelineState* GetPipeline() const {
+			return PipelineState.Get();
+		}
+
+		CEDXRootSignature* GetRootSignature() const {
+			return RootSignature.Get();
+		}
+
+	private:
+		Microsoft::WRL::ComPtr<ID3D12PipelineState> PipelineState;
+		Core::Common::CERef<CEDXRootSignature> RootSignature;
 	};
 
 	class CEDXComputePipelineState : public Main::RenderLayer::CEComputePipelineState, public CEDXDeviceElement {
@@ -37,6 +151,34 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		~CEDXComputePipelineState() = default;
 
 		bool Create();
+
+		virtual void SetName(const std::string& name) override {
+			CEResource::SetName(name);
+
+			std::wstring wName = ConvertToWString(name);
+			PipelineState->SetName(wName.c_str());
+		}
+
+		virtual void* GetNativeResource() const override {
+			return reinterpret_cast<void*>(PipelineState.Get());
+		}
+
+		virtual bool IsValid() const override {
+			return PipelineState != nullptr && RootSignature != nullptr;
+		}
+
+		ID3D12PipelineState* GetPipeline() const {
+			return PipelineState.Get();
+		}
+
+		CEDXRootSignature* GetRootSignature() const {
+			return RootSignature.Get();
+		}
+
+	private:
+		Microsoft::WRL::ComPtr<ID3D12PipelineState> PipelineState;
+		Core::Common::CERef<CEDXComputeShader> Shader;
+		Core::Common::CERef<CEDXRootSignature> RootSignature;
 	};
 
 	struct CERayTracingShaderIdentifier {

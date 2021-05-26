@@ -36,7 +36,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		virtual void SetBlendFactor(const Math::CEColorF& color) = 0;
 
-		virtual void BeginRenderPass() = 0;
+		virtual void BeginRenderPass(const Math::CEColorF& color, CERenderTargetView* renderTargetView,
+                                         CEDepthStencilView* depthStencilView) = 0;
 		virtual void EndRenderPass() = 0;
 
 		virtual void SetPrimitiveTopology(CEPrimitiveTopology primitiveTopologyType) = 0;

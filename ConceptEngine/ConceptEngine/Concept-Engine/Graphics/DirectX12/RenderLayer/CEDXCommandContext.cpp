@@ -4,6 +4,7 @@
 #include "CEDXRayTracing.h"
 #include "CEDXSamplerState.h"
 #include "CEDXShaderCompiler.h"
+#include "CEDXTexture.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 using namespace ConceptEngine::Core::Containers;
@@ -467,48 +468,172 @@ void CEDXCommandContext::ClearDepthStencilView(CEDepthStencilView* depthStencilV
 	CEDXDepthStencilView* dxDepthStencilView = static_cast<CEDXDepthStencilView*>(depthStencilView);
 	CommandBatch->AddInUseResource(dxDepthStencilView);
 
-	CommandList.ClearDepthStencilView(dxDepthStencilView->GetOfflineHandle(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, clearColor.Depth, clearColor.Stencil);
+	CommandList.ClearDepthStencilView(dxDepthStencilView->GetOfflineHandle(),
+	                                  D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, clearColor.Depth,
+	                                  clearColor.Stencil);
 }
 
 void CEDXCommandContext::ClearUnorderedAccessViewFloat(CEUnorderedAccessView* unorderedAccessView,
                                                        const Math::CEColorF& clearColor) {
+	FlushResourceBarriers();
+
+	CEDXUnorderedAccessView* dxUnorderedAccessView = static_cast<CEDXUnorderedAccessView*>(unorderedAccessView);
+	CommandBatch->AddInUseResource(dxUnorderedAccessView);
+
+	CEDXOnlineDescriptorHeap* onlineDescriptorHeap = CommandBatch->GetOnlineResourceDescriptorHeap();
+	const uint32 onlineDescriptorHandleIndex = onlineDescriptorHeap->AllocateHandles(1);
+
+	const D3D12_CPU_DESCRIPTOR_HANDLE offlineHandle = dxUnorderedAccessView->GetOfflineHandle();
+	const D3D12_CPU_DESCRIPTOR_HANDLE onlineHandleCPU = onlineDescriptorHeap->GetCPUDescriptorHandleAt(
+		onlineDescriptorHandleIndex);
+	GetDevice()->CopyDescriptorsSimple(1, onlineHandleCPU, offlineHandle, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	const D3D12_GPU_DESCRIPTOR_HANDLE onlineHandleGPU = onlineDescriptorHeap->GetGPUDescriptorHandleAt(
+		onlineDescriptorHandleIndex);
+
+	CommandList.ClearUnorderedAccessViewFloat(onlineHandleGPU, dxUnorderedAccessView, clearColor.Elements);
 }
 
 void CEDXCommandContext::SetShadingRate(CEShadingRate shadingRate) {
+	D3D12_SHADING_RATE dxShadingRate = ConvertShadingRate(shadingRate);
+
+	D3D12_SHADING_RATE_COMBINER combiners[] = {
+		D3D12_SHADING_RATE_COMBINER_OVERRIDE,
+		D3D12_SHADING_RATE_COMBINER_OVERRIDE,
+	};
+
+	CommandList.SetShadingRate(dxShadingRate, combiners);
 }
 
 void CEDXCommandContext::SetShadingRateImage(CETexture2D* shadingImage) {
+	FlushResourceBarriers();
+	if (shadingImage) {
+		CEDXBaseTexture* dxTexture = D3D12TextureCast(shadingImage);
+		CommandList.SetShadingRateImage(dxTexture->GetResource()->GetResource());
+		CommandBatch->AddInUseResource(shadingImage);
+	}
+	else {
+		CommandList.SetShadingRateImage(nullptr);
+	}
 }
 
 void CEDXCommandContext::SetViewport(float width, float height, float minDepth, float maxDepth, float x, float y) {
+	D3D12_VIEWPORT viewport;
+	viewport.Width = width;
+	viewport.Height = height;
+	viewport.MinDepth = minDepth;
+	viewport.MaxDepth = maxDepth;
+	viewport.TopLeftX = x;
+	viewport.TopLeftY = y;
+
+	CommandList.SetViewports(&viewport, 1);
 }
 
 void CEDXCommandContext::SetScissorRect(float width, float height, float x, float y) {
+	D3D12_RECT scissorRect;
+	scissorRect.top = LONG(y);
+	scissorRect.bottom = LONG(height);
+	scissorRect.left = LONG(x);
+	scissorRect.right = LONG(y);
+
+	CommandList.SetScissorRects(&scissorRect, 1);
 }
 
 void CEDXCommandContext::SetBlendFactor(const Math::CEColorF& color) {
+	CommandList.SetBlendFactor(color.Elements);
 }
 
-void CEDXCommandContext::BeginRenderPass() {
+void CEDXCommandContext::BeginRenderPass(const Math::CEColorF& color, CERenderTargetView* renderTargetView,
+                                         CEDepthStencilView* depthStencilView) {
+	const D3D12_CLEAR_VALUE optimizedClearValue = {DXGI_FORMAT_R32G32B32_FLOAT, {color.r, color.g, color.b, color.a}};
+
+	CEDXRenderTargetView* dxRenderTargetView = static_cast<CEDXRenderTargetView*>(renderTargetView);
+	CEDXDepthStencilView* dxDepthStencilView = static_cast<CEDXDepthStencilView*>(depthStencilView);
+
+	D3D12_RENDER_PASS_BEGINNING_ACCESS renderPassBeginningAccessClear{
+		D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_CLEAR,
+		{optimizedClearValue}
+	};
+	D3D12_RENDER_PASS_ENDING_ACCESS renderPassEndingAccessPreserve{
+		D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_PRESERVE, {}
+	};
+	D3D12_RENDER_PASS_RENDER_TARGET_DESC renderPassRenderTargetDesc{
+		dxRenderTargetView->GetOfflineHandle(), renderPassBeginningAccessClear, renderPassEndingAccessPreserve
+	};
+
+	D3D12_RENDER_PASS_BEGINNING_ACCESS renderPassBeginningAccessNoAccess{
+		D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_NO_ACCESS, {}
+	};
+	D3D12_RENDER_PASS_ENDING_ACCESS renderPassEndingAccessNoAccess{
+		D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_NO_ACCESS, {}
+	};
+	D3D12_RENDER_PASS_DEPTH_STENCIL_DESC renderPassDepthStencilDesc{
+		dxDepthStencilView->GetOfflineHandle(),
+		renderPassBeginningAccessNoAccess,
+		renderPassBeginningAccessNoAccess,
+		renderPassEndingAccessNoAccess,
+		renderPassEndingAccessNoAccess
+	};
+
+	CommandList.BeginRenderPass(renderPassRenderTargetDesc, renderPassDepthStencilDesc, 1);
 }
 
 void CEDXCommandContext::EndRenderPass() {
+	CommandList.EndRenderPass();
 }
 
 void CEDXCommandContext::SetPrimitiveTopology(CEPrimitiveTopology primitiveTopologyType) {
+	const D3D12_PRIMITIVE_TOPOLOGY primitiveTopology = ConvertPrimitiveTopology(primitiveTopologyType);
+	CommandList.SetPrimitiveTopology(primitiveTopology);
 }
 
 void CEDXCommandContext::SetVertexBuffers(CEVertexBuffer* const* vertexBuffers, uint32 bufferCount, uint32 bufferSlot) {
+	Assert(bufferSlot + bufferCount < D3D12_MAX_VERTEX_BUFFER_SLOTS);
+
+	for (uint32 i = 0; i < bufferCount; i++) {
+		uint32 slot = bufferSlot + 1;
+		CEDXVertexBuffer* dxVertexBuffer = static_cast<CEDXVertexBuffer*>(vertexBuffers[i]);
+		DescriptorCache.SetVertexBuffer(dxVertexBuffer, slot);
+		CommandBatch->AddInUseResource(dxVertexBuffer);
+	}
+
 }
 
 void CEDXCommandContext::SetIndexBuffer(CEIndexBuffer* indexBuffer) {
+	CEDXIndexBuffer* dxIndexBuffer = static_cast<CEDXIndexBuffer*>(indexBuffer);
+	DescriptorCache.SetIndexBuffer(dxIndexBuffer);
+	CommandBatch->AddInUseResource(dxIndexBuffer);
 }
 
-void CEDXCommandContext::SetRenderTargets(CERenderTargetView* const* renderTargetView, uint32 renderTargetCount,
+void CEDXCommandContext::SetRenderTargets(CERenderTargetView* const* renderTargetViews,
+                                          uint32 renderTargetCount,
                                           CEDepthStencilView* depthStencilView) {
+	for (uint32 i = 0; i < renderTargetCount; i++) {
+		CEDXRenderTargetView* dxRenderTargetView = static_cast<CEDXRenderTargetView*>(renderTargetViews[i]);
+		DescriptorCache.SetRenderTargetView(dxRenderTargetView, i);
+		CommandBatch->AddInUseResource(dxRenderTargetView);
+	}
+
+	CEDXDepthStencilView* dxDepthStencilView = static_cast<CEDXDepthStencilView*>(depthStencilView);
+	DescriptorCache.SetDepthStencilView(dxDepthStencilView);
+	CommandBatch->AddInUseResource(dxDepthStencilView);
 }
 
 void CEDXCommandContext::SetGraphicsPipelineState(CEGraphicsPipelineState* pipelineState) {
+	Assert(pipelineState != nullptr);
+
+	CEDXGraphicsPipelineState* dxPipelineState = static_cast<CEDXGraphicsPipelineState*>(pipelineState);
+	if (dxPipelineState != CurrentGraphicsPipelineState.Get()) {
+		CurrentGraphicsPipelineState = Core::Common::MakeSharedRef<CEDXGraphicsPipelineState>(dxPipelineState);
+		CommandList.SetPipelineState(CurrentGraphicsPipelineState->GetPipeline());
+	}
+
+	CEDXRootSignature* dxRootSignature = dxPipelineState->GetRootSignature();
+	if (dxRootSignature != CurrentRootSignature.Get()) {
+		CurrentRootSignature = Core::Common::MakeSharedRef<CEDXRootSignature>(dxRootSignature);
+		CommandList.SetGraphicsRootSignature(CurrentRootSignature.Get());
+	}
+
 }
 
 void CEDXCommandContext::SetComputePipelineState(CEComputePipelineState* pipelineState) {

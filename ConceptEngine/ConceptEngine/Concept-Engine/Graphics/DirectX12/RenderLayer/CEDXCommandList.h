@@ -235,6 +235,26 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			CommandList->ResourceBarrier(1, &barrier);
 		}
 
+		//TODO: for now keep it in one function but create renderpass class for it in future
+		void BeginRenderPass(D3D12_RENDER_PASS_RENDER_TARGET_DESC renderPassRenderTargetDesc,
+		                     D3D12_RENDER_PASS_DEPTH_STENCIL_DESC renderPassDepthStencilDesc,
+		                     uint32 numRenderTargets) {
+			if (!RenderPassRunning) {
+				CommandList5->BeginRenderPass(numRenderTargets,
+				                              &renderPassRenderTargetDesc,
+				                              &renderPassDepthStencilDesc,
+				                              D3D12_RENDER_PASS_FLAG_NONE);
+				RenderPassRunning = true;
+			}
+		}
+
+		void EndRenderPass() {
+			if (RenderPassRunning) {
+				CommandList5->EndRenderPass();
+				RenderPassRunning = false;
+			}
+		}
+
 		bool IsRecording() const {
 			return IsReady;
 		}
@@ -261,5 +281,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> CommandList;
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList5> CommandList5;
 		bool IsReady = false;
+
+		//TODO: keep flag to active render pass here for now
+		bool RenderPassRunning = false;
 	};
 }

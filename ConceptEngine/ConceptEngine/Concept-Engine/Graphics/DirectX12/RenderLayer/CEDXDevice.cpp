@@ -237,6 +237,18 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 		}
 	}
 
+	//Render Pass Support
+	{
+		D3D12_FEATURE_DATA_D3D12_OPTIONS5 feature5;
+		Memory::CEMemory::Memzero(&feature5, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS5));
+
+		result = Device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS5, &feature5,
+		                                     sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS5));
+		if (SUCCEEDED(result)) {
+			RenderPassTier = feature5.RenderPassesTier;
+		}
+	}
+
 	//Variable Shading Rate
 	{
 		D3D12_FEATURE_DATA_D3D12_OPTIONS6 features6;

@@ -7,7 +7,30 @@ constexpr uint32 TEXTURE_CUBE_FACE_COUNT = 6;
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXBaseTexture : public CEDXDeviceElement {
+	public:
+		CEDXBaseTexture(CEDXDevice* device) : CEDXDeviceElement(device), Resource(nullptr) {
 
+		}
+
+		void SetResource(CEDXResource* resource) {
+			Resource = resource;
+		}
+
+		void SetShaderResourceView(CEDXShaderResourceView* shaderResourceView) {
+			ShaderResourceView = shaderResourceView;
+		}
+
+		DXGI_FORMAT GetNativeFormat() const {
+			return Resource->GetDesc().Format;
+		}
+
+		CEDXResource* GetResource() {
+			return Resource.Get();
+		}
+
+	protected:
+		Core::Common::CERef<CEDXResource> Resource;
+		Core::Common::CERef<CEDXShaderResourceView> ShaderResourceView;
 	};
 
 	class CEDXBaseTexture2D : public Main::RenderLayer::CETexture2D, public CEDXBaseTexture {
@@ -40,4 +63,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	using CEDXTextureCube = TCEDXBaseTexture<CEDXBaseTextureCube>;
 	using CEDXTextureCubeArray = TCEDXBaseTexture<CEDXBaseTextureCubeArray>;
 	using CEDXTexture3D = TCEDXBaseTexture<CEDXBaseTexture3D>;
+
+	inline CEDXBaseTexture* D3D12TextureCast(CETexture* Texture) {
+	}
 }

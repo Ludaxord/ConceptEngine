@@ -163,7 +163,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	};
 
 
-	class CEDXCommandContext : public ConceptEngine::Graphics::Main::RenderLayer::CEICommandContext, public CEDXDeviceElement {
+	class CEDXCommandContext : public ConceptEngine::Graphics::Main::RenderLayer::CEICommandContext,
+	                           public CEDXDeviceElement {
 	public:
 		CEDXCommandContext(CEDXDevice* device);
 		~CEDXCommandContext();
@@ -210,7 +211,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		void EndTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
 		void DispatchRays(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
 		                  uint32 width, uint32 height, uint32 depth) override;
-		void SetRayTracingBindings(CERayTracingScene* rayTracingScene, ConceptEngine::Graphics::Main::RenderLayer::CERayTracingPipelineState* pipelineState,
+		void SetRayTracingBindings(CERayTracingScene* rayTracingScene,
+		                           ConceptEngine::Graphics::Main::RenderLayer::CERayTracingPipelineState* pipelineState,
 		                           const CERayTracingShaderResources* globalResource,
 		                           const CERayTracingShaderResources* rayGenLocalResources,
 		                           const CERayTracingShaderResources* missLocalResources,
@@ -230,7 +232,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		SetViewport(float width, float height, float minDepth, float maxDepth, float x, float y) override final;
 		virtual void SetScissorRect(float width, float height, float x, float y) override final;
 		virtual void SetBlendFactor(const Math::CEColorF& color) override final;
-		virtual void BeginRenderPass() override final;
+		virtual void BeginRenderPass(const Math::CEColorF& color, CERenderTargetView* renderTargetView,
+		                             CEDepthStencilView* depthStencilView) override final;
 		virtual void EndRenderPass() override final;
 		virtual void
 		SetPrimitiveTopology(CEPrimitiveTopology primitiveTopologyType) override final;
@@ -241,9 +244,11 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		                              uint32 renderTargetCount,
 		                              CEDepthStencilView* depthStencilView) override final;
 		virtual void
-		SetGraphicsPipelineState(ConceptEngine::Graphics::Main::RenderLayer::CEGraphicsPipelineState* pipelineState) override final;
+		SetGraphicsPipelineState(
+			ConceptEngine::Graphics::Main::RenderLayer::CEGraphicsPipelineState* pipelineState) override final;
 		virtual void
-		SetComputePipelineState(ConceptEngine::Graphics::Main::RenderLayer::CEComputePipelineState* pipelineState) override final;
+		SetComputePipelineState(
+			ConceptEngine::Graphics::Main::RenderLayer::CEComputePipelineState* pipelineState) override final;
 		virtual void Set32BitShaderConstants(CEShader* shader, const void* shader32BitConstants,
 		                                     uint32 num32BitConstants) override final;
 		virtual void SetShaderResourceView(CEShader* shader,
