@@ -1198,15 +1198,41 @@ void CEDXCommandContext::DrawInstanced(uint32 vertexPerCountInstance, uint32 ins
 void CEDXCommandContext::DrawIndexedInstanced(uint32 indexCountPerInstance, uint32 instanceCount,
                                               uint32 startIndexLocation, uint32 baseVertexLocation,
                                               uint32 startInstanceLocation) {
+	FlushResourceBarriers();
+
+	ShaderConstantsCache.CommitGraphics(CommandList, CurrentRootSignature.Get());
+	DescriptorCache.CommitComputeDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
+
+	CommandList.DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation,
+	                                 startInstanceLocation);
 }
 
 void CEDXCommandContext::Dispatch(uint32 threadGroupCountX, uint32 threadGroupCountY, uint32 threadGroupCountZ) {
+	FlushResourceBarriers();
+
+	ShaderConstantsCache.CommitCompute(CommandList, CurrentRootSignature.Get());
+	DescriptorCache.CommitComputeDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
+
+	CommandList.Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
 }
 
 void CEDXCommandContext::ClearState() {
+	Flush();
+
+	for (CEDXCommandBatch& batch : CommandBatches) {
+		batch.Reset();
+	}
+
+	InternalClearState();
 }
 
 void CEDXCommandContext::Flush() {
+	const uint64 newFenceValue = ++FenceValue;
+	if (!CommandQueue.SignalFence(Fence, newFenceValue)) {
+		return;
+	}
+
+	Fence.WaitForValue(FenceValue);
 }
 
 void CEDXCommandContext::BeginExternalCapture() {
