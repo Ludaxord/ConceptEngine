@@ -202,7 +202,7 @@ bool CEDXCommandContext::Create() {
 	}
 
 	CEArray<uint8> code;
-	if (!CED3DShaderCompiler->
+	if (!ShaderCompiler->
 		CompileFromFile("DirectX12/Shaders/GenerateMipsTex2D.hlsl", "Main", nullptr, CEShaderStage::Compute,
 		                CEShaderModel::SM_6_0, code)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to compile GenerateMipsTex2D shader");
@@ -222,7 +222,7 @@ bool CEDXCommandContext::Create() {
 
 	GenerateMipsTex2D_PSO->SetName("GenerateMipsTex2D Gen PSO");
 
-	if (CED3DShaderCompiler->CompileFromFile("DirectX12/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr,
+	if (ShaderCompiler->CompileFromFile("DirectX12/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr,
 	                                         CEShaderStage::Compute, CEShaderModel::SM_6_0, code)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to compile GenerateMipsTexCube Shader");
 		return false;

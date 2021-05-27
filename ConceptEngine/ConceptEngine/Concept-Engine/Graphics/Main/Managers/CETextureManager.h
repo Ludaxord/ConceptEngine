@@ -6,27 +6,42 @@
 #include "../../../Core/Common/CETypes.h"
 #include "../RenderLayer/CETexture.h"
 
+#include "../RenderLayer/CEPipelineState.h"
+#include "../RenderLayer/CEShader.h"
+#include "../RenderLayer/CECommandList.h"
 
-namespace ConceptEngine::Graphics::Main::Managers {
-	enum CETextureFlags : uint32 {
-		TextureFlag_None = 0,
-		TextureFlag_GenerateMips = FLAG(1)
+namespace ConceptEngine::Graphics::Main {
+
+	struct CETextureData {
+		Core::Common::CERef<RenderLayer::CEComputePipelineState> PanoramaPSO;
+		Core::Common::CERef<RenderLayer::CEComputeShader> ComputeShader;
+		RenderLayer::CECommandList CommandList;
 	};
 
-	class CETextureManager : public Core::Common::CEManager {
-	public:
-		CETextureManager();
-		~CETextureManager() override;
-		
-		virtual bool Create() override;
+	static CETextureData MainTextureData;
 
-		static class RenderLayer::CETexture2D* LoadFromFile(const std::string& filePath, uint32 flags,
-		                                                    RenderLayer::CEFormat format);
-		static class RenderLayer::CETexture2D* LoadFromMemory(const uint8* pixels, uint32 width, uint32 height,
-		                                                      uint32 createFlags, RenderLayer::CEFormat format);
+	namespace Managers {
 
-		static class RenderLayer::CETextureCube* CreateTextureCubeFromPanorama(
-			class RenderLayer::CETexture2D* panoramaSource, uint32 cubeMapSize, uint32 flags,
-			RenderLayer::CEFormat format);
-	};
-}
+		enum CETextureFlags : uint32 {
+			TextureFlag_None = 0,
+			TextureFlag_GenerateMips = FLAG(1)
+		};
+
+		class CETextureManager : public Core::Common::CEManager {
+		public:
+			CETextureManager();
+			~CETextureManager() override;
+
+			virtual bool Create() override = 0;
+			virtual void Release();
+
+			static class RenderLayer::CETexture2D* LoadFromFile(const std::string& filePath, uint32 flags,
+			                                                    RenderLayer::CEFormat format);
+			static class RenderLayer::CETexture2D* LoadFromMemory(const uint8* pixels, uint32 width, uint32 height,
+			                                                      uint32 createFlags, RenderLayer::CEFormat format);
+
+			static class RenderLayer::CETextureCube* CreateTextureCubeFromPanorama(
+				class RenderLayer::CETexture2D* panoramaSource, uint32 cubeMapSize, uint32 flags,
+				RenderLayer::CEFormat format);
+		};
+	}}

@@ -7,6 +7,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 	public:
 		CEDXTextureManager();
 		~CEDXTextureManager() override;
+		bool Create() override;
 	protected:
 	private:
 	};

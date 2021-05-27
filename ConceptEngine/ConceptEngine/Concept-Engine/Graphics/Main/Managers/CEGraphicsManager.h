@@ -65,7 +65,8 @@ namespace ConceptEngine::Graphics::Main {
 			                                                  uint32 flags,
 			                                                  RenderLayer::CEResourceState initialState,
 			                                                  const RenderLayer::CEResourceData* initialData,
-			                                                  const RenderLayer::CEClearValue& optimizedClearValue) = 0;
+			                                                  const RenderLayer::CEClearValue& optimizedClearValue =
+				                                                  RenderLayer::CEClearValue()) = 0;
 			virtual RenderLayer::CETexture2DArray* CreateTexture2DArray(RenderLayer::CEFormat format,
 			                                                            uint32 width,
 			                                                            uint32 height,
@@ -76,14 +77,16 @@ namespace ConceptEngine::Graphics::Main {
 			                                                            RenderLayer::CEResourceState initialState,
 			                                                            const RenderLayer::CEResourceData* initialData,
 			                                                            const RenderLayer::CEClearValue&
-			                                                            optimizedClearValue) = 0;
+				                                                            optimizedClearValue =
+				                                                            RenderLayer::CEClearValue()) = 0;
 			virtual RenderLayer::CETextureCube* CreateTextureCube(RenderLayer::CEFormat format,
 			                                                      uint32 size,
 			                                                      uint32 numMips,
 			                                                      uint32 flags,
 			                                                      RenderLayer::CEResourceState initialState,
 			                                                      const RenderLayer::CEResourceData* initialData,
-			                                                      const RenderLayer::CEClearValue& optimizedClearValue)
+			                                                      const RenderLayer::CEClearValue& optimizedClearValue =
+				                                                      RenderLayer::CEClearValue())
 			= 0;
 			virtual RenderLayer::CETextureCubeArray* CreateTextureCubeArray(RenderLayer::CEFormat format,
 			                                                                uint32 size,
@@ -94,7 +97,8 @@ namespace ConceptEngine::Graphics::Main {
 			                                                                const RenderLayer::CEResourceData*
 			                                                                initialData,
 			                                                                const RenderLayer::CEClearValue&
-			                                                                optimalClearValue) = 0;
+				                                                                optimalClearValue =
+				                                                                RenderLayer::CEClearValue()) = 0;
 			virtual RenderLayer::CETexture3D* CreateTexture3D(RenderLayer::CEFormat format,
 			                                                  uint32 width,
 			                                                  uint32 height,
@@ -103,7 +107,8 @@ namespace ConceptEngine::Graphics::Main {
 			                                                  uint32 flags,
 			                                                  RenderLayer::CEResourceState initialState,
 			                                                  const RenderLayer::CEResourceData* initialData,
-			                                                  const RenderLayer::CEClearValue& optimizedClearValue) = 0;
+			                                                  const RenderLayer::CEClearValue& optimizedClearValue =
+				                                                  RenderLayer::CEClearValue()) = 0;
 			virtual class RenderLayer::CESamplerState* CreateSamplerState(
 				const struct RenderLayer::CESamplerStateCreateInfo& createInfo) = 0;
 
@@ -233,5 +238,13 @@ namespace ConceptEngine::Graphics::Main {
 				constexpr uint32 SIZE_IN_BYTES = sizeof(T);
 				return CreateConstantBuffer(SIZE_IN_BYTES, Flags, InitialState, InitialData);
 			}
+
+			//TODO: implement all views creators as inline methods
+			inline RenderLayer::CEShaderResourceView* CreateShaderResourceView(
+				RenderLayer::CETexture2D* texture, RenderLayer::CEFormat format, uint32 mip, uint32 numMips,
+				float minMipBias);
+
+			inline RenderLayer::CEUnorderedAccessView* CreateUnorderedAccessView(
+				RenderLayer::CETextureCube* texture, RenderLayer::CEFormat format, uint32 mip);
 		};
 	}}

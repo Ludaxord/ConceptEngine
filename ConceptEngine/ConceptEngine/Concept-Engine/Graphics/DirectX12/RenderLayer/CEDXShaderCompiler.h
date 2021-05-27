@@ -89,5 +89,4 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 }}
 
 
-extern ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderCompiler* CED3DShaderCompiler;
 extern DxcCreateInstanceProc DxcCreateInstanceFunc;

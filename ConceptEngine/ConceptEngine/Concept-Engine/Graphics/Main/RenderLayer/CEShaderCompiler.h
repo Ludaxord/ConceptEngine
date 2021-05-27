@@ -114,3 +114,5 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 	}
 }
+
+extern ConceptEngine::Graphics::Main::RenderLayer::CEIShaderCompiler* ShaderCompiler;

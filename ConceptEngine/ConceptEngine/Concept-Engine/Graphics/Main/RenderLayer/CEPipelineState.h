@@ -6,6 +6,7 @@
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Common/CETypes.h"
 #include "CEResource.h"
+#include "CEShader.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CEPipelineState : public CEResource {
@@ -195,6 +196,13 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEComputePipelineStateCreateInfo {
+		CEComputePipelineStateCreateInfo() = default;
+
+		CEComputePipelineStateCreateInfo(CEComputeShader* shader): Shader(shader) {
+
+		}
+
+		CEComputeShader* Shader = nullptr;
 	};
 
 	struct CERayTracingPipelineStateCreateInfo {

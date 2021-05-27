@@ -25,10 +25,6 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!ShaderCompiler->Create()) {
-		return false;
-	}
-
 	if (GraphicsManager->Create()) {
 		RenderLayer::CEICommandContext* commandContext = GraphicsManager->GetDefaultCommandContext();
 		CommandListExecutor.SetContext(commandContext);

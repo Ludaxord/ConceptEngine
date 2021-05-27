@@ -6,7 +6,7 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
-CEDXShaderCompiler* CED3DShaderCompiler = nullptr;
+ConceptEngine::Graphics::Main::RenderLayer::CEIShaderCompiler* ShaderCompiler = nullptr;
 
 DxcCreateInstanceProc DxcCreateInstanceFunc = nullptr;
 
@@ -195,11 +195,11 @@ CEDXShaderCompiler::CEDXShaderCompiler(): CEIShaderCompiler(),
                                           DXIncludeHandler(nullptr),
                                           DXReflection(nullptr),
                                           DXCompilerDLL() {
-	CED3DShaderCompiler = this;
+	ShaderCompiler = this;
 }
 
 CEDXShaderCompiler::~CEDXShaderCompiler() {
-	CED3DShaderCompiler = nullptr;
+	ShaderCompiler = nullptr;
 	DXCompiler.Reset();
 	DXLibrary.Reset();
 	DXLinker.Reset();
@@ -468,7 +468,7 @@ bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR
 	return true;
 }
 
-bool CEDXShaderCompiler::InternalGetReflection(const ComPtr<IDxcBlob>& shaderBlob, const IID& IID, void** ppvObject) {
+bool CEDXShaderCompiler::InternalGetReflection(const ComPtr<IDxcBlob>& shaderBlob, REFIID IID, void** ppvObject) {
 	HRESULT result = DXReflection->Load(shaderBlob.Get());
 	if (FAILED(result)) {
 		CE_LOG_ERROR("[CEDXShaderCompiler]: Were not able to validate Ray Tracing shader");
