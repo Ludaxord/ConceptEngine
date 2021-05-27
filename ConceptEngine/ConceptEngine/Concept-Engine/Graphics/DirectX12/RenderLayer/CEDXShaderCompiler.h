@@ -38,12 +38,12 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 		CEDXShaderCompiler();
 		~CEDXShaderCompiler() override;
 
-		bool Create(bool useLib) override;
+		bool Create(bool useLib = true) override;
 
 		bool CreateDLL();
 
 		bool CreateLib();
-		
+
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
 		                             const Core::Containers::CEArray<CEShaderDefine>* defines,

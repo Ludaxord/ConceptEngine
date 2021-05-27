@@ -50,7 +50,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	public:
 		virtual ~CEIShaderCompiler() = default;
 
-		virtual bool Create(bool useLib) = 0;
+		virtual bool Create(bool useLib = true) = 0;
 
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
