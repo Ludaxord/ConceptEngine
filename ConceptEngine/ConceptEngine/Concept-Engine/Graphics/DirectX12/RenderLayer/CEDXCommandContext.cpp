@@ -441,6 +441,15 @@ void CEDXCommandContext::SetRayTracingBindings(CERayTracingScene* rayTracingScen
 			DescriptorCache.SetSamplerState(dxSampler, ShaderVisibility_All, i);
 		}
 	}
+
+	ID3D12GraphicsCommandList4* dxrCommandList = CommandList.GetDXRCommandList();
+
+	CEDXRootSignature* globalRootSignature = dxrPipelineState->GetGlobalRootSignature();
+	CurrentRootSignature = Core::Common::MakeSharedRef<CEDXRootSignature>(globalRootSignature);
+	dxrCommandList->SetComputeRootSignature(CurrentRootSignature->GetRootSignature());
+
+	DescriptorCache.CommitComputeDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
+
 }
 
 void CEDXCommandContext::InsertMaker(const std::string& message) {
@@ -808,35 +817,321 @@ void CEDXCommandContext::ResolveTexture(CETexture* destination, CETexture* sourc
 
 void CEDXCommandContext::UpdateBuffer(CEBuffer* destination, uint64 offsetInBytes, uint64 sizeInBytes,
                                       const void* sourceData) {
+	CEDXBaseBuffer* dxDestination = CEDXBufferCast(destination);
+	UpdateBuffer(dxDestination->GetResource(), offsetInBytes, sizeInBytes, sourceData);
 }
 
 void CEDXCommandContext::UpdateTexture2D(CETexture2D* destination, uint32 width, uint32 height, uint32 mipLevel,
                                          const void* sourceData) {
+	if (width > 0 && height > 0) {
+		FlushResourceBarriers();
+
+		CEDXBaseTexture* dxDestination = TextureCast(destination);
+		const DXGI_FORMAT nativeFormat = dxDestination->GetNativeFormat();
+		const uint32 stride = GetFormatStride(nativeFormat);
+		const uint32 rowPitch = ((width * stride) + (D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u)) & ~(
+			D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u);
+		const uint32 sizeInBytes = height * rowPitch;
+
+		CEDXGPUResourceUploader& gpuResourceUploader = CommandBatch->GetGpuResourceUploader();
+		CEDXUploadAllocation allocation = gpuResourceUploader.LinearAllocate(sizeInBytes);
+
+		const uint8* source = reinterpret_cast<const uint8*>(sourceData);
+		for (uint32 y = 0; y < height; y++) {
+			Memory::CEMemory::Memcpy(allocation.MappedPtr + (y * rowPitch), source + (y * width * stride),
+			                         width * stride);
+		}
+
+		D3D12_TEXTURE_COPY_LOCATION sourceLocation;
+		Memory::CEMemory::Memzero(&sourceLocation);
+
+		sourceLocation.pResource = gpuResourceUploader.GetGPUResource();
+		sourceLocation.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+		sourceLocation.PlacedFootprint.Footprint.Format = nativeFormat;
+		sourceLocation.PlacedFootprint.Footprint.Width = width;
+		sourceLocation.PlacedFootprint.Footprint.Height = height;
+		sourceLocation.PlacedFootprint.Footprint.Depth = 1;
+		sourceLocation.PlacedFootprint.Footprint.RowPitch = rowPitch;
+		sourceLocation.PlacedFootprint.Offset = allocation.ResourceOffset;
+
+		D3D12_TEXTURE_COPY_LOCATION destLocation;
+		Memory::CEMemory::Memzero(&destLocation);
+
+		destLocation.pResource = dxDestination->GetResource()->GetResource();
+		destLocation.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+		destLocation.SubresourceIndex = mipLevel;
+
+		CommandList.CopyTextureRegion(&destLocation, 0, 0, 0, &sourceLocation, nullptr);
+
+		CommandBatch->AddInUseResource(destination);
+	}
 }
 
 void CEDXCommandContext::CopyBuffer(CEBuffer* destination, Main::RenderLayer::CEBuffer* source,
                                     const CECopyBufferInfo& copyInfo) {
+	FlushResourceBarriers();
+
+	CEDXBaseBuffer* dxDestination = CEDXBufferCast(destination);
+	CEDXBaseBuffer* dxSource = CEDXBufferCast(source);
+	CommandList.CopyBufferRegion(dxDestination->GetResource(), copyInfo.DestinationOffset, dxSource->GetResource(),
+	                             copyInfo.SourceOffset, copyInfo.SizeInBytes);
+
+	CommandBatch->AddInUseResource(destination);
+	CommandBatch->AddInUseResource(source);
 }
 
 void CEDXCommandContext::CopyTexture(CETexture* destination, CETexture* source) {
+	FlushResourceBarriers();
+	CEDXBaseTexture* dxDestination = TextureCast(destination);
+	CEDXBaseTexture* dxSource = TextureCast(source);
+	CommandList.CopyResource(dxDestination->GetResource(), dxSource->GetResource());
+
+	CommandBatch->AddInUseResource(destination);
+	CommandBatch->AddInUseResource(source);
 }
 
 void CEDXCommandContext::CopyTextureRegion(CETexture* destination, CETexture* source,
                                            const CECopyTextureInfo& copyTexture) {
+
+	CEDXBaseTexture* dxDestination = TextureCast(destination);
+	CEDXBaseTexture* dxSource = TextureCast(source);
+
+	D3D12_TEXTURE_COPY_LOCATION sourceLocation;
+	Memory::CEMemory::Memzero(&sourceLocation);
+
+	sourceLocation.pResource = dxSource->GetResource()->GetResource();
+	sourceLocation.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+	sourceLocation.SubresourceIndex = copyTexture.Source.subresourceIndex;
+
+	D3D12_BOX sourceBox;
+	sourceBox.left = copyTexture.Source.x;
+	sourceBox.right = copyTexture.Source.x + copyTexture.Width;
+	sourceBox.bottom = copyTexture.Source.y;
+	sourceBox.top = copyTexture.Source.y + copyTexture.Height;
+	sourceBox.front = copyTexture.Source.z;
+	sourceBox.back = copyTexture.Source.z + copyTexture.Depth;
+
+	D3D12_TEXTURE_COPY_LOCATION destinationLocation;
+	Memory::CEMemory::Memzero(&destinationLocation);
+
+	destinationLocation.pResource = dxDestination->GetResource()->GetResource();
+	destinationLocation.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+	destinationLocation.SubresourceIndex = copyTexture.Destination.subresourceIndex;
+
+	FlushResourceBarriers();
+
+	CommandList.CopyTextureRegion(&destinationLocation, copyTexture.Destination.x, copyTexture.Destination.y,
+	                              copyTexture.Destination.z, &sourceLocation, &sourceBox);
+
+	CommandBatch->AddInUseResource(destination);
+	CommandBatch->AddInUseResource(source);
 }
 
 void CEDXCommandContext::DiscardResource(CEResource* resource) {
+	CommandBatch->AddInUseResource(resource);
 }
 
 void CEDXCommandContext::BuildRayTracingGeometry(CERayTracingGeometry* geometry, CEVertexBuffer* vertexBuffer,
                                                  CEIndexBuffer* indexBuffer, bool update) {
+	FlushResourceBarriers();
+
+	CEDXVertexBuffer* dxVertexBuffer = static_cast<CEDXVertexBuffer*>(vertexBuffer);
+	CEDXIndexBuffer* dxIndexBuffer = static_cast<CEDXIndexBuffer*>(indexBuffer);
+	CEDXRayTracingGeometry* dxGeometry = static_cast<CEDXRayTracingGeometry*>(geometry);
+	dxGeometry->VertexBuffer = dxVertexBuffer;
+	dxGeometry->IndexBuffer = dxIndexBuffer;
+	dxGeometry->Build(*this, update);
+
+	CommandBatch->AddInUseResource(geometry);
+	CommandBatch->AddInUseResource(vertexBuffer);
+	CommandBatch->AddInUseResource(indexBuffer);
 }
 
 void CEDXCommandContext::BuildRayTracingScene(CERayTracingScene* scene, const CERayTracingGeometryInstance* instances,
                                               uint32 numInstances, bool update) {
+	FlushResourceBarriers();
+
+	CEDXRayTracingScene* dxScene = static_cast<CEDXRayTracingScene*>(scene);
+	dxScene->Build(*this, instances, numInstances, update);
+
+	CommandBatch->AddInUseResource(scene);
 }
 
 void CEDXCommandContext::GenerateMips(CETexture* texture) {
+	CEDXBaseTexture* dxTexture = TextureCast(texture);
+	Assert(dxTexture != nullptr);
+
+	D3D12_RESOURCE_DESC desc = dxTexture->GetResource()->GetDesc();
+	desc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+
+	Assert(desc.MipLevels > 1);
+
+	Core::Common::CERef<CEDXResource> stagingTexture = new CEDXResource(
+		GetDevice(), desc, dxTexture->GetResource()->GetHeapType());
+	if (!stagingTexture->Create(D3D12_RESOURCE_STATE_COMMON, nullptr)) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to create StagingTexture for GenerateMips");
+		return;
+	}
+	else {
+		stagingTexture->SetName("GenerateMips StagingTexture");
+	}
+
+	const bool isTextureCube = texture->AsTextureCube();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	Memory::CEMemory::Memzero(&srvDesc);
+
+	srvDesc.Format = desc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	if (isTextureCube) {
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+		srvDesc.TextureCube.MipLevels = desc.MipLevels;
+		srvDesc.TextureCube.MostDetailedMip = 0;
+		srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
+	}
+	else {
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = desc.MipLevels;
+		srvDesc.Texture2D.MostDetailedMip = 0;
+	}
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc;
+	Memory::CEMemory::Memzero(&uavDesc);
+
+	uavDesc.Format = desc.Format;
+	if (isTextureCube) {
+		uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+		uavDesc.Texture2DArray.ArraySize = 6;
+		uavDesc.Texture2DArray.FirstArraySlice = 0;
+		uavDesc.Texture2DArray.PlaneSlice = 0;
+	}
+	else {
+		uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+		uavDesc.Texture2D.PlaneSlice = 0;
+	}
+
+	const uint32 mipLevelsPerDispatch = 4;
+	const uint32 uavDescriptorHandleCount = Math::CEMath::AlignUp<uint32>(desc.MipLevels, mipLevelsPerDispatch);
+	const uint32 numDispatches = uavDescriptorHandleCount / mipLevelsPerDispatch;
+
+	CEDXOnlineDescriptorHeap* resourceHeap = CommandBatch->GetOnlineResourceDescriptorHeap();
+
+	const uint32 startDescriptorHandleIndex = resourceHeap->AllocateHandles(uavDescriptorHandleCount + 1);
+	const D3D12_CPU_DESCRIPTOR_HANDLE srvHandleCPU = resourceHeap->GetCPUDescriptorHandleAt(startDescriptorHandleIndex);
+	GetDevice()->CreateShaderResourceView(dxTexture->GetResource()->GetResource(), &srvDesc, srvHandleCPU);
+
+	const uint32 uavStartDescriptorHandleIndex = startDescriptorHandleIndex + 1;
+	for (uint32 i = 0; i < desc.MipLevels; i++) {
+		if (isTextureCube) {
+			uavDesc.Texture2DArray.MipSlice = i;
+		}
+		else {
+			uavDesc.Texture2D.MipSlice = i;
+		}
+
+		const D3D12_CPU_DESCRIPTOR_HANDLE uavHandleCPU = resourceHeap->GetCPUDescriptorHandleAt(
+			uavStartDescriptorHandleIndex + i);
+		GetDevice()->CreateUnorderedAccessView(stagingTexture->GetResource(), nullptr, &uavDesc, uavHandleCPU);
+	}
+
+	for (uint32 i = desc.MipLevels; i < uavDescriptorHandleCount; i ++) {
+		if (isTextureCube) {
+			uavDesc.Texture2DArray.MipSlice = 0;
+		}
+		else {
+			uavDesc.Texture2D.MipSlice = 0;
+		}
+
+		const D3D12_CPU_DESCRIPTOR_HANDLE uavHandleCPU = resourceHeap->GetCPUDescriptorHandleAt(
+			uavStartDescriptorHandleIndex + i);
+		GetDevice()->CreateUnorderedAccessView(nullptr, nullptr, &uavDesc, uavHandleCPU);
+	}
+
+	//TODO: it always should be state of: RESOURCE_STATE_COPY_DEST but maybe add parameter for more flexibility
+	TransitionResource(dxTexture->GetResource(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	TransitionResource(stagingTexture.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST);
+	FlushResourceBarriers();
+
+	CommandList.CopyResource(stagingTexture.Get(), dxTexture->GetResource());
+
+	TransitionResource(dxTexture->GetResource(), D3D12_RESOURCE_STATE_COPY_SOURCE,
+	                   D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+	TransitionResource(stagingTexture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	FlushResourceBarriers();
+
+	if (isTextureCube) {
+		CommandList.SetPipelineState(GenerateMipsTexCube_PSO->GetPipeline());
+		CommandList.SetComputeRootSignature(GenerateMipsTexCube_PSO->GetRootSignature());
+	}
+	else {
+		CommandList.SetPipelineState(GenerateMipsTex2D_PSO->GetPipeline());
+		CommandList.SetComputeRootSignature(GenerateMipsTex2D_PSO->GetRootSignature());
+	}
+
+	const D3D12_GPU_DESCRIPTOR_HANDLE srvHandleGPU = resourceHeap->GetGPUDescriptorHandleAt(startDescriptorHandleIndex);
+	ID3D12DescriptorHeap* onlineResourceHeap = resourceHeap->GetHeap()->GetHeap();
+	CommandList.SetDescriptorHeaps(&onlineResourceHeap, 1);
+
+	struct ConstantBuffer {
+		uint32 SrcMipLevel;
+		uint32 NumMipLevels;
+		DirectX::XMFLOAT2 TexelSize;
+	} ConstantBufferData;
+
+	uint32 destinationWidth = static_cast<uint32>(desc.Width);
+	uint32 destinationHeight = desc.Height;
+	ConstantBufferData.SrcMipLevel = 0;
+
+	const uint32 threadsZ = isTextureCube ? 6 : 1;
+	uint32 remainingMipLevels = desc.MipLevels;
+	for (uint32 i = 0; i < numDispatches; i++) {
+		ConstantBufferData.TexelSize = DirectX::XMFLOAT2(1.0f / static_cast<float>(destinationWidth),
+		                                                 1.0f / static_cast<float>(destinationHeight));
+		ConstantBufferData.NumMipLevels = Math::CEMath::Min<uint32>(4, remainingMipLevels);
+
+		CommandList.SetComputeRoot32BitConstants(&ConstantBufferData, 4, 0, 0);
+
+		CommandList.SetComputeRootDescriptorTable(1, srvHandleGPU);
+
+		const uint32 gpuDescriptorHandleIndex = i * mipLevelsPerDispatch;
+		const D3D12_GPU_DESCRIPTOR_HANDLE uavHandleGPU = resourceHeap->GetGPUDescriptorHandleAt(
+			uavStartDescriptorHandleIndex + gpuDescriptorHandleIndex);
+		CommandList.SetComputeRootDescriptorTable(2, uavHandleGPU);
+
+		constexpr uint32 threadCount = 8;
+		const uint32 threadsX = Math::CEMath::DivideByMultiple(destinationWidth, threadCount);
+		const uint32 threadsY = Math::CEMath::DivideByMultiple(destinationHeight, threadCount);
+		CommandList.Dispatch(threadsX, threadsY, threadsZ);
+
+		UnorderedAccessBarrier(stagingTexture.Get());
+
+		TransitionResource(dxTexture->GetResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
+		                   D3D12_RESOURCE_STATE_COPY_DEST);
+		TransitionResource(stagingTexture.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+		                   D3D12_RESOURCE_STATE_COPY_SOURCE);
+		FlushResourceBarriers();
+
+		CommandList.CopyResource(dxTexture->GetResource(), stagingTexture.Get());
+
+		TransitionResource(dxTexture->GetResource(), D3D12_RESOURCE_STATE_COPY_DEST,
+		                   D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+		TransitionResource(stagingTexture.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE,
+		                   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		FlushResourceBarriers();
+
+		destinationWidth = destinationWidth / 16;
+		destinationHeight = destinationHeight / 16;
+
+		ConstantBufferData.SrcMipLevel += 3;
+		remainingMipLevels -= mipLevelsPerDispatch;
+	}
+
+	TransitionResource(dxTexture->GetResource(), D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
+	                   D3D12_RESOURCE_STATE_COPY_DEST);
+	FlushResourceBarriers();
+
+	CommandBatch->AddInUseResource(texture);
+	CommandBatch->AddInUseResource(stagingTexture.Get());
 }
 
 void CEDXCommandContext::TransitionTexture(CETexture* texture, CEResourceState beforeState,
