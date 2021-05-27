@@ -1136,25 +1136,63 @@ void CEDXCommandContext::GenerateMips(CETexture* texture) {
 
 void CEDXCommandContext::TransitionTexture(CETexture* texture, CEResourceState beforeState,
                                            CEResourceState afterState) {
+	const D3D12_RESOURCE_STATES dxBeforeState = ConvertResourceState(beforeState);
+	const D3D12_RESOURCE_STATES dxAfterState = ConvertResourceState(afterState);
+
+	CEDXBaseTexture* resource = TextureCast(texture);
+	TransitionResource(resource->GetResource(), dxBeforeState, dxAfterState);
+	CommandBatch->AddInUseResource(texture);
 }
 
 void CEDXCommandContext::TransitionBuffer(CEBuffer* buffer, CEResourceState beforeState, CEResourceState afterState) {
+	const D3D12_RESOURCE_STATES dxBeforeState = ConvertResourceState(beforeState);
+	const D3D12_RESOURCE_STATES dxAfterState = ConvertResourceState(afterState);
+
+	CEDXBaseBuffer* resource = CEDXBufferCast(buffer);
+	TransitionResource(resource->GetResource(), dxBeforeState, dxAfterState);
+	CommandBatch->AddInUseResource(buffer);
 }
 
 void CEDXCommandContext::UnorderedAccessTextureBarrier(CETexture* texture) {
+	CEDXBaseTexture* resource = TextureCast(texture);
+	UnorderedAccessBarrier(resource->GetResource());
+
+	CommandBatch->AddInUseResource(texture);
 }
 
 void CEDXCommandContext::UnorderedAccessBufferBarrier(CEBuffer* buffer) {
+	CEDXBaseBuffer* resource = CEDXBufferCast(buffer);
+	UnorderedAccessBarrier(resource->GetResource());
+
+	CommandBatch->AddInUseResource(buffer);
 }
 
 void CEDXCommandContext::Draw(uint32 vertexCount, uint32 startVertexLocation) {
+	FlushResourceBarriers();
+
+	ShaderConstantsCache.CommitGraphics(CommandList, CurrentRootSignature.Get());
+	DescriptorCache.CommitGraphicsDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
+
+	CommandList.DrawInstanced(vertexCount, 1, startVertexLocation, 0);
 }
 
 void CEDXCommandContext::DrawIndexed(uint32 indexCount, uint32 startIndexLocation, int32 baseVertexLocation) {
+	FlushResourceBarriers();
+
+	ShaderConstantsCache.CommitGraphics(CommandList, CurrentRootSignature.Get());
+	DescriptorCache.CommitGraphicsDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
+
+	CommandList.DrawIndexedInstanced(indexCount, 1, startIndexLocation, baseVertexLocation, 0);
 }
 
 void CEDXCommandContext::DrawInstanced(uint32 vertexPerCountInstance, uint32 instanceCount, uint32 startVertexLocation,
                                        uint32 startInstanceLocation) {
+	FlushResourceBarriers();
+
+	ShaderConstantsCache.CommitGraphics(CommandList, CurrentRootSignature.Get());
+	DescriptorCache.CommitGraphicsDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
+
+	CommandList.DrawInstanced(vertexPerCountInstance, instanceCount, startVertexLocation, startInstanceLocation);
 }
 
 void CEDXCommandContext::DrawIndexedInstanced(uint32 indexCountPerInstance, uint32 instanceCount,
