@@ -68,7 +68,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			return this;
 		};
 
-		    virtual CEVectorUint3 GetThreadGroupXYZ() const = 0;
+		virtual CEVectorUint3 GetThreadGroupXYZ() const = 0;
 	};
 
 	class CEVertexShader : public CEShader {
@@ -114,5 +114,4 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CERayMissShader : public CEShader {
 
 	};
-
 }

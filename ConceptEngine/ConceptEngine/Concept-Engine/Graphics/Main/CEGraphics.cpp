@@ -25,7 +25,7 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
-	if (!Compiler->Create()) {
+	if (!ShaderCompiler->Create()) {
 		return false;
 	}
 

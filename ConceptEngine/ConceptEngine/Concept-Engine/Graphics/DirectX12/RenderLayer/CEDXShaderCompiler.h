@@ -6,25 +6,51 @@
 #include "CEDXShader.h"
 #include "../../Main/RenderLayer/CEShaderCompiler.h"
 
+#ifndef MAKE_FOUR_CC
+#define MAKE_FOUR_CC(a,b,c,d) (unsigned int)((unsigned char)(a) | (unsigned char)(b) << 8 | (unsigned char)(c) << 16 | (unsigned char)(d) << 24)
+#endif
+
 using namespace Microsoft::WRL;
 
 namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 	using namespace Main::RenderLayer;
+
+	enum DxilFourCC {
+		DFCC_Container = MAKEFOURCC('D', 'X', 'B', 'C'),
+		DFCC_ResourceDef = MAKEFOURCC('R', 'D', 'E', 'F'),
+		DFCC_InputSignature = MAKEFOURCC('I', 'S', 'G', '1'),
+		DFCC_OutputSignature = MAKEFOURCC('O', 'S', 'G', '1'),
+		DFCC_PatchConstantSignature = MAKEFOURCC('P', 'S', 'G', '1'),
+		DFCC_ShaderStatistics = MAKEFOURCC('S', 'T', 'A', 'T'),
+		DFCC_ShaderDebugInfoDXIL = MAKEFOURCC('I', 'L', 'D', 'B'),
+		DFCC_ShaderDebugName = MAKEFOURCC('I', 'L', 'D', 'N'),
+		DFCC_FeatureInfo = MAKEFOURCC('S', 'F', 'I', '0'),
+		DFCC_PrivateData = MAKEFOURCC('P', 'R', 'I', 'V'),
+		DFCC_RootSignature = MAKEFOURCC('R', 'T', 'S', '0'),
+		DFCC_DXIL = MAKEFOURCC('D', 'X', 'I', 'L'),
+		DFCC_PipelineStateValidation = MAKEFOURCC('P', 'S', 'V', '0'),
+		DFCC_RuntimeData = MAKEFOURCC('R', 'D', 'A', 'T'),
+		DFCC_ShaderHash = MAKEFOURCC('H', 'A', 'S', 'H'),
+	};
 
 	class CEDXShaderCompiler : public CEIShaderCompiler {
 	public:
 		CEDXShaderCompiler();
 		~CEDXShaderCompiler() override;
 
-		bool Create() override;
+		bool Create(bool useLib) override;
 
+		bool CreateDLL();
+
+		bool CreateLib();
+		
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
 		                             const Core::Containers::CEArray<CEShaderDefine>* defines,
 		                             CEShaderStage shaderStage,
 		                             CEShaderModel shaderModel,
 		                             Core::Containers::CEArray<uint8>& code) override;
-		
+
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,
 		                           const Core::Containers::CEArray<CEShaderDefine>* defines,
@@ -58,8 +84,10 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 		ComPtr<IDxcIncludeHandler> DXIncludeHandler;
 		ComPtr<IDxcContainerReflection> DXReflection;
 		HMODULE DXCompilerDLL;
+		bool UseLib = false;
 	};
 }}
 
 
 extern ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderCompiler* CED3DShaderCompiler;
+extern DxcCreateInstanceProc DxcCreateInstanceFunc;

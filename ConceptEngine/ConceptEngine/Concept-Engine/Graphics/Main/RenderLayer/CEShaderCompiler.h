@@ -50,7 +50,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	public:
 		virtual ~CEIShaderCompiler() = default;
 
-		virtual bool Create() = 0;
+		virtual bool Create(bool useLib) = 0;
 
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
@@ -67,4 +67,50 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		                           CEShaderModel shaderModel,
 		                           Core::Containers::CEArray<uint8>& code) = 0;
 	};
+
+	inline bool ShaderStageIsGraphics(CEShaderStage shaderStage) {
+		switch (shaderStage) {
+		case CEShaderStage::Vertex:
+		case CEShaderStage::Hull:
+		case CEShaderStage::Domain:
+		case CEShaderStage::Geometry:
+		case CEShaderStage::Pixel:
+		case CEShaderStage::Mesh:
+		case CEShaderStage::Amplification: {
+			return true;
+		}
+		default: {
+			return false;
+		}
+		}
+	}
+
+	inline bool ShaderStageIsCompute(CEShaderStage shaderStage) {
+		switch (shaderStage) {
+		case CEShaderStage::Compute:
+		case CEShaderStage::RayGen:
+		case CEShaderStage::RayClosestHit:
+		case CEShaderStage::RayAnyHit:
+		case CEShaderStage::RayMiss: {
+			return true;
+		}
+		default: {
+			return false;
+		}
+		}
+	}
+
+	inline bool ShaderStageIsRayTracing(CEShaderStage shaderStage) {
+		switch (shaderStage) {
+		case CEShaderStage::RayGen:
+		case CEShaderStage::RayClosestHit:
+		case CEShaderStage::RayAnyHit:
+		case CEShaderStage::RayMiss: {
+			return true;
+		}
+		default: {
+			return false;
+		}
+		}
+	}
 }

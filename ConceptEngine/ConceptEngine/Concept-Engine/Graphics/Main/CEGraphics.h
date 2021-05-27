@@ -33,7 +33,7 @@ namespace ConceptEngine::Graphics::Main {
 		Managers::CEGraphicsManager* GraphicsManager;
 		Managers::CETextureManager* TextureManager;
 		Managers::CERendererManager* RendererManager;
-		RenderLayer::CEIShaderCompiler* Compiler = nullptr;
+		RenderLayer::CEIShaderCompiler* ShaderCompiler = nullptr;
 
 		static std::unique_ptr<Rendering::CEDebugUI> DebugUI;
 	private:
