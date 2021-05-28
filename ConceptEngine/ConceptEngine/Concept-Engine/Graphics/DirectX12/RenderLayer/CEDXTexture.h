@@ -34,7 +34,42 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	};
 
 	class CEDXBaseTexture2D : public Main::RenderLayer::CETexture2D, public CEDXBaseTexture {
+	public:
+		CEDXBaseTexture2D(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ, uint32 numMips,
+		                  uint32 numSamplers, uint32 flags, const CEClearValue& optimalClearValue): CETexture2D(
+				format, sizeX, sizeY, numMips, numSamplers, flags, optimalClearValue), CEDXBaseTexture(device),
+			RenderTargetView(nullptr), DepthStencilView(nullptr), UnorderedAccessView(nullptr) {
 
+		}
+
+		virtual CERenderTargetView* GetRenderTargetView() const override {
+			return RenderTargetView.Get();
+		}
+
+		virtual CEDepthStencilView* GetDepthStencilView() const override {
+			return DepthStencilView.Get();
+		}
+
+		virtual CEUnorderedAccessView* GetUnorderedAccessView() const override {
+			return UnorderedAccessView.Get();
+		}
+
+		void SetRenderTargetView(CEDXRenderTargetView* renderTargetView) {
+			RenderTargetView = renderTargetView;
+		}
+
+		void SetDepthStencilView(CEDXDepthStencilView* depthStencilView) {
+			DepthStencilView = depthStencilView;
+		}
+
+		void SetUnorderedAccessView(CEDXUnorderedAccessView* unorderedAccessView) {
+			UnorderedAccessView = unorderedAccessView;
+		}
+
+	private:
+		Core::Common::CERef<CEDXRenderTargetView> RenderTargetView;
+		Core::Common::CERef<CEDXDepthStencilView> DepthStencilView;
+		Core::Common::CERef<CEDXUnorderedAccessView> UnorderedAccessView;;
 	};
 
 	class CEDXBaseTexture2DArray : public Main::RenderLayer::CETexture2DArray, public CEDXBaseTexture {
@@ -67,5 +102,5 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	inline CEDXBaseTexture* TextureCast(CETexture* Texture) {
 		return nullptr;
 	}
-	
+
 }

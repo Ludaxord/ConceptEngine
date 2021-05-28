@@ -54,6 +54,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			return nullptr;
 		}
 
+		virtual class CEShaderResourceView* GetShaderResourceView() const {
+			return nullptr;
+		}
+
 		CEFormat GetFormat() const {
 			return Format;
 		}
@@ -95,9 +99,48 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	class CETexture2D : public CETexture {
 	public:
-		virtual class CEShaderResourceView* GetShaderResourceView() const {
+		CETexture2D(CEFormat format, uint32 width, uint32 height, uint32 numMips, uint32 numSamplers, uint32 flags,
+		            const CEClearValue& optimizedClearValue): CETexture(format, numMips, flags, optimizedClearValue),
+		                                                      Width(width), Height(height), NumSamplers(numSamplers) {
+
+		}
+
+		virtual CETexture2D* AsTexture2D() override {
+			return this;
+		}
+
+		virtual class CERenderTargetView* GetRenderTargetView() const {
+			return nullptr;
+		}
+
+		virtual class CEDepthStencilView* GetDepthStencilView() const {
+			return nullptr;
+		}
+
+		virtual class CEUnorderedAccessView* GetUnorderedAccessView() const {
 			return nullptr;
 		};
+
+		uint32 GetWidth() const {
+			return Width;
+		}
+
+		uint32 GetHeight() const {
+			return Height;
+		}
+
+		uint32 GetNumSamplers() const {
+			return NumSamplers;
+		}
+
+		bool IsMultiSampled() const {
+			return NumSamplers > 1;
+		}
+
+	private:
+		uint32 Width;
+		uint32 Height;
+		uint32 NumSamplers;
 	};
 
 	class CETexture2DArray : public CETexture2D {

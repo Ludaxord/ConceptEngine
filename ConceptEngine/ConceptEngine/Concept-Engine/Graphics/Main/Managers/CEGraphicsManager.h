@@ -47,7 +47,6 @@ namespace ConceptEngine::Graphics::Main {
 
 	namespace Managers {
 
-
 		class CEGraphicsManager : public Core::Common::CEManager {
 		public:
 			CEGraphicsManager(): CEManager() {

@@ -8,6 +8,12 @@
 
 namespace ConceptEngine::Graphics::DirectX12::Managers {
 
+		template <typename TD3D12Texture>
+		D3D12_RESOURCE_DIMENSION GetD3D12TextureResourceDimension();
+
+		template <typename TD3D12Texture>
+		bool IsTextureCube();
+	
 		class CEDXManager final : public Main::Managers::CEGraphicsManager {
 		public:
 			CEDXManager();
