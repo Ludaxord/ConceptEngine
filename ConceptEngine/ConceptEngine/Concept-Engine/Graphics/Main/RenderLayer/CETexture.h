@@ -144,18 +144,96 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CETexture2DArray : public CETexture2D {
+	public:
+		CETexture2DArray(CEFormat format, uint32 width, uint32 height, uint32 numMips, uint32 numSamplers,
+		                 uint32 numArraySlices, uint32 flags, const CEClearValue& clearValue) :
+			CETexture2D(format, width, height, numMips, numSamplers, flags, clearValue),
+			NumArraySlices(numArraySlices) {
 
+		}
+
+		virtual CETexture2D* AsTexture2D() override {
+			return nullptr;
+		}
+
+		virtual CETexture2DArray* AsTexture2DArray() override {
+			return this;
+		}
+
+		uint32 GetNumArraySlices() const {
+			return NumArraySlices;
+		}
+
+	private:
+		uint32 NumArraySlices;
 	};
 
 	class CETextureCube : public CETexture {
+	public:
+		CETextureCube(CEFormat format, uint32 size, uint32 numMips, uint32 flags,
+		              const CEClearValue& clearValue) : CETexture(format, numMips, flags, clearValue), Size(size) {
 
+		}
+
+		virtual CETextureCube* AsTextureCube() override {
+			return this;
+		}
+
+		uint32 GetSize() const {
+			return Size;
+		}
+
+	private:
+		uint32 Size;
 	};
 
 	class CETextureCubeArray : public CETextureCube {
+	public:
+		CETextureCubeArray(CEFormat format, uint32 size, uint32 numMips, uint32 numArraySlices, uint32 flags,
+		                   const CEClearValue& clearValue) : CETextureCube(format, size, numMips, flags, clearValue),
+		                                                     NumArraySlices(numArraySlices) {
 
+		}
+
+		virtual CETextureCube* AsTextureCube() override {
+			return nullptr;
+		}
+
+		virtual CETextureCubeArray* AsTextureCubeArray() override {
+			return this;
+		}
+
+	private:
+		uint32 NumArraySlices;
 	};
 
 	class CETexture3D : public CETexture {
+	public:
+		CETexture3D(CEFormat format, uint32 width, uint32 height, uint32 depth, uint32 numMips, uint32 flags,
+		            const CEClearValue& optimizedClearValue) : CETexture(format, numMips, flags, optimizedClearValue),
+		                                                       Width(width), Height(height), Depth(depth) {
 
+		}
+
+		virtual CETexture3D* AsTexture3D() override {
+			return this;
+		}
+
+		uint32 GetWidth() const {
+			return Width;
+		}
+
+		uint32 GetHeight() const {
+			return Height;
+		}
+
+		uint32 GetDepth() const {
+			return Depth;
+		}
+
+	private:
+		uint32 Width;
+		uint32 Height;
+		uint32 Depth;
 	};
 }

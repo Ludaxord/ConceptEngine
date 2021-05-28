@@ -35,10 +35,19 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseTexture2D : public Main::RenderLayer::CETexture2D, public CEDXBaseTexture {
 	public:
-		CEDXBaseTexture2D(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ, uint32 numMips,
-		                  uint32 numSamplers, uint32 flags, const CEClearValue& optimalClearValue): CETexture2D(
-				format, sizeX, sizeY, numMips, numSamplers, flags, optimalClearValue), CEDXBaseTexture(device),
-			RenderTargetView(nullptr), DepthStencilView(nullptr), UnorderedAccessView(nullptr) {
+		CEDXBaseTexture2D(CEDXDevice* device,
+		                  CEFormat format,
+		                  uint32 sizeX,
+		                  uint32 sizeY,
+		                  uint32 sizeZ,
+		                  uint32 numMips,
+		                  uint32 numSamplers,
+		                  uint32 flags,
+		                  const CEClearValue& optimalClearValue): CETexture2D(
+			                                                          format, sizeX, sizeY, numMips, numSamplers, flags,
+			                                                          optimalClearValue), CEDXBaseTexture(device),
+		                                                          RenderTargetView(nullptr), DepthStencilView(nullptr),
+		                                                          UnorderedAccessView(nullptr) {
 
 		}
 
@@ -73,24 +82,55 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	};
 
 	class CEDXBaseTexture2DArray : public Main::RenderLayer::CETexture2DArray, public CEDXBaseTexture {
+	public:
+		CEDXBaseTexture2DArray(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+		                       uint32 numMips, uint32 numSamplers, uint32 flags, const CEClearValue& clearValue) :
+			CETexture2DArray(format, sizeX, sizeY, numMips, numSamplers, sizeZ, flags, clearValue),
+			CEDXBaseTexture(device) {
 
+		}
 	};
 
 	class CEDXBaseTextureCube : public Main::RenderLayer::CETextureCube, public CEDXBaseTexture {
+	public:
+		CEDXBaseTextureCube(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+		                    uint32 numMips, uint32 numSamplers, uint32 flags,
+		                    const CEClearValue& clearValue) : CETextureCube(format, sizeX, numMips, flags, clearValue),
+		                                                      CEDXBaseTexture(device) {
 
+		}
 	};
 
 	class CEDXBaseTextureCubeArray : public Main::RenderLayer::CETextureCubeArray, public CEDXBaseTexture {
+	public:
+		CEDXBaseTextureCubeArray(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+		                         uint32 numMips, uint32 numSamplers, uint32 flags,
+		                         const CEClearValue& clearValue) : CETextureCubeArray(format, sizeX, numMips, sizeZ,
+			                                                           flags,
+			                                                           clearValue), CEDXBaseTexture(device) {
 
+		}
 	};
 
 	class CEDXBaseTexture3D : public Main::RenderLayer::CETexture3D, public CEDXBaseTexture {
+	public:
+		CEDXBaseTexture3D(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+		                  uint32 numMips, uint32 numSamplers, uint32 flags,
+		                  const CEClearValue& clearValue): CETexture3D(format, sizeX, sizeY, sizeZ, numMips, flags,
+		                                                               clearValue), CEDXBaseTexture(device) {
 
+		}
 	};
 
 	template <typename TCEBaseTexture>
 	class TCEDXBaseTexture : public TCEBaseTexture {
+	public:
+		TCEDXBaseTexture(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
+		                 uint32 numMips, uint32 numSamplers, uint32 flags,
+		                 const CEClearValue& clearValue) : TCEBaseTexture(
+			device, format, sizeX, sizeY, sizeZ, numMips, numSamplers, flags, clearValue) {
 
+		}
 	};
 
 	using CEDXTexture2D = TCEDXBaseTexture<CEDXBaseTexture2D>;

@@ -383,7 +383,6 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
                                          RenderLayer::CEResourceState initialState,
                                          const RenderLayer::CEResourceData* initialData,
                                          const RenderLayer::CEClearValue& optimalClearValue) {
-	//TODO: Add Constructor
 	Core::Common::CERef<TCEDXTexture> newTexture = new TCEDXTexture(Device,
 	                                                                format,
 	                                                                sizeX,
@@ -530,6 +529,8 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		newTexture2D->SetRenderTargetView(RTV.ReleaseOwnership());
 	}
 
+	//TODO: Finish!!
+	
 	return newTexture.ReleaseOwnership();
 }
 
