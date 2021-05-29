@@ -210,7 +210,28 @@ Main::RenderLayer::CETexture3D* CEDXManager::CreateTexture3D(RenderLayer::CEForm
 
 Main::RenderLayer::CESamplerState* CEDXManager::CreateSamplerState(
 	const RenderLayer::CESamplerStateCreateInfo& createInfo) {
-	return nullptr;
+	D3D12_SAMPLER_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	desc.AddressU = RenderLayer::ConvertSamplerMode(createInfo.AddressU);
+	desc.AddressV = RenderLayer::ConvertSamplerMode(createInfo.AddressV);
+	desc.AddressW = RenderLayer::ConvertSamplerMode(createInfo.AddressW);
+	desc.ComparisonFunc = RenderLayer::ConvertComparisonFunc(createInfo.ComparisonFunc);
+	desc.Filter = RenderLayer::ConvertSamplerFilter(createInfo.Filter);
+	desc.MaxAnisotropy = createInfo.MaxAnisotropy;
+	desc.MaxLOD = createInfo.MaxLOD;
+	desc.MinLOD = createInfo.MinLOD;
+	desc.MipLODBias = createInfo.MipLODBias;
+
+	Memory::CEMemory::Memcpy(desc.BorderColor, createInfo.BorderColor.Elements, sizeof(desc.BorderColor));
+
+	Core::Common::CERef<RenderLayer::CEDXSamplerState> sampler = new RenderLayer::CEDXSamplerState(
+		Device, SamplerOfflineDescriptorHeap);
+	if (!sampler->Create(desc)) {
+		return nullptr;
+	}
+
+	return sampler.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEVertexBuffer* CEDXManager::CreateVertexBuffer(uint32 stride, uint32 numVertices, uint32 flags,
@@ -529,8 +550,81 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		newTexture2D->SetRenderTargetView(RTV.ReleaseOwnership());
 	}
 
-	//TODO: Finish!!
-	
+	if (flags & RenderLayer::TextureFlag_DSV && !(flags & RenderLayer::TextureFlag_NoDefaultDSV) && isTexture2D) {
+		RenderLayer::CEDXTexture2D* newTexture2D = static_cast<RenderLayer::CEDXTexture2D*>(newTexture->AsTexture2D());
+
+		D3D12_DEPTH_STENCIL_VIEW_DESC viewDesc;
+		Memory::CEMemory::Memzero(&viewDesc);
+
+		viewDesc.Format = Desc.Format;
+		viewDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+		viewDesc.Texture2D.MipSlice = 0;
+
+		Core::Common::CERef<RenderLayer::CEDXDepthStencilView> DSV = new RenderLayer::CEDXDepthStencilView(
+			Device, DepthStencilOfflineDescriptorHeap);
+
+		if (!DSV->Create()) {
+			return nullptr;
+		}
+
+		if (!DSV->CreateView(newTexture->GetResource(), viewDesc)) {
+			return nullptr;
+		}
+
+		newTexture2D->SetDepthStencilView(DSV.ReleaseOwnership());
+	}
+
+	if (flags & RenderLayer::TextureFlag_UAV && !(flags & RenderLayer::TextureFlag_NoDefaultUAV) && isTexture2D) {
+		RenderLayer::CEDXTexture2D* newTexture2D = static_cast<RenderLayer::CEDXTexture2D*>(newTexture->AsTexture2D());
+
+		D3D12_UNORDERED_ACCESS_VIEW_DESC viewDesc;
+		Memory::CEMemory::Memzero(&viewDesc);
+
+		viewDesc.Format = Desc.Format;
+		viewDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+		viewDesc.Texture2D.MipSlice = 0;
+		viewDesc.Texture2D.PlaneSlice = 0;
+
+		Core::Common::CERef<RenderLayer::CEDXUnorderedAccessView> UAV = new RenderLayer::CEDXUnorderedAccessView(
+			Device, ResourceOfflineDescriptorHeap);
+		if (!UAV->Create()) {
+			return nullptr;
+		}
+
+		if (!UAV->CreateView(nullptr, newTexture->GetResource(), viewDesc)) {
+			return nullptr;
+		}
+
+		newTexture2D->SetUnorderedAccessView(UAV.ReleaseOwnership());
+	}
+
+	if (initialData) {
+		RenderLayer::CETexture2D* texture2D = newTexture->AsTexture2D();
+		if (!texture2D) {
+			return nullptr;
+		}
+
+		DirectCommandContext->Execute(
+			[&texture2D, &sizeX, &sizeY, &sizeZ,&initialData, &initialState, this] {
+				DirectCommandContext->TransitionTexture(texture2D, RenderLayer::CEResourceState::Common,
+				                                        RenderLayer::CEResourceState::CopyDest);
+				DirectCommandContext->UpdateTexture2D(texture2D, sizeX, sizeY, 0, initialData->GetData());
+
+				DirectCommandContext->
+					TransitionTexture(texture2D, RenderLayer::CEResourceState::CopyDest, initialState);
+			});
+	}
+	else {
+		if (initialState != RenderLayer::CEResourceState::Common) {
+
+			DirectCommandContext->Execute(
+				[&newTexture, &initialState, this] {
+					DirectCommandContext->TransitionTexture(newTexture.Get(), RenderLayer::CEResourceState::Common,
+					                                        initialState);
+				});
+		}
+	}
+
 	return newTexture.ReleaseOwnership();
 }
 

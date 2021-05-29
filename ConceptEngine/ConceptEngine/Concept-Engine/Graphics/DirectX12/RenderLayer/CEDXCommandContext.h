@@ -207,6 +207,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		virtual void Begin() override final;
 		virtual void End() override final;
 
+		void Execute(boost::function<void()> ExecuteFunction) {
+			Begin();
+			ExecuteFunction();
+			End();
+		}
+
 		void BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
 		void EndTimeStamp(CEGPUProfiler* profiler, uint32 index) override;
 		void DispatchRays(CERayTracingScene* rayTracingScene, CERayTracingPipelineState* pipelineState,
