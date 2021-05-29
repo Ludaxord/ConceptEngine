@@ -634,5 +634,64 @@ bool CEDXManager::FinishBufferResource(TCEDXBuffer* buffer,
                                        uint32 flags,
                                        RenderLayer::CEResourceState initialState,
                                        const RenderLayer::CEResourceData* initialData) {
-	return false;
+	D3D12_RESOURCE_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	desc.Flags = RenderLayer::ConvertBufferFlags(flags);
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	desc.Width = sizeInBytes;
+	desc.Height = 1;
+	desc.DepthOrArraySize = 1;
+	desc.MipLevels = 1;
+	desc.Alignment = 0;
+	desc.SampleDesc.Count = 1;
+	desc.SampleDesc.Quality = 0;
+
+	D3D12_HEAP_TYPE dxHeapType = D3D12_HEAP_TYPE_DEFAULT;
+	D3D12_RESOURCE_STATES dxInitialState = D3D12_RESOURCE_STATE_COMMON;
+	if (flags & RenderLayer::BufferFlag_Upload) {
+		dxHeapType = D3D12_HEAP_TYPE_UPLOAD;
+		dxInitialState = D3D12_RESOURCE_STATE_GENERIC_READ;
+	}
+
+	Core::Common::CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(Device, desc, dxHeapType);
+	if (!resource->Create(dxInitialState, nullptr)) {
+		return false;
+	}
+
+	buffer->SetResource(resource.ReleaseOwnership());
+
+	if (initialData) {
+		if (buffer->IsUpload()) {
+			Assert(buffer->GetSizeInBytes() <= sizeInBytes);
+
+			void* hostData = buffer->Map(0, 0);
+			if (!hostData) {
+				return false;
+			}
+
+			Memory::CEMemory::Memcpy(hostData, initialData->GetData(), initialData->GetSizeInBytes());
+			buffer->Unmap(0, 0);
+		}
+		else {
+			DirectCommandContext->Execute([this, &buffer, &initialData, &initialState] {
+				DirectCommandContext->TransitionBuffer(buffer, RenderLayer::CEResourceState::Common,
+				                                       RenderLayer::CEResourceState::CopyDest);
+				DirectCommandContext->UpdateBuffer(buffer, 0, initialData->GetSizeInBytes(), initialData->GetData());
+
+				DirectCommandContext->TransitionBuffer(buffer, RenderLayer::CEResourceState::CopyDest, initialState);
+			});
+		}
+	}
+	else {
+		if (initialState != RenderLayer::CEResourceState::Common && !buffer->IsUpload()) {
+			DirectCommandContext->Execute([this, &initialState, &buffer] {
+				DirectCommandContext->TransitionBuffer(buffer, RenderLayer::CEResourceState::Common, initialState);
+			});
+		}
+	}
+
+	return true;
 }
