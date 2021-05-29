@@ -78,7 +78,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 			                                                        RenderLayer::CEResourceState initialState,
 			                                                        const RenderLayer::CEResourceData* initialData) override final;
 
-			virtual RenderLayer::CEIndexBuffer* CreateIndexBuffer(RenderLayer::CEFormat format, uint32 numIndices, uint32 flags,
+			virtual RenderLayer::CEIndexBuffer* CreateIndexBuffer(RenderLayer::CEIndexFormat format, uint32 numIndices, uint32 flags,
 			                                                      RenderLayer::CEResourceState initialState,
 			                                                      const RenderLayer::CEResourceData* initialData) override final;
 

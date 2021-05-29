@@ -1,6 +1,8 @@
 #pragma once
 
+#include "CEDXBuffer.h"
 #include "CEDXDeviceElement.h"
+#include "CEDXPipelineState.h"
 #include "../../Main/RenderLayer/CERayTracing.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
