@@ -138,6 +138,15 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 				return CEDXBaseBuffer::Resource->Map(0, &mapRange);
 			}
 			else {
+				return CEDXBaseBuffer::Resource->Map(0, nullptr);
+			}
+		}
+
+		virtual void Unmap(uint32 offset, uint32 size) override {
+			if (offset != 0 || size != 0) {
+				D3D12_RANGE range = {offset, size};
+				CEDXBaseBuffer::Resource->Unmap(0, &range);
+			} else {
 				CEDXBaseBuffer::Resource->Unmap(0, nullptr);
 			}
 		}

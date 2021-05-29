@@ -6,6 +6,8 @@
 
 #include "../../../Core/Application/CECore.h"
 
+#include "../RenderLayer/CEDXRayTracing.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 using namespace ConceptEngine::Graphics;
 
@@ -237,39 +239,96 @@ Main::RenderLayer::CESamplerState* CEDXManager::CreateSamplerState(
 Main::RenderLayer::CEVertexBuffer* CEDXManager::CreateVertexBuffer(uint32 stride, uint32 numVertices, uint32 flags,
                                                                    RenderLayer::CEResourceState initialState,
                                                                    const RenderLayer::CEResourceData* initialData) {
-	return nullptr;
+	const uint32 sizeInBytes = numVertices * stride;
+	Core::Common::CERef<RenderLayer::CEDXVertexBuffer> buffer = new RenderLayer::CEDXVertexBuffer(
+		Device, numVertices, stride, flags);
+	if (!FinishBufferResource<RenderLayer::CEDXVertexBuffer>(buffer.Get(), sizeInBytes, flags, initialState,
+	                                                         initialData)) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create VertexBuffer");
+		return nullptr;
+	}
+	return buffer.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEIndexBuffer* CEDXManager::CreateIndexBuffer(RenderLayer::CEFormat format, uint32 numIndices,
+Main::RenderLayer::CEIndexBuffer* CEDXManager::CreateIndexBuffer(RenderLayer::CEIndexFormat format, uint32 numIndices,
                                                                  uint32 flags,
                                                                  RenderLayer::CEResourceState initialState,
                                                                  const RenderLayer::CEResourceData* initialData) {
-	return nullptr;
+	const uint32 sizeInBytes = numIndices * GetStrideFromIndexFormat(format);
+	const uint32 alignedSizeInBytes = Math::CEMath::AlignUp<uint32>(sizeInBytes, sizeof(uint32));
+
+	Core::Common::CERef<RenderLayer::CEDXIndexBuffer> buffer = new RenderLayer::CEDXIndexBuffer(
+		Device, format, numIndices, flags);
+	if (!FinishBufferResource<RenderLayer::CEDXIndexBuffer>(buffer.Get(), alignedSizeInBytes, flags, initialState,
+	                                                        initialData)) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create IndexBuffer");
+		return nullptr;
+	}
+	return buffer.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEConstantBuffer* CEDXManager::CreateConstantBuffer(uint32 size, uint32 flags,
                                                                        RenderLayer::CEResourceState initialState,
                                                                        const RenderLayer::CEResourceData* initialData) {
-	return nullptr;
+	Assert(!(flags & RenderLayer::BufferFlag_UAV) && !(flags & RenderLayer::BufferFlag_SRV));
+	const uint32 alignedSizeInBytes = Math::CEMath::AlignUp<uint32>(
+		size, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
+
+	Core::Common::CERef<RenderLayer::CEDXConstantBuffer> buffer = new RenderLayer::CEDXConstantBuffer(
+		Device, ResourceOfflineDescriptorHeap, size, flags);
+	if (!FinishBufferResource<RenderLayer::CEDXConstantBuffer>(buffer.Get(), alignedSizeInBytes, flags, initialState,
+	                                                           initialData)) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create ConstantBuffer");
+		return nullptr;
+	}
+	return buffer.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEStructuredBuffer* CEDXManager::CreateStructuredBuffer(
 	uint32 stride, uint32 numElements, uint32 flags,
 	RenderLayer::CEResourceState initialState,
 	const RenderLayer::CEResourceData* initialData) {
-	return nullptr;
+	const uint32 sizeInBytes = numElements * stride;
+	Core::Common::CERef<RenderLayer::CEDXStructuredBuffer> buffer = new RenderLayer::CEDXStructuredBuffer(
+		Device, numElements, stride, flags);
+	if (!FinishBufferResource<RenderLayer::CEDXStructuredBuffer>(buffer.Get(), sizeInBytes, flags, initialState,
+	                                                             initialData)) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create StructuredBuffer");
+		return nullptr;
+	}
+	return buffer.ReleaseOwnership();
 }
 
 Main::RenderLayer::CERayTracingScene* CEDXManager::CreateRayTracingScene(
 	uint32 flags, RenderLayer::CERayTracingGeometryInstance* instances,
 	uint32 numInstances) {
+	Core::Common::CERef<RenderLayer::CEDXRayTracingScene> scene = new RenderLayer::CEDXRayTracingScene(Device, flags);
+	DirectCommandContext->Execute([&scene, this, &instances, &numInstances] {
+		if (!scene->Build(*DirectCommandContext, instances, numInstances, false)) {
+			scene.Reset();
+		}
+	});
+
 	return nullptr;
 }
 
 Main::RenderLayer::CERayTracingGeometry* CEDXManager::CreateRayTracingGeometry(
 	uint32 flags, RenderLayer::CEVertexBuffer* vertexBuffer,
 	RenderLayer::CEIndexBuffer* indexBuffer) {
-	return nullptr;
+	RenderLayer::CEDXVertexBuffer* dxVertexBuffer = static_cast<RenderLayer::CEDXVertexBuffer*>(vertexBuffer);
+	RenderLayer::CEDXIndexBuffer* dxIndexBuffer = static_cast<RenderLayer::CEDXIndexBuffer*>(indexBuffer);
+
+	Core::Common::CERef<RenderLayer::CEDXRayTracingGeometry> geometry = new RenderLayer::CEDXRayTracingGeometry(
+		Device, flags);
+	geometry->VertexBuffer = Core::Common::MakeSharedRef<RenderLayer::CEDXVertexBuffer>(dxVertexBuffer);
+	geometry->IndexBuffer = Core::Common::MakeSharedRef<RenderLayer::CEDXIndexBuffer>(dxIndexBuffer);
+	DirectCommandContext->Execute([this, &geometry] {
+		if (!geometry->Build(*DirectCommandContext, false)) {
+			geometry.Reset();
+		}
+	});
+
+	return geometry.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(

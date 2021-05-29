@@ -116,7 +116,7 @@ namespace ConceptEngine::Graphics::Main {
 			                                                        uint32 flags,
 			                                                        RenderLayer::CEResourceState initialState,
 			                                                        const RenderLayer::CEResourceData* initialData) = 0;
-			virtual RenderLayer::CEIndexBuffer* CreateIndexBuffer(RenderLayer::CEFormat format,
+			virtual RenderLayer::CEIndexBuffer* CreateIndexBuffer(RenderLayer::CEIndexFormat format,
 			                                                      uint32 numIndices,
 			                                                      uint32 flags,
 			                                                      RenderLayer::CEResourceState initialState,
