@@ -117,6 +117,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 			CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 			virtual RenderLayer::CEGeometryShader*
 			CreateGeometryShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+			virtual RenderLayer::CEMeshShader* CreateMeshShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 
 			virtual RenderLayer::CEAmplificationShader*
 			CreateAmplificationShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
@@ -127,7 +128,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 			virtual RenderLayer::CERayAnyHitShader*
 			CreateRayAnyHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 			virtual RenderLayer::CERayClosestHitShader*
-			CreateClosestHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+			CreateRayClosestHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 			virtual RenderLayer::CERayMissShader*
 			CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
 
@@ -155,6 +156,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 			                                                RenderLayer::CEFormat colorFormat, RenderLayer::CEFormat depthFormat) override final;
 
 			virtual RenderLayer::CEICommandContext* GetDefaultCommandContext() override final;
+			virtual bool UAVSupportsFormat(RenderLayer::CEFormat format) override final;
 
 			virtual void CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) override final;
 			virtual void CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) override final;
@@ -177,6 +179,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 			                         RenderLayer:: CEResourceState initialState,
 			                          const RenderLayer::CEResourceData* initialData);
 
+		private:
 			RenderLayer::CEDXDevice* Device;
 			Core::Common::CERef<RenderLayer::CEDXCommandContext> DirectCommandContext;
 			RenderLayer::CEDXRootSignatureCache* RootSignatureCache;

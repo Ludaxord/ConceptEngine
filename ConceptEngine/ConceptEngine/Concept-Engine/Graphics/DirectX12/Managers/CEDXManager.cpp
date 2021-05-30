@@ -488,28 +488,117 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 
 	RenderLayer::CEDXResource* resource = nullptr;
 	if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture2D) {
+		RenderLayer::CETexture2D* texture = nullptr;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsUAV() && createInfo.Texture2D.Format = != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture2D.Format);
+		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+		desc.Texture2D.MipSlice = createInfo.Texture2D.Mip;
+		desc.Texture2D.PlaneSlice = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture2DArray) {
+		RenderLayer::CETexture2DArray* texture = createInfo.Texture2DArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsUAV() && createInfo.Texture2DArray.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture2DArray.Format);
+		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.Texture2DArray.Mip;
+		desc.Texture2DArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+		desc.Texture2DArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
+		desc.Texture2DArray.PlaneSlice = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::TextureCube) {
+		RenderLayer::CETextureCube* texture = createInfo.TextureCube.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsUAV() && createInfo.TextureCube.Texture != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCube.Format);
+		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.Texture2DArray.Mip;
+		desc.Texture2DArray.ArraySize = TEXTURE_CUBE_FACE_COUNT;
+		desc.Texture2DArray.FirstArraySlice = 0;
+		desc.Texture2DArray.PlaneSlice = 0;
 
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::TextureCubeArray) {
+		RenderLayer::CETextureCubeArray* texture = createInfo.TextureCubeArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsUAV() && createInfo.TextureCubeArray.Texture != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCubeArray.Format);
+		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.TextureCubeArray.Mip;
+		desc.Texture2DArray.ArraySize = createInfo.TextureCubeArray.NumArraySlices * TEXTURE_CUBE_FACE_COUNT;
+		desc.Texture2DArray.FirstArraySlice = createInfo.TextureCubeArray.ArraySlice * TEXTURE_CUBE_FACE_COUNT;
+		desc.Texture2DArray.PlaneSlice = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture3D) {
+		RenderLayer::CETexture3D* texture = createInfo.Texture3D.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsUAV() && createInfo.Texture3D.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture3D.Format);
+		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE3D;
+		desc.Texture3D.MipSlice = createInfo.Texture3D.Mip;
+		desc.Texture3D.FirstWSlice = createInfo.Texture3D.DepthSlice;
+		desc.Texture3D.WSize = createInfo.Texture3D.NumDepthSlices;
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::VertexBuffer) {
+		RenderLayer::CEVertexBuffer* buffer = createInfo.VertexBuffer.Buffer;
+		RenderLayer::CEDXBaseBuffer* dxBuffer = RenderLayer::CEDXBufferCast(buffer);
+		resource = dxBuffer->GetResource();
 
+		Assert(buffer->IsUAV());
+
+		desc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = createInfo.VertexBuffer.FirstVertex;
+		desc.Buffer.NumElements = createInfo.VertexBuffer.NumVertices;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+		desc.Buffer.StructureByteStride = buffer->GetStride();
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::IndexBuffer) {
+		RenderLayer::CEIndexBuffer* buffer = createInfo.IndexBuffer.Buffer;
+		RenderLayer::CEDXBaseBuffer* dxBuffer = RenderLayer::CEDXBufferCast(buffer);
+		resource = dxBuffer->GetResource();
 
+		Assert(buffer->IsUAV());
+
+		desc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = createInfo.IndexBuffer.FirstIndex;
+		desc.Buffer.NumElements = createInfo.IndexBuffer.NumIndices;
+
+		Assert(buffer->GetFormat() != RenderLayer::CEIndexFormat::uint16);
+
+		desc.Format = DXGI_FORMAT_R32_TYPELESS;
+		desc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_RAW;
+		desc.Buffer.StructureByteStride = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::StructuredBuffer) {
+		RenderLayer::CEStructuredBuffer* buffer = createInfo.StructuredBuffer.Buffer;
+		RenderLayer::CEDXBaseBuffer* dxBuffer = RenderLayer::CEDXBufferCast(buffer);
+		resource = dxBuffer->GetResource();
 
+		Assert(buffer->IsUAV());
+
+		desc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = createInfo.StructuredBuffer.FirstElement;
+		desc.Buffer.NumElements = createInfo.StructuredBuffer.NumElements;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
+		desc.Buffer.StructureByteStride = buffer->GetStride();
 	}
 
 	Assert(resource != nullptr);
@@ -533,20 +622,83 @@ Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(
 	Memory::CEMemory::Memzero(&desc);
 
 	RenderLayer::CEDXResource* resource = nullptr;
-	if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture2D) {
 
+	desc.Format = RenderLayer::ConvertFormat(createInfo.Format);
+	Assert(createInfo.Format != RenderLayer::CEFormat::Unknown);
+
+	if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture2D) {
+		RenderLayer::CETexture2D* texture = createInfo.Texture2D.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsRTV());
+
+		if (texture->IsMultiSampled()) {
+			desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+			desc.Texture2D.MipSlice = createInfo.Texture2D.Mip;
+			desc.Texture2D.PlaneSlice = 0;
+		}
+		else {
+			desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DMS;
+		}
 	}
 	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture2DArray) {
+		RenderLayer::CETexture2DArray* texture = createInfo.Texture2DArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 
+		Assert(texture->IsRTV());
+
+		if (texture->IsMultiSampled()) {
+			desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DARRAY;
+			desc.Texture2DArray.MipSlice = createInfo.Texture2DArray.Mip;
+			desc.Texture2DArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+			desc.Texture2DArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
+			desc.Texture2DArray.PlaneSlice = 0;
+		}
+		else {
+			desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DMSARRAY;
+			desc.Texture2DMSArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+			desc.Texture2DMSArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
+		}
 	}
 	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::TextureCube) {
+		RenderLayer::CETextureCube* texture = createInfo.TextureCube.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsRTV());
+
+		desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.TextureCubeArray.Mip;
+		desc.Texture2DArray.ArraySize = 1;
+		desc.Texture2DArray.FirstArraySlice = RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
+		desc.Texture2DArray.PlaneSlice = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::TextureCubeArray) {
+		RenderLayer::CETextureCube* texture = createInfo.TextureCubeArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsRTV());
+
+		desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.TextureCubeArray.Mip;
+		desc.Texture2DArray.ArraySize = 1;
+		desc.Texture2DArray.FirstArraySlice = createInfo.TextureCubeArray.ArraySlice * TEXTURE_CUBE_FACE_COUNT +
+			RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
+		desc.Texture2DArray.PlaneSlice = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture3D) {
+		RenderLayer::CETexture3D* texture = createInfo.Texture3D.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsRTV());
+
+		desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE3D;
+		desc.Texture3D.MipSlice = createInfo.Texture3D.Mip;
+		desc.Texture3D.FirstWSlice = createInfo.Texture3D.DepthSlice;
+		desc.Texture3D.WSize = createInfo.Texture3D.NumDepthSlices;
 	}
 
 	Assert(resource != nullptr);
@@ -570,20 +722,71 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 	Memory::CEMemory::Memzero(&desc);
 
 	RenderLayer::CEDXResource* resource = nullptr;
-	if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2D) {
 
+	desc.Format = RenderLayer::ConvertFormat(createInfo.Format);
+	Assert(createInfo.Format = != RenderLayer::CEFormat::Unknown);
+
+	if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2D) {
+		RenderLayer::CETexture2D* texture = createInfo.Texture2D.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsDSV());
+
+		if (texture->IsMultiSampled()) {
+			desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+			desc.Texture2D.MipSlice = createInfo.Texture2D.Mip;
+		}
+		else {
+			desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMS;
+		}
 	}
 	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2DArray) {
+		RenderLayer::CETexture2DArray* texture = createInfo.Texture2DArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsDSV());
+
+		if (texture->IsMultiSampled()) {
+			desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+			desc.Texture2DArray.MipSlice = createInfo.Texture2DArray.Mip;
+			desc.Texture2DArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+			desc.Texture2DArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
+		}
+		else {
+			desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY;
+			desc.Texture2DMSArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+			desc.Texture2DMSArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
+		}
 
 	}
 	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCube) {
+		RenderLayer::CETextureCube* texture = createInfo.TextureCube.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsDSV());
+
+		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.TextureCube.Mip;
+		desc.Texture2DArray.ArraySize = 1;
+		desc.Texture2DArray.FirstArraySlice = RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
 	}
 	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCubeArray) {
+		RenderLayer::CETextureCubeArray* texture = createInfo.TextureCubeArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsDSV());
+
+		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
+		desc.Texture2DArray.MipSlice = createInfo.TextureCubeArray.Mip;
+		desc.Texture2DArray.ArraySize = 1;
+		desc.Texture2DArray.FirstArraySlice = createInfo.TextureCubeArray.ArraySlice * TEXTURE_CUBE_FACE_COUNT +
+			RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
 	}
 
-	Assert(resource != nullptr);
 	Core::Common::CERef<RenderLayer::CEDXDepthStencilView> dxView = new RenderLayer::CEDXDepthStencilView(
 		Device, ResourceOfflineDescriptorHeap);
 	if (!dxView->Create()) {
@@ -599,52 +802,123 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 
 Main::RenderLayer::CEComputeShader*
 CEDXManager::CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXComputeShader> shader = new RenderLayer::CEDXComputeShader(Device, shaderCode);
+	if (!shader->Create()) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEVertexShader* CEDXManager::CreateVertexShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXVertexShader> shader = new RenderLayer::CEDXVertexShader(Device, shaderCode);
+	if (!RenderLayer::CEDXBaseShader::GetShaderReflection(shader.Get())) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEHullShader* CEDXManager::CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXHullShader> shader = new RenderLayer::CEDXHullShader(Device, shaderCode);
+	if (!shader->Create()) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEDomainShader* CEDXManager::CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXDomainShader> shader = new RenderLayer::CEDXDomainShader(Device, shaderCode);
+	if (!shader->Create()) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEGeometryShader* CEDXManager::CreateGeometryShader(
 	const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXGeometryShader> shader = new RenderLayer::CEDXGeometryShader(
+		Device, shaderCode);
+	if (!shader->Create()) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
+}
+
+Main::RenderLayer::CEMeshShader* CEDXManager::CreateMeshShader(const Core::Containers::CEArray<uint8>& shaderCode) {
+	Core::Common::CERef<RenderLayer::CEDXMeshShader> shader = new RenderLayer::CEDXMeshShader(Device, shaderCode);
+	if (!shader->Create()) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEAmplificationShader* CEDXManager::CreateAmplificationShader(
 	const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXAmplificationShader> shader = new RenderLayer::CEDXAmplificationShader(
+		Device, shaderCode);
+	if (!shader->Create()) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEPixelShader* CEDXManager::CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXPixelShader> shader = new RenderLayer::CEDXPixelShader(Device, shaderCode);
+	if (!RenderLayer::CEDXBaseShader::GetShaderReflection(shader.Get())) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CERayGenShader* CEDXManager::CreateRayGenShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXRayGenShader> shader = new RenderLayer::CEDXRayGenShader(Device, shaderCode);
+	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CERayAnyHitShader* CEDXManager::CreateRayAnyHitShader(
 	const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXRayAnyHitShader> shader = new RenderLayer::CEDXRayAnyHitShader(
+		Device, shaderCode);
+	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to retrive Shader Identifier");
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CERayClosestHitShader* CEDXManager::CreateClosestHitShader(
+Main::RenderLayer::CERayClosestHitShader* CEDXManager::CreateRayClosestHitShader(
 	const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXRayClosestHitShader> shader = new RenderLayer::CEDXRayClosestHitShader(
+		Device, shaderCode);
+	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to retrive Shader Identifier");
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CERayMissShader*
 CEDXManager::CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXRayMissShader> shader = new RenderLayer::CEDXRayMissShader(Device, shaderCode);
+	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to retrive Shader Identifier");
+		return nullptr;
+	}
+
+	return shader.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEDepthStencilState* CEDXManager::CreateDepthStencilState(
@@ -693,7 +967,11 @@ Main::RenderLayer::CEViewport* CEDXManager::CreateViewport(Core::Platform::Gener
 }
 
 Main::RenderLayer::CEICommandContext* CEDXManager::GetDefaultCommandContext() {
-	return nullptr;
+	return DirectCommandContext.Get();
+}
+
+bool CEDXManager::UAVSupportsFormat(RenderLayer::CEFormat format) {
+	return true;
 }
 
 void CEDXManager::CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) {

@@ -164,6 +164,9 @@ namespace ConceptEngine::Graphics::Main {
 			virtual class RenderLayer::CEGeometryShader* CreateGeometryShader(
 				const Core::Containers::CEArray<uint8>& shaderCode) =
 			0;
+			virtual class RenderLayer::CEMeshShader* CreateMeshShader(
+				const Core::Containers::CEArray<uint8>& shaderCode) =
+			0;
 			virtual class RenderLayer::CEAmplificationShader* CreateAmplificationShader(
 				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
 			virtual class RenderLayer::CEPixelShader* CreatePixelShader(
@@ -174,7 +177,7 @@ namespace ConceptEngine::Graphics::Main {
 			virtual class RenderLayer::CERayAnyHitShader* CreateRayAnyHitShader(
 				const Core::Containers::CEArray<uint8>& shaderCode) =
 			0;
-			virtual class RenderLayer::CERayClosestHitShader* CreateClosestHitShader(
+			virtual class RenderLayer::CERayClosestHitShader* CreateRayClosestHitShader(
 				const Core::Containers::CEArray<uint8>& shaderCode)
 			=
 			0;

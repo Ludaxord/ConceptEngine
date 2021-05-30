@@ -211,6 +211,57 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 	};
 
+	class CEDXBaseHullShader : public CEHullShader, public CEDXBaseShader {
+	public:
+		CEDXBaseHullShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEHullShader(),
+			CEDXBaseShader(device, code, ShaderVisibility_Hull) {
+
+		}
+
+		bool Create();
+	};
+
+	class CEDXBaseDomainShader : public CEDomainShader, public CEDXBaseShader {
+	public:
+		CEDXBaseDomainShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEDomainShader(),
+			CEDXBaseShader(device, code, ShaderVisibility_Domain) {
+
+		}
+
+		bool Create();
+	};
+
+	class CEDXBaseGeometryShader : public CEGeometryShader, public CEDXBaseShader {
+	public:
+		CEDXBaseGeometryShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEGeometryShader(),
+			CEDXBaseShader(device, code, ShaderVisibility_Geometry) {
+
+		}
+
+		bool Create();
+	};
+
+	class CEDXBaseMeshShader : public CEMeshShader, public CEDXBaseShader {
+	public:
+		CEDXBaseMeshShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEMeshShader(),
+			CEDXBaseShader(device, code, ShaderVisibility_All) {
+
+		}
+
+		bool Create();
+	};
+
+	class CEDXBaseAmplificationShader : public CEAmplificationShader, public CEDXBaseShader {
+	public:
+		CEDXBaseAmplificationShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) :
+			CEAmplificationShader(),
+			CEDXBaseShader(device, code, ShaderVisibility_All) {
+
+		}
+
+		bool Create();
+	};
+
 	class CEDXBaseComputeShader : public CEComputeShader, public CEDXBaseShader {
 	public:
 		CEDXBaseComputeShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEComputeShader(),
@@ -239,7 +290,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return Identifier;
 		}
 
-		static bool GetRayTracingShaderReflection(class CEDXRayTracingShader* shader);
+		static bool GetRayTracingShaderReflection(class CEDXBaseRayTracingShader* shader);
 
 	protected:
 		std::string Identifier;
@@ -261,15 +312,16 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 	};
 
-	class CEDXBaseRayClosestHitShader : public CERayAnyHitShader, public CEDXBaseRayTracingShader {
+	class CEDXBaseRayClosestHitShader : public CERayClosestHitShader, public CEDXBaseRayTracingShader {
 	public:
 		CEDXBaseRayClosestHitShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) :
-			CERayAnyHitShader(), CEDXBaseRayTracingShader(device, code) {
+			CERayClosestHitShader(), CEDXBaseRayTracingShader(device, code) {
 
 		}
 	};
 
 	class CEDXBaseRayMissShader : public CERayMissShader, public CEDXBaseRayTracingShader {
+	public:
 		CEDXBaseRayMissShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CERayMissShader(),
 			CEDXBaseRayTracingShader(device, code) {
 
@@ -278,7 +330,14 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	using CEDXVertexShader = TCEDXShader<CEDXBaseVertexShader>;
 	using CEDXPixelShader = TCEDXShader<CEDXBasePixelShader>;
+
+	using CEDXHullShader = TCEDXShader<CEDXBaseHullShader>;
+	using CEDXDomainShader = TCEDXShader<CEDXBaseDomainShader>;
+	using CEDXGeometryShader = TCEDXShader<CEDXBaseGeometryShader>;
+	using CEDXMeshShader = TCEDXShader<CEDXBaseMeshShader>;
+	using CEDXAmplificationShader = TCEDXShader<CEDXBaseAmplificationShader>;
 	using CEDXComputeShader = TCEDXShader<CEDXBaseComputeShader>;
+	
 	using CEDXRayGenShader = TCEDXShader<CEDXBaseRayGenShader>;
 	using CEDXRayAnyHitShader = TCEDXShader<CEDXBaseRayAnyHitShader>;
 	using CEDXRayClosestHitShader = TCEDXShader<CEDXBaseRayClosestHitShader>;
@@ -293,6 +352,21 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 		else if (shader->AsComputeShader()) {
 			return static_cast<CEDXComputeShader*>(shader);
+		}
+		else if (shader->AsHullShader()) {
+			return static_cast<CEDXHullShader*>(shader);
+		}
+		else if (shader->AsDomainShader()) {
+			return static_cast<CEDXDomainShader*>(shader);
+		}
+		else if (shader->AsGeometryShader()) {
+			return static_cast<CEDXGeometryShader*>(shader);
+		}
+		else if (shader->AsMeshShader()) {
+			return static_cast<CEDXMeshShader*>(shader);
+		}
+		else if (shader->AsAmplificationShader()) {
+			return static_cast<CEDXAmplificationShader*>(shader);
 		}
 		else if (shader->AsRayGenShader()) {
 			return static_cast<CEDXRayGenShader*>(shader);

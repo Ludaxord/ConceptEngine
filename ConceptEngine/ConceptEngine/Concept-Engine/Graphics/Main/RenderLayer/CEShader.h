@@ -30,6 +30,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			return nullptr;
 		}
 
+		virtual class CEMeshShader* AsMeshShader() {
+			return nullptr;
+		}
+
+		virtual class CEMeshShader* AsAmplificationShader() {
+			return nullptr;
+		}
+
 		virtual class CEPixelShader* AsPixelShader() {
 			return nullptr;
 		}
