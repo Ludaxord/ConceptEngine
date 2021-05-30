@@ -63,7 +63,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		CEDXBaseUnorderedAccessView(CEDXDevice* device, CEDXOfflineDescriptorHeap* heap);
 		~CEDXBaseUnorderedAccessView() = default;
 
-		bool CreateView(CEDXResource* resource, const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
+		bool CreateView(CEDXResource* counterResource, CEDXResource* resource,
+		                const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
 
 		const D3D12_UNORDERED_ACCESS_VIEW_DESC& GetDesc() const {
 			return Desc;
