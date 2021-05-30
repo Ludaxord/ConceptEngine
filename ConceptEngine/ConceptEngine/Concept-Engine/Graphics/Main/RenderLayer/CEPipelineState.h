@@ -10,36 +10,18 @@
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CEPipelineState : public CEResource {
-	};
+	public:
+		virtual class CEGraphicsPipelineState* AsGraphics() {
+			return nullptr;
+		}
 
-	class CEDepthStencilState : public CEResource {
-	};
+		virtual class CEComputePipelineState* AsCompute() {
+			return nullptr;
+		}
 
-	class CERasterizerState : public CEResource {
-	};
-
-	class CEBlendState : public CEResource {
-	};
-
-	class CEInputLayoutState : public CEResource {
-	};
-
-	class CEComputePipelineState : public CEPipelineState {
-	};
-
-	class CEGraphicsPipelineState : public CEPipelineState {
-	};
-
-	class CERayTracingPipelineState : public CEPipelineState {
-	};
-
-	struct CEDepthStencilStateCreateInfo {
-	};
-
-	struct CERasterizerStateCreateInfo {
-	};
-
-	struct CEBlendStateCreateInfo {
+		virtual class CERayTracingPipelineState* AsRayTracing() {
+			return nullptr;
+		}
 	};
 
 	enum class CEDepthWriteMask {
@@ -133,6 +115,53 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			ColorWriteFlag_Alpha)
 	};
 
+
+	class CEDepthStencilState : public CEResource {
+	};
+
+	class CERasterizerState : public CEResource {
+	};
+
+	class CEBlendState : public CEResource {
+	};
+
+	class CEInputLayoutState : public CEResource {
+	};
+
+	class CEComputePipelineState : public CEPipelineState {
+	};
+
+	class CEGraphicsPipelineState : public CEPipelineState {
+	};
+
+	class CERayTracingPipelineState : public CEPipelineState {
+	};
+
+	struct CEDepthStencilStateCreateInfo {
+		CEDepthWriteMask DepthWriteMask = CEDepthWriteMask::All;
+		CEComparisonFunc DepthFunc = CEComparisonFunc::Less;
+		bool DepthEnable = true;
+		uint8 StencilReadMask = 0xff;
+		uint8 StencilWriteMask = 0xff;
+		bool StencilEnable = false;
+		CEDepthStencilOp FrontFace = CEDepthStencilOp();
+		CEDepthStencilOp BackFace = CEDepthStencilOp();
+	};
+
+	struct CERasterizerStateCreateInfo {
+		CEFillMode FillMode = CEFillMode::Solid;
+		CECullMode CullMode = CECullMode::Back;
+		bool FrontCounterClockwise = false;
+		int32 DepthBias = 0;
+		float DepthBiasClamp = 0.0f;
+		float SlopeScaledDepthBias = 0.0f;
+		bool DepthClipEnable = true;
+		bool MultisampleEnable = false;
+		bool AntialiasedLineEnable = false;
+		uint32 ForcedSampleCount = 0;
+		bool EnableConservativeRaster = false;
+	};
+
 	struct CERenderTargetWriteState {
 		CERenderTargetWriteState() = default;
 
@@ -165,6 +194,25 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		uint8 Mask = ColorWriteFlag_All;
+	};
+
+	struct CERenderTargetBlendState {
+		CEBlend SourceBlend = CEBlend::One;
+		CEBlend DestinationBlend = CEBlend::Zero;
+		CEBlendOp BlendOp = CEBlendOp::Add;
+		CEBlend SourceBlendAlpha = CEBlend::One;
+		CEBlend DestinationBlendAlpha = CEBlend::Zero;
+		CEBlendOp BlendOpAlpha = CEBlendOp::Add;
+		CELogicOp LogicOp = CELogicOp::Noop;
+		bool BlendEnable = false;
+		bool LogicOpEnable = false;
+		CERenderTargetWriteState RenderTargetWriteMask;
+	};
+
+	struct CEBlendStateCreateInfo {
+		bool AlphaToCoverageEnable = false;
+		bool independentBlendEnable = false;
+		CERenderTargetBlendState RenderTarget[8];
 	};
 
 	enum class CEInputClassification { Vertex = 0, Instance = 1 };

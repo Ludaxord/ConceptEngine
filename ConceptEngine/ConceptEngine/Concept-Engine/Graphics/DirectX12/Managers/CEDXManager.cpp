@@ -8,6 +8,10 @@
 
 #include "../RenderLayer/CEDXRayTracing.h"
 
+#include "../../../Core/Platform/Windows/Window/CEWindowsWindow.h"
+
+#include "../RenderLayer/CEDXViewport.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 using namespace ConceptEngine::Graphics;
 
@@ -923,12 +927,41 @@ CEDXManager::CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderC
 
 Main::RenderLayer::CEDepthStencilState* CEDXManager::CreateDepthStencilState(
 	const RenderLayer::CEDepthStencilStateCreateInfo& createInfo) {
-	return nullptr;
+	D3D12_DEPTH_STENCIL_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	desc.DepthEnable = createInfo.DepthEnable;
+	desc.DepthFunc = RenderLayer::ConvertComparisonFunc(createInfo.DepthFunc);
+	desc.DepthWriteMask = RenderLayer::ConvertDepthWriteMask(createInfo.DepthWriteMask);
+	desc.StencilEnable = createInfo.StencilEnable;
+	desc.StencilReadMask = createInfo.StencilReadMask;
+	desc.StencilWriteMask = createInfo.StencilWriteMask;
+	desc.FrontFace = RenderLayer::ConvertDepthStencilOp(createInfo.FrontFace);
+	desc.BackFace = RenderLayer::ConvertDepthStencilOp(createInfo.BackFace);
+
+	return new RenderLayer::CEDXDepthStencilState(Device, desc);
 }
 
 Main::RenderLayer::CERasterizerState* CEDXManager::CreateRasterizerState(
 	const RenderLayer::CERasterizerStateCreateInfo& createInfo) {
-	return nullptr;
+	D3D12_RASTERIZER_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	desc.AntialiasedLineEnable = createInfo.AntialiasedLineEnable;
+	desc.ConservativeRaster = (createInfo.EnableConservativeRaster)
+		                          ? D3D12_CONSERVATIVE_RASTERIZATION_MODE_ON
+		                          : D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF;
+	desc.CullMode = RenderLayer::ConvertCullMode(createInfo.CullMode);
+	desc.DepthBias = createInfo.DepthBias;
+	desc.DepthBiasClamp = createInfo.DepthBiasClamp;
+	desc.DepthClipEnable = createInfo.DepthClipEnable;
+	desc.SlopeScaledDepthBias = createInfo.SlopeScaledDepthBias;
+	desc.FillMode = RenderLayer::ConvertFillMode(createInfo.FillMode);
+	desc.ForcedSampleCount = createInfo.ForcedSampleCount;
+	desc.FrontCounterClockwise = createInfo.FrontCounterClockwise;
+	desc.MultisampleEnable = createInfo.MultisampleEnable;
+
+	return new RenderLayer::CEDXRasterizerState(Device, desc);
 }
 
 Main::RenderLayer::CEBlendState* CEDXManager::CreateBlendState(const RenderLayer::CEBlendStateCreateInfo& createInfo) {
@@ -937,32 +970,72 @@ Main::RenderLayer::CEBlendState* CEDXManager::CreateBlendState(const RenderLayer
 
 Main::RenderLayer::CEInputLayoutState* CEDXManager::CreateInputLayout(
 	const RenderLayer::CEInputLayoutStateCreateInfo& createInfo) {
-	return nullptr;
+	return new RenderLayer::CEDXInputLayoutState(Device, createInfo);
 }
 
 Main::RenderLayer::CEGraphicsPipelineState* CEDXManager::CreateGraphicsPipelineState(
 	const RenderLayer::CEGraphicsPipelineStateCreateInfo& createInfo) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXGraphicsPipelineState> pipelineState = new
+		RenderLayer::CEDXGraphicsPipelineState(Device);
+	if (!pipelineState->Create(createInfo)) {
+		return nullptr;
+	}
+
+	return pipelineState.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineState(
 	const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) {
-	return nullptr;
+	Assert(createInfo.Shader != nullptr);
+
+	Core::Common::CERef<RenderLayer::CEDXComputeShader> shader = Core::Common::MakeSharedRef<
+		RenderLayer::CEDXComputeShader>(createInfo.Shader);
+	Core::Common::CERef<RenderLayer::CEDXComputePipelineState> pipelineState = new
+		RenderLayer::CEDXComputePipelineState(Device, shader);
+	if (!pipelineState->Create()) {
+		return nullptr;
+	}
+
+	return pipelineState.ReleaseOwnership();
 }
 
 Main::RenderLayer::CERayTracingPipelineState* CEDXManager::CreatRayTracingPipelineState(
 	const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) {
-	return nullptr;
+	Core::Common::CERef<RenderLayer::CEDXRayTracingPipelineState> pipelineState = new
+		RenderLayer::CEDXRayTracingPipelineState(Device);
+	if (!pipelineState->Create(createInfo)) {
+		return nullptr;
+	}
+
+	return pipelineState.ReleaseOwnership();
 }
 
 Main::RenderLayer::CEGPUProfiler* CEDXManager::CreateProfiler() {
-	return nullptr;
+	return RenderLayer::CEDXGPUProfiler::Create(Device);
 }
 
+//TODO: check what happened if create viewport from editor!!!!
 Main::RenderLayer::CEViewport* CEDXManager::CreateViewport(Core::Platform::Generic::Window::CEWindow* window,
                                                            uint32 width, uint32 height,
                                                            RenderLayer::CEFormat colorFormat,
                                                            RenderLayer::CEFormat depthFormat) {
+	Core::Common::CERef<Core::Platform::Windows::Window::CEWindowsWindow> wWindow = Core::Common::MakeSharedRef<
+		Core::Platform::Windows::Window::CEWindowsWindow>(window);
+	if (width == 0) {
+		width = wWindow->GetWidth();
+	}
+
+	if (height == 0) {
+		height = wWindow->GetHeight();
+	}
+
+	Core::Common::CERef<RenderLayer::CEDXViewport> viewport = new RenderLayer::CEDXViewport(
+		Device, DirectCommandContext.Get(), wWindow->GetHandle(), colorFormat, width, height);
+
+	if (viewport->Create()) {
+		return viewport.ReleaseOwnership();
+	}
+
 	return nullptr;
 }
 
@@ -971,13 +1044,58 @@ Main::RenderLayer::CEICommandContext* CEDXManager::GetDefaultCommandContext() {
 }
 
 bool CEDXManager::UAVSupportsFormat(RenderLayer::CEFormat format) {
+	D3D12_FEATURE_DATA_D3D12_OPTIONS featureData;
+	Memory::CEMemory::Memzero(&featureData, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS));
+
+	HRESULT hResult = Device->GetDevice()->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &featureData,
+	                                                           sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS));
+	if (SUCCEEDED(hResult)) {
+		if (featureData.TypedUAVLoadAdditionalFormats) {
+			D3D12_FEATURE_DATA_FORMAT_SUPPORT formatSupport = {
+				RenderLayer::ConvertFormat(format), D3D12_FORMAT_SUPPORT1_NONE, D3D12_FORMAT_SUPPORT2_NONE
+			};
+
+			//TODO: create functions inside CEDevice class to prevent calling GetDevice every time.
+			hResult = Device->GetDevice()->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &formatSupport,
+			                                                   sizeof(formatSupport));
+			if (FAILED(hResult) || (formatSupport.Support2 & D3D12_FORMAT_SUPPORT2_UAV_TYPED_LOAD) == 0) {
+				return false;
+			}
+		}
+	}
 	return true;
 }
 
 void CEDXManager::CheckRayTracingSupport(Main::CERayTracingSupport& outSupport) {
+	D3D12_RAYTRACING_TIER tier = Device->GetRayTracingTier();
+	if (tier != D3D12_RAYTRACING_TIER_NOT_SUPPORTED) {
+		if (tier == D3D12_RAYTRACING_TIER_1_1) {
+			outSupport.Tier = Main::CERayTracingTier::Tier1_1;
+		}
+		else if (tier == D3D12_RAYTRACING_TIER_1_0) {
+			outSupport.Tier = Main::CERayTracingTier::Tier1;
+		}
+
+		outSupport.MaxRecursionDepth = D3D12_RAYTRACING_MAX_DECLARABLE_TRACE_RECURSION_DEPTH;
+	}
+	else {
+		outSupport.Tier = Main::CERayTracingTier::NotSupported;
+	}
 }
 
 void CEDXManager::CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport) {
+	D3D12_VARIABLE_SHADING_RATE_TIER tier = Device->GetVariableRateShadingTier();
+	if (tier == D3D12_VARIABLE_SHADING_RATE_TIER_NOT_SUPPORTED) {
+		outSupport.Tier = Main::CEShadingRateTier::NotSupported;
+	}
+	else if (tier == D3D12_VARIABLE_SHADING_RATE_TIER_1) {
+		outSupport.Tier = Main::CEShadingRateTier::Tier1;
+	}
+	else if (tier == D3D12_VARIABLE_SHADING_RATE_TIER_2) {
+		outSupport.Tier = Main::CEShadingRateTier::Tier2;
+	}
+
+	outSupport.ShadingRateImageTileSize = Device->GetVariableRateShadingTileSize();
 }
 
 
