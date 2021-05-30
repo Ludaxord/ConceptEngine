@@ -1,7 +1,6 @@
 #pragma once
 #include "CEResource.h"
 #include "CERendering.h"
-#include "CEResourceViews.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	enum CETextureFlags {

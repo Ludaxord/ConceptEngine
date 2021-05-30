@@ -333,21 +333,200 @@ Main::RenderLayer::CERayTracingGeometry* CEDXManager::CreateRayTracingGeometry(
 
 Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(
 	const RenderLayer::CEShaderResourceViewCreateInfo& createInfo) {
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	RenderLayer::CEDXResource* resource = nullptr;
+	if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::Texture2D) {
+		RenderLayer::CETexture2D* texture = createInfo.Texture2D.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsSRV() && createInfo.Texture2D.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture2D.Format);
+		if (!texture->IsMultiSampled()) {
+			desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+			desc.Texture2D.MipLevels = createInfo.Texture2D.NumMips;
+			desc.Texture2D.MostDetailedMip = createInfo.Texture2D.Mip;
+			desc.Texture2D.ResourceMinLODClamp = createInfo.Texture2D.MinMipsBias;
+			desc.Texture2D.PlaneSlice = 0;
+		}
+		else {
+			desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMS;
+		}
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::Texture2DArray) {
+		RenderLayer::CETexture2DArray* texture = createInfo.Texture2DArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsSRV() && createInfo.Texture2DArray.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture2DArray.Format);
+		if (!texture->IsMultiSampled()) {
+			desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+			desc.Texture2DArray.MipLevels = createInfo.Texture2DArray.NumMips;
+			desc.Texture2DArray.MostDetailedMip = createInfo.Texture2DArray.Mip;
+			desc.Texture2DArray.ResourceMinLODClamp = createInfo.Texture2DArray.MinMipBias;
+			desc.Texture2DArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+			desc.Texture2DArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
+			desc.Texture2DArray.PlaneSlice = 0;
+		}
+		else {
+			desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMSARRAY;
+		}
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::TextureCube) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::TextureCubeArray) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::Texture3D) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::VertexBuffer) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::IndexBuffer) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::StructuredBuffer) {
+
+	}
+
+	Assert(resource != nullptr);
+	Core::Common::CERef<RenderLayer::CEDXShaderResourceView> dxView = new RenderLayer::CEDXShaderResourceView(
+		Device, ResourceOfflineDescriptorHeap);
+	if (!dxView->Create()) {
+		return nullptr;
+	}
+
+	if (dxView->CreateView(resource, desc)) {
+		return dxView.ReleaseOwnership();
+	}
+
 	return nullptr;
 }
 
 Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView(
 	const RenderLayer::CEUnorderedAccessViewCreateInfo& createInfo) {
+
+	D3D12_UNORDERED_ACCESS_VIEW_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	RenderLayer::CEDXResource* resource = nullptr;
+	if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture2D) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture2DArray) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::TextureCube) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::TextureCubeArray) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture3D) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::VertexBuffer) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::IndexBuffer) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::StructuredBuffer) {
+
+	}
+
+	Assert(resource != nullptr);
+	Core::Common::CERef<RenderLayer::CEDXUnorderedAccessView> dxView = new RenderLayer::CEDXUnorderedAccessView(
+		Device, ResourceOfflineDescriptorHeap);
+	if (!dxView->Create()) {
+		return nullptr;
+	}
+
+	if (dxView->CreateView(nullptr, resource, desc)) {
+		return dxView.ReleaseOwnership();
+	}
+
 	return nullptr;
 }
 
 Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(
 	const RenderLayer::CERenderTargetViewCreateInfo& createInfo) {
+
+	D3D12_RENDER_TARGET_VIEW_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	RenderLayer::CEDXResource* resource = nullptr;
+	if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture2D) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture2DArray) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::TextureCube) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::TextureCubeArray) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture3D) {
+
+	}
+
+	Assert(resource != nullptr);
+	Core::Common::CERef<RenderLayer::CEDXRenderTargetView> dxView = new RenderLayer::CEDXRenderTargetView(
+		Device, ResourceOfflineDescriptorHeap);
+	if (!dxView->Create()) {
+		return nullptr;
+	}
+
+	if (dxView->CreateView(resource, desc)) {
+		return dxView.ReleaseOwnership();
+	}
+
 	return nullptr;
 }
 
 Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 	const RenderLayer::CEDepthStencilViewCreateInfo& createInfo) {
+
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc;
+	Memory::CEMemory::Memzero(&desc);
+
+	RenderLayer::CEDXResource* resource = nullptr;
+	if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2D) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2DArray) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCube) {
+
+	}
+	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCubeArray) {
+
+	}
+
+	Assert(resource != nullptr);
+	Core::Common::CERef<RenderLayer::CEDXDepthStencilView> dxView = new RenderLayer::CEDXDepthStencilView(
+		Device, ResourceOfflineDescriptorHeap);
+	if (!dxView->Create()) {
+		return nullptr;
+	}
+
+	if (dxView->CreateView(resource, desc)) {
+		return dxView.ReleaseOwnership();
+	}
+
 	return nullptr;
 }
 
