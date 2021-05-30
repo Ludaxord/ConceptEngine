@@ -121,6 +121,7 @@
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXShaderCompiler.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXSwapChain.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXTexture.h" />
+    <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXViewport.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXViews.h" />
     <ClInclude Include="Graphics\DirectX12\Render\CEDXRenderer.h" />
     <ClInclude Include="Graphics\Main\CEGraphics.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXShader.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXShaderCompiler.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXSwapChain.cpp" />
+    <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXViewport.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXViews.cpp" />
     <ClCompile Include="Graphics\DirectX12\Render\CEDXRenderer.cpp" />
     <ClCompile Include="Graphics\Main\CEGraphics.cpp" />

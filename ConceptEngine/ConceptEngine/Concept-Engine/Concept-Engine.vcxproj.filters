@@ -178,6 +178,7 @@
     <ClInclude Include="Graphics\DirectX12\Base\CEDirectXHandlers.h" />
     <ClInclude Include="..\ConceptEngineFramework\Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
+    <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXViewport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -288,6 +289,7 @@
     <ClCompile Include="Graphics\DirectX12\Common\CEDXMaterial.cpp" />
     <ClCompile Include="Graphics\Main\Common\CETransform.cpp" />
     <ClCompile Include="Graphics\DirectX12\Base\CEDirectXHandlers.cpp" />
+    <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXViewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
