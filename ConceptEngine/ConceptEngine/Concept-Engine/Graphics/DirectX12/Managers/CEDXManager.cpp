@@ -381,22 +381,89 @@ Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(
 		}
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::TextureCube) {
+		RenderLayer::CETextureCube* texture = createInfo.TextureCube.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsSRV() && createInfo.TextureCube.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCube.Format);
+		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+		desc.TextureCube.MipLevels = createInfo.TextureCube.NumMips;
+		desc.TextureCube.MostDetailedMip = createInfo.TextureCube.Mip;
+		desc.TextureCube.ResourceMinLODClamp = createInfo.TextureCube.MinMipBias;
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::TextureCubeArray) {
+		RenderLayer::CETextureCubeArray* texture = createInfo.TextureCubeArray.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
+
+		Assert(texture->IsSRV() && createInfo.TextureCubeArray.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCubeArray.Format);
+		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBEARRAY;
+		desc.TextureCubeArray.MipLevels = createInfo.TextureCubeArray.NumMips;
+		desc.TextureCubeArray.MostDetailedMip = createInfo.TextureCubeArray.Mip;
+		desc.TextureCubeArray.ResourceMinLODClamp = createInfo.TextureCubeArray.MinMipBias;
+		desc.TextureCubeArray.First2DArrayFace = createInfo.TextureCubeArray.ArraySlice * TEXTURE_CUBE_FACE_COUNT;
+		desc.TextureCubeArray.NumCubes = createInfo.TextureCubeArray.NumArraySlices;
 
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::Texture3D) {
+		RenderLayer::CETexture3D* texture = createInfo.Texture3D.Texture;
+		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
+		resource = dxTexture->GetResource();
 
+		Assert(texture->IsSRV() && createInfo.Texture3D.Format != RenderLayer::CEFormat::Unknown);
+
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture3D.Format);
+		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE3D;
+		desc.Texture3D.MipLevels = createInfo.Texture3D.NumMips;
+		desc.Texture3D.MostDetailedMip = createInfo.Texture3D.Mip;
+		desc.Texture3D.ResourceMinLODClamp = createInfo.Texture3D.MinMipBias;
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::VertexBuffer) {
+		RenderLayer::CEVertexBuffer* buffer = createInfo.VertexBuffer.Buffer;
+		RenderLayer::CEDXBaseBuffer* dxBuffer = RenderLayer::CEDXBufferCast(buffer);
+		resource = dxBuffer->GetResource();
 
+		Assert(buffer->IsSRV());
+
+		desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = createInfo.VertexBuffer.FirstVertex;
+		desc.Buffer.NumElements = createInfo.VertexBuffer.NumVertices;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+		desc.Buffer.StructureByteStride = buffer->GetStride();
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::IndexBuffer) {
+		RenderLayer::CEIndexBuffer* buffer = createInfo.IndexBuffer.Buffer;
+		RenderLayer::CEDXBaseBuffer* dxBuffer = RenderLayer::CEDXBufferCast(buffer);
+		resource = dxBuffer->GetResource();
 
+		Assert(buffer->IsSRV());
+		Assert(buffer->GetFormat() != RenderLayer::CEIndexFormat::uint16);
+
+		desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = createInfo.IndexBuffer.FirstIndex;
+		desc.Buffer.NumElements = createInfo.IndexBuffer.NumIndices;
+		desc.Format = DXGI_FORMAT_R32_TYPELESS;
+		desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_RAW;
+		desc.Buffer.StructureByteStride = 0;
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::StructuredBuffer) {
+		RenderLayer::CEStructuredBuffer* buffer = createInfo.StructuredBuffer.Buffer;
+		RenderLayer::CEDXBaseBuffer* dxBuffer = RenderLayer::CEDXBufferCast(buffer);
+		resource = dxBuffer->GetResource();
 
+		Assert(buffer->IsSRV());
+
+		desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = createInfo.StructuredBuffer.FirstElement;
+		desc.Buffer.NumElements = createInfo.StructuredBuffer.NumElements;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+		desc.Buffer.StructureByteStride = buffer->GetStride();
 	}
 
 	Assert(resource != nullptr);
