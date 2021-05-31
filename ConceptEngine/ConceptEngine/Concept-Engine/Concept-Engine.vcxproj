@@ -57,7 +57,15 @@
     <ClInclude Include="Core\Platform\Windows\Debug\CEWindowsCommandConsole.h" />
     <ClInclude Include="Core\Platform\Windows\Events\CEWindowsEvent.h" />
     <ClInclude Include="Core\Platform\Windows\Input\CEWindowsInputManager.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsAtomic.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsConditionVariable.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsProcess.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsThread.h" />
+    <ClInclude Include="Core\Threading\CEAtomic.h" />
+    <ClInclude Include="Core\Threading\CEConditionVariable.h" />
+    <ClInclude Include="Core\Threading\CEGenericAtomic.h" />
+    <ClInclude Include="Core\Threading\CEGenericProcess.h" />
     <ClInclude Include="Core\Threading\CEMutex.h" />
     <ClInclude Include="Core\Common\CETypes.h" />
     <ClInclude Include="Core\Compilers\CECompiler.h" />
@@ -86,9 +94,12 @@
     <ClInclude Include="Core\Platform\Generic\Input\CEInputManager.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsConsole.h" />
     <ClInclude Include="Core\Platform\Windows\Window\CEWindowsWindow.h" />
+    <ClInclude Include="Core\Threading\CEProcess.h" />
     <ClInclude Include="Core\Threading\CEScopedLock.h" />
     <ClInclude Include="Core\Threading\CETaskManager.h" />
+    <ClInclude Include="Core\Threading\CEThread.h" />
     <ClInclude Include="Core\Threading\CEThreadSafe.h" />
+    <ClInclude Include="Core\Threading\CEThreadSafeInt.h" />
     <ClInclude Include="Graphics\DirectX12\Base\CEDirectXHandlers.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />
@@ -226,6 +237,7 @@
     <ClCompile Include="Core\Platform\Windows\Cursor\CEWindowsCursor.cpp" />
     <ClCompile Include="Core\Platform\Generic\Input\CEInputManager.cpp" />
     <ClCompile Include="Core\Platform\Windows\Input\CEWindowsInputManager.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Threading\CEWindowsThread.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsConsole.cpp" />
     <ClCompile Include="Core\Platform\Windows\Window\CEWindowsWindow.cpp" />
     <ClCompile Include="Core\Threading\CETaskManager.cpp" />

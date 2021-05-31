@@ -179,6 +179,17 @@
     <ClInclude Include="..\ConceptEngineFramework\Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXViewport.h" />
+    <ClInclude Include="Core\Threading\CEThread.h" />
+    <ClInclude Include="Core\Threading\CEConditionVariable.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsConditionVariable.h" />
+    <ClInclude Include="Core\Threading\CEThreadSafeInt.h" />
+    <ClInclude Include="Core\Threading\CEProcess.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsProcess.h" />
+    <ClInclude Include="Core\Threading\CEGenericProcess.h" />
+    <ClInclude Include="Core\Threading\CEAtomic.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsAtomic.h" />
+    <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsThread.h" />
+    <ClInclude Include="Core\Threading\CEGenericAtomic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -290,6 +301,7 @@
     <ClCompile Include="Graphics\Main\Common\CETransform.cpp" />
     <ClCompile Include="Graphics\DirectX12\Base\CEDirectXHandlers.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXViewport.cpp" />
+    <ClCompile Include="Core\Platform\Windows\Threading\CEWindowsThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
