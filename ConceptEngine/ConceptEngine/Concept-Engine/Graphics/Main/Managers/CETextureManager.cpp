@@ -132,7 +132,7 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 
 	Core::Common::CERef<CEUnorderedAccessView> stagingTextureUAV = dynamic_cast<Main::Managers::CEGraphicsManager*>(
 		Core::Application::CECore::GetGraphics()->GetManager(Core::Common::CEManagerType::GraphicsManager)
-	)->CreateUnorderedAccessView(stagingTexture.Get(), format, 0);
+	)->CreateUnorderedAccessViewForTextureCube(stagingTexture.Get(), format, 0);
 
 	if (!stagingTextureUAV) {
 		return nullptr;
