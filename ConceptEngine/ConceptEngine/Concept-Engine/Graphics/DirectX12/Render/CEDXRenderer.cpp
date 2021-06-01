@@ -14,18 +14,155 @@ struct CEDXCameraBufferDesc {
 };
 
 bool CEDXRenderer::Create() {
-	if (!CERenderer::Create()) {
+
+	for (auto variable : ConceptEngine::Render::Variables) {
+		INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
+	}
+
+	Resources.MainWindowViewport = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+			Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))
+		->CreateViewport(
+			Core::Platform::Generic::Callbacks::EngineController.GetWindow(),
+			0,
+			0,
+			CEFormat::R8G8B8A8_Unorm,
+			CEFormat::Unknown
+		);
+
+	if (!Resources.MainWindowViewport) {
 		return false;
 	}
-	return false;
+
+	Resources.CameraBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateConstantBuffer<CEDXCameraBufferDesc>(
+		BufferFlag_Default, CEResourceState::Common, nullptr
+	);
+
+	if (!Resources.CameraBuffer) {
+		CE_LOG_ERROR("[CERenderer]: Failed to Create Camera Buffer");
+		return false;
+	}
+
+	Resources.CameraBuffer->SetName("CameraBuffer");
+
+	const auto inputLayout = CreateInputLayoutCreateInfo();
+
+	Resources.StdInputLayout = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+		->GetManager(CEManagerType::GraphicsManager))->CreateInputLayout(inputLayout);
+	if (!Resources.StdInputLayout) {
+		return false;
+	}
+
+	Resources.StdInputLayout->SetName("Standard InputLayoutState");
+
+	{
+		CESamplerStateCreateInfo createInfo;
+		createInfo.AddressU = CESamplerMode::Border;
+		createInfo.AddressV = CESamplerMode::Border;
+		createInfo.AddressW = CESamplerMode::Border;
+		createInfo.Filter = CESamplerFilter::Comparison_MinMagMipLinear;
+		createInfo.ComparisonFunc = CEComparisonFunc::LessEqual;
+		createInfo.BorderColor = Math::CEColorF(1.0f, 1.0f, 1.0f, 1.0f);
+
+		Resources.DirectionalShadowSampler = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+			Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+		if (!Resources.DirectionalShadowSampler) {
+			return false;
+		}
+
+		Resources.DirectionalShadowSampler->SetName("ShadowMap Sampler");
+	}
+
+	{
+		CESamplerStateCreateInfo createInfo;
+		createInfo.AddressU = CESamplerMode::Wrap;
+		createInfo.AddressV = CESamplerMode::Wrap;
+		createInfo.AddressW = CESamplerMode::Wrap;
+		createInfo.Filter = CESamplerFilter::Comparison_MinMagMipLinear;
+		createInfo.ComparisonFunc = CEComparisonFunc::LessEqual;
+
+		Resources.PointShadowSampler = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+			Core::Application::CECore::GetGraphics()
+			->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+		if (!Resources.PointShadowSampler) {
+			return false;
+		}
+
+		Resources.PointShadowSampler->SetName("ShadowMap Comparison Sampler");
+	}
+
+	GPUProfiler = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
+		->GetManager(CEManagerType::GraphicsManager))->CreateProfiler();
+	if (!GPUProfiler) {
+		return false;
+	}
+
+	Core::Debug::CEProfiler::SetGPUProfiler(GPUProfiler.Get());
+
+	if (!CreateAA()) {
+		return false;
+	}
+
+	if (!CreateBoundingBoxDebugPass()) {
+		return false;
+	}
+
+	if (!CreateShadingImage()) {
+		return false;
+	}
+
+	if (!LightSetup.Create()) {
+		return false;
+	}
+
+	if (!DeferredRenderer.Create(Resources)) {
+		return false;
+	}
+
+	if (!ShadowMapRenderer.Create(LightSetup, Resources)) {
+		return false;
+	}
+
+	if (!SSAORenderer.Create(Resources)) {
+		return false;
+	}
+
+	if (!LightProbeRenderer.Create(LightSetup, Resources)) {
+		return false;
+	}
+
+	if (!SkyBoxRenderPass.Create(Resources)) {
+		return false;
+	}
+
+	if (!ForwardRenderer.Create(Resources)) {
+		return false;
+	}
+
+	if (dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->IsRayTracingSupported()) {
+		if (!RayTracer.Create(Resources)) {
+			return false;
+		}
+	}
+
+	using namespace std::placeholders;
+	CommandList.Execute([this] {
+		LightProbeRenderer.RenderSkyLightProbe(CommandList, LightSetup, Resources);
+	});
+
+	CommandListExecutor.ExecuteCommandList(CommandList);
+
+	Core::Platform::Generic::Callbacks::EngineController.OnWindowResizedEvent.AddObject(
+		this, &CEDXRenderer::OnWindowResize);
+
+	return true;
 }
 
 void CEDXRenderer::Release() {
 	CERenderer::Release();
-}
-
-void CEDXRenderer::Update(const CEScene& scene) {
-	CERenderer::Update(scene);
 }
 
 void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
@@ -59,21 +196,6 @@ bool CEDXRenderer::CreateShadingImage() {
 	return false;
 }
 
-void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
-}
-
-CERef<CEConstantBuffer> CEDXRenderer::CreateConstantBuffer(uint32 Flags, CEResourceState InitialState,
-                                                           const CEResourceData* InitialData) {
-	return dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager)
-	)->CreateConstantBuffer<CEDXCameraBufferDesc>(
-		BufferFlag_Default,
-		CEResourceState::Common,
-		nullptr
-	);
-}
-
 const CEInputLayoutStateCreateInfo& CEDXRenderer::CreateInputLayoutCreateInfo() {
 	const CEInputLayoutStateCreateInfo InputLayout = {
 		{"POSITION", 0, CEFormat::R32G32B32_Float, 0, 0, CEInputClassification::Vertex, 0},
@@ -83,4 +205,40 @@ const CEInputLayoutStateCreateInfo& CEDXRenderer::CreateInputLayoutCreateInfo() 
 	};
 
 	return InputLayout;
+}
+
+
+void CEDXRenderer::Update(const CEScene& scene) {
+	Resources.DeferredVisibleCommands.Clear();
+	Resources.ForwardVisibleCommands.Clear();
+	Resources.DebugTextures.Clear();
+
+	if (!ConceptEngine::Render::Variables["CE.FrustumCullEnabled"].GetBool()) {
+		for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+			if (command.Material->HasAlphaMask()) {
+				Resources.ForwardVisibleCommands.EmplaceBack(command);
+			}
+			else {
+				Resources.DeferredVisibleCommands.EmplaceBack(command);
+			}
+		}
+	}
+	else {
+		PerformFrustumCulling(scene);
+	}
+}
+
+
+void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
+	if (!Resources.MainWindowViewport->Resize(width, height)) {
+		return;
+	}
+
+	if (!DeferredRenderer.ResizeResources(Resources)) {
+		return;
+	}
+
+	if (!SSAORenderer.ResizeResources(Resources)) {
+		return;
+	}
 }

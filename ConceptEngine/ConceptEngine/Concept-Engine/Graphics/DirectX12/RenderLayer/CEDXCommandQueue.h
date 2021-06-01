@@ -10,7 +10,23 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 		bool Create(D3D12_COMMAND_LIST_TYPE type) {
-			return true;
+			D3D12_COMMAND_QUEUE_DESC queueDesc;
+			Memory::CEMemory::Memzero(&queueDesc);
+
+			queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+			queueDesc.NodeMask = 1;
+			queueDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
+			queueDesc.Type = type;
+
+			HRESULT hResult = GetDevice()->GetDevice()->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&Queue));
+			if (SUCCEEDED(hResult)) {
+				CE_LOG_INFO("[CEDXCommandQueue]: Create Command Queue");
+				return true;
+			}
+
+			CE_LOG_ERROR("[CEDXCommandQueue]: Failed to create Command Queue");
+
+			return false;
 		}
 
 		bool SignalFence(CEDXFenceHandle& fence, uint64 fenceValue) {

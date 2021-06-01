@@ -7,7 +7,3 @@ CERendererManager::CERendererManager() {
 
 CERendererManager::~CERendererManager() {
 }
-
-bool CERendererManager::Create() {
-	return true;
-}

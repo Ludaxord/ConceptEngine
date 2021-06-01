@@ -18,13 +18,6 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Render {
 		bool CreateAA() override;
 		bool CreateShadingImage() override;
 		void ResizeResources(uint32 width, uint32 height) override;
-
-		Core::Common::CERef<Main::RenderLayer::CEConstantBuffer> CreateConstantBuffer(
-			uint32 Flags,
-			Main::RenderLayer::CEResourceState InitialState,
-			const Main::RenderLayer::CEResourceData* InitialData
-		) override;
-
 		const Main::RenderLayer::CEInputLayoutStateCreateInfo& CreateInputLayoutCreateInfo() override;
 	};
 }
