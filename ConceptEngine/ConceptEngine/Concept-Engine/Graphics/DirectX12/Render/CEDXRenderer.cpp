@@ -189,13 +189,13 @@ void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
 		auto transposeTransform = CEMatrixTranspose(CELoadFloat4X4(&transform));
 
 		auto loadFloatBoundingBoxTop = CELoadFloat3(&command.Mesh->BoundingBox.Top);
-		auto transposeTop = CEVectorSetW<3, float>(&loadFloatBoundingBoxTop, 1.0f);
+		auto transposeTop = CEVectorSetW<3, float>(loadFloatBoundingBoxTop, 1.0f);
 
 		auto loadFloatBoundingBoxBottom = CELoadFloat3(&command.Mesh->BoundingBox.Bottom);
-		auto transposeBottom = CEVectorSetW<3, float>(&loadFloatBoundingBoxBottom, 1.0f);
+		auto transposeBottom = CEVectorSetW<3, float>(loadFloatBoundingBoxBottom, 1.0f);
 
-		transposeTop = CEVector4Transform<3, 4, 4, float>(&transposeTop, transposeTransform);
-		transposeBottom = CEVector4Transform<3, 4, 4, float>(&transposeBottom, transposeTransform);
+		transposeTop = CEVector4Transform<3, 4, 4, float>(transposeTop, transposeTransform);
+		transposeBottom = CEVector4Transform<3, 4, 4, float>(transposeBottom, transposeTransform);
 
 		CEAABB Box;
 		CEStoreFloat3(&Box.Top, transposeTop);
