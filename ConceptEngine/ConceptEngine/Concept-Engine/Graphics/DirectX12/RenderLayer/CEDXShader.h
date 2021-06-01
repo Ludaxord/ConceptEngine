@@ -2,8 +2,6 @@
 #include "CEDXDeviceElement.h"
 #include "../../Main/RenderLayer/CEShader.h"
 
-#include "../../../Math/CEMathTypes.h"
-
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	//TODO: create static sampler class right not put enums here:

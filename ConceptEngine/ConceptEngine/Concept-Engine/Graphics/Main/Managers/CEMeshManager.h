@@ -1,0 +1,59 @@
+#pragma once
+
+#include <string>
+
+#include "../../../Math/CEMath.h"
+#include "../../../Core/Containers/CEArray.h"
+#include "../../../Utilities/CEHashUtilities.h"
+
+
+namespace ConceptEngine::Graphics::Main {
+	struct CEVertex {
+		CEVectorFloat3 Position;
+		CEVectorFloat3 Normal;
+		CEVectorFloat3 Tangent;
+		CEVectorFloat2 TexCoord;
+
+		bool operator==(const CEVertex& o) const {
+			return ((Position.x == o.Position.x) && (Position.y == o.Position.y) && (Position.z == o.Position.z)) &&
+				((Normal.x == o.Normal.x) && (Normal.y == o.Normal.y) && (Normal.z == o.Normal.z)) &&
+				((Tangent.x == o.Tangent.x) && (Tangent.y == o.Tangent.y) && (Tangent.z == o.Tangent.z)) &&
+				((TexCoord.x == o.TexCoord.x) && (TexCoord.y == o.TexCoord.y));
+		}
+	};
+
+	struct CEVertexHasher {
+		inline size_t operator()(const CEVertex& V) const {
+			std::hash<CEVectorFloat3> Hasher;
+
+			size_t Hash = Hasher(V.Position);
+			HashCombine<CEVectorFloat3>(Hash, V.Normal);
+			HashCombine<CEVectorFloat3>(Hash, V.Tangent);
+			HashCombine<CEVectorFloat2>(Hash, V.TexCoord);
+
+			return Hash;
+		}
+	};
+
+	struct CEMeshData {
+		Core::Containers::CEArray<CEVertex> Vertices;
+		Core::Containers::CEArray<uint32> Indices;
+	};
+
+	class CEMeshManager {
+	public:
+		static CEMeshData CreateFromFile(const std::string& filename, bool mergeMeshes = true,
+		                                 bool leftHanded = true) noexcept;
+		static CEMeshData CreateCube(float width = 1.0f, float height = 1.0f, float depth = 1.0f) noexcept;
+		static CEMeshData CreatePlane(uint32 width = 1, uint32 height = 1) noexcept;
+		static CEMeshData CreateSphere(uint32 subdivisions = 0, float radius = 0.5f) noexcept;
+		static CEMeshData CreateCone(uint32 sides = 5, float radius = 0.5f, float height = 1.0f) noexcept;
+		static CEMeshData CreatePyramid() noexcept;
+		static CEMeshData CreateCylinder(uint32 sides = 5, float radius = 0.5f, float height = 1.0f) noexcept;
+
+		static void Subdivide(CEMeshData& data, uint32 subdivisions = 1) noexcept;
+		static void Optimize(CEMeshData& data, uint32 startVertex = 0) noexcept;
+		static void CalculateHardNormals(CEMeshData& data) noexcept;
+		static void CalculateTangent(CEMeshData& data) noexcept;
+	};
+}

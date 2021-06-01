@@ -2,6 +2,8 @@
 
 #include "../../../Render/CERenderer.h"
 
+#include "../../../Render/Scene/CEFrustum.h"
+
 namespace ConceptEngine::Graphics::DirectX12::Modules::Render {
 	class CEDXRenderer : public ConceptEngine::Render::CERenderer {
 	public:

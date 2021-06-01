@@ -8,7 +8,9 @@ namespace ConceptEngine::Graphics::Main::Managers {
 		CERendererManager();
 		~CERendererManager() override;
 
-		bool Create() override;
+		bool Create() override {
+			return true;
+		}
 	};
 }
 	

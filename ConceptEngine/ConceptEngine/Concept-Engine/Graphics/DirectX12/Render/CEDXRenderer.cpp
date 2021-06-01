@@ -10,7 +10,17 @@ using namespace ConceptEngine::Core::Common;
 ConceptEngine::Render::CERenderer* Renderer = new CEDXRenderer();
 
 struct CEDXCameraBufferDesc {
-
+	DirectX::XMFLOAT4X4 ViewProjection;
+	DirectX::XMFLOAT4X4 View;
+	DirectX::XMFLOAT4X4 ViewInv;
+	DirectX::XMFLOAT4X4 Projection;
+	DirectX::XMFLOAT4X4 ProjectionInv;
+	DirectX::XMFLOAT4X4 ViewProjectionInv;
+	DirectX::XMFLOAT3 Position;
+	float NearPlane;
+	DirectX::XMFLOAT3 Forward;
+	float FarPlane;
+	float AspectRatio;
 };
 
 bool CEDXRenderer::Create() {
@@ -33,6 +43,8 @@ bool CEDXRenderer::Create() {
 	if (!Resources.MainWindowViewport) {
 		return false;
 	}
+
+	Resources.MainWindowViewport->SetName("Main Window Viewport");
 
 	Resources.CameraBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
 		GetManager(CEManagerType::GraphicsManager))->CreateConstantBuffer<CEDXCameraBufferDesc>(
@@ -167,6 +179,36 @@ void CEDXRenderer::Release() {
 
 void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
 	CERenderer::PerformFrustumCulling(scene);
+
+	TRACE_SCOPE("Frustum Culling");
+
+	CECamera* camera = scene.GetCamera();
+	CEFrustum cameraFrustum = CEFrustum(camera->GetFarPlane(), camera->GetViewMatrix(), camera->GetProjectionMatrix());
+	for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+		const auto transform = command.CurrentActor->GetTransform().GetMatrix();
+		auto transposeTransform = CEMatrixTranspose(CELoadFloat4X4(&transform));
+
+		auto loadFloatBoundingBoxTop = CELoadFloat3(&command.Mesh->BoundingBox.Top);
+		auto transposeTop = CEVectorSetW<3, float>(&loadFloatBoundingBoxTop, 1.0f);
+
+		auto loadFloatBoundingBoxBottom = CELoadFloat3(&command.Mesh->BoundingBox.Bottom);
+		auto transposeBottom = CEVectorSetW<3, float>(&loadFloatBoundingBoxBottom, 1.0f);
+
+		transposeTop = CEVector4Transform<3, 4, 4, float>(&transposeTop, transposeTransform);
+		transposeBottom = CEVector4Transform<3, 4, 4, float>(&transposeBottom, transposeTransform);
+
+		CEAABB Box;
+		CEStoreFloat3(&Box.Top, transposeTop);
+		CEStoreFloat3(&Box.Bottom, transposeBottom);
+		if (cameraFrustum.CheckAABB(Box)) {
+			if (command.Material->HasAlphaMask()) {
+				Resources.ForwardVisibleCommands.EmplaceBack(command);
+			}
+			else {
+				Resources.DeferredVisibleCommands.EmplaceBack(command);
+			}
+		}
+	}
 }
 
 void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
@@ -182,9 +224,163 @@ void CEDXRenderer::RenderDebugInterface() {
 }
 
 void CEDXRenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
+	CERenderer::OnWindowResize(Event);
 }
 
 bool CEDXRenderer::CreateBoundingBoxDebugPass() {
+	Core::Containers::CEArray<uint8> shaderCode;
+	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Debug.hlsl", "VSMain", nullptr, CEShaderStage::Vertex,
+	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		return false;
+	}
+
+	AABBVertexShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateVertexShader(shaderCode);
+	if (!AABBVertexShader) {
+		return false;
+	}
+
+	AABBVertexShader->SetName("Debug Vertex Shader");
+
+	if (!ShaderCompiler->CompileFromFile("DirectX12/Shader/Debug.hlsl", "PSMain", nullptr, CEShaderStage::Pixel,
+	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		return false;
+	}
+
+	AABBPixelShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreatePixelShader(shaderCode);
+	if (!AABBPixelShader) {
+		return false;
+	}
+
+	AABBPixelShader->SetName("Debug Pixel Shader");
+
+	CEInputLayoutStateCreateInfo inputLayout = {
+		{"POSITION", 0, CEFormat::R32G32B32_Float, 0, 0, CEInputClassification::Vertex, 0}
+	};
+
+	CERef<CEInputLayoutState> inputLayoutState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateInputLayout(inputLayout);
+	if (!inputLayoutState) {
+		return false;
+	}
+
+	inputLayoutState->SetName("Debug Input Layout State");
+
+	CEDepthStencilStateCreateInfo depthStencilStateInfo;
+	depthStencilStateInfo.DepthFunc = CEComparisonFunc::LessEqual;
+	depthStencilStateInfo.DepthEnable = false;
+	depthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::Zero;
+
+	CERef<CEDepthStencilState> depthStencilState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateDepthStencilState(depthStencilStateInfo);
+	if (!depthStencilState) {
+		return false;
+	}
+
+	depthStencilState->SetName("Debug Depth Stencil State");
+
+	CERasterizerStateCreateInfo rasterizerStateInfo;
+	rasterizerStateInfo.CullMode = CECullMode::None;
+
+	CERef<CERasterizerState> rasterizerState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateRasterizerState(rasterizerStateInfo);
+
+	if (!rasterizerState) {
+		return false;
+	}
+
+	rasterizerState->SetName("Debug Rasterizer State");
+
+	CEBlendStateCreateInfo blendStateInfo;
+
+	CERef<CEBlendState> blendState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateBlendState(blendStateInfo);
+
+	if (!blendState) {
+		return false;
+	}
+
+	blendState->SetName("Debug Blend State");
+
+	CEGraphicsPipelineStateCreateInfo psoProperties;
+	psoProperties.BlendState = blendState.Get();
+	psoProperties.DepthStencilState = depthStencilState.Get();
+	psoProperties.InputLayoutState = inputLayoutState.Get();
+	psoProperties.RasterizerState = rasterizerState.Get();
+	psoProperties.ShaderState.VertexShader = AABBVertexShader.Get();
+	psoProperties.ShaderState.PixelShader = AABBPixelShader.Get();
+	psoProperties.PrimitiveTopologyType = CEPrimitiveTopologyType::Line;
+	psoProperties.PipelineFormats.RenderTargetFormats[0] = Resources.RenderTargetFormat;
+	psoProperties.PipelineFormats.NumRenderTargets = 1;
+	psoProperties.PipelineFormats.DepthStencilFormat = Resources.DepthBufferFormat;
+
+	AABBDebugPipelineState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateGraphicsPipelineState(psoProperties);
+
+	if (!AABBDebugPipelineState) {
+		return false;
+	}
+
+	AABBDebugPipelineState->SetName("Debug Pipeline State");
+
+	Core::Containers::CEStaticArray<DirectX::XMFLOAT3, 8> vertices = {
+		DirectX::XMFLOAT3(-0.5f, -0.5f, 0.5f),
+		DirectX::XMFLOAT3(0.5f, -0.5f, 0.5f),
+		DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f),
+		DirectX::XMFLOAT3(0.5f, 0.5f, 0.5f),
+
+		DirectX::XMFLOAT3(0.5f, -0.5f, -0.5f),
+		DirectX::XMFLOAT3(-0.5f, -0.5f, -0.5f),
+		DirectX::XMFLOAT3(0.5f, 0.5f, -0.5f),
+		DirectX::XMFLOAT3(-0.5f, 0.5f, -0.5f)
+	};
+
+	CEResourceData vertexData(vertices.Data(), vertices.SizeInBytes());
+
+	AABBVertexBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateVertexBuffer<DirectX::XMFLOAT3>(
+		vertices.Size(), BufferFlag_Default, CEResourceState::Common, &vertexData);
+	if (!AABBVertexBuffer) {
+		return false;
+	}
+
+	AABBVertexBuffer->SetName("AABB Vertex Buffer");
+
+	Core::Containers::CEStaticArray<uint16, 24> indices = {
+		0, 1,
+		1, 3,
+		3, 2,
+		2, 0,
+		1, 4,
+		3, 6,
+		6, 4,
+		4, 5,
+		5, 7,
+		7, 6,
+		0, 5,
+		2, 7,
+	};
+
+	CEResourceData indexData(indices.Data(), indices.SizeInBytes());
+
+	AABBIndexBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+		Core::Application::CECore::GetGraphics()->
+		GetManager(CEManagerType::GraphicsManager))->CreateIndexBuffer(CEIndexFormat::uint16, indices.Size(),
+		                                                               BufferFlag_Default, CEResourceState::Common,
+		                                                               &indexData);
+	if (!AABBIndexBuffer) {
+		return false;
+	}
+
+	AABBIndexBuffer->SetName("AABB Index Buffer");
+
 	return false;
 }
 

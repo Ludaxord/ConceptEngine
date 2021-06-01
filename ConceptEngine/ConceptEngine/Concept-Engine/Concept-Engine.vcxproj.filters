@@ -190,6 +190,11 @@
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsAtomic.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsThread.h" />
     <ClInclude Include="Core\Threading\CEGenericAtomic.h" />
+    <ClInclude Include="Render\Scene\CEFrustum.h" />
+    <ClInclude Include="Render\Scene\CEAABB.h" />
+    <ClInclude Include="Math\CEOperators.h" />
+    <ClInclude Include="Graphics\Main\Managers\CEMeshManager.h" />
+    <ClInclude Include="Utilities\CEHashUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -302,6 +307,7 @@
     <ClCompile Include="Graphics\DirectX12\Base\CEDirectXHandlers.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXViewport.cpp" />
     <ClCompile Include="Core\Platform\Windows\Threading\CEWindowsThread.cpp" />
+    <ClCompile Include="Render\Scene\CEFrustum.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

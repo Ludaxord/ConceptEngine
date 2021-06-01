@@ -9,7 +9,6 @@
 #include "../../../Core/Common/CERef.h"
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Core/Containers/CEStaticArray.h"
-#include "../../../Math/CEMathTypes.h"
 #include "../../../Graphics/Main/RenderLayer/CECommandList.h"
 #include "../../../Graphics/Main/Managers/CEGraphicsManager.h"
 #include "../../../Core/Application/CECore.h"

@@ -876,8 +876,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		uint32 Depth;
 	};
 
-	struct CEInsertCommandListMakerRenderCommand : public CERenderCommand {
-		CEInsertCommandListMakerRenderCommand(const std::string& marker): Marker(marker) {
+	struct CEInsertCommandListMarkerRenderCommand : public CERenderCommand {
+		CEInsertCommandListMarkerRenderCommand(const std::string& marker): Marker(marker) {
 
 		}
 

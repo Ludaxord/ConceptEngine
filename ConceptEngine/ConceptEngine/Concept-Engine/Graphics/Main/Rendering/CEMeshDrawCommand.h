@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Common/CEMesh.h"
+#include "../../../Render/Scene/CEActor.h"
 
 namespace ConceptEngine::Graphics::Main { namespace Common {
 		class CEMaterial;
@@ -8,8 +10,8 @@ namespace ConceptEngine::Graphics::Main { namespace Common {
 	namespace Rendering {
 		struct CEMeshDrawCommand {
 			class Common::CEMaterial* Material = nullptr;
-			class CEMesh* Mesh = nullptr;
-			class CEActor* CurrentActor = nullptr;
+			class Common::CEMesh* Mesh = nullptr;
+			class ConceptEngine::Render::Scene::CEActor* CurrentActor = nullptr;
 
 			class CEVertexBuffer* VertexBuffer = nullptr;
 			class CEIndexBuffer* IndexBuffer = nullptr;

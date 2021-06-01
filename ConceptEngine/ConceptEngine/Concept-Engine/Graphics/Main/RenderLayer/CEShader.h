@@ -1,8 +1,7 @@
 #pragma once
 
 #include "CEResource.h"
-
-struct CEVectorUint3;
+#include "../../../Math/CEOperators.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CEShaderParameterInfo {

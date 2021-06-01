@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d12.h>
+#include <boost/function.hpp>
 #include <wrl/client.h>
 
 #include "CEDXCommandList.h"

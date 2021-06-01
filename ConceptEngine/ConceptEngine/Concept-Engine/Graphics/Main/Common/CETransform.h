@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Math/CEMathTypes.h"
+#include "../../../Math/CEOperators.h"
 
 namespace ConceptEngine::Graphics::Main::Common {
 	class CETransform {

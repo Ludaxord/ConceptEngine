@@ -141,6 +141,7 @@
     <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
     <ClInclude Include="Graphics\Main\Common\CEPlayground.h" />
     <ClInclude Include="Graphics\Main\Common\CETransform.h" />
+    <ClInclude Include="Graphics\Main\Managers\CEMeshManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEDebugUI.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Math\CEColor.h" />
     <ClInclude Include="Math\CEMath.h" />
     <ClInclude Include="Math\CEMathTypes.h" />
+    <ClInclude Include="Math\CEOperators.h" />
     <ClInclude Include="Memory\CELinearAllocator.h" />
     <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Physics\CEPhysics.h" />
@@ -192,8 +194,10 @@
     <ClInclude Include="Core\Platform\Mac\CEMac.h" />
     <ClInclude Include="Core\Platform\Windows\CEWindows.h" />
     <ClInclude Include="Render\CERenderer.h" />
+    <ClInclude Include="Render\Scene\CEAABB.h" />
     <ClInclude Include="Render\Scene\CEActor.h" />
     <ClInclude Include="Render\Scene\CECamera.h" />
+    <ClInclude Include="Render\Scene\CEFrustum.h" />
     <ClInclude Include="Render\Scene\CELight.h" />
     <ClInclude Include="Render\Scene\CEScene.h" />
     <ClInclude Include="Save\Game\CEGameSave.h" />
@@ -203,6 +207,7 @@
     <ClInclude Include="Save\Project\CEProjectSaveWriter.h" />
     <ClInclude Include="Time\CETimer.h" />
     <ClInclude Include="Time\CETimestamp.h" />
+    <ClInclude Include="Utilities\CEHashUtilities.h" />
     <ClInclude Include="Utilities\CEScreenUtilities.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEConsole.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEScreen.h" />
@@ -313,6 +318,7 @@
     <ClCompile Include="Render\CERenderer.cpp" />
     <ClCompile Include="Render\Scene\CEActor.cpp" />
     <ClCompile Include="Render\Scene\CECamera.cpp" />
+    <ClCompile Include="Render\Scene\CEFrustum.cpp" />
     <ClCompile Include="Render\Scene\CEScene.cpp" />
     <ClCompile Include="Save\Game\CEGameSaveReader.h" />
     <ClCompile Include="Save\Project\CEProjectSave.h" />

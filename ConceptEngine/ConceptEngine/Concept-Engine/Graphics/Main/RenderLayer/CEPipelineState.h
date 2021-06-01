@@ -129,12 +129,24 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CEComputePipelineState : public CEPipelineState {
+	public:
+		virtual CEComputePipelineState* AsCompute() override {
+			return this;
+		}
 	};
 
 	class CEGraphicsPipelineState : public CEPipelineState {
+	public:
+		virtual CEGraphicsPipelineState* AsGraphics() override {
+			return this;
+		}
 	};
 
 	class CERayTracingPipelineState : public CEPipelineState {
+	public:
+		virtual CERayTracingPipelineState* AsRayTracing() override {
+			return this;
+		}
 	};
 
 	struct CEDepthStencilStateCreateInfo {
@@ -240,7 +252,42 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		Core::Containers::CEArray<CEInputElement> Elements;
 	};
 
+	struct CEPipelineRenderTargetFormats {
+		CEFormat RenderTargetFormats[8];
+		uint32 NumRenderTargets = 0;
+		CEFormat DepthStencilFormat = CEFormat::Unknown;
+	};
+
+	struct CEGraphicsPipelineShaderState {
+		CEGraphicsPipelineShaderState() = default;
+
+		CEGraphicsPipelineShaderState(CEVertexShader* vertexShader, CEPixelShader* pixelShader):
+			VertexShader(vertexShader), PixelShader(pixelShader) {
+
+		}
+
+		CEVertexShader* VertexShader = nullptr;
+		CEPixelShader* PixelShader = nullptr;
+	};
+
+	enum class CEIndexBufferStripCutValue {
+		Disabled = 0,
+		_0xffff = 1,
+		_0xffffffff = 2
+	};
+
 	struct CEGraphicsPipelineStateCreateInfo {
+		CEInputLayoutState* InputLayoutState = nullptr;
+		CEDepthStencilState* DepthStencilState = nullptr;
+		CERasterizerState* RasterizerState = nullptr;
+		CEBlendState* BlendState = nullptr;
+		uint32 SampleCount = 1;
+		uint32 SampleQuality = 0;
+		uint32 SampleMask = 0xffffffff;
+		CEIndexBufferStripCutValue IBStripCutValue = CEIndexBufferStripCutValue::Disabled;
+		CEPrimitiveTopologyType PrimitiveTopologyType = CEPrimitiveTopologyType::Triangle;
+		CEGraphicsPipelineShaderState ShaderState;
+		CEPipelineRenderTargetFormats PipelineFormats;
 	};
 
 	struct CEComputePipelineStateCreateInfo {

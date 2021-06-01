@@ -4,7 +4,6 @@
 #include "CEResourceViews.h"
 #include "CESamplerState.h"
 #include "../../../Core/Containers/CEArray.h"
-// #include "../../../Math/CEMathTypes.h"
 
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {

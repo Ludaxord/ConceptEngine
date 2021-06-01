@@ -9,7 +9,6 @@
 #include "../RenderLayer/CECommandList.h"
 #include "../Common/API.h"
 #include "../../../Render/Scene/CEScene.h"
-#include "../../../Math/CEMathTypes.h"
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	struct CEPointLightData {
