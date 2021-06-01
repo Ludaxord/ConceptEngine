@@ -15,7 +15,7 @@ constexpr float MAX_FRAMETIME_MS = 1000.0f / 30.0f;
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> ShowFPS(true);
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> ShowProfiler(false);
 
-void ConceptEngine::Core::Debug::CEProfiler::Init() {
+void ConceptEngine::Core::Debug::CEProfiler::Create() {
 	INIT_CONSOLE_VARIABLE("CE.FPS", &ShowFPS);
 	INIT_CONSOLE_VARIABLE("CE.Profiler", &ShowProfiler);
 }

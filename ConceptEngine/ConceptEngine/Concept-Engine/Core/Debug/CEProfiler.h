@@ -29,7 +29,7 @@ namespace ConceptEngine::Core::Debug {
 
 	class CEProfiler {
 	public:
-		static void Init();
+		static void Create();
 		static void Update();
 
 		static void Enable();

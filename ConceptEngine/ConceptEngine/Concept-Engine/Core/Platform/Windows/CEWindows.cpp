@@ -44,31 +44,31 @@ bool CEWindows::CreateSystemConsole() {
 }
 
 bool CEWindows::CreateCursors() {
-	if (!(CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW))) {
+	if (!((CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW)))) {
 		return false;
 	}
-	if (!(CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM))) {
+	if (!((CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM)))) {
 		return false;
 	}
-	if (!(CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL))) {
+	if (!((CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL)))) {
 		return false;
 	}
-	if (!(CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE))) {
+	if (!((CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE)))) {
 		return false;
 	}
-	if (!(CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS))) {
+	if (!((CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS)))) {
 		return false;
 	}
-	if (!(CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW))) {
+	if (!((CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW)))) {
 		return false;
 	}
-	if (!(CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE))) {
+	if (!((CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE)))) {
 		return false;
 	}
-	if (!(CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND))) {
+	if (!((CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND)))) {
 		return false;
 	}
-	if (!(CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO))) {
+	if (!((CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO)))) {
 		return false;
 	}
 

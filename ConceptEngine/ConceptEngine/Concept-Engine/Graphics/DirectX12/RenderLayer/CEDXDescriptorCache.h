@@ -1,5 +1,6 @@
 #pragma once
 #include "CEDXBuffer.h"
+#include "CEDXCommandList.h"
 #include "CEDXDeviceElement.h"
 #include "CEDXSamplerState.h"
 #include "CEDXShader.h"
@@ -92,7 +93,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		TCEDXDescriptorView* DescriptorViews[NUM_VISIBILITIES][NUM_DESCRIPTORS];
 		D3D12_GPU_DESCRIPTOR_HANDLE Descriptors[NUM_VISIBILITIES];
-		D3D12_GPU_DESCRIPTOR_HANDLE CopyDescriptors[NUM_DESCRIPTORS];
+		D3D12_CPU_DESCRIPTOR_HANDLE CopyDescriptors[NUM_DESCRIPTORS];
 		bool Dirty[NUM_VISIBILITIES];
 		uint32 DescriptorRangeLengths[NUM_VISIBILITIES];
 		uint32 TotalNumDescriptors;
@@ -223,6 +224,13 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			Memory::CEMemory::Memzero(RenderTargetViewHandles, sizeof(RenderTargetViewHandles));
 			DepthStencilViewHandle = {0};
 			NumRenderTargets = 0;
+		}
+
+		void CommitState(CEDXCommandListHandle& commandList) {
+			if (Dirty) {
+				commandList.SetRenderTargets(RenderTargetViewHandles, NumRenderTargets, FALSE, DSVPtr);
+				Dirty = false;
+			}
 		}
 
 	private:

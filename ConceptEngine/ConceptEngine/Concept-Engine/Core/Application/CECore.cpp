@@ -52,7 +52,7 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
 
 bool ConceptEngine::Core::Application::CECore::Create() {
 
-	Debug::CEProfiler::Init();
+	Debug::CEProfiler::Create();
 
 	if (!Platform->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Platform");

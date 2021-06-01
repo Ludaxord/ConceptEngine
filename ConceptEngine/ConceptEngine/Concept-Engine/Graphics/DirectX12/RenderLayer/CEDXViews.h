@@ -1,6 +1,7 @@
 #pragma once
 #include "CEDXDescriptorHeap.h"
 #include "CEDXDeviceElement.h"
+#include "CEDXResource.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXView : public CEDXDeviceElement {
