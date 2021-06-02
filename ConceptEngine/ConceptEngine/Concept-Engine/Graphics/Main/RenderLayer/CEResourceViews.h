@@ -5,6 +5,8 @@
 #include "../../../Core/Containers/CEStaticArray.h"
 #include "../../../Core/Common/CERef.h"
 
+#include "../RenderLayer/CEBuffer.h"
+
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CEShaderResourceView : public CEResource {
 

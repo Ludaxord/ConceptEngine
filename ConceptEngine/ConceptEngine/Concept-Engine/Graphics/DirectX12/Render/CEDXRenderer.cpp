@@ -8,6 +8,10 @@
 
 #include "../../../Core/Debug/CEProfiler.h"
 
+#include "../../../Core/Platform/Generic/Callbacks/CEEngineController.h"
+
+#include "../../../Graphics/Main/Common/CEMaterial.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;

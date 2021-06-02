@@ -1,7 +1,10 @@
 #pragma once
+#include <unordered_map>
+
+#include "../Core/Platform/Generic/Debug/CEConsoleVariable.h"
 #include "Scene/CEScene.h"
 #include "../Core/Common/CEEvents.h"
-#include "../Graphics/Main/RenderLayer/CECommandList.h"
+
 #include "../Graphics/Main/Rendering/CEDeferredRenderer.h"
 #include "../Graphics/Main/Rendering/CERayTracer.h"
 #include "../Graphics/Main/Rendering/CEShadowMapRenderer.h"
@@ -9,23 +12,20 @@
 #include "../Graphics/Main/Rendering/CELightProbeRenderer.h"
 #include "../Graphics/Main/Rendering/CESkyBoxRenderPass.h"
 #include "../Graphics/Main/Rendering/CEForwardRenderer.h"
-#include "../Graphics/Main/Rendering/CEFrameResources.h"
-#include "../Graphics/Main/Rendering/CELightSetup.h"
-#include "../Graphics/Main/RenderLayer/CETexture.h"
-#include "../Graphics/Main/RenderLayer/CEPipelineState.h"
-#include "../Graphics/Main/RenderLayer/CEShader.h"
-#include "../Graphics/Main/RenderLayer/CEBuffer.h"
-#include "../Graphics/Main/RenderLayer/CEGPUProfiler.h"
 
-#include "../Core/Platform/Generic/Debug/CEConsoleVariable.h"
-#include "../Core/Application/CECore.h"
-
-#include "../Graphics/Main/Common/CEMaterial.h"
+// #include "../Graphics/Main/Rendering/CEFrameResources.h"
+// #include "../Graphics/Main/Rendering/CELightSetup.h"
+// #include "../Graphics/Main/RenderLayer/CETexture.h"
+// #include "../Graphics/Main/RenderLayer/CEPipelineState.h"
+// #include "../Graphics/Main/RenderLayer/CEShader.h"
+// #include "../Graphics/Main/RenderLayer/CEBuffer.h"
+// #include "../Graphics/Main/RenderLayer/CEGPUProfiler.h"
+//
+// #include "../Core/Application/CECore.h"
+//
+// #include "../Graphics/Main/Common/CEMaterial.h"
 
 namespace ConceptEngine::Render {
-
-	using namespace Graphics::Main::Rendering;
-	using namespace Graphics::Main::RenderLayer;
 
 
 	static const uint32 ShadowMapSampleCount = 2;
@@ -51,9 +51,9 @@ namespace ConceptEngine::Render {
 		virtual void Update(const Scene::CEScene& scene) = 0;
 
 		virtual void PerformFrustumCulling(const Scene::CEScene& scene) = 0;
-		virtual void PerformFXAA(CECommandList& commandList) = 0;
-		virtual void PerformBackBufferBlit(CECommandList& commandList) = 0;
-		virtual void PerformAABBDebugPass(CECommandList& commandList) = 0;
+		virtual void PerformFXAA(Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
+		virtual void PerformBackBufferBlit(Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
+		virtual void PerformAABBDebugPass(Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
 		
 		virtual void RenderDebugInterface() = 0;
 
@@ -66,42 +66,42 @@ namespace ConceptEngine::Render {
 
 		virtual void ResizeResources(uint32 width, uint32 height) = 0;
 
-		virtual const CEInputLayoutStateCreateInfo& CreateInputLayoutCreateInfo() = 0;
+		virtual const Graphics::Main::RenderLayer::CEInputLayoutStateCreateInfo& CreateInputLayoutCreateInfo() = 0;
 
 	protected:
-		CECommandList CommandList;
+		Graphics::Main::RenderLayer::CECommandList CommandList;
 
 		//TODO: Move to some kind of container because object types are same in some situations;
 
-		CEDeferredRenderer DeferredRenderer;
-		CEShadowMapRenderer ShadowMapRenderer;
-		CEScreenSpaceOcclusionRenderer SSAORenderer;
-		CELightProbeRenderer LightProbeRenderer;
-		CESkyBoxRenderPass SkyBoxRenderPass;
-		CEForwardRenderer ForwardRenderer;
-		CERayTracer RayTracer;
+		Graphics::Main::Rendering::CEDeferredRenderer DeferredRenderer;
+		Graphics::Main::Rendering::CEShadowMapRenderer ShadowMapRenderer;
+		Graphics::Main::Rendering::CEScreenSpaceOcclusionRenderer SSAORenderer;
+		Graphics::Main::Rendering::CELightProbeRenderer LightProbeRenderer;
+		Graphics::Main::Rendering::CESkyBoxRenderPass SkyBoxRenderPass;
+		Graphics::Main::Rendering::CEForwardRenderer ForwardRenderer;
+		Graphics::Main::Rendering::CERayTracer RayTracer;
 
-		CEFrameResources Resources;
-		CELightSetup LightSetup;
+		Graphics::Main::Rendering::CEFrameResources Resources;
+		Graphics::Main::Rendering::CELightSetup LightSetup;
 
-		Core::Common::CERef<CETexture2D> ShadingImage;
-		Core::Common::CERef<CEComputePipelineState> ShadingRatePipeline;
-		Core::Common::CERef<CEComputeShader> ShadingRateShader;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CETexture2D> ShadingImage;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEComputePipelineState> ShadingRatePipeline;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEComputeShader> ShadingRateShader;
 
 		Core::Common::CERef<Graphics::Main::RenderLayer::CEVertexBuffer> AABBVertexBuffer;
 		Core::Common::CERef<Graphics::Main::RenderLayer::CEIndexBuffer> AABBIndexBuffer;
-		Core::Common::CERef<CEGraphicsPipelineState> AABBDebugPipelineState;
-		Core::Common::CERef<CEVertexShader> AABBVertexShader;
-		Core::Common::CERef<CEPixelShader> AABBPixelShader;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> AABBDebugPipelineState;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEVertexShader> AABBVertexShader;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> AABBPixelShader;
 
-		Core::Common::CERef<CEGraphicsPipelineState> PostPipelineState;
-		Core::Common::CERef<CEPixelShader> PostShader;
-		Core::Common::CERef<CEGraphicsPipelineState> FXAAPipelineState;
-		Core::Common::CERef<CEPixelShader> FXAAShader;
-		Core::Common::CERef<CEGraphicsPipelineState> FXAADebugPipelineState;
-		Core::Common::CERef<CEPixelShader> FXAADebugShader;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> PostPipelineState;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> PostShader;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> FXAAPipelineState;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> FXAAShader;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> FXAADebugPipelineState;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> FXAADebugShader;
 
-		Core::Common::CERef<CEGPUProfiler> GPUProfiler;
+		Core::Common::CERef<Graphics::Main::RenderLayer::CEGPUProfiler> GPUProfiler;
 
 		uint32 LastFrameNumDrawCalls = 0;
 		uint32 LastFrameNumDispatchCalls = 0;
