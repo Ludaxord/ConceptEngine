@@ -14,7 +14,7 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Render {
 		void PerformFrustumCulling(const ConceptEngine::Render::Scene::CEScene& scene) override;
 		void PerformFXAA(Main::RenderLayer::CECommandList& commandList) override;
 		void PerformBackBufferBlit(Main::RenderLayer::CECommandList& commandList) override;
-		void PerformAABBDebugPass(CECommandList& commandList) override;
+		void PerformAABBDebugPass(Main::RenderLayer::CECommandList& commandList) override;
 		
 		void RenderDebugInterface() override;
 	private:

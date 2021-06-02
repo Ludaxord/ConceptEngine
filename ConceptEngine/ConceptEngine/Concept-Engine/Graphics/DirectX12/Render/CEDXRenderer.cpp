@@ -1,6 +1,12 @@
 #include "CEDXRenderer.h"
 
+#include <imgui.h>
+
 #include "../../../Core/Application/CECore.h"
+
+#include "../../../Core/Platform/Generic/Debug/CETypedConsole.h"
+
+#include "../../../Core/Debug/CEProfiler.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Render::Scene;
@@ -33,7 +39,7 @@ bool CEDXRenderer::Create() {
 			Core::Application::CECore::GetGraphics()
 			->GetManager(CEManagerType::GraphicsManager))
 		->CreateViewport(
-			Core::Platform::Generic::Callbacks::EngineController.GetWindow(),
+			Core::Generic::Platform::CEPlatform::GetWindow(),
 			0,
 			0,
 			CEFormat::R8G8B8A8_Unorm,
@@ -317,10 +323,131 @@ void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 
 void CEDXRenderer::RenderDebugInterface() {
 	CERenderer::RenderDebugInterface();
+
+
 	if (ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool()) {
 		//TODO: find actual screen aspect ratio <== Use functions from ConceptEngine Framework
 		constexpr float inverseAspectRatio = 16.0f / 9.0f;
 		constexpr float AspectRatio = 9.0f / 16.0f;
+
+		const uint32 windowWidth = Core::Generic::Platform::CEPlatform::GetWindow()->GetWidth();
+		const uint32 windowHeight = Core::Generic::Platform::CEPlatform::GetWindow()->GetHeight();
+
+		const float width = Math::CEMath::Max(windowWidth * 0.6f, 400.0f);
+		const float height = windowHeight * 0.75f;
+
+		ImGui::SetNextWindowPos(ImVec2(float(windowWidth) * 0.5f, float(windowHeight) * 0.175f), ImGuiCond_Appearing,
+		                        ImVec2(0.5f, 0.0f));
+		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Appearing);
+
+		const ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoSavedSettings;
+
+		bool tempDrawTextureDebugger = ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool();
+		if (ImGui::Begin("Frame Buffer Debugger", &tempDrawTextureDebugger, flags)) {
+			ImGui::BeginChild("##ScrollBox", ImVec2(width * 0.985f, height * 0.125f), true,
+			                  ImGuiWindowFlags_HorizontalScrollbar);
+
+			const int32 count = Resources.DebugTextures.Size();
+			static int32 selectedImage = -1;
+			if (selectedImage >= count) {
+				selectedImage = -1;
+			}
+
+			for (int32 i = 0; i < count; i++) {
+				ImGui::PushID(i);
+
+				constexpr float menuImageSize = 96.0f;
+				int32 framePadding = 2;
+
+				ImVec2 size = ImVec2(menuImageSize * inverseAspectRatio, menuImageSize);
+				ImVec2 uv0 = ImVec2(0.0f, 0.0f);
+				ImVec2 uv1 = ImVec2(1.0f, 1.0f);
+
+				ImVec4 bgColor = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+				ImVec4 tintColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+				Main::Rendering::ImGuiImage* currentImage = &Resources.DebugTextures[i];
+				if (ImGui::ImageButton(currentImage, size, uv0, uv1, framePadding, bgColor, tintColor)) {
+					selectedImage = i;
+				}
+
+				if (ImGui::IsItemHovered()) {
+					ImGui::SetTooltip("%s", currentImage->Image->GetName().c_str());;
+				}
+
+				ImGui::PopID();
+
+				if (i != count - 1) {
+					ImGui::SameLine();
+				}
+			}
+
+			ImGui::EndChild();
+
+			const float imageWidth = width * 0.985f;
+			const float imageHeight = imageWidth * AspectRatio;
+			const int32 imageIndex = selectedImage > 0 ? selectedImage : 0;
+			Main::Rendering::ImGuiImage* currentImage = &Resources.DebugTextures[imageIndex];
+			ImGui::Image(currentImage, ImVec2(imageWidth, imageHeight));
+		}
+
+		ImGui::End();
+
+		ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].SetBool(tempDrawTextureDebugger);
+	}
+
+	if (ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool()) {
+		const uint32 windowWidth = Core::Generic::Platform::CEPlatform::GetWindow()->GetWidth();
+		const uint32 windowHeight = Core::Generic::Platform::CEPlatform::GetWindow()->GetHeight();
+		const float width = 300.0f;
+		const float height = windowHeight * 0.8f;
+
+		ImGui::SetNextWindowPos(ImVec2(float(windowWidth), 10.0f), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
+		ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
+
+		const ImGuiWindowFlags flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoSavedSettings;
+
+		ImGui::Begin("Concept Engine DirectX 12 Renderer Window", nullptr, flags);
+
+		ImGui::Text("Concept Engine DirectX 12 Renderer Status: ");
+		ImGui::Separator();
+
+		ImGui::Columns(2, nullptr, false);
+		ImGui::SetColumnWidth(0, 100.0f);
+
+		const std::string adapterName = dynamic_cast<Main::Managers::CEGraphicsManager*>(
+				Core::Application::CECore::GetGraphics()
+				->GetManager(CEManagerType::GraphicsManager))
+			->GetAdapterName();
+
+		ImGui::Text("Adapter: ");
+		ImGui::NextColumn();
+
+		ImGui::Text("%s", adapterName.c_str());
+		ImGui::NextColumn();
+
+		ImGui::Text("Draw Calls: ");
+		ImGui::NextColumn();
+
+		ImGui::Text("%d", LastFrameNumDrawCalls);
+		ImGui::NextColumn();
+
+		ImGui::Text("Dispatch Calls: ");
+		ImGui::NextColumn();
+
+		ImGui::Text("%d", LastFrameNumDispatchCalls);
+		ImGui::NextColumn();
+
+		ImGui::Text("Command Count: ");
+		ImGui::NextColumn();
+
+		ImGui::Text("%d", LastFrameNumCommands);
+
+		ImGui::Columns(1);
+
+		ImGui::End();
 	}
 }
 

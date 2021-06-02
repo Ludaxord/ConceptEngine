@@ -13,16 +13,12 @@
 #include "../Graphics/Main/Rendering/CELightSetup.h"
 #include "../Graphics/Main/RenderLayer/CETexture.h"
 #include "../Graphics/Main/RenderLayer/CEPipelineState.h"
-#include "../Graphics/Main/RenderLayer/CEPipelineState.h"
 #include "../Graphics/Main/RenderLayer/CEShader.h"
 #include "../Graphics/Main/RenderLayer/CEBuffer.h"
 #include "../Graphics/Main/RenderLayer/CEGPUProfiler.h"
 
-#include "../Core/Platform/Generic/Debug/CETypedConsole.h"
 #include "../Core/Platform/Generic/Debug/CEConsoleVariable.h"
-#include "../Core/Platform/Generic/Callbacks/CEEngineController.h"
 #include "../Core/Application/CECore.h"
-#include "../Core/Debug/CEProfiler.h"
 
 #include "../Graphics/Main/Common/CEMaterial.h"
 
