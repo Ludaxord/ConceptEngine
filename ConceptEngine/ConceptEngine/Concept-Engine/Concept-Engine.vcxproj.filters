@@ -195,6 +195,7 @@
     <ClInclude Include="Math\CEOperators.h" />
     <ClInclude Include="Graphics\Main\Managers\CEMeshManager.h" />
     <ClInclude Include="Utilities\CEHashUtilities.h" />
+    <ClInclude Include="Core\Debug\CEDebug.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />

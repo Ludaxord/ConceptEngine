@@ -6,6 +6,7 @@
 #include "../../Application/CECore.h"
 #include "Cursor/CEWindowsCursor.h"
 #include "Events/CEWindowsEvent.h"
+#include "../../Debug/CEDebug.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
 using namespace ConceptEngine::Core::Platform::Generic::Cursor;
@@ -20,6 +21,7 @@ CEWindows::~CEWindows() {
 
 bool CEWindows::Create() {
 	if (!CEPlatform::Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	} 
 	return true;
@@ -33,6 +35,7 @@ bool CEWindows::CreateSystemWindow() {
 			CEWindowSize::GetHeight(),
 			Window::DefaultStyle)
 	) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
@@ -45,30 +48,39 @@ bool CEWindows::CreateSystemConsole() {
 
 bool CEWindows::CreateCursors() {
 	if (!((CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!((CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO)))) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

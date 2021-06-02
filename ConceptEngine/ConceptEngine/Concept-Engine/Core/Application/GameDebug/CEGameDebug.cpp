@@ -2,6 +2,8 @@
 
 #include "../../Debug/CEProfiler.h"
 
+#include "../../Debug/CEDebug.h"
+
 using namespace ConceptEngine::Core::Application::GameDebug;
 
 CEGameDebug::CEGameDebug(GraphicsAPI api, Compilers::Language language,
@@ -23,15 +25,16 @@ bool CEGameDebug::Create() {
 		CEPlatformActions::MessageBox("Error", "Failed to Create System Debug Console");
 		return false;
 	}
-	else {
-		Generic::Platform::CEPlatform::GetConsole()->SetTitle("Concept Engine Debug Console");
-	}
+
+	Generic::Platform::CEPlatform::GetConsole()->SetTitle("Concept Engine Debug Console");
 
 	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!CEGameCore::Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

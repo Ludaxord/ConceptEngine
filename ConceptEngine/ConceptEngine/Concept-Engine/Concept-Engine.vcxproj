@@ -36,6 +36,7 @@
     <ClInclude Include="Core\Containers\CESharedPtr.h" />
     <ClInclude Include="Core\Containers\CEStaticArray.h" />
     <ClInclude Include="Core\Containers\CEUniquePtr.h" />
+    <ClInclude Include="Core\Debug\CEDebug.h" />
     <ClInclude Include="Core\Delegates\CEEvent.h" />
     <ClInclude Include="Core\Delegates\CEMulticastBase.h" />
     <ClInclude Include="Core\Delegates\CEMulticastDelegate.h" />

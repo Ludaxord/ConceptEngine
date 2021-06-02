@@ -8,6 +8,8 @@
 
 #include "RenderLayer/CEDXShaderCompiler.h"
 
+#include "../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::DirectX12;
 
 CEDirectX12::CEDirectX12(): CEGraphics() {
@@ -18,6 +20,7 @@ CEDirectX12::~CEDirectX12() {
 
 bool CEDirectX12::Create() {
 	if (!CEGraphics::Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
@@ -25,6 +28,7 @@ bool CEDirectX12::Create() {
 
 bool CEDirectX12::CreateManagers() {
 	if (!CEGraphics::CreateManagers()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
@@ -58,6 +62,7 @@ bool CEDirectX12::CreateDebugUi() {
 bool CEDirectX12::CreateShaderCompiler() {
 	auto shaderCompiler = new RenderLayer::CEDXShaderCompiler();
 	if (!shaderCompiler->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

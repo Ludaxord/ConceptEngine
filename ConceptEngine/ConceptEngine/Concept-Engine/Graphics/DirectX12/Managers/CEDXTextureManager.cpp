@@ -6,6 +6,8 @@
 
 #include "../../../Core/Application/CECore.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 
 CEDXTextureManager::CEDXTextureManager() : CETextureManager() {
@@ -19,6 +21,7 @@ bool CEDXTextureManager::Create() {
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/CubeMapGen.hlsl", "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     code)) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -28,6 +31,7 @@ bool CEDXTextureManager::Create() {
 	)->CreateComputeShader(code);
 
 	if (!Main::MainTextureData.ComputeShader) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

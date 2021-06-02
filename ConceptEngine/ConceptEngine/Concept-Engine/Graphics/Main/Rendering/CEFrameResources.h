@@ -17,10 +17,45 @@
 #include "../../../Core/Containers/CEArray.h"
 
 
+constexpr int BUFFER_ALBEDO_INDEX = 0;
+constexpr int BUFFER_NORMAL_INDEX = 1;
+constexpr int BUFFER_MATERIAL_INDEX = 2;
+constexpr int BUFFER_DEPTH_INDEX = 3;
+constexpr int BUFFER_VIEW_NORMAL_INDEX = 4;
+
+
 namespace ConceptEngine::Graphics::Main::Rendering {
 	template <typename TResource>
 	class CEPtrResourceCache {
+	public:
+		int32 Add(TResource* resource) {
+			if (resource == nullptr) {
+				return -1;
+			}
 
+			auto textureIndexPair = ResourceIndices.find(resource);
+			if (textureIndexPair == ResourceIndices.end()) {
+				int32 newIndex = Resources.Size();
+				ResourceIndices[resource] = newIndex;
+				Resources.EmplaceBack(resource);
+
+				return newIndex;
+			}
+
+			return textureIndexPair->second;
+		}
+
+		TResource* Get(uint32 index) const {
+			return Resources[index];
+		}
+
+		uint32 Size() const {
+			return Resources.Size();
+		}
+
+	private:
+		Core::Containers::CEArray<TResource*> Resources;
+		std::unordered_map<TResource*, int32> ResourceIndices;
 	};
 
 	struct CEFrameResources {

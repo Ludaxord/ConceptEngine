@@ -1,6 +1,8 @@
 #include "CEGameCore.h"
 #include "../../Time/CETimer.h"
 
+#include "../Debug/CEDebug.h"
+
 using namespace ConceptEngine::Core;
 
 Application::CEGameCore::CEGameCore(GraphicsAPI api,
@@ -16,13 +18,16 @@ Application::CEGameCore::CEGameCore(GraphicsAPI api, Compilers::Language languag
 
 bool Application::CEGameCore::Create() {
 	if (!CECore::Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	if (!Platform->CreateSystemWindow()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (Platform->CreateCursors()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

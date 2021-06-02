@@ -15,6 +15,6 @@ namespace ConceptEngine::Graphics::DirectX12::Rendering {
 		void OnMousePressed(const Core::Common::CEMousePressedEvent& Event) override;
 		void OnMouseReleased(const Core::Common::CEMouseReleasedEvent& Event) override;
 		void OnMouseScrolled(const Core::Common::CEMouseScrolledEvent& Event) override;
-		void Render(Main::Rendering::CECommandList& commandList) override;
+		void Render(Main::RenderLayer::CECommandList& commandList) override;
 	};
 }

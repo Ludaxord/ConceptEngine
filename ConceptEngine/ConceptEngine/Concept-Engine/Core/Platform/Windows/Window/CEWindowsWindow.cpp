@@ -6,6 +6,7 @@
 
 #include "../../../Log/CELog.h"
 
+#include "../../../Debug/CEDebug.h"
 
 using namespace ConceptEngine::Core::Platform::Windows::Window;
 
@@ -21,6 +22,7 @@ CEWindowsWindow::~CEWindowsWindow() {
 
 bool CEWindowsWindow::Create() {
 	if (!RegisterWindowClass()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -49,6 +51,7 @@ bool CEWindowsWindow::RegisterWindowClass() {
 bool CEWindowsWindow::Create(const std::string& title, uint32 width, uint32 height,
                              Generic::Window::CEWindowStyle style) {
 	if (!Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

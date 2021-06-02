@@ -6,6 +6,8 @@
 #include "CEDXShaderCompiler.h"
 #include "CEDXTexture.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 using namespace ConceptEngine::Core::Containers;
 
@@ -103,30 +105,35 @@ CEDXCommandBatch::CEDXCommandBatch(CEDXDevice* device): Device(device), CommandA
 
 bool CEDXCommandBatch::Create() {
 	if (!CommandAllocator.Create(D3D12_COMMAND_LIST_TYPE_DIRECT)) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	OnlineResourceDescriptorHeap = new CEDXOnlineDescriptorHeap(Device, D3D12_DEFAULT_ONLINE_RESOURCE_DESCRIPTOR_COUNT,
 	                                                            D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	if (!OnlineResourceDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	OnlineSamplerDescriptorHeap = new CEDXOnlineDescriptorHeap(Device, D3D12_DEFAULT_ONLINE_SAMPLER_DESCRIPTOR_COUNT,
 	                                                           D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
 	if (!OnlineSamplerDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	OnlineRayTracingResourceDescriptorHeap = new CEDXOnlineDescriptorHeap(
 		Device, D3D12_DEFAULT_ONLINE_RESOURCE_DESCRIPTOR_COUNT, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	if (!OnlineRayTracingResourceDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	OnlineRayTracingSamplerDescriptorHeap = new CEDXOnlineDescriptorHeap(
 		Device, D3D12_DEFAULT_ONLINE_SAMPLER_DESCRIPTOR_COUNT, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
 	if (!OnlineRayTracingSamplerDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

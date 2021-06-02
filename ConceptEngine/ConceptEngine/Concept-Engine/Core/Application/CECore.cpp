@@ -27,6 +27,7 @@
 
 #include "../../Render/CERenderer.h"
 
+#include "../Debug/CEDebug.h"
 
 using namespace ConceptEngine::Core::Application;
 using namespace ConceptEngine::Graphics::Main;
@@ -61,10 +62,12 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 
 	//TODO: implement threading
 	if (!Threading::CETaskManager::Get().Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!EngineController.Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -82,6 +85,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 	Platform->SetCallbacks(&EngineController);
 
 	if (!::Common::GPlayground->Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

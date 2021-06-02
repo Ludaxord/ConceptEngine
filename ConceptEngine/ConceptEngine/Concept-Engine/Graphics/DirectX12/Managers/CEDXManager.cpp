@@ -12,6 +12,8 @@
 
 #include "../RenderLayer/CEDXViewport.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 using namespace ConceptEngine::Graphics;
 
@@ -103,40 +105,47 @@ bool CEDXManager::Create() {
 
 	Device = new RenderLayer::CEDXDevice(Core::Application::CECore::EnableDebug, gpuBasedValidationOn, DREDOn);
 	if (!Device->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	RootSignatureCache = new RenderLayer::CEDXRootSignatureCache(Device);
 	if (!RootSignatureCache->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	ResourceOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
 		Device, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	if (!ResourceOfflineDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	RenderTargetOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
 		Device, D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	if (!RenderTargetOfflineDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	DepthStencilOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
 		Device, D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	if (!DepthStencilOfflineDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	SamplerOfflineDescriptorHeap = new RenderLayer::CEDXOfflineDescriptorHeap(
 		Device, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
 	if (!SamplerOfflineDescriptorHeap->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	DirectCommandContext = new RenderLayer::CEDXCommandContext(Device);
 	if (!DirectCommandContext->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

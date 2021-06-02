@@ -2,6 +2,8 @@
 
 #include "../../Debug/CEProfiler.h"
 
+#include "../../Debug/CEDebug.h"
+
 using namespace ConceptEngine::Core::Application::Editor;
 
 CEEditor::CEEditor(GraphicsAPI api, Compilers::Language language,
@@ -18,6 +20,7 @@ CEEditor::~CEEditor() {
 
 bool CEEditor::Create() {
 	if (!CECore::Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

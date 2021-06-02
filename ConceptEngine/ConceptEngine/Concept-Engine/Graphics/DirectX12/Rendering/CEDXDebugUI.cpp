@@ -36,5 +36,5 @@ void CEDXDebugUI::OnMouseReleased(const Core::Common::CEMouseReleasedEvent& Even
 void CEDXDebugUI::OnMouseScrolled(const Core::Common::CEMouseScrolledEvent& Event) {
 }
 
-void CEDXDebugUI::Render(Main::Rendering::CECommandList& commandList) {
+void CEDXDebugUI::Render(Main::RenderLayer::CECommandList& commandList) {
 }

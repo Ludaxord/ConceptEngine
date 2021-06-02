@@ -1,5 +1,7 @@
 #include "CEDirectXHandlers.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 #include <dxgi1_3.h>
 
 using namespace ConceptEngine::Graphics::DirectX12::Base;
@@ -85,7 +87,10 @@ void CEDirectXLibHandler::XSetMarkerOnCommandList(ID3D12GraphicsCommandList* com
 
 bool CEDirectXLibHandler::LibCreate() {
 	DXHandler = new CEDirectXLibHandler();
-	DXHandler->Create();
+	if (!DXHandler->Create()) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	} 
 
 	return true;
 }

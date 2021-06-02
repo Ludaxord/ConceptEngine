@@ -2,6 +2,8 @@
 
 #include "../../../../Memory/CEMemory.h"
 
+#include "../../../Debug/CEDebug.h"
+
 using namespace ConceptEngine::Core::Platform::Windows::Input;
 
 CEWindowsInputManager::CEWindowsInputManager() {
@@ -12,6 +14,7 @@ CEWindowsInputManager::~CEWindowsInputManager() {
 
 bool CEWindowsInputManager::Create() {
 	if (!CEInputManager::Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 

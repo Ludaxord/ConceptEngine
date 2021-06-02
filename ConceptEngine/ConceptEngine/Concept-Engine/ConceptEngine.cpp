@@ -1,5 +1,7 @@
 #include "ConceptEngine.h"
 
+#include "Core/Debug/CEDebug.h"
+
 
 ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
                                             GraphicsAPI api,
@@ -70,17 +72,20 @@ std::wstring ConceptEngine::ConceptEngine::GetName() {
 bool ConceptEngine::ConceptEngine::CreateEditor() {
 	auto editor = std::make_unique<Core::Application::Editor::CEEditor>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(editor);
+	Core::Debug::CEDebug::DebugBreak();
 	return true;
 }
 
 bool ConceptEngine::ConceptEngine::CreateGame() {
 	auto game = std::make_unique<Core::Application::Game::CEGame>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(game);
+	Core::Debug::CEDebug::DebugBreak();
 	return true;
 }
 
 bool ConceptEngine::ConceptEngine::CreateGameDebug() {
 	auto gameDebug = std::make_unique<Core::Application::GameDebug::CEGameDebug>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(gameDebug);
+	Core::Debug::CEDebug::DebugBreak();
 	return true;
 }

@@ -3,6 +3,8 @@
 #include "../../../Time/CETimer.h"
 #include "../../Debug/CEProfiler.h"
 
+#include "../../Debug/CEDebug.h"
+
 using namespace ConceptEngine::Core::Application::Game;
 
 CEGame::CEGame(GraphicsAPI api, Compilers::Language language,
@@ -20,6 +22,7 @@ CEGame::~CEGame() {
 
 bool CEGame::Create() {
 	if (!CEGameCore::Create()) {
+		Debug::CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
