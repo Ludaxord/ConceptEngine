@@ -57,7 +57,8 @@ namespace ConceptEngine::Render {
 		virtual void PerformFrustumCulling(const Scene::CEScene& scene) = 0;
 		virtual void PerformFXAA(CECommandList& commandList) = 0;
 		virtual void PerformBackBufferBlit(CECommandList& commandList) = 0;
-
+		virtual void PerformAABBDebugPass(CECommandList& commandList) = 0;
+		
 		virtual void RenderDebugInterface() = 0;
 
 	protected:

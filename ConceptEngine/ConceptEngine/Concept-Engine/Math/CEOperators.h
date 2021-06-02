@@ -258,6 +258,10 @@ struct CEVectorFloat3 {
 		return CEVectorFloat3(matrix.x, matrix.y, matrix.z);
 	};
 
+	CEVectorFloat3 operator=(const DirectX::XMFLOAT3 matrix) const noexcept {
+		return CEVectorFloat3(matrix.x, matrix.y, matrix.z);
+	}
+
 	DirectX::XMFLOAT3 Native;
 
 private:
@@ -490,6 +494,14 @@ inline CEMatrix<4, 4, float> CEMatrixTranslationFromVector(CEVector<3, float> of
 	return CEMatrix<4, 4, float>(DirectX::XMMatrixTranslationFromVector(offset.Native));
 }
 
+inline CEMatrix<4, 4, float> CEMatrixTranslation(float x, float y, float z) {
+	return CEMatrix<4, 4, float>(DirectX::XMMatrixTranslation(x, y, z));
+}
+
+inline CEMatrix<4, 4, float> CEMatrixScaling(float x, float y, float z) {
+	return CEMatrix<4, 4, float>(DirectX::XMMatrixScaling(x, y, z));
+}
+
 inline void CEStoreFloat3x4(CEMatrixFloat3X4* destination, const CEMatrix<4, 4, float> M) {
 	DirectX::XMStoreFloat3x4(&destination->Native, M.Native);
 }
@@ -505,6 +517,10 @@ inline void CEStoreFloat3(CEVectorFloat3* destination, const CEVector<L, T> M) {
 
 inline CEMatrix<4, 4, float> CEMatrixTranspose(const CEMatrix<4, 4, float> M) {
 	return DirectX::XMMatrixTranspose(M.Native);
+}
+
+inline CEMatrix<4, 4, float> CEMatrixMultiplyTranspose(const CEMatrix<4, 4, float> M, CEMatrix<4, 4, float>& F) {
+	return DirectX::XMMatrixMultiplyTranspose(M.Native, F.Native);
 }
 
 inline CEMatrix<4, 4, float> CEMatrixInverse(CEVector<3, float>* determinant, const CEMatrix<4, 4, float> M) {

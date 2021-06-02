@@ -213,10 +213,106 @@ void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
 
 void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
 	CERenderer::PerformFXAA(commandList);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin FXAA");
+
+	TRACE_SCOPE("FXAA");
+
+	struct FXAASettings {
+		float Width;
+		float Height;
+	} Settings;
+
+	Settings.Width = static_cast<float>(Resources.BackBuffer->GetWidth());
+	Settings.Height = static_cast<float>(Resources.BackBuffer->GetHeight());
+
+	CERenderTargetView* backBufferRTV = Resources.BackBuffer->GetRenderTargetView();
+	commandList.SetRenderTargets(&backBufferRTV, 1, nullptr);
+
+	CEShaderResourceView* finalTargetSRV = Resources.FinalTarget->GetShaderResourceView();
+	if (ConceptEngine::Render::Variables["CE.GFXAADebug"].GetBool()) {
+		commandList.SetShaderResourceView(FXAADebugShader.Get(), finalTargetSRV, 0);
+		commandList.SetSamplerState(FXAADebugShader.Get(), Resources.FXAASampler.Get(), 0);
+		commandList.Set32BitShaderConstants(FXAADebugShader.Get(), &Settings, 2);
+		commandList.SetGraphicsPipelineState(FXAADebugPipelineState.Get());
+	}
+	else {
+		commandList.SetShaderResourceView(FXAAShader.Get(), finalTargetSRV, 0);
+		commandList.SetSamplerState(FXAAShader.Get(), Resources.FXAASampler.Get(), 0);
+		commandList.Set32BitShaderConstants(FXAAShader.Get(), &Settings, 2);
+		commandList.SetGraphicsPipelineState(FXAAPipelineState.Get());
+	}
+
+	//TODO: create property for vertex count per instance, instance count, start vertex location and start instance location.
+	commandList.DrawInstanced(3, 1, 0, 0);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "End FXAA");
 }
 
 void CEDXRenderer::PerformBackBufferBlit(CECommandList& commandList) {
 	CERenderer::PerformBackBufferBlit(commandList);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin Draw Back Buffer");
+
+	TRACE_SCOPE("Draw to Back Buffer");
+
+	CERenderTargetView* backBufferRTV = Resources.BackBuffer->GetRenderTargetView();
+	commandList.SetRenderTargets(&backBufferRTV, 1, nullptr);
+
+	CEShaderResourceView* finalTargetSRV = Resources.FinalTarget->GetShaderResourceView();
+	commandList.SetShaderResourceView(PostShader.Get(), finalTargetSRV, 0);
+	commandList.SetSamplerState(PostShader.Get(), Resources.GBufferSampler.Get(), 0);
+
+	commandList.SetGraphicsPipelineState(PostPipelineState.Get());
+
+	//TODO: create property for vertex count per instance, instance count, start vertex location and start instance location.
+	commandList.DrawInstanced(3, 1, 0, 0);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "End Draw Back Buffer");
+}
+
+void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
+	CERenderer::PerformAABBDebugPass(commandList);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin Debug Pass");
+
+	TRACE_SCOPE("Debug Pass");
+
+	commandList.SetGraphicsPipelineState(AABBDebugPipelineState.Get());
+
+	commandList.SetPrimitiveTopology(CEPrimitiveTopology::LineList);
+
+	commandList.SetConstantBuffer(AABBVertexShader.Get(), Resources.CameraBuffer.Get(), 0);
+
+	commandList.SetVertexBuffers(&AABBVertexBuffer, 1, 0);
+	commandList.SetIndexBuffer(AABBIndexBuffer.Get());
+
+	for (const Main::Rendering::CEMeshDrawCommand& command : Resources.DeferredVisibleCommands) {
+		CEAABB& box = command.Mesh->BoundingBox;
+
+		CEVectorFloat3 scale = CEVectorFloat3(box.GetWidth(), box.GetHeight(), box.GetDepth());
+		CEVectorFloat3 position = box.GetCenter();
+
+		CEMatrix ceTranslation = CEMatrixTranslation(position.x, position.y, position.z);
+		CEMatrix ceScale = CEMatrixScaling(scale.x, scale.y, scale.z);
+
+		CEMatrixFloat4X4 transform = command.CurrentActor->GetTransform().GetMatrix();
+		CEMatrix ceTransform = CEMatrixTranspose(
+			CELoadFloat4X4(&transform)
+		);
+		CEStoreFloat4x4(&transform,
+		                CEMatrixMultiplyTranspose(
+			                CEMatrixMultiply(ceScale, ceTranslation),
+			                ceTransform
+		                )
+		);
+
+		commandList.Set32BitShaderConstants(AABBVertexShader.Get(), &transform, 16);
+
+		commandList.DrawIndexedInstanced(24, 1, 0, 0, 0);
+	}
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "End Debug Pass");
 }
 
 void CEDXRenderer::RenderDebugInterface() {

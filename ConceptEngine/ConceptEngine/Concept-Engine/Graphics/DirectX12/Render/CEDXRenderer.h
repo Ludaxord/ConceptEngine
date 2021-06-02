@@ -10,9 +10,12 @@ namespace ConceptEngine::Graphics::DirectX12::Modules::Render {
 		bool Create() override;
 		void Release() override;
 		void Update(const ConceptEngine::Render::Scene::CEScene& scene) override;
+		
 		void PerformFrustumCulling(const ConceptEngine::Render::Scene::CEScene& scene) override;
 		void PerformFXAA(Main::RenderLayer::CECommandList& commandList) override;
 		void PerformBackBufferBlit(Main::RenderLayer::CECommandList& commandList) override;
+		void PerformAABBDebugPass(CECommandList& commandList) override;
+		
 		void RenderDebugInterface() override;
 	private:
 		void OnWindowResize(const Core::Common::CEWindowResizeEvent& Event) override;
