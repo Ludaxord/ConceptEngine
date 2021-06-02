@@ -258,10 +258,6 @@ struct CEVectorFloat3 {
 		return CEVectorFloat3(matrix.x, matrix.y, matrix.z);
 	};
 
-	CEVectorFloat3 operator=(const DirectX::XMFLOAT3 matrix) const noexcept {
-		return CEVectorFloat3(matrix.x, matrix.y, matrix.z);
-	}
-
 	DirectX::XMFLOAT3 Native;
 
 private:

@@ -317,6 +317,11 @@ void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 
 void CEDXRenderer::RenderDebugInterface() {
 	CERenderer::RenderDebugInterface();
+	if (ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool()) {
+		//TODO: find actual screen aspect ratio <== Use functions from ConceptEngine Framework
+		constexpr float inverseAspectRatio = 16.0f / 9.0f;
+		constexpr float AspectRatio = 9.0f / 16.0f;
+	}
 }
 
 void CEDXRenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
@@ -518,6 +523,8 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	else {
 		PerformFrustumCulling(scene);
 	}
+
+	//todo: finish!!!
 }
 
 
