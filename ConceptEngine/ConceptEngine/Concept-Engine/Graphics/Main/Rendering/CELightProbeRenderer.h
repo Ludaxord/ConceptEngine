@@ -7,17 +7,15 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	class CELightProbeRenderer {
 	public:
 		CELightProbeRenderer() = default;
-		~CELightProbeRenderer() = default;
+		virtual ~CELightProbeRenderer() = default;
 
-		bool Create(CELightSetup lightSetup, CEFrameResources& frameResources);
+		virtual bool Create(CELightSetup lightSetup, CEFrameResources& frameResources) = 0;
 		void Release();
 
-		void RenderSkyLightProbe(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
-		                         const CEFrameResources& resources);
+		virtual void RenderSkyLightProbe(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
+		                         const CEFrameResources& resources) = 0;
 
-	private:
-		bool CreateSkyLightResources(CELightSetup& lightSetup);
-
+	protected:
 		Core::Common::CERef<RenderLayer::CEComputePipelineState> IrradianceGenPSO;
 		Core::Common::CERef<RenderLayer::CEComputeShader> IrradianceGenShader;
 		Core::Common::CERef<RenderLayer::CEComputePipelineState> SpecularIrradianceGenPSO;

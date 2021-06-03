@@ -201,6 +201,12 @@
     <ClInclude Include="Render\Scene\Lights\CESpotLight.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.h" />
     <ClInclude Include="Core\Platform\Generic\Managers\CECastManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXForwardRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXRayTracer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -319,6 +325,12 @@
     <ClCompile Include="Render\Scene\Lights\CEPointLight.cpp" />
     <ClCompile Include="Render\Scene\Lights\CESpotLight.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXRayTracer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

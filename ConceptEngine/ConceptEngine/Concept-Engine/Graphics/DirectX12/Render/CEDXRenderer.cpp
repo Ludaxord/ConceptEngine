@@ -17,6 +17,12 @@
 #include "../../Main/Rendering/CEFrameResources.h"
 
 #include "../Rendering/CEDXDeferredRenderer.h"
+#include "../Rendering/CEDXShadowMapRenderer.h"
+#include "../Rendering/CEDXScreenSpaceOcclusionRenderer.h"
+#include "../Rendering/CEDXLightProbeRenderer.h"
+#include "../Rendering/CEDXSkyBoxRenderPass.h"
+#include "../Rendering/CEDXForwardRenderer.h"
+#include "../Rendering/CEDXRayTracer.h"
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
@@ -159,33 +165,73 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!ShadowMapRenderer.Create(LightSetup, Resources)) {
+	ShadowMapRenderer = new Rendering::CEDXShadowMapRenderer();
+
+	if (!ShadowMapRenderer) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
-	if (!SSAORenderer.Create(Resources)) {
+	if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
-	if (!LightProbeRenderer.Create(LightSetup, Resources)) {
+	SSAORenderer = new Rendering::CEDXScreenSpaceOcclusionRenderer();
+
+	if (!SSAORenderer) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
-	if (!SkyBoxRenderPass.Create(Resources)) {
+	if (!SSAORenderer->Create(Resources)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
-	if (!ForwardRenderer.Create(Resources)) {
+	LightProbeRenderer = new Rendering::CEDXLightProbeRenderer();
+
+	if (!LightProbeRenderer) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	if (!LightProbeRenderer->Create(LightSetup, Resources)) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+	SkyBoxRenderPass = new Rendering::CEDXSkyBoxRenderPass();
+
+	if (!SkyBoxRenderPass) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	if (!SkyBoxRenderPass->Create(Resources)) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	ForwardRenderer = new Rendering::CEDXForwardRenderer();
+
+	if (!ForwardRenderer) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+	if (!ForwardRenderer->Create(Resources)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
-		if (!RayTracer.Create(Resources)) {
+
+		RayTracer = new Rendering::CEDXRayTracer();
+
+		if (!RayTracer) {
+			Core::Debug::CEDebug::DebugBreak();
+			return false;
+		}
+		if (!RayTracer->Create(Resources)) {
 			Core::Debug::CEDebug::DebugBreak();
 			return false;
 		}
@@ -193,7 +239,7 @@ bool CEDXRenderer::Create() {
 
 	using namespace std::placeholders;
 	CommandList.Execute([this] {
-		LightProbeRenderer.RenderSkyLightProbe(CommandList, LightSetup, Resources);
+		LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
 	});
 
 	CommandListExecutor.ExecuteCommandList(CommandList);
@@ -638,7 +684,7 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	PostShader = CastGraphicsManager()		->CreatePixelShader(shaderCode);
+	PostShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!PostShader) {
 		return false;
 	}
@@ -650,7 +696,8 @@ bool CEDXRenderer::CreateAA() {
 	depthStencilStateInfo.DepthEnable = false;
 	depthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::Zero;
 
-	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(depthStencilStateInfo);
+	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->
+		CreateDepthStencilState(depthStencilStateInfo);
 
 	if (!depthStencilState) {
 		return false;
@@ -773,8 +820,8 @@ bool CEDXRenderer::CreateShadingImage() {
 	uint32 width = Resources.MainWindowViewport->GetWidth() / support.ShadingRateImageTileSize;
 	uint32 height = Resources.MainWindowViewport->GetHeight() / support.ShadingRateImageTileSize;
 	ShadingImage = CastGraphicsManager()->CreateTexture2D(CEFormat::R8_Uint, width, height, 1, 1,
-		                                                               TextureFlags_RWTexture,
-		                                                               CEResourceState::ShadingRateSource, nullptr);
+	                                                      TextureFlags_RWTexture,
+	                                                      CEResourceState::ShadingRateSource, nullptr);
 	if (!ShadingImage) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
@@ -877,13 +924,13 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 		LightSetup.BeginFrame(CommandList, scene);
 
-		ShadowMapRenderer.RenderPointLightShadows(CommandList, LightSetup, scene);
-		ShadowMapRenderer.RenderDirectionalLightShadows(CommandList, LightSetup, scene);
+		ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
+		ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
 
 		if (CastGraphicsManager()->IsRayTracingSupported() && ConceptEngine::Render::Variables[
 			"CE.RayTracingEnabled"].GetBool()) {
 			GPU_TRACE_SCOPE(CommandList, "== RAY TRACING ==");
-			RayTracer.PreRender(CommandList, Resources, scene);
+			RayTracer->PreRender(CommandList, Resources, scene);
 		}
 
 		CEDXCameraBufferDesc cameraBuffer;
@@ -988,7 +1035,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		CommandList.ClearUnorderedAccessView(Resources.SSAOBuffer->GetUnorderedAccessView(), whiteColor);
 
 		if (ConceptEngine::Render::Variables["CE.EnableSSAO"].GetBool()) {
-			SSAORenderer.Render(CommandList, Resources);
+			SSAORenderer->Render(CommandList, Resources);
 		}
 
 		CommandList.TransitionTexture(Resources.SSAOBuffer.Get(), CEResourceState::UnorderedAccess,
@@ -1018,7 +1065,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		CommandList.TransitionTexture(Resources.FinalTarget.Get(), CEResourceState::UnorderedAccess,
 		                              CEResourceState::RenderTarget);
 
-		SkyBoxRenderPass.Render(CommandList, Resources, scene);
+		SkyBoxRenderPass->Render(CommandList, Resources, scene);
 
 		CommandList.TransitionTexture(LightSetup.PointLightShadowMaps.Get(), CEResourceState::NonPixelShaderResource,
 		                              CEResourceState::PixelShaderResource);
@@ -1048,7 +1095,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 		{
 			GPU_TRACE_SCOPE(CommandList, "== FORWARD PASS ==");
-			ForwardRenderer.Render(CommandList, Resources, LightSetup);
+			ForwardRenderer->Render(CommandList, Resources, LightSetup);
 		}
 
 		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(), CEResourceState::DepthWrite,
@@ -1127,7 +1174,7 @@ void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
 		return;
 	}
 
-	if (!SSAORenderer.ResizeResources(Resources)) {
+	if (!SSAORenderer->ResizeResources(Resources)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return;
 	}

@@ -5,15 +5,15 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	class CESkyBoxRenderPass {
 	public:
 		CESkyBoxRenderPass() = default;
-		~CESkyBoxRenderPass() = default;
+		virtual ~CESkyBoxRenderPass() = default;
 
-		bool Create(const CEFrameResources& resources);
+		virtual bool Create(const CEFrameResources& resources) = 0;
 		void Release();
 
-		void Render(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources,
-		            const Render::Scene::CEScene& scene);
+		virtual void Render(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources,
+		            const Render::Scene::CEScene& scene) = 0;
 
-	private:
+	protected:
 		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
 		Core::Common::CERef<RenderLayer::CEVertexShader> SkyboxVertexShader;
 		Core::Common::CERef<RenderLayer::CEPixelShader> SkyboxPixelShader;

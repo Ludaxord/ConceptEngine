@@ -1,21 +1,20 @@
 #pragma once
+#include "CEFrameResources.h"
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	class CEScreenSpaceOcclusionRenderer {
 	public:
 		CEScreenSpaceOcclusionRenderer() = default;
-		~CEScreenSpaceOcclusionRenderer() = default;
+		virtual ~CEScreenSpaceOcclusionRenderer() = default;
 
-		bool Create(const CEFrameResources& resources);
+		virtual bool Create(const CEFrameResources& resources) = 0;
 		void Release();
 
-		void Render(RenderLayer::CECommandList& commandList, CEFrameResources& frameResources);
+		virtual void Render(RenderLayer::CECommandList& commandList, CEFrameResources& frameResources)= 0;
 
-		bool ResizeResources(CEFrameResources& resources);
+		virtual bool ResizeResources(CEFrameResources& resources)= 0;
 
-	private:
-		bool CreateRenderTarget(CEFrameResources& frameResources);
-
+	protected:
 		Core::Common::CERef<RenderLayer::CEComputePipelineState> PipelineState;
 		Core::Common::CERef<RenderLayer::CEComputeShader> SSAOShader;
 		Core::Common::CERef<RenderLayer::CEComputePipelineState> BlurHorizontalPSO;

@@ -54,7 +54,7 @@ namespace ConceptEngine::Render {
 		virtual void PerformFXAA(Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
 		virtual void PerformBackBufferBlit(Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
 		virtual void PerformAABBDebugPass(Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
-		
+
 		virtual void RenderDebugInterface() = 0;
 
 	protected:
@@ -74,12 +74,12 @@ namespace ConceptEngine::Render {
 		//TODO: Move to some kind of container because object types are same in some situations;
 
 		Graphics::Main::Rendering::CEDeferredRenderer* DeferredRenderer = nullptr;
-		Graphics::Main::Rendering::CEShadowMapRenderer ShadowMapRenderer;
-		Graphics::Main::Rendering::CEScreenSpaceOcclusionRenderer SSAORenderer;
-		Graphics::Main::Rendering::CELightProbeRenderer LightProbeRenderer;
-		Graphics::Main::Rendering::CESkyBoxRenderPass SkyBoxRenderPass;
-		Graphics::Main::Rendering::CEForwardRenderer ForwardRenderer;
-		Graphics::Main::Rendering::CERayTracer RayTracer;
+		Graphics::Main::Rendering::CEShadowMapRenderer* ShadowMapRenderer = nullptr;
+		Graphics::Main::Rendering::CEScreenSpaceOcclusionRenderer* SSAORenderer = nullptr;
+		Graphics::Main::Rendering::CELightProbeRenderer* LightProbeRenderer = nullptr;
+		Graphics::Main::Rendering::CESkyBoxRenderPass* SkyBoxRenderPass = nullptr;
+		Graphics::Main::Rendering::CEForwardRenderer* ForwardRenderer = nullptr;
+		Graphics::Main::Rendering::CERayTracer* RayTracer = nullptr;
 
 		Graphics::Main::Rendering::CEFrameResources Resources;
 		Graphics::Main::Rendering::CELightSetup LightSetup;

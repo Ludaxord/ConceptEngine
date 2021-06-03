@@ -6,15 +6,15 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	class CEForwardRenderer {
 	public:
 		CEForwardRenderer() = default;
-		~CEForwardRenderer() = default;
+		virtual ~CEForwardRenderer() = default;
 
-		bool Create(const CEFrameResources& resources);
+		virtual bool Create(const CEFrameResources& resources) = 0;
 		void Release();
 
-		void Render(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources,
-		            const CELightSetup& lightSetup);
+		virtual void Render(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources,
+		                    const CELightSetup& lightSetup) = 0;
 
-	private:
+	protected:
 		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
 		Core::Common::CERef<RenderLayer::CEVertexShader> VertexShader;
 		Core::Common::CERef<RenderLayer::CEPixelShader> PixelShader;

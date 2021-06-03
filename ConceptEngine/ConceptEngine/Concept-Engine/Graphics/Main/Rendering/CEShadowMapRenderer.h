@@ -5,17 +5,16 @@
 namespace ConceptEngine::Graphics::Main::Rendering {
 	class CEShadowMapRenderer {
 	public:
-		bool Create(const CELightSetup& lightSetup, const CEFrameResources& resources);
+		virtual ~CEShadowMapRenderer() = default;
+		virtual bool Create(const CELightSetup& lightSetup, const CEFrameResources& resources) = 0;
 		void Release();
 
-		void RenderPointLightShadows(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
-		                             const Render::Scene::CEScene& scene);
-		void RenderDirectionalLightShadows(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
-		                                   const Render::Scene::CEScene& scene);
+		virtual void RenderPointLightShadows(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
+		                             const Render::Scene::CEScene& scene)= 0;
+		virtual void RenderDirectionalLightShadows(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
+		                                   const Render::Scene::CEScene& scene)= 0;
 
-	private:
-		bool CreateShadowMaps(CELightSetup& frameResources);
-
+	protected:
 		Core::Common::CERef<RenderLayer::CEConstantBuffer> PerShadowMapBuffer;
 
 		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> DirLightPipelineState;
