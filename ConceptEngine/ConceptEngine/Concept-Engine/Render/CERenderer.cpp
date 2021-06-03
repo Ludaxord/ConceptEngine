@@ -22,12 +22,12 @@ void CERenderer::Release() {
 
 	DeferredRenderer->Release();
 	
-	ShadowMapRenderer.Release();
-	SSAORenderer.Release();
-	LightProbeRenderer.Release();
-	SkyBoxRenderPass.Release();
-	ForwardRenderer.Release();
-	RayTracer.Release();
+	ShadowMapRenderer->Release();
+	SSAORenderer->Release();
+	LightProbeRenderer->Release();
+	SkyBoxRenderPass->Release();
+	ForwardRenderer->Release();
+	RayTracer->Release();
 
 	Resources.Release();
 	LightSetup.Release();
