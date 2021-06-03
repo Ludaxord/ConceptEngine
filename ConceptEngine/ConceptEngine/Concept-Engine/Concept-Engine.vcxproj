@@ -199,8 +199,11 @@
     <ClInclude Include="Render\Scene\CEActor.h" />
     <ClInclude Include="Render\Scene\CECamera.h" />
     <ClInclude Include="Render\Scene\CEFrustum.h" />
-    <ClInclude Include="Render\Scene\CELight.h" />
+    <ClInclude Include="Render\Scene\Lights\CEDirectionalLight.h" />
+    <ClInclude Include="Render\Scene\Lights\CELight.h" />
     <ClInclude Include="Render\Scene\CEScene.h" />
+    <ClInclude Include="Render\Scene\Lights\CEPointLight.h" />
+    <ClInclude Include="Render\Scene\Lights\CESpotLight.h" />
     <ClInclude Include="Save\Game\CEGameSave.h" />
     <ClInclude Include="Save\CESave.h" />
     <ClInclude Include="Save\Game\CEGameSaveWriter.h" />
@@ -321,6 +324,10 @@
     <ClCompile Include="Render\Scene\CECamera.cpp" />
     <ClCompile Include="Render\Scene\CEFrustum.cpp" />
     <ClCompile Include="Render\Scene\CEScene.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CEDirectionalLight.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CELight.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CEPointLight.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CESpotLight.cpp" />
     <ClCompile Include="Save\Game\CEGameSaveReader.h" />
     <ClCompile Include="Save\Project\CEProjectSave.h" />
     <ClCompile Include="Time\CETimer.cpp" />

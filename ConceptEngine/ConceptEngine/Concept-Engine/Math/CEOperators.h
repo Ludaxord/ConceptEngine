@@ -528,6 +528,67 @@ inline CEVector<L, T> CEVector4Transform(CEVector<L, T> V, CEMatrix<X, R, T> M) 
 	return DirectX::XMVector4Transform(V.Native, M.Native);
 }
 
+
+inline CEVectorFloat2 operator*(CEVectorFloat2 Left, float Right) {
+	return CEVectorFloat2(Left.x * Right, Left.y * Right);
+}
+
+inline CEVectorFloat2 operator*(CEVectorFloat2 Left, CEVectorFloat2 Right) {
+	return CEVectorFloat2(Left.x * Right.x, Left.y * Right.y);
+}
+
+inline CEVectorFloat2 operator+(CEVectorFloat2 Left, CEVectorFloat2 Right) {
+	return CEVectorFloat2(Left.x + Right.x, Left.y + Right.y);
+}
+
+inline CEVectorFloat2 operator-(CEVectorFloat2 Left, CEVectorFloat2 Right) {
+	return CEVectorFloat2(Left.x - Right.x, Left.y - Right.y);
+}
+
+inline CEVectorFloat2 operator-(CEVectorFloat2 Value) {
+	return CEVectorFloat2(-Value.x, -Value.y);
+}
+
+inline CEVectorFloat3 operator*(CEVectorFloat3 Left, float Right) {
+	return CEVectorFloat3(Left.x * Right, Left.y * Right, Left.z * Right);
+}
+
+inline CEVectorFloat3 operator*(CEVectorFloat3 Left, CEVectorFloat3 Right) {
+	return CEVectorFloat3(Left.x * Right.x, Left.y * Right.y, Left.z * Right.z);
+}
+
+inline CEVectorFloat3 operator+(CEVectorFloat3 Left, CEVectorFloat3 Right) {
+	return CEVectorFloat3(Left.x + Right.x, Left.y + Right.y, Left.z + Right.z);
+}
+
+inline CEVectorFloat3 operator-(CEVectorFloat3 Left, CEVectorFloat3 Right) {
+	return CEVectorFloat3(Left.x - Right.x, Left.y - Right.y, Left.z - Right.z);
+}
+
+inline CEVectorFloat3 operator-(CEVectorFloat3 Value) {
+	return CEVectorFloat3(-Value.x, -Value.y, -Value.z);
+}
+
+inline CEVectorFloat4 operator*(CEVectorFloat4 Left, float Right) {
+	return CEVectorFloat4(Left.x * Right, Left.y * Right, Left.z * Right, Left.w * Right);
+}
+
+inline CEVectorFloat4 operator*(CEVectorFloat4 Left, CEVectorFloat4 Right) {
+	return CEVectorFloat4(Left.x * Right.x, Left.y * Right.y, Left.z * Right.z, Left.w * Right.w);
+}
+
+inline CEVectorFloat4 operator+(CEVectorFloat4 Left, CEVectorFloat4 Right) {
+	return CEVectorFloat4(Left.x + Right.x, Left.y + Right.y, Left.z + Right.z, Left.w + Right.w);
+}
+
+inline CEVectorFloat4 operator-(CEVectorFloat4 Left, CEVectorFloat4 Right) {
+	return CEVectorFloat4(Left.x - Right.x, Left.y - Right.y, Left.z - Right.z, Left.w - Right.w);
+}
+
+inline CEVectorFloat4 operator-(CEVectorFloat4 Value) {
+	return CEVectorFloat4(-Value.x, -Value.y, -Value.z, -Value.w);
+}
+
 #elif defined(MACOS_PLATFORM)
 #elif defined(IOS_PLATFORM)
 #elif defined(LINUX_PLATFORM)

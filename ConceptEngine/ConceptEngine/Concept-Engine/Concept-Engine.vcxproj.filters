@@ -170,7 +170,7 @@
     <ClInclude Include="Render\Scene\CEActor.h" />
     <ClInclude Include="Graphics\Main\Common\API.h" />
     <ClInclude Include="Render\Scene\CECamera.h" />
-    <ClInclude Include="Render\Scene\CELight.h" />
+    <ClInclude Include="Render\Scene\Lights\CELight.h" />
     <ClInclude Include="Core\Common\CEClassType.h" />
     <ClInclude Include="Graphics\Main\Common\CETransform.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />
@@ -196,6 +196,9 @@
     <ClInclude Include="Graphics\Main\Managers\CEMeshManager.h" />
     <ClInclude Include="Utilities\CEHashUtilities.h" />
     <ClInclude Include="Core\Debug\CEDebug.h" />
+    <ClInclude Include="Render\Scene\Lights\CEDirectionalLight.h" />
+    <ClInclude Include="Render\Scene\Lights\CEPointLight.h" />
+    <ClInclude Include="Render\Scene\Lights\CESpotLight.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -309,6 +312,10 @@
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXViewport.cpp" />
     <ClCompile Include="Core\Platform\Windows\Threading\CEWindowsThread.cpp" />
     <ClCompile Include="Render\Scene\CEFrustum.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CELight.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CEDirectionalLight.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CEPointLight.cpp" />
+    <ClCompile Include="Render\Scene\Lights\CESpotLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

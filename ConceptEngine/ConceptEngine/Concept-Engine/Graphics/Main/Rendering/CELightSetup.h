@@ -12,12 +12,12 @@
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	struct CEPointLightData {
-		CEVectorFloat3 Color = CEVectorFloat3();
+		CEVectorFloat3 Color = CEVectorFloat3(1.0f, 1.0f, 1.0f);
 		float Padding0;
 	};
 
 	struct CEShadowCastingPointLightData {
-		CEVectorFloat3 Color = CEVectorFloat3();
+		CEVectorFloat3 Color = CEVectorFloat3(1.0f, 1.0f, 1.0f);
 		float ShadowBias = 0.005f;
 		float FarPlane = 10.0f;
 		float MaxShadowBias = 0.05f;

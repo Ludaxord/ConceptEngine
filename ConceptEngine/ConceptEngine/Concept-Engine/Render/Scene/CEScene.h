@@ -4,11 +4,11 @@
 
 #include "CECamera.h"
 #include "CEActor.h"
-#include "CELight.h"
 #include "../../Time/CETimestamp.h"
 #include "../../Core/Containers/CEArray.h"
 #include "../../Core/Containers/CEContainerUtilities.h"
 #include "../../Graphics/Main/Rendering/CEMeshDrawCommand.h"
+#include "Lights/CELight.h"
 
 namespace ConceptEngine::Render::Scene {
 	class CEScene {
@@ -40,7 +40,7 @@ namespace ConceptEngine::Render::Scene {
 			return Actors;
 		}
 
-		const Core::Containers::CEArray<CELight*>& GetLights() const {
+		const Core::Containers::CEArray<Lights::CELight*>& GetLights() const {
 			return Lights;
 		}
 
@@ -58,7 +58,7 @@ namespace ConceptEngine::Render::Scene {
 		void AddMeshComponent(class CEMeshComponent* component);
 
 		Core::Containers::CEArray<CEActor*> Actors;
-		Core::Containers::CEArray<CELight*> Lights;
+		Core::Containers::CEArray<Lights::CELight*> Lights;
 		Core::Containers::CEArray<Graphics::Main::Rendering::CEMeshDrawCommand> MeshDrawCommands;
 
 		CECamera* CurrentCamera = nullptr;
