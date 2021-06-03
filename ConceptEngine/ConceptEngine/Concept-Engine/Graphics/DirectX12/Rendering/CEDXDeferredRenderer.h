@@ -14,5 +14,8 @@ namespace ConceptEngine::Graphics::DirectX12::Rendering {
 		                                  const Main::Rendering::CEFrameResources& frameResources,
 		                                  const Main::Rendering::CELightSetup& lightSetup) override;
 		bool ResizeResources(Main::Rendering::CEFrameResources& resources) override;
+
+	private:
+		bool CreateGBuffer(Main::Rendering::CEFrameResources& frameResources);
 	};
 }

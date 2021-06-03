@@ -22,8 +22,6 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual bool ResizeResources(CEFrameResources& resources) = 0;
 
 	protected:
-		bool CreateGBuffer(CEFrameResources& frameResources);
-
 		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
 		Core::Common::CERef<RenderLayer::CEVertexShader> BaseVertexShader;
 		Core::Common::CERef<RenderLayer::CEPixelShader> BasePixelShader;

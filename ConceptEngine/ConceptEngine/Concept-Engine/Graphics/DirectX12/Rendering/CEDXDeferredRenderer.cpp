@@ -399,7 +399,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	return true;
 }
 
-void CEDXDeferredRenderer::RenderPrePass(Main::RenderLayer::CECommandList& commandList,
+void CEDXDeferredRenderer::RenderPrePass(CECommandList& commandList,
                                          const Main::Rendering::CEFrameResources& frameResources) {
 	const float renderWidth = float(frameResources.MainWindowViewport->GetWidth());
 	const float renderHeight = float(frameResources.MainWindowViewport->GetHeight());
@@ -434,7 +434,7 @@ void CEDXDeferredRenderer::RenderPrePass(Main::RenderLayer::CECommandList& comma
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END PRE PASS ==");
 }
 
-void CEDXDeferredRenderer::RenderBasePass(Main::RenderLayer::CECommandList& commandList,
+void CEDXDeferredRenderer::RenderBasePass(CECommandList& commandList,
                                           const Main::Rendering::CEFrameResources& frameResources) {
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== BEGIN GEOMETRY PASS ==");
 
@@ -496,11 +496,142 @@ void CEDXDeferredRenderer::RenderBasePass(Main::RenderLayer::CECommandList& comm
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END GEOMETRY PASS ==");
 }
 
-void CEDXDeferredRenderer::RenderDeferredTiledLightPass(Main::RenderLayer::CECommandList& commandList,
+void CEDXDeferredRenderer::RenderDeferredTiledLightPass(CECommandList& commandList,
                                                         const Main::Rendering::CEFrameResources& frameResources,
                                                         const Main::Rendering::CELightSetup& lightSetup) {
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== BEGIN LIGHT PASS ==");
+
+	TRACE_SCOPE("== LIGHT PASS ==");
+
+	CEComputeShader* lightPassShader = nullptr;
+	if (DrawTileDebug.GetBool()) {
+		lightPassShader = TiledLightDebugShader.Get();
+		commandList.SetComputePipelineState(TiledLightPassPSODebug.Get());
+	}
+	else {
+		lightPassShader = TiledLightShader.Get();
+		commandList.SetComputePipelineState(TiledLightPassPSO.Get());
+	}
+
+	commandList.SetShaderResourceView(lightPassShader,
+	                                  frameResources.GBuffer[BUFFER_ALBEDO_INDEX]->GetShaderResourceView(), 0);
+	commandList.SetShaderResourceView(lightPassShader,
+	                                  frameResources.GBuffer[BUFFER_NORMAL_INDEX]->GetShaderResourceView(), 1);
+	commandList.SetShaderResourceView(lightPassShader,
+	                                  frameResources.GBuffer[BUFFER_MATERIAL_INDEX]->GetShaderResourceView(), 2);
+	commandList.SetShaderResourceView(lightPassShader,
+	                                  frameResources.GBuffer[BUFFER_DEPTH_INDEX]->GetShaderResourceView(), 3);
+
+	commandList.SetShaderResourceView(lightPassShader, lightSetup.IrradianceMap->GetShaderResourceView(), 4);
+	commandList.SetShaderResourceView(lightPassShader, lightSetup.SpecularIrradianceMap->GetShaderResourceView(), 5);
+	commandList.SetShaderResourceView(lightPassShader, frameResources.IntegrationLUT->GetShaderResourceView(), 6);
+	commandList.SetShaderResourceView(lightPassShader, lightSetup.DirLightShadowMaps->GetShaderResourceView(), 7);
+	commandList.SetShaderResourceView(lightPassShader, lightSetup.PointLightShadowMaps->GetShaderResourceView(), 8);
+	commandList.SetShaderResourceView(lightPassShader, frameResources.SSAOBuffer->GetShaderResourceView(), 9);
+
+	commandList.SetConstantBuffer(lightPassShader, frameResources.CameraBuffer.Get(), 0);
+	commandList.SetConstantBuffer(lightPassShader, lightSetup.PointLightsBuffer.Get(), 1);
+	commandList.SetConstantBuffer(lightPassShader, lightSetup.PointLightsPosRadBuffer.Get(), 2);
+	commandList.SetConstantBuffer(lightPassShader, lightSetup.ShadowCastingPointLightsBuffer.Get(), 3);
+	commandList.SetConstantBuffer(lightPassShader, lightSetup.ShadowCastingPointLightsPosRadBuffer.Get(), 4);
+	commandList.SetConstantBuffer(lightPassShader, lightSetup.DirectionalLightsBuffer.Get(), 5);
+
+	commandList.SetSamplerState(lightPassShader, frameResources.IntegrationLUTSampler.Get(), 0);
+	commandList.SetSamplerState(lightPassShader, frameResources.IrradianceSampler.Get(), 1);
+	commandList.SetSamplerState(lightPassShader, frameResources.PointShadowSampler.Get(), 2);
+	commandList.SetSamplerState(lightPassShader, frameResources.DirectionalShadowSampler.Get(), 3);
+
+	CEUnorderedAccessView* finalTargetUAV = frameResources.FinalTarget->GetUnorderedAccessView();
+	commandList.SetUnorderedAccessView(lightPassShader, finalTargetUAV, 0);
+
+	struct LightPassSettings {
+		int32 NumPointLights;
+		int32 NumShadowCastingPointLights;
+		int32 NumSkyLightMips;
+		int32 ScreenWidth;
+		int32 ScreenHeight;
+	} Settings;
+
+	Settings.NumShadowCastingPointLights = lightSetup.ShadowCastingPointLightsData.Size();
+	Settings.NumPointLights = lightSetup.PointLightsData.Size();
+	Settings.NumSkyLightMips = lightSetup.SpecularIrradianceMap->GetNumMips();
+	Settings.ScreenWidth = frameResources.FinalTarget->GetWidth();
+	Settings.ScreenHeight = frameResources.FinalTarget->GetHeight();
+
+	commandList.Set32BitShaderConstants(lightPassShader, &Settings, 5);
+
+	constexpr uint32 threadCount = 16;
+	const uint32 workGroupWidth = Math::CEMath::DivideByMultiple<uint32>(Settings.ScreenWidth, threadCount);
+	const uint32 workGroupHeight = Math::CEMath::DivideByMultiple<uint32>(Settings.ScreenHeight, threadCount);
+	commandList.Dispatch(workGroupWidth, workGroupHeight, 1);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END LIGHT PASS ==");
 }
 
 bool CEDXDeferredRenderer::ResizeResources(Main::Rendering::CEFrameResources& resources) {
-	return false;
+	return CreateGBuffer(resources);
+}
+
+bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& frameResources) {
+	const uint32 width = frameResources.MainWindowViewport->GetWidth();
+	const uint32 height = frameResources.MainWindowViewport->GetHeight();
+	const uint32 usage = TextureFlags_RenderTarget;
+
+	//Albedo
+	frameResources.GBuffer[BUFFER_ALBEDO_INDEX] = CastGraphicsManager()->CreateTexture2D(
+		frameResources.AlbedoFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+	if (!frameResources.GBuffer[BUFFER_ALBEDO_INDEX]) {
+		return false;
+	}
+
+	frameResources.GBuffer[BUFFER_ALBEDO_INDEX]->SetName("Buffer Albedo");
+
+	//Normal
+	frameResources.GBuffer[BUFFER_NORMAL_INDEX] = CastGraphicsManager()->CreateTexture2D(
+		frameResources.NormalFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+	if (!frameResources.GBuffer[BUFFER_NORMAL_INDEX]) {
+		return false;
+	}
+
+	frameResources.GBuffer[BUFFER_NORMAL_INDEX]->SetName("Buffer Normal");
+
+	//Material
+	frameResources.GBuffer[BUFFER_MATERIAL_INDEX] = CastGraphicsManager()->CreateTexture2D(
+		frameResources.MaterialFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+	if (!frameResources.GBuffer[BUFFER_MATERIAL_INDEX]) {
+		return false;
+	}
+
+	frameResources.GBuffer[BUFFER_MATERIAL_INDEX]->SetName("Buffer Material");
+
+	//DepthStencil
+	const uint32 usageDS = TextureFlag_DSV | TextureFlag_SRV;
+	frameResources.GBuffer[BUFFER_DEPTH_INDEX] = CastGraphicsManager()->CreateTexture2D(
+		frameResources.DepthBufferFormat, width, height, 1, 1, usageDS, CEResourceState::Common, nullptr);
+	if (!frameResources.GBuffer[BUFFER_DEPTH_INDEX]) {
+		return false;
+	}
+
+	frameResources.GBuffer[BUFFER_DEPTH_INDEX]->SetName("Buffer Depth");
+
+	//View Normal
+	frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX] = CastGraphicsManager()->CreateTexture2D(
+		frameResources.ViewNormalFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+	if (!frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]) {
+		return false;
+	}
+
+	frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->SetName("Buffer View Normal");
+
+	//Final Image
+	frameResources.FinalTarget = CastGraphicsManager()->CreateTexture2D(
+		frameResources.FinalTargetFormat, width, height, 1, 1, usage | TextureFlag_UAV, CEResourceState::Common,
+		nullptr);
+	if (!frameResources.FinalTarget) {
+		return false;
+	}
+
+	frameResources.FinalTarget->SetName("Final Target");
+
+	return true;
 }
