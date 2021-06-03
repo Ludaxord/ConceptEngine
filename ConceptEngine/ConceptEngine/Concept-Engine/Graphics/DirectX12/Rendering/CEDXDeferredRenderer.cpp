@@ -308,32 +308,35 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	Main::RenderLayer::CECommandList commandList;
 
-	commandList.Execute([&commandList, &stagingTexture, &BRDF_pipelineState, &computeShader, &FrameResources, &LUTSize] {
-		commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::Common,
-		                              Main::RenderLayer::CEResourceState::UnorderedAccess);
+	commandList.Execute(
+		[&commandList, &stagingTexture, &BRDF_pipelineState, &computeShader, &FrameResources, &LUTSize] {
+			commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::Common,
+			                              Main::RenderLayer::CEResourceState::UnorderedAccess);
 
-		commandList.SetComputePipelineState(BRDF_pipelineState.Get());
+			commandList.SetComputePipelineState(BRDF_pipelineState.Get());
 
-		Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
-		commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
+			Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
+			commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
 
-		constexpr uint32 threadCount = 16;
-		const uint32 dispatchWidth = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
-		const uint32 dispatchHeight = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
-		commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
+			constexpr uint32 threadCount = 16;
+			const uint32 dispatchWidth = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
+			const uint32 dispatchHeight = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
+			commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
 
-		commandList.UnorderedAccessTextureBarrier(stagingTexture.Get());
+			commandList.UnorderedAccessTextureBarrier(stagingTexture.Get());
 
-		commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::UnorderedAccess,
-		                              Main::RenderLayer::CEResourceState::CopySource);
-		commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(), Main::RenderLayer::CEResourceState::Common,
-		                              Main::RenderLayer::CEResourceState::CopyDest);
+			commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::UnorderedAccess,
+			                              Main::RenderLayer::CEResourceState::CopySource);
+			commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
+			                              Main::RenderLayer::CEResourceState::Common,
+			                              Main::RenderLayer::CEResourceState::CopyDest);
 
-		commandList.CopyTexture(FrameResources.IntegrationLUT.Get(), stagingTexture.Get());
+			commandList.CopyTexture(FrameResources.IntegrationLUT.Get(), stagingTexture.Get());
 
-		commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(), Main::RenderLayer::CEResourceState::CopyDest,
-		                              Main::RenderLayer::CEResourceState::NonPixelShaderResource);
-	});
+			commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
+			                              Main::RenderLayer::CEResourceState::CopyDest,
+			                              Main::RenderLayer::CEResourceState::NonPixelShaderResource);
+		});
 
 	CommandListExecutor.ExecuteCommandList(commandList);
 
@@ -474,7 +477,23 @@ void CEDXDeferredRenderer::RenderBasePass(Main::RenderLayer::CECommandList& comm
 		TransformPerObject.Transform = command.CurrentActor->GetTransform().GetMatrix().Native;
 		TransformPerObject.TransformInverse = command.CurrentActor->GetTransform().GetMatrixInverse().Native;
 
+		CEShaderResourceView* const* shaderResourceViews = command.Material->GetShaderResourceViews();
+		commandList.SetShaderResourceView(BasePixelShader.Get(), shaderResourceViews[0], 0);
+		commandList.SetShaderResourceView(BasePixelShader.Get(), shaderResourceViews[1], 1);
+		commandList.SetShaderResourceView(BasePixelShader.Get(), shaderResourceViews[2], 2);
+		commandList.SetShaderResourceView(BasePixelShader.Get(), shaderResourceViews[3], 3);
+		commandList.SetShaderResourceView(BasePixelShader.Get(), shaderResourceViews[4], 4);
+		commandList.SetShaderResourceView(BasePixelShader.Get(), shaderResourceViews[5], 5);
+
+		CESamplerState* sampler = command.Material->GetMaterialSampler();
+		commandList.SetSamplerState(BasePixelShader.Get(), sampler, 0);
+
+		commandList.Set32BitShaderConstants(BaseVertexShader.Get(), &TransformPerObject, 32);
+
+		commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
 	}
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END GEOMETRY PASS ==");
 }
 
 void CEDXDeferredRenderer::RenderDeferredTiledLightPass(Main::RenderLayer::CECommandList& commandList,
