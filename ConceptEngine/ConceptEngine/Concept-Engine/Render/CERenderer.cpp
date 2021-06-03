@@ -20,7 +20,8 @@ void CERenderer::Release() {
 	CommandListExecutor.WaitForGPU();
 	CommandList.Reset();
 
-	DeferredRenderer.Release();
+	DeferredRenderer->Release();
+	
 	ShadowMapRenderer.Release();
 	SSAORenderer.Release();
 	LightProbeRenderer.Release();

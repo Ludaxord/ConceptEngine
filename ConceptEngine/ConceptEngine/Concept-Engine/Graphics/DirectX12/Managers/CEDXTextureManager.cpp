@@ -8,6 +8,8 @@
 
 #include "../../../Core/Debug/CEDebug.h"
 
+#include "../../../Core/Platform/Generic/Managers/CECastManager.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 
 CEDXTextureManager::CEDXTextureManager() : CETextureManager() {
@@ -26,18 +28,14 @@ bool CEDXTextureManager::Create() {
 	}
 
 
-	Main::MainTextureData.ComputeShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->GetManager(Core::Common::CEManagerType::GraphicsManager)
-	)->CreateComputeShader(code);
+	Main::MainTextureData.ComputeShader = CastGraphicsManager()->CreateComputeShader(code);
 
 	if (!Main::MainTextureData.ComputeShader) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
 
-	Main::MainTextureData.PanoramaPSO = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->GetManager(Core::Common::CEManagerType::GraphicsManager)
-	)->CreateComputePipelineState(
+	Main::MainTextureData.PanoramaPSO = CastGraphicsManager()->CreateComputePipelineState(
 		RenderLayer::CEComputePipelineStateCreateInfo(
 			Main::MainTextureData.ComputeShader.Get()
 		)

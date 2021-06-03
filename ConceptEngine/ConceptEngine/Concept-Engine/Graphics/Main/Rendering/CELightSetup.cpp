@@ -9,12 +9,13 @@
 #include "../../../Render/Scene/Lights/CEPointLight.h"
 #include "../../../Render/Scene/Lights/CEDirectionalLight.h"
 
+#include "../../../Core/Platform/Generic/Managers/CECastManager.h"
+
 using namespace ConceptEngine::Graphics::Main::Rendering;
 
 bool CELightSetup::Create() {
 	DirectionalLightsData.Reserve(1);
-	DirectionalLightsBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-		->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+	DirectionalLightsBuffer = CastGraphicsManager()->CreateConstantBuffer(
 		DirectionalLightsData.CapacityInBytes(),
 		RenderLayer::BufferFlag_Default,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer,
@@ -29,8 +30,7 @@ bool CELightSetup::Create() {
 	DirectionalLightsBuffer->SetName("Directional Light Buffer");
 
 	PointLightsData.Reserve(256);
-	PointLightsBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-		->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+	PointLightsBuffer = CastGraphicsManager()->CreateConstantBuffer(
 		PointLightsData.CapacityInBytes(),
 		RenderLayer::BufferFlag_Default,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer,
@@ -45,8 +45,7 @@ bool CELightSetup::Create() {
 	PointLightsBuffer->SetName("Point Light Buffer");
 
 	PointLightsPosRad.Reserve(256);
-	PointLightsPosRadBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-		->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+	PointLightsPosRadBuffer = CastGraphicsManager()->CreateConstantBuffer(
 		PointLightsPosRad.CapacityInBytes(),
 		RenderLayer::BufferFlag_Default,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer,
@@ -56,9 +55,7 @@ bool CELightSetup::Create() {
 	PointLightsPosRadBuffer->SetName("Point Lights Pos Rad Buffer");
 
 	ShadowCastingPointLightsData.Reserve(8);
-	ShadowCastingPointLightsBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+	ShadowCastingPointLightsBuffer = CastGraphicsManager()->CreateConstantBuffer(
 		ShadowCastingPointLightsData.CapacityInBytes(),
 		RenderLayer::BufferFlag_Default,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer,
@@ -73,9 +70,7 @@ bool CELightSetup::Create() {
 	ShadowCastingPointLightsBuffer->SetName("Shadow Casting Point Lights Buffer");
 
 	ShadowCastingPointLightsPosRad.Reserve(8);
-	ShadowCastingPointLightsPosRadBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+	ShadowCastingPointLightsPosRadBuffer = CastGraphicsManager()->CreateConstantBuffer(
 		ShadowCastingPointLightsData.CapacityInBytes(),
 		RenderLayer::BufferFlag_Default,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer,
@@ -187,9 +182,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 	if (DirectionalLightsData.SizeInBytes() > DirectionalLightsBuffer->GetSize()) {
 		commandList.DiscardResource(DirectionalLightsBuffer.Get());
 
-		DirectionalLightsBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+		DirectionalLightsBuffer = CastGraphicsManager()->CreateConstantBuffer(
 			DirectionalLightsData.CapacityInBytes(),
 			BufferFlag_Default,
 			CEResourceState::VertexAndConstantBuffer,
@@ -203,9 +196,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 	if (PointLightsData.SizeInBytes() > PointLightsBuffer->GetSize()) {
 		commandList.DiscardResource(PointLightsBuffer.Get());
 
-		PointLightsBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+		PointLightsBuffer = CastGraphicsManager()->CreateConstantBuffer(
 			PointLightsData.CapacityInBytes(),
 			BufferFlag_Default,
 			CEResourceState::VertexAndConstantBuffer,
@@ -219,9 +210,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 	if (PointLightsPosRad.SizeInBytes() > PointLightsPosRadBuffer->GetSize()) {
 		commandList.DiscardResource(PointLightsPosRadBuffer.Get());
 
-		PointLightsPosRadBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+		PointLightsPosRadBuffer = CastGraphicsManager()->CreateConstantBuffer(
 			PointLightsPosRad.CapacityInBytes(),
 			BufferFlag_Default,
 			CEResourceState::VertexAndConstantBuffer,
@@ -235,9 +224,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 	if (ShadowCastingPointLightsData.SizeInBytes() > ShadowCastingPointLightsBuffer->GetSize()) {
 		commandList.DiscardResource(ShadowCastingPointLightsBuffer.Get());
 
-		ShadowCastingPointLightsBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+		ShadowCastingPointLightsBuffer = CastGraphicsManager()->CreateConstantBuffer(
 			ShadowCastingPointLightsData.CapacityInBytes(),
 			BufferFlag_Default,
 			CEResourceState::VertexAndConstantBuffer,
@@ -252,9 +239,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 	if (ShadowCastingPointLightsPosRad.SizeInBytes() > ShadowCastingPointLightsPosRadBuffer->GetSize()) {
 		commandList.DiscardResource(ShadowCastingPointLightsPosRadBuffer.Get());
 
-		ShadowCastingPointLightsPosRadBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))->CreateConstantBuffer(
+		ShadowCastingPointLightsPosRadBuffer = CastGraphicsManager()->CreateConstantBuffer(
 			ShadowCastingPointLightsPosRad.CapacityInBytes(),
 			BufferFlag_Default,
 			CEResourceState::VertexAndConstantBuffer,

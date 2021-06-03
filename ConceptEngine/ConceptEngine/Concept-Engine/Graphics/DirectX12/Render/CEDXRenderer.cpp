@@ -16,6 +16,10 @@
 
 #include "../../Main/Rendering/CEFrameResources.h"
 
+#include "../Rendering/CEDXDeferredRenderer.h"
+
+#include "../../../Core/Platform/Generic/Managers/CECastManager.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
@@ -43,9 +47,7 @@ bool CEDXRenderer::Create() {
 		INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
 	}
 
-	Resources.MainWindowViewport = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(CEManagerType::GraphicsManager))
+	Resources.MainWindowViewport = CastGraphicsManager()
 		->CreateViewport(
 			Core::Generic::Platform::CEPlatform::GetWindow(),
 			0,
@@ -61,8 +63,7 @@ bool CEDXRenderer::Create() {
 
 	Resources.MainWindowViewport->SetName("Main Window Viewport");
 
-	Resources.CameraBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateConstantBuffer<CEDXCameraBufferDesc>(
+	Resources.CameraBuffer = CastGraphicsManager()->CreateConstantBuffer<CEDXCameraBufferDesc>(
 		BufferFlag_Default, CEResourceState::Common, nullptr
 	);
 
@@ -76,8 +77,7 @@ bool CEDXRenderer::Create() {
 
 	const auto inputLayout = CreateInputLayoutCreateInfo();
 
-	Resources.StdInputLayout = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateInputLayout(inputLayout);
+	Resources.StdInputLayout = CastGraphicsManager()->CreateInputLayout(inputLayout);
 	if (!Resources.StdInputLayout) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
@@ -94,9 +94,7 @@ bool CEDXRenderer::Create() {
 		createInfo.ComparisonFunc = CEComparisonFunc::LessEqual;
 		createInfo.BorderColor = Math::CEColorF(1.0f, 1.0f, 1.0f, 1.0f);
 
-		Resources.DirectionalShadowSampler = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+		Resources.DirectionalShadowSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 		if (!Resources.DirectionalShadowSampler) {
 			return false;
 		}
@@ -112,9 +110,7 @@ bool CEDXRenderer::Create() {
 		createInfo.Filter = CESamplerFilter::Comparison_MinMagMipLinear;
 		createInfo.ComparisonFunc = CEComparisonFunc::LessEqual;
 
-		Resources.PointShadowSampler = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+		Resources.PointShadowSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 		if (!Resources.PointShadowSampler) {
 			Core::Debug::CEDebug::DebugBreak();
 			return false;
@@ -123,8 +119,7 @@ bool CEDXRenderer::Create() {
 		Resources.PointShadowSampler->SetName("ShadowMap Comparison Sampler");
 	}
 
-	GPUProfiler = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateProfiler();
+	GPUProfiler = CastGraphicsManager()->CreateProfiler();
 	if (!GPUProfiler) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
@@ -152,7 +147,14 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!DeferredRenderer.Create(Resources)) {
+	DeferredRenderer = new Rendering::CEDXDeferredRenderer();
+
+	if (!DeferredRenderer) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	if (!DeferredRenderer->Create(Resources)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
@@ -182,8 +184,7 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->IsRayTracingSupported()) {
+	if (CastGraphicsManager()->IsRayTracingSupported()) {
 		if (!RayTracer.Create(Resources)) {
 			Core::Debug::CEDebug::DebugBreak();
 			return false;
@@ -441,10 +442,7 @@ void CEDXRenderer::RenderDebugInterface() {
 		ImGui::Columns(2, nullptr, false);
 		ImGui::SetColumnWidth(0, 100.0f);
 
-		const std::string adapterName = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-				Core::Application::CECore::GetGraphics()
-				->GetManager(CEManagerType::GraphicsManager))
-			->GetAdapterName();
+		const std::string adapterName = CastGraphicsManager()->GetAdapterName();
 
 		ImGui::Text("Adapter: ");
 		ImGui::NextColumn();
@@ -486,8 +484,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 		return false;
 	}
 
-	AABBVertexShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateVertexShader(shaderCode);
+	AABBVertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 	if (!AABBVertexShader) {
 		return false;
 	}
@@ -499,8 +496,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 		return false;
 	}
 
-	AABBPixelShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreatePixelShader(shaderCode);
+	AABBPixelShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!AABBPixelShader) {
 		return false;
 	}
@@ -511,9 +507,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 		{"POSITION", 0, CEFormat::R32G32B32_Float, 0, 0, CEInputClassification::Vertex, 0}
 	};
 
-	CERef<CEInputLayoutState> inputLayoutState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateInputLayout(inputLayout);
+	CERef<CEInputLayoutState> inputLayoutState = CastGraphicsManager()->CreateInputLayout(inputLayout);
 	if (!inputLayoutState) {
 		return false;
 	}
@@ -525,9 +519,8 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	depthStencilStateInfo.DepthEnable = false;
 	depthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::Zero;
 
-	CERef<CEDepthStencilState> depthStencilState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateDepthStencilState(depthStencilStateInfo);
+	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->
+		CreateDepthStencilState(depthStencilStateInfo);
 	if (!depthStencilState) {
 		return false;
 	}
@@ -537,9 +530,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CERasterizerStateCreateInfo rasterizerStateInfo;
 	rasterizerStateInfo.CullMode = CECullMode::None;
 
-	CERef<CERasterizerState> rasterizerState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateRasterizerState(rasterizerStateInfo);
+	CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(rasterizerStateInfo);
 
 	if (!rasterizerState) {
 		return false;
@@ -549,9 +540,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	CEBlendStateCreateInfo blendStateInfo;
 
-	CERef<CEBlendState> blendState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateBlendState(blendStateInfo);
+	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 
 	if (!blendState) {
 		return false;
@@ -571,9 +560,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	psoProperties.PipelineFormats.NumRenderTargets = 1;
 	psoProperties.PipelineFormats.DepthStencilFormat = Resources.DepthBufferFormat;
 
-	AABBDebugPipelineState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateGraphicsPipelineState(psoProperties);
+	AABBDebugPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 
 	if (!AABBDebugPipelineState) {
 		return false;
@@ -595,9 +582,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	CEResourceData vertexData(vertices.Data(), vertices.SizeInBytes());
 
-	AABBVertexBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateVertexBuffer<DirectX::XMFLOAT3>(
+	AABBVertexBuffer = CastGraphicsManager()->CreateVertexBuffer<DirectX::XMFLOAT3>(
 		vertices.Size(), BufferFlag_Default, CEResourceState::Common, &vertexData);
 	if (!AABBVertexBuffer) {
 		return false;
@@ -622,11 +607,9 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	CEResourceData indexData(indices.Data(), indices.SizeInBytes());
 
-	AABBIndexBuffer = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()->
-		GetManager(CEManagerType::GraphicsManager))->CreateIndexBuffer(CEIndexFormat::uint16, indices.Size(),
-		                                                               BufferFlag_Default, CEResourceState::Common,
-		                                                               &indexData);
+	AABBIndexBuffer = CastGraphicsManager()->CreateIndexBuffer(CEIndexFormat::uint16, indices.Size(),
+	                                                           BufferFlag_Default, CEResourceState::Common,
+	                                                           &indexData);
 	if (!AABBIndexBuffer) {
 		return false;
 	}
@@ -643,10 +626,7 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	CERef<CEVertexShader> vertexShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(CEManagerType::GraphicsManager))
-		->CreateVertexShader(shaderCode);
+	CERef<CEVertexShader> vertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 	if (!vertexShader) {
 		return false;
 	}
@@ -658,10 +638,7 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	PostShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-			Core::Application::CECore::GetGraphics()
-			->GetManager(CEManagerType::GraphicsManager))
-		->CreatePixelShader(shaderCode);
+	PostShader = CastGraphicsManager()		->CreatePixelShader(shaderCode);
 	if (!PostShader) {
 		return false;
 	}
@@ -673,9 +650,7 @@ bool CEDXRenderer::CreateAA() {
 	depthStencilStateInfo.DepthEnable = false;
 	depthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::Zero;
 
-	CERef<CEDepthStencilState> depthStencilState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateDepthStencilState(depthStencilStateInfo);
+	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(depthStencilStateInfo);
 
 	if (!depthStencilState) {
 		return false;
@@ -686,9 +661,7 @@ bool CEDXRenderer::CreateAA() {
 	CERasterizerStateCreateInfo rasterizerStateInfo;
 	rasterizerStateInfo.CullMode = CECullMode::None;
 
-	CERef<CERasterizerState> rasterizerState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateRasterizerState(rasterizerStateInfo);
+	CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(rasterizerStateInfo);
 	if (!rasterizerState) {
 		return false;
 	}
@@ -699,9 +672,7 @@ bool CEDXRenderer::CreateAA() {
 	blendStateInfo.independentBlendEnable = false;
 	blendStateInfo.RenderTarget[0].BlendEnable = false;
 
-	CERef<CEBlendState> blendState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateBlendState(blendStateInfo);
+	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 	if (!blendState) {
 		return false;
 	}
@@ -720,9 +691,7 @@ bool CEDXRenderer::CreateAA() {
 	psoProperties.PipelineFormats.NumRenderTargets = 1;
 	psoProperties.PipelineFormats.DepthStencilFormat = CEFormat::Unknown;
 
-	PostPipelineState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateGraphicsPipelineState(psoProperties);
+	PostPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!PostPipelineState) {
 		return false;
 	}
@@ -736,9 +705,7 @@ bool CEDXRenderer::CreateAA() {
 	createInfo.AddressW = CESamplerMode::Clamp;
 	createInfo.Filter = CESamplerFilter::MinMagMipLinear;
 
-	Resources.FXAASampler = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateSamplerState(createInfo);
+	Resources.FXAASampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 	if (!Resources.FXAASampler) {
 		return false;
 	}
@@ -748,9 +715,7 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	FXAAShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreatePixelShader(shaderCode);
+	FXAAShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!FXAAShader) {
 		return false;
 	}
@@ -759,9 +724,7 @@ bool CEDXRenderer::CreateAA() {
 
 	psoProperties.ShaderState.PixelShader = FXAAShader.Get();
 
-	FXAAPipelineState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateGraphicsPipelineState(psoProperties);
+	FXAAPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!FXAAPipelineState) {
 		return false;
 	}
@@ -777,9 +740,7 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	FXAADebugShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreatePixelShader(shaderCode);
+	FXAADebugShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 
 	if (!FXAADebugShader) {
 		return false;
@@ -789,9 +750,7 @@ bool CEDXRenderer::CreateAA() {
 
 	psoProperties.ShaderState.PixelShader = FXAADebugShader.Get();
 
-	FXAADebugPipelineState = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateGraphicsPipelineState(psoProperties);
+	FXAADebugPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!FXAADebugPipelineState) {
 		return false;
 	}
@@ -805,9 +764,7 @@ bool CEDXRenderer::CreateShadingImage() {
 
 	Main::CEShadingRateSupport support;
 
-	dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CheckShadingRateSupport(support);
+	CastGraphicsManager()->CheckShadingRateSupport(support);
 
 	if (support.Tier != Main::CEShadingRateTier::Tier2 || support.ShadingRateImageTileSize == 0) {
 		return true;
@@ -815,9 +772,7 @@ bool CEDXRenderer::CreateShadingImage() {
 
 	uint32 width = Resources.MainWindowViewport->GetWidth() / support.ShadingRateImageTileSize;
 	uint32 height = Resources.MainWindowViewport->GetHeight() / support.ShadingRateImageTileSize;
-	ShadingImage = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateTexture2D(CEFormat::R8_Uint, width, height, 1, 1,
+	ShadingImage = CastGraphicsManager()->CreateTexture2D(CEFormat::R8_Uint, width, height, 1, 1,
 		                                                               TextureFlags_RWTexture,
 		                                                               CEResourceState::ShadingRateSource, nullptr);
 	if (!ShadingImage) {
@@ -834,9 +789,7 @@ bool CEDXRenderer::CreateShadingImage() {
 		return false;
 	}
 
-	ShadingRateShader = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateComputeShader(shaderCode);
+	ShadingRateShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 
 	if (!ShadingRateShader) {
 		Core::Debug::CEDebug::DebugBreak();
@@ -846,9 +799,7 @@ bool CEDXRenderer::CreateShadingImage() {
 	ShadingRateShader->SetName("Shading Rate Image Shader");
 
 	CEComputePipelineStateCreateInfo createInfo(ShadingRateShader.Get());
-	ShadingRatePipeline = dynamic_cast<Main::Managers::CEGraphicsManager*>(
-		Core::Application::CECore::GetGraphics()
-		->GetManager(CEManagerType::GraphicsManager))->CreateComputePipelineState(createInfo);
+	ShadingRatePipeline = CastGraphicsManager()->CreateComputePipelineState(createInfo);
 	if (!ShadingRatePipeline) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
@@ -920,8 +871,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 			INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== END VARIABLE RATE SHADING IMAGE ==");
 		}
-		else if (dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
-			GetManager(CEManagerType::GraphicsManager))->IsShadingRateSupported()) {
+		else if (CastGraphicsManager()->IsShadingRateSupported()) {
 			CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 		}
 
@@ -930,8 +880,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		ShadowMapRenderer.RenderPointLightShadows(CommandList, LightSetup, scene);
 		ShadowMapRenderer.RenderDirectionalLightShadows(CommandList, LightSetup, scene);
 
-		if (dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->
-			GetManager(CEManagerType::GraphicsManager))->IsRayTracingSupported() && ConceptEngine::Render::Variables[
+		if (CastGraphicsManager()->IsRayTracingSupported() && ConceptEngine::Render::Variables[
 			"CE.RayTracingEnabled"].GetBool()) {
 			GPU_TRACE_SCOPE(CommandList, "== RAY TRACING ==");
 			RayTracer.PreRender(CommandList, Resources, scene);
@@ -982,12 +931,12 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		                                  CEDepthStencilF(1.0f, 0));
 
 		if (ConceptEngine::Render::Variables["CE.PrePassEnabled"].GetBool()) {
-			DeferredRenderer.RenderPrePass(CommandList, Resources);
+			DeferredRenderer->RenderPrePass(CommandList, Resources);
 		}
 
 		{
 			GPU_TRACE_SCOPE(CommandList, "== BASE PASS ==");
-			DeferredRenderer.RenderPrePass(CommandList, Resources);
+			DeferredRenderer->RenderPrePass(CommandList, Resources);
 		}
 
 		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_ALBEDO_INDEX].Get(), CEResourceState::RenderTarget,
@@ -1061,7 +1010,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 		{
 			GPU_TRACE_SCOPE(CommandList, "== LIGHT PASS ==");
-			DeferredRenderer.RenderDeferredTiledLightPass(CommandList, Resources, LightSetup);
+			DeferredRenderer->RenderDeferredTiledLightPass(CommandList, Resources, LightSetup);
 		}
 
 		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(),
@@ -1132,8 +1081,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 				Renderer->RenderDebugInterface();
 			});
 
-			if (dynamic_cast<Main::Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()->GetManager(
-				CEManagerType::GraphicsManager))->IsShadingRateSupported()) {
+			if (CastGraphicsManager()->IsShadingRateSupported()) {
 				CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 				CommandList.SetShadingRateImage(nullptr);
 			}
@@ -1174,7 +1122,7 @@ void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
 		return;
 	}
 
-	if (!DeferredRenderer.ResizeResources(Resources)) {
+	if (!DeferredRenderer->ResizeResources(Resources)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return;
 	}

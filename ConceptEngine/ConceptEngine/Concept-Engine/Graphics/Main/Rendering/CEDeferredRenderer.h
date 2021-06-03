@@ -6,20 +6,22 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	class CEDeferredRenderer {
 	public:
 		CEDeferredRenderer() = default;
-		~CEDeferredRenderer() = default;
+		virtual ~CEDeferredRenderer() = default;
 
 
-		bool Create(CEFrameResources& FrameResources);
+		virtual bool Create(CEFrameResources& FrameResources) = 0;
 		void Release();
 
-		void RenderPrePass(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources);
-		void RenderBasePass(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources);
-		void RenderDeferredTiledLightPass(RenderLayer::CECommandList& commandList,
-		                                  const CEFrameResources& frameResources, const CELightSetup& lightSetup);
+		virtual void RenderPrePass(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources) = 0;
+		virtual void RenderBasePass(RenderLayer::CECommandList& commandList,
+		                            const CEFrameResources& frameResources) = 0;
+		virtual void RenderDeferredTiledLightPass(RenderLayer::CECommandList& commandList,
+		                                          const CEFrameResources& frameResources,
+		                                          const CELightSetup& lightSetup) = 0;
 
-		bool ResizeResources(CEFrameResources& resources);
+		virtual bool ResizeResources(CEFrameResources& resources) = 0;
 
-	private:
+	protected:
 		bool CreateGBuffer(CEFrameResources& frameResources);
 
 		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;

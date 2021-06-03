@@ -73,7 +73,7 @@ namespace ConceptEngine::Render {
 
 		//TODO: Move to some kind of container because object types are same in some situations;
 
-		Graphics::Main::Rendering::CEDeferredRenderer DeferredRenderer;
+		Graphics::Main::Rendering::CEDeferredRenderer* DeferredRenderer = nullptr;
 		Graphics::Main::Rendering::CEShadowMapRenderer ShadowMapRenderer;
 		Graphics::Main::Rendering::CEScreenSpaceOcclusionRenderer SSAORenderer;
 		Graphics::Main::Rendering::CELightProbeRenderer LightProbeRenderer;

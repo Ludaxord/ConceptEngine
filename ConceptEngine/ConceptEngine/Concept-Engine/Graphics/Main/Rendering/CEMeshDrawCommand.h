@@ -13,8 +13,8 @@ namespace ConceptEngine::Graphics::Main { namespace Common {
 			class Common::CEMesh* Mesh = nullptr;
 			class ConceptEngine::Render::Scene::CEActor* CurrentActor = nullptr;
 
-			class CEVertexBuffer* VertexBuffer = nullptr;
-			class CEIndexBuffer* IndexBuffer = nullptr;
+			class ConceptEngine::Graphics::Main::RenderLayer::CEVertexBuffer* VertexBuffer = nullptr;
+			class ConceptEngine::Graphics::Main::RenderLayer::CEIndexBuffer* IndexBuffer = nullptr;
 
 			class CERayTracingGeometry* Geometry = nullptr;
 		};

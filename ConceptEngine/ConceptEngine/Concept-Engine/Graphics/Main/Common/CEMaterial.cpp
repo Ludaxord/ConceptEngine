@@ -1,5 +1,8 @@
 #include "CEMaterial.h"
 
+#include "../../../Core/Platform/Generic/Managers/CECastManager.h"
+
+
 using namespace ConceptEngine::Graphics::Main::Common;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 
@@ -9,11 +12,9 @@ CEMaterial::CEMaterial(const CEMaterialProperties& Properties): AlbedoMap(), Nor
 }
 
 void CEMaterial::Create() {
-	MaterialBuffer = dynamic_cast<Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))
-		->CreateConstantBuffer<CEMaterialProperties>(BufferFlag_Default,
-		                                             CEResourceState::VertexAndConstantBuffer,
-		                                             nullptr);
+	MaterialBuffer = CastGraphicsManager()->CreateConstantBuffer<CEMaterialProperties>(BufferFlag_Default,
+		CEResourceState::VertexAndConstantBuffer,
+		nullptr);
 
 	if (MaterialBuffer) {
 		MaterialBuffer->SetName("Material Buffer");
@@ -30,9 +31,7 @@ void CEMaterial::Create() {
 	createInfo.MinLOD = -FLT_MAX;
 	createInfo.MipLODBias = 0.0f;
 
-	Sampler = dynamic_cast<Managers::CEGraphicsManager*>(Core::Application::CECore::GetGraphics()
-			->GetManager(Core::Common::CEManagerType::GraphicsManager))
-		->CreateSamplerState(createInfo);
+	Sampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 }
 
 void CEMaterial::BuildBuffer(RenderLayer::CECommandList& commandList) {

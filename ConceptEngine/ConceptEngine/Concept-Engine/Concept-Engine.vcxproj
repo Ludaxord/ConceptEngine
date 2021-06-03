@@ -53,6 +53,7 @@
     <ClInclude Include="Core\Platform\Generic\Events\CEEvent.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEModifierKeyState.h" />
+    <ClInclude Include="Core\Platform\Generic\Managers\CECastManager.h" />
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
     <ClInclude Include="Core\Platform\Windows\Debug\CEWindowsCommandConsole.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXTextureManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXRendererManager.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDebugUI.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXCommandAllocator.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXCommandContext.h" />
@@ -258,6 +260,7 @@
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXTextureManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXRendererManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDebugUI.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXCommandContext.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXCommandQueue.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp" />

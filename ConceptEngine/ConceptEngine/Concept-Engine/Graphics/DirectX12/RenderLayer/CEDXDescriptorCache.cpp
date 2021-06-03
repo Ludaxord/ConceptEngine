@@ -1,8 +1,10 @@
 #include "CEDXDescriptorCache.h"
 
 #include "../../../Core/Application/CECore.h"
+#include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
 #include "../Managers/CEDXManager.h"
+
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
@@ -43,11 +45,7 @@ bool CEDXDescriptorCache::Create() {
 
 	cbvDesc.BufferLocation = 0;
 	cbvDesc.SizeInBytes = 0;
-	NullCBV = new CEDXConstantBufferView(GetDevice(),
-	                                     dynamic_cast<Managers::CEDXManager*>(Core::Application::CECore::GetGraphics()->
-		                                     GetManager(Core::Common::CEManagerType::GraphicsManager))->
-	                                     GetResourceOfflineDescriptorHeap()
-	);
+	NullCBV = new CEDXConstantBufferView(GetDevice(), CastDXManager()->GetResourceOfflineDescriptorHeap());
 	if (!NullCBV->Create()) {
 		return false;
 	}
@@ -64,11 +62,7 @@ bool CEDXDescriptorCache::Create() {
 	uavDesc.Texture2D.MipSlice = 0;
 	uavDesc.Texture2D.PlaneSlice = 0;
 
-	NullUAV = new CEDXUnorderedAccessView(GetDevice(),
-	                                      dynamic_cast<Managers::CEDXManager*>(Core::Application::CECore::GetGraphics()
-		                                      ->
-		                                      GetManager(Core::Common::CEManagerType::GraphicsManager))->
-	                                      GetResourceOfflineDescriptorHeap()
+	NullUAV = new CEDXUnorderedAccessView(GetDevice(), CastDXManager()->GetResourceOfflineDescriptorHeap()
 	);
 	if (!NullUAV->Create()) {
 		return false;
@@ -89,11 +83,7 @@ bool CEDXDescriptorCache::Create() {
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 	srvDesc.Texture2D.PlaneSlice = 0;
 
-	NullSRV = new CEDXShaderResourceView(GetDevice(),
-	                                     dynamic_cast<Managers::CEDXManager*>(Core::Application::CECore::GetGraphics()
-		                                     ->
-		                                     GetManager(Core::Common::CEManagerType::GraphicsManager))->
-	                                     GetResourceOfflineDescriptorHeap()
+	NullSRV = new CEDXShaderResourceView(GetDevice(), CastDXManager()->GetResourceOfflineDescriptorHeap()
 	);
 	if (!NullSRV->Create()) {
 		return false;
@@ -120,11 +110,7 @@ bool CEDXDescriptorCache::Create() {
 	samplerDesc.MinLOD = -FLT_MAX;
 	samplerDesc.MipLODBias = 0.0f;
 
-	NullSampler = new CEDXSamplerState(GetDevice(),
-	                                   dynamic_cast<Managers::CEDXManager*>(Core::Application::CECore::GetGraphics()
-		                                   ->
-		                                   GetManager(Core::Common::CEManagerType::GraphicsManager))->
-	                                   GetSamplerOfflineDescriptorHeap());
+	NullSampler = new CEDXSamplerState(GetDevice(), CastDXManager()->GetSamplerOfflineDescriptorHeap());
 
 	if (!NullSampler->Create(samplerDesc)) {
 		return false;

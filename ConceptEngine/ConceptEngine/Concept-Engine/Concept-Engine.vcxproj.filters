@@ -199,6 +199,8 @@
     <ClInclude Include="Render\Scene\Lights\CEDirectionalLight.h" />
     <ClInclude Include="Render\Scene\Lights\CEPointLight.h" />
     <ClInclude Include="Render\Scene\Lights\CESpotLight.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.h" />
+    <ClInclude Include="Core\Platform\Generic\Managers\CECastManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
@@ -316,6 +318,7 @@
     <ClCompile Include="Render\Scene\Lights\CEDirectionalLight.cpp" />
     <ClCompile Include="Render\Scene\Lights\CEPointLight.cpp" />
     <ClCompile Include="Render\Scene\Lights\CESpotLight.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
