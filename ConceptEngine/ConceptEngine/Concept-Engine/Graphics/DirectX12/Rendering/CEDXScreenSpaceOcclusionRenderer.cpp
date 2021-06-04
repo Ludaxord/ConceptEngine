@@ -5,6 +5,7 @@
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
 #include "../../../Core/Debug/CEDebug.h"
+#include "../../../Core/Debug/CEProfiler.h"
 
 #include "../../../Math/CEFloat.h"
 
@@ -201,6 +202,77 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 void CEDXScreenSpaceOcclusionRenderer::Render(Main::RenderLayer::CECommandList& commandList,
                                               Main::Rendering::CEFrameResources& frameResources) {
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== BEGIN SSAO ==");
+
+	TRACE_SCOPE("== SSAO ==");
+
+	commandList.SetComputePipelineState(PipelineState.Get());
+
+	struct SSAOSettings {
+		DirectX::XMFLOAT2 ScreenSize;
+		DirectX::XMFLOAT2 NoiseSize;
+		float Radius;
+		float Bias;
+		int32 KernelSize;
+	} SSAOSettings;
+
+	const uint32 width = frameResources.SSAOBuffer->GetWidth();
+	const uint32 height = frameResources.SSAOBuffer->GetHeight();
+	SSAOSettings.ScreenSize = DirectX::XMFLOAT2(float(width), float(height));
+	SSAOSettings.NoiseSize = DirectX::XMFLOAT2(4.0f, 4.0f);
+	SSAOSettings.Radius = GSSAORadius.GetFloat();
+	SSAOSettings.KernelSize = GSSAOKernelSize.GetInt();
+	SSAOSettings.Bias = GSSAOBias.GetFloat();
+
+	commandList.SetConstantBuffer(SSAOShader.Get(), frameResources.CameraBuffer.Get(), 0);
+
+	frameResources.DebugTextures.EmplaceBack(
+		Core::Common::MakeSharedRef<CEShaderResourceView>(SSAONoiseTexture->GetShaderResourceView()),
+		SSAONoiseTexture,
+		CEResourceState::NonPixelShaderResource,
+		CEResourceState::NonPixelShaderResource
+	);
+
+	commandList.SetShaderResourceView(SSAOShader.Get(),
+	                                  frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->GetShaderResourceView(), 0);
+	commandList.SetShaderResourceView(SSAOShader.Get(),
+	                                  frameResources.GBuffer[BUFFER_DEPTH_INDEX]->GetShaderResourceView(), 1);
+	commandList.SetShaderResourceView(SSAOShader.Get(), SSAONoiseTexture->GetShaderResourceView(), 2);
+	commandList.SetShaderResourceView(SSAOShader.Get(), SSAOSamplesSRV.Get(), 3);
+
+	commandList.SetSamplerState(SSAOShader.Get(), frameResources.GBufferSampler.Get(), 0);
+
+	CEUnorderedAccessView* ssaoBufferUAV = frameResources.SSAOBuffer->GetUnorderedAccessView();
+	commandList.SetUnorderedAccessView(SSAOShader.Get(), ssaoBufferUAV, 0);
+	commandList.Set32BitShaderConstants(SSAOShader.Get(), &SSAOSettings, 7);
+
+	constexpr uint32 threadCount = 16;
+	const uint32 dispatchWidth = Math::CEMath::DivideByMultiple<uint32>(width, threadCount);
+	const uint32 dispatchHeight = Math::CEMath::DivideByMultiple<uint32>(height, threadCount);
+
+	//Horizontal Blur
+	commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
+
+	commandList.UnorderedAccessTextureBarrier(frameResources.SSAOBuffer.Get());
+
+	commandList.SetComputePipelineState(BlurHorizontalPSO.Get());
+
+	commandList.Set32BitShaderConstants(BlurHorizontalShader.Get(), &SSAOSettings.ScreenSize, 2);
+
+	//Vertical Blur
+	commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
+
+	commandList.UnorderedAccessTextureBarrier(frameResources.SSAOBuffer.Get());
+
+	commandList.SetComputePipelineState(BlurVerticalPSO.Get());
+
+	commandList.Set32BitShaderConstants(BlurVerticalShader.Get(), &SSAOSettings.ScreenSize, 2);
+
+	commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
+
+	commandList.UnorderedAccessTextureBarrier(frameResources.SSAOBuffer.Get());
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END SSAO ==")
 }
 
 bool CEDXScreenSpaceOcclusionRenderer::ResizeResources(Main::Rendering::CEFrameResources& resources) {
