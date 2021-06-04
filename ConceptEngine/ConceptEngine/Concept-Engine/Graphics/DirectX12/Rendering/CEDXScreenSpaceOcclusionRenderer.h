@@ -2,6 +2,8 @@
 
 #include "../../Main/Rendering/CEScreenSpaceOcclusionRenderer.h"
 
+#include "../../../Core/Platform/Generic/Debug/CEConsoleVariable.h"
+
 namespace ConceptEngine::Graphics::DirectX12::Rendering {
 
 	class CEDXScreenSpaceOcclusionRenderer : public Main::Rendering::CEScreenSpaceOcclusionRenderer {
