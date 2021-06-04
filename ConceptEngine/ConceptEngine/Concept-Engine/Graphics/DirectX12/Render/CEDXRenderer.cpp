@@ -165,8 +165,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: Finish implementing!
-	
 	ShadowMapRenderer = new Rendering::CEDXShadowMapRenderer();
 
 	if (!ShadowMapRenderer) {

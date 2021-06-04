@@ -40,6 +40,7 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 		};
 
 	public:
+		virtual ~CEActionConsole() = default;
 		void Create();
 		void RegisterCommand(const std::string& name, CEConsoleCommand* object);
 		void RegisterVariable(const std::string& name, CEConsoleVariable* object);
