@@ -165,6 +165,7 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	//TODO: Finish implementing!
 	ShadowMapRenderer = new Rendering::CEDXShadowMapRenderer();
 
 	if (!ShadowMapRenderer) {
@@ -177,6 +178,7 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	//TODO: Implement
 	SSAORenderer = new Rendering::CEDXScreenSpaceOcclusionRenderer();
 
 	if (!SSAORenderer) {
@@ -189,6 +191,7 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	//TODO: Implement
 	LightProbeRenderer = new Rendering::CEDXLightProbeRenderer();
 
 	if (!LightProbeRenderer) {
@@ -200,6 +203,8 @@ bool CEDXRenderer::Create() {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}
+
+	//TODO: Implement
 	SkyBoxRenderPass = new Rendering::CEDXSkyBoxRenderPass();
 
 	if (!SkyBoxRenderPass) {
@@ -212,6 +217,7 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	//TODO: Implement
 	ForwardRenderer = new Rendering::CEDXForwardRenderer();
 
 	if (!ForwardRenderer) {
@@ -225,6 +231,7 @@ bool CEDXRenderer::Create() {
 
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
 
+		//TODO: Implement
 		RayTracer = new Rendering::CEDXRayTracer();
 
 		if (!RayTracer) {
