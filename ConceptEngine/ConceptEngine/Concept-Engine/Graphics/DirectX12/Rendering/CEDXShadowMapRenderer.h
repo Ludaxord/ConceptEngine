@@ -5,8 +5,8 @@
 namespace ConceptEngine::Graphics::DirectX12::Rendering {
 	class CEDXShadowMapRenderer : public Main::Rendering::CEShadowMapRenderer {
 	public:
-		bool Create(const Main::Rendering::CELightSetup& lightSetup,
-		            const Main::Rendering::CEFrameResources& resources) override;
+		bool Create( Main::Rendering::CELightSetup& lightSetup,
+		            Main::Rendering::CEFrameResources& resources) override;
 		void RenderPointLightShadows(Main::RenderLayer::CECommandList& commandList,
 		                             const Main::Rendering::CELightSetup& lightSetup,
 		                             const Render::Scene::CEScene& scene) override;
