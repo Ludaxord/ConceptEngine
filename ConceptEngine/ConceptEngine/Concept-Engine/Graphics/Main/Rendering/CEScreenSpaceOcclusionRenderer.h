@@ -7,7 +7,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		CEScreenSpaceOcclusionRenderer() = default;
 		virtual ~CEScreenSpaceOcclusionRenderer() = default;
 
-		virtual bool Create(const CEFrameResources& resources) = 0;
+		virtual bool Create( CEFrameResources& resources) = 0;
 		void Release();
 
 		virtual void Render(RenderLayer::CECommandList& commandList, CEFrameResources& frameResources)= 0;

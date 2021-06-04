@@ -25,6 +25,11 @@ namespace ConceptEngine::Math {
 			return ((value) & (~mask));
 		}
 
+		//source: https://en.wikipedia.org/wiki/Linear_interpolation
+		static float Lerp(float a, float b, float f) {
+			return (-f * b) + ((a * f) + b);
+		}
+
 		template <typename T>
 		static T Max(T a, T b) {
 			return a >= b ? a : b;
