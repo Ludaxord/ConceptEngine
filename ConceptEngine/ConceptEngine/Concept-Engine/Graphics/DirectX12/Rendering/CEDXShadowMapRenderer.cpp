@@ -174,6 +174,29 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		}
 
 		blendState->SetName("Shadow Blend State");
+
+		RenderLayer::CEGraphicsPipelineStateCreateInfo pipelineStateInfo;
+		pipelineStateInfo.BlendState = blendState.Get();
+		pipelineStateInfo.DepthStencilState = depthStencilState.Get();
+		pipelineStateInfo.IBStripCutValue = RenderLayer::CEIndexBufferStripCutValue::Disabled;
+		pipelineStateInfo.InputLayoutState = resources.StdInputLayout.Get();
+		pipelineStateInfo.PrimitiveTopologyType = RenderLayer::CEPrimitiveTopologyType::Triangle;
+		pipelineStateInfo.RasterizerState = rasterizerState.Get();
+		pipelineStateInfo.SampleCount = 1;
+		pipelineStateInfo.SampleQuality = 0;
+		pipelineStateInfo.SampleMask = 0xffffffff;
+		pipelineStateInfo.ShaderState.VertexShader = DirLightShader.Get();
+		pipelineStateInfo.ShaderState.PixelShader = nullptr;
+		pipelineStateInfo.PipelineFormats.NumRenderTargets = 0;
+		pipelineStateInfo.PipelineFormats.DepthStencilFormat = lightSetup.ShadowMapFormat;
+
+		DirLightPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(pipelineStateInfo);
+		if (!DirLightPipelineState) {
+			Core::Debug::CEDebug::DebugBreak();
+			return false;
+		}
+
+		DirLightPipelineState->SetName("Shadow Map Pipeline State");
 	}
 
 	return true;
