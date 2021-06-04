@@ -177,7 +177,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: Implement
 	SSAORenderer = new Rendering::CEDXScreenSpaceOcclusionRenderer();
 
 	if (!SSAORenderer) {
