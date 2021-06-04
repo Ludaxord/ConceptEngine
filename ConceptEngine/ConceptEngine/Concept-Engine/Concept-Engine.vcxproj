@@ -189,6 +189,7 @@
     <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
     <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
     <ClInclude Include="Math\CEColor.h" />
+    <ClInclude Include="Math\CEFloat.h" />
     <ClInclude Include="Math\CEMath.h" />
     <ClInclude Include="Math\CEMathTypes.h" />
     <ClInclude Include="Math\CEOperators.h" />
