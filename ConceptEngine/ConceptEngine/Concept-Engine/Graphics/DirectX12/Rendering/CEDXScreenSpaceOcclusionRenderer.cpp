@@ -130,8 +130,72 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 	SSAOSamples->SetName("SSAO Samples");
 
-	//TODO Finish!!
-	
+	SSAOSamplesSRV = CastGraphicsManager()->CreateShaderResourceViewForStructuredBuffer(
+		SSAOSamples.Get(), 0, SSAOKernel.Size());
+	if (!SSAOSamplesSRV) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	SSAOSamplesSRV->SetName("SSAO Samples SRV");
+
+	Core::Containers::CEArray<RenderLayer::CEShaderDefine> defines;
+	defines.EmplaceBack("HORIZONTAL_PASS", "1");
+
+	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
+	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
+	                                     shaderCode)) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	BlurHorizontalShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
+	if (!BlurHorizontalShader) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	BlurHorizontalShader->SetName("SSAO Horizontal Blur Shader");
+
+	RenderLayer::CEComputePipelineStateCreateInfo psoProperties;
+	psoProperties.Shader = BlurHorizontalShader.Get();
+
+	BlurHorizontalPSO = CastGraphicsManager()->CreateComputePipelineState(psoProperties);
+	if (!BlurHorizontalPSO) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	BlurHorizontalPSO->SetName("SSAO Horizontal Blur Pipeline State");
+
+	defines.Clear();
+	defines.EmplaceBack("VERTICAL_PASS", "1");
+
+	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
+	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
+	                                     shaderCode)) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	BlurVerticalShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
+	if (!BlurVerticalShader) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	BlurVerticalShader->SetName("SSAO Vertical Blur Shader");
+
+	psoProperties.Shader = BlurVerticalShader.Get();
+
+	BlurVerticalPSO = CastGraphicsManager()->CreateComputePipelineState(psoProperties);
+	if (!BlurVerticalPSO) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	BlurVerticalPSO->SetName("SSAO Vertical Blur Pipeline State");
+
 	return true;
 }
 
