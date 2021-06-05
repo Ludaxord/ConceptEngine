@@ -36,6 +36,10 @@ bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateShaderCompiler() {
 	return true;
 }
 
+bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateMeshManager() {
+	return true;
+}
+
 void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update(Time::CETimestamp DeltaTime) {
 }
 

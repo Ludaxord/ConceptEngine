@@ -22,5 +22,6 @@ namespace ConceptEngine::Graphics::Metal {
 		bool CreateTextureManager() override;
 		bool CreateDebugUi() override;
 		bool CreateShaderCompiler() override;
+		bool CreateMeshManager() override;
 	};
 }

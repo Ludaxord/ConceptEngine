@@ -51,3 +51,7 @@ bool ConceptEngine::Graphics::Metal::CEMetal::CreateDebugUi() {
 bool ConceptEngine::Graphics::Metal::CEMetal::CreateShaderCompiler() {
 	return true;
 }
+
+bool ConceptEngine::Graphics::Metal::CEMetal::CreateMeshManager() {
+	return true;
+}
