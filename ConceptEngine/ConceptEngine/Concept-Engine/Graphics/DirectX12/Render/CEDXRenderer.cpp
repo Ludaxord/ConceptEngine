@@ -201,7 +201,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: Implement
 	SkyBoxRenderPass = new Rendering::CEDXSkyBoxRenderPass();
 
 	if (!SkyBoxRenderPass) {

@@ -4,6 +4,7 @@
 
 #include "../../../Core/Debug/CEDebug.h"
 #include "../../../Core/Debug/CEProfiler.h"
+#include "../../../Render/Scene/CEScene.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
@@ -154,4 +155,39 @@ bool CEDXSkyBoxRenderPass::Create(const Main::Rendering::CEFrameResources& resou
 void CEDXSkyBoxRenderPass::Render(Main::RenderLayer::CECommandList& commandList,
                                   const Main::Rendering::CEFrameResources& frameResources,
                                   const Render::Scene::CEScene& scene) {
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== BEGIN SKYBOX ==");
+
+	TRACE_SCOPE("Render Skybox");
+
+	const float renderWidth = float(frameResources.FinalTarget->GetWidth());
+	const float renderHeight = float(frameResources.FinalTarget->GetHeight());
+
+	CERenderTargetView* renderTarget[] = {frameResources.FinalTarget->GetRenderTargetView()};
+	commandList.SetRenderTargets(renderTarget, 1, nullptr);
+
+	commandList.SetViewport(renderWidth, renderHeight, 0.0f, 1.0f, 0.0f, 0.0f);
+	commandList.SetScissorRect(renderWidth, renderHeight, 0, 0);
+
+	commandList.SetRenderTargets(renderTarget, 1, frameResources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView());
+
+	commandList.SetPrimitiveTopology(CEPrimitiveTopology::TriangleList);
+	commandList.SetVertexBuffers(&SkyboxVertexBuffer, 1, 0);
+	commandList.SetIndexBuffer(SkyboxIndexBuffer.Get());
+	commandList.SetGraphicsPipelineState(PipelineState.Get());
+
+	struct SimpleCameraBuffer {
+		DirectX::XMFLOAT4X4 Matrix;
+	} SimpleCamera;
+	SimpleCamera.Matrix = scene.GetCamera()->GetViewProjectionWithoutTranslateMatrix().Native;
+
+	commandList.Set32BitShaderConstants(SkyboxVertexShader.Get(), &SimpleCamera, 16);
+
+	CEShaderResourceView* skyboxSRV = frameResources.Skybox->GetShaderResourceView();
+	commandList.SetShaderResourceView(SkyboxPixelShader.Get(), skyboxSRV, 0);
+
+	commandList.SetSamplerState(SkyboxPixelShader.Get(), SkyboxSampler.Get(), 0);
+
+	commandList.DrawIndexedInstanced(static_cast<uint32>(SkyboxMesh.Indices.Size()), 1, 0, 0, 0);
+
+	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END SKYBOX ==");
 }
