@@ -5,6 +5,10 @@
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
+#ifdef max
+#undef max
+#endif
+
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
 bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
@@ -70,5 +74,49 @@ void CEDXLightProbeRenderer::RenderSkyLightProbe(Main::RenderLayer::CECommandLis
 }
 
 bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSetup& lightSetup) {
-	return false;
+	const uint16 irradianceSize = 32;
+
+	lightSetup.IrradianceMap = CastGraphicsManager()->CreateTextureCube(CEFormat::R16G16B16A16_Float, irradianceSize, 1,
+	                                                                    TextureFlags_RWTexture, CEResourceState::Common,
+	                                                                    nullptr);
+	if (!lightSetup.IrradianceMap) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	lightSetup.IrradianceMap->SetName("Irradiance Map");
+
+	lightSetup.IrradianceMapUAV = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
+		lightSetup.IrradianceMap.Get(), CEFormat::R16G16B16A16_Float, 0);
+	if (!lightSetup.IrradianceMapUAV) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	const uint16 specularIrradianceSize = 128;
+	const uint16 specularIrradianceMipLevels = uint16(std::max(std::log2(specularIrradianceSize), 1.0));
+	lightSetup.SpecularIrradianceMap = CastGraphicsManager()->CreateTextureCube(
+		CEFormat::R16G16B16A16_Float, specularIrradianceSize, specularIrradianceMipLevels, TextureFlags_RWTexture,
+		CEResourceState::Common, nullptr);
+	if (!lightSetup.SpecularIrradianceMap) {
+		Core::Debug::CEDebug::DebugBreak();
+		return false;
+	}
+
+	lightSetup.SpecularIrradianceMap->SetName("Specular Irradiance Map");
+
+
+	for (uint32 mipLevel = 0; mipLevel < specularIrradianceMipLevels; mipLevel++) {
+		Core::Common::CERef<CEUnorderedAccessView> uav = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
+			lightSetup.SpecularIrradianceMap.Get(), CEFormat::R16G16B16A16_Float, mipLevel);
+		if (!uav) {
+			Core::Debug::CEDebug::DebugBreak();
+			return false;
+		}
+
+		lightSetup.SpecularIrradianceMapUAVs.EmplaceBack(uav);
+		lightSetup.WeakSpecularIrradianceMapUAVs.EmplaceBack(uav.Get());
+	}
+
+	return true;
 }
