@@ -3,6 +3,7 @@
 
 #include "Managers/CERendererManager.h"
 #include "Managers/CETextureManager.h"
+#include "Managers/CEMeshManager.h"
 #include "RenderLayer/CEShaderCompiler.h"
 
 #include "Rendering/CEDebugUI.h"
@@ -33,6 +34,7 @@ namespace ConceptEngine::Graphics::Main {
 		Managers::CEGraphicsManager* GraphicsManager;
 		Managers::CETextureManager* TextureManager;
 		Managers::CERendererManager* RendererManager;
+		CEMeshManager* MeshManager;
 
 		static std::unique_ptr<Rendering::CEDebugUI> DebugUI;
 	private:
@@ -40,6 +42,7 @@ namespace ConceptEngine::Graphics::Main {
 		virtual bool CreateShaderCompiler() = 0;
 		virtual bool CreateTextureManager() = 0;
 		virtual bool CreateRendererManager() = 0;
+		virtual bool CreateMeshManager() = 0;
 		virtual bool CreateDebugUi() = 0;
 	};
 }

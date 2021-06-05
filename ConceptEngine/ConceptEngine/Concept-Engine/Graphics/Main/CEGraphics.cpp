@@ -59,6 +59,14 @@ bool CEGraphics::CreateManagers() {
 		return false;
 	}
 
+	if (!CreateMeshManager()) {
+		return false;
+	}
+
+	if (!MeshManager->Create()) {
+		return false;
+	}
+ 	
 	return true;
 }
 
@@ -75,6 +83,8 @@ ConceptEngine::Core::Common::CEManager* CEGraphics::GetManager(Core::Common::CEM
 		return TextureManager;
 	case Core::Common::CEManagerType::RendererManager:
 		return RendererManager;
+	case Core::Common::CEManagerType::MeshManager:
+		return MeshManager;
 	default:
 		return nullptr;
 

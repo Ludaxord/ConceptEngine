@@ -5,7 +5,7 @@
 #include "../../../Math/CEMath.h"
 #include "../../../Core/Containers/CEArray.h"
 #include "../../../Utilities/CEHashUtilities.h"
-
+#include "../../../Core/Common/CEManager.h"
 
 namespace ConceptEngine::Graphics::Main {
 	struct CEVertex {
@@ -40,20 +40,24 @@ namespace ConceptEngine::Graphics::Main {
 		Core::Containers::CEArray<uint32> Indices;
 	};
 
-	class CEMeshManager {
+	class CEMeshManager : public Core::Common::CEManager {
 	public:
-		static CEMeshData CreateFromFile(const std::string& filename, bool mergeMeshes = true,
-		                                 bool leftHanded = true) noexcept;
-		static CEMeshData CreateCube(float width = 1.0f, float height = 1.0f, float depth = 1.0f) noexcept;
-		static CEMeshData CreatePlane(uint32 width = 1, uint32 height = 1) noexcept;
-		static CEMeshData CreateSphere(uint32 subdivisions = 0, float radius = 0.5f) noexcept;
-		static CEMeshData CreateCone(uint32 sides = 5, float radius = 0.5f, float height = 1.0f) noexcept;
-		static CEMeshData CreatePyramid() noexcept;
-		static CEMeshData CreateCylinder(uint32 sides = 5, float radius = 0.5f, float height = 1.0f) noexcept;
+		virtual ~CEMeshManager() = default;
+		virtual CEMeshData CreateFromFile(const std::string& filename, bool mergeMeshes = true,
+		                                  bool leftHanded = true) noexcept = 0;
+		virtual CEMeshData CreateCube(float width = 1.0f, float height = 1.0f, float depth = 1.0f) noexcept = 0;
+		virtual CEMeshData CreatePlane(uint32 width = 1, uint32 height = 1) noexcept = 0;
+		virtual CEMeshData CreateSphere(uint32 subdivisions = 0, float radius = 0.5f) noexcept = 0;
+		virtual CEMeshData CreateCone(uint32 sides = 5, float radius = 0.5f, float height = 1.0f) noexcept = 0;
+		virtual CEMeshData CreatePyramid() noexcept = 0;
+		virtual CEMeshData CreateCylinder(uint32 sides = 5, float radius = 0.5f, float height = 1.0f) noexcept = 0;
 
-		static void Subdivide(CEMeshData& data, uint32 subdivisions = 1) noexcept;
-		static void Optimize(CEMeshData& data, uint32 startVertex = 0) noexcept;
-		static void CalculateHardNormals(CEMeshData& data) noexcept;
-		static void CalculateTangent(CEMeshData& data) noexcept;
+		virtual void Subdivide(CEMeshData& data, uint32 subdivisions = 1) noexcept = 0;
+		virtual void Optimize(CEMeshData& data, uint32 startVertex = 0) noexcept = 0;
+		virtual void CalculateHardNormals(CEMeshData& data) noexcept = 0;
+		virtual void CalculateTangent(CEMeshData& data) noexcept = 0;
+		bool Create() override {
+			return true;
+		};
 	};
 }

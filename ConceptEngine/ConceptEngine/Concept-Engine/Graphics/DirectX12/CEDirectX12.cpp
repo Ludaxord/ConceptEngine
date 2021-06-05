@@ -9,6 +9,7 @@
 #include "RenderLayer/CEDXShaderCompiler.h"
 
 #include "../../Core/Debug/CEDebug.h"
+#include "Managers/CEDXMeshManager.h"
 
 using namespace ConceptEngine::Graphics::DirectX12;
 
@@ -68,6 +69,12 @@ bool CEDirectX12::CreateShaderCompiler() {
 
 	ShaderCompiler = shaderCompiler;
 
+	return true;
+}
+
+bool CEDirectX12::CreateMeshManager() {
+	auto meshManager = new Managers::CEDXMeshManager();
+	MeshManager = meshManager;
 	return true;
 }
 

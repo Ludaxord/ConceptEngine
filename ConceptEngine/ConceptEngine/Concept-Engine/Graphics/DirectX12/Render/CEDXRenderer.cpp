@@ -209,7 +209,10 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!SkyBoxRenderPass->Create(Resources)) {
+	//TODO: make property to edit in editor and load if from file!!!!
+	auto panConf = Main::Rendering::CEPanoramaConfig{"Assets/Textures/arches.hdr", true};
+
+	if (!SkyBoxRenderPass->Create(Resources, panConf)) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
 	}

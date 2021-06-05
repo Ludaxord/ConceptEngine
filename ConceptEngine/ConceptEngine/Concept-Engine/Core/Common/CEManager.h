@@ -5,7 +5,8 @@ namespace ConceptEngine::Core::Common {
 	enum class CEManagerType {
 		GraphicsManager = 0,
 		TextureManager = 1,
-		RendererManager = 2
+		RendererManager = 2,
+		MeshManager = 3
 	};
 
 	class CEManager {

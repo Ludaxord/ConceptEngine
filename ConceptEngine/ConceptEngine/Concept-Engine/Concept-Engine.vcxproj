@@ -108,6 +108,7 @@
     <ClInclude Include="Graphics\DirectX12\Common\CEDXPlayground.h" />
     <ClInclude Include="Graphics\DirectX12\Libraries\d3dx12.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Managers\CEDXMeshManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXTextureManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXRendererManager.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDebugUI.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="Graphics\DirectX12\Common\CEDXMaterial.cpp" />
     <ClCompile Include="Graphics\DirectX12\Common\CEDXPlayground.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXManager.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Managers\CEDXMeshManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXTextureManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXRendererManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDebugUI.cpp" />
