@@ -189,7 +189,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: Implement
 	LightProbeRenderer = new Rendering::CEDXLightProbeRenderer();
 
 	if (!LightProbeRenderer) {

@@ -71,6 +71,64 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 void CEDXLightProbeRenderer::RenderSkyLightProbe(Main::RenderLayer::CECommandList& commandList,
                                                  const Main::Rendering::CELightSetup& lightSetup,
                                                  const Main::Rendering::CEFrameResources& resources) {
+	const uint32 irradianceMapSize = static_cast<uint32>(lightSetup.IrradianceMap->GetSize());
+
+	commandList.TransitionTexture(resources.Skybox.Get(), CEResourceState::PixelShaderResource,
+	                              CEResourceState::NonPixelShaderResource);
+	commandList.TransitionTexture(lightSetup.IrradianceMap.Get(), CEResourceState::Common,
+	                              CEResourceState::UnorderedAccess);
+
+	commandList.SetComputePipelineState(IrradianceGenPSO.Get());
+
+	CEShaderResourceView* skyboxSRV = resources.Skybox->GetShaderResourceView();
+	commandList.SetShaderResourceView(IrradianceGenShader.Get(), skyboxSRV, 0);
+	commandList.SetUnorderedAccessView(IrradianceGenShader.Get(), lightSetup.IrradianceMapUAV.Get(), 0);
+
+	{
+		const DirectX::XMUINT3 threadCount = IrradianceGenShader->GetThreadGroupXYZ().Native;
+		const uint32 threadWidth = Math::CEMath::DivideByMultiple(irradianceMapSize, threadCount.x);
+		const uint32 threadHeight = Math::CEMath::DivideByMultiple(irradianceMapSize, threadCount.y);
+		commandList.Dispatch(threadWidth, threadHeight, 6);
+	}
+
+	commandList.UnorderedAccessTextureBarrier(lightSetup.IrradianceMap.Get());
+
+	commandList.TransitionTexture(lightSetup.IrradianceMap.Get(), CEResourceState::UnorderedAccess,
+	                              CEResourceState::PixelShaderResource);
+	commandList.TransitionTexture(lightSetup.SpecularIrradianceMap.Get(), CEResourceState::Common,
+	                              CEResourceState::UnorderedAccess);
+
+	commandList.SetShaderResourceView(IrradianceGenShader.Get(), skyboxSRV, 0);
+
+	commandList.SetComputePipelineState(SpecularIrradianceGenPSO.Get());
+
+	uint32 width = lightSetup.SpecularIrradianceMap->GetSize();
+	float roughness = 0.0f;
+
+	const uint32 numMipLevels = lightSetup.SpecularIrradianceMap->GetNumMips();
+	const float roughnessDelta = 1.0f / (numMipLevels - 1);
+	for (uint32 mip = 0; mip < numMipLevels; mip++) {
+		commandList.Set32BitShaderConstants(SpecularIrradianceGenShader.Get(), &roughness, 1);
+		commandList.SetUnorderedAccessView(SpecularIrradianceGenShader.Get(),
+		                                   lightSetup.SpecularIrradianceMapUAVs[mip].Get(), 0);
+
+		{
+			const DirectX::XMUINT3 threadCount = SpecularIrradianceGenShader->GetThreadGroupXYZ().Native;
+			const uint32 threadWidth = Math::CEMath::DivideByMultiple(width, threadCount.x);
+			const uint32 threadHeight = Math::CEMath::DivideByMultiple(width, threadCount.y);
+			commandList.Dispatch(threadWidth, threadHeight, 6);
+		}
+
+		commandList.UnorderedAccessTextureBarrier(lightSetup.SpecularIrradianceMap.Get());
+
+		width = std::max<uint32>(width / 2, 1U);
+		roughness += roughnessDelta;
+	}
+
+	commandList.TransitionTexture(resources.Skybox.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::PixelShaderResource);
+	commandList.TransitionTexture(lightSetup.SpecularIrradianceMap.Get(), CEResourceState::UnorderedAccess,
+	                              CEResourceState::PixelShaderResource);
 }
 
 bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSetup& lightSetup) {
