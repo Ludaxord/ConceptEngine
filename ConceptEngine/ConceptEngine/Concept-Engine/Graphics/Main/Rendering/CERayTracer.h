@@ -7,7 +7,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		CERayTracer() = default;
 		virtual ~CERayTracer() = default;
 
-		virtual bool Create(const CEFrameResources& resources) = 0;
+		virtual bool Create(CEFrameResources& resources) = 0;
 		void Release();
 
 		virtual void PreRender(RenderLayer::CECommandList& commandList, CEFrameResources& resources,

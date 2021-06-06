@@ -16,6 +16,6 @@ namespace ConceptEngine::Graphics::Main { namespace Common {
 			class ConceptEngine::Graphics::Main::RenderLayer::CEVertexBuffer* VertexBuffer = nullptr;
 			class ConceptEngine::Graphics::Main::RenderLayer::CEIndexBuffer* IndexBuffer = nullptr;
 
-			class CERayTracingGeometry* Geometry = nullptr;
+			class ConceptEngine::Graphics::Main::RenderLayer::CERayTracingGeometry* Geometry = nullptr;
 		};
 	}}

@@ -4,6 +4,7 @@
 
 #include "../../../Core/Debug/CEDebug.h"
 #include "../../../Core/Debug/CEProfiler.h"
+#include "../../../Render/Scene/CEScene.h"
 #include "../../Main/Common/CEMaterial.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
@@ -72,7 +73,7 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 	resources.RTOutput = CastGraphicsManager()->CreateTexture2D(resources.RTOutputFormat, width, height, 1, 1,
 	                                                            TextureFlags_RWTexture,
 	                                                            CEResourceState::UnorderedAccess, nullptr);
-	
+
 	if (!resources.RTOutput) {
 		Core::Debug::CEDebug::DebugBreak();
 		return false;
@@ -86,5 +87,114 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 void CEDXRayTracer::PreRender(Main::RenderLayer::CECommandList& commandList,
                               Main::Rendering::CEFrameResources& resources,
                               const Render::Scene::CEScene& scene) {
+	TRACE_SCOPE("Gather Instances");
 
+	resources.RTGeometryInstances.Clear();
+
+	CESamplerState* sampler = nullptr;
+
+	for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+		Main::Common::CEMaterial* material = command.Material;
+		if (command.Material->HasAlphaMask()) {
+			continue;
+		}
+
+		uint32 albedoIndex = resources.RTMaterialTextureCache.Add(material->AlbedoMap->GetShaderResourceView());
+		resources.RTMaterialTextureCache.Add(material->NormalMap->GetShaderResourceView());
+		resources.RTMaterialTextureCache.Add(material->RoughnessMap->GetShaderResourceView());
+		resources.RTMaterialTextureCache.Add(material->HeightMap->GetShaderResourceView());
+		resources.RTMaterialTextureCache.Add(material->MetallicMap->GetShaderResourceView());
+		resources.RTMaterialTextureCache.Add(material->AOMap->GetShaderResourceView());
+		sampler = material->GetMaterialSampler();
+
+		auto tinyTransform = command.CurrentActor->GetTransform().GetTinyMatrix();
+		uint32 hitGroupIndex = 0;
+
+		auto hitGroupIndexPair = resources.RTMeshToHitGroupIndex.find(command.Mesh);
+		if (hitGroupIndexPair == resources.RTMeshToHitGroupIndex.end()) {
+
+			hitGroupIndex = resources.RTHitGroupResources.Size();
+			resources.RTMeshToHitGroupIndex[command.Mesh] = hitGroupIndex;
+
+			CERayTracingShaderResources hitGroupResources;
+			hitGroupResources.Identifier = "HitGroup";
+			if (command.Mesh->VertexBufferSRV) {
+				hitGroupResources.AddShaderResourceView(command.Mesh->VertexBufferSRV.Get());
+			}
+
+			if (command.Mesh->IndexBufferSRV) {
+				hitGroupResources.AddShaderResourceView(command.Mesh->IndexBufferSRV.Get());
+			}
+
+			resources.RTHitGroupResources.EmplaceBack(hitGroupResources);
+		}
+		else {
+			hitGroupIndex = hitGroupIndexPair->second;
+		}
+
+		CERayTracingGeometryInstance instance;
+		instance.Instance = Core::Common::MakeSharedRef<CERayTracingGeometry>(command.Geometry);
+		instance.Flags = RayTracingInstanceFlags_None;
+		instance.HitGroupIndex = hitGroupIndex;
+		instance.InstanceIndex = albedoIndex;
+		instance.Mask = 0xff;
+		instance.Transform = tinyTransform;
+		resources.RTGeometryInstances.EmplaceBack(instance);
+	}
+
+	if (!resources.RTScene) {
+		resources.RTScene = CastGraphicsManager()->CreateRayTracingScene(
+			RayTracingStructureBuildFlag_None, resources.RTGeometryInstances.Data(),
+			resources.RTGeometryInstances.Size());
+		if (resources.RTScene) {
+			resources.RTScene->SetName("Ray Tracing Scene");
+		}
+	}
+	else {
+		commandList.BuildRayTracingScene(resources.RTScene.Get(), resources.RTGeometryInstances.Data(),
+		                                 resources.RTGeometryInstances.Size(), false);
+	}
+
+	resources.GlobalResources.Reset();
+	resources.GlobalResources.AddUnorderedAccessView(resources.RTOutput->GetUnorderedAccessView());
+	resources.GlobalResources.AddConstantBuffer(resources.CameraBuffer.Get());
+	resources.GlobalResources.AddSamplerState(resources.GBufferSampler.Get());
+	resources.GlobalResources.AddSamplerState(sampler);
+	resources.GlobalResources.AddShaderResourceView(resources.RTScene->GetShaderResourceView());
+	resources.GlobalResources.AddShaderResourceView(resources.Skybox->GetShaderResourceView());
+	resources.GlobalResources.AddShaderResourceView(resources.GBuffer[BUFFER_NORMAL_INDEX]->GetShaderResourceView());
+	resources.GlobalResources.AddShaderResourceView(resources.GBuffer[BUFFER_DEPTH_INDEX]->GetShaderResourceView());
+
+	for (uint32 i = 0; i < resources.RTMaterialTextureCache.Size(); i++) {
+		resources.GlobalResources.AddShaderResourceView(resources.RTMaterialTextureCache.Get(i));
+	}
+
+	resources.RayGenLocalResources.Reset();
+	resources.RayGenLocalResources.Identifier = "RayGen";
+
+	resources.MissLocalResources.Reset();
+	resources.MissLocalResources.Identifier = "Miss";
+
+	commandList.SetRayTracingBindings(
+		resources.RTScene.Get(),
+		Pipeline.Get(),
+		&resources.GlobalResources,
+		&resources.RayGenLocalResources,
+		&resources.MissLocalResources,
+		resources.RTHitGroupResources.Data(),
+		resources.RTHitGroupResources.Size()
+	);
+
+	uint32 width = resources.RTOutput->GetWidth();
+	uint32 height = resources.RTOutput->GetHeight();
+	commandList.DispatchRays(resources.RTScene.Get(), Pipeline.Get(), width, height, 1);
+
+	commandList.UnorderedAccessTextureBarrier(resources.RTOutput.Get());
+
+	resources.DebugTextures.EmplaceBack(
+		Core::Common::MakeSharedRef<CEShaderResourceView>(resources.RTOutput->GetShaderResourceView()),
+		resources.RTOutput,
+		CEResourceState::UnorderedAccess,
+		CEResourceState::UnorderedAccess
+	);
 }

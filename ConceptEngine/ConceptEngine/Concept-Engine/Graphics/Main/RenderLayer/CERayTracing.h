@@ -4,6 +4,7 @@
 #include "CEResourceViews.h"
 #include "CESamplerState.h"
 #include "../../../Core/Containers/CEArray.h"
+#include "../../../Math/CEOperators.h"
 
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
@@ -93,7 +94,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	struct CERayPayload {
 		//TODO: Comment before figure out way to fix bug with importing header
-		// CEVectorFloat3 Color;
+		CEVectorFloat3 Color;
 		uint32 CurrentDepth;
 	};
 
@@ -108,7 +109,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		uint32 HitGroupIndex = 0;
 		uint32 Flags = RayTracingInstanceFlags_None;
 		uint32 Mask = 0xff;
-				//TODO: Comment before figure out way to fix bug with importing header
-		// CEMatrixFloat3X4 Transform;
+		CEMatrixFloat3X4 Transform;
 	};
 }

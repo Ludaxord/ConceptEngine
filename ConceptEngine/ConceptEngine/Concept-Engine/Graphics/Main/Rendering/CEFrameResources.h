@@ -97,7 +97,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 		Core::Common::CERef<RenderLayer::CEInputLayoutState> StdInputLayout;
 
-		Core::Common::CERef<RenderLayer::CETexture2D* RTOutput;
+		Core::Common::CERef<RenderLayer::CETexture2D> RTOutput;
 		Core::Common::CERef<RenderLayer::CERayTracingScene> RTScene;
 
 		RenderLayer::CERayTracingShaderResources GlobalResources;
@@ -106,7 +106,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		Core::Containers::CEArray<RenderLayer::CERayTracingGeometryInstance> RTGeometryInstances;
 
 		Core::Containers::CEArray<RenderLayer::CERayTracingShaderResources> RTHitGroupResources;
-		std::unordered_map<class CEMesh*, uint32> RTMeshToHitGroupIndex;
+		std::unordered_map<class Common::CEMesh*, uint32> RTMeshToHitGroupIndex;
 		CEPtrResourceCache<RenderLayer::CEShaderResourceView> RTMaterialTextureCache;
 
 		Core::Containers::CEArray<CEMeshDrawCommand> DeferredVisibleCommands;

@@ -228,8 +228,6 @@ bool CEDXRenderer::Create() {
 	}
 
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
-
-		//TODO: Implement
 		RayTracer = new Rendering::CEDXRayTracer();
 
 		if (!RayTracer) {
