@@ -4,6 +4,7 @@
 
 #include "../../../Core/Debug/CEDebug.h"
 #include "../../../Core/Debug/CEProfiler.h"
+#include "../../Main/Common/CEMaterial.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
@@ -117,7 +118,64 @@ void CEDXForwardRenderer::Render(Main::RenderLayer::CECommandList& commandList,
 	const float renderWidth = float(frameResources.FinalTarget->GetWidth());
 	const float renderHeight = float(frameResources.FinalTarget->GetHeight());
 
-	//TODO: Finish!
+	commandList.SetViewport(renderWidth, renderHeight, 0.0f, 1.0f, 0.0f, 0.0f);
+	commandList.SetScissorRect(renderWidth, renderHeight, 0, 0);
+
+	CERenderTargetView* finalTargetRTV = frameResources.FinalTarget->GetRenderTargetView();
+	commandList.SetRenderTargets(&finalTargetRTV, 1, frameResources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView());
+
+	commandList.SetConstantBuffer(PixelShader.Get(), frameResources.CameraBuffer.Get(), 0);
+
+	commandList.SetConstantBuffer(PixelShader.Get(), lightSetup.ShadowCastingPointLightsBuffer.Get(), 1);
+	commandList.SetConstantBuffer(PixelShader.Get(), lightSetup.ShadowCastingPointLightsPosRadBuffer.Get(), 2);
+	commandList.SetConstantBuffer(PixelShader.Get(), lightSetup.DirectionalLightsBuffer.Get(), 3);
+
+	commandList.SetShaderResourceView(PixelShader.Get(), lightSetup.IrradianceMap->GetShaderResourceView(), 0);
+	commandList.SetShaderResourceView(PixelShader.Get(), lightSetup.SpecularIrradianceMap->GetShaderResourceView(), 1);
+	commandList.SetShaderResourceView(PixelShader.Get(), frameResources.IntegrationLUT->GetShaderResourceView(), 2);
+	commandList.SetShaderResourceView(PixelShader.Get(), lightSetup.DirLightShadowMaps->GetShaderResourceView(), 3);
+	commandList.SetShaderResourceView(PixelShader.Get(), lightSetup.PointLightShadowMaps->GetShaderResourceView(), 4);
+
+	commandList.SetSamplerState(PixelShader.Get(), frameResources.IntegrationLUTSampler.Get(), 1);
+	commandList.SetSamplerState(PixelShader.Get(), frameResources.IrradianceSampler.Get(), 2);
+	commandList.SetSamplerState(PixelShader.Get(), frameResources.PointShadowSampler.Get(), 3);
+	commandList.SetSamplerState(PixelShader.Get(), frameResources.DirectionalShadowSampler.Get(), 4);
+
+	struct TransformBuffer {
+		DirectX::XMFLOAT4X4 Transform;
+		DirectX::XMFLOAT4X4 TransformInverse;
+	} TransformPerObject;
+
+	commandList.SetGraphicsPipelineState(PipelineState.Get());
+	for (const Main::Rendering::CEMeshDrawCommand& command : frameResources.ForwardVisibleCommands) {
+		commandList.SetVertexBuffers(&command.VertexBuffer, 1, 0);
+		commandList.SetIndexBuffer(command.IndexBuffer);
+
+		if (command.Material->IsBufferDirty()) {
+			command.Material->BuildBuffer(commandList);
+		}
+
+		CEConstantBuffer* constantBuffer = command.Material->GetMaterialBuffer();
+		commandList.SetConstantBuffer(PixelShader.Get(), constantBuffer, 4);
+
+		CEShaderResourceView* const * shaderResourceViews = command.Material->GetShaderResourceViews();
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[0], 5);
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[1], 6);
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[2], 7);
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[3], 8);
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[4], 9);
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[5], 10);
+		commandList.SetShaderResourceView(PixelShader.Get(), shaderResourceViews[6], 11);
+
+		CESamplerState* samplerState = command.Material->GetMaterialSampler();
+		commandList.SetSamplerState(PixelShader.Get(), samplerState, 0);
+
+		TransformPerObject.Transform = command.CurrentActor->GetTransform().GetMatrix().Native;
+		TransformPerObject.TransformInverse = command.CurrentActor->GetTransform().GetMatrixInverse().Native;
+
+		commandList.Set32BitShaderConstants(VertexShader.Get(), &TransformPerObject, 32);
+		commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
+	}
 
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END FORWARD PASS ==");
 }
