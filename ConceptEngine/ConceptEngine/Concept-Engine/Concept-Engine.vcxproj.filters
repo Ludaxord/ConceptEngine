@@ -337,5 +337,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Graphics\DirectX12\Shaders\Constants.hlsli" />
+    <None Include="Graphics\DirectX12\Shaders\Helpers.hlsli" />
+    <None Include="Graphics\DirectX12\Shaders\PBRHelpers.hlsli" />
+    <None Include="Graphics\DirectX12\Shaders\RayTracingHelpers.hlsli" />
+    <None Include="Graphics\DirectX12\Shaders\ShadowHelpers.hlsli" />
+    <None Include="Graphics\DirectX12\Shaders\Structs.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\DirectX12\Shaders\CubeMapGen.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\Debug.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\FullscreenVS.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\PostProcessPS.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\FXAA_PS.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\ShadingImage.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\GeometryPass.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\PrePass.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\BRDFIntegrationGen.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\DeferredLightPass.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\ForwardPass.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\IrradianceGen.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\SpecularIrradianceGen.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\RayGen.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\ClosestHit.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\Miss.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\SSAO.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\Blur.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\ShadowMap.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\Skybox.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\GenerateMipsTex2D.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\GenerateMipsTexCube.hlsl" />
+    <FxCompile Include="Graphics\DirectX12\Shaders\GenerateMips.hlsli" />
   </ItemGroup>
 </Project>
