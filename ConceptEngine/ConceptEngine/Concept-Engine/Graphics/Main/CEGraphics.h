@@ -21,15 +21,15 @@ namespace ConceptEngine::Graphics::Main {
 		virtual bool Create();
 		virtual bool CreateManagers();
 
-		virtual void Update(Time::CETimestamp DeltaTime) = 0;
+		virtual void Update(Time::CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) = 0;
 		virtual void Render() = 0;
 		virtual void Resize() = 0;
 		virtual void Destroy() = 0;
 
 		static Rendering::CEDebugUI* GetDebugUI();
 
-		 Core::Common::CEManager* GetManager(Core::Common::CEManagerType type) const;
-	
+		Core::Common::CEManager* GetManager(Core::Common::CEManagerType type) const;
+
 	protected:
 		Managers::CEGraphicsManager* GraphicsManager;
 		Managers::CETextureManager* TextureManager;

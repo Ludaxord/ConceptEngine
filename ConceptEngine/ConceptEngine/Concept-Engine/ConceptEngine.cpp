@@ -50,6 +50,8 @@ bool ConceptEngine::ConceptEngine::Release() {
 }
 
 bool ConceptEngine::ConceptEngine::Create(EngineBoot boot) {
+	EnumEngineBoot = boot;
+	
 	switch (boot) {
 	case EngineBoot::Game:
 		return CreateGame();
@@ -58,6 +60,7 @@ bool ConceptEngine::ConceptEngine::Create(EngineBoot boot) {
 	case EngineBoot::GameDebug:
 		return CreateGameDebug();
 	}
+	
 	return false;
 }
 
@@ -67,6 +70,10 @@ ConceptEngine::Core::Application::CECore* ConceptEngine::ConceptEngine::GetCore(
 
 std::wstring ConceptEngine::ConceptEngine::GetName() {
 	return Name;
+}
+
+ConceptEngine::EngineBoot ConceptEngine::ConceptEngine::GetEngineBoot() {
+	return EnumEngineBoot;
 }
 
 bool ConceptEngine::ConceptEngine::CreateEditor() {

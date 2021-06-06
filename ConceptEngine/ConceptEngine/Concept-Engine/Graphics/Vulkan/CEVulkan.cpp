@@ -20,7 +20,8 @@ bool ConceptEngine::Graphics::Vulkan::CEVulkan::CreateManagers() {
 	return true;
 }
 
-void ConceptEngine::Graphics::Vulkan::CEVulkan::Update(Time::CETimestamp DeltaTime) {
+void ConceptEngine::Graphics::Vulkan::CEVulkan::Update(Time::CETimestamp DeltaTime,
+	boost::function<void()> ExecuteFunction) {
 }
 
 void ConceptEngine::Graphics::Vulkan::CEVulkan::Render() {

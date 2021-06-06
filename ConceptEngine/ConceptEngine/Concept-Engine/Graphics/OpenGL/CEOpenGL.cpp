@@ -20,6 +20,10 @@ bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateManagers() {
 	return true;
 }
 
+void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update(Time::CETimestamp DeltaTime,
+	boost::function<void()> ExecuteFunction) {
+}
+
 bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateGraphicsManager() {
 	return true;
 }
@@ -38,9 +42,6 @@ bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateShaderCompiler() {
 
 bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateMeshManager() {
 	return true;
-}
-
-void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update(Time::CETimestamp DeltaTime) {
 }
 
 void ConceptEngine::Graphics::OpenGL::CEOpenGL::Render() {

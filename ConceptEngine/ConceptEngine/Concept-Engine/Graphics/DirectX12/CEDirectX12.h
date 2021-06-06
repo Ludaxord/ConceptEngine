@@ -12,7 +12,7 @@ namespace ConceptEngine::Graphics::DirectX12 {
 		bool CreateManagers() override;
 
 		bool Create() override;
-		void Update(Time::CETimestamp DeltaTime) override;
+		void Update(Time::CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) override;
 		void Render() override;
 		void Resize() override;
 		void Destroy() override;

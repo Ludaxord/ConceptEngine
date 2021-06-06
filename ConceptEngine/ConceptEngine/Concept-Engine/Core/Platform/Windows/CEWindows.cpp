@@ -8,6 +8,8 @@
 #include "Events/CEWindowsEvent.h"
 #include "../../Debug/CEDebug.h"
 
+#include "../../../ConceptEngine.h"
+
 using namespace ConceptEngine::Core::Platform::Windows;
 using namespace ConceptEngine::Core::Platform::Generic::Cursor;
 using namespace ConceptEngine::Core::Platform::Generic::Window;
@@ -23,7 +25,7 @@ bool CEWindows::Create() {
 	if (!CEPlatform::Create()) {
 		Debug::CEDebug::DebugBreak();
 		return false;
-	} 
+	}
 	return true;
 }
 
@@ -88,6 +90,16 @@ bool CEWindows::CreateCursors() {
 }
 
 void CEWindows::Update() {
+	switch (ConceptEngine::GetEngineBoot()) {
+	case EngineBoot::Editor:
+		break;
+	case EngineBoot::Game:
+	case EngineBoot::GameDebug:
+		UpdateDefaultGame();
+		break;
+	default:
+		break;
+	}
 }
 
 void CEWindows::PreInit(HINSTANCE hInstance,

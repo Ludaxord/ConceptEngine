@@ -58,7 +58,7 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 
 	protected:
 		virtual void OnKeyPressedEvent(const Common::CEKeyPressedEvent& Event);
-	private:
+		
 		void DrawInterface();
 		bool RegisterObject(const std::string& name, CEConsoleObject* variable);
 		CEConsoleObject* FindConsoleObject(const std::string& name);

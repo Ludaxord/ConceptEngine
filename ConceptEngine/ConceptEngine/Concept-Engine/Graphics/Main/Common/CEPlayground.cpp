@@ -15,3 +15,7 @@ bool CEPlayground::Create() {
 void CEPlayground::Update(Time::CETimestamp DeltaTime) {
 }
 
+bool CEPlayground::Release() {
+	return true;
+}
+

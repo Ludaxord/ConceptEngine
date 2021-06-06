@@ -11,6 +11,9 @@
 #include "../../Core/Debug/CEDebug.h"
 #include "Managers/CEDXMeshManager.h"
 
+#include "../../Core/Application/CECore.h"
+#include "../../Render/CERenderer.h"
+
 using namespace ConceptEngine::Graphics::DirectX12;
 
 CEDirectX12::CEDirectX12(): CEGraphics() {
@@ -78,7 +81,10 @@ bool CEDirectX12::CreateMeshManager() {
 	return true;
 }
 
-void CEDirectX12::Update(Time::CETimestamp DeltaTime) {
+void CEDirectX12::Update(Time::CETimestamp DeltaTime, boost::function<void()> updateFunction) {
+	Core::Application::CECore::GetPlayground()->Update(DeltaTime);
+	updateFunction();
+	Renderer->Update(*Core::Application::CECore::GetPlayground()->Scene);
 }
 
 void CEDirectX12::Render() {

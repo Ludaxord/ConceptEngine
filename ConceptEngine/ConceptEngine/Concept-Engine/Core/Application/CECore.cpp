@@ -60,7 +60,6 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
-	//TODO: implement threading
 	if (!Threading::CETaskManager::Get().Create()) {
 		Debug::CEDebug::DebugBreak();
 		return false;
@@ -151,7 +150,7 @@ ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Applica
 	case Generic::Platform::Platform::Mac:
 		return new Mac::CEMac();
 	case Generic::Platform::Platform::Windows:
-		return new Windows::CEWindows();
+		return new Platform::Windows::CEWindows();
 	case Generic::Platform::Platform::Unknown:
 		return nullptr;
 	default:

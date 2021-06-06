@@ -41,6 +41,8 @@ namespace ConceptEngine {
 		Core::Application::CECore* GetCore() const;
 
 		static std::wstring GetName();
+
+		static EngineBoot GetEngineBoot();
 	protected:
 		bool Create(EngineBoot boot);
 
@@ -57,5 +59,7 @@ namespace ConceptEngine {
 
 		friend class Core::Generic::Platform::CEPlatform;
 		static std::wstring Name;
+		static EngineBoot EnumEngineBoot;
+		
 	};
 }

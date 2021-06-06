@@ -12,7 +12,7 @@ namespace ConceptEngine::Graphics::OpenGL {
 		bool Create() override;
 		bool CreateManagers() override;
 		
-		void Update(Time::CETimestamp DeltaTime) override;
+		void Update(Time::CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) override;
 		void Render() override;
 		void Resize() override;
 		void Destroy() override;

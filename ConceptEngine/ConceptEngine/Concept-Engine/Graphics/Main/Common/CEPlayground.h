@@ -2,19 +2,28 @@
 
 #include "../../../Time/CETimestamp.h"
 
-namespace ConceptEngine::Graphics::Main::Common {
-	extern class CEPlayground* CreatePlayground();
 
-	class CEPlayground {
-	public:
-		CEPlayground();
-		virtual ~CEPlayground();
+namespace ConceptEngine { namespace Render::Scene {
+		class CEScene;
+	}
 
-		virtual bool Create();
-		virtual void Update(Time::CETimestamp DeltaTime);
-	protected:
-	private:
-	};
+	namespace Graphics::Main::Common {
+		extern class CEPlayground* CreatePlayground();
 
-	extern CEPlayground* GPlayground;
-}
+		class CEPlayground {
+		public:
+			CEPlayground();
+			virtual ~CEPlayground();
+
+			virtual bool Create();
+			virtual void Update(Time::CETimestamp DeltaTime);
+
+			virtual bool Release();
+
+			class Render::Scene::CEScene* Scene = nullptr;
+		protected:
+		private:
+		};
+
+		extern CEPlayground* GPlayground;
+	}}

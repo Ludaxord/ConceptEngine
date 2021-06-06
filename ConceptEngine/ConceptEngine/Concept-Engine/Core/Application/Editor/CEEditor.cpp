@@ -6,6 +6,8 @@
 
 using namespace ConceptEngine::Core::Application::Editor;
 
+//TODO: Cast with QT framework.
+
 CEEditor::CEEditor(GraphicsAPI api, Compilers::Language language,
                    Generic::Platform::Platform platform): CECore(api, language, platform) {
 	EnableDebug = true;
@@ -34,10 +36,9 @@ int CEEditor::Run() {
 
 void CEEditor::Update(Time::CETimestamp DeltaTime) {
 	Platform->Update();
-
-	GetPlayground()->Update(DeltaTime);
-	Debug::CEProfiler::Update();
-	Graphics->Update(DeltaTime);
+	Graphics->Update(DeltaTime, [] {
+		Debug::CEProfiler::Update();
+	});
 }
 
 bool CEEditor::Release() {
