@@ -1,0 +1,7 @@
+void VSMain() {
+
+}
+
+void PSMain() {
+	
+}
