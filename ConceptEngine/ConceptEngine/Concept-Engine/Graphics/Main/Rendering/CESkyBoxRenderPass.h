@@ -18,7 +18,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		CESkyBoxRenderPass() = default;
 		virtual ~CESkyBoxRenderPass() = default;
 
-		virtual bool Create(const CEFrameResources& resources,
+		virtual bool Create(CEFrameResources& resources,
 		                    const CEPanoramaConfig& panoramaConfig) = 0;
 		void Release();
 

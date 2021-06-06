@@ -8,7 +8,7 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
-bool CEDXSkyBoxRenderPass::Create(const Main::Rendering::CEFrameResources& resources,
+bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
                                   const Main::Rendering::CEPanoramaConfig& panoramaConfig) {
 	SkyboxMesh = CastMeshManager()->CreateSphere(1);
 
@@ -48,6 +48,14 @@ bool CEDXSkyBoxRenderPass::Create(const Main::Rendering::CEFrameResources& resou
 	}
 
 	panorama->SetName(panoramaConfig.SourceFile);
+
+	resources.Skybox = Main::Managers::CETextureManager::CreateTextureCubeFromPanorama(
+		panorama.Get(), 1024, Main::Managers::TextureFlag_GenerateMips, CEFormat::R16G16B16A16_Float);
+	if (!resources.Skybox) {
+		return false;
+	}
+
+	resources.Skybox->SetName("Skybox");
 
 	RenderLayer::CESamplerStateCreateInfo createInfo;
 	createInfo.AddressU = RenderLayer::CESamplerMode::Wrap;

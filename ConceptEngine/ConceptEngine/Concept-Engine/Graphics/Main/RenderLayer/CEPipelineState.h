@@ -300,6 +300,28 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		CEComputeShader* Shader = nullptr;
 	};
 
+	struct CERayTracingHitGroup {
+		CERayTracingHitGroup() = default;
+
+		CERayTracingHitGroup(const std::string& name, CERayAnyHitShader* anyHitShader,
+		                     CERayClosestHitShader* closestHitShader): Name(name), AnyHit(anyHitShader),
+		                                                               ClosestHit(closestHitShader) {
+
+		}
+
+		std::string Name;
+		CERayAnyHitShader* AnyHit;
+		CERayClosestHitShader* ClosestHit;
+	};
+
 	struct CERayTracingPipelineStateCreateInfo {
+		CERayGenShader* RayGen = nullptr;
+		Core::Containers::CEArray<CERayAnyHitShader*> AnyHitShaders;
+		Core::Containers::CEArray<CERayClosestHitShader*> ClosestHitShaders;
+		Core::Containers::CEArray<CERayMissShader*> MissShaders;
+		Core::Containers::CEArray<CERayTracingHitGroup> HitGroups;
+		uint32 MaxAttributeSizeInBytes = 0;
+		uint32 MaxPayloadSizeInBytes = 0;
+		uint32 MaxRecursionDepth = 0;
 	};
 }

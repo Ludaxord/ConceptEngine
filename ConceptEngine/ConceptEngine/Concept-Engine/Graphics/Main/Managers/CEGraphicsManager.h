@@ -526,7 +526,7 @@ namespace ConceptEngine::Graphics::Main {
 				const RenderLayer::CEGraphicsPipelineStateCreateInfo& createInfo) = 0;
 			virtual class RenderLayer::CEComputePipelineState* CreateComputePipelineState(
 				const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) = 0;
-			virtual class RenderLayer::CERayTracingPipelineState* CreatRayTracingPipelineState(
+			virtual class RenderLayer::CERayTracingPipelineState* CreateRayTracingPipelineState(
 				const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) = 0;
 
 			virtual class RenderLayer::CEGPUProfiler* CreateProfiler() = 0;

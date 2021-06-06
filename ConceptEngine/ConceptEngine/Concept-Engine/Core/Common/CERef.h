@@ -3,6 +3,8 @@
 
 #include "../Containers/CEContainerUtilities.h"
 
+#include <windows.h>
+
 namespace ConceptEngine::Core::Common {
 
 	template <typename T>
@@ -180,86 +182,101 @@ namespace ConceptEngine::Core::Common {
 			const CERef<TOther>& RHS) const noexcept {
 			return (RefPtr != RHS.RefPtr);
 		}
+		
 
-		operator bool() const noexcept {
-			return (RefPtr != nullptr);
-		}
+    FORCEINLINE operator bool() const noexcept
+    {
+        return (RefPtr != nullptr);
+    }
 
-		CERef& operator=(const CERef& Other) noexcept {
-			if (this != std::addressof(Other)) {
-				Release();
+    FORCEINLINE CERef& operator=(const CERef& Other) noexcept
+    {
+        if (this != std::addressof(Other))
+        {
+            Release();
 
-				RefPtr = Other.RefPtr;
-				AddRef();
-			}
+            RefPtr = Other.RefPtr;
+            AddRef();
+        }
 
-			return *this;
-		}
+        return *this;
+    }
 
-		template <typename TOther>
-		CERef& operator=(const CERef<TOther>& Other) noexcept {
-			static_assert(std::is_convertible<TOther*, T*>());
+    template<typename TOther>
+    FORCEINLINE CERef& operator=(const CERef<TOther>& Other) noexcept
+    {
+        static_assert(std::is_convertible<TOther*, T*>());
 
-			if (this != std::addressof(Other)) {
-				Release();
+        if (this != std::addressof(Other))
+        {
+            Release();
 
-				RefPtr = Other.RefPtr;
-				AddRef();
-			}
+            RefPtr = Other.RefPtr;
+            AddRef();
+        }
 
-			return *this;
-		}
+        return *this;
+    }
 
-		CERef& operator=(CERef&& Other) noexcept {
-			if (this != std::addressof(Other)) {
-				Release();
+    FORCEINLINE CERef& operator=(CERef&& Other) noexcept
+    {
+        if (this != std::addressof(Other))
+        {
+            Release();
 
-				RefPtr = Other.RefPtr;
-				Other.RefPtr = nullptr;
-			}
+            RefPtr			= Other.RefPtr;
+            Other.RefPtr	= nullptr;
+        }
 
-			return *this;
-		}
+        return *this;
+    }
 
-		template <typename TOther>
-		CERef& operator=(CERef<TOther>&& Other) noexcept {
-			static_assert(std::is_convertible<TOther*, T*>());
+    template<typename TOther>
+    FORCEINLINE CERef& operator=(CERef<TOther>&& Other) noexcept
+    {
+        static_assert(std::is_convertible<TOther*, T*>());
 
-			if (this != std::addressof(Other)) {
-				Release();
+        if (this != std::addressof(Other))
+        {
+            Release();
 
-				RefPtr = Other.RefPtr;
-				Other.RefPtr = nullptr;
-			}
+            RefPtr			= Other.RefPtr;
+            Other.RefPtr	= nullptr;
+        }
 
-			return *this;
-		}
+        return *this;
+    }
 
-		CERef& operator=(T* InPtr) noexcept {
-			if (RefPtr != InPtr) {
-				Release();
-				RefPtr = InPtr;
-			}
+    FORCEINLINE CERef& operator=(T* InPtr) noexcept
+    {
+        if (RefPtr != InPtr)
+        {
+            Release();
+            RefPtr = InPtr;
+        }
 
-			return *this;
-		}
+        return *this;
+    }
 
-		template <typename TOther>
-		CERef& operator=(TOther* InPtr) noexcept {
-			static_assert(std::is_convertible<TOther*, T*>());
+    template<typename TOther>
+    FORCEINLINE CERef& operator=(TOther* InPtr) noexcept
+    {
+        static_assert(std::is_convertible<TOther*, T*>());
 
-			if (RefPtr != InPtr) {
-				Release();
-				RefPtr = InPtr;
-			}
+        if (RefPtr != InPtr)
+        {
+            Release();
+            RefPtr = InPtr;
+        }
 
-			return *this;
-		}
+        return *this;
+    }
 
-		CERef& operator=(std::nullptr_t) noexcept {
-			Release();
-			return *this;
-		}
+    FORCEINLINE CERef& operator=(std::nullptr_t) noexcept
+    {
+        Release();
+        return *this;
+    }
 
 	private:
 		void Release() noexcept {

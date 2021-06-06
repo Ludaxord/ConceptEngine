@@ -111,11 +111,15 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CERayAnyHitShader : public CEShader {
-
+		virtual CERayAnyHitShader* AsRayAnyHitShader() override {
+			return this;
+		}
 	};
 
 	class CERayClosestHitShader : public CEShader {
-
+		virtual CERayClosestHitShader* AsRayClosestHitShader() override {
+			return this;
+		}
 	};
 
 	class CERayMissShader : public CEShader {

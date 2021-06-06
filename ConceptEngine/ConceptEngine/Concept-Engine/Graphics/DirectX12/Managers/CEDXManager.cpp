@@ -1008,7 +1008,7 @@ Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineSta
 	return pipelineState.ReleaseOwnership();
 }
 
-Main::RenderLayer::CERayTracingPipelineState* CEDXManager::CreatRayTracingPipelineState(
+Main::RenderLayer::CERayTracingPipelineState* CEDXManager::CreateRayTracingPipelineState(
 	const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) {
 	Core::Common::CERef<RenderLayer::CEDXRayTracingPipelineState> pipelineState = new
 		RenderLayer::CEDXRayTracingPipelineState(Device);

@@ -171,7 +171,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 		virtual RenderLayer::CEComputePipelineState*
 		CreateComputePipelineState(const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) override final;
 
-		virtual RenderLayer::CERayTracingPipelineState* CreatRayTracingPipelineState(
+		virtual RenderLayer::CERayTracingPipelineState* CreateRayTracingPipelineState(
 			const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) override final;
 
 		virtual RenderLayer::CEGPUProfiler* CreateProfiler() override final;
