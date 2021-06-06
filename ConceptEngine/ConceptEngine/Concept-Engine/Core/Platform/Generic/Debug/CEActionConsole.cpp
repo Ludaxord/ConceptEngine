@@ -42,6 +42,9 @@ void CEActionConsole::Update() {
 	}
 }
 
+void CEActionConsole::Release() {
+}
+
 CEConsoleCommand* CEActionConsole::FindCommand(const std::string& name) {
 	CEConsoleObject* consoleObject = FindConsoleObject(name);
 	if (!consoleObject) {
