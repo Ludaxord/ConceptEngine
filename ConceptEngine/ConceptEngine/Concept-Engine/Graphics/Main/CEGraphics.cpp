@@ -70,6 +70,13 @@ bool CEGraphics::CreateManagers() {
 	return true;
 }
 
+void CEGraphics::Destroy() {
+	GraphicsManager->Destroy();
+	TextureManager->Release();
+	MeshManager->Release();
+	RendererManager->Release();
+}
+
 //TODO: Change to static Variable for DebugUI and typedef for different rendering API
 Rendering::CEDebugUI* CEGraphics::GetDebugUI() {
 	return DebugUI.get();

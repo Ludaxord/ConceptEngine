@@ -47,6 +47,8 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 
 		virtual void Update();
 
+		virtual void Release();
+		
 		CEConsoleCommand* FindCommand(const std::string& name);
 		CEConsoleVariable* FindVariable(const std::string& name);
 

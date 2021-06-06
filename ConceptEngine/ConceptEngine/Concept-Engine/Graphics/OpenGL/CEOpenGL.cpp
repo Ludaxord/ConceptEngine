@@ -22,6 +22,7 @@ bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateManagers() {
 
 void ConceptEngine::Graphics::OpenGL::CEOpenGL::Update(Time::CETimestamp DeltaTime,
 	boost::function<void()> ExecuteFunction) {
+	ExecuteFunction();
 }
 
 bool ConceptEngine::Graphics::OpenGL::CEOpenGL::CreateGraphicsManager() {

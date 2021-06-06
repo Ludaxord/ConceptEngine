@@ -20,11 +20,11 @@ namespace ConceptEngine::Graphics::Main {
 		virtual ~CEGraphics() = default;
 		virtual bool Create();
 		virtual bool CreateManagers();
+		virtual void Destroy();
 
 		virtual void Update(Time::CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) = 0;
 		virtual void Render() = 0;
 		virtual void Resize() = 0;
-		virtual void Destroy() = 0;
 
 		static Rendering::CEDebugUI* GetDebugUI();
 

@@ -7,7 +7,8 @@ using namespace ConceptEngine::Graphics::Main::RenderLayer;
 #ifdef COMPILER_VISUAL_STUDIO
     #define __FUNCTION_SIG__ __FUNCTION__
 #else
-#define __FUNCTION_SIG__ __PRETTY_FUNCTION__
+// #define __FUNCTION_SIG__ __PRETTY_FUNCTION__
+#define __FUNCTION_SIG__ __FUNCTION__
 #endif
 
 #define ENABLE_PROFILER 1

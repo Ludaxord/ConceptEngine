@@ -16,6 +16,10 @@ inline ConceptEngine::Graphics::Main::Managers::CEGraphicsManager* CastGraphicsM
 	return CastManager<ConceptEngine::Graphics::Main::Managers::CEGraphicsManager>(ConceptEngine::Core::Common::CEManagerType::GraphicsManager);
 }
 
+inline ConceptEngine::Graphics::Main::Managers::CETextureManager* CastTextureManager() {
+	return CastManager<ConceptEngine::Graphics::Main::Managers::CETextureManager>(ConceptEngine::Core::Common::CEManagerType::TextureManager);
+}
+
 inline ConceptEngine::Graphics::Main::CEMeshManager* CastMeshManager() {
 	return CastManager<ConceptEngine::Graphics::Main::CEMeshManager>(ConceptEngine::Core::Common::CEManagerType::MeshManager);
 }

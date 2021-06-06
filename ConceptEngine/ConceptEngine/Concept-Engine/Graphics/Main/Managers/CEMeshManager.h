@@ -58,6 +58,10 @@ namespace ConceptEngine::Graphics::Main {
 		virtual void CalculateTangent(CEMeshData& data) noexcept = 0;
 		bool Create() override {
 			return true;
+		}
+
+		void Release() {
+			
 		};
 	};
 }

@@ -12,6 +12,9 @@ namespace ConceptEngine::Graphics::Main::Managers {
 		bool Create() override {
 			return true;
 		}
+
+		void Release() {
+
+		};
 	};
 }
-	

@@ -22,6 +22,7 @@ bool ConceptEngine::Graphics::Metal::CEMetal::CreateManagers() {
 
 void ConceptEngine::Graphics::Metal::CEMetal::Update(Time::CETimestamp DeltaTime,
 	boost::function<void()> ExecuteFunction) {
+	ExecuteFunction();
 }
 
 void ConceptEngine::Graphics::Metal::CEMetal::Render() {

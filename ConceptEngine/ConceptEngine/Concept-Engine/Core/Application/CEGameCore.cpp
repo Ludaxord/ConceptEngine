@@ -2,6 +2,13 @@
 #include "../../Time/CETimer.h"
 
 #include "../Debug/CEDebug.h"
+#include "../Debug/CEProfiler.h"
+
+#include "../../Core/Platform/Generic/Managers/CECastManager.h"
+#include "../Platform/Generic/Callbacks/CEEngineController.h"
+#include "../Threading/CETaskManager.h"
+
+#include "../../Core/Platform/Generic/Debug/CETypedConsole.h"
 
 using namespace ConceptEngine::Core;
 
@@ -44,5 +51,34 @@ int Application::CEGameCore::Run() {
 }
 
 bool Application::CEGameCore::Release() {
+	TRACE_FUNCTION_SCOPE();
+
+	CommandListExecutor.WaitForGPU();
+
+	CastTextureManager()->Release();
+
+	if (!GetPlayground()->Release()) {
+		return false;
+	}
+
+	if (Platform::Generic::Callbacks::EngineController.Release()) {
+		Platform->SetCallbacks(nullptr);
+	}
+	else {
+		return false;
+	}
+
+	GetDebugUI()->Release();
+
+	Graphics->Destroy();
+
+	Threading::CETaskManager::Get().Release();
+
+	if (!Platform->Release()) {
+		return false;
+	}
+
+	GTypedConsole.Release();
+
 	return true;
 }
