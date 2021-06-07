@@ -7,10 +7,10 @@ cbuffer Params : register(b0, D3D12_SHADER_REGISTER_SPACE_32BIT_CONSTANTS) {
 int2 ScreenSize;
 }
 
-#define THREAD_COUNT 16;
-#define KERNEL_SIZE 5;
+#define THREAD_COUNT 16
+#define KERNEL_SIZE 5
 
-groupshared float gTextureCache[THREAD_COUNT][THREAD_COUNT];
+groupshared float TextureCache[THREAD_COUNT][THREAD_COUNT];
 
 static const int2 MAX_SIZE = int2(THREAD_COUNT - 1, THREAD_COUNT - 1);
 
@@ -25,4 +25,31 @@ void Main(ComputeShaderInput input) {
 	if (texCoords.x > ScreenSize.x || texCoords.y > texCoords.y) {
 		return;
 	}
+
+	const int2 GroupThreadID = int2(input.GroupThreadID.xy);
+	TextureCache[GroupThreadID.x][GroupThreadID.y] = Texture[texCoords];
+
+	GroupMemoryBarrierWithGroupSync();
+
+	//perform blur
+
+	float result = 0.0f;
+	int offset = -2;
+
+	[unroll]
+	for (int index = 0; index < KERNEL_SIZE; index++) {
+		offset++;
+
+		const float weight = KERNEL[index];
+
+#if defined(HORIZONTAL_PASS)
+		const int currentTexCoord = max(0, min(MAX_SIZE.y, GroupThreadID.x + offset));
+		result += TextureCache[currentTexCoord.x][GroupThreadID.y] * weight;
+#else
+		const int currentTexCoord = max(0, min(MAX_SIZE.y, GroupThreadID.y + offset));
+		result += TextureCache[GroupThreadID.x][currentTexCoord] * weight;
+#endif
+	}
+
+	Texture[texCoords] = result;
 }
