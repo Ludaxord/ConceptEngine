@@ -22,11 +22,51 @@ struct Camera {
 	float AspectRatio;
 };
 
+struct PositionRadius {
+	float3 Position;
+	float Radius;
+};
+
+struct PointLight {
+	float3 Color;
+	float Padding0;
+};
+
+struct ShadowPointLight {
+	float3 Color;
+	float ShadowBias;
+	float FarPlane;
+	float MaxShadowBias;
+	float Padding0;
+	float Padding1;
+};
+
+struct DirectionalLight {
+	float3 Color;
+	float ShadowBias;
+	float3 Direction;
+	float MaxShadowBias;
+	float4x4 LightMatrix;
+};
+
 struct Vertex {
 	float3 Position;
 	float3 Normal;
 	float3 Tangent;
 	float2 TexCoord;
+};
+
+struct Transform {
+	float4x4 Transform;
+	float4x4 TransformInverse;
+};
+
+struct Material {
+	float3 Albedo;
+	float Roughness;
+	float Metallic;
+	float AO;
+	int EnableWeight;
 };
 
 #endif
