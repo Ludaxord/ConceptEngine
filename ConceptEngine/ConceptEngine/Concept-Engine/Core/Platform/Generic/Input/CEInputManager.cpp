@@ -16,9 +16,9 @@ bool CEInputManager::Create() {
 	/*
 	 * NOTE: EngineController works in similar way as slot, signal in QT Framework
 	 */
-	Callbacks::EngineController.OnKeyPressedEvent.AddObject(this, &CEInputManager::OnKeyPressed);
-	Callbacks::EngineController.OnKeyReleasedEvent.AddObject(this, &CEInputManager::OnKeyReleased);
-	Callbacks::EngineController.OnWindowFocusChangedEvent.AddObject(this, &CEInputManager::OnWindowFocusChanged);
+	EngineController.OnKeyPressedEvent.AddObject(this, &CEInputManager::OnKeyPressed);
+	EngineController.OnKeyReleasedEvent.AddObject(this, &CEInputManager::OnKeyReleased);
+	EngineController.OnWindowFocusChangedEvent.AddObject(this, &CEInputManager::OnWindowFocusChanged);
 	return true;
 }
 

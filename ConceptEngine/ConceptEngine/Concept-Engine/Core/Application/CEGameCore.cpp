@@ -60,7 +60,7 @@ bool Application::CEGameCore::Release() {
 		return false;
 	}
 
-	if (Platform::Generic::Callbacks::EngineController.Release()) {
+	if (EngineController.Release()) {
 		Platform->SetCallbacks(nullptr);
 	}
 	else {

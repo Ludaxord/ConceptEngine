@@ -8,7 +8,6 @@ namespace ConceptEngine { namespace Render::Scene {
 	}
 
 	namespace Graphics::Main::Common {
-		extern class CEPlayground* CreatePlayground();
 
 		class CEPlayground {
 		public:
@@ -25,5 +24,8 @@ namespace ConceptEngine { namespace Render::Scene {
 		private:
 		};
 
-		extern CEPlayground* GPlayground;
 	}}
+
+extern ConceptEngine::Graphics::Main::Common::CEPlayground* CreatePlayground();
+
+extern ConceptEngine::Graphics::Main::Common::CEPlayground* GPlayground;

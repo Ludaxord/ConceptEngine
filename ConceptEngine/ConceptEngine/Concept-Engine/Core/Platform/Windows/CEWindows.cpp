@@ -1,14 +1,6 @@
 #include "CEWindows.h"
 
-#include "Window/CEWindowsConsole.h"
-#include "Window/CEWindowsWindow.h"
-#include "Input/CEWindowsInputManager.h"
-#include "../../Application/CECore.h"
-#include "Cursor/CEWindowsCursor.h"
-#include "Events/CEWindowsEvent.h"
-#include "../../Debug/CEDebug.h"
-
-#include "../../../CEEngine.h"
+#include "../../../Utilities/CEUtilities.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
 using namespace ConceptEngine::Core::Platform::Generic::Cursor;
@@ -90,7 +82,7 @@ bool CEWindows::CreateCursors() {
 }
 
 void CEWindows::Update() {
-	switch (CEEngine::GetEngineBoot()) {
+	switch (GetEngineBoot()) {
 	case EngineBoot::Editor:
 		break;
 	case EngineBoot::Game:

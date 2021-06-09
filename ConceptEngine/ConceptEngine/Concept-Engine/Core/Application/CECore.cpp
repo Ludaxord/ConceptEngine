@@ -1,34 +1,5 @@
 #include "CECore.h"
 
-#include "../../Graphics/DirectX12/CEDirectX12.h"
-#include "../../Graphics/Vulkan/CEVulkan.h"
-#include "../../Graphics/OpenGL/CEOpenGL.h"
-#include "../../Graphics/Metal/CEMetal.h"
-
-#include "../Compilers/Cpp/CECppCompiler.h"
-#include "../Compilers/CSharp/CECSCompiler.h"
-#include "../Compilers/JS/CEJSCompiler.h"
-#include "../Compilers/Python/CEPyCompiler.h"
-#include "../Compilers/Schematics/CESchematicsCompiler.h"
-
-#include "../Platform/Windows/CEWindows.h"
-#include "../Platform/Mac/CEMac.h"
-#include "../Platform/iOS/CEiOS.h"
-#include "../Platform/Android/CEAndroid.h"
-#include "../Platform/Linux/CELinux.h"
-
-#include "../Debug/CEProfiler.h"
-#include "../Threading/CETaskManager.h"
-
-#include "../Platform/Generic/Callbacks/CEEngineController.h"
-#include "../Platform/CEPlatformActions.h"
-
-#include "../Platform/Generic/Debug/CETypedConsole.h"
-
-#include "../../Render/CERenderer.h"
-
-#include "../Debug/CEDebug.h"
-
 using namespace ConceptEngine::Core::Application;
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Compilers;
@@ -48,7 +19,7 @@ ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Lan
                                                  Generic::Platform::Platform platform,
                                                  Graphics::Main::Common::CEPlayground* playground) :
 	CECore(api, language, platform) {
-	::Common::GPlayground = playground;
+	GPlayground = playground;
 }
 
 bool ConceptEngine::Core::Application::CECore::Create() {
@@ -75,15 +46,15 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		return false;
 	}
 
-	if (::Common::GPlayground == nullptr) {
-		::Common::GPlayground = ::Common::CreatePlayground();
+	if (GPlayground == nullptr) {
+		GPlayground = CreatePlayground();
 	}
 
 	Assert(::Common::GPlayground != nullptr);
 
 	Platform->SetCallbacks(&EngineController);
 
-	if (!::Common::GPlayground->Create()) {
+	if (!GPlayground->Create()) {
 		Debug::CEDebug::DebugBreak();
 		return false;
 	}
@@ -113,7 +84,7 @@ ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Applica
 }
 
 Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
-	return ::Common::GPlayground;
+	return GPlayground;
 }
 
 

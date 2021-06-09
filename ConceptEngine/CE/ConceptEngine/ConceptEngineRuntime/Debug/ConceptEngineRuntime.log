@@ -1,0 +1,44 @@
+﻿  WinMain.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Common\CEManager.h(4,39): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\Managers\CERendererManager.h(5,51): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Common\CERefCountedObject.h(4,39): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEResource.h(7,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Memory\CEMemory.h(5,33): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Math\CEColor.h(4,31): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CERendering.h(6,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CETexture.h(5,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEAllocator.h(7,43): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEIterator.h(2,43): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEContainerUtilities.h(2,43): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(8,43): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(540,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(540,4): message : This diagnostic occurred in the compiler generated function 'const T *ConceptEngine::Core::Containers::CEArray<T,TAllocator>::InternalUnwrapConst(TInput) noexcept'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(796): message : see reference to class template instantiation 'ConceptEngine::Core::Containers::CEArray<T,TAllocator>' being compiled
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(554,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(554,4): message : This diagnostic occurred in the compiler generated function 'ConceptEngine::Core::Containers::CEArray<T,TAllocator>::SizeType ConceptEngine::Core::Containers::CEArray<T,TAllocator>::InternalDistance(TInput,TInput) noexcept'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(669,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(669,4): message : This diagnostic occurred in the compiler generated function 'void ConceptEngine::Core::Containers::CEArray<T,TAllocator>::InternalCopyEmplace(TInput,TInput,T *) noexcept'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(693,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(717,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(723,6): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(726,11): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(740,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(750,6): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(753,11): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(762,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(771,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEArray.h(782,4): warning C4984: 'if constexpr' is a C++17 language extension
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEShader.h(6,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEPipelineState.h(11,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEBuffer.h(5,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEGPUProfiler.h(4,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Containers\CEStaticArray.h(7,43): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Common\CERef.h(8,39): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEResourceViews.h(10,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CESamplerState.h(6,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CERayTracing.h(10,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CEICommandContext.h(15,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CERenderCommand.h(16,54): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Math\CEMath.h(5,31): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Memory\CELinearAllocator.h(8,33): error C2429: language feature 'nested-namespace-definition' requires compiler flag '/std:c++17'
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\Main\RenderLayer\CECommandList.h(17,10): fatal error C1083: Cannot open include file: 'boost/function/function0.hpp': No such file or directory

@@ -247,7 +247,7 @@ bool CEDXRenderer::Create() {
 
 	CommandListExecutor.ExecuteCommandList(CommandList);
 
-	Core::Platform::Generic::Callbacks::EngineController.OnWindowResizedEvent.AddObject(
+	EngineController.OnWindowResizedEvent.AddObject(
 		this, &CEDXRenderer::OnWindowResize);
 
 	return true;

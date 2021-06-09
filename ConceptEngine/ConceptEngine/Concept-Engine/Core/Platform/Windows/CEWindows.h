@@ -1,6 +1,15 @@
 #pragma once
 #include "../Generic/CEPlatform.h"
 
+#include "Window/CEWindowsConsole.h"
+#include "Window/CEWindowsWindow.h"
+#include "Input/CEWindowsInputManager.h"
+#include "../../Application/CECore.h"
+#include "Cursor/CEWindowsCursor.h"
+#include "../Generic/Cursor/CECursor.h"
+#include "Events/CEWindowsEvent.h"
+#include "../../Debug/CEDebug.h"
+
 namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 		class CEWindowsWindow;
 	}

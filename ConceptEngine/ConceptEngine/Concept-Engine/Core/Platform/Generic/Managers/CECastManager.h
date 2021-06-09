@@ -3,8 +3,6 @@
 #include "../../../../Graphics/Main/Managers/CEGraphicsManager.h"
 #include "../../../../Graphics/Main/Rendering/CEDebugUI.h"
 
-#include "../../../Application/CECore.h"
-
 #include "../Utilities/OSUtilities.h"
 
 template <typename T>

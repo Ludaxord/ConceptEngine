@@ -9,7 +9,7 @@ ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                             Core::Compilers::Language language): EnumApi(api),
 	EnumLanguage(language),
 	EnumPlatform(platform) {
-	Name = name;
+	InstanceName = name;
 	if (Core::Application::CECore::ShowConsole) {
 		Create(EngineBoot::GameDebug);
 	}
@@ -23,7 +23,7 @@ ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                             Core::Generic::Platform::Platform platform) : EnumApi(api),
 	EnumLanguage(Core::Compilers::Language::None),
 	EnumPlatform(platform) {
-	Name = name;
+	InstanceName = name;
 	Create(EngineBoot::Editor);
 }
 
@@ -50,7 +50,7 @@ bool ConceptEngine::CEEngine::Release() {
 }
 
 bool ConceptEngine::CEEngine::Create(EngineBoot boot) {
-	EnumEngineBoot = boot;
+	CurrentBoot = boot;
 	
 	switch (boot) {
 	case EngineBoot::Game:
@@ -69,11 +69,7 @@ ConceptEngine::Core::Application::CECore* ConceptEngine::CEEngine::GetCore() con
 }
 
 std::wstring ConceptEngine::CEEngine::GetName() {
-	return Name;
-}
-
-ConceptEngine::EngineBoot ConceptEngine::CEEngine::GetEngineBoot() {
-	return EnumEngineBoot;
+	return InstanceName;
 }
 
 bool ConceptEngine::CEEngine::CreateEditor() {

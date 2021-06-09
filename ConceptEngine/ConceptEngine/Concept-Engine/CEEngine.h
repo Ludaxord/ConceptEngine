@@ -11,14 +11,9 @@
 #include "Core/Platform/Windows/CEWindows.h"
 #include "Graphics/Main/Common/API.h"
 #include "Utilities/CEScreenUtilities.h"
+#include "Utilities/CEUtilities.h"
 
 namespace ConceptEngine {
-
-	enum class EngineBoot {
-		Game,
-		Editor,
-		GameDebug
-	};
 
 	class CEEngine {
 	public:
@@ -42,7 +37,6 @@ namespace ConceptEngine {
 
 		static std::wstring GetName();
 
-		static EngineBoot GetEngineBoot();
 	protected:
 		bool Create(EngineBoot boot);
 
@@ -58,8 +52,6 @@ namespace ConceptEngine {
 		std::unique_ptr<Core::Application::CECore> Core;
 
 		friend class Core::Generic::Platform::CEPlatform;
-		static std::wstring Name;
-		static EngineBoot EnumEngineBoot;
 
 	};
 

@@ -17,7 +17,7 @@ CEConsoleCommand GClearHistory;
 void CEActionConsole::Create() {
 	GClearHistory.OnExecute.AddObject(this, &CEActionConsole::ClearHistory);
 	INIT_CONSOLE_COMMAND("ClearHistory", &GClearHistory);
-	Callbacks::EngineController.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
+	EngineController.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
 }
 
 void CEActionConsole::RegisterCommand(const std::string& name,

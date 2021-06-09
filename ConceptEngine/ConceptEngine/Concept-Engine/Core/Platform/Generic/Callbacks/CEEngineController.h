@@ -35,7 +35,7 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 		static Window::CEWindow* GetWindow() {
 			return Core::Generic::Platform::CEPlatform::GetWindow();
 		}
-	
+
 	public:
 		/*
 		 * Key Events
@@ -109,5 +109,6 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 
 	};
 
-	extern CEEngineController EngineController;
 }
+
+extern ConceptEngine::Core::Platform::Generic::Callbacks::CEEngineController EngineController;

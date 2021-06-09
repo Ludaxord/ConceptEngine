@@ -5,10 +5,6 @@
 
 #include "CEScreen.h"
 
-namespace ConceptEngine {namespace Core {namespace Generic {namespace Platform {
-	class CEPlatform;
-}}}}
-
 namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 	enum CEEnumWindowStyleFlag : uint32 {
 		WindowStyleFlag_None = 0x0,
@@ -105,10 +101,10 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 		static int ScreenHeight;
 
 		static CEWindowPosition WindowPosition;
+		static CEWindowSize* WndSize;
 
 	protected:
-		friend class Core::Generic::Platform::CEPlatform;
-		static CEWindowSize* WndSize;
+		// friend class Core::Generic::Platform::CEPlatform;
 	};
 
 	class CEWindow : public CEScreen {

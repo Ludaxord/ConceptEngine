@@ -8,6 +8,7 @@
 #include "Input/CEInputManager.h"
 #include "Input/CEModifierKeyState.h"
 #include "../../Containers/CEArray.h"
+#include "../../../Utilities/CEUtilities.h"
 
 namespace ConceptEngine::Core::Generic::Platform {
 	using namespace Core::Platform::Generic::Input;

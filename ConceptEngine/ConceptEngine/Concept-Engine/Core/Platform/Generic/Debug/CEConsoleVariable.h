@@ -125,7 +125,7 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 	}
 
 	template <>
-	void CEConsoleVariableEx<bool>::SetString(const std::string& value) {
+	inline void CEConsoleVariableEx<bool>::SetString(const std::string& value) {
 		std::string lower = value;
 		for (char& c : lower) {
 			c = (char)tolower(c);

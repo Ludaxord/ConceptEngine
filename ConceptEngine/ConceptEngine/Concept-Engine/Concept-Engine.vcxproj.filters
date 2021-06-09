@@ -209,6 +209,7 @@
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXRayTracer.h" />
     <ClInclude Include="Math\CEFloat.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXMeshManager.h" />
+    <ClInclude Include="Utilities\CEUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />
