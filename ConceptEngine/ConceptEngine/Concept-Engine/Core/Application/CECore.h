@@ -16,7 +16,7 @@ namespace ConceptEngine::Core::Application {
 		virtual ~CECore() = default;
 
 		virtual bool Create();
-		virtual int Run() = 0;
+		virtual void Run() = 0;
 		virtual void Update(Time::CETimestamp DeltaTime) = 0;
 		virtual bool Release() = 0;
 
@@ -25,7 +25,7 @@ namespace ConceptEngine::Core::Application {
 		static Generic::Platform::CEPlatform* GetPlatform();
 		static Graphics::Main::Common::CEPlayground* GetPlayground();
 
-		static int ShowConsole;
+		inline static bool ShowConsole = false;
 		inline static bool IsRunning = false;
 		inline static bool EnableDebug = false;
 	

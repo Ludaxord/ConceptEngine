@@ -34,6 +34,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Execs", "Execs", "{701A10E5-3786-4C3B-92E5-43C88E082C1E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConceptEngineGameDebug", "ConceptEngineGameDebug\ConceptEngineGameDebug.vcxproj", "{24BAF7A8-3862-4AD1-A900-175C3D33D254}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2377CFB9-88DE-4713-8F3D-64122F7CFD5C} = {2377CFB9-88DE-4713-8F3D-64122F7CFD5C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

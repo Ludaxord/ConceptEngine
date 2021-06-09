@@ -1,9 +1,9 @@
-#include "ConceptEngine.h"
+#include "CEEngine.h"
 
 #include "Core/Debug/CEDebug.h"
 
 
-ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
+ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                             GraphicsAPI api,
                                             Core::Generic::Platform::Platform platform,
                                             Core::Compilers::Language language): EnumApi(api),
@@ -18,7 +18,7 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
 	}
 }
 
-ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
+ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                             GraphicsAPI api,
                                             Core::Generic::Platform::Platform platform) : EnumApi(api),
 	EnumLanguage(Core::Compilers::Language::None),
@@ -27,7 +27,7 @@ ConceptEngine::ConceptEngine::ConceptEngine(std::wstring name,
 	Create(EngineBoot::Editor);
 }
 
-bool ConceptEngine::ConceptEngine::Init() const {
+bool ConceptEngine::CEEngine::Init() const {
 	if (!Core->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to Initialize Concept Engine");
 		return false;
@@ -36,11 +36,11 @@ bool ConceptEngine::ConceptEngine::Init() const {
 	return true;
 }
 
-int ConceptEngine::ConceptEngine::Run() const {
+void ConceptEngine::CEEngine::Run() const {
 	return Core->Run();
 }
 
-bool ConceptEngine::ConceptEngine::Release() {
+bool ConceptEngine::CEEngine::Release() {
 	if (!Core->Release()) {
 		CEPlatformActions::MessageBox("Error", "Failed to Release Concept Engine");
 		return false;
@@ -49,7 +49,7 @@ bool ConceptEngine::ConceptEngine::Release() {
 	return true;
 }
 
-bool ConceptEngine::ConceptEngine::Create(EngineBoot boot) {
+bool ConceptEngine::CEEngine::Create(EngineBoot boot) {
 	EnumEngineBoot = boot;
 	
 	switch (boot) {
@@ -64,33 +64,33 @@ bool ConceptEngine::ConceptEngine::Create(EngineBoot boot) {
 	return false;
 }
 
-ConceptEngine::Core::Application::CECore* ConceptEngine::ConceptEngine::GetCore() const {
+ConceptEngine::Core::Application::CECore* ConceptEngine::CEEngine::GetCore() const {
 	return Core.get();
 }
 
-std::wstring ConceptEngine::ConceptEngine::GetName() {
+std::wstring ConceptEngine::CEEngine::GetName() {
 	return Name;
 }
 
-ConceptEngine::EngineBoot ConceptEngine::ConceptEngine::GetEngineBoot() {
+ConceptEngine::EngineBoot ConceptEngine::CEEngine::GetEngineBoot() {
 	return EnumEngineBoot;
 }
 
-bool ConceptEngine::ConceptEngine::CreateEditor() {
+bool ConceptEngine::CEEngine::CreateEditor() {
 	auto editor = std::make_unique<Core::Application::Editor::CEEditor>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(editor);
 	Core::Debug::CEDebug::DebugBreak();
 	return true;
 }
 
-bool ConceptEngine::ConceptEngine::CreateGame() {
+bool ConceptEngine::CEEngine::CreateGame() {
 	auto game = std::make_unique<Core::Application::Game::CEGame>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(game);
 	Core::Debug::CEDebug::DebugBreak();
 	return true;
 }
 
-bool ConceptEngine::ConceptEngine::CreateGameDebug() {
+bool ConceptEngine::CEEngine::CreateGameDebug() {
 	auto gameDebug = std::make_unique<Core::Application::GameDebug::CEGameDebug>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(gameDebug);
 	Core::Debug::CEDebug::DebugBreak();

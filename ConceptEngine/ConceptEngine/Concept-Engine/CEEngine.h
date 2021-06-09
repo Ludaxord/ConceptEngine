@@ -20,22 +20,22 @@ namespace ConceptEngine {
 		GameDebug
 	};
 
-	class ConceptEngine {
+	class CEEngine {
 	public:
-		ConceptEngine(
+		CEEngine(
 			std::wstring name,
 			GraphicsAPI api,
 			Core::Generic::Platform::Platform platform,
 			Core::Compilers::Language language = Core::Compilers::Language::None
 		);
-		ConceptEngine(
+		CEEngine(
 			std::wstring name,
 			GraphicsAPI api,
 			Core::Generic::Platform::Platform platform
 		);
 
 		bool Init() const;
-		int Run() const;
+		void Run() const;
 		bool Release();
 
 		Core::Application::CECore* GetCore() const;
@@ -60,6 +60,22 @@ namespace ConceptEngine {
 		friend class Core::Generic::Platform::CEPlatform;
 		static std::wstring Name;
 		static EngineBoot EnumEngineBoot;
-		
+
 	};
+
+	inline int RuntimeRun(ConceptEngine::CEEngine* conceptEngine) {
+		if (!conceptEngine->Init()) {
+			CEPlatformActions::MessageBox("Error", "Concept Engine Run -> Failed");
+			return -1;
+		}
+
+		conceptEngine->Run();
+
+		if (!conceptEngine->Release()) {
+			CEPlatformActions::MessageBox("Error", "Concept Engine Release -> Failed");
+			return -1;
+		}
+
+		return 0;
+	}
 }

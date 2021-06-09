@@ -76,7 +76,7 @@
     <ClInclude Include="Core\Compilers\JS\CEJSCompiler.h" />
     <ClInclude Include="Core\Compilers\Python\CEPyCompiler.h" />
     <ClInclude Include="Core\Compilers\Schematics\CESchematicsCompiler.h" />
-    <ClInclude Include="ConceptEngine.h" />
+    <ClInclude Include="CEEngine.h" />
     <ClInclude Include="Core\Application\CECore.h" />
     <ClInclude Include="Core\Application\Editor\CEEditor.h" />
     <ClInclude Include="Core\Application\GameDebug\CEGameDebug.h" />
@@ -236,7 +236,7 @@
     <ClCompile Include="Core\Compilers\JS\CEJSCompiler.cpp" />
     <ClCompile Include="Core\Compilers\Python\CEPyCompiler.cpp" />
     <ClCompile Include="Core\Compilers\Schematics\CESchematicsCompiler.cpp" />
-    <ClCompile Include="ConceptEngine.cpp" />
+    <ClCompile Include="CEEngine.cpp" />
     <ClCompile Include="Core\Application\CECore.cpp" />
     <ClCompile Include="Core\Application\CEGameCore.cpp" />
     <ClCompile Include="Core\Application\Editor\CEEditor.cpp" />
@@ -690,6 +690,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>C:\src\vcpkg\packages\physx_x64-windows-static\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

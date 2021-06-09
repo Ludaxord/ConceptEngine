@@ -34,9 +34,8 @@ bool CEEditor::Create() {
 	return true;
 }
 
-int CEEditor::Run() {
+void CEEditor::Run() {
 	Timer = Time::CETimer();
-	return 0;
 }
 
 void CEEditor::Update(Time::CETimestamp DeltaTime) {

@@ -8,7 +8,7 @@
 #include "Events/CEWindowsEvent.h"
 #include "../../Debug/CEDebug.h"
 
-#include "../../../ConceptEngine.h"
+#include "../../../CEEngine.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
 using namespace ConceptEngine::Core::Platform::Generic::Cursor;
@@ -90,7 +90,7 @@ bool CEWindows::CreateCursors() {
 }
 
 void CEWindows::Update() {
-	switch (ConceptEngine::GetEngineBoot()) {
+	switch (CEEngine::GetEngineBoot()) {
 	case EngineBoot::Editor:
 		break;
 	case EngineBoot::Game:

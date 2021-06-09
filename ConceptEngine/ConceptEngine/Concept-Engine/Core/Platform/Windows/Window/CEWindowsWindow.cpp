@@ -2,7 +2,7 @@
 
 #include "../../../../Memory/CEMemory.h"
 #include "../CEWindows.h"
-#include "../../../../ConceptEngine.h"
+#include "../../../../CEEngine.h"
 
 #include "../../../Log/CELog.h"
 
@@ -34,7 +34,7 @@ bool CEWindowsWindow::RegisterWindowClass() {
 	Memory::CEMemory::Memzero(&windowClass);
 
 	windowClass.hInstance = CEWindows::Instance;
-	windowClass.lpszClassName = ConceptEngine::GetName().c_str();
+	windowClass.lpszClassName = CEEngine::GetName().c_str();
 	windowClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.lpfnWndProc = CEWindows::MessageProc;

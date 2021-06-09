@@ -13,7 +13,7 @@ namespace ConceptEngine::Core::Application::Editor {
 		~CEEditor() override;
 
 		bool Create() override;
-		int Run() override;
+		void Run() override;
 		void Update(Time::CETimestamp DeltaTime) override;
 		bool  Release() override;
 		
