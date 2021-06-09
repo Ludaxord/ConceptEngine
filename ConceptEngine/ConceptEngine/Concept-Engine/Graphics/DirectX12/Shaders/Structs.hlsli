@@ -66,7 +66,7 @@ struct Material {
 	float Roughness;
 	float Metallic;
 	float AO;
-	int EnableWeight;
+	int EnableHeight;
 };
 
 #endif
