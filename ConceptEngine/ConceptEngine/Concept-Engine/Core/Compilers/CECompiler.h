@@ -13,6 +13,5 @@ namespace ConceptEngine::Core::Compilers {
 	};
 
 	interface CECompiler {
-		friend class CECore;
 	};
 }

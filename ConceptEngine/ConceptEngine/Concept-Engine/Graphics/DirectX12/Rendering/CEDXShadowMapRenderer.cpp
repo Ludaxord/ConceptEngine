@@ -30,7 +30,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		nullptr
 	);
 	if (!PerShadowMapBuffer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -41,13 +41,13 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "VSMain", nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		PointLightVertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 		if (!PointLightVertexShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -56,13 +56,13 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "PSMain", nullptr,
 		                                     RenderLayer::CEShaderStage::Pixel, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		PointLightPixelShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 		if (!PointLightPixelShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -76,7 +76,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		Core::Common::CERef<RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(depthStencilStateInfo);
 		if (!depthStencilState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -88,7 +88,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		Core::Common::CERef<RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
 			CreateRasterizerState(rasterizerStateInfo);
 		if (!rasterizerState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -99,7 +99,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		Core::Common::CERef<RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -122,7 +122,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 		PointLightPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(pipelineStateInfo);
 		if (!PointLightPipelineState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -133,13 +133,13 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "Main", nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		DirLightShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 		if (!DirLightShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -153,7 +153,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		Core::Common::CERef<RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(depthStencilStateInfo);
 		if (!depthStencilState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -165,7 +165,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		Core::Common::CERef<RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
 			CreateRasterizerState(rasterizerStateInfo);
 		if (!rasterizerState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -175,7 +175,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		Core::Common::CERef<RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -198,7 +198,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 		DirLightPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(pipelineStateInfo);
 		if (!DirLightPipelineState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -409,7 +409,7 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& fram
 				GetCubeFaceFromIndex(face)
 			);
 			if (!depthCube[face]) {
-				Core::Debug::CEDebug::DebugBreak();
+				CEDebug::DebugBreak();
 				return false;
 			}
 		}

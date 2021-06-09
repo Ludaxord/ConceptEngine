@@ -27,7 +27,6 @@ namespace ConceptEngine::Core::Generic::Platform {
 
 	class CEPlatform {
 	public:
-		friend class CECore;
 		CEPlatform() = default;
 		virtual ~CEPlatform() = default;
 

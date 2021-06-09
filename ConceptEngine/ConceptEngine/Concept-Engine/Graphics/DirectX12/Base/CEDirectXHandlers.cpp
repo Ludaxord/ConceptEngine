@@ -88,7 +88,7 @@ void CEDirectXLibHandler::XSetMarkerOnCommandList(ID3D12GraphicsCommandList* com
 bool CEDirectXLibHandler::LibCreate() {
 	DXHandler = new CEDirectXLibHandler();
 	if (!DXHandler->Create()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	} 
 

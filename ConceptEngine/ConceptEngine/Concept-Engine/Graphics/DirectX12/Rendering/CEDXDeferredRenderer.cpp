@@ -47,13 +47,13 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/GeometryPass.hlsl", "VSMain", &defines,
 		                                     Main::RenderLayer::CEShaderStage::Vertex,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		BaseVertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 		if (!BaseVertexShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -62,13 +62,13 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/GeometryPass.hlsl", "PSMain", &defines,
 		                                     Main::RenderLayer::CEShaderStage::Pixel,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		BasePixelShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 		if (!BasePixelShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -83,7 +83,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			CreateDepthStencilState(
 				depthStencilStateCreateInfo);
 		if (!geometryDepthStencilState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -96,7 +96,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			CreateRasterizerState(
 				rasterizerStateInfo);
 		if (!geometryRasterizerState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -109,7 +109,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		Core::Common::CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -133,7 +133,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			pipelineStateInfo);
 
 		if (!PipelineState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -147,14 +147,14 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		                                     Main::RenderLayer::CEShaderStage::Vertex,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		PrePassVertexShader = CastGraphicsManager()->CreateVertexShader(
 			shaderCode);
 		if (!PrePassVertexShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -168,7 +168,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		Core::Common::CERef<Main::RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(depthStencilStateInfo);
 		if (!depthStencilState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -181,7 +181,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			CreateRasterizerState(rasterizerStateInfo);
 
 		if (!rasterizerState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -194,7 +194,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		Core::Common::CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -210,7 +210,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 		PrePassPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(pipelineStateInfo);
 		if (!PrePassPipelineState) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -223,7 +223,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	if (!CastGraphicsManager()->UAVSupportsFormat(LUTFormat)) {
 		CE_LOG_ERROR("[CEDXDeferredRenderer] : R16G16_Float is not supported for UAVs");
 
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -238,7 +238,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		nullptr
 	);
 	if (!stagingTexture) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -256,7 +256,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	);
 
 	if (!FrameResources.IntegrationLUT) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -271,7 +271,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	FrameResources.IntegrationLUTSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 
 	if (!FrameResources.IntegrationLUTSampler) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -280,7 +280,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/BRDFIntegrationGen.hlsl", "Main", nullptr,
 	                                     Main::RenderLayer::CEShaderStage::Compute,
 	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -288,7 +288,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		CreateComputeShader(shaderCode);
 
 	if (!computeShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -300,7 +300,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	Core::Common::CERef<Main::RenderLayer::CEComputePipelineState> BRDF_pipelineState = CastGraphicsManager()->
 		CreateComputePipelineState(pipelineStateCreateInfo);
 	if (!BRDF_pipelineState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -344,13 +344,13 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/DeferredLightPass.hlsl", "Main", nullptr,
 		                                     Main::RenderLayer::CEShaderStage::Compute,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
 		TiledLightShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 		if (!TiledLightShader) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -362,7 +362,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		TiledLightPassPSO = CastGraphicsManager()->CreateComputePipelineState(
 			deferredLightPassCreateInfo);
 		if (!TiledLightPassPSO) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -377,7 +377,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		if (!ShaderCompiler->CompileFromFile("DirectX/Shaders/DeferredLightPass.hlsl", "Main", &defines,
 		                                     Main::RenderLayer::CEShaderStage::Compute,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -389,7 +389,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		TiledLightPassPSODebug = CastGraphicsManager()->CreateComputePipelineState(
 			deferredLightPassCreateInfo);
 		if (!TiledLightPassPSODebug) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 

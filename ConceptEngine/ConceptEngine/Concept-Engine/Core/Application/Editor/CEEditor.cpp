@@ -27,7 +27,7 @@ CEEditor::~CEEditor() {
 
 bool CEEditor::Create() {
 	if (!CECore::Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -39,8 +39,8 @@ void CEEditor::Run() {
 }
 
 void CEEditor::Update(Time::CETimestamp DeltaTime) {
-	Platform->Update();
-	Graphics->Update(DeltaTime, [] {
+	GPlatform->Update();
+	GGraphics->Update(DeltaTime, [] {
 		Debug::CEProfiler::Update();
 	});
 }
@@ -52,12 +52,12 @@ bool CEEditor::Release() {
 
 	CastTextureManager()->Release();
 
-	if (!GetPlayground()->Release()) {
+	if (!GPlayground->Release()) {
 		return false;
 	}
 
 	if (EngineController.Release()) {
-		Platform->SetCallbacks(nullptr);
+		GPlatform->SetCallbacks(nullptr);
 	}
 	else {
 		return false;
@@ -65,11 +65,11 @@ bool CEEditor::Release() {
 
 	GetDebugUI()->Release();
 
-	Graphics->Destroy();
+	GGraphics->Destroy();
 
 	Threading::CETaskManager::Get().Release();
 
-	if (!Platform->Release()) {
+	if (!GPlatform->Release()) {
 		return false;
 	}
 

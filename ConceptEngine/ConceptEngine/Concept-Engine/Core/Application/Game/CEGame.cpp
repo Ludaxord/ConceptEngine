@@ -24,15 +24,15 @@ CEGame::~CEGame() {
 
 bool CEGame::Create() {
 	if (!CEGameCore::Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
 }
 
 void CEGame::Update(Time::CETimestamp DeltaTime) {
-	Platform->Update();
-	Graphics->Update(DeltaTime, [] {
+	GPlatform->Update();
+	GGraphics->Update(DeltaTime, [] {
 		Debug::CEProfiler::Update();
 	});
 }

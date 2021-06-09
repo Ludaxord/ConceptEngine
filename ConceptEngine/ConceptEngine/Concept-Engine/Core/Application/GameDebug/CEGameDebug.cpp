@@ -23,7 +23,7 @@ CEGameDebug::~CEGameDebug() {
 }
 
 bool CEGameDebug::Create() {
-	if (!Platform->CreateSystemConsole()) {
+	if (!GPlatform->CreateSystemConsole()) {
 		CEPlatformActions::MessageBox("Error", "Failed to Create System Debug Console");
 		return false;
 	}
@@ -31,12 +31,12 @@ bool CEGameDebug::Create() {
 	Generic::Platform::CEPlatform::GetConsole()->SetTitle("Concept Engine Debug Console");
 
 	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!CEGameCore::Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -44,8 +44,8 @@ bool CEGameDebug::Create() {
 }
 
 void CEGameDebug::Update(Time::CETimestamp DeltaTime) {
-	Platform->Update();
-	Graphics->Update(DeltaTime, [] {
+	GPlatform->Update();
+	GGraphics->Update(DeltaTime, [] {
 		Generic::Platform::CEPlatform::GetConsole()->Update();
 		GTypedConsole.Update();
 		Debug::CEProfiler::Update();

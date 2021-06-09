@@ -28,13 +28,13 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/SSAO.hlsl", "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	SSAOShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 	if (!SSAOShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -45,7 +45,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 	PipelineState = CastGraphicsManager()->CreateComputePipelineState(pipelineStateCreateInfo);
 	if (!PipelineState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -99,7 +99,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	                                                          RenderLayer::CEResourceState::NonPixelShaderResource,
 	                                                          nullptr);
 	if (!SSAONoiseTexture) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -125,7 +125,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	                                                            RenderLayer::BufferFlag_Default,
 	                                                            RenderLayer::CEResourceState::Common, &SSAOSampleData);
 	if (!SSAOSamples) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -134,7 +134,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	SSAOSamplesSRV = CastGraphicsManager()->CreateShaderResourceViewForStructuredBuffer(
 		SSAOSamples.Get(), 0, SSAOKernel.Size());
 	if (!SSAOSamplesSRV) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -146,13 +146,13 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	BlurHorizontalShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 	if (!BlurHorizontalShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -163,7 +163,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 	BlurHorizontalPSO = CastGraphicsManager()->CreateComputePipelineState(psoProperties);
 	if (!BlurHorizontalPSO) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -175,13 +175,13 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	BlurVerticalShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 	if (!BlurVerticalShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -191,7 +191,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 	BlurVerticalPSO = CastGraphicsManager()->CreateComputePipelineState(psoProperties);
 	if (!BlurVerticalPSO) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -293,7 +293,7 @@ bool CEDXScreenSpaceOcclusionRenderer::CreateRenderTarget(Main::Rendering::CEFra
 	                                                                   RenderLayer::CEResourceState::Common,
 	                                                                   nullptr);
 	if (!frameResources.SSAOBuffer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 

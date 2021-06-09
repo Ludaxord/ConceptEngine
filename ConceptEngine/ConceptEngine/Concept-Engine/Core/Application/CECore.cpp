@@ -10,9 +10,9 @@ CETypedConsole Console;
 
 ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language,
                                                  Generic::Platform::Platform platform) {
-	Graphics = SelectGraphicsAPI(api);
-	Compiler = SelectLanguageCompiler(language);
-	Platform = SelectPlatform(platform);
+	GGraphics = SelectGraphicsAPI(api);
+	GCompiler = SelectLanguageCompiler(language);
+	GPlatform = SelectPlatform(platform);
 }
 
 ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Language language,
@@ -26,22 +26,22 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 
 	Debug::CEProfiler::Create();
 
-	if (!Platform->Create()) {
+	if (!GPlatform->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Platform");
 		return false;
 	}
 
 	if (!Threading::CETaskManager::Get().Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!EngineController.Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
-	if (!Graphics->Create()) {
+	if (!GGraphics->Create()) {
 		CEPlatformActions::MessageBox("Error", "Failed to initialize Graphics");
 		return false;
 	}
@@ -52,10 +52,10 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 
 	Assert(::Common::GPlayground != nullptr);
 
-	Platform->SetCallbacks(&EngineController);
+	GPlatform->SetCallbacks(&EngineController);
 
 	if (!GPlayground->Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -71,21 +71,21 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 	return true;
 }
 
-CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {
-	return Graphics;
-}
-
-CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() {
-	return Compiler;
-}
-
-ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() {
-	return Platform;
-}
-
-Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
-	return GPlayground;
-}
+// CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {
+// 	return Graphics;
+// }
+//
+// CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() {
+// 	return Compiler;
+// }
+//
+// ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() {
+// 	return Platform;
+// }
+//
+// Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
+// 	return GPlayground;
+// }
 
 
 CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(GraphicsAPI api) {

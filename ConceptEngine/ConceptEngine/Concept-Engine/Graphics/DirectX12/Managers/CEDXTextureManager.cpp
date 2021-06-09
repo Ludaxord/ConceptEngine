@@ -23,7 +23,7 @@ bool CEDXTextureManager::Create() {
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/CubeMapGen.hlsl", "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     code)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -31,7 +31,7 @@ bool CEDXTextureManager::Create() {
 	Main::MainTextureData.ComputeShader = CastGraphicsManager()->CreateComputeShader(code);
 
 	if (!Main::MainTextureData.ComputeShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 

@@ -102,6 +102,7 @@
     <ClInclude Include="Core\Threading\CEThread.h" />
     <ClInclude Include="Core\Threading\CEThreadSafe.h" />
     <ClInclude Include="Core\Threading\CEThreadSafeInt.h" />
+    <ClInclude Include="Elements\CECoreElements.h" />
     <ClInclude Include="Graphics\DirectX12\Base\CEDirectXHandlers.h" />
     <ClInclude Include="Graphics\DirectX12\CEDirectX12.h" />
     <ClInclude Include="Graphics\DirectX12\Common\CEDXMaterial.h" />

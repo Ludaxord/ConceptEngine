@@ -15,7 +15,6 @@
 namespace ConceptEngine::Graphics::Main {
 	class CEGraphics {
 	public:
-		friend class CECore;
 		CEGraphics();
 		virtual ~CEGraphics() = default;
 		virtual bool Create();

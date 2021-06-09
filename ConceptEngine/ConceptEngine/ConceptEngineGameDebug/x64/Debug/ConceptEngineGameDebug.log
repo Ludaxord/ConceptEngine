@@ -1,18 +1,4 @@
-﻿  WinMain.cpp
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(10,47): error C2039: 'Application': is not a member of 'ConceptEngine::Core'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Debug\CEActionConsole.h(13): message : see declaration of 'ConceptEngine::Core'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(26,30): error C3083: 'Application': the symbol to the left of a '::' must be a type
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(26,43): error C3083: 'CECore': the symbol to the left of a '::' must be a type
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(26,51): error C2039: 'GetGraphics': is not a member of 'ConceptEngine::Core'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Debug\CEActionConsole.h(13): message : see declaration of 'ConceptEngine::Core'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(26,62): error C3861: 'GetGraphics': identifier not found
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(185,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ]
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(43,104): error C3083: 'Application': the symbol to the left of a '::' must be a type
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(43,117): error C3083: 'CECore': the symbol to the left of a '::' must be a type
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(43,125): error C2039: 'GetGraphics': is not a member of 'ConceptEngine::Core'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Debug\CEActionConsole.h(13): message : see declaration of 'ConceptEngine::Core'
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Core\Platform\Generic\Managers\CECastManager.h(43,136): error C3861: 'GetGraphics': identifier not found
+﻿  CESandbox.cpp
+  WinMain.cpp
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXHelper.h(16,10): fatal error C1083: Cannot open include file: 'pix3.h': No such file or directory
+  Generating Code...

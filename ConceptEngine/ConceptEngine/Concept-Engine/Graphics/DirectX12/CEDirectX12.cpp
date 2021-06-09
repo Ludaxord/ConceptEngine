@@ -24,7 +24,7 @@ CEDirectX12::~CEDirectX12() {
 
 bool CEDirectX12::Create() {
 	if (!CEGraphics::Create()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
@@ -32,7 +32,7 @@ bool CEDirectX12::Create() {
 
 bool CEDirectX12::CreateManagers() {
 	if (!CEGraphics::CreateManagers()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 	return true;
@@ -82,9 +82,9 @@ bool CEDirectX12::CreateMeshManager() {
 }
 
 void CEDirectX12::Update(Time::CETimestamp DeltaTime, boost::function<void()> updateFunction) {
-	Core::Application::CECore::GetPlayground()->Update(DeltaTime);
+	GPlayground->Update(DeltaTime);
 	updateFunction();
-	Renderer->Update(*Core::Application::CECore::GetPlayground()->Scene);
+	Renderer->Update(*GPlayground->Scene);
 }
 
 void CEDirectX12::Render() {

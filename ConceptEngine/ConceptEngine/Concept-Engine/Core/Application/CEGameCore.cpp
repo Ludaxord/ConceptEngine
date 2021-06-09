@@ -25,16 +25,16 @@ Application::CEGameCore::CEGameCore(GraphicsAPI api, Compilers::Language languag
 
 bool Application::CEGameCore::Create() {
 	if (!CECore::Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!Platform->CreateSystemWindow()) {
-		Debug::CEDebug::DebugBreak();
+	if (!GPlatform->CreateSystemWindow()) {
+		CEDebug::DebugBreak();
 		return false;
 	}
 
-	if (Platform->CreateCursors()) {
-		Debug::CEDebug::DebugBreak();
+	if (!GPlatform->CreateCursors()) {
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -56,12 +56,12 @@ bool Application::CEGameCore::Release() {
 
 	CastTextureManager()->Release();
 
-	if (!GetPlayground()->Release()) {
+	if (!GPlayground->Release()) {
 		return false;
 	}
 
 	if (EngineController.Release()) {
-		Platform->SetCallbacks(nullptr);
+		GPlatform->SetCallbacks(nullptr);
 	}
 	else {
 		return false;
@@ -69,11 +69,11 @@ bool Application::CEGameCore::Release() {
 
 	GetDebugUI()->Release();
 
-	Graphics->Destroy();
+	GGraphics->Destroy();
 
 	Threading::CETaskManager::Get().Release();
 
-	if (!Platform->Release()) {
+	if (!GPlatform->Release()) {
 		return false;
 	}
 

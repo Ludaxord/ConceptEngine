@@ -75,20 +75,20 @@ std::wstring ConceptEngine::CEEngine::GetName() {
 bool ConceptEngine::CEEngine::CreateEditor() {
 	auto editor = std::make_unique<Core::Application::Editor::CEEditor>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(editor);
-	Core::Debug::CEDebug::DebugBreak();
+	CEDebug::DebugBreak();
 	return true;
 }
 
 bool ConceptEngine::CEEngine::CreateGame() {
 	auto game = std::make_unique<Core::Application::Game::CEGame>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(game);
-	Core::Debug::CEDebug::DebugBreak();
+	CEDebug::DebugBreak();
 	return true;
 }
 
 bool ConceptEngine::CEEngine::CreateGameDebug() {
 	auto gameDebug = std::make_unique<Core::Application::GameDebug::CEGameDebug>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(gameDebug);
-	Core::Debug::CEDebug::DebugBreak();
+	CEDebug::DebugBreak();
 	return true;
 }

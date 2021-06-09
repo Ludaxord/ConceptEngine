@@ -13,13 +13,13 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 	Core::Containers::CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/RayGen.hlsl", "RayGen", nullptr, CEShaderStage::RayGen,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	RayGenShader = CastGraphicsManager()->CreateRayGenShader(shaderCode);
 	if (!RayGenShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -27,13 +27,13 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ClosestHit.hlsl", "ClosestHit", nullptr,
 	                                     CEShaderStage::RayClosestHit, CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	RayClosestHitShader = CastGraphicsManager()->CreateRayClosestHitShader(shaderCode);
 	if (!RayClosestHitShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -41,13 +41,13 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Miss.hlsl", "Miss", nullptr, CEShaderStage::RayMiss,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	RayMissShader = CastGraphicsManager()->CreateRayMissShader(shaderCode);
 	if (!RayMissShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -64,7 +64,7 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 
 	Pipeline = CastGraphicsManager()->CreateRayTracingPipelineState(createInfo);
 	if (!Pipeline) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -75,7 +75,7 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 	                                                            CEResourceState::UnorderedAccess, nullptr);
 
 	if (!resources.RTOutput) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 

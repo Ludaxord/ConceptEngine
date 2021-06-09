@@ -74,13 +74,13 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Skybox.hlsl", "VSMain", nullptr,
 	                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	SkyboxVertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 	if (!SkyboxVertexShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -88,13 +88,13 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Skybox.hlsl", "PSMain", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	SkyboxPixelShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!SkyboxPixelShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -106,7 +106,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	Core::Common::CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(
 		rasterizerStateInfo);
 	if (!rasterizerState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -118,7 +118,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	Core::Common::CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 	if (!blendState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -132,7 +132,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	Core::Common::CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(
 		depthStencilStateInfo);
 	if (!depthStencilState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -151,7 +151,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	PipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(pipelineStateInfo);
 	if (!PipelineState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 

@@ -23,7 +23,7 @@ bool CELightSetup::Create() {
 	);
 
 	if (!DirectionalLightsBuffer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -38,7 +38,7 @@ bool CELightSetup::Create() {
 	);
 
 	if (!PointLightsBuffer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -63,7 +63,7 @@ bool CELightSetup::Create() {
 	);
 
 	if (!ShadowCastingPointLightsBuffer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -78,7 +78,7 @@ bool CELightSetup::Create() {
 	);
 
 	if (!ShadowCastingPointLightsPosRadBuffer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -189,7 +189,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 			nullptr
 		);
 		if (!DirectionalLightsBuffer) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 		}
 	}
 
@@ -203,7 +203,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 			nullptr
 		);
 		if (!PointLightsBuffer) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 		}
 	}
 
@@ -217,7 +217,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 			nullptr
 		);
 		if (!PointLightsPosRadBuffer) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 		}
 	}
 
@@ -232,7 +232,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 		);
 
 		if (!ShadowCastingPointLightsBuffer) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 		}
 	}
 
@@ -247,7 +247,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 		);
 
 		if (!ShadowCastingPointLightsBuffer) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 		}
 	}
 

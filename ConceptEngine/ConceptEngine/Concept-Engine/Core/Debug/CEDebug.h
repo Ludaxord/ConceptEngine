@@ -2,7 +2,6 @@
 
 #include "../../Core/Platform/CEPlatformActions.h"
 
-namespace ConceptEngine::Core::Debug {
 	class CEDebug {
 	public:
 		static void DebugBreak() {
@@ -17,4 +16,3 @@ namespace ConceptEngine::Core::Debug {
 			return CEPlatformActions::IsDebuggerPresent();
 		}
 	};
-}

@@ -12,7 +12,6 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceeditor.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cegamecore.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cecore.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceschematicscompiler.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cepycompiler.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cejscompiler.obj
@@ -56,6 +55,7 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxskyboxrenderpass.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxshadowmaprenderer.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxscreenspaceocclusionrenderer.obj
+f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxraytracer.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxlightproberenderer.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxforwardrenderer.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxdeferredrenderer.obj
@@ -122,7 +122,6 @@ f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\c
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cewindow.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cescreen.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceconsole.obj
-f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\cedxraytracer.obj
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\ceengine.obj
 f:\projects\conceptengine\conceptengine\conceptengine\x64\debug\conceptengine.lib
 f:\projects\conceptengine\conceptengine\conceptengine\concept-engine\x64\debug\conceptengine.tlog\cl.command.1.tlog

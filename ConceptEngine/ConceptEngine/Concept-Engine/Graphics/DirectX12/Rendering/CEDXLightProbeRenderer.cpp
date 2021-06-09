@@ -22,7 +22,7 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 	                                     Main::RenderLayer::CEShaderStage::Compute,
 	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("Failed to compile Irradiance Gen Shader");
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -32,7 +32,7 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 		CEComputePipelineStateCreateInfo(IrradianceGenShader.Get()));
 	if (!IrradianceGenPSO) {
 		CE_LOG_ERROR("Failed to create Irradiance Gen Pipeline State");
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -41,14 +41,14 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr,
 	                                     CEShaderStage::Compute, CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("Failed to compile Specular Irradiance Gen Shader");
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	SpecularIrradianceGenShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 	if (!SpecularIrradianceGenShader) {
 		CE_LOG_ERROR("Failed to create Specular Irradiance Gen Shader");
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -138,7 +138,7 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 	                                                                    TextureFlags_RWTexture, CEResourceState::Common,
 	                                                                    nullptr);
 	if (!lightSetup.IrradianceMap) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -147,7 +147,7 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 	lightSetup.IrradianceMapUAV = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
 		lightSetup.IrradianceMap.Get(), CEFormat::R16G16B16A16_Float, 0);
 	if (!lightSetup.IrradianceMapUAV) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -157,7 +157,7 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 		CEFormat::R16G16B16A16_Float, specularIrradianceSize, specularIrradianceMipLevels, TextureFlags_RWTexture,
 		CEResourceState::Common, nullptr);
 	if (!lightSetup.SpecularIrradianceMap) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -168,7 +168,7 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 		Core::Common::CERef<CEUnorderedAccessView> uav = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
 			lightSetup.SpecularIrradianceMap.Get(), CEFormat::R16G16B16A16_Float, mipLevel);
 		if (!uav) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 

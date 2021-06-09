@@ -39,19 +39,19 @@ namespace ConceptEngine::Core::Application {
 		virtual void Update(Time::CETimestamp DeltaTime) = 0;
 		virtual bool Release() = 0;
 
-		static Graphics::Main::CEGraphics* GetGraphics();
-		static Compilers::CECompiler* GetCompiler();
-		static Generic::Platform::CEPlatform* GetPlatform();
-		static Graphics::Main::Common::CEPlayground* GetPlayground();
+		// static Graphics::Main::CEGraphics* GetGraphics();
+		// static Compilers::CECompiler* GetCompiler();
+		// static Generic::Platform::CEPlatform* GetPlatform();
+		// static Graphics::Main::Common::CEPlayground* GetPlayground();
 
 		inline static bool ShowConsole = false;
 		inline static bool IsRunning = false;
 		inline static bool EnableDebug = false;
 	
 	protected:
-		static Graphics::Main::CEGraphics* Graphics;
-		static Compilers::CECompiler* Compiler;
-		static Generic::Platform::CEPlatform* Platform;
+		// static Graphics::Main::CEGraphics* Graphics;
+		// static Compilers::CECompiler* Compiler;
+		// static Generic::Platform::CEPlatform* Platform;
 
 	private:
 		Graphics::Main::CEGraphics* SelectGraphicsAPI(GraphicsAPI api);

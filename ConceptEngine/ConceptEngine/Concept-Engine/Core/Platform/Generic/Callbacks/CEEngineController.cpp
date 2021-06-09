@@ -64,20 +64,20 @@ void CEEngineController::OnMouseMove(int32 x, int32 y) {
 }
 
 void CEEngineController::OnMouseReleased(CEMouseButton button, const CEModifierKeyState& modifierKeyState) {
-	if (Application::CECore::GetPlatform()) {
-		CEWindow* captureWindow = Application::CECore::GetPlatform()->GetCapture();
+	if (GPlatform) {
+		CEWindow* captureWindow = GPlatform->GetCapture();
 		if (captureWindow) {
-			Application::CECore::GetPlatform()->SetCapture(nullptr);
+			GPlatform->SetCapture(nullptr);
 		}
 	}
 }
 
 void CEEngineController::OnMousePressed(CEMouseButton button, const CEModifierKeyState& modifierKeyState) {
-	if (Application::CECore::GetPlatform()) {
-		CEWindow* captureWindow = Application::CECore::GetPlatform()->GetCapture();
+	if (GPlatform) {
+		CEWindow* captureWindow = GPlatform->GetCapture();
 		if (!captureWindow) {
-			CEWindow* activeWindow = Application::CECore::GetPlatform()->GetActiveWindow();
-			Application::CECore::GetPlatform()->SetCapture(activeWindow);
+			CEWindow* activeWindow = GPlatform->GetActiveWindow();
+			GPlatform->SetCapture(activeWindow);
 		}
 
 		Common::CEMousePressedEvent Event(button, modifierKeyState);

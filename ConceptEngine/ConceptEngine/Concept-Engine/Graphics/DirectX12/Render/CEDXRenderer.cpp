@@ -63,7 +63,7 @@ bool CEDXRenderer::Create() {
 		);
 
 	if (!Resources.MainWindowViewport) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -75,7 +75,7 @@ bool CEDXRenderer::Create() {
 
 	if (!Resources.CameraBuffer) {
 		CE_LOG_ERROR("[CERenderer]: Failed to Create Camera Buffer");
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -85,7 +85,7 @@ bool CEDXRenderer::Create() {
 
 	Resources.StdInputLayout = CastGraphicsManager()->CreateInputLayout(inputLayout);
 	if (!Resources.StdInputLayout) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -118,7 +118,7 @@ bool CEDXRenderer::Create() {
 
 		Resources.PointShadowSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 		if (!Resources.PointShadowSampler) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -127,84 +127,84 @@ bool CEDXRenderer::Create() {
 
 	GPUProfiler = CastGraphicsManager()->CreateProfiler();
 	if (!GPUProfiler) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	Core::Debug::CEProfiler::SetGPUProfiler(GPUProfiler.Get());
 
 	if (!CreateAA()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!CreateBoundingBoxDebugPass()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!CreateShadingImage()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!LightSetup.Create()) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	DeferredRenderer = new Rendering::CEDXDeferredRenderer();
 
 	if (!DeferredRenderer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!DeferredRenderer->Create(Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	ShadowMapRenderer = new Rendering::CEDXShadowMapRenderer();
 
 	if (!ShadowMapRenderer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	SSAORenderer = new Rendering::CEDXScreenSpaceOcclusionRenderer();
 
 	if (!SSAORenderer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!SSAORenderer->Create(Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	LightProbeRenderer = new Rendering::CEDXLightProbeRenderer();
 
 	if (!LightProbeRenderer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!LightProbeRenderer->Create(LightSetup, Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	SkyBoxRenderPass = new Rendering::CEDXSkyBoxRenderPass();
 
 	if (!SkyBoxRenderPass) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -212,18 +212,18 @@ bool CEDXRenderer::Create() {
 	auto panoConf = Main::Rendering::CEPanoramaConfig{"Assets/Textures/arches.hdr", true};
 
 	if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	ForwardRenderer = new Rendering::CEDXForwardRenderer();
 
 	if (!ForwardRenderer) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 	if (!ForwardRenderer->Create(Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -231,11 +231,11 @@ bool CEDXRenderer::Create() {
 		RayTracer = new Rendering::CEDXRayTracer();
 
 		if (!RayTracer) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 		if (!RayTracer->Create(Resources)) {
-			Core::Debug::CEDebug::DebugBreak();
+			CEDebug::DebugBreak();
 			return false;
 		}
 	}
@@ -826,7 +826,7 @@ bool CEDXRenderer::CreateShadingImage() {
 	                                                      TextureFlags_RWTexture,
 	                                                      CEResourceState::ShadingRateSource, nullptr);
 	if (!ShadingImage) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -835,14 +835,14 @@ bool CEDXRenderer::CreateShadingImage() {
 	Core::Containers::CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadingImage.hlsl", "Main", nullptr, CEShaderStage::Compute,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	ShadingRateShader = CastGraphicsManager()->CreateComputeShader(shaderCode);
 
 	if (!ShadingRateShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -851,7 +851,7 @@ bool CEDXRenderer::CreateShadingImage() {
 	CEComputePipelineStateCreateInfo createInfo(ShadingRateShader.Get());
 	ShadingRatePipeline = CastGraphicsManager()->CreateComputePipelineState(createInfo);
 	if (!ShadingRatePipeline) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -1168,17 +1168,17 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
 	if (!Resources.MainWindowViewport->Resize(width, height)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return;
 	}
 
 	if (!DeferredRenderer->ResizeResources(Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return;
 	}
 
 	if (!SSAORenderer->ResizeResources(Resources)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return;
 	}
 }
