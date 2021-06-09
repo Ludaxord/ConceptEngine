@@ -20,7 +20,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "dxcompiler.lib")
 #pragma comment(lib, "dxguid.lib")
-#pragma comment(lib, "WinPixEventRuntime.lib")
+// #pragma comment(lib, "WinPixEventRuntime.lib")
 
 
 #define D3D12_MAX_ROOT_PARAMETERS              (64)

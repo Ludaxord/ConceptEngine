@@ -1,7 +1,7 @@
 #include <Windows.h>
 
-#include "../Concept-Engine/CEEngine.h"
-#include "../Concept-Engine/Core/Platform/Windows/CEWindows.h"
+#include "CEEngine.h"
+#include "Core/Platform/Windows/CEWindows.h"
 
 using namespace ConceptEngine;
 
