@@ -14,7 +14,7 @@ CEWindowsInputManager::~CEWindowsInputManager() {
 
 bool CEWindowsInputManager::Create() {
 	if (!CEInputManager::Create()) {
-		Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 

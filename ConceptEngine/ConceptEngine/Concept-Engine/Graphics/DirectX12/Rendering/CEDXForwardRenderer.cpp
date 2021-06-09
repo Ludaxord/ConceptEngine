@@ -21,13 +21,13 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	                                     &defines,
 	                                     Main::RenderLayer::CEShaderStage::Vertex,
 	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	VertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 	if (!VertexShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -35,13 +35,13 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ForwardPass.hlsl", "PSMain", &defines, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	PixelShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!PixelShader) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -55,7 +55,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	Core::Common::CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(
 		depthStencilStateInfo);
 	if (!depthStencilState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -67,7 +67,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	Core::Common::CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(
 		rasterizerStateInfo);
 	if (!rasterizerState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -79,7 +79,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 
 	Core::Common::CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 	if (!blendState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -99,7 +99,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 
 	PipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!PipelineState) {
-		Core::Debug::CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
