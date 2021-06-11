@@ -15,8 +15,8 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 	class CEWindowsWindowSize : public Generic::Window::CEWindowSize {
 	public:
 		static void Create(int width, int height, int x = 0, int y = 0) {
-			WndSize = new CEWindowsWindowSize(width, height, x, y);
-			WndSize->CreateSize();
+			Generic::Window::WndSize = new CEWindowsWindowSize(width, height, x, y);
+			Generic::Window::WndSize->CreateSize();
 
 		}
 
@@ -24,9 +24,7 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 			GetScreenResolution(ScreenWidth, ScreenHeight);
 		};
 
-	private:
 		friend class CEWindowsWindow;
-
 		CEWindowsWindowSize(int width, int height, int x, int y): CEWindowSize(width, height, x, y) {
 
 		}

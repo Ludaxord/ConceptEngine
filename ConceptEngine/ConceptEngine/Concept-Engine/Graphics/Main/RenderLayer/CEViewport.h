@@ -10,7 +10,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		~CEViewport();
+		~CEViewport() = default;
 
 		virtual bool Resize(uint32 width, uint32 uint32) = 0;
 		virtual bool Present(bool verticalSync) = 0;

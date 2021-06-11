@@ -258,8 +258,6 @@ void CEDXRenderer::Release() {
 }
 
 void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
-	CERenderer::PerformFrustumCulling(scene);
-
 	TRACE_SCOPE("Frustum Culling");
 
 	CECamera* camera = scene.GetCamera();
@@ -292,8 +290,6 @@ void CEDXRenderer::PerformFrustumCulling(const CEScene& scene) {
 }
 
 void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
-	CERenderer::PerformFXAA(commandList);
-
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin FXAA");
 
 	TRACE_SCOPE("FXAA");
@@ -330,8 +326,6 @@ void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
 }
 
 void CEDXRenderer::PerformBackBufferBlit(CECommandList& commandList) {
-	CERenderer::PerformBackBufferBlit(commandList);
-
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin Draw Back Buffer");
 
 	TRACE_SCOPE("Draw to Back Buffer");
@@ -352,8 +346,6 @@ void CEDXRenderer::PerformBackBufferBlit(CECommandList& commandList) {
 }
 
 void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
-	CERenderer::PerformAABBDebugPass(commandList);
-
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin Debug Pass");
 
 	TRACE_SCOPE("Debug Pass");
@@ -396,9 +388,6 @@ void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 }
 
 void CEDXRenderer::RenderDebugInterface() {
-	CERenderer::RenderDebugInterface();
-
-
 	if (ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool()) {
 		//TODO: find actual screen aspect ratio <== Use functions from ConceptEngine Framework
 		constexpr float inverseAspectRatio = 16.0f / 9.0f;

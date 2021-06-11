@@ -50,8 +50,18 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 		uint32 Style = 0;
 	};
 
+	class CEWindowSize;
+	static CEWindowSize* WndSize;
+
+
 	class CEWindowSize {
 	public:
+		CEWindowSize(int width, int height, int x, int y): Width(width), Height(height), ScreenWidth(0),
+		                                                   ScreenHeight(0) {
+			SetResolution(width, height);
+			SetPosition(x, y);
+		}
+
 		virtual ~CEWindowSize() = default;
 
 		static void SetResolution(int width, int height) {
@@ -60,48 +70,40 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 		}
 
 		static void SetPosition(int x, int y) {
-			WindowPosition = {x, y};
+			WndSize->WindowPosition = {x, y};
 		}
 
 		static void SetWidth(int width) {
-			Width = width;
+			WndSize->Width = width;
 		}
 
 		static int GetWidth() {
-			if (Width == 0) {
-				Width = ScreenWidth;
+			if (WndSize->Width == 0) {
+				WndSize->Width = WndSize->ScreenWidth;
 			}
-			return Width;
+			return WndSize->Width;
 		}
 
 		static void SetHeight(int height) {
-			Height = height;
+			WndSize->Height = height;
 		}
 
 		static int GetHeight() {
-			if (Height == 0) {
-				Height = ScreenHeight;
+			if (WndSize->Height == 0) {
+				WndSize->Height = WndSize->ScreenHeight;
 			}
-			return Height;
+			return WndSize->Height;
 		}
 
 		virtual void CreateSize(int width = 0, int height = 0) = 0;
 
-	protected:
-		CEWindowSize(int width, int height, int x, int y) {
-			SetResolution(width, height);
-			SetPosition(x, y);
-		}
+		int Width;
+		int Height;
 
-	public:
-		static int Width;
-		static int Height;
+		int ScreenWidth;
+		int ScreenHeight;
 
-		static int ScreenWidth;
-		static int ScreenHeight;
-
-		static CEWindowPosition WindowPosition;
-		static CEWindowSize* WndSize;
+		CEWindowPosition WindowPosition;
 
 	protected:
 		// friend class Core::Generic::Platform::CEPlatform;

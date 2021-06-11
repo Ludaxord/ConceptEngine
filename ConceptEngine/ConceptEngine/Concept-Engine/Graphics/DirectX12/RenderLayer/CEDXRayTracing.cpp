@@ -10,6 +10,22 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingGeometry::Bu
 	return false;
 }
 
+ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderBindingTableBuilder::CEDXShaderBindingTableBuilder(
+	CEDXDevice* device): CEDXDeviceElement(device) {
+}
+
+void ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderBindingTableBuilder::PopulateEntry(
+	CEDXRayTracingPipelineState* pipelineState, CEDXRootSignature* rootSignature,
+	CEDXOnlineDescriptorHeap* resourceHeap, CEDXOnlineDescriptorHeap* samplerHeap,
+	CEDXShaderBindingTableEntry& shaderBindingEntry, const CERayTracingShaderResources& resources) {
+}
+
+void ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderBindingTableBuilder::CopyDescriptors() {
+}
+
+void ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderBindingTableBuilder::Reset() {
+}
+
 ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingScene::CEDXRayTracingScene(CEDXDevice* device,
 	uint32 flags): CERayTracingScene(flags), CEDXDeviceElement(device), ShaderBindingTableBuilder(nullptr) {
 }

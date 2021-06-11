@@ -99,7 +99,10 @@ namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
 			};
 			~CEGraphicsManager() override = default;
 
-			virtual bool Create() override;
+			virtual bool Create() override {
+				return true;
+			};
+			
 			virtual void Destroy() = 0;
 
 			virtual RenderLayer::CETexture2D* CreateTexture2D(RenderLayer::CEFormat format,

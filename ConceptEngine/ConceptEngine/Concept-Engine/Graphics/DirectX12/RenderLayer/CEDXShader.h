@@ -4,7 +4,7 @@
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
-	//TODO: create static sampler class right not put enums here:
+	//TODO: create static sampler class, not put enums here:
 	enum CEStaticSampler {
 
 	};

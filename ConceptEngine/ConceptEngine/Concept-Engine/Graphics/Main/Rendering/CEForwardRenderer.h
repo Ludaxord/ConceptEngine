@@ -9,7 +9,11 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual ~CEForwardRenderer() = default;
 
 		virtual bool Create(const CEFrameResources& resources) = 0;
-		void Release();
+
+		//TODO:Implement
+		void Release() {
+
+		};
 
 		virtual void Render(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources,
 		                    const CELightSetup& lightSetup) = 0;

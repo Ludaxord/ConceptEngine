@@ -71,7 +71,6 @@ namespace ConceptEngine::Core::Generic::Platform {
 
 	public:
 		static std::wstring Title;
-		static Core::Platform::Generic::Window::CEWindowSize* WindowSize;
 
 		static Core::Platform::Generic::Cursor::CECursor* Cursor;
 		static Core::Platform::Generic::Window::CEWindow* Window;

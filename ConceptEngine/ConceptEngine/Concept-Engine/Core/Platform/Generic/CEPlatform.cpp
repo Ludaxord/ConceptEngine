@@ -6,7 +6,6 @@
 
 bool ConceptEngine::Core::Generic::Platform::CEPlatform::Create() {
 	Title = InstanceName;
-	WindowSize = Core::Platform::Generic::Window::CEWindowSize::WndSize;
 	return true;
 }
 

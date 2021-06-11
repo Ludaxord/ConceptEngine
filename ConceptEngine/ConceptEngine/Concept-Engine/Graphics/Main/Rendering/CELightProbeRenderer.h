@@ -10,7 +10,11 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual ~CELightProbeRenderer() = default;
 
 		virtual bool Create(CELightSetup lightSetup, CEFrameResources& frameResources) = 0;
-		void Release();
+
+		//TODO: Implement
+		void Release() {
+			
+		};
 
 		virtual void RenderSkyLightProbe(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
 		                         const CEFrameResources& resources) = 0;

@@ -10,7 +10,8 @@ using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
 static const char* DeviceRemovedDumpFile = "D3D12DeviceRemovedDump.txt";
 
-void DeviceRemovedHandler(CEDXDevice* Device) {
+//TODO: Implement
+void ConceptEngine::Graphics::DirectX12::RenderLayer::DeviceRemovedHandler(CEDXDevice* Device) {
 }
 
 CEDXDevice::CEDXDevice(bool enableDebugLayer, bool enableGPUValidation, bool EnableDRED) :

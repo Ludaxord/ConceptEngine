@@ -62,7 +62,10 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		CEFrameResources() = default;
 		~CEFrameResources() = default;
 
-		void Release();
+		//TODO: Implement
+		void Release() {
+			
+		};
 
 		const RenderLayer::CEFormat DepthBufferFormat = RenderLayer::CEFormat::D32_Float;
 		const RenderLayer::CEFormat SSAOBufferFormat = RenderLayer::CEFormat::R16_Float;
