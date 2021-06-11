@@ -527,7 +527,7 @@ void CEDXRenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
 }
 
 bool CEDXRenderer::CreateBoundingBoxDebugPass() {
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Debug.hlsl", "VSMain", nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
@@ -617,7 +617,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	AABBDebugPipelineState->SetName("Debug Pipeline State");
 
-	Core::Containers::CEStaticArray<DirectX::XMFLOAT3, 8> vertices = {
+	CEStaticArray<DirectX::XMFLOAT3, 8> vertices = {
 		DirectX::XMFLOAT3(-0.5f, -0.5f, 0.5f),
 		DirectX::XMFLOAT3(0.5f, -0.5f, 0.5f),
 		DirectX::XMFLOAT3(-0.5f, 0.5f, 0.5f),
@@ -639,7 +639,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	AABBVertexBuffer->SetName("AABB Vertex Buffer");
 
-	Core::Containers::CEStaticArray<uint16, 24> indices = {
+	CEStaticArray<uint16, 24> indices = {
 		0, 1,
 		1, 3,
 		3, 2,
@@ -669,7 +669,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 }
 
 bool CEDXRenderer::CreateAA() {
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/FullscreenVS.hlsl", "Main", nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
@@ -781,7 +781,7 @@ bool CEDXRenderer::CreateAA() {
 
 	FXAAPipelineState->SetName("FXAA Pipeline State");
 
-	Core::Containers::CEArray<CEShaderDefine> defines = {
+	CEArray<CEShaderDefine> defines = {
 		CEShaderDefine("ENABLE_DEBUG", "1")
 	};
 
@@ -832,7 +832,7 @@ bool CEDXRenderer::CreateShadingImage() {
 
 	ShadingImage->SetName("Shading Rate Image");
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadingImage.hlsl", "Main", nullptr, CEShaderStage::Compute,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();

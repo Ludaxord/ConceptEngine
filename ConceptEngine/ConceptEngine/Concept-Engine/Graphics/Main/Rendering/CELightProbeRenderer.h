@@ -16,9 +16,9 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		                         const CEFrameResources& resources) = 0;
 
 	protected:
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> IrradianceGenPSO;
-		Core::Common::CERef<RenderLayer::CEComputeShader> IrradianceGenShader;
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> SpecularIrradianceGenPSO;
-		Core::Common::CERef<RenderLayer::CEComputeShader> SpecularIrradianceGenShader;
+		CERef<RenderLayer::CEComputePipelineState> IrradianceGenPSO;
+		CERef<RenderLayer::CEComputeShader> IrradianceGenShader;
+		CERef<RenderLayer::CEComputePipelineState> SpecularIrradianceGenPSO;
+		CERef<RenderLayer::CEComputeShader> SpecularIrradianceGenShader;
 	};
 }

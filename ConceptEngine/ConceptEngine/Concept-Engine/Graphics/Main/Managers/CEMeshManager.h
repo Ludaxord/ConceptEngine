@@ -36,8 +36,8 @@ namespace ConceptEngine::Graphics::Main {
 	};
 
 	struct CEMeshData {
-		Core::Containers::CEArray<CEVertex> Vertices;
-		Core::Containers::CEArray<uint32> Indices;
+		CEArray<CEVertex> Vertices;
+		CEArray<uint32> Indices;
 	};
 
 	class CEMeshManager : public Core::Common::CEManager {

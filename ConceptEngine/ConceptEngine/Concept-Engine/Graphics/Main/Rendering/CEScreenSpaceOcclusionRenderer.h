@@ -15,14 +15,14 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual bool ResizeResources(CEFrameResources& resources)= 0;
 
 	protected:
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> PipelineState;
-		Core::Common::CERef<RenderLayer::CEComputeShader> SSAOShader;
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> BlurHorizontalPSO;
-		Core::Common::CERef<RenderLayer::CEComputeShader> BlurHorizontalShader;
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> BlurVerticalPSO;
-		Core::Common::CERef<RenderLayer::CEComputeShader> BlurVerticalShader;
-		Core::Common::CERef<RenderLayer::CEStructuredBuffer> SSAOSamples;
-		Core::Common::CERef<RenderLayer::CEShaderResourceView> SSAOSamplesSRV;
-		Core::Common::CERef<RenderLayer::CETexture2D> SSAONoiseTexture;
+		CERef<RenderLayer::CEComputePipelineState> PipelineState;
+		CERef<RenderLayer::CEComputeShader> SSAOShader;
+		CERef<RenderLayer::CEComputePipelineState> BlurHorizontalPSO;
+		CERef<RenderLayer::CEComputeShader> BlurHorizontalShader;
+		CERef<RenderLayer::CEComputePipelineState> BlurVerticalPSO;
+		CERef<RenderLayer::CEComputeShader> BlurVerticalShader;
+		CERef<RenderLayer::CEStructuredBuffer> SSAOSamples;
+		CERef<RenderLayer::CEShaderResourceView> SSAOSamplesSRV;
+		CERef<RenderLayer::CETexture2D> SSAONoiseTexture;
 	};
 }

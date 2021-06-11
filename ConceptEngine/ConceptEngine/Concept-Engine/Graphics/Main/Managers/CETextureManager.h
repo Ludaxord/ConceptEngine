@@ -13,8 +13,8 @@
 namespace ConceptEngine::Graphics::Main {
 
 	struct CETextureData {
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> PanoramaPSO;
-		Core::Common::CERef<RenderLayer::CEComputeShader> ComputeShader;
+		CERef<RenderLayer::CEComputePipelineState> PanoramaPSO;
+		CERef<RenderLayer::CEComputeShader> ComputeShader;
 		RenderLayer::CECommandList CommandList;
 	};
 

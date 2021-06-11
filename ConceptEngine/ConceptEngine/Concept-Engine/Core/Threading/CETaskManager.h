@@ -39,9 +39,9 @@ namespace ConceptEngine::Core::Threading {
 		static void WorkThread();
 
 	private:
-		Containers::CEArray<Common::CERef<CEThread>> Threads;
+		CEArray<CERef<CEThread>> Threads;
 
-		Containers::CEArray<CETask> Tasks;
+		CEArray<CETask> Tasks;
 		CEMutex TaskMutex;
 
 		CEMutex WakeMutex;

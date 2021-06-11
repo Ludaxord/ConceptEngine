@@ -1,9 +1,10 @@
 #include "CEGameDebug.h"
 
-#include "../../Debug/CEProfiler.h"
-
+#include "../../../Elements/CECoreElements.h"
+#include "../../Platform/CEPlatformActions.h"
 #include "../../Debug/CEDebug.h"
-
+#include "../../Debug/CEProfiler.h"
+#include "../../Platform/Generic/CEPlatform.h"
 #include "../../Platform/Generic/Debug/CETypedConsole.h"
 
 using namespace ConceptEngine::Core::Application::GameDebug;
@@ -28,7 +29,7 @@ bool CEGameDebug::Create() {
 		return false;
 	}
 
-	Generic::Platform::CEPlatform::GetConsole()->SetTitle("Concept Engine Debug Console");
+	ConceptEngine::Core::Generic::Platform::CEPlatform::GetConsole()->SetTitle("Concept Engine Debug Console");
 
 	if (!Generic::Platform::CEPlatform::GetConsole()->Create()) {
 		CEDebug::DebugBreak();

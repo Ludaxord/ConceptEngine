@@ -54,7 +54,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.BeginTimeStamp(Profiler.Get(), Index);
 		}
 
-		Core::Common::CERef<CEGPUProfiler> Profiler;
+		CERef<CEGPUProfiler> Profiler;
 		uint32 Index;
 	};
 
@@ -67,7 +67,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.EndTimeStamp(Profiler.Get(), Index);
 		}
 
-		Core::Common::CERef<CEGPUProfiler> Profiler;
+		CERef<CEGPUProfiler> Profiler;
 		uint32 Index;
 	};
 
@@ -81,7 +81,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.ClearRenderTargetView(RenderTargetView.Get(), ClearColor);
 		}
 
-		Core::Common::CERef<CERenderTargetView> RenderTargetView;
+		CERef<CERenderTargetView> RenderTargetView;
 		Math::CEColorF ClearColor;
 	};
 
@@ -95,7 +95,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.ClearDepthStencilView(DepthStencilView.Get(), ClearValue);
 		};
 
-		Core::Common::CERef<CEDepthStencilView> DepthStencilView;
+		CERef<CEDepthStencilView> DepthStencilView;
 		CEDepthStencilF ClearValue;
 	};
 
@@ -110,7 +110,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.ClearUnorderedAccessViewFloat(UnorderedAccessView.Get(), ClearColor);
 		}
 
-		Core::Common::CERef<CEUnorderedAccessView> UnorderedAccessView;
+		CERef<CEUnorderedAccessView> UnorderedAccessView;
 		Math::CEColorF ClearColor;
 	};
 
@@ -135,7 +135,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetShadingRateImage(ShadingImage.Get());
 		}
 
-		Core::Common::CERef<CETexture2D> ShadingImage;
+		CERef<CETexture2D> ShadingImage;
 
 	};
 
@@ -200,8 +200,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		Math::CEColorF Color;
-		Core::Common::CERef<CERenderTargetView> RenderTargetView;
-		Core::Common::CERef<CEDepthStencilView> DepthStencilView;
+		CERef<CERenderTargetView> RenderTargetView;
+		CERef<CEDepthStencilView> DepthStencilView;
 	};
 
 	struct CEEndRenderPassRenderCommand : public CERenderCommand {
@@ -261,7 +261,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetIndexBuffer(IndexBuffer.Get());
 		}
 
-		Core::Common::CERef<CEIndexBuffer> IndexBuffer;
+		CERef<CEIndexBuffer> IndexBuffer;
 	};
 
 	struct CESetRenderTargetsRenderCommand : public CERenderCommand {
@@ -287,7 +287,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		CERenderTargetView** RenderTargetViews;
 		uint32 RenderTargetViewCount;
-		Core::Common::CERef<CEDepthStencilView> DepthStencilView;
+		CERef<CEDepthStencilView> DepthStencilView;
 	};
 
 	struct CESetRayTracingBindingsRenderCommand : public CERenderCommand {
@@ -321,8 +321,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			);
 		}
 
-		Core::Common::CERef<CERayTracingScene> Scene;
-		Core::Common::CERef<CERayTracingPipelineState> PipelineState;
+		CERef<CERayTracingScene> Scene;
+		CERef<CERayTracingPipelineState> PipelineState;
 		const CERayTracingShaderResources* GlobalResources;
 		const CERayTracingShaderResources* RayGenLocalResources;
 		const CERayTracingShaderResources* MissLocalResources;
@@ -339,7 +339,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetGraphicsPipelineState(PipelineState.Get());
 		}
 
-		Core::Common::CERef<CEGraphicsPipelineState> PipelineState;
+		CERef<CEGraphicsPipelineState> PipelineState;
 	};
 
 	struct CESetComputePipelineStateRenderCommand : public CERenderCommand {
@@ -351,7 +351,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetComputePipelineState(PipelineState.Get());
 		}
 
-		Core::Common::CERef<CEComputePipelineState> PipelineState;
+		CERef<CEComputePipelineState> PipelineState;
 	};
 
 	struct CESet32BitShaderConstantsRenderCommand : public CERenderCommand {
@@ -366,7 +366,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.Set32BitShaderConstants(Shader.Get(), Shader32BitConstants, Num32BitConstants);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
+		CERef<CEShader> Shader;
 		const void* Shader32BitConstants;
 		uint32 Num32BitConstants;
 	};
@@ -383,8 +383,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetShaderResourceView(Shader.Get(), ShaderResourceView.Get(), ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
-		Core::Common::CERef<CEShaderResourceView> ShaderResourceView;
+		CERef<CEShader> Shader;
+		CERef<CEShaderResourceView> ShaderResourceView;
 		uint32 ParameterIndex;
 	};
 
@@ -411,7 +411,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                      ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
+		CERef<CEShader> Shader;
 		CEShaderResourceView** ShaderResourceViews;
 		uint32 NumShaderResourceViews;
 		uint32 ParameterIndex;
@@ -429,8 +429,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetUnorderedAccessView(Shader.Get(), UnorderedAccessView.Get(), ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
-		Core::Common::CERef<CEUnorderedAccessView> UnorderedAccessView;
+		CERef<CEShader> Shader;
+		CERef<CEUnorderedAccessView> UnorderedAccessView;
 		uint32 ParameterIndex;
 	};
 
@@ -459,7 +459,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                       ParametersIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
+		CERef<CEShader> Shader;
 		CEUnorderedAccessView** UnorderedAccessViews;
 		uint32 NumUnorderedAccessViews;
 		uint32 ParametersIndex;
@@ -475,8 +475,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetConstantBuffer(Shader.Get(), ConstantBuffer.Get(), ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
-		Core::Common::CERef<CEConstantBuffer> ConstantBuffer;
+		CERef<CEShader> Shader;
+		CERef<CEConstantBuffer> ConstantBuffer;
 		uint32 ParameterIndex;
 	};
 
@@ -501,7 +501,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetConstantBuffers(Shader.Get(), ConstantBuffers, NumConstantBuffers, ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
+		CERef<CEShader> Shader;
 		CEConstantBuffer** ConstantBuffers;
 		uint32 NumConstantBuffers;
 		uint32 ParameterIndex;
@@ -518,8 +518,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetSamplerState(Shader.Get(), SamplerState.Get(), ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
-		Core::Common::CERef<CESamplerState> SamplerState;
+		CERef<CEShader> Shader;
+		CERef<CESamplerState> SamplerState;
 		uint32 ParameterIndex;
 	};
 
@@ -546,7 +546,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetSamplerStates(Shader.Get(), SamplerStates, NumSamplerStates, ParameterIndex);
 		}
 
-		Core::Common::CERef<CEShader> Shader;
+		CERef<CEShader> Shader;
 		CESamplerState** SamplerStates;
 		uint32 NumSamplerStates;
 		uint32 ParameterIndex;
@@ -563,8 +563,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.ResolveTexture(Destination.Get(), Source.Get());
 		}
 
-		Core::Common::CERef<CETexture> Destination;
-		Core::Common::CERef<CETexture> Source;
+		CERef<CETexture> Destination;
+		CERef<CETexture> Source;
 	};
 
 	struct CEUpdateBufferRenderCommand : public CERenderCommand {
@@ -580,7 +580,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.UpdateBuffer(Destination.Get(), DestinationOffsetInBytes, SizeInBytes, SourceData);
 		}
 
-		Core::Common::CERef<CEBuffer> Destination;
+		CERef<CEBuffer> Destination;
 		uint64 DestinationOffsetInBytes;
 		uint64 SizeInBytes;
 		const void* SourceData;
@@ -597,7 +597,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.UpdateTexture2D(Destination.Get(), Width, Height, MipLevel, SourceData);
 		}
 
-		Core::Common::CERef<CETexture2D> Destination;
+		CERef<CETexture2D> Destination;
 		uint32 Width;
 		uint32 Height;
 		uint32 MipLevel;
@@ -614,8 +614,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.CopyBuffer(Destination.Get(), Source.Get(), CopyBufferInfo);
 		}
 
-		Core::Common::CERef<CEBuffer> Destination;
-		Core::Common::CERef<CEBuffer> Source;
+		CERef<CEBuffer> Destination;
+		CERef<CEBuffer> Source;
 		CECopyBufferInfo CopyBufferInfo;
 	};
 
@@ -629,8 +629,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.CopyTexture(Destination.Get(), Source.Get());
 		}
 
-		Core::Common::CERef<CETexture> Destination;
-		Core::Common::CERef<CETexture> Source;
+		CERef<CETexture> Destination;
+		CERef<CETexture> Source;
 	};
 
 	struct CECopyTextureRegionRenderCommand : public CERenderCommand {
@@ -645,8 +645,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		Core::Common::CERef<CETexture> Destination;
-		Core::Common::CERef<CETexture> Source;
+		CERef<CETexture> Destination;
+		CERef<CETexture> Source;
 		CECopyTextureInfo CopyTextureInfo;
 	};
 
@@ -660,7 +660,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.DiscardResource(Resource.Get());
 		}
 
-		Core::Common::CERef<CEResource> Resource;
+		CERef<CEResource> Resource;
 	};
 
 	struct CEBuildRayTracingGeometryRenderCommand : public CERenderCommand {
@@ -676,9 +676,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                       Update);
 		}
 
-		Core::Common::CERef<CERayTracingGeometry> RayTracingGeometry;
-		Core::Common::CERef<CEVertexBuffer> VertexBuffer;
-		Core::Common::CERef<CEIndexBuffer> IndexBuffer;
+		CERef<CERayTracingGeometry> RayTracingGeometry;
+		CERef<CEVertexBuffer> VertexBuffer;
+		CERef<CEIndexBuffer> IndexBuffer;
 		bool Update;
 	};
 
@@ -695,7 +695,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.BuildRayTracingScene(RayTracingScene.Get(), Instances, NumInstances, Update);
 		}
 
-		Core::Common::CERef<CERayTracingScene> RayTracingScene;
+		CERef<CERayTracingScene> RayTracingScene;
 		const CERayTracingGeometryInstance* Instances;
 		uint32 NumInstances;
 		bool Update;
@@ -710,7 +710,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.GenerateMips(Texture.Get());
 		}
 
-		Core::Common::CERef<CETexture> Texture;
+		CERef<CETexture> Texture;
 	};
 
 	struct CETransitionTextureRenderCommand : public CERenderCommand {
@@ -723,7 +723,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.TransitionTexture(Texture.Get(), BeforeState, AfterState);
 		}
 
-		Core::Common::CERef<CETexture> Texture;
+		CERef<CETexture> Texture;
 		CEResourceState BeforeState;
 		CEResourceState AfterState;
 	};
@@ -738,7 +738,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.TransitionBuffer(Buffer.Get(), BeforeState, AfterState);
 		}
 
-		Core::Common::CERef<CEBuffer> Buffer;
+		CERef<CEBuffer> Buffer;
 		CEResourceState BeforeState;
 		CEResourceState AfterState;
 	};
@@ -752,7 +752,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.UnorderedAccessTextureBarrier(Texture.Get());
 		}
 
-		Core::Common::CERef<CETexture> Texture;
+		CERef<CETexture> Texture;
 	};
 
 	struct CEUnorderedAccessBufferBarrierRenderCommand : public CERenderCommand {
@@ -764,7 +764,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.UnorderedAccessBufferBarrier(Buffer.Get());
 		}
 
-		Core::Common::CERef<CEBuffer> Buffer;
+		CERef<CEBuffer> Buffer;
 	};
 
 	struct CEDrawRenderCommand : public CERenderCommand {
@@ -869,8 +869,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.DispatchRays(Scene.Get(), PipelineState.Get(), Width, Height, Depth);
 		}
 
-		Core::Common::CERef<CERayTracingScene> Scene;
-		Core::Common::CERef<CERayTracingPipelineState> PipelineState;
+		CERef<CERayTracingScene> Scene;
+		CERef<CERayTracingPipelineState> PipelineState;
 		uint32 Width;
 		uint32 Height;
 		uint32 Depth;

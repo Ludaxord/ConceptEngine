@@ -129,31 +129,31 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 		CreateDepthStencilView(const RenderLayer::CEDepthStencilViewCreateInfo& createInfo) override final;
 
 		virtual RenderLayer::CEComputeShader*
-		CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateComputeShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CEVertexShader*
-		CreateVertexShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateVertexShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CEHullShader*
-		CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateHullShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CEDomainShader*
-		CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateDomainShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CEGeometryShader*
-		CreateGeometryShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateGeometryShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CEMeshShader*
-		CreateMeshShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateMeshShader(const CEArray<uint8>& shaderCode) override final;
 
 		virtual RenderLayer::CEAmplificationShader*
-		CreateAmplificationShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateAmplificationShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CEPixelShader*
-		CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreatePixelShader(const CEArray<uint8>& shaderCode) override final;
 
 		virtual RenderLayer::CERayGenShader*
-		CreateRayGenShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateRayGenShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CERayAnyHitShader*
-		CreateRayAnyHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateRayAnyHitShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CERayClosestHitShader*
-		CreateRayClosestHitShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateRayClosestHitShader(const CEArray<uint8>& shaderCode) override final;
 		virtual RenderLayer::CERayMissShader*
-		CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) override final;
+		CreateRayMissShader(const CEArray<uint8>& shaderCode) override final;
 
 		virtual RenderLayer::CEDepthStencilState*
 		CreateDepthStencilState(const RenderLayer::CEDepthStencilStateCreateInfo& createInfo) override final;
@@ -210,7 +210,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 
 	private:
 		RenderLayer::CEDXDevice* Device;
-		Core::Common::CERef<RenderLayer::CEDXCommandContext> DirectCommandContext;
+		CERef<RenderLayer::CEDXCommandContext> DirectCommandContext;
 		RenderLayer::CEDXRootSignatureCache* RootSignatureCache;
 
 		RenderLayer::CEDXOfflineDescriptorHeap* ResourceOfflineDescriptorHeap = nullptr;

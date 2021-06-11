@@ -47,7 +47,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		uint32 SizeInBytes = 0;
 		uint32 OffsetInBytes = 0;
 		Microsoft::WRL::ComPtr<ID3D12Resource> Resource;
-		Core::Containers::CEArray<Microsoft::WRL::ComPtr<ID3D12Resource>> GarbageResources;
+		CEArray<Microsoft::WRL::ComPtr<ID3D12Resource>> GarbageResources;
 	};
 
 	class CEDXCommandBatch {
@@ -75,13 +75,13 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		void AddInUseResource(CEResource* resource) {
 			if (resource) {
-				Resources.EmplaceBack(Core::Common::MakeSharedRef<CEResource>(resource));
+				Resources.EmplaceBack(MakeSharedRef<CEResource>(resource));
 			}
 		}
 
 		void AddInUseResource(CEDXResource* resource) {
 			if (resource) {
-				DXResources.EmplaceBack(Core::Common::MakeSharedRef<CEDXResource>(resource));
+				DXResources.EmplaceBack(MakeSharedRef<CEDXResource>(resource));
 			}
 		}
 
@@ -114,15 +114,15 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		CEDXCommandAllocatorHandle CommandAllocator;
 		CEDXGPUResourceUploader GPUResourceUploader;
 
-		Core::Common::CERef<CEDXOnlineDescriptorHeap> OnlineResourceDescriptorHeap;
-		Core::Common::CERef<CEDXOnlineDescriptorHeap> OnlineSamplerDescriptorHeap;
+		CERef<CEDXOnlineDescriptorHeap> OnlineResourceDescriptorHeap;
+		CERef<CEDXOnlineDescriptorHeap> OnlineSamplerDescriptorHeap;
 
-		Core::Common::CERef<CEDXOnlineDescriptorHeap> OnlineRayTracingResourceDescriptorHeap;
-		Core::Common::CERef<CEDXOnlineDescriptorHeap> OnlineRayTracingSamplerDescriptorHeap;
+		CERef<CEDXOnlineDescriptorHeap> OnlineRayTracingResourceDescriptorHeap;
+		CERef<CEDXOnlineDescriptorHeap> OnlineRayTracingSamplerDescriptorHeap;
 
-		Core::Containers::CEArray<Core::Common::CERef<CEDXResource>> DXResources;
-		Core::Containers::CEArray<Core::Common::CERef<CEResource>> Resources;
-		Core::Containers::CEArray<Microsoft::WRL::ComPtr<ID3D12Resource>> NativeResources;
+		CEArray<CERef<CEDXResource>> DXResources;
+		CEArray<CERef<CEResource>> Resources;
+		CEArray<Microsoft::WRL::ComPtr<ID3D12Resource>> NativeResources;
 	};
 
 	class CEDXResourceBarrierBatcher {
@@ -160,7 +160,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	private:
-		Core::Containers::CEArray<D3D12_RESOURCE_BARRIER> Barriers;
+		CEArray<D3D12_RESOURCE_BARRIER> Barriers;
 	};
 
 
@@ -345,17 +345,17 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		uint64 FenceValue = 0;
 		uint64 NextCommandBatch = 0;
 
-		Core::Containers::CEArray<CEDXCommandBatch> CommandBatches;
+		CEArray<CEDXCommandBatch> CommandBatches;
 		CEDXCommandBatch* CommandBatch = nullptr;
 
-		Core::Containers::CEArray<Core::Common::CERef<CEDXGPUProfiler>> ResolveProfilers;
+		CEArray<CERef<CEDXGPUProfiler>> ResolveProfilers;
 
-		Core::Common::CERef<CEDXComputePipelineState> GenerateMipsTex2D_PSO;
-		Core::Common::CERef<CEDXComputePipelineState> GenerateMipsTexCube_PSO;
+		CERef<CEDXComputePipelineState> GenerateMipsTex2D_PSO;
+		CERef<CEDXComputePipelineState> GenerateMipsTexCube_PSO;
 
-		Core::Common::CERef<CEDXGraphicsPipelineState> CurrentGraphicsPipelineState;
-		Core::Common::CERef<CEDXComputePipelineState> CurrentComputePipelineState;
-		Core::Common::CERef<CEDXRootSignature> CurrentRootSignature;
+		CERef<CEDXGraphicsPipelineState> CurrentGraphicsPipelineState;
+		CERef<CEDXComputePipelineState> CurrentComputePipelineState;
+		CERef<CEDXRootSignature> CurrentRootSignature;
 
 		CEDXShaderConstantsCache ShaderConstantsCache;
 		CEDXDescriptorCache DescriptorCache;

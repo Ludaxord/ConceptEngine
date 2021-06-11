@@ -85,7 +85,7 @@ namespace ConceptEngine::Render::Scene {
 	private:
 		CEScene* Scene = nullptr;
 		Graphics::Main::Common::CETransform Transform;
-		Core::Containers::CEArray<CEComponent*> Components;
+		CEArray<CEComponent*> Components;
 		std::string Name;
 	};
 }

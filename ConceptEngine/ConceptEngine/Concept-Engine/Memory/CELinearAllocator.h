@@ -85,7 +85,7 @@ namespace ConceptEngine::Memory {
 
 	private:
 		CEMemoryArena* CurrentArena;
-		Core::Containers::CEArray<CEMemoryArena> Arenas;
+		CEArray<CEMemoryArena> Arenas;
 	};
 
 

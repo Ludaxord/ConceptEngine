@@ -10,7 +10,7 @@
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
 bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/RayGen.hlsl", "RayGen", nullptr, CEShaderStage::RayGen,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
@@ -133,7 +133,7 @@ void CEDXRayTracer::PreRender(Main::RenderLayer::CECommandList& commandList,
 		}
 
 		CERayTracingGeometryInstance instance;
-		instance.Instance = Core::Common::MakeSharedRef<CERayTracingGeometry>(command.Geometry);
+		instance.Instance = MakeSharedRef<CERayTracingGeometry>(command.Geometry);
 		instance.Flags = RayTracingInstanceFlags_None;
 		instance.HitGroupIndex = hitGroupIndex;
 		instance.InstanceIndex = albedoIndex;
@@ -192,7 +192,7 @@ void CEDXRayTracer::PreRender(Main::RenderLayer::CECommandList& commandList,
 	commandList.UnorderedAccessTextureBarrier(resources.RTOutput.Get());
 
 	resources.DebugTextures.EmplaceBack(
-		Core::Common::MakeSharedRef<CEShaderResourceView>(resources.RTOutput->GetShaderResourceView()),
+		MakeSharedRef<CEShaderResourceView>(resources.RTOutput->GetShaderResourceView()),
 		resources.RTOutput,
 		CEResourceState::UnorderedAccess,
 		CEResourceState::UnorderedAccess

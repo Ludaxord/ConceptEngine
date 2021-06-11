@@ -1,14 +1,19 @@
 #include "CEEditor.h"
 
-#include "../../Debug/CEProfiler.h"
 
-#include "../../Debug/CEDebug.h"
-
-#include "../../../Core/Platform/Generic/Managers/CECastManager.h"
-#include "../../Platform/Generic/Callbacks/CEEngineController.h"
-#include "../../Threading/CETaskManager.h"
-
+#include "../../../Graphics/Main/Common/API.h"
+#include "../../Compilers/CECompiler.h"
+#include "../../Platform/Generic/CEPlatform.h"
+#include "../../../Graphics/Main/Common/CEPlayground.h"
+#include "../../../Core/Platform/Generic/Callbacks/CEEngineController.h"
 #include "../../../Core/Platform/Generic/Debug/CETypedConsole.h"
+#include "../../../Core/Debug/CEProfiler.h"
+#include "../../../Core/Debug/CEDebug.h"
+#include "../../../Core/Threading/CETaskManager.h"
+#include "../../../Render/CERenderer.h"
+#include "../../../Graphics/DirectX12/CEDirectX12.h"
+#include "../../../Core/Platform/Windows/CEWindows.h"
+
 using namespace ConceptEngine::Core::Application::Editor;
 
 //TODO: Cast with QT framework.

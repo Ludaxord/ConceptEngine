@@ -1,18 +1,13 @@
 #include "CEDXManager.h"
 
 #include "../RenderLayer/CEDXTexture.h"
-
-#include "../RenderLayer/CEDXHelper.h"
-
-#include "../../../Core/Application/CECore.h"
-
 #include "../RenderLayer/CEDXRayTracing.h"
-
-#include "../../../Core/Platform/Windows/Window/CEWindowsWindow.h"
-
 #include "../RenderLayer/CEDXViewport.h"
 
+#include "../../../Core/Application/CECore.h"
+#include "../../../Core/Platform/Windows/Window/CEWindowsWindow.h"
 #include "../../../Core/Debug/CEDebug.h"
+#include "../../../Core/Debug/CEProfiler.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 using namespace ConceptEngine::Graphics;
@@ -48,6 +43,11 @@ inline D3D12_RESOURCE_DIMENSION DirectX12::Managers::GetD3D12TextureResourceDime
 }
 
 template <typename TD3D12Texture>
+D3D12_RESOURCE_DIMENSION DirectX12::Managers::GetD3D12TextureResourceDimension() {
+	return {};
+}
+
+template <typename TD3D12Texture>
 inline bool DirectX12::Managers::IsTextureCube() {
 	return false;
 }
@@ -62,7 +62,8 @@ inline bool DirectX12::Managers::IsTextureCube<DirectX12::RenderLayer::CEDXTextu
 	return true;
 }
 
-CEDXManager::CEDXManager(): CEGraphicsManager(), Device(nullptr), DirectCommandContext(nullptr) {
+CEDXManager::CEDXManager(): CEGraphicsManager(), Device(nullptr), DirectCommandContext(nullptr),
+                            RootSignatureCache(nullptr) {
 }
 
 CEDXManager::~CEDXManager() {
@@ -82,9 +83,9 @@ CEDXManager::~CEDXManager() {
 	if (SamplerOfflineDescriptorHeap) {
 		delete SamplerOfflineDescriptorHeap;
 	}
-	if (Device) {
-		delete Device;
-	}
+
+	delete Device;
+
 	//TODO: Safe delete all objects in private section
 }
 
@@ -240,7 +241,7 @@ Main::RenderLayer::CESamplerState* CEDXManager::CreateSamplerState(
 
 	Memory::CEMemory::Memcpy(desc.BorderColor, createInfo.BorderColor.Elements, sizeof(desc.BorderColor));
 
-	Core::Common::CERef<RenderLayer::CEDXSamplerState> sampler = new RenderLayer::CEDXSamplerState(
+	CERef<RenderLayer::CEDXSamplerState> sampler = new RenderLayer::CEDXSamplerState(
 		Device, SamplerOfflineDescriptorHeap);
 	if (!sampler->Create(desc)) {
 		return nullptr;
@@ -253,7 +254,7 @@ Main::RenderLayer::CEVertexBuffer* CEDXManager::CreateVertexBuffer(uint32 stride
                                                                    RenderLayer::CEResourceState initialState,
                                                                    const RenderLayer::CEResourceData* initialData) {
 	const uint32 sizeInBytes = numVertices * stride;
-	Core::Common::CERef<RenderLayer::CEDXVertexBuffer> buffer = new RenderLayer::CEDXVertexBuffer(
+	CERef<RenderLayer::CEDXVertexBuffer> buffer = new RenderLayer::CEDXVertexBuffer(
 		Device, numVertices, stride, flags);
 	if (!FinishBufferResource<RenderLayer::CEDXVertexBuffer>(buffer.Get(), sizeInBytes, flags, initialState,
 	                                                         initialData)) {
@@ -270,7 +271,7 @@ Main::RenderLayer::CEIndexBuffer* CEDXManager::CreateIndexBuffer(RenderLayer::CE
 	const uint32 sizeInBytes = numIndices * GetStrideFromIndexFormat(format);
 	const uint32 alignedSizeInBytes = Math::CEMath::AlignUp<uint32>(sizeInBytes, sizeof(uint32));
 
-	Core::Common::CERef<RenderLayer::CEDXIndexBuffer> buffer = new RenderLayer::CEDXIndexBuffer(
+	CERef<RenderLayer::CEDXIndexBuffer> buffer = new RenderLayer::CEDXIndexBuffer(
 		Device, format, numIndices, flags);
 	if (!FinishBufferResource<RenderLayer::CEDXIndexBuffer>(buffer.Get(), alignedSizeInBytes, flags, initialState,
 	                                                        initialData)) {
@@ -287,7 +288,7 @@ Main::RenderLayer::CEConstantBuffer* CEDXManager::CreateConstantBuffer(uint32 si
 	const uint32 alignedSizeInBytes = Math::CEMath::AlignUp<uint32>(
 		size, D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT);
 
-	Core::Common::CERef<RenderLayer::CEDXConstantBuffer> buffer = new RenderLayer::CEDXConstantBuffer(
+	CERef<RenderLayer::CEDXConstantBuffer> buffer = new RenderLayer::CEDXConstantBuffer(
 		Device, ResourceOfflineDescriptorHeap, size, flags);
 	if (!FinishBufferResource<RenderLayer::CEDXConstantBuffer>(buffer.Get(), alignedSizeInBytes, flags, initialState,
 	                                                           initialData)) {
@@ -302,7 +303,7 @@ Main::RenderLayer::CEStructuredBuffer* CEDXManager::CreateStructuredBuffer(
 	RenderLayer::CEResourceState initialState,
 	const RenderLayer::CEResourceData* initialData) {
 	const uint32 sizeInBytes = numElements * stride;
-	Core::Common::CERef<RenderLayer::CEDXStructuredBuffer> buffer = new RenderLayer::CEDXStructuredBuffer(
+	CERef<RenderLayer::CEDXStructuredBuffer> buffer = new RenderLayer::CEDXStructuredBuffer(
 		Device, numElements, stride, flags);
 	if (!FinishBufferResource<RenderLayer::CEDXStructuredBuffer>(buffer.Get(), sizeInBytes, flags, initialState,
 	                                                             initialData)) {
@@ -315,7 +316,7 @@ Main::RenderLayer::CEStructuredBuffer* CEDXManager::CreateStructuredBuffer(
 Main::RenderLayer::CERayTracingScene* CEDXManager::CreateRayTracingScene(
 	uint32 flags, RenderLayer::CERayTracingGeometryInstance* instances,
 	uint32 numInstances) {
-	Core::Common::CERef<RenderLayer::CEDXRayTracingScene> scene = new RenderLayer::CEDXRayTracingScene(Device, flags);
+	CERef<RenderLayer::CEDXRayTracingScene> scene = new RenderLayer::CEDXRayTracingScene(Device, flags);
 	DirectCommandContext->Execute([&scene, this, &instances, &numInstances] {
 		if (!scene->Build(*DirectCommandContext, instances, numInstances, false)) {
 			scene.Reset();
@@ -331,10 +332,10 @@ Main::RenderLayer::CERayTracingGeometry* CEDXManager::CreateRayTracingGeometry(
 	RenderLayer::CEDXVertexBuffer* dxVertexBuffer = static_cast<RenderLayer::CEDXVertexBuffer*>(vertexBuffer);
 	RenderLayer::CEDXIndexBuffer* dxIndexBuffer = static_cast<RenderLayer::CEDXIndexBuffer*>(indexBuffer);
 
-	Core::Common::CERef<RenderLayer::CEDXRayTracingGeometry> geometry = new RenderLayer::CEDXRayTracingGeometry(
+	CERef<RenderLayer::CEDXRayTracingGeometry> geometry = new RenderLayer::CEDXRayTracingGeometry(
 		Device, flags);
-	geometry->VertexBuffer = Core::Common::MakeSharedRef<RenderLayer::CEDXVertexBuffer>(dxVertexBuffer);
-	geometry->IndexBuffer = Core::Common::MakeSharedRef<RenderLayer::CEDXIndexBuffer>(dxIndexBuffer);
+	geometry->VertexBuffer = MakeSharedRef<RenderLayer::CEDXVertexBuffer>(dxVertexBuffer);
+	geometry->IndexBuffer = MakeSharedRef<RenderLayer::CEDXIndexBuffer>(dxIndexBuffer);
 	DirectCommandContext->Execute([this, &geometry] {
 		if (!geometry->Build(*DirectCommandContext, false)) {
 			geometry.Reset();
@@ -480,7 +481,7 @@ Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(
 	}
 
 	Assert(resource != nullptr);
-	Core::Common::CERef<RenderLayer::CEDXShaderResourceView> dxView = new RenderLayer::CEDXShaderResourceView(
+	CERef<RenderLayer::CEDXShaderResourceView> dxView = new RenderLayer::CEDXShaderResourceView(
 		Device, ResourceOfflineDescriptorHeap);
 	if (!dxView->Create()) {
 		return nullptr;
@@ -615,7 +616,7 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 	}
 
 	Assert(resource != nullptr);
-	Core::Common::CERef<RenderLayer::CEDXUnorderedAccessView> dxView = new RenderLayer::CEDXUnorderedAccessView(
+	CERef<RenderLayer::CEDXUnorderedAccessView> dxView = new RenderLayer::CEDXUnorderedAccessView(
 		Device, ResourceOfflineDescriptorHeap);
 	if (!dxView->Create()) {
 		return nullptr;
@@ -715,7 +716,7 @@ Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(
 	}
 
 	Assert(resource != nullptr);
-	Core::Common::CERef<RenderLayer::CEDXRenderTargetView> dxView = new RenderLayer::CEDXRenderTargetView(
+	CERef<RenderLayer::CEDXRenderTargetView> dxView = new RenderLayer::CEDXRenderTargetView(
 		Device, ResourceOfflineDescriptorHeap);
 	if (!dxView->Create()) {
 		return nullptr;
@@ -800,7 +801,7 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 			RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
 	}
 
-	Core::Common::CERef<RenderLayer::CEDXDepthStencilView> dxView = new RenderLayer::CEDXDepthStencilView(
+	CERef<RenderLayer::CEDXDepthStencilView> dxView = new RenderLayer::CEDXDepthStencilView(
 		Device, ResourceOfflineDescriptorHeap);
 	if (!dxView->Create()) {
 		return nullptr;
@@ -814,8 +815,8 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 }
 
 Main::RenderLayer::CEComputeShader*
-CEDXManager::CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXComputeShader> shader = new RenderLayer::CEDXComputeShader(Device, shaderCode);
+CEDXManager::CreateComputeShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXComputeShader> shader = new RenderLayer::CEDXComputeShader(Device, shaderCode);
 	if (!shader->Create()) {
 		return nullptr;
 	}
@@ -823,8 +824,8 @@ CEDXManager::CreateComputeShader(const Core::Containers::CEArray<uint8>& shaderC
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEVertexShader* CEDXManager::CreateVertexShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXVertexShader> shader = new RenderLayer::CEDXVertexShader(Device, shaderCode);
+Main::RenderLayer::CEVertexShader* CEDXManager::CreateVertexShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXVertexShader> shader = new RenderLayer::CEDXVertexShader(Device, shaderCode);
 	if (!RenderLayer::CEDXBaseShader::GetShaderReflection(shader.Get())) {
 		return nullptr;
 	}
@@ -832,8 +833,8 @@ Main::RenderLayer::CEVertexShader* CEDXManager::CreateVertexShader(const Core::C
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEHullShader* CEDXManager::CreateHullShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXHullShader> shader = new RenderLayer::CEDXHullShader(Device, shaderCode);
+Main::RenderLayer::CEHullShader* CEDXManager::CreateHullShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXHullShader> shader = new RenderLayer::CEDXHullShader(Device, shaderCode);
 	if (!shader->Create()) {
 		return nullptr;
 	}
@@ -841,8 +842,8 @@ Main::RenderLayer::CEHullShader* CEDXManager::CreateHullShader(const Core::Conta
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEDomainShader* CEDXManager::CreateDomainShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXDomainShader> shader = new RenderLayer::CEDXDomainShader(Device, shaderCode);
+Main::RenderLayer::CEDomainShader* CEDXManager::CreateDomainShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXDomainShader> shader = new RenderLayer::CEDXDomainShader(Device, shaderCode);
 	if (!shader->Create()) {
 		return nullptr;
 	}
@@ -851,8 +852,8 @@ Main::RenderLayer::CEDomainShader* CEDXManager::CreateDomainShader(const Core::C
 }
 
 Main::RenderLayer::CEGeometryShader* CEDXManager::CreateGeometryShader(
-	const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXGeometryShader> shader = new RenderLayer::CEDXGeometryShader(
+	const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXGeometryShader> shader = new RenderLayer::CEDXGeometryShader(
 		Device, shaderCode);
 	if (!shader->Create()) {
 		return nullptr;
@@ -861,8 +862,8 @@ Main::RenderLayer::CEGeometryShader* CEDXManager::CreateGeometryShader(
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEMeshShader* CEDXManager::CreateMeshShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXMeshShader> shader = new RenderLayer::CEDXMeshShader(Device, shaderCode);
+Main::RenderLayer::CEMeshShader* CEDXManager::CreateMeshShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXMeshShader> shader = new RenderLayer::CEDXMeshShader(Device, shaderCode);
 	if (!shader->Create()) {
 		return nullptr;
 	}
@@ -871,8 +872,8 @@ Main::RenderLayer::CEMeshShader* CEDXManager::CreateMeshShader(const Core::Conta
 }
 
 Main::RenderLayer::CEAmplificationShader* CEDXManager::CreateAmplificationShader(
-	const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXAmplificationShader> shader = new RenderLayer::CEDXAmplificationShader(
+	const CEArray<uint8>& shaderCode) {
+	CERef shader = new RenderLayer::CEDXAmplificationShader(
 		Device, shaderCode);
 	if (!shader->Create()) {
 		return nullptr;
@@ -881,8 +882,8 @@ Main::RenderLayer::CEAmplificationShader* CEDXManager::CreateAmplificationShader
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEPixelShader* CEDXManager::CreatePixelShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXPixelShader> shader = new RenderLayer::CEDXPixelShader(Device, shaderCode);
+Main::RenderLayer::CEPixelShader* CEDXManager::CreatePixelShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXPixelShader> shader = new RenderLayer::CEDXPixelShader(Device, shaderCode);
 	if (!RenderLayer::CEDXBaseShader::GetShaderReflection(shader.Get())) {
 		return nullptr;
 	}
@@ -890,8 +891,8 @@ Main::RenderLayer::CEPixelShader* CEDXManager::CreatePixelShader(const Core::Con
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CERayGenShader* CEDXManager::CreateRayGenShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXRayGenShader> shader = new RenderLayer::CEDXRayGenShader(Device, shaderCode);
+Main::RenderLayer::CERayGenShader* CEDXManager::CreateRayGenShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXRayGenShader> shader = new RenderLayer::CEDXRayGenShader(Device, shaderCode);
 	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
 		return nullptr;
 	}
@@ -900,8 +901,8 @@ Main::RenderLayer::CERayGenShader* CEDXManager::CreateRayGenShader(const Core::C
 }
 
 Main::RenderLayer::CERayAnyHitShader* CEDXManager::CreateRayAnyHitShader(
-	const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXRayAnyHitShader> shader = new RenderLayer::CEDXRayAnyHitShader(
+	const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXRayAnyHitShader> shader = new RenderLayer::CEDXRayAnyHitShader(
 		Device, shaderCode);
 	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
 		CE_LOG_ERROR("[CEDXManager]: Failed to retrive Shader Identifier");
@@ -912,8 +913,8 @@ Main::RenderLayer::CERayAnyHitShader* CEDXManager::CreateRayAnyHitShader(
 }
 
 Main::RenderLayer::CERayClosestHitShader* CEDXManager::CreateRayClosestHitShader(
-	const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXRayClosestHitShader> shader = new RenderLayer::CEDXRayClosestHitShader(
+	const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXRayClosestHitShader> shader = new RenderLayer::CEDXRayClosestHitShader(
 		Device, shaderCode);
 	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
 		CE_LOG_ERROR("[CEDXManager]: Failed to retrive Shader Identifier");
@@ -924,8 +925,8 @@ Main::RenderLayer::CERayClosestHitShader* CEDXManager::CreateRayClosestHitShader
 }
 
 Main::RenderLayer::CERayMissShader*
-CEDXManager::CreateRayMissShader(const Core::Containers::CEArray<uint8>& shaderCode) {
-	Core::Common::CERef<RenderLayer::CEDXRayMissShader> shader = new RenderLayer::CEDXRayMissShader(Device, shaderCode);
+CEDXManager::CreateRayMissShader(const CEArray<uint8>& shaderCode) {
+	CERef<RenderLayer::CEDXRayMissShader> shader = new RenderLayer::CEDXRayMissShader(Device, shaderCode);
 	if (!RenderLayer::CEDXBaseRayTracingShader::GetRayTracingShaderReflection(shader.Get())) {
 		CE_LOG_ERROR("[CEDXManager]: Failed to retrive Shader Identifier");
 		return nullptr;
@@ -984,7 +985,7 @@ Main::RenderLayer::CEInputLayoutState* CEDXManager::CreateInputLayout(
 
 Main::RenderLayer::CEGraphicsPipelineState* CEDXManager::CreateGraphicsPipelineState(
 	const RenderLayer::CEGraphicsPipelineStateCreateInfo& createInfo) {
-	Core::Common::CERef<RenderLayer::CEDXGraphicsPipelineState> pipelineState = new
+	CERef<RenderLayer::CEDXGraphicsPipelineState> pipelineState = new
 		RenderLayer::CEDXGraphicsPipelineState(Device);
 	if (!pipelineState->Create(createInfo)) {
 		return nullptr;
@@ -997,9 +998,9 @@ Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineSta
 	const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) {
 	Assert(createInfo.Shader != nullptr);
 
-	Core::Common::CERef<RenderLayer::CEDXComputeShader> shader = Core::Common::MakeSharedRef<
+	CERef<RenderLayer::CEDXComputeShader> shader = MakeSharedRef<
 		RenderLayer::CEDXComputeShader>(createInfo.Shader);
-	Core::Common::CERef<RenderLayer::CEDXComputePipelineState> pipelineState = new
+	CERef<RenderLayer::CEDXComputePipelineState> pipelineState = new
 		RenderLayer::CEDXComputePipelineState(Device, shader);
 	if (!pipelineState->Create()) {
 		return nullptr;
@@ -1010,7 +1011,7 @@ Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineSta
 
 Main::RenderLayer::CERayTracingPipelineState* CEDXManager::CreateRayTracingPipelineState(
 	const RenderLayer::CERayTracingPipelineStateCreateInfo& createInfo) {
-	Core::Common::CERef<RenderLayer::CEDXRayTracingPipelineState> pipelineState = new
+	CERef<RenderLayer::CEDXRayTracingPipelineState> pipelineState = new
 		RenderLayer::CEDXRayTracingPipelineState(Device);
 	if (!pipelineState->Create(createInfo)) {
 		return nullptr;
@@ -1028,7 +1029,7 @@ Main::RenderLayer::CEViewport* CEDXManager::CreateViewport(Core::Platform::Gener
                                                            uint32 width, uint32 height,
                                                            RenderLayer::CEFormat colorFormat,
                                                            RenderLayer::CEFormat depthFormat) {
-	Core::Common::CERef<Core::Platform::Windows::Window::CEWindowsWindow> wWindow = Core::Common::MakeSharedRef<
+	CERef<Core::Platform::Windows::Window::CEWindowsWindow> wWindow = MakeSharedRef<
 		Core::Platform::Windows::Window::CEWindowsWindow>(window);
 	if (width == 0) {
 		width = wWindow->GetWidth();
@@ -1038,7 +1039,7 @@ Main::RenderLayer::CEViewport* CEDXManager::CreateViewport(Core::Platform::Gener
 		height = wWindow->GetHeight();
 	}
 
-	Core::Common::CERef<RenderLayer::CEDXViewport> viewport = new RenderLayer::CEDXViewport(
+	CERef<RenderLayer::CEDXViewport> viewport = new RenderLayer::CEDXViewport(
 		Device, DirectCommandContext.Get(), wWindow->GetHandle(), colorFormat, width, height);
 
 	if (viewport->Create()) {
@@ -1114,15 +1115,15 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
                                          RenderLayer::CEResourceState initialState,
                                          const RenderLayer::CEResourceData* initialData,
                                          const RenderLayer::CEClearValue& optimalClearValue) {
-	Core::Common::CERef<TCEDXTexture> newTexture = new TCEDXTexture(Device,
-	                                                                format,
-	                                                                sizeX,
-	                                                                sizeY,
-	                                                                sizeZ,
-	                                                                numMips,
-	                                                                numSamplers,
-	                                                                flags,
-	                                                                optimalClearValue);
+	CERef<TCEDXTexture> newTexture = new TCEDXTexture(Device,
+	                                                  format,
+	                                                  sizeX,
+	                                                  sizeY,
+	                                                  sizeZ,
+	                                                  numMips,
+	                                                  numSamplers,
+	                                                  flags,
+	                                                  optimalClearValue);
 
 	D3D12_RESOURCE_DESC Desc;
 	Memory::CEMemory::Memzero(&Desc);
@@ -1164,7 +1165,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 
 	}
 
-	Core::Common::CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(
+	CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(
 		Device, Desc, D3D12_HEAP_TYPE_DEFAULT);
 	if (!resource->Create(D3D12_RESOURCE_STATE_COMMON, clearValuePtr)) {
 		return nullptr;
@@ -1222,7 +1223,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 			return nullptr;
 		}
 
-		Core::Common::CERef<RenderLayer::CEDXShaderResourceView> SRV = new RenderLayer::CEDXShaderResourceView(
+		CERef<RenderLayer::CEDXShaderResourceView> SRV = new RenderLayer::CEDXShaderResourceView(
 			Device, ResourceOfflineDescriptorHeap);
 		if (!SRV->Create()) {
 			return nullptr;
@@ -1247,7 +1248,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		viewDesc.Texture2D.MipSlice = 0;
 		viewDesc.Texture2D.PlaneSlice = 0;
 
-		Core::Common::CERef<RenderLayer::CEDXRenderTargetView> RTV = new RenderLayer::CEDXRenderTargetView(
+		CERef<RenderLayer::CEDXRenderTargetView> RTV = new RenderLayer::CEDXRenderTargetView(
 			Device, RenderTargetOfflineDescriptorHeap);
 		if (!RTV->Create()) {
 			return nullptr;
@@ -1270,7 +1271,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		viewDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 		viewDesc.Texture2D.MipSlice = 0;
 
-		Core::Common::CERef<RenderLayer::CEDXDepthStencilView> DSV = new RenderLayer::CEDXDepthStencilView(
+		CERef<RenderLayer::CEDXDepthStencilView> DSV = new RenderLayer::CEDXDepthStencilView(
 			Device, DepthStencilOfflineDescriptorHeap);
 
 		if (!DSV->Create()) {
@@ -1295,7 +1296,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		viewDesc.Texture2D.MipSlice = 0;
 		viewDesc.Texture2D.PlaneSlice = 0;
 
-		Core::Common::CERef<RenderLayer::CEDXUnorderedAccessView> UAV = new RenderLayer::CEDXUnorderedAccessView(
+		CERef<RenderLayer::CEDXUnorderedAccessView> UAV = new RenderLayer::CEDXUnorderedAccessView(
 			Device, ResourceOfflineDescriptorHeap);
 		if (!UAV->Create()) {
 			return nullptr;
@@ -1366,7 +1367,7 @@ bool CEDXManager::FinishBufferResource(TCEDXBuffer* buffer,
 		dxInitialState = D3D12_RESOURCE_STATE_GENERIC_READ;
 	}
 
-	Core::Common::CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(Device, desc, dxHeapType);
+	CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(Device, desc, dxHeapType);
 	if (!resource->Create(dxInitialState, nullptr)) {
 		return false;
 	}

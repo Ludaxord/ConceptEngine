@@ -429,7 +429,7 @@ bool CEDXRootSignatureCache::Create() {
 }
 
 void CEDXRootSignatureCache::ReleaseAll() {
-	for (Core::Common::CERef<CEDXRootSignature> rootSignature : RootSignatures) {
+	for (CERef<CEDXRootSignature> rootSignature : RootSignatures) {
 		rootSignature.Reset();
 	}
 
@@ -475,7 +475,7 @@ CEDXRootSignatureCache& CEDXRootSignatureCache::Get() {
 }
 
 CEDXRootSignature* CEDXRootSignatureCache::CreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount) {
-	Core::Common::CERef<CEDXRootSignature> rootSignature = new CEDXRootSignature(GetDevice());
+	CERef<CEDXRootSignature> rootSignature = new CEDXRootSignature(GetDevice());
 	if (!rootSignature->Create(resourceCount)) {
 		return nullptr;
 	}

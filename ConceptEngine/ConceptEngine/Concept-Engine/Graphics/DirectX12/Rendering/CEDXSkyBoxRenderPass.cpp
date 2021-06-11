@@ -40,7 +40,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 		return false;
 	}
 
-	ConceptEngine::Core::Common::CERef<RenderLayer::CETexture2D> panorama =
+	CERef<RenderLayer::CETexture2D> panorama =
 		Main::Managers::CETextureManager::LoadFromFile(
 			panoramaConfig.SourceFile, 0, RenderLayer::CEFormat::R32G32B32A32_Float);
 	if (!panorama) {
@@ -70,7 +70,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 		return false;
 	}
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Skybox.hlsl", "VSMain", nullptr,
 	                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
@@ -103,7 +103,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	CERasterizerStateCreateInfo rasterizerStateInfo;
 	rasterizerStateInfo.CullMode = CECullMode::None;
 
-	Core::Common::CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(
+	CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(
 		rasterizerStateInfo);
 	if (!rasterizerState) {
 		CEDebug::DebugBreak();
@@ -116,7 +116,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	blendStateInfo.independentBlendEnable = false;
 	blendStateInfo.RenderTarget[0].BlendEnable = false;
 
-	Core::Common::CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
+	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 	if (!blendState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -129,7 +129,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	depthStencilStateInfo.DepthEnable = true;
 	depthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::All;
 
-	Core::Common::CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(
+	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(
 		depthStencilStateInfo);
 	if (!depthStencilState) {
 		CEDebug::DebugBreak();

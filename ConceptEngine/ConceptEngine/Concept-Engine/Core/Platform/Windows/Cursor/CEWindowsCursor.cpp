@@ -23,7 +23,7 @@ bool CEWindowsCursor::Init(LPCWSTR cursorName) {
 }
 
 CECursor* CEWindowsCursor::Create(LPCWSTR cursorName) {
-	Common::CERef<CEWindowsCursor> cursor = new CEWindowsCursor();
+	CERef<CEWindowsCursor> cursor = new CEWindowsCursor();
 	if (!cursor->Init(cursorName)) {
 		return nullptr;
 	}

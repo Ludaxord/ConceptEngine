@@ -20,7 +20,7 @@ namespace ConceptEngine::Core::Delegates {
 		}
 
 		CEMulticastDelegateBase(CEMulticastDelegateBase&& Another) : Base() {
-			Base::Delegates = Containers::Move(Another.Delegates);
+			Base::Delegates = Move(Another.Delegates);
 		}
 
 		~CEMulticastDelegateBase() {
@@ -35,9 +35,9 @@ namespace ConceptEngine::Core::Delegates {
 		}
 
 		void Swap(CEMulticastDelegateBase& Another) {
-			CEMulticastDelegateBase Temp(Containers::Move(*this));
-			Base::Delegates = Containers::Move(Another.Delegates);
-			Another.Delegates = Containers::Move(Temp.Delegates);
+			CEMulticastDelegateBase Temp(Move(*this));
+			Base::Delegates = Move(Another.Delegates);
+			Another.Delegates = Move(Temp.Delegates);
 		}
 
 		CEMulticastDelegateBase& operator=(const CEMulticastDelegateBase& RHS) {
@@ -46,7 +46,7 @@ namespace ConceptEngine::Core::Delegates {
 		}
 
 		CEMulticastDelegateBase& operator=(CEMulticastDelegateBase&& RHS) {
-			CEMulticastDelegateBase(Containers::Move(RHS)).Swap(*this);
+			CEMulticastDelegateBase(Move(RHS)).Swap(*this);
 			return *this;
 		}
 	};
@@ -59,12 +59,12 @@ namespace ConceptEngine::Core::Delegates {
 		void Broadcast(TArgs ... Args) {
 			for (IDelegate* Delegate : Base::Delegates) {
 				Assert(Delegate != nullptr);
-				Delegate->Execute(Containers::Forward<TArgs>(Args)...);
+				Delegate->Execute(Forward<TArgs>(Args)...);
 			}
 		}
 
 		void operator()(TArgs ... Args) {
-			return Broadcast(Containers::Forward<TArgs>(Args)...);
+			return Broadcast(Forward<TArgs>(Args)...);
 		}
 	};
 

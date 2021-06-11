@@ -1,5 +1,4 @@
 #pragma once
-namespace ConceptEngine::Core::Containers {
 	template <typename TIteratorType>
 	class CEReverseIterator {
 
@@ -92,4 +91,3 @@ namespace ConceptEngine::Core::Containers {
 	private:
 		TIteratorType* Iterator;
 	};
-}

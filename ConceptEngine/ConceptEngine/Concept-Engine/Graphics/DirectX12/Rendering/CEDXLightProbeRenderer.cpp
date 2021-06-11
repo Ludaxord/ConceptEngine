@@ -17,7 +17,7 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 		return false;
 	}
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/IrradianceGen.hlsl", "Main", nullptr,
 	                                     Main::RenderLayer::CEShaderStage::Compute,
 	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
@@ -165,7 +165,7 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 
 
 	for (uint32 mipLevel = 0; mipLevel < specularIrradianceMipLevels; mipLevel++) {
-		Core::Common::CERef<CEUnorderedAccessView> uav = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
+		CERef<CEUnorderedAccessView> uav = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
 			lightSetup.SpecularIrradianceMap.Get(), CEFormat::R16G16B16A16_Float, mipLevel);
 		if (!uav) {
 			CEDebug::DebugBreak();

@@ -305,9 +305,9 @@ bool CEDXShaderCompiler::CreateLib() {
 }
 
 bool CEDXShaderCompiler::CompileFromFile(const std::string& filePath, const std::string& entryPoint,
-                                         const Core::Containers::CEArray<CEShaderDefine>* defines,
+                                         const CEArray<CEShaderDefine>* defines,
                                          CEShaderStage shaderStage, CEShaderModel shaderModel,
-                                         Core::Containers::CEArray<uint8>& code) {
+                                         CEArray<uint8>& code) {
 	std::wstring wFilePath = ConvertToWString(filePath);
 	std::wstring wEntryPoint = ConvertToWString(entryPoint);
 
@@ -324,9 +324,9 @@ bool CEDXShaderCompiler::CompileFromFile(const std::string& filePath, const std:
 }
 
 bool CEDXShaderCompiler::CompileShader(const std::string& shaderSource, const std::string& entryPoint,
-                                       const Core::Containers::CEArray<CEShaderDefine>* defines,
+                                       const CEArray<CEShaderDefine>* defines,
                                        CEShaderStage shaderStage, CEShaderModel shaderModel,
-                                       Core::Containers::CEArray<uint8>& code) {
+                                       CEArray<uint8>& code) {
 
 	std::wstring wEntrypoint = ConvertToWString(entryPoint);
 
@@ -378,17 +378,17 @@ bool CEDXShaderCompiler::HasRootSignature(CEDXBaseShader* shader) {
 
 bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR filePath, LPCWSTR entryPoint,
                                                    CEShaderStage shaderStage, CEShaderModel shaderModel,
-                                                   const Core::Containers::CEArray<CEShaderDefine>* defines,
-                                                   Core::Containers::CEArray<uint8>& code) {
-	Core::Containers::CEArray<LPCWSTR> args = {L"-O3"};
+                                                   const CEArray<CEShaderDefine>* defines,
+                                                   CEArray<uint8>& code) {
+	CEArray<LPCWSTR> args = {L"-O3"};
 
 	if (ShaderStageIsRayTracing(shaderStage)) {
 		args.EmplaceBack(L"");
 		args.EmplaceBack(entryPoint);
 	}
 
-	Core::Containers::CEArray<DxcDefine> dxDefines;
-	Core::Containers::CEArray<std::wstring> strBuff;
+	CEArray<DxcDefine> dxDefines;
+	CEArray<std::wstring> strBuff;
 	if (defines) {
 		strBuff.Reserve(defines->Size() * 2);
 		dxDefines.Reserve(defines->Size());

@@ -15,13 +15,13 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		                                   const Render::Scene::CEScene& scene)= 0;
 
 	protected:
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> PerShadowMapBuffer;
+		CERef<RenderLayer::CEConstantBuffer> PerShadowMapBuffer;
 
-		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> DirLightPipelineState;
-		Core::Common::CERef<RenderLayer::CEVertexShader> DirLightShader;
-		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PointLightPipelineState;
-		Core::Common::CERef<RenderLayer::CEVertexShader> PointLightVertexShader;
-		Core::Common::CERef<RenderLayer::CEPixelShader> PointLightPixelShader;
+		CERef<RenderLayer::CEGraphicsPipelineState> DirLightPipelineState;
+		CERef<RenderLayer::CEVertexShader> DirLightShader;
+		CERef<RenderLayer::CEGraphicsPipelineState> PointLightPipelineState;
+		CERef<RenderLayer::CEVertexShader> PointLightVertexShader;
+		CERef<RenderLayer::CEPixelShader> PointLightPixelShader;
 
 		bool UpdateDirLight = true;
 		bool UpdatePointLight = true;

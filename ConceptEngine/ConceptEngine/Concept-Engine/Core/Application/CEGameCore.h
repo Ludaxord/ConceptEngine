@@ -1,5 +1,6 @@
 #pragma once
 #include "CECore.h"
+#include "../../Time/CETimer.h"
 
 namespace ConceptEngine::Core::Application {
 	class CEGameCore : public CECore {

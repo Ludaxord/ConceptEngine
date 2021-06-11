@@ -22,14 +22,14 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual bool ResizeResources(CEFrameResources& resources) = 0;
 
 	protected:
-		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
-		Core::Common::CERef<RenderLayer::CEVertexShader> BaseVertexShader;
-		Core::Common::CERef<RenderLayer::CEPixelShader> BasePixelShader;
-		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PrePassPipelineState;
-		Core::Common::CERef<RenderLayer::CEVertexShader> PrePassVertexShader;
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> TiledLightPassPSO;
-		Core::Common::CERef<RenderLayer::CEComputeShader> TiledLightShader;
-		Core::Common::CERef<RenderLayer::CEComputePipelineState> TiledLightPassPSODebug;
-		Core::Common::CERef<RenderLayer::CEComputeShader> TiledLightDebugShader;
+		CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
+		CERef<RenderLayer::CEVertexShader> BaseVertexShader;
+		CERef<RenderLayer::CEPixelShader> BasePixelShader;
+		CERef<RenderLayer::CEGraphicsPipelineState> PrePassPipelineState;
+		CERef<RenderLayer::CEVertexShader> PrePassVertexShader;
+		CERef<RenderLayer::CEComputePipelineState> TiledLightPassPSO;
+		CERef<RenderLayer::CEComputeShader> TiledLightShader;
+		CERef<RenderLayer::CEComputePipelineState> TiledLightPassPSODebug;
+		CERef<RenderLayer::CEComputeShader> TiledLightDebugShader;
 	};
 }

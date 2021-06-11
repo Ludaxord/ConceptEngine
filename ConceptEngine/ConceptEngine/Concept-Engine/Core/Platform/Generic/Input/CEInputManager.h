@@ -28,8 +28,8 @@ namespace ConceptEngine::Core::Platform::Generic::Input {
 
 		void OnWindowFocusChanged(const Common::CEWindowFocusChangedEvent& Event);
 
-		Containers::CEStaticArray<bool, CEKey::Key_Count> KeyStates{};
-		Containers::CEStaticArray<CEKey, 512> ScanCodeTable{};
-		Containers::CEStaticArray<uint16, 512> KeyTable{};
+		CEStaticArray<bool, CEKey::Key_Count> KeyStates{};
+		CEStaticArray<CEKey, 512> ScanCodeTable{};
+		CEStaticArray<uint16, 512> KeyTable{};
 	};
 }

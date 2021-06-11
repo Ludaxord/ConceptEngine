@@ -1,31 +1,31 @@
 #include "CEPlatform.h"
 
-using namespace ConceptEngine::Core::Generic::Platform;
-using namespace ConceptEngine::Core::Platform::Generic::Callbacks;
+#include "../../../Utilities/CEUtilities.h"
+#include "Callbacks/CEPlatformCallbacks.h"
 
 
-bool ::CEPlatform::Create() {
+bool ConceptEngine::Core::Generic::Platform::CEPlatform::Create() {
 	Title = InstanceName;
-	WindowSize = CEWindowSize::WndSize;
+	WindowSize = Core::Platform::Generic::Window::CEWindowSize::WndSize;
 	return true;
 }
 
-void ::CEPlatform::SetCallbacks(CEPlatformCallbacks* InCallbacks) {
+void ConceptEngine::Core::Generic::Platform::CEPlatform::SetCallbacks(ConceptEngine::Core::Platform::Generic::Callbacks::CEPlatformCallbacks* InCallbacks) {
 	Callbacks = InCallbacks;
 }
 
-CEPlatformCallbacks* ::CEPlatform::GetCallbacks() {
+ConceptEngine::Core::Platform::Generic::Callbacks::CEPlatformCallbacks* ConceptEngine::Core::Generic::Platform::CEPlatform::GetCallbacks() {
 	return Callbacks;
 }
 
-CEWindow* ::CEPlatform::GetWindow() {
+ConceptEngine::Core::Platform::Generic::Window::CEWindow* ConceptEngine::Core::Generic::Platform::CEPlatform::GetWindow() {
 	return Window;
 }
 
-CEConsole* ::CEPlatform::GetConsole() {
+ConceptEngine::Core::Platform::Generic::Window::CEConsole* ConceptEngine::Core::Generic::Platform::CEPlatform::GetConsole() {
 	return Console;
 }
 
-CEInputManager* ::CEPlatform::GetInputManager() {
+ConceptEngine::Core::Platform::Generic::Input::CEInputManager* ConceptEngine::Core::Generic::Platform::CEPlatform::GetInputManager() {
 	return InputManager;
 }

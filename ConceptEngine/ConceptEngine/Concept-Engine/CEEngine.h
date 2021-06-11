@@ -4,16 +4,23 @@
 #include <string>
 #include <Windows.h>
 
-#include "Core/Application/Game/CEGame.h"
-#include "Core/Application/Editor/CEEditor.h"
-#include "Core/Application/GameDebug/CEGameDebug.h"
 #include "Core/Platform/CEPlatformActions.h"
-#include "Core/Platform/Windows/CEWindows.h"
-#include "Graphics/Main/Common/API.h"
-#include "Utilities/CEScreenUtilities.h"
-#include "Utilities/CEUtilities.h"
+
+#include "Core/Compilers/CECompiler.h"
+
+enum class GraphicsAPI;
 
 namespace ConceptEngine {
+	enum class EngineBoot;
+
+	namespace Core {namespace Application {
+		class CECore;
+	}}
+
+	namespace Core {namespace Generic {namespace Platform {
+		class CEPlatform;
+		enum class Platform;
+	}}}
 
 	class CEEngine {
 	public:

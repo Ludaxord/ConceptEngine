@@ -80,7 +80,7 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 	Assert(rowPitch > 0);
 
 	CEResourceData initialData = CEResourceData(pixels, format, width);
-	Core::Common::CERef<CETexture2D> texture = CastGraphicsManager()->CreateTexture2D(format,
+	CERef<CETexture2D> texture = CastGraphicsManager()->CreateTexture2D(format,
 	                   width,
 	                   height,
 	                   numMips,
@@ -120,7 +120,7 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 	const bool generateNumMips = flags & TextureFlag_GenerateMips;
 	const uint16 numMips = (generateNumMips) ? static_cast<uint16>(std::log2(cubeMapSize)) : 1U;
 
-	Core::Common::CERef<CETextureCube> stagingTexture = CastGraphicsManager()->CreateTextureCube(format, cubeMapSize, numMips, TextureFlag_UAV, CEResourceState::Common, nullptr);
+	CERef<CETextureCube> stagingTexture = CastGraphicsManager()->CreateTextureCube(format, cubeMapSize, numMips, TextureFlag_UAV, CEResourceState::Common, nullptr);
 
 	if (!stagingTexture) {
 		return nullptr;
@@ -128,7 +128,7 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 
 	stagingTexture->SetName("TextureCube from panorama staging texture");
 
-	Core::Common::CERef<CEUnorderedAccessView> stagingTextureUAV = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(stagingTexture.Get(), format, 0);
+	CERef<CEUnorderedAccessView> stagingTextureUAV = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(stagingTexture.Get(), format, 0);
 
 	if (!stagingTextureUAV) {
 		return nullptr;
@@ -136,7 +136,7 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 
 	stagingTexture->SetName("Texture Cube from Panorama staging texture Unordered Access View");
 
-	Core::Common::CERef<CETextureCube> texture = CastGraphicsManager()->CreateTextureCube(format, cubeMapSize, numMips, TextureFlag_SRV, CEResourceState::Common, nullptr);
+	CERef<CETextureCube> texture = CastGraphicsManager()->CreateTextureCube(format, cubeMapSize, numMips, TextureFlag_SRV, CEResourceState::Common, nullptr);
 	if (!texture) {
 		return nullptr;
 	}

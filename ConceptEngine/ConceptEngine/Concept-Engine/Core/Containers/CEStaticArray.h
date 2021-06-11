@@ -4,7 +4,6 @@
 #include "../Common/CETypes.h"
 #include "CEContainerUtilities.h"
 
-namespace ConceptEngine::Core::Containers {
 	template <typename T, int32 N>
 	struct CEStaticArray {
 	public:
@@ -47,9 +46,9 @@ namespace ConceptEngine::Core::Containers {
 		}
 
 		void Swap(CEStaticArray& Another) noexcept {
-			CEStaticArray TempArray(Containers::Move(*this));
-			*this = Containers::Move(Another);
-			Another = Containers::Move(TempArray);
+			CEStaticArray TempArray(Move(*this));
+			*this = Move(Another);
+			Another = Move(TempArray);
 		}
 
 		constexpr SizeType LastIndex() const noexcept {
@@ -133,4 +132,4 @@ namespace ConceptEngine::Core::Containers {
 
 		T Elements[N];
 	};
-}
+

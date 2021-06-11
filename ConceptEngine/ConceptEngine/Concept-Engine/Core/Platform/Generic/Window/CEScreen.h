@@ -4,7 +4,7 @@
 #include "../../../Common/CERefCountedObject.h"
 
 namespace ConceptEngine::Core::Platform::Generic::Window {
-	class CEScreen : public Common::CERefCountedObject {
+	class CEScreen : public CERefCountedObject {
 	public:
 		friend class CEPlatform;
 		CEScreen();

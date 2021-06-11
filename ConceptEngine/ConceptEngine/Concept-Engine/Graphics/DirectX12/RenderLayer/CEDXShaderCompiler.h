@@ -46,17 +46,17 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
-		                             const Core::Containers::CEArray<CEShaderDefine>* defines,
+		                             const CEArray<CEShaderDefine>* defines,
 		                             CEShaderStage shaderStage,
 		                             CEShaderModel shaderModel,
-		                             Core::Containers::CEArray<uint8>& code) override;
+		                             CEArray<uint8>& code) override;
 
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,
-		                           const Core::Containers::CEArray<CEShaderDefine>* defines,
+		                           const CEArray<CEShaderDefine>* defines,
 		                           CEShaderStage shaderStage,
 		                           CEShaderModel shaderModel,
-		                           Core::Containers::CEArray<uint8>& code) override;
+		                           CEArray<uint8>& code) override;
 
 		bool GetReflection(CEDXBaseShader* shader, ID3D12ShaderReflection** reflection);
 		bool GetLibraryReflection(CEDXBaseShader* shader, ID3D12LibraryReflection** reflection);
@@ -70,8 +70,8 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 			LPCWSTR entryPoint,
 			CEShaderStage shaderStage,
 			CEShaderModel shaderModel,
-			const Core::Containers::CEArray<CEShaderDefine>* defines,
-			Core::Containers::CEArray<uint8>& code
+			const CEArray<CEShaderDefine>* defines,
+			CEArray<uint8>& code
 		);
 
 		bool InternalGetReflection(const ComPtr<IDxcBlob>& shaderBlob, REFIID IID, void** ppvObject);

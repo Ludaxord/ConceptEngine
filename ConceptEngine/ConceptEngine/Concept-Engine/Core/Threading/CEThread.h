@@ -11,7 +11,7 @@ namespace ConceptEngine::Core::Threading {
 
 	#define INVALID_THREAD_ID 0
 	
-	class CEThread : public Common::CERefCountedObject {
+	class CEThread : public CERefCountedObject {
 	public:
 		virtual ~CEThread() = default;
 

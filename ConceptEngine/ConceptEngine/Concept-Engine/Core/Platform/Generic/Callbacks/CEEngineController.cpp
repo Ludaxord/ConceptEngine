@@ -20,7 +20,7 @@ bool CEEngineController::Create() {
 	if (Core::Generic::Platform::CEPlatform::GetWindow()) {
 		Core::Generic::Platform::CEPlatform::GetWindow()->Show(false);
 		ToggleFullscreen.OnExecute.AddObject(Core::Generic::Platform::CEPlatform::GetWindow(),
-		                                     &CEWindow::ToggleFullscreen);
+		                                     &Window::CEWindow::ToggleFullscreen);
 		INIT_CONSOLE_COMMAND("CE.ToggleFullscreen", &ToggleFullscreen);
 	}
 	else {
@@ -43,12 +43,12 @@ void CEEngineController::Exit() {
 	Application::CECore::IsRunning = false;
 }
 
-void CEEngineController::OnKeyReleased(CEKey keyCode, const CEModifierKeyState& modifierKeyState) {
+void CEEngineController::OnKeyReleased(Input::CEKey keyCode, const Input::CEModifierKeyState& modifierKeyState) {
 	Common::CEKeyReleasedEvent Event(keyCode, modifierKeyState);
 	OnKeyReleasedEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnKeyPressed(CEKey keyCode, bool isRepeat, const CEModifierKeyState& modifierKeyState) {
+void CEEngineController::OnKeyPressed(Input::CEKey keyCode, bool isRepeat, const Input::CEModifierKeyState& modifierKeyState) {
 	Common::CEKeyPressedEvent Event(keyCode, isRepeat, modifierKeyState);
 	OnKeyPressedEvent.Broadcast(Event);
 }
@@ -63,20 +63,20 @@ void CEEngineController::OnMouseMove(int32 x, int32 y) {
 	OnMouseMoveEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnMouseReleased(CEMouseButton button, const CEModifierKeyState& modifierKeyState) {
+void CEEngineController::OnMouseReleased(Input::CEMouseButton button, const Input::CEModifierKeyState& modifierKeyState) {
 	if (GPlatform) {
-		CEWindow* captureWindow = GPlatform->GetCapture();
+		Window::CEWindow* captureWindow = GPlatform->GetCapture();
 		if (captureWindow) {
 			GPlatform->SetCapture(nullptr);
 		}
 	}
 }
 
-void CEEngineController::OnMousePressed(CEMouseButton button, const CEModifierKeyState& modifierKeyState) {
+void CEEngineController::OnMousePressed(Input::CEMouseButton button, const Input::CEModifierKeyState& modifierKeyState) {
 	if (GPlatform) {
-		CEWindow* captureWindow = GPlatform->GetCapture();
+		Window::CEWindow* captureWindow = GPlatform->GetCapture();
 		if (!captureWindow) {
-			CEWindow* activeWindow = GPlatform->GetActiveWindow();
+			Window::CEWindow* activeWindow = GPlatform->GetActiveWindow();
 			GPlatform->SetCapture(activeWindow);
 		}
 
@@ -90,32 +90,32 @@ void CEEngineController::OnMouseScrolled(float horizontalDelta, float verticalDe
 	OnMouseScrolledEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnWindowResized(const Common::CERef<Window::CEWindow>& window, uint16 width, uint16 height) {
+void CEEngineController::OnWindowResized(const CERef<Window::CEWindow>& window, uint16 width, uint16 height) {
 	Common::CEWindowResizeEvent Event(window, width, height);
 	OnWindowResizedEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnWindowMoved(const Common::CERef<Window::CEWindow>& window, uint16 x, uint16 y) {
+void CEEngineController::OnWindowMoved(const CERef<Window::CEWindow>& window, uint16 x, uint16 y) {
 	Common::CEWindowMovedEvent Event(window, x, y);
 	OnWindowMovedEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnWindowFocusChanged(const Common::CERef<Window::CEWindow>& window, bool hasFocus) {
+void CEEngineController::OnWindowFocusChanged(const CERef<Window::CEWindow>& window, bool hasFocus) {
 	Common::CEWindowFocusChangedEvent Event(window, hasFocus);
 	OnWindowFocusChangedEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnWindowMouseLeft(const Common::CERef<Window::CEWindow>& window) {
+void CEEngineController::OnWindowMouseLeft(const CERef<Window::CEWindow>& window) {
 	Common::CEWindowMouseLeftEvent Event(window);
 	OnWindowMouseLeftEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnWindowMouseEntered(const Common::CERef<Window::CEWindow>& window) {
+void CEEngineController::OnWindowMouseEntered(const CERef<Window::CEWindow>& window) {
 	Common::CEWindowMouseEnteredEvent Event(window);
 	OnWindowMouseEnteredEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnWindowClosed(const Common::CERef<Window::CEWindow>& window) {
+void CEEngineController::OnWindowClosed(const CERef<Window::CEWindow>& window) {
 	Common::CEWindowClosedEvent Event(window);
 	OnWindowClosedEvent.Broadcast(Event);
 

@@ -29,8 +29,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	protected:
-		Core::Common::CERef<CEDXResource> Resource;
-		Core::Common::CERef<CEDXShaderResourceView> ShaderResourceView;
+		CERef<CEDXResource> Resource;
+		CERef<CEDXShaderResourceView> ShaderResourceView;
 	};
 
 	class CEDXBaseTexture2D : public Main::RenderLayer::CETexture2D, public CEDXBaseTexture {
@@ -76,9 +76,9 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	private:
-		Core::Common::CERef<CEDXRenderTargetView> RenderTargetView;
-		Core::Common::CERef<CEDXDepthStencilView> DepthStencilView;
-		Core::Common::CERef<CEDXUnorderedAccessView> UnorderedAccessView;;
+		CERef<CEDXRenderTargetView> RenderTargetView;
+		CERef<CEDXDepthStencilView> DepthStencilView;
+		CERef<CEDXUnorderedAccessView> UnorderedAccessView;;
 	};
 
 	class CEDXBaseTexture2DArray : public Main::RenderLayer::CETexture2DArray, public CEDXBaseTexture {

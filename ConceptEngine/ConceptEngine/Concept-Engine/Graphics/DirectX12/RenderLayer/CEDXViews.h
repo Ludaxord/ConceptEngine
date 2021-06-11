@@ -20,7 +20,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	protected:
-		Core::Common::CERef<CEDXResource> Resource;
+		CERef<CEDXResource> Resource;
 		CEDXOfflineDescriptorHeap* Heap = nullptr;
 		uint32 OfflineHeapIndex = 0;
 		D3D12_CPU_DESCRIPTOR_HANDLE OfflineHandle;
@@ -71,8 +71,13 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return Desc;
 		}
 
+		const CEDXResource* GetCounterResource() const {
+			return CounterResource.Get();
+		}
+
 	protected:
 	private:
+		CERef<CEDXResource> CounterResource;
 		D3D12_UNORDERED_ACCESS_VIEW_DESC Desc;
 	};
 

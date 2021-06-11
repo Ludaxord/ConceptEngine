@@ -36,7 +36,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 	PerShadowMapBuffer->SetName("Per Shadow Map Buffer");
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	{
 		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "VSMain", nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
@@ -73,7 +73,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		depthStencilStateInfo.DepthEnable = true;
 		depthStencilStateInfo.DepthWriteMask = RenderLayer::CEDepthWriteMask::All;
 
-		Core::Common::CERef<RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
+		CERef<RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(depthStencilStateInfo);
 		if (!depthStencilState) {
 			CEDebug::DebugBreak();
@@ -85,7 +85,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		RenderLayer::CERasterizerStateCreateInfo rasterizerStateInfo;
 		rasterizerStateInfo.CullMode = RenderLayer::CECullMode::Back;
 
-		Core::Common::CERef<RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
+		CERef<RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
 			CreateRasterizerState(rasterizerStateInfo);
 		if (!rasterizerState) {
 			CEDebug::DebugBreak();
@@ -96,7 +96,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 		RenderLayer::CEBlendStateCreateInfo blendStateInfo;
 
-		Core::Common::CERef<RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
+		CERef<RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
 			CEDebug::DebugBreak();
@@ -150,7 +150,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		depthStencilStateInfo.DepthEnable = true;
 		depthStencilStateInfo.DepthWriteMask = RenderLayer::CEDepthWriteMask::All;
 
-		Core::Common::CERef<RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
+		CERef<RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(depthStencilStateInfo);
 		if (!depthStencilState) {
 			CEDebug::DebugBreak();
@@ -162,7 +162,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		RenderLayer::CERasterizerStateCreateInfo rasterizerStateInfo;
 		rasterizerStateInfo.CullMode = RenderLayer::CECullMode::Back;
 
-		Core::Common::CERef<RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
+		CERef<RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
 			CreateRasterizerState(rasterizerStateInfo);
 		if (!rasterizerState) {
 			CEDebug::DebugBreak();
@@ -172,7 +172,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		rasterizerState->SetName("Shadow Rasterizer State");
 
 		RenderLayer::CEBlendStateCreateInfo blendStateInfo;
-		Core::Common::CERef<RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
+		CERef<RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
 			CEDebug::DebugBreak();
@@ -399,7 +399,7 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& fram
 
 	for (uint32 i = 0; i < frameResources.MaxPointLightShadows; i++) {
 		for (uint32 face = 0; face < 6; face++) {
-			Core::Containers::CEStaticArray<Core::Common::CERef<CEDepthStencilView>, 6>& depthCube = frameResources.
+			CEStaticArray<CERef<CEDepthStencilView>, 6>& depthCube = frameResources.
 				PointLightShadowMapDSVs[i];
 			depthCube[face] = CastGraphicsManager()->CreateDepthStencilViewForTextureCubeArray(
 				frameResources.PointLightShadowMaps.Get(),

@@ -30,10 +30,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		bool AllocateReadResources();
 
 		Microsoft::WRL::ComPtr<ID3D12QueryHeap> QueryHeap;
-		Core::Common::CERef<CEDXResource> WriteResource;
+		CERef<CEDXResource> WriteResource;
 
-		Core::Containers::CEArray<Core::Common::CERef<CEDXResource>> ReadResources;
-		Core::Containers::CEArray<TimeQuery> TimeQueries;
+		CEArray<CERef<CEDXResource>> ReadResources;
+		CEArray<TimeQuery> TimeQueries;
 
 		UINT64 Frequency;
 	};

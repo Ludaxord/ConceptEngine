@@ -74,7 +74,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		uint32 NumDescriptorRanges = 0;
 	};
 
-	class CEDXRootSignature : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
+	class CEDXRootSignature : public CEDXDeviceElement, public CERefCountedObject {
 	public:
 		CEDXRootSignature(CEDXDevice* device);
 		~CEDXRootSignature() = default;
@@ -131,8 +131,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	private:
 		CEDXRootSignature* CreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount);
 
-		Core::Containers::CEArray<Core::Common::CERef<CEDXRootSignature>> RootSignatures;
-		Core::Containers::CEArray<CEDXRootSignatureResourceCount> ResourceCounts;
+		CEArray<CERef<CEDXRootSignature>> RootSignatures;
+		CEArray<CEDXRootSignatureResourceCount> ResourceCounts;
 
 		static CEDXRootSignatureCache* Instance;
 	};

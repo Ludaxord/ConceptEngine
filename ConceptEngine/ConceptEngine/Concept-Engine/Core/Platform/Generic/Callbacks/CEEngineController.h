@@ -24,12 +24,12 @@ namespace ConceptEngine::Core::Platform::Generic::Callbacks {
 		OnMousePressed(Input::CEMouseButton button, const Input::CEModifierKeyState& modifierKeyState) override final;
 		virtual void OnMouseScrolled(float horizontalDelta, float verticalDelta) override final;
 		virtual void
-		OnWindowResized(const Common::CERef<Window::CEWindow>& window, uint16 width, uint16 height) override final;
-		virtual void OnWindowMoved(const Common::CERef<Window::CEWindow>& window, uint16 x, uint16 y) override final;
-		virtual void OnWindowFocusChanged(const Common::CERef<Window::CEWindow>& window, bool hasFocus) override final;
-		virtual void OnWindowMouseLeft(const Common::CERef<Window::CEWindow>& window) override final;
-		virtual void OnWindowMouseEntered(const Common::CERef<Window::CEWindow>& window) override final;
-		virtual void OnWindowClosed(const Common::CERef<Window::CEWindow>& window) override final;
+		OnWindowResized(const CERef<Window::CEWindow>& window, uint16 width, uint16 height) override final;
+		virtual void OnWindowMoved(const CERef<Window::CEWindow>& window, uint16 x, uint16 y) override final;
+		virtual void OnWindowFocusChanged(const CERef<Window::CEWindow>& window, bool hasFocus) override final;
+		virtual void OnWindowMouseLeft(const CERef<Window::CEWindow>& window) override final;
+		virtual void OnWindowMouseEntered(const CERef<Window::CEWindow>& window) override final;
+		virtual void OnWindowClosed(const CERef<Window::CEWindow>& window) override final;
 		virtual void OnApplicationExit(int32 exitCode) override final;
 
 		static Window::CEWindow* GetWindow() {

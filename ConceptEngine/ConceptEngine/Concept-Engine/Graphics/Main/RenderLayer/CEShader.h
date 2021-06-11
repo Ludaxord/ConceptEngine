@@ -33,7 +33,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			return nullptr;
 		}
 
-		virtual class CEMeshShader* AsAmplificationShader() {
+		virtual class CEAmplificationShader* AsAmplificationShader() {
 			return nullptr;
 		}
 
@@ -79,35 +79,52 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CEVertexShader : public CEShader {
-
+	public:
+		virtual CEVertexShader* AsVertexShader() override {
+			return this;
+		}
 	};
 
 	class CEHullShader : public CEShader {
-
+		CEHullShader* AsHullShader() override {
+			return this;
+		}
 	};
 
 	class CEDomainShader : public CEShader {
-
+		CEDomainShader* AsDomainShader() override {
+			return this;
+		}
 	};
 
 	class CEGeometryShader : public CEShader {
-
+		CEGeometryShader* AsGeometryShader() override {
+			return this;
+		}
 	};
 
 	class CEMeshShader : public CEShader {
-
+		CEMeshShader* AsMeshShader() override {
+			return this;
+		}
 	};
 
 	class CEAmplificationShader : public CEShader {
-
+		CEAmplificationShader* AsAmplificationShader() override {
+			return this;
+		}
 	};
 
 	class CEPixelShader : public CEShader {
-
+		CEPixelShader* AsPixelShader() override {
+			return this;
+		}
 	};
 
 	class CERayGenShader : public CEShader {
-
+		CERayGenShader* AsRayGenShader() override {
+			return this;
+		}
 	};
 
 	class CERayAnyHitShader : public CEShader {
@@ -123,6 +140,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	class CERayMissShader : public CEShader {
-
+		CERayMissShader* AsRayMissShader() override {
+			return this;
+		}
 	};
 }

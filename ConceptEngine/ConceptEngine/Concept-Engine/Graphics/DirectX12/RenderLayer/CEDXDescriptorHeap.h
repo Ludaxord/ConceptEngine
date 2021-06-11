@@ -11,7 +11,7 @@
 #include "../../../Core/Containers/CEArray.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
-	class CEDXDescriptorHeap : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
+	class CEDXDescriptorHeap : public CEDXDeviceElement, public CERefCountedObject {
 	public:
 		CEDXDescriptorHeap(CEDXDevice* device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32 numDescriptors,
 		                   D3D12_DESCRIPTOR_HEAP_FLAGS flags);
@@ -58,7 +58,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		uint32 DescriptorHandleIncrementSize;
 	};
 
-	class CEDXOfflineDescriptorHeap : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
+	class CEDXOfflineDescriptorHeap : public CEDXDeviceElement, public CERefCountedObject {
 		struct CEDescriptorRange {
 			CEDescriptorRange() = default;
 
@@ -76,7 +76,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		};
 
 		struct CEDescriptorHeap {
-			CEDescriptorHeap(const Core::Common::CERef<CEDXDescriptorHeap>& heap): FreeList(), Heap(heap) {
+			CEDescriptorHeap(const CERef<CEDXDescriptorHeap>& heap): FreeList(), Heap(heap) {
 				CEDescriptorRange range;
 				range.Begin = heap->GetCPUDescriptorHandleForHeapStart();
 				range.End.ptr = range.Begin.ptr + (Heap->GetDescriptorHandleIncrementSize() * Heap->
@@ -84,8 +84,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 				FreeList.EmplaceBack(range);
 			}
 
-			Core::Containers::CEArray<CEDescriptorRange> FreeList;
-			Core::Common::CERef<CEDXDescriptorHeap> Heap;
+			CEArray<CEDescriptorRange> FreeList;
+			CERef<CEDXDescriptorHeap> Heap;
 		};
 
 	public:
@@ -110,12 +110,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	private:
 		bool AllocateHeap();
 		D3D12_DESCRIPTOR_HEAP_TYPE Type;
-		Core::Containers::CEArray<CEDescriptorHeap> Heaps;
+		CEArray<CEDescriptorHeap> Heaps;
 		std::string Name;
 		uint32 DescriptorSize = 0;
 	};
 
-	class CEDXOnlineDescriptorHeap : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
+	class CEDXOnlineDescriptorHeap : public CEDXDeviceElement, public CERefCountedObject {
 	public:
 		CEDXOnlineDescriptorHeap(CEDXDevice* device, uint32 descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE type);
 		~CEDXOnlineDescriptorHeap() = default;
@@ -159,10 +159,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	protected:
 	private:
-		Core::Common::CERef<CEDXDescriptorHeap> Heap;
+		CERef<CEDXDescriptorHeap> Heap;
 
-		Core::Containers::CEArray<Core::Common::CERef<CEDXDescriptorHeap>> HeapPool;
-		Core::Containers::CEArray<Core::Common::CERef<CEDXDescriptorHeap>> DiscardedHeaps;
+		CEArray<CERef<CEDXDescriptorHeap>> HeapPool;
+		CEArray<CERef<CEDXDescriptorHeap>> DiscardedHeaps;
 
 		D3D12_DESCRIPTOR_HEAP_TYPE Type;
 		uint32 CurrentHandle = 0;

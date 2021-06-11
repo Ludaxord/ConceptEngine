@@ -15,7 +15,7 @@
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	class CEShader;
 
-	class CEICommandContext : public Core::Common::CERefCountedObject {
+	class CEICommandContext : public CERefCountedObject {
 	public:
 		virtual void Begin() = 0;
 		virtual void End() = 0;

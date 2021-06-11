@@ -242,14 +242,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CEInputLayoutStateCreateInfo {
 		CEInputLayoutStateCreateInfo() = default;
 
-		CEInputLayoutStateCreateInfo(const Core::Containers::CEArray<CEInputElement>& elements): Elements(elements) {
+		CEInputLayoutStateCreateInfo(const CEArray<CEInputElement>& elements): Elements(elements) {
 		}
 
 		CEInputLayoutStateCreateInfo(std::initializer_list<CEInputElement> list) : Elements(list) {
 
 		}
 
-		Core::Containers::CEArray<CEInputElement> Elements;
+		CEArray<CEInputElement> Elements;
 	};
 
 	struct CEPipelineRenderTargetFormats {
@@ -316,10 +316,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	struct CERayTracingPipelineStateCreateInfo {
 		CERayGenShader* RayGen = nullptr;
-		Core::Containers::CEArray<CERayAnyHitShader*> AnyHitShaders;
-		Core::Containers::CEArray<CERayClosestHitShader*> ClosestHitShaders;
-		Core::Containers::CEArray<CERayMissShader*> MissShaders;
-		Core::Containers::CEArray<CERayTracingHitGroup> HitGroups;
+		CEArray<CERayAnyHitShader*> AnyHitShaders;
+		CEArray<CERayClosestHitShader*> ClosestHitShaders;
+		CEArray<CERayMissShader*> MissShaders;
+		CEArray<CERayTracingHitGroup> HitGroups;
 		uint32 MaxAttributeSizeInBytes = 0;
 		uint32 MaxPayloadSizeInBytes = 0;
 		uint32 MaxRecursionDepth = 0;

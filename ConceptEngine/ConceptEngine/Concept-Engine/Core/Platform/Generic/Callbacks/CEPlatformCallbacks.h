@@ -46,27 +46,27 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Input {
 
 			}
 
-			virtual void OnWindowResized(const Common::CERef<Window::CEWindow>& window, uint16 width, uint16 height) {
+			virtual void OnWindowResized(const CERef<Window::CEWindow>& window, uint16 width, uint16 height) {
 
 			}
 
-			virtual void OnWindowMoved(const Common::CERef<Window::CEWindow>& window, uint16 x, uint16 y) {
+			virtual void OnWindowMoved(const CERef<Window::CEWindow>& window, uint16 x, uint16 y) {
 
 			}
 
-			virtual void OnWindowFocusChanged(const Common::CERef<Window::CEWindow>& window, bool hasFocus) {
+			virtual void OnWindowFocusChanged(const CERef<Window::CEWindow>& window, bool hasFocus) {
 
 			}
 
-			virtual void OnWindowMouseLeft(const Common::CERef<Window::CEWindow>& window) {
+			virtual void OnWindowMouseLeft(const CERef<Window::CEWindow>& window) {
 
 			}
 
-			virtual void OnWindowMouseEntered(const Common::CERef<Window::CEWindow>& window) {
+			virtual void OnWindowMouseEntered(const CERef<Window::CEWindow>& window) {
 
 			}
 
-			virtual void OnWindowClosed(const Common::CERef<Window::CEWindow>& window) {
+			virtual void OnWindowClosed(const CERef<Window::CEWindow>& window) {
 
 			}
 

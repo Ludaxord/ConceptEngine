@@ -3,25 +3,71 @@
 #include <string>
 
 #include "../../../Core/Common/CEManager.h"
-#include "../RenderLayer/CETexture.h"
-#include "../RenderLayer/CERendering.h"
-#include "../RenderLayer/CEBuffer.h"
-#include "../RenderLayer/CERayTracing.h"
-#include "../RenderLayer/CEResourceViews.h"
-#include "../RenderLayer/CESamplerState.h"
-#include "../RenderLayer/CEPipelineState.h"
-#include "../../../Core/Containers/CEArray.h"
-#include "../../../Core/Platform/Generic/Window/CEWindow.h"
-#include "../RenderLayer/CEGPUProfiler.h"
-#include "../RenderLayer/CEViewport.h"
-#include "../RenderLayer/CEICommandContext.h"
 #include "../../../Core/Common/CETypes.h"
+#include "../../../Core/Containers/CEArray.h"
+
+#include "../RenderLayer/CERendering.h"
+#include "../RenderLayer/CEResourceViews.h"
+
 
 #define ENABLE_API_DEBUGGING 0;
 #define ENABLE_API_GPU_DEBUGGING 0;
 #define ENABLE_API_GPU_BREADCRUMBS 0;
 
-namespace ConceptEngine::Graphics::Main {
+namespace ConceptEngine {namespace Core {namespace Platform {namespace Generic {namespace Window {
+	class CEWindow;
+}}}}}
+
+namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
+		class CEICommandContext;
+		class CEViewport;
+		class CEGPUProfiler;
+		struct CERayTracingPipelineStateCreateInfo;
+		class CERayTracingPipelineState;
+		struct CEComputePipelineStateCreateInfo;
+		class CEComputePipelineState;
+		struct CEGraphicsPipelineStateCreateInfo;
+		class CEGraphicsPipelineState;
+		struct CEInputLayoutStateCreateInfo;
+		class CEInputLayoutState;
+		struct CEBlendStateCreateInfo;
+		class CEBlendState;
+		struct CERasterizerStateCreateInfo;
+		class CERasterizerState;
+		struct CEDepthStencilStateCreateInfo;
+		class CEDepthStencilState;
+		class CERayMissShader;
+		class CERayClosestHitShader;
+		class CERayAnyHitShader;
+		class CERayGenShader;
+		class CEPixelShader;
+		class CEAmplificationShader;
+		class CEMeshShader;
+		class CEGeometryShader;
+		class CEDomainShader;
+		class CEHullShader;
+		class CEVertexShader;
+		class CEComputeShader;
+		class CEShaderResourceView;
+		class CERayTracingGeometry;
+		struct CERayTracingGeometryInstance;
+		class CERayTracingScene;
+		class CEStructuredBuffer;
+		class CEConstantBuffer;
+		enum class CEIndexFormat;
+		class CEIndexBuffer;
+		class CEVertexBuffer;
+		struct CESamplerStateCreateInfo;
+		class CESamplerState;
+		class CETexture3D;
+		class CETextureCubeArray;
+		class CETextureCube;
+		class CETexture2DArray;
+		struct CEResourceData;
+		enum class CEResourceState;
+		enum class CEFormat;
+		class CETexture2D;
+	}
 
 	enum class CEShadingRateTier {
 		NotSupported = 0,
@@ -478,36 +524,36 @@ namespace ConceptEngine::Graphics::Main {
 			}
 
 			virtual class RenderLayer::CEComputeShader* CreateComputeShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 
 			virtual class RenderLayer::CEVertexShader* CreateVertexShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 			virtual class RenderLayer::CEHullShader* CreateHullShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 			virtual class RenderLayer::CEDomainShader* CreateDomainShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 			virtual class RenderLayer::CEGeometryShader* CreateGeometryShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) =
+				const CEArray<uint8>& shaderCode) =
 			0;
 			virtual class RenderLayer::CEMeshShader* CreateMeshShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) =
+				const CEArray<uint8>& shaderCode) =
 			0;
 			virtual class RenderLayer::CEAmplificationShader* CreateAmplificationShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 			virtual class RenderLayer::CEPixelShader* CreatePixelShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 
 			virtual class RenderLayer::CERayGenShader* CreateRayGenShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 			virtual class RenderLayer::CERayAnyHitShader* CreateRayAnyHitShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) =
+				const CEArray<uint8>& shaderCode) =
 			0;
 			virtual class RenderLayer::CERayClosestHitShader* CreateRayClosestHitShader(
-				const Core::Containers::CEArray<uint8>& shaderCode)
+				const CEArray<uint8>& shaderCode)
 			=
 			0;
 			virtual class RenderLayer::CERayMissShader* CreateRayMissShader(
-				const Core::Containers::CEArray<uint8>& shaderCode) = 0;
+				const CEArray<uint8>& shaderCode) = 0;
 
 			virtual class RenderLayer::CEDepthStencilState* CreateDepthStencilState(
 				const RenderLayer::CEDepthStencilStateCreateInfo& createInfo)

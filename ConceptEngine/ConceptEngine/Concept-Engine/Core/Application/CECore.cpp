@@ -1,14 +1,35 @@
 #include "CECore.h"
 
-using namespace ConceptEngine::Core::Application;
-using namespace ConceptEngine::Graphics::Main;
-using namespace ConceptEngine::Core::Compilers;
-using namespace ConceptEngine::Core::Platform;
-using namespace ConceptEngine::Core::Generic::Platform;
+#include "../../Graphics/Main/Common/API.h"
+#include "../Compilers/CECompiler.h"
+#include "../Platform/Generic/CEPlatform.h"
+#include "../../Core/Platform/CEPlatformActions.h"
+#include "../../Graphics/Main/Common/CEPlayground.h"
+#include "../../Core/Platform/Generic/Callbacks/CEEngineController.h"
+#include "../../Core/Platform/Generic/Debug/CETypedConsole.h"
+#include "../../Core/Debug/CEProfiler.h"
+#include "../../Core/Debug/CEDebug.h"
+#include "../../Core/Threading/CETaskManager.h"
+#include "../../Render/CERenderer.h"
+#include "../../Graphics/DirectX12/CEDirectX12.h"
+#include "../../Graphics/Vulkan/CEVulkan.h"
+#include "../../Graphics/OpenGL/CEOpenGL.h"
+#include "../../Graphics/Metal/CEMetal.h"
+#include "../../Core/Platform/Android/CEAndroid.h"
+#include "../../Core/Platform/Mac/CEMac.h"
+#include "../../Core/Platform/Windows/CEWindows.h"
+#include "../../Core/Platform/iOS/CEiOS.h"
+#include "../../Core/Platform/Linux/CELinux.h"
+#include "../../Core/Compilers/Cpp/CECppCompiler.h"
+#include "../../Core/Compilers/CSharp/CECSCompiler.h"
+#include "../../Core/Compilers/Python/CEPyCompiler.h"
+#include "../../Core/Compilers/JS/CEJSCompiler.h"
+#include "../../Core/Compilers/Schematics/CESchematicsCompiler.h"
+
 
 CETypedConsole Console;
 
-ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Language language,
+ConceptEngine::Core::Application::CECore::CECore(GraphicsAPI api, Compilers::Language language,
                                                  Generic::Platform::Platform platform) {
 	GGraphics = SelectGraphicsAPI(api);
 	GCompiler = SelectLanguageCompiler(language);
@@ -88,7 +109,8 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 // }
 
 
-CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(GraphicsAPI api) {
+ConceptEngine::Graphics::Main::CEGraphics*
+ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(GraphicsAPI api) {
 	SetAPI(api);
 	switch (api) {
 	case GraphicsAPI::DirectX: {
@@ -109,19 +131,20 @@ CEGraphics* ConceptEngine::Core::Application::CECore::SelectGraphicsAPI(Graphics
 	}
 }
 
-ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::SelectPlatform(
+ConceptEngine::Core::Generic::Platform::CEPlatform*
+ConceptEngine::Core::Application::CECore::SelectPlatform(
 	Generic::Platform::Platform platform) {
 	switch (platform) {
 	case Generic::Platform::Platform::Android:
-		return new Android::CEAndroid();
+		return new ConceptEngine::Core::Platform::Android::CEAndroid();
 	case Generic::Platform::Platform::iOS:
-		return new iOS::CEiOS();
+		return new ConceptEngine::Core::Platform::iOS::CEiOS();
 	case Generic::Platform::Platform::Linux:
-		return new Linux::CELinux();
+		return new ConceptEngine::Core::Platform::Linux::CELinux();
 	case Generic::Platform::Platform::Mac:
-		return new Mac::CEMac();
+		return new ConceptEngine::Core::Platform::Mac::CEMac();
 	case Generic::Platform::Platform::Windows:
-		return new Platform::Windows::CEWindows();
+		return new ConceptEngine::Core::Platform::Windows::CEWindows();
 	case Generic::Platform::Platform::Unknown:
 		return nullptr;
 	default:
@@ -129,21 +152,22 @@ ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Applica
 	}
 }
 
-CECompiler* ConceptEngine::Core::Application::CECore::SelectLanguageCompiler(Language language) {
+ConceptEngine::Core::Compilers::CECompiler* ConceptEngine::Core::Application::CECore::SelectLanguageCompiler(
+	Compilers::Language language) {
 	switch (language) {
-	case Language::Cpp:
-		return new Cpp::CECppCompiler();
-	case Language::CSharp:
-		return new CSharp::CECSCompiler();
-	case Language::JS:
-		return new JS::CEJSCompiler();
-	case Language::Python:
-		return new Python::CEPyCompiler();
-	case Language::Schematics:
-		return new Schematics::CESchematicsCompiler();
-	case Language::Count:
+	case Compilers::Language::Cpp:
+		return new ConceptEngine::Core::Compilers::Cpp::CECppCompiler();
+	case Compilers::Language::CSharp:
+		return new ConceptEngine::Core::Compilers::CSharp::CECSCompiler();
+	case Compilers::Language::JS:
+		return new ConceptEngine::Core::Compilers::JS::CEJSCompiler();
+	case Compilers::Language::Python:
+		return new ConceptEngine::Core::Compilers::Python::CEPyCompiler();
+	case Compilers::Language::Schematics:
+		return new ConceptEngine::Core::Compilers::Schematics::CESchematicsCompiler();
+	case Compilers::Language::Count:
 		return nullptr;
-	case Language::None:
+	case Compilers::Language::None:
 		return nullptr;
 	default:
 		return nullptr;

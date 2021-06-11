@@ -1,11 +1,16 @@
 #include "CEGame.h"
 
-#include "../../../Time/CETimer.h"
 #include "../../Debug/CEProfiler.h"
 
 #include "../../Debug/CEDebug.h"
 
-#include "../../../Render/CERenderer.h"
+#include "../../../Graphics/Main/Common/API.h"
+#include "../../Compilers/CECompiler.h"
+#include "../../Platform/Generic/CEPlatform.h"
+#include "../../../Graphics/Main/Common/CEPlayground.h"
+#include "../../../Core/Platform/Generic/Debug/CETypedConsole.h"
+#include "../../../Graphics/DirectX12/CEDirectX12.h"
+#include "../../../Core/Platform/Windows/CEWindows.h"
 
 using namespace ConceptEngine::Core::Application::Game;
 

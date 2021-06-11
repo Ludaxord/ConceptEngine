@@ -25,7 +25,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	protected:
-		Core::Common::CERef<CEDXResource> Resource;
+		CERef<CEDXResource> Resource;
 	};
 
 	class CEDXBaseVertexBuffer : public CEVertexBuffer, public CEDXBaseBuffer {
@@ -129,7 +129,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	public:
 		template <typename... TBufferArgs>
 		TCEDXBaseBuffer(CEDXDevice* device, TBufferArgs&&... BufferArgs) : TBaseBuffer(
-			device, Core::Containers::Forward<TBufferArgs>(BufferArgs)...) {
+			device, Forward<TBufferArgs>(BufferArgs)...) {
 		}
 
 		virtual void* Map(uint32 offset, uint32 size) override {

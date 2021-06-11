@@ -66,7 +66,7 @@ namespace ConceptEngine::Core::Delegates {
 
 		template <typename T>
 		CEDelegateHandle AddLambda(T Fn) {
-			return InternalAddNewDelegate(new LambdaDelegate<T>(Containers::Forward<T>(Fn)));
+			return InternalAddNewDelegate(new LambdaDelegate<T>(Forward<T>(Fn)));
 		}
 
 		CEDelegateHandle AddDelegate(const CEDelegate<void(TArgs ...)>& Delegate) {
@@ -76,7 +76,7 @@ namespace ConceptEngine::Core::Delegates {
 
 		void Unbind(CEDelegateHandle Handle) {
 			IDelegate* DelegateHandle = reinterpret_cast<IDelegate*>(Handle.Handle);
-			for (typename Containers::CEArray<IDelegate*>::Iterator It = Delegates.Begin(); It != Delegates.End(); ++It) {
+			for (typename CEArray<IDelegate*>::Iterator It = Delegates.Begin(); It != Delegates.End(); ++It) {
 				if (DelegateHandle == *It) {
 					Delegates.Erase(It);
 					return;
@@ -93,7 +93,7 @@ namespace ConceptEngine::Core::Delegates {
 		}
 
 	protected:
-		Containers::CEArray<IDelegate*> Delegates;
+		CEArray<IDelegate*> Delegates;
 	private:
 		CEDelegateHandle InternalAddNewDelegate(IDelegate* NewDelegate) {
 			Delegates.EmplaceBack(NewDelegate);

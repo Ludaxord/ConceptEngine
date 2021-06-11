@@ -17,14 +17,14 @@ namespace ConceptEngine::Graphics::Main { namespace RenderLayer {
 		struct ImGuiImage {
 			ImGuiImage() = default;
 
-			ImGuiImage(const Core::Common::CERef<RenderLayer::CEShaderResourceView>& imageView,
-			           const Core::Common::CERef<RenderLayer::CETexture>& image, RenderLayer::CEResourceState before,
+			ImGuiImage(const CERef<RenderLayer::CEShaderResourceView>& imageView,
+			           const CERef<RenderLayer::CETexture>& image, RenderLayer::CEResourceState before,
 			           RenderLayer::CEResourceState after): ImageView(imageView), Image(image), BeforeState(before),
 			                                                AfterState(after) {
 			}
 
-			Core::Common::CERef<RenderLayer::CEShaderResourceView> ImageView;
-			Core::Common::CERef<RenderLayer::CETexture> Image;
+			CERef<RenderLayer::CEShaderResourceView> ImageView;
+			CERef<RenderLayer::CETexture> Image;
 			RenderLayer::CEResourceState BeforeState;
 			RenderLayer::CEResourceState AfterState;
 			bool AllowBlending = false;

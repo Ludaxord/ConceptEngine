@@ -37,9 +37,9 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		}
 	}
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	{
-		Core::Containers::CEArray<Main::RenderLayer::CEShaderDefine> defines = {
+		CEArray<Main::RenderLayer::CEShaderDefine> defines = {
 			{"ENABLE_PARALLAX_MAPPING", "1"},
 			{"ENABLE_NORMAL_MAPPING", "1"}
 		};
@@ -79,7 +79,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		depthStencilStateCreateInfo.DepthEnable = true;
 		depthStencilStateCreateInfo.DepthWriteMask = Main::RenderLayer::CEDepthWriteMask::All;
 
-		Core::Common::CERef<Main::RenderLayer::CEDepthStencilState> geometryDepthStencilState = CastGraphicsManager()->
+		CERef<Main::RenderLayer::CEDepthStencilState> geometryDepthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(
 				depthStencilStateCreateInfo);
 		if (!geometryDepthStencilState) {
@@ -92,7 +92,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		Main::RenderLayer::CERasterizerStateCreateInfo rasterizerStateInfo;
 		rasterizerStateInfo.CullMode = Main::RenderLayer::CECullMode::Back;
 
-		Core::Common::CERef<Main::RenderLayer::CERasterizerState> geometryRasterizerState = CastGraphicsManager()->
+		CERef<Main::RenderLayer::CERasterizerState> geometryRasterizerState = CastGraphicsManager()->
 			CreateRasterizerState(
 				rasterizerStateInfo);
 		if (!geometryRasterizerState) {
@@ -106,7 +106,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		blendStateInfo.independentBlendEnable = false;
 		blendStateInfo.RenderTarget[0].BlendEnable = false;
 
-		Core::Common::CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
+		CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
 			CEDebug::DebugBreak();
@@ -165,7 +165,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		depthStencilStateInfo.DepthEnable = true;
 		depthStencilStateInfo.DepthWriteMask = Main::RenderLayer::CEDepthWriteMask::All;
 
-		Core::Common::CERef<Main::RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
+		CERef<Main::RenderLayer::CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 			CreateDepthStencilState(depthStencilStateInfo);
 		if (!depthStencilState) {
 			CEDebug::DebugBreak();
@@ -177,7 +177,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		Main::RenderLayer::CERasterizerStateCreateInfo rasterizerStateInfo;
 		rasterizerStateInfo.CullMode = Main::RenderLayer::CECullMode::Back;
 
-		Core::Common::CERef<Main::RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
+		CERef<Main::RenderLayer::CERasterizerState> rasterizerState = CastGraphicsManager()->
 			CreateRasterizerState(rasterizerStateInfo);
 
 		if (!rasterizerState) {
@@ -191,7 +191,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		blendStateInfo.independentBlendEnable = false;
 		blendStateInfo.RenderTarget[0].BlendEnable = false;
 
-		Core::Common::CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
+		CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
 			blendStateInfo);
 		if (!blendState) {
 			CEDebug::DebugBreak();
@@ -227,7 +227,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		return false;
 	}
 
-	Core::Common::CERef<Main::RenderLayer::CETexture2D> stagingTexture = CastGraphicsManager()->CreateTexture2D(
+	CERef<Main::RenderLayer::CETexture2D> stagingTexture = CastGraphicsManager()->CreateTexture2D(
 		LUTFormat,
 		LUTSize,
 		LUTSize,
@@ -284,7 +284,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		return false;
 	}
 
-	Core::Common::CERef<Main::RenderLayer::CEComputeShader> computeShader = CastGraphicsManager()->
+	CERef<Main::RenderLayer::CEComputeShader> computeShader = CastGraphicsManager()->
 		CreateComputeShader(shaderCode);
 
 	if (!computeShader) {
@@ -297,7 +297,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	Main::RenderLayer::CEComputePipelineStateCreateInfo pipelineStateCreateInfo;
 	pipelineStateCreateInfo.Shader = computeShader.Get();
 
-	Core::Common::CERef<Main::RenderLayer::CEComputePipelineState> BRDF_pipelineState = CastGraphicsManager()->
+	CERef<Main::RenderLayer::CEComputePipelineState> BRDF_pipelineState = CastGraphicsManager()->
 		CreateComputePipelineState(pipelineStateCreateInfo);
 	if (!BRDF_pipelineState) {
 		CEDebug::DebugBreak();
@@ -370,7 +370,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	}
 
 	{
-		Core::Containers::CEArray<Main::RenderLayer::CEShaderDefine> defines = {
+		CEArray<Main::RenderLayer::CEShaderDefine> defines = {
 			Main::RenderLayer::CEShaderDefine("DRAW_TILE_DEBUG", "1")
 		};
 

@@ -113,7 +113,7 @@ void CEDXOfflineDescriptorHeap::SetName(const std::string& name) {
 bool CEDXOfflineDescriptorHeap::AllocateHeap() {
 	constexpr uint32 descriptorCount = D3D12_MAX_OFFLINE_DESCRIPTOR_COUNT;
 
-	Core::Common::CERef<CEDXDescriptorHeap> heap = new CEDXDescriptorHeap(
+	CERef<CEDXDescriptorHeap> heap = new CEDXDescriptorHeap(
 		GetDevice(), Type, descriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 	if (heap->Create()) {
 		if (!Name.empty()) {
@@ -180,7 +180,7 @@ bool CEDXOnlineDescriptorHeap::HasSpace(uint32 numHandles) const {
 
 void CEDXOnlineDescriptorHeap::Reset() {
 	if (!HeapPool.IsEmpty()) {
-		for (Core::Common::CERef<CEDXDescriptorHeap>& currentHeap : DiscardedHeaps) {
+		for (CERef<CEDXDescriptorHeap>& currentHeap : DiscardedHeaps) {
 			HeapPool.EmplaceBack(currentHeap);
 		}
 

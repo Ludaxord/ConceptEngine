@@ -54,18 +54,18 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		virtual bool CompileFromFile(const std::string& filePath,
 		                             const std::string& entryPoint,
-		                             const Core::Containers::CEArray<CEShaderDefine>* defines,
+		                             const CEArray<CEShaderDefine>* defines,
 		                             CEShaderStage shaderStage,
 		                             CEShaderModel shaderModel,
-		                             Core::Containers::CEArray<uint8>& code) = 0;
+		                             CEArray<uint8>& code) = 0;
 
 
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,
-		                           const Core::Containers::CEArray<CEShaderDefine>* defines,
+		                           const CEArray<CEShaderDefine>* defines,
 		                           CEShaderStage shaderStage,
 		                           CEShaderModel shaderModel,
-		                           Core::Containers::CEArray<uint8>& code) = 0;
+		                           CEArray<uint8>& code) = 0;
 	};
 
 	inline bool ShaderStageIsGraphics(CEShaderStage shaderStage) {

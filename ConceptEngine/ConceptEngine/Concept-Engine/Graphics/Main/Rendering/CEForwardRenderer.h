@@ -15,8 +15,8 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		                    const CELightSetup& lightSetup) = 0;
 
 	protected:
-		Core::Common::CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
-		Core::Common::CERef<RenderLayer::CEVertexShader> VertexShader;
-		Core::Common::CERef<RenderLayer::CEPixelShader> PixelShader;
+		CERef<RenderLayer::CEGraphicsPipelineState> PipelineState;
+		CERef<RenderLayer::CEVertexShader> VertexShader;
+		CERef<RenderLayer::CEPixelShader> PixelShader;
 	};
 }

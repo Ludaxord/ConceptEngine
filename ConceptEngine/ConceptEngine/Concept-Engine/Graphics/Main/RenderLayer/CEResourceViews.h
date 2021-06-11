@@ -24,7 +24,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	};
 
-	using CEDepthStencilViewCube = Core::Containers::CEStaticArray<Core::Common::CERef<CEDepthStencilView>, 6>;
+	using CEDepthStencilViewCube = CEStaticArray<CERef<CEDepthStencilView>, 6>;
 
 	struct CEShaderResourceViewCreateInfo {
 		enum class CEType {

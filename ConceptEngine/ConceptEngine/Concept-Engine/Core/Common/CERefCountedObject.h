@@ -1,7 +1,6 @@
 #pragma once
 #include "CETypes.h"
 
-namespace ConceptEngine::Core::Common {
 	class CERefCountedObject {
 	public:
 		CERefCountedObject();
@@ -18,4 +17,3 @@ namespace ConceptEngine::Core::Common {
 	private:
 		uint32 StrongReferences;
 	};
-}

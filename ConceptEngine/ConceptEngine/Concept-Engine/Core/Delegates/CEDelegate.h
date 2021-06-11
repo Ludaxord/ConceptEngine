@@ -71,7 +71,7 @@ namespace ConceptEngine::Core::Delegates {
 		template <typename F>
 		void BindLambda(F Functor) {
 			Unbind();
-			Delegate = new LambdaDelegate<F>(Containers::Forward<F>(Functor));
+			Delegate = new LambdaDelegate<F>(Forward<F>(Functor));
 		}
 
 		void Unbind() {
@@ -83,12 +83,12 @@ namespace ConceptEngine::Core::Delegates {
 
 		TReturn Execute(TArgs ... Args) {
 			Assert(Delegate != nullptr);
-			return Delegate->Execute(Containers::Forward<TArgs>(Args)...);
+			return Delegate->Execute(Forward<TArgs>(Args)...);
 		}
 
 		bool ExecuteIfBound(TArgs ... Args) {
 			if (IsBound()) {
-				Delegate->Execute(Containers::Forward<TArgs>(Args)...);
+				Delegate->Execute(Forward<TArgs>(Args)...);
 				return true;
 			}
 			else {
@@ -97,7 +97,7 @@ namespace ConceptEngine::Core::Delegates {
 		}
 
 		void Swap(CEDelegate& Other) {
-			CEDelegate Temp(Containers::Move(*this));
+			CEDelegate Temp(Move(*this));
 			Delegate = Other.Delegate;
 			Other.Delegate = Temp.Delegate;
 			Temp.Delegate = nullptr;
@@ -108,11 +108,11 @@ namespace ConceptEngine::Core::Delegates {
 		}
 
 		TReturn operator()(TArgs ... Args) {
-			return Execute(Containers::Forward<TArgs>(Args)...);
+			return Execute(Forward<TArgs>(Args)...);
 		}
 
 		CEDelegate& operator=(CEDelegate&& RHS) {
-			CEDelegate(Containers::Move(RHS)).Swap(*this);
+			CEDelegate(Move(RHS)).Swap(*this);
 			return *this;
 		}
 

@@ -10,12 +10,12 @@ using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
 bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resources) {
 
-	Core::Containers::CEArray<Main::RenderLayer::CEShaderDefine> defines = {
+	CEArray<Main::RenderLayer::CEShaderDefine> defines = {
 		{"ENABLE_PARALLAX_MAPPING", "1"},
 		{"ENABLE_NORMAL_MAPPING", "1"}
 	};
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ForwardPass.hlsl",
 	                                     "VSMain",
 	                                     &defines,
@@ -52,7 +52,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	depthStencilStateInfo.DepthEnable = true;
 	depthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::All;
 
-	Core::Common::CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(
+	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->CreateDepthStencilState(
 		depthStencilStateInfo);
 	if (!depthStencilState) {
 		CEDebug::DebugBreak();
@@ -64,7 +64,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	CERasterizerStateCreateInfo rasterizerStateInfo;
 	rasterizerStateInfo.CullMode = CECullMode::None;
 
-	Core::Common::CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(
+	CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(
 		rasterizerStateInfo);
 	if (!rasterizerState) {
 		CEDebug::DebugBreak();
@@ -77,7 +77,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	blendStateInfo.independentBlendEnable = false;
 	blendStateInfo.RenderTarget[0].BlendEnable = true;
 
-	Core::Common::CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
+	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 	if (!blendState) {
 		CEDebug::DebugBreak();
 		return false;

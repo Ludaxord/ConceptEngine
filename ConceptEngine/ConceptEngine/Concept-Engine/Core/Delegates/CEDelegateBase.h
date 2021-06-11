@@ -27,7 +27,7 @@ namespace ConceptEngine::Core::Delegates {
 			}
 
 			virtual TReturn Execute(TArgs ... Args) const override {
-				return Fn(Containers::Forward<TArgs>(Args)...);
+				return Fn(Forward<TArgs>(Args)...);
 			}
 
 			virtual IDelegate* Clone() const override {
@@ -44,7 +44,7 @@ namespace ConceptEngine::Core::Delegates {
 			}
 
 			TReturn Execute(TArgs ... Args) const override {
-				return ((*Object).*Fn)(Containers::Forward<TArgs>(Args)...);
+				return ((*Object).*Fn)(Forward<TArgs>(Args)...);
 			};
 
 			IDelegate* Clone() const override {
@@ -62,7 +62,7 @@ namespace ConceptEngine::Core::Delegates {
 			}
 
 			TReturn Execute(TArgs ... Args) const override {
-				return ((*Object).*Fn)(Containers::Forward<TArgs>(Args)...);
+				return ((*Object).*Fn)(Forward<TArgs>(Args)...);
 			};
 
 			IDelegate* Clone() const override {
@@ -80,7 +80,7 @@ namespace ConceptEngine::Core::Delegates {
 			}
 
 			TReturn Execute(TArgs ... Args) const override {
-				return Invokable(Containers::Forward<TArgs>(Args)...);
+				return Invokable(Forward<TArgs>(Args)...);
 			}
 
 			IDelegate* Clone() const override {

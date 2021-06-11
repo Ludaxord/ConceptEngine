@@ -9,7 +9,6 @@
 #include "../../../Core/Debug/CEDebug.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
-using namespace ConceptEngine::Core::Containers;
 
 CEDXGPUResourceUploader::CEDXGPUResourceUploader(CEDXDevice* device): CEDXDeviceElement(device),
                                                                       MappedMemory(nullptr),
@@ -216,7 +215,7 @@ bool CEDXCommandContext::Create() {
 		return false;
 	}
 
-	Core::Common::CERef<CEDXComputeShader> shader = new CEDXComputeShader(GetDevice(), code);
+	CERef<CEDXComputeShader> shader = new CEDXComputeShader(GetDevice(), code);
 	if (shader->Create()) {
 		return false;
 	}
@@ -324,7 +323,7 @@ void CEDXCommandContext::BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) {
 	CEDXGPUProfiler* dxProfiler = static_cast<CEDXGPUProfiler*>(profiler);
 	Assert(profiler);
 	dxProfiler->BeginQuery(commandList, index);
-	ResolveProfilers.EmplaceBack(Core::Common::MakeSharedRef<CEDXGPUProfiler>(dxProfiler));
+	ResolveProfilers.EmplaceBack(MakeSharedRef<CEDXGPUProfiler>(dxProfiler));
 }
 
 void CEDXCommandContext::EndTimeStamp(CEGPUProfiler* profiler, uint32 index) {
@@ -452,7 +451,7 @@ void CEDXCommandContext::SetRayTracingBindings(CERayTracingScene* rayTracingScen
 	ID3D12GraphicsCommandList4* dxrCommandList = CommandList.GetDXRCommandList();
 
 	CEDXRootSignature* globalRootSignature = dxrPipelineState->GetGlobalRootSignature();
-	CurrentRootSignature = Core::Common::MakeSharedRef<CEDXRootSignature>(globalRootSignature);
+	CurrentRootSignature = MakeSharedRef<CEDXRootSignature>(globalRootSignature);
 	dxrCommandList->SetComputeRootSignature(CurrentRootSignature->GetRootSignature());
 
 	DescriptorCache.CommitComputeDescriptors(CommandList, CommandBatch, CurrentRootSignature.Get());
@@ -640,13 +639,13 @@ void CEDXCommandContext::SetGraphicsPipelineState(CEGraphicsPipelineState* pipel
 
 	CEDXGraphicsPipelineState* dxPipelineState = static_cast<CEDXGraphicsPipelineState*>(pipelineState);
 	if (dxPipelineState != CurrentGraphicsPipelineState.Get()) {
-		CurrentGraphicsPipelineState = Core::Common::MakeSharedRef<CEDXGraphicsPipelineState>(dxPipelineState);
+		CurrentGraphicsPipelineState = MakeSharedRef<CEDXGraphicsPipelineState>(dxPipelineState);
 		CommandList.SetPipelineState(CurrentGraphicsPipelineState->GetPipeline());
 	}
 
 	CEDXRootSignature* dxRootSignature = dxPipelineState->GetRootSignature();
 	if (dxRootSignature != CurrentRootSignature.Get()) {
-		CurrentRootSignature = Core::Common::MakeSharedRef<CEDXRootSignature>(dxRootSignature);
+		CurrentRootSignature = MakeSharedRef<CEDXRootSignature>(dxRootSignature);
 		CommandList.SetGraphicsRootSignature(CurrentRootSignature.Get());
 	}
 
@@ -656,13 +655,13 @@ void CEDXCommandContext::SetComputePipelineState(CEComputePipelineState* pipelin
 	Assert(pipelineState != nullptr);
 	CEDXComputePipelineState* dxPipelineState = static_cast<CEDXComputePipelineState*>(pipelineState);
 	if (dxPipelineState != CurrentComputePipelineState.Get()) {
-		CurrentComputePipelineState = Core::Common::MakeSharedRef<CEDXComputePipelineState>(dxPipelineState);
+		CurrentComputePipelineState = MakeSharedRef<CEDXComputePipelineState>(dxPipelineState);
 		CommandList.SetPipelineState(CurrentComputePipelineState->GetPipeline());
 	}
 
 	CEDXRootSignature* dxRootSignature = dxPipelineState->GetRootSignature();
 	if (dxRootSignature != CurrentRootSignature.Get()) {
-		CurrentRootSignature = Core::Common::MakeSharedRef<CEDXRootSignature>(dxRootSignature);
+		CurrentRootSignature = MakeSharedRef<CEDXRootSignature>(dxRootSignature);
 		CommandList.SetComputeRootSignature(CurrentRootSignature.Get());
 	}
 }
@@ -973,7 +972,7 @@ void CEDXCommandContext::GenerateMips(CETexture* texture) {
 
 	Assert(desc.MipLevels > 1);
 
-	Core::Common::CERef<CEDXResource> stagingTexture = new CEDXResource(
+	CERef<CEDXResource> stagingTexture = new CEDXResource(
 		GetDevice(), desc, dxTexture->GetResource()->GetHeapType());
 	if (!stagingTexture->Create(D3D12_RESOURCE_STATE_COMMON, nullptr)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to create StagingTexture for GenerateMips");

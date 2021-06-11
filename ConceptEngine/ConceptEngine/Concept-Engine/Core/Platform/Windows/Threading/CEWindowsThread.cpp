@@ -13,7 +13,7 @@ using namespace ConceptEngine::Core::Platform::Windows::Threading;
 ConceptEngine::Core::Threading::CEThread* ConceptEngine::Core::Threading::CEThread::Create(ThreadFunction func) {
 	std::condition_variable variable;
 
-	Common::CERef<CEWindowsThread> newThread = new CEWindowsThread();
+	CERef<CEWindowsThread> newThread = new CEWindowsThread();
 	if (!newThread->Create(func)) {
 		return nullptr;
 	}

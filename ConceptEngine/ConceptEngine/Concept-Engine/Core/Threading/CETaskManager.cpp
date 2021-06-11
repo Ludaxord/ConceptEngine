@@ -19,7 +19,7 @@ bool CETaskManager::Create() {
 	IsRunning = true;
 
 	for (uint32 i = 0; i < threadCount; i++) {
-		if (Common::CERef<CEThread> newThread = CEThread::Create(CETaskManager::WorkThread); newThread) {
+		if (CERef<CEThread> newThread = CEThread::Create(CETaskManager::WorkThread); newThread) {
 			Threads[i] = newThread;
 			newThread->SetName("CEThread_" + std::to_string(i));
 		}
@@ -60,7 +60,7 @@ void CETaskManager::WaitForAllTasks() {
 void CETaskManager::Release() {
 	KillWorkers();
 
-	for (Common::CERef<CEThread> thread : Threads) {
+	for (CERef<CEThread> thread : Threads) {
 		thread->Wait();
 	}
 

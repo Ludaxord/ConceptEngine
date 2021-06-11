@@ -62,7 +62,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseShader : public CEDXDeviceElement {
 	public:
-		CEDXBaseShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code,
+		CEDXBaseShader(CEDXDevice* device, const CEArray<uint8>& code,
 		               CEShaderVisibility shaderVisibility);
 		~CEDXBaseShader();
 
@@ -128,15 +128,15 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		static bool GetShaderReflection(class CEDXBaseShader* shader);
 
-	protected:
+	public:
 		template <typename TCEDXReflectionInterface>
 		static bool GetShaderResourceBindings(TCEDXReflectionInterface* reflection, CEDXBaseShader* shader,
 		                                      uint32 numBoundResources);
 		D3D12_SHADER_BYTECODE ByteCode;
-		Core::Containers::CEArray<CEDXShaderParameter> ConstantBufferParameters;
-		Core::Containers::CEArray<CEDXShaderParameter> ShaderResourceParameters;
-		Core::Containers::CEArray<CEDXShaderParameter> UnorderedAccessParameters;
-		Core::Containers::CEArray<CEDXShaderParameter> SamplerParameters;
+		CEArray<CEDXShaderParameter> ConstantBufferParameters;
+		CEArray<CEDXShaderParameter> ShaderResourceParameters;
+		CEArray<CEDXShaderParameter> UnorderedAccessParameters;
+		CEArray<CEDXShaderParameter> SamplerParameters;
 		CEShaderVisibility Visibility;
 		CEShaderResourceCount ResourceCount;
 		CEShaderResourceCount RTLocalResourceCount;
@@ -148,7 +148,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	template <typename TBaseShader>
 	class TCEDXShader : public TBaseShader {
 	public:
-		TCEDXShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code): TBaseShader(device, code) {
+		TCEDXShader(CEDXDevice* device, const CEArray<uint8>& code): TBaseShader(device, code) {
 
 		}
 
@@ -181,7 +181,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	protected:
 	private:
-		bool InternalFindParameterIndexByName(const Core::Containers::CEArray<CEDXShaderParameter>& parameters,
+		bool InternalFindParameterIndexByName(const CEArray<CEDXShaderParameter>& parameters,
 		                                      const std::string& name, uint32& index) const {
 			for (uint32 i = 0; i < parameters.Size(); i++) {
 				if (parameters[i].Name == name) {
@@ -195,7 +195,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseVertexShader : public CEVertexShader, public CEDXBaseShader {
 	public:
-		CEDXBaseVertexShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEVertexShader(),
+		CEDXBaseVertexShader(CEDXDevice* device, const CEArray<uint8>& code) : CEVertexShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_Vertex) {
 
 		}
@@ -203,7 +203,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBasePixelShader : public CEPixelShader, public CEDXBaseShader {
 	public:
-		CEDXBasePixelShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEPixelShader(),
+		CEDXBasePixelShader(CEDXDevice* device, const CEArray<uint8>& code) : CEPixelShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_Pixel) {
 
 		}
@@ -211,7 +211,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseHullShader : public CEHullShader, public CEDXBaseShader {
 	public:
-		CEDXBaseHullShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEHullShader(),
+		CEDXBaseHullShader(CEDXDevice* device, const CEArray<uint8>& code) : CEHullShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_Hull) {
 
 		}
@@ -221,7 +221,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseDomainShader : public CEDomainShader, public CEDXBaseShader {
 	public:
-		CEDXBaseDomainShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEDomainShader(),
+		CEDXBaseDomainShader(CEDXDevice* device, const CEArray<uint8>& code) : CEDomainShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_Domain) {
 
 		}
@@ -231,7 +231,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseGeometryShader : public CEGeometryShader, public CEDXBaseShader {
 	public:
-		CEDXBaseGeometryShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEGeometryShader(),
+		CEDXBaseGeometryShader(CEDXDevice* device, const CEArray<uint8>& code) : CEGeometryShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_Geometry) {
 
 		}
@@ -241,7 +241,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseMeshShader : public CEMeshShader, public CEDXBaseShader {
 	public:
-		CEDXBaseMeshShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEMeshShader(),
+		CEDXBaseMeshShader(CEDXDevice* device, const CEArray<uint8>& code) : CEMeshShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_All) {
 
 		}
@@ -251,7 +251,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseAmplificationShader : public CEAmplificationShader, public CEDXBaseShader {
 	public:
-		CEDXBaseAmplificationShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) :
+		CEDXBaseAmplificationShader(CEDXDevice* device, const CEArray<uint8>& code) :
 			CEAmplificationShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_All) {
 
@@ -262,7 +262,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseComputeShader : public CEComputeShader, public CEDXBaseShader {
 	public:
-		CEDXBaseComputeShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CEComputeShader(),
+		CEDXBaseComputeShader(CEDXDevice* device, const CEArray<uint8>& code) : CEComputeShader(),
 			CEDXBaseShader(device, code, ShaderVisibility_All), ThreadGroupXYZ(0, 0, 0) {
 
 		}
@@ -279,7 +279,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseRayTracingShader : public CEDXBaseShader {
 	public:
-		CEDXBaseRayTracingShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code): CEDXBaseShader(
+		CEDXBaseRayTracingShader(CEDXDevice* device, const CEArray<uint8>& code): CEDXBaseShader(
 			device, code, ShaderVisibility_All) {
 
 		}
@@ -296,7 +296,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseRayGenShader : public CERayGenShader, public CEDXBaseRayTracingShader {
 	public:
-		CEDXBaseRayGenShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CERayGenShader(),
+		CEDXBaseRayGenShader(CEDXDevice* device, const CEArray<uint8>& code) : CERayGenShader(),
 			CEDXBaseRayTracingShader(device, code) {
 
 		}
@@ -304,7 +304,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseRayAnyHitShader : public CERayAnyHitShader, public CEDXBaseRayTracingShader {
 	public:
-		CEDXBaseRayAnyHitShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CERayAnyHitShader(),
+		CEDXBaseRayAnyHitShader(CEDXDevice* device, const CEArray<uint8>& code) : CERayAnyHitShader(),
 			CEDXBaseRayTracingShader(device, code) {
 
 		}
@@ -312,7 +312,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseRayClosestHitShader : public CERayClosestHitShader, public CEDXBaseRayTracingShader {
 	public:
-		CEDXBaseRayClosestHitShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) :
+		CEDXBaseRayClosestHitShader(CEDXDevice* device, const CEArray<uint8>& code) :
 			CERayClosestHitShader(), CEDXBaseRayTracingShader(device, code) {
 
 		}
@@ -320,7 +320,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseRayMissShader : public CERayMissShader, public CEDXBaseRayTracingShader {
 	public:
-		CEDXBaseRayMissShader(CEDXDevice* device, const Core::Containers::CEArray<uint8>& code) : CERayMissShader(),
+		CEDXBaseRayMissShader(CEDXDevice* device, const CEArray<uint8>& code) : CERayMissShader(),
 			CEDXBaseRayTracingShader(device, code) {
 
 		}

@@ -11,8 +11,15 @@
 #include "../../Core/Debug/CEDebug.h"
 #include "Managers/CEDXMeshManager.h"
 
-#include "../../Core/Application/CECore.h"
 #include "../../Render/CERenderer.h"
+
+
+#include "../../Graphics/Main/Common/CEPlayground.h"
+#include "../../Core/Platform/Generic/Debug/CETypedConsole.h"
+#include "../../Core/Debug/CEProfiler.h"
+#include "../../Core/Threading/CETaskManager.h"
+#include "../../Graphics/Vulkan/CEVulkan.h"
+#include "../../Core/Platform/Windows/CEWindows.h"
 
 using namespace ConceptEngine::Graphics::DirectX12;
 

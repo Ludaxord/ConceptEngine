@@ -3,6 +3,7 @@
 #include "CEEngine.h"
 #include "Core/Platform/Windows/CEWindows.h"
 #include "Render/Scene/CECamera.h"
+#include "Graphics/Main/Common/API.h"	
 
 using namespace ConceptEngine;
 

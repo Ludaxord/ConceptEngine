@@ -14,7 +14,6 @@
 using namespace ConceptEngine::Graphics::Main::Rendering;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 using namespace ConceptEngine::Core::Common;
-using namespace ConceptEngine::Core::Containers;
 using namespace ConceptEngine::Time;
 
 static CEArray<CEDebugUI::UIDrawFunc> DrawFuncs;

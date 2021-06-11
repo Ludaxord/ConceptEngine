@@ -48,8 +48,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	private:
-		Core::Containers::CEArray<std::string> SemanticNames;
-		Core::Containers::CEArray<D3D12_INPUT_ELEMENT_DESC> ElementDesc;
+		CEArray<std::string> SemanticNames;
+		CEArray<D3D12_INPUT_ELEMENT_DESC> ElementDesc;
 		D3D12_INPUT_LAYOUT_DESC Desc;
 	};
 
@@ -142,12 +142,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> PipelineState;
-		Core::Common::CERef<CEDXRootSignature> RootSignature;
+		CERef<CEDXRootSignature> RootSignature;
 	};
 
 	class CEDXComputePipelineState : public Main::RenderLayer::CEComputePipelineState, public CEDXDeviceElement {
 	public:
-		CEDXComputePipelineState(CEDXDevice* device, const Core::Common::CERef<CEDXComputeShader>& shader);
+		CEDXComputePipelineState(CEDXDevice* device, const CERef<CEDXComputeShader>& shader);
 		~CEDXComputePipelineState() = default;
 
 		bool Create();
@@ -177,8 +177,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> PipelineState;
-		Core::Common::CERef<CEDXComputeShader> Shader;
-		Core::Common::CERef<CEDXRootSignature> RootSignature;
+		CERef<CEDXComputeShader> Shader;
+		CERef<CEDXRootSignature> RootSignature;
 	};
 
 	struct CERayTracingShaderIdentifier {
@@ -237,10 +237,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		Microsoft::WRL::ComPtr<ID3D12StateObject> StateObject;
 		Microsoft::WRL::ComPtr<ID3D12StateObjectProperties> StateObjectProperties;
 
-		Core::Common::CERef<CEDXRootSignature> GlobalRootSignature;
-		Core::Common::CERef<CEDXRootSignature> RayGenLocalRootSignature;
-		Core::Common::CERef<CEDXRootSignature> MissLocalRootSignature;
-		Core::Common::CERef<CEDXRootSignature> HitLocalRootSignature;
+		CERef<CEDXRootSignature> GlobalRootSignature;
+		CERef<CEDXRootSignature> RayGenLocalRootSignature;
+		CERef<CEDXRootSignature> MissLocalRootSignature;
+		CERef<CEDXRootSignature> HitLocalRootSignature;
 
 		std::unordered_map<std::string, CERayTracingShaderIdentifier> ShaderIdentifiers;
 	};

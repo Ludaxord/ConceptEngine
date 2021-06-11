@@ -69,14 +69,14 @@ namespace ConceptEngine::Core::Platform::Generic::Debug {
 
 		std::unordered_map<std::string, CEConsoleObject*> ConsoleObjects;
 		std::string PopupSelectedText;
-		Containers::CEArray<CECandidate> Candidates;
+		CEArray<CECandidate> Candidates;
 		int32 CandidatesIndex = -1;
 
-		Containers::CEStaticArray<char, 256> TextBuffer;
+		CEStaticArray<char, 256> TextBuffer;
 
-		Containers::CEArray<CELine> Lines;
+		CEArray<CELine> Lines;
 
-		Containers::CEArray<std::string> History;
+		CEArray<std::string> History;
 		uint32 HistoryLength = 50;
 		int32 HistoryIndex = -1;
 

@@ -84,24 +84,24 @@ namespace ConceptEngine::Render {
 		Graphics::Main::Rendering::CEFrameResources Resources;
 		Graphics::Main::Rendering::CELightSetup LightSetup;
 
-		Core::Common::CERef<Graphics::Main::RenderLayer::CETexture2D> ShadingImage;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEComputePipelineState> ShadingRatePipeline;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEComputeShader> ShadingRateShader;
+		CERef<Graphics::Main::RenderLayer::CETexture2D> ShadingImage;
+		CERef<Graphics::Main::RenderLayer::CEComputePipelineState> ShadingRatePipeline;
+		CERef<Graphics::Main::RenderLayer::CEComputeShader> ShadingRateShader;
 
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEVertexBuffer> AABBVertexBuffer;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEIndexBuffer> AABBIndexBuffer;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> AABBDebugPipelineState;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEVertexShader> AABBVertexShader;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> AABBPixelShader;
+		CERef<Graphics::Main::RenderLayer::CEVertexBuffer> AABBVertexBuffer;
+		CERef<Graphics::Main::RenderLayer::CEIndexBuffer> AABBIndexBuffer;
+		CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> AABBDebugPipelineState;
+		CERef<Graphics::Main::RenderLayer::CEVertexShader> AABBVertexShader;
+		CERef<Graphics::Main::RenderLayer::CEPixelShader> AABBPixelShader;
 
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> PostPipelineState;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> PostShader;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> FXAAPipelineState;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> FXAAShader;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> FXAADebugPipelineState;
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEPixelShader> FXAADebugShader;
+		CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> PostPipelineState;
+		CERef<Graphics::Main::RenderLayer::CEPixelShader> PostShader;
+		CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> FXAAPipelineState;
+		CERef<Graphics::Main::RenderLayer::CEPixelShader> FXAAShader;
+		CERef<Graphics::Main::RenderLayer::CEGraphicsPipelineState> FXAADebugPipelineState;
+		CERef<Graphics::Main::RenderLayer::CEPixelShader> FXAADebugShader;
 
-		Core::Common::CERef<Graphics::Main::RenderLayer::CEGPUProfiler> GPUProfiler;
+		CERef<Graphics::Main::RenderLayer::CEGPUProfiler> GPUProfiler;
 
 		uint32 LastFrameNumDrawCalls = 0;
 		uint32 LastFrameNumDispatchCalls = 0;

@@ -1,14 +1,19 @@
 #include "CEEngine.h"
 
+#include "Core/Application/CECore.h"
+#include "Core/Application/Editor/CEEditor.h"
+#include "Core/Application/Game/CEGame.h"
+#include "Core/Application/GameDebug/CEGameDebug.h"
 #include "Core/Debug/CEDebug.h"
+#include "Utilities/CEUtilities.h"
 
 
 ConceptEngine::CEEngine::CEEngine(std::wstring name,
-                                            GraphicsAPI api,
-                                            Core::Generic::Platform::Platform platform,
-                                            Core::Compilers::Language language): EnumApi(api),
-	EnumLanguage(language),
-	EnumPlatform(platform) {
+                                  GraphicsAPI api,
+                                  Core::Generic::Platform::Platform platform,
+                                  Core::Compilers::Language language): EnumApi(api),
+                                                                       EnumLanguage(language),
+                                                                       EnumPlatform(platform) {
 	InstanceName = name;
 	if (Core::Application::CECore::ShowConsole) {
 		Create(EngineBoot::GameDebug);

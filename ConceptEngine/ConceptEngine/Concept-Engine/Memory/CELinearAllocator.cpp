@@ -30,7 +30,7 @@ void CELinearAllocator::Reset() {
 	CurrentArena->Reset();
 
 	if (Arenas.Size() > 1) {
-		Arenas.Front() = Core::Containers::Move(Arenas.Back());
+		Arenas.Front() = Move(Arenas.Back());
 		Arenas.Resize(1);
 		CurrentArena = &Arenas.Front();
 	}

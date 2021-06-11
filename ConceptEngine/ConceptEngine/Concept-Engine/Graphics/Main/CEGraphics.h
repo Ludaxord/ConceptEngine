@@ -29,7 +29,7 @@ namespace ConceptEngine::Graphics::Main {
 
 		Core::Common::CEManager* GetManager(Core::Common::CEManagerType type) const;
 
-	protected:
+	public:
 		Managers::CEGraphicsManager* GraphicsManager;
 		Managers::CETextureManager* TextureManager;
 		Managers::CERendererManager* RendererManager;

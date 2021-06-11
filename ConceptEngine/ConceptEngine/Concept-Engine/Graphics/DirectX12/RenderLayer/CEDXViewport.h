@@ -47,8 +47,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		uint32 NumBackBuffers = 0;
 		uint32 BackBufferIndex = 0;
 
-		Core::Containers::CEArray<Core::Common::CERef<CEDXTexture2D>> BackBuffers;
-		Core::Containers::CEArray<Core::Common::CERef<CEDXRenderTargetView>> BackBufferViews;
+		CEArray<CERef<CEDXTexture2D>> BackBuffers;
+		CEArray<CERef<CEDXRenderTargetView>> BackBufferViews;
 
 	};
 }

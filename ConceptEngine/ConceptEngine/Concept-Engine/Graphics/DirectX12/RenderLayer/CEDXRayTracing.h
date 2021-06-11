@@ -27,10 +27,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return ResultBuffer->GetGPUVirtualAddress();
 		}
 
-		Core::Common::CERef<CEDXVertexBuffer> VertexBuffer;
-		Core::Common::CERef<CEDXIndexBuffer> IndexBuffer;
-		Core::Common::CERef<CEDXResource> ResultBuffer;
-		Core::Common::CERef<CEDXResource> ScratchBuffer;
+		CERef<CEDXVertexBuffer> VertexBuffer;
+		CERef<CEDXIndexBuffer> IndexBuffer;
+		CERef<CEDXResource> ResultBuffer;
+		CERef<CEDXResource> ScratchBuffer;
 	};
 
 	struct alignas(D3D12_RAYTRACING_SHADER_TABLE_BYTE_ALIGNMENT) CEDXShaderBindingTableEntry {
@@ -112,13 +112,13 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 	private:
-		Core::Containers::CEArray<CERayTracingGeometryInstance> Instances;
-		Core::Common::CERef<CEDXShaderResourceView> View;
+		CEArray<CERayTracingGeometryInstance> Instances;
+		CERef<CEDXShaderResourceView> View;
 
-		Core::Common::CERef<CEDXResource> ResultBuffer;
-		Core::Common::CERef<CEDXResource> ScratchBuffer;
-		Core::Common::CERef<CEDXResource> InstanceBuffer;
-		Core::Common::CERef<CEDXResource> BindingTable;
+		CERef<CEDXResource> ResultBuffer;
+		CERef<CEDXResource> ScratchBuffer;
+		CERef<CEDXResource> InstanceBuffer;
+		CERef<CEDXResource> BindingTable;
 
 		uint32 BindingTableStride = 0;
 		uint32 NumHitGroups = 0;

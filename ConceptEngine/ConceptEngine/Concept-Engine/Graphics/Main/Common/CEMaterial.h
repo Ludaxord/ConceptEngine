@@ -69,22 +69,22 @@ namespace ConceptEngine::Graphics::Main::Common {
 		}
 
 	public:
-		Core::Common::CERef<RenderLayer::CETexture2D> AlbedoMap;
-		Core::Common::CERef<RenderLayer::CETexture2D> NormalMap;
-		Core::Common::CERef<RenderLayer::CETexture2D> RoughnessMap;
-		Core::Common::CERef<RenderLayer::CETexture2D> HeightMap;
-		Core::Common::CERef<RenderLayer::CETexture2D> AOMap;
-		Core::Common::CERef<RenderLayer::CETexture2D> MetallicMap;
-		Core::Common::CERef<RenderLayer::CETexture2D> AlphaMask;
+		CERef<RenderLayer::CETexture2D> AlbedoMap;
+		CERef<RenderLayer::CETexture2D> NormalMap;
+		CERef<RenderLayer::CETexture2D> RoughnessMap;
+		CERef<RenderLayer::CETexture2D> HeightMap;
+		CERef<RenderLayer::CETexture2D> AOMap;
+		CERef<RenderLayer::CETexture2D> MetallicMap;
+		CERef<RenderLayer::CETexture2D> AlphaMask;
 
 	protected:
 		std::string DebugName;
 		bool MaterialBufferIsDirty = true;
 
 		CEMaterialProperties Properties;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> MaterialBuffer;
-		Core::Common::CERef<RenderLayer::CESamplerState> Sampler;
+		CERef<RenderLayer::CEConstantBuffer> MaterialBuffer;
+		CERef<RenderLayer::CESamplerState> Sampler;
 
-		mutable Core::Containers::CEStaticArray<RenderLayer::CEShaderResourceView*, 7> ShaderResourceViews;
+		mutable CEStaticArray<RenderLayer::CEShaderResourceView*, 7> ShaderResourceViews;
 	};
 }

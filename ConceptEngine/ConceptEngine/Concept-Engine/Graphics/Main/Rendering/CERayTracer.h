@@ -14,9 +14,9 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		                       const Render::Scene::CEScene& scene) = 0;
 
 	protected:
-		Core::Common::CERef<RenderLayer::CERayTracingPipelineState> Pipeline;
-		Core::Common::CERef<RenderLayer::CERayGenShader> RayGenShader;
-		Core::Common::CERef<RenderLayer::CERayMissShader> RayMissShader;
-		Core::Common::CERef<RenderLayer::CERayClosestHitShader> RayClosestHitShader;
+		CERef<RenderLayer::CERayTracingPipelineState> Pipeline;
+		CERef<RenderLayer::CERayGenShader> RayGenShader;
+		CERef<RenderLayer::CERayMissShader> RayMissShader;
+		CERef<RenderLayer::CERayClosestHitShader> RayClosestHitShader;
 	};
 }

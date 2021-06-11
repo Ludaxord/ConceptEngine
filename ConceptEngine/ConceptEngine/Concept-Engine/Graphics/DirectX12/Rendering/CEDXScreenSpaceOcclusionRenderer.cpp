@@ -24,7 +24,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 		return false;
 	}
 
-	Core::Containers::CEArray<uint8> shaderCode;
+	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/SSAO.hlsl", "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
@@ -58,7 +58,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 	DirectX::XMVECTOR normal = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
-	Core::Containers::CEArray<DirectX::XMFLOAT3> SSAOKernel;
+	CEArray<DirectX::XMFLOAT3> SSAOKernel;
 	for (uint32 i = 0; i < 256 && SSAOKernel.Size() < 64; ++i) {
 		DirectX::XMVECTOR xmSample = DirectX::XMVectorSet(randomFloats(generator) * 2.0f - 1.0f,
 		                                                  randomFloats(generator) * 2.0f - 1.0f,
@@ -83,7 +83,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	}
 
 	//Generate noise
-	Core::Containers::CEArray<CEFloat16> SSAONoise;
+	CEArray<CEFloat16> SSAONoise;
 	for (uint32 i = 0; i < 16; i++) {
 		const float x = randomFloats(generator) * 2.0f - 1.0f;
 		const float y = randomFloats(generator) * 2.0f - 1.0f;
@@ -140,7 +140,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 
 	SSAOSamplesSRV->SetName("SSAO Samples SRV");
 
-	Core::Containers::CEArray<RenderLayer::CEShaderDefine> defines;
+	CEArray<RenderLayer::CEShaderDefine> defines;
 	defines.EmplaceBack("HORIZONTAL_PASS", "1");
 
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
@@ -227,7 +227,7 @@ void CEDXScreenSpaceOcclusionRenderer::Render(Main::RenderLayer::CECommandList& 
 	commandList.SetConstantBuffer(SSAOShader.Get(), frameResources.CameraBuffer.Get(), 0);
 
 	frameResources.DebugTextures.EmplaceBack(
-		Core::Common::MakeSharedRef<CEShaderResourceView>(SSAONoiseTexture->GetShaderResourceView()),
+		MakeSharedRef<CEShaderResourceView>(SSAONoiseTexture->GetShaderResourceView()),
 		SSAONoiseTexture,
 		CEResourceState::NonPixelShaderResource,
 		CEResourceState::NonPixelShaderResource

@@ -24,8 +24,8 @@ namespace ConceptEngine::Render::Scene {
 		void OnAddedComponent(CEComponent* component);
 
 		template <typename TComponent>
-		const Core::Containers::CEArray<TComponent> GetAllComponentsOfType() const {
-			Core::Containers::CEArray<TComponent> components;
+		const CEArray<TComponent> GetAllComponentsOfType() const {
+			CEArray<TComponent> components;
 			for (CEActor* actor : Actors) {
 				TComponent* component = actor->GetComponentOfType<TComponent>();
 				if (component) {
@@ -33,18 +33,18 @@ namespace ConceptEngine::Render::Scene {
 				}
 			}
 
-			return Core::Containers::Move(components);
+			return Move(components);
 		}
 
-		const Core::Containers::CEArray<CEActor*>& GetActors() const {
+		const CEArray<CEActor*>& GetActors() const {
 			return Actors;
 		}
 
-		const Core::Containers::CEArray<Lights::CELight*>& GetLights() const {
+		const CEArray<Lights::CELight*>& GetLights() const {
 			return Lights;
 		}
 
-		const Core::Containers::CEArray<Graphics::Main::Rendering::CEMeshDrawCommand>& GetMeshDrawCommands() const {
+		const CEArray<Graphics::Main::Rendering::CEMeshDrawCommand>& GetMeshDrawCommands() const {
 			return MeshDrawCommands;
 		}
 
@@ -57,9 +57,9 @@ namespace ConceptEngine::Render::Scene {
 	private:
 		void AddMeshComponent(class CEMeshComponent* component);
 
-		Core::Containers::CEArray<CEActor*> Actors;
-		Core::Containers::CEArray<Lights::CELight*> Lights;
-		Core::Containers::CEArray<Graphics::Main::Rendering::CEMeshDrawCommand> MeshDrawCommands;
+		CEArray<CEActor*> Actors;
+		CEArray<Lights::CELight*> Lights;
+		CEArray<Graphics::Main::Rendering::CEMeshDrawCommand> MeshDrawCommands;
 
 		CECamera* CurrentCamera = nullptr;
 	};

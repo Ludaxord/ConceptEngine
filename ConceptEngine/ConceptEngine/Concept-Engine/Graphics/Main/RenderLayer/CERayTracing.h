@@ -86,10 +86,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		std::string Identifier;
-		Core::Containers::CEArray<CEConstantBuffer*> ConstantBuffers;
-		Core::Containers::CEArray<CEShaderResourceView*> ShaderResourceViews;
-		Core::Containers::CEArray<CEUnorderedAccessView*> UnorderedAccessViews;
-		Core::Containers::CEArray<CESamplerState*> SamplerStates;
+		CEArray<CEConstantBuffer*> ConstantBuffers;
+		CEArray<CEShaderResourceView*> ShaderResourceViews;
+		CEArray<CEUnorderedAccessView*> UnorderedAccessViews;
+		CEArray<CESamplerState*> SamplerStates;
 	};
 
 	struct CERayPayload {
@@ -104,7 +104,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CERayTracingGeometryInstance {
-		Core::Common::CERef<CERayTracingGeometry> Instance;
+		CERef<CERayTracingGeometry> Instance;
 		uint32 InstanceIndex = 0;
 		uint32 HitGroupIndex = 0;
 		uint32 Flags = RayTracingInstanceFlags_None;

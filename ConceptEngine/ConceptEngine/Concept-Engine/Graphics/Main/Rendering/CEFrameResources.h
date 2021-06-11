@@ -54,7 +54,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		}
 
 	private:
-		Core::Containers::CEArray<TResource*> Resources;
+		CEArray<TResource*> Resources;
 		std::unordered_map<TResource*, int32> ResourceIndices;
 	};
 
@@ -77,43 +77,43 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 		RenderLayer::CETexture2D* BackBuffer = nullptr;
 
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> CameraBuffer;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> TransformBuffer;
+		CERef<RenderLayer::CEConstantBuffer> CameraBuffer;
+		CERef<RenderLayer::CEConstantBuffer> TransformBuffer;
 
-		Core::Common::CERef<RenderLayer::CESamplerState> DirectionalShadowSampler;
-		Core::Common::CERef<RenderLayer::CESamplerState> PointShadowSampler;
-		Core::Common::CERef<RenderLayer::CESamplerState> IrradianceSampler;
+		CERef<RenderLayer::CESamplerState> DirectionalShadowSampler;
+		CERef<RenderLayer::CESamplerState> PointShadowSampler;
+		CERef<RenderLayer::CESamplerState> IrradianceSampler;
 
-		Core::Common::CERef<RenderLayer::CETextureCube> Skybox;
+		CERef<RenderLayer::CETextureCube> Skybox;
 
-		Core::Common::CERef<RenderLayer::CETexture2D> IntegrationLUT;
-		Core::Common::CERef<RenderLayer::CESamplerState> IntegrationLUTSampler;
+		CERef<RenderLayer::CETexture2D> IntegrationLUT;
+		CERef<RenderLayer::CESamplerState> IntegrationLUTSampler;
 
-		Core::Common::CERef<RenderLayer::CETexture2D> SSAOBuffer;
-		Core::Common::CERef<RenderLayer::CETexture2D> FinalTarget;
-		Core::Common::CERef<RenderLayer::CETexture2D> GBuffer[5];
-		Core::Common::CERef<RenderLayer::CESamplerState> GBufferSampler;
-		Core::Common::CERef<RenderLayer::CESamplerState> FXAASampler;
+		CERef<RenderLayer::CETexture2D> SSAOBuffer;
+		CERef<RenderLayer::CETexture2D> FinalTarget;
+		CERef<RenderLayer::CETexture2D> GBuffer[5];
+		CERef<RenderLayer::CESamplerState> GBufferSampler;
+		CERef<RenderLayer::CESamplerState> FXAASampler;
 
-		Core::Common::CERef<RenderLayer::CEInputLayoutState> StdInputLayout;
+		CERef<RenderLayer::CEInputLayoutState> StdInputLayout;
 
-		Core::Common::CERef<RenderLayer::CETexture2D> RTOutput;
-		Core::Common::CERef<RenderLayer::CERayTracingScene> RTScene;
+		CERef<RenderLayer::CETexture2D> RTOutput;
+		CERef<RenderLayer::CERayTracingScene> RTScene;
 
 		RenderLayer::CERayTracingShaderResources GlobalResources;
 		RenderLayer::CERayTracingShaderResources RayGenLocalResources;
 		RenderLayer::CERayTracingShaderResources MissLocalResources;
-		Core::Containers::CEArray<RenderLayer::CERayTracingGeometryInstance> RTGeometryInstances;
+		CEArray<RenderLayer::CERayTracingGeometryInstance> RTGeometryInstances;
 
-		Core::Containers::CEArray<RenderLayer::CERayTracingShaderResources> RTHitGroupResources;
+		CEArray<RenderLayer::CERayTracingShaderResources> RTHitGroupResources;
 		std::unordered_map<class Common::CEMesh*, uint32> RTMeshToHitGroupIndex;
 		CEPtrResourceCache<RenderLayer::CEShaderResourceView> RTMaterialTextureCache;
 
-		Core::Containers::CEArray<CEMeshDrawCommand> DeferredVisibleCommands;
-		Core::Containers::CEArray<CEMeshDrawCommand> ForwardVisibleCommands;
+		CEArray<CEMeshDrawCommand> DeferredVisibleCommands;
+		CEArray<CEMeshDrawCommand> ForwardVisibleCommands;
 
-		Core::Containers::CEArray<ImGuiImage> DebugTextures;
+		CEArray<ImGuiImage> DebugTextures;
 
-		Core::Common::CERef<RenderLayer::CEViewport> MainWindowViewport;
+		CERef<RenderLayer::CEViewport> MainWindowViewport;
 	};
 }

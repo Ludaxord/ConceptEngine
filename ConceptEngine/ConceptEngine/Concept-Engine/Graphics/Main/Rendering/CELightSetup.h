@@ -27,9 +27,9 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 	struct CEPointLightShadowMapGenerationData {
 
-		Core::Containers::CEStaticArray<CEMatrixFloat4X4, 6> Matrix;
-		Core::Containers::CEStaticArray<CEMatrixFloat4X4, 6> ViewMatrix;
-		Core::Containers::CEStaticArray<CEMatrixFloat4X4, 6> ProjMatrix;
+		CEStaticArray<CEMatrixFloat4X4, 6> Matrix;
+		CEStaticArray<CEMatrixFloat4X4, 6> ViewMatrix;
+		CEStaticArray<CEMatrixFloat4X4, 6> ProjMatrix;
 		CEVectorFloat3 Position;
 
 		float FarPlane;
@@ -51,7 +51,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	};
 
 	struct CELightSetup {
-
+	public:
 		const RenderLayer::CEFormat ShadowMapFormat = RenderLayer::CEFormat::D32_Float;
 		const RenderLayer::CEFormat LightProbeFormat = RenderLayer::CEFormat::R16G16B16A16_Float;
 		const uint32 MaxPointLights = 256;
@@ -69,31 +69,31 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		void BeginFrame(RenderLayer::CECommandList& commandList, const Render::Scene::CEScene& scene);
 		void Release();
 
-		Core::Containers::CEArray<CEPointLightData> PointLightsData;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> PointLightsBuffer;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> PointLightsPosRadBuffer;
+		CEArray<CEPointLightData> PointLightsData;
+		CERef<RenderLayer::CEConstantBuffer> PointLightsBuffer;
+		CERef<RenderLayer::CEConstantBuffer> PointLightsPosRadBuffer;
 
-		Core::Containers::CEArray<CEPointLightShadowMapGenerationData> PointLightShadowMapsGenerationData;
-		Core::Containers::CEArray<CEShadowCastingPointLightData> ShadowCastingPointLightsData;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> ShadowCastingPointLightsBuffer;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> ShadowCastingPointLightsPosRadBuffer;
-		Core::Common::CERef<RenderLayer::CETextureCubeArray> PointLightShadowMaps;
-		Core::Containers::CEArray<RenderLayer::CEDepthStencilViewCube> PointLightShadowMapDSVs;
+		CEArray<CEPointLightShadowMapGenerationData> PointLightShadowMapsGenerationData;
+		CEArray<CEShadowCastingPointLightData> ShadowCastingPointLightsData;
+		CERef<RenderLayer::CEConstantBuffer> ShadowCastingPointLightsBuffer;
+		CERef<RenderLayer::CEConstantBuffer> ShadowCastingPointLightsPosRadBuffer;
+		CERef<RenderLayer::CETextureCubeArray> PointLightShadowMaps;
+		CEArray<RenderLayer::CEDepthStencilViewCube> PointLightShadowMapDSVs;
 
-		Core::Containers::CEArray<CEDirLightShadowMapGenerationData> DirLightShadowMapGenerationData;
-		Core::Containers::CEArray<CEDirectionalLightData> DirectionalLightsData;
-		Core::Common::CERef<RenderLayer::CEConstantBuffer> DirectionalLightsBuffer;
-		Core::Common::CERef<RenderLayer::CETexture2D> DirLightShadowMaps;
+		CEArray<CEDirLightShadowMapGenerationData> DirLightShadowMapGenerationData;
+		CEArray<CEDirectionalLightData> DirectionalLightsData;
+		CERef<RenderLayer::CEConstantBuffer> DirectionalLightsBuffer;
+		CERef<RenderLayer::CETexture2D> DirLightShadowMaps;
 
-		Core::Common::CERef<RenderLayer::CETextureCube> IrradianceMap;
-		Core::Common::CERef<RenderLayer::CEUnorderedAccessView> IrradianceMapUAV;
+		CERef<RenderLayer::CETextureCube> IrradianceMap;
+		CERef<RenderLayer::CEUnorderedAccessView> IrradianceMapUAV;
 
-		Core::Common::CERef<RenderLayer::CETextureCube> SpecularIrradianceMap;
-		Core::Containers::CEArray<Core::Common::CERef<RenderLayer::CEUnorderedAccessView>> SpecularIrradianceMapUAVs;
-		Core::Containers::CEArray<RenderLayer::CEUnorderedAccessView*> WeakSpecularIrradianceMapUAVs;
+		CERef<RenderLayer::CETextureCube> SpecularIrradianceMap;
+		CEArray<CERef<RenderLayer::CEUnorderedAccessView>> SpecularIrradianceMapUAVs;
+		CEArray<RenderLayer::CEUnorderedAccessView*> WeakSpecularIrradianceMapUAVs;
 
-		Core::Containers::CEArray<CEVectorFloat4> PointLightsPosRad;
-		Core::Containers::CEArray<CEVectorFloat4> ShadowCastingPointLightsPosRad;
+		CEArray<CEVectorFloat4> PointLightsPosRad;
+		CEArray<CEVectorFloat4> ShadowCastingPointLightsPosRad;
 
 	};
 }

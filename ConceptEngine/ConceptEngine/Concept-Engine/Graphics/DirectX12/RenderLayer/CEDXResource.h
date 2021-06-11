@@ -8,7 +8,7 @@
 #include "../../../Utilities/CEStringUtilities.h"
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
-	class CEDXResource : public CEDXDeviceElement, public Core::Common::CERefCountedObject {
+	class CEDXResource : public CEDXDeviceElement, public CERefCountedObject {
 	public:
 		CEDXResource(CEDXDevice* device, const Microsoft::WRL::ComPtr<ID3D12Resource>& nativeResource);
 		CEDXResource(CEDXDevice* device, const D3D12_RESOURCE_DESC& desc, D3D12_HEAP_TYPE heapType);

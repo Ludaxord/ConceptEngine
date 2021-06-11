@@ -2,6 +2,8 @@
 
 using namespace ConceptEngine::Graphics::Main::Common;
 
+CEPlayground* GPlayground;
+
 CEPlayground::CEPlayground() {
 }
 

@@ -1,9 +1,16 @@
 #include "CEWindows.h"
 
+
 #include "../../../Utilities/CEUtilities.h"
+#include "Cursor/CEWindowsCursor.h"
+#include "Window/CEWindowsWindow.h"
+#include "Window/CEWindowsConsole.h"
+#include "../../Debug/CEDebug.h"
+#include "Input/CEWindowsInputManager.h"
+#include "../../Application/CECore.h"
+#include "Events/CEWindowsEvent.h"
 
 using namespace ConceptEngine::Core::Platform::Windows;
-using namespace ConceptEngine::Core::Platform::Generic::Cursor;
 using namespace ConceptEngine::Core::Platform::Generic::Window;
 using namespace ConceptEngine::Core::Platform::Generic::Input;
 
@@ -41,39 +48,39 @@ bool CEWindows::CreateSystemConsole() {
 }
 
 bool CEWindows::CreateCursors() {
-	if (!((CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW)))) {
+	if (!((Generic::Cursor::CECursor::Arrow = Cursor::CEWindowsCursor::Create(IDC_ARROW)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM)))) {
+	if (!((Generic::Cursor::CECursor::TextInput = Cursor::CEWindowsCursor::Create(IDC_IBEAM)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL)))) {
+	if (!((Generic::Cursor::CECursor::ResizeAll = Cursor::CEWindowsCursor::Create(IDC_SIZEALL)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE)))) {
+	if (!((Generic::Cursor::CECursor::ResizeEW = Cursor::CEWindowsCursor::Create(IDC_SIZEWE)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS)))) {
+	if (!((Generic::Cursor::CECursor::ResizeNS = Cursor::CEWindowsCursor::Create(IDC_SIZENS)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW)))) {
+	if (!((Generic::Cursor::CECursor::ResizeNESW = Cursor::CEWindowsCursor::Create(IDC_SIZENESW)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE)))) {
+	if (!((Generic::Cursor::CECursor::ResizeNWSE = Cursor::CEWindowsCursor::Create(IDC_SIZENWSE)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND)))) {
+	if (!((Generic::Cursor::CECursor::Hand = Cursor::CEWindowsCursor::Create(IDC_HAND)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	if (!((CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO)))) {
+	if (!((Generic::Cursor::CECursor::NotAllowed = Cursor::CEWindowsCursor::Create(IDC_NO)))) {
 		CEDebug::DebugBreak();
 		return false;
 	}
@@ -120,7 +127,7 @@ bool CEWindows::Release() {
 
 void CEWindows::SetCapture(CEWindow* window) {
 	if (window) {
-		Common::CERef<Window::CEWindowsWindow> wWindow = Common::MakeSharedRef<Window::CEWindowsWindow>(window);
+		CERef<Window::CEWindowsWindow> wWindow = MakeSharedRef<Window::CEWindowsWindow>(window);
 		HWND hCapture = wWindow->GetHandle();
 		if (wWindow->IsValid()) {
 			::SetCapture(hCapture);
@@ -132,7 +139,7 @@ void CEWindows::SetCapture(CEWindow* window) {
 }
 
 void CEWindows::SetActiveWindow(CEWindow* window) {
-	Common::CERef<Window::CEWindowsWindow> wWindow = Common::MakeSharedRef<Window::CEWindowsWindow>(window);
+	CERef<Window::CEWindowsWindow> wWindow = MakeSharedRef<Window::CEWindowsWindow>(window);
 	HWND hActiveWindow = wWindow->GetHandle();
 	if (wWindow->IsValid()) {
 		::SetActiveWindow(hActiveWindow);
@@ -149,9 +156,9 @@ CEWindow* CEWindows::GetActiveWindow() {
 	return Window::CEWindowsWindowHandle(hActiveWindow).GetWindow();
 }
 
-void CEWindows::SetCursor(CECursor* cursor) {
+void CEWindows::SetCursor(Generic::Cursor::CECursor* cursor) {
 	if (cursor) {
-		// Common::CERef<Cursor::CEWindowsCursor> wCursor = Common::MakeSharedRef<Cursor::CEWindowsCursor>(cursor);
+		// CERef<Cursor::CEWindowsCursor> wCursor = Common::MakeSharedRef<Cursor::CEWindowsCursor>(cursor);
 		Cursor = cursor;
 		HCURSOR cursorHandle = reinterpret_cast<Cursor::CEWindowsCursor*>(cursor)->GetHandle();
 		::SetCursor(cursorHandle);
@@ -161,7 +168,7 @@ void CEWindows::SetCursor(CECursor* cursor) {
 	}
 }
 
-CECursor* CEWindows::GetCursor() {
+ConceptEngine::Core::Platform::Generic::Cursor::CECursor* CEWindows::GetCursor() {
 	HCURSOR cursor = ::GetCursor();
 	if (Cursor) {
 		Cursor::CEWindowsCursor* wCursor = static_cast<Cursor::CEWindowsCursor*>(Cursor);
@@ -176,7 +183,7 @@ CECursor* CEWindows::GetCursor() {
 
 void CEWindows::SetCursorPosition(CEWindow* relativeWindow, int32 x, int32 y) {
 	if (relativeWindow) {
-		Common::CERef<Window::CEWindowsWindow> wWindow = Common::MakeSharedRef<Window::CEWindowsWindow>(relativeWindow);
+		CERef<Window::CEWindowsWindow> wWindow = MakeSharedRef<Window::CEWindowsWindow>(relativeWindow);
 		HWND hRelative = wWindow->GetHandle();
 		POINT cursorPos = {x, y};
 		if (ClientToScreen(hRelative, &cursorPos)) {
@@ -191,7 +198,7 @@ void CEWindows::GetCursorPosition(CEWindow* relativeWindow, int32& x, int32& y) 
 		return;
 	}
 
-	Common::CERef<Window::CEWindowsWindow> wRelative = Common::MakeSharedRef<Window::CEWindowsWindow>(relativeWindow);
+	CERef<Window::CEWindowsWindow> wRelative = MakeSharedRef<Window::CEWindowsWindow>(relativeWindow);
 	if (wRelative) {
 		HWND relative = wRelative->GetHandle();
 		if (ScreenToClient(relative, &cursorPos)) {
@@ -270,7 +277,7 @@ void CEWindows::HandleStoredMessage(HWND window, UINT message, WPARAM wParam, LP
 	constexpr uint32 KEY_REPEAT_MASK = 0x40000000;
 	constexpr uint16 BACK_BUTTON_MASK = 0x0001;
 
-	Common::CERef<Window::CEWindowsWindow> messageWindow = Window::CEWindowsWindowHandle(window).GetWindow();
+	CERef<Window::CEWindowsWindow> messageWindow = Window::CEWindowsWindowHandle(window).GetWindow();
 	switch (message) {
 	case WM_CLOSE: {
 		break;

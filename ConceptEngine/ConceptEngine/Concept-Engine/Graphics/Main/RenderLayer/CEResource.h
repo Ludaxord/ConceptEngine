@@ -5,8 +5,10 @@
 #include <string>
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
-	class CEResource : public Core::Common::CERefCountedObject {
+	class CEResource : public CERefCountedObject {
 	public:
+		virtual ~CEResource() = default;
+
 		virtual void* GetNativeResource() const {
 			return nullptr;
 		}
