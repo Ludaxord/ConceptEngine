@@ -6,6 +6,14 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
+//TODO: Implement
+void CEShaderResourceCount::Combine(const CEShaderResourceCount& another) {
+}
+
+bool CEShaderResourceCount::IsCompatible(const CEShaderResourceCount& another) const {
+	return false;
+}
+
 CEDXBaseShader::CEDXBaseShader(CEDXDevice* device, const CEArray<uint8>& code,
                                CEShaderVisibility shaderVisibility) : CEDXDeviceElement(device), ByteCode(),
                                                                       Visibility(shaderVisibility) {

@@ -16,7 +16,9 @@
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CERenderCommand {
 		virtual ~CERenderCommand() = default;
-		virtual void Execute(CEICommandContext&);
+
+		virtual void Execute(CEICommandContext&) {
+		};
 
 		void operator()(CEICommandContext& commandContext) {
 			Execute(commandContext);

@@ -32,7 +32,6 @@ namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 
 		static HINSTANCE Instance;
 		static HWND HWnd;
-		static LPSTR CmdLine;
 		static int CmdShow;
 
 	private:
