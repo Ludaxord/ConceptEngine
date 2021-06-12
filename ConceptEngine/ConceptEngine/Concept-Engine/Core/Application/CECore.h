@@ -1,5 +1,9 @@
 #pragma once
 
+namespace ConceptEngine {namespace Core {namespace Platform {namespace Generic {namespace Callbacks {
+	class CEEngineController;
+}}}}}
+
 namespace ConceptEngine {namespace Core {namespace Generic {namespace Platform {
 	enum class Platform;
 	class CEPlatform;
@@ -37,23 +41,24 @@ namespace ConceptEngine::Core::Application {
 		virtual void Update(Time::CETimestamp DeltaTime) = 0;
 		virtual bool Release() = 0;
 
-		// static Graphics::Main::CEGraphics* GetGraphics();
-		// static Compilers::CECompiler* GetCompiler();
-		// static Generic::Platform::CEPlatform* GetPlatform();
-		// static Graphics::Main::Common::CEPlayground* GetPlayground();
+		static Graphics::Main::CEGraphics* GetGraphics();
+		static Compilers::CECompiler* GetCompiler();
+		static Generic::Platform::CEPlatform* GetPlatform();
+		static Graphics::Main::Common::CEPlayground* GetPlayground();
 
 		inline static bool ShowConsole = false;
 		inline static bool IsRunning = false;
 		inline static bool EnableDebug = false;
 
 	protected:
-		// static Graphics::Main::CEGraphics* Graphics;
-		// static Compilers::CECompiler* Compiler;
-		// static Generic::Platform::CEPlatform* Platform;
+		friend class Platform::Generic::Callbacks::CEEngineController;
+		inline static Graphics::Main::CEGraphics* GGraphics;
+		inline static Compilers::CECompiler* GCompiler;
+		inline static Generic::Platform::CEPlatform* GPlatform;
 
 	private:
 		Graphics::Main::CEGraphics* SelectGraphicsAPI(GraphicsAPI api);
 		Compilers::CECompiler* SelectLanguageCompiler(Compilers::Language language);
-		Core::Generic::Platform::CEPlatform * SelectPlatform(Generic::Platform::Platform platform);
+		Core::Generic::Platform::CEPlatform* SelectPlatform(Generic::Platform::Platform platform);
 	};
 }

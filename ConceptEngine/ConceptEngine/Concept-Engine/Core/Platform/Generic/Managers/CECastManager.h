@@ -1,17 +1,17 @@
 #pragma once
 
-// #include "../../../../Graphics/Main/Managers/CEGraphicsManager.h"
-// #include "../../../../Graphics/Main/Rendering/CEDebugUI.h"
+#include "../../../../Graphics/Main/Managers/CEGraphicsManager.h"
+#include "../../../../Graphics/Main/Rendering/CEDebugUI.h"
 
-// #include "../../Core/Application/CECore.h"
+#include "../../../../Graphics/Main/CEGraphics.h"
+#include "../../../../Core/Application/CECore.h"
+// #include "../../../../Elements/CECoreElements.h"
 
-// #include "../Utilities/OSUtilities.h"
-
-#include "../../../../Elements/CECoreElements.h"
+#include "../Utilities/OSUtilities.h"
 
 template <typename T>
 inline T* CastManager(ConceptEngine::Core::Common::CEManagerType type) {
-	return dynamic_cast<T*>(GGraphics->GetManager(type));
+	return dynamic_cast<T*>(ConceptEngine::Core::Application::CECore::GetGraphics()->GetManager(type));
 }
 
 inline ConceptEngine::Graphics::Main::Managers::CEGraphicsManager* CastGraphicsManager() {
@@ -30,7 +30,7 @@ inline ConceptEngine::Graphics::Main::CEMeshManager* CastMeshManager() {
 }
 
 inline ConceptEngine::Graphics::Main::Rendering::CEDebugUI* GetDebugUI() {
-	return GGraphics->GetDebugUI();
+	return ConceptEngine::Core::Application::CECore::GetGraphics()->GetDebugUI();
 }
 
 #if defined(WINDOWS_PLATFORM)
@@ -49,7 +49,8 @@ inline ConceptEngine::Graphics::DirectX12::Managers::CEDXMeshManager* CastDXMesh
 }
 
 inline ConceptEngine::Graphics::DirectX12::Rendering::CEDXDebugUI* GetDXDebugUI() {
-	return dynamic_cast<ConceptEngine::Graphics::DirectX12::Rendering::CEDXDebugUI*>(GGraphics->GetDebugUI());
+	return dynamic_cast<ConceptEngine::Graphics::DirectX12::Rendering::CEDXDebugUI*>(
+		ConceptEngine::Core::Application::CECore::GetGraphics()->GetDebugUI());
 }
 #elif defined(MACOS_PLATFORM)
 #elif defined(IOS_PLATFORM)

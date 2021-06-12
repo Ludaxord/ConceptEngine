@@ -85,8 +85,6 @@ CEDXManager::~CEDXManager() {
 	}
 
 	delete Device;
-
-	//TODO: Safe delete all objects in private section
 }
 
 bool CEDXManager::Create() {

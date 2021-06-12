@@ -10,26 +10,27 @@
 using namespace ConceptEngine::Core::Platform::Generic::Callbacks;
 using namespace ConceptEngine::Core::Generic::Platform;
 
-//TODO: Move to container
-ConceptEngine::Core::Platform::Generic::Debug::CEConsoleCommand ToggleFullscreen;
-ConceptEngine::Core::Platform::Generic::Debug::CEConsoleCommand CommExit;
+std::unordered_map<std::string, ConceptEngine::Core::Platform::Generic::Debug::CEConsoleCommand> Commands = {
+	{"ToggleFullscreen", ConceptEngine::Core::Platform::Generic::Debug::CEConsoleCommand{}},
+	{"CommExit", ConceptEngine::Core::Platform::Generic::Debug::CEConsoleCommand{}}
+};
 
 CEEngineController EngineController;
 
 bool CEEngineController::Create() {
 	if (Core::Generic::Platform::CEPlatform::GetWindow()) {
 		Core::Generic::Platform::CEPlatform::GetWindow()->Show(false);
-		ToggleFullscreen.OnExecute.AddObject(Core::Generic::Platform::CEPlatform::GetWindow(),
+		Commands["ToggleFullscreen"].OnExecute.AddObject(Core::Generic::Platform::CEPlatform::GetWindow(),
 		                                     &Window::CEWindow::ToggleFullscreen);
-		INIT_CONSOLE_COMMAND("CE.ToggleFullscreen", &ToggleFullscreen);
+		INIT_CONSOLE_COMMAND("CE.ToggleFullscreen", &Commands["ToggleFullscreen"]);
 	}
 	else {
 		CEPlatformActions::MessageBox("Error", "Failed to Initialize Concept Engine");
 		return false;
 	}
 
-	CommExit.OnExecute.AddObject(this, &CEEngineController::Exit);
-	INIT_CONSOLE_COMMAND("CE.Exit", &CommExit);
+	Commands["CommExit"].OnExecute.AddObject(this, &CEEngineController::Exit);
+	INIT_CONSOLE_COMMAND("CE.Exit", &Commands["CommExit"]);
 
 	Application::CECore::IsRunning = true;
 	return true;
@@ -48,7 +49,8 @@ void CEEngineController::OnKeyReleased(Input::CEKey keyCode, const Input::CEModi
 	OnKeyReleasedEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnKeyPressed(Input::CEKey keyCode, bool isRepeat, const Input::CEModifierKeyState& modifierKeyState) {
+void CEEngineController::OnKeyPressed(Input::CEKey keyCode, bool isRepeat,
+                                      const Input::CEModifierKeyState& modifierKeyState) {
 	Common::CEKeyPressedEvent Event(keyCode, isRepeat, modifierKeyState);
 	OnKeyPressedEvent.Broadcast(Event);
 }
@@ -63,21 +65,23 @@ void CEEngineController::OnMouseMove(int32 x, int32 y) {
 	OnMouseMoveEvent.Broadcast(Event);
 }
 
-void CEEngineController::OnMouseReleased(Input::CEMouseButton button, const Input::CEModifierKeyState& modifierKeyState) {
-	if (GPlatform) {
-		Window::CEWindow* captureWindow = GPlatform->GetCapture();
+void CEEngineController::OnMouseReleased(Input::CEMouseButton button,
+                                         const Input::CEModifierKeyState& modifierKeyState) {
+	if (Application::CECore::GPlatform) {
+		Window::CEWindow* captureWindow = Application::CECore::GPlatform->GetCapture();
 		if (captureWindow) {
-			GPlatform->SetCapture(nullptr);
+			Application::CECore::GPlatform->SetCapture(nullptr);
 		}
 	}
 }
 
-void CEEngineController::OnMousePressed(Input::CEMouseButton button, const Input::CEModifierKeyState& modifierKeyState) {
-	if (GPlatform) {
-		Window::CEWindow* captureWindow = GPlatform->GetCapture();
+void CEEngineController::OnMousePressed(Input::CEMouseButton button,
+                                        const Input::CEModifierKeyState& modifierKeyState) {
+	if (Application::CECore::GPlatform) {
+		Window::CEWindow* captureWindow = Application::CECore::GPlatform->GetCapture();
 		if (!captureWindow) {
-			Window::CEWindow* activeWindow = GPlatform->GetActiveWindow();
-			GPlatform->SetCapture(activeWindow);
+			Window::CEWindow* activeWindow = Application::CECore::GPlatform->GetActiveWindow();
+			Application::CECore::GPlatform->SetCapture(activeWindow);
 		}
 
 		Common::CEMousePressedEvent Event(button, modifierKeyState);

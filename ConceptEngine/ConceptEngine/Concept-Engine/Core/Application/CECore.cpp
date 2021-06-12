@@ -92,21 +92,21 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 	return true;
 }
 
-// CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {
-// 	return Graphics;
-// }
-//
-// CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() {
-// 	return Compiler;
-// }
-//
-// ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() {
-// 	return Platform;
-// }
-//
-// Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
-// 	return GPlayground;
-// }
+ConceptEngine::Graphics::Main::CEGraphics* ConceptEngine::Core::Application::CECore::GetGraphics() {
+	return GGraphics;
+}
+
+ConceptEngine::Core::Compilers::CECompiler* ConceptEngine::Core::Application::CECore::GetCompiler() {
+	return GCompiler;
+}
+
+ConceptEngine::Core::Generic::Platform::CEPlatform* ConceptEngine::Core::Application::CECore::GetPlatform() {
+	return GPlatform;
+}
+
+ConceptEngine::Graphics::Main::Common::CEPlayground* ConceptEngine::Core::Application::CECore::GetPlayground() {
+	return GPlayground;
+}
 
 
 ConceptEngine::Graphics::Main::CEGraphics*
