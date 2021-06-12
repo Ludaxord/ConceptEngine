@@ -94,7 +94,56 @@ ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::CEDXC
 }
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::Create() {
-	return false;
+	
+	struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) ComputePipelineStream {
+		struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) {
+			D3D12_PIPELINE_STATE_SUBOBJECT_TYPE Type0 = D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE;
+			ID3D12RootSignature* RootSignature = nullptr;
+		};
+		
+		struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) {
+			D3D12_PIPELINE_STATE_SUBOBJECT_TYPE Type1 = D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CS;
+			D3D12_SHADER_BYTECODE ComputeShader = {};
+		};
+			
+	} PipelineStream;
+
+	PipelineStream.ComputeShader = Shader->GetByteCode();
+
+	if (!Shader->HasRootSignature()) {
+		CEDXRootSignatureResourceCount resourceCounts;
+		resourceCounts.Type = CERootSignatureType::Compute;
+		resourceCounts.AllowInputAssembler = false;
+		resourceCounts.ResourceCounts[ShaderVisibility_All]= Shader->GetResourceCount();
+
+		RootSignature = CEDXRootSignatureCache::Get().GetRootSignature(resourceCounts);
+	} else {
+		D3D12_SHADER_BYTECODE byteCode = Shader->GetByteCode();
+		RootSignature = new CEDXRootSignature(GetDevice());
+		if (!RootSignature->Create(byteCode.pShaderBytecode, byteCode.BytecodeLength)) {
+			return false;
+		}
+
+		RootSignature->SetName("Custom Compute Root Signature");
+	}
+
+	Assert(RootSignature != nullptr);
+
+	PipelineStream.RootSignature = RootSignature->GetRootSignature();
+
+	D3D12_PIPELINE_STATE_STREAM_DESC PipelineStreamDesc;
+	ConceptEngine::Memory::CEMemory::Memzero(&PipelineStreamDesc, sizeof(D3D12_PIPELINE_STATE_STREAM_DESC));
+
+	PipelineStreamDesc.pPipelineStateSubobjectStream = &PipelineStream;
+	PipelineStreamDesc.SizeInBytes = sizeof(ComputePipelineStream);
+
+	HRESULT result = GetDevice()->CreatePipelineState(&PipelineStreamDesc, IID_PPV_ARGS(&PipelineState));
+	if (FAILED(result)) {
+		CE_LOG_ERROR("[CEDXComputePipelineState]: Failed to Create Compute Pipeline State");
+		return false;
+	}
+	
+	return true;
 }
 
 struct CEDXRootSignatureAssociation {
