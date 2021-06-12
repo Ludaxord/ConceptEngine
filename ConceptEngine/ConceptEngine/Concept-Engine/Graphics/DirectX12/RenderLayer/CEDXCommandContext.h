@@ -180,6 +180,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return CommandList;
 		}
 
+		CEDXCommandQueueHandle& GetCommandQueue() {
+			return CommandQueue;
+		}
+
 		uint32 GetCurrentEpochValue() const {
 			uint32 maxValue = Math::CEMath::Max<int32>((int32)CommandBatches.Size() - 1, 0);
 			return Math::CEMath::Min<uint32>(NextCommandBatch - 1, maxValue);

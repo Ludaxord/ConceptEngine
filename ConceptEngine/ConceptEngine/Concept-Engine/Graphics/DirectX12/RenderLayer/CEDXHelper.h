@@ -569,7 +569,6 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	inline DXGI_FORMAT CastShaderResourceFormat(DXGI_FORMAT Format) {
 		switch (Format) {
-			// TODO: Fix formats better
 		case DXGI_FORMAT_R32G32B32A32_TYPELESS: return DXGI_FORMAT_R32G32B32A32_FLOAT;
 		case DXGI_FORMAT_R32G32B32_TYPELESS: return DXGI_FORMAT_R32G32B32_FLOAT;
 		case DXGI_FORMAT_R16G16B16A16_TYPELESS: return DXGI_FORMAT_R16G16B16A16_FLOAT;
