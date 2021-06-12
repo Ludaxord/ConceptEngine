@@ -212,7 +212,7 @@ struct CEDXRayTracingPipelineStateStream {
 
 		PayLoadExportNamesRef.Resize(PayLoadExportNames.Size());
 		for (uint32 i = 0; i < PayLoadExportNames.Size(); i++) {
-			
+			PayLoadExportNamesRef[i] = PayLoadExportNames[i].c_str();
 		}
 
 		ShaderConfigAssociation.pExports = PayLoadExportNamesRef.Data();
