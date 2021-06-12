@@ -111,6 +111,7 @@ void CEWindows::PreInit(HINSTANCE hInstance,
 	Instance = hInstance;
 	HWnd = hWnd;
 	CmdShow = nCmdShow;
+	CmdLine = lpCmdLine;
 	Window::CEWindowsWindowSize::Create(width, height);
 	Application::CECore::ShowConsole = showConsole;
 }

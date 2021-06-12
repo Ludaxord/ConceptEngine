@@ -30,9 +30,10 @@ namespace ConceptEngine::Core::Platform::Windows {namespace Window {
 			return L"WindowClass";
 		}
 
-		static HINSTANCE Instance;
-		static HWND HWnd;
-		static int CmdShow;
+		inline static HINSTANCE Instance;
+		inline static LPSTR CmdLine;
+		inline static HWND HWnd;
+		inline static int CmdShow;
 
 	private:
 		bool CreateInputManager() override;

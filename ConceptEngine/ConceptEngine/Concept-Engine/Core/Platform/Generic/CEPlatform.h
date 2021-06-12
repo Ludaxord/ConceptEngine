@@ -70,15 +70,15 @@ namespace ConceptEngine::Core::Generic::Platform {
 		virtual bool CreateInputManager() = 0;
 
 	public:
-		static std::wstring Title;
+		inline static std::wstring Title;
 
-		static Core::Platform::Generic::Cursor::CECursor* Cursor;
-		static Core::Platform::Generic::Window::CEWindow* Window;
-		static Core::Platform::Generic::Window::CEConsole* Console;
-		static Core::Platform::Generic::Input::CEInputManager* InputManager;
-		static Core::Platform::Generic::Callbacks::CEPlatformCallbacks* Callbacks;
+		inline static Core::Platform::Generic::Cursor::CECursor* Cursor;
+		inline static Core::Platform::Generic::Window::CEWindow* Window;
+		inline static Core::Platform::Generic::Window::CEConsole* Console;
+		inline static Core::Platform::Generic::Input::CEInputManager* InputManager;
+		inline static Core::Platform::Generic::Callbacks::CEPlatformCallbacks* Callbacks;
 
-		static CEArray<Core::Platform::Generic::Events::CEEvent> Messages;
-		static bool IsTracingMouse;
+		inline static CEArray<Core::Platform::Generic::Events::CEEvent> Messages;
+		inline static bool IsTracingMouse;
 	};
 }

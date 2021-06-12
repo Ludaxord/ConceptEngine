@@ -29,13 +29,13 @@ namespace ConceptEngine::Graphics::Main {
 
 		Core::Common::CEManager* GetManager(Core::Common::CEManagerType type) const;
 
-	public:
+	protected:
 		Managers::CEGraphicsManager* GraphicsManager;
 		Managers::CETextureManager* TextureManager;
 		Managers::CERendererManager* RendererManager;
 		CEMeshManager* MeshManager;
 
-		static std::unique_ptr<Rendering::CEDebugUI> DebugUI;
+		inline static std::unique_ptr<Rendering::CEDebugUI> DebugUI;
 	private:
 		virtual bool CreateGraphicsManager() = 0;
 		virtual bool CreateShaderCompiler() = 0;
