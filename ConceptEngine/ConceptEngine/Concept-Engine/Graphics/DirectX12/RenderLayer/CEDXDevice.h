@@ -8,10 +8,11 @@
 
 #include "../../../Core/Common/CETypes.h"
 
-namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
-
 #define D3D12_PIPELINE_STATE_STREAM_ALIGNMENT (sizeof(void*));
 #define D3D12_ENABLE_PIX_MARKERS 0;
+
+namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
+
 
 	void DeviceRemovedHandler(class CEDXDevice* Device);
 
