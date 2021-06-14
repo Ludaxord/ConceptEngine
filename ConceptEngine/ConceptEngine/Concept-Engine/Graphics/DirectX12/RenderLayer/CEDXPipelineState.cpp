@@ -294,6 +294,24 @@ ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineState::CE
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineState::Create(
 	const CERayTracingPipelineStateCreateInfo& createInfo) {
+	CEDXRayTracingPipelineStateStream PipelineStateStream;
+
+	CEArray<CEDXBaseShader*> Shaders;
+	CEDXRayGenShader* RayGen = static_cast<CEDXRayGenShader*>(createInfo.RayGen);
+	Shaders.EmplaceBack(RayGen);
+
+	CEDXRootSignatureResourceCount RayGenLocalResourceCounts;
+	RayGenLocalResourceCounts.Type = CERootSignatureType::RayTracingLocal;
+	RayGenLocalResourceCounts.AllowInputAssembler = false;
+	RayGenLocalResourceCounts.ResourceCounts[ShaderVisibility_All] = RayGen->GetRTLocalResourceCount();
+
+	RayGenLocalRootSignature = MakeSharedRef<CEDXRootSignature>(CEDXRootSignatureCache::Get().GetRootSignature(RayGenLocalResourceCounts));
+	if (!RayGenLocalRootSignature) {
+		return false;
+	}
+
+	//TODO: Implement!!
+	
 	return false;
 }
 
