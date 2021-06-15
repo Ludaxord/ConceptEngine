@@ -93,7 +93,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CERayPayload {
-		//TODO: Comment before figure out way to fix bug with importing header
 		CEVectorFloat3 Color;
 		uint32 CurrentDepth;
 	};
