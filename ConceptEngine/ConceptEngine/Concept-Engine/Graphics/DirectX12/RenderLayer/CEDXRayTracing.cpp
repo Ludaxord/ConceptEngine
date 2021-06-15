@@ -2,11 +2,33 @@
 
 //TODO: Implement!!!
 ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingGeometry::CEDXRayTracingGeometry(CEDXDevice* device,
-	uint32 flags): CERayTracingGeometry(flags), CEDXDeviceElement(device) {
+	uint32 flags): CERayTracingGeometry(flags), CEDXDeviceElement(device), VertexBuffer(nullptr), IndexBuffer(nullptr),
+	               ResultBuffer(nullptr), ScratchBuffer(nullptr) {
 }
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingGeometry::Build(CEDXCommandContext& commandContext,
 	bool update) {
+	Assert(VertexBuffer != nullptr);
+
+	D3D12_RAYTRACING_GEOMETRY_DESC geometryDesc;
+	Memory::CEMemory::Memzero(&geometryDesc);
+
+	geometryDesc.Type = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
+	geometryDesc.Triangles.VertexBuffer.StartAddress = VertexBuffer->GetResource()->GetGPUVirtualAddress();
+	geometryDesc.Triangles.VertexBuffer.StrideInBytes = VertexBuffer->GetStride();
+	geometryDesc.Triangles.VertexFormat = DXGI_FORMAT_R32G32B32_FLOAT;
+	geometryDesc.Triangles.VertexCount = VertexBuffer->GetNumVertices();
+	geometryDesc.Flags = D3D12_RAYTRACING_GEOMETRY_FLAG_OPAQUE;
+
+	if (IndexBuffer) {
+		CEIndexFormat IndexFormat = IndexBuffer->GetFormat();
+		geometryDesc.Triangles.IndexFormat = IndexFormat == CEIndexFormat::uint32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
+		geometryDesc.Triangles.IndexBuffer = IndexBuffer->GetResource()->GetGPUVirtualAddress();
+		geometryDesc.Triangles.IndexCount = IndexBuffer->GetNumIndices();
+	}
+
+	//TODO: Implement
+
 	return false;
 }
 
