@@ -1,6 +1,7 @@
 #include "CEDXPipelineState.h"
 
-//TODO: Implement!!!
+#include "../../../Core/Debug/CEDebug.h"
+
 #define D3D12_PIPELINE_STATE_STREAM_ALIGNMENT (sizeof(void*))
 #define D3D12_ENABLE_PIX_MARKERS 0
 
@@ -310,9 +311,135 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 		return false;
 	}
 
-	//TODO: Implement!!
-	
-	return false;
+	std::wstring rayGenIdentifier = ConvertToWString(RayGen->GetIdentifier());
+	PipelineStateStream.AddLibrary(RayGen->GetByteCode(), {rayGenIdentifier});
+	PipelineStateStream.AddRootSignatureAssociation(RayGenLocalRootSignature->GetRootSignature(), {rayGenIdentifier});
+	PipelineStateStream.PayLoadExportNames.EmplaceBack(rayGenIdentifier);
+
+	std::wstring HitGroupName;
+	std::wstring ClosestHitName;
+	std::wstring AnyHitName;
+
+	for (const CERayTracingHitGroup& hitGroup : createInfo.HitGroups) {
+		CEDXRayAnyHitShader * DXAnyHit = static_cast<CEDXRayAnyHitShader*>(hitGroup.AnyHit);
+		CEDXRayClosestHitShader* DXClosestHit = static_cast<CEDXRayClosestHitShader*>(hitGroup.ClosestHit);
+
+		Assert(DXClosestHit != nullptr);
+
+		HitGroupName = ConvertToWString(hitGroup.Name);
+		ClosestHitName = ConvertToWString(DXClosestHit->GetIdentifier());
+		AnyHitName = DXAnyHit ? ConvertToWString(DXAnyHit->GetIdentifier()) : L"";
+
+		PipelineStateStream.AddHitGroup(HitGroupName, ClosestHitName, AnyHitName, L"");
+	}
+
+	for (CERayAnyHitShader* hit : createInfo.AnyHitShaders) {
+		CEDXRayAnyHitShader* dxAnyHit = static_cast<CEDXRayAnyHitShader*>(hit);
+		Shaders.EmplaceBack(dxAnyHit);
+
+		CEDXRootSignatureResourceCount anyHitLocalResourceCounts;
+		anyHitLocalResourceCounts.Type = CERootSignatureType::RayTracingLocal;
+		anyHitLocalResourceCounts.AllowInputAssembler = false;
+		anyHitLocalResourceCounts.ResourceCounts[ShaderVisibility_All] = dxAnyHit->GetRTLocalResourceCount();
+
+		HitLocalRootSignature = MakeSharedRef<CEDXRootSignature>(CEDXRootSignatureCache::Get().GetRootSignature(anyHitLocalResourceCounts));
+		if (!HitLocalRootSignature) {
+			return false;
+		}
+
+		std::wstring anyHitIdentifier = ConvertToWString(dxAnyHit->GetIdentifier());
+		PipelineStateStream.AddLibrary(dxAnyHit->GetByteCode(), {anyHitIdentifier});
+		PipelineStateStream.AddRootSignatureAssociation(HitLocalRootSignature->GetRootSignature(), {anyHitIdentifier});
+		PipelineStateStream.PayLoadExportNames.EmplaceBack(anyHitIdentifier);
+	}
+
+	for (CERayClosestHitShader* closestHit : createInfo.ClosestHitShaders) {
+		CEDXRayClosestHitShader* dxClosestHit = static_cast<CEDXRayClosestHitShader*>(closestHit);
+		Shaders.EmplaceBack(dxClosestHit);
+
+		CEDXRootSignatureResourceCount closestHitLocalResourceCounts;
+		closestHitLocalResourceCounts.Type = CERootSignatureType::RayTracingLocal;
+		closestHitLocalResourceCounts.AllowInputAssembler = false;
+		closestHitLocalResourceCounts.ResourceCounts[ShaderVisibility_All] = dxClosestHit->GetRTLocalResourceCount();
+		HitLocalRootSignature = MakeSharedRef<CEDXRootSignature>(CEDXRootSignatureCache::Get().GetRootSignature(closestHitLocalResourceCounts));
+		if (!HitLocalRootSignature) {
+			return false;
+		}
+
+		std::wstring closestHitIdentifier = ConvertToWString(dxClosestHit->GetIdentifier());
+		PipelineStateStream.AddLibrary(dxClosestHit->GetByteCode(), {closestHitIdentifier});
+		PipelineStateStream.AddRootSignatureAssociation(HitLocalRootSignature->GetRootSignature(), {closestHitIdentifier});
+		PipelineStateStream.PayLoadExportNames.EmplaceBack(closestHitIdentifier);
+	}
+
+	for (CERayMissShader* Miss : createInfo.MissShaders) {
+		CEDXRayMissShader* dxMiss = static_cast<CEDXRayMissShader*>(Miss);
+		Shaders.EmplaceBack(dxMiss);
+
+		CEDXRootSignatureResourceCount missLocalResourceCounts;
+		missLocalResourceCounts.Type = CERootSignatureType::RayTracingLocal;
+		missLocalResourceCounts.AllowInputAssembler = false;
+		missLocalResourceCounts.ResourceCounts[ShaderVisibility_All] = dxMiss->GetRTLocalResourceCount();
+
+		MissLocalRootSignature = MakeSharedRef<CEDXRootSignature>(CEDXRootSignatureCache::Get().GetRootSignature(missLocalResourceCounts));
+		if (!MissLocalRootSignature) {
+			return false;
+		}
+
+		std::wstring MissIdentifier = ConvertToWString(dxMiss->GetIdentifier());
+		PipelineStateStream.AddLibrary(dxMiss->GetByteCode(), {MissIdentifier});
+		PipelineStateStream.AddRootSignatureAssociation(MissLocalRootSignature->GetRootSignature(), {MissIdentifier});
+		PipelineStateStream.PayLoadExportNames.EmplaceBack(MissIdentifier);
+	}
+
+	PipelineStateStream.ShaderConfig.MaxAttributeSizeInBytes = createInfo.MaxAttributeSizeInBytes;
+	PipelineStateStream.ShaderConfig.MaxPayloadSizeInBytes = createInfo.MaxPayloadSizeInBytes;
+	PipelineStateStream.PipelineConfig.MaxTraceRecursionDepth  = createInfo.MaxRecursionDepth;
+
+	CEShaderResourceCount combinedResourceCount;
+	for (CEDXBaseShader* shader : Shaders) {
+		
+	}
+
+	CEDXRootSignatureResourceCount GlobalResourceCounts;
+	GlobalResourceCounts.Type = CERootSignatureType::RayTracingGlobal;
+	GlobalResourceCounts.AllowInputAssembler = false;
+	GlobalResourceCounts.ResourceCounts[ShaderVisibility_All] = combinedResourceCount;
+
+	GlobalRootSignature = MakeSharedRef<CEDXRootSignature>(CEDXRootSignatureCache::Get().GetRootSignature(GlobalResourceCounts));
+	if (!GlobalRootSignature) {
+		return false;
+	}
+
+	PipelineStateStream.GlobalRootSignature = GlobalRootSignature->GetRootSignature();
+
+	PipelineStateStream.Generate();
+
+	D3D12_STATE_OBJECT_DESC rayTracingPipeline;
+	Memory::CEMemory::Memzero(&rayTracingPipeline);
+
+	rayTracingPipeline.Type = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE;
+	rayTracingPipeline.pSubobjects = PipelineStateStream.SubObjects.Data();
+	rayTracingPipeline.NumSubobjects = PipelineStateStream.SubObjects.Size();
+
+	Microsoft::WRL::ComPtr<ID3D12StateObject> TempStateObject;
+	HRESULT result = GetDevice()->GetDXRDevice()->CreateStateObject(&rayTracingPipeline, IID_PPV_ARGS(&TempStateObject));
+	if (FAILED(result)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	Microsoft::WRL::ComPtr<ID3D12StateObjectProperties> TempStateObjectProperties;
+	result = TempStateObject->QueryInterface(IID_PPV_ARGS(&TempStateObjectProperties));
+	if (FAILED(result)) {
+		CE_LOG_ERROR("[CEDXRayTracingPipelineState]: Failed to retrive ID3D12StateObjectProperties" );
+		return false;
+	}
+
+	StateObject = TempStateObject;
+	StateObjectProperties = TempStateObjectProperties;
+		
+	return true;
 }
 
 void* ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineState::GetShaderIdentifier(
