@@ -11,13 +11,15 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 		virtual bool Create(CELightSetup lightSetup, CEFrameResources& frameResources) = 0;
 
-		//TODO: Implement
 		void Release() {
-			
+			IrradianceGenPSO.Reset();
+			SpecularIrradianceGenPSO.Reset();
+			IrradianceGenShader.Reset();
+			SpecularIrradianceGenShader.Reset();
 		};
 
 		virtual void RenderSkyLightProbe(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
-		                         const CEFrameResources& resources) = 0;
+		                                 const CEFrameResources& resources) = 0;
 
 	protected:
 		CERef<RenderLayer::CEComputePipelineState> IrradianceGenPSO;

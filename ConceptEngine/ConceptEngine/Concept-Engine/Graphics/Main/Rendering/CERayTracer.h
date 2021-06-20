@@ -9,9 +9,8 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 		virtual bool Create(CEFrameResources& resources) = 0;
 
-		//TODO: Implement
 		void Release() {
-			
+			Pipeline.Reset();
 		};
 
 		virtual void PreRender(RenderLayer::CECommandList& commandList, CEFrameResources& resources,

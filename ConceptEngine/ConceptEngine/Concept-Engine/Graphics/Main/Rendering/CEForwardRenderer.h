@@ -10,9 +10,10 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 
 		virtual bool Create(const CEFrameResources& resources) = 0;
 
-		//TODO:Implement
 		void Release() {
-
+			PipelineState.Reset();
+			VertexShader.Reset();
+			PixelShader.Reset();
 		};
 
 		virtual void Render(RenderLayer::CECommandList& commandList, const CEFrameResources& frameResources,
