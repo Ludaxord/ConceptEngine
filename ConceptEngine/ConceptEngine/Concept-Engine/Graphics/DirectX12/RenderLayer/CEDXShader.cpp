@@ -6,12 +6,36 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
-//TODO: Implement
 void CEShaderResourceCount::Combine(const CEShaderResourceCount& another) {
+	Ranges.NumCBVs = Math::CEMath::Max(Ranges.NumCBVs, another.Ranges.NumCBVs);
+	Ranges.NumSRVs = Math::CEMath::Max(Ranges.NumSRVs, another.Ranges.NumSRVs);
+	Ranges.NumUAVs = Math::CEMath::Max(Ranges.NumUAVs, another.Ranges.NumUAVs);
+	Ranges.NumSamplers = Math::CEMath::Max(Ranges.NumSamplers, another.Ranges.NumSamplers);
+	Num32BitConstants = Math::CEMath::Max(Num32BitConstants, another.Num32BitConstants);
 }
 
 bool CEShaderResourceCount::IsCompatible(const CEShaderResourceCount& another) const {
-	return false;
+	if (Num32BitConstants > another.Num32BitConstants) {
+		return false;
+	}
+
+	if (Ranges.NumCBVs > another.Ranges.NumCBVs) {
+		return false;
+	}
+
+	if (Ranges.NumSRVs > another.Ranges.NumSRVs) {
+		return false;
+	}
+
+	if (Ranges.NumUAVs > another.Ranges.NumUAVs) {
+		return false;
+	}
+
+	if (Ranges.NumSamplers > another.Ranges.NumSamplers) {
+		return false;
+	}
+
+	return true;
 }
 
 CEDXBaseShader::CEDXBaseShader(CEDXDevice* device, const CEArray<uint8>& code,
@@ -84,22 +108,27 @@ bool CEDXBaseShader::GetShaderReflection(CEDXBaseShader* shader) {
 	return true;
 }
 
+//TODO: Implement
 bool CEDXBaseHullShader::Create() {
 	return false;
 }
 
+//TODO: Implement
 bool CEDXBaseDomainShader::Create() {
 	return false;
 }
 
+//TODO: Implement
 bool CEDXBaseGeometryShader::Create() {
 	return false;
 }
 
+//TODO: Implement
 bool CEDXBaseMeshShader::Create() {
 	return false;
 }
 
+//TODO: Implement
 bool CEDXBaseAmplificationShader::Create() {
 	return false;
 }
