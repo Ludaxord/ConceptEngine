@@ -553,7 +553,7 @@ inline CEVector<4, float> CEVectorAdd(CEVector<3, float> V1, CEVector<4, float> 
 	return DirectX::XMVectorAdd(V1.Native, V2.Native);
 }
 
-inline CEMatrix<4, 4, float> CEMatrixLookAtLH(CEVector<3, float> V1, CEVector<4, float> V2, CEVector<4, float> V3) {
+inline CEMatrix<4, 4, float> CEMatrixLookAtLH(CEVector<4, float> V1, CEVector<3, float> V2, CEVector<4, float> V3) {
 	return DirectX::XMMatrixLookAtLH(V1.Native, V2.Native, V3.Native);
 }
 
