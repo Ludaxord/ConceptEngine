@@ -1,6 +1,5 @@
 #include "CELight.h"
 
-//TODO:Implement
 ConceptEngine::Render::Scene::Lights::CELight::CELight(): Color(), ShadowBias(0.005f), MaxShadowBias(0.05f),
                                                           ShadowNearPlane(1.0f), ShadowFarPlane(30.0f) {
 	CORE_OBJECT_INIT();
