@@ -486,6 +486,10 @@ inline CEMatrix<4, 4, float> CEMatrixRotationRollPitchYawFromVector(CEVector<4, 
 	return CEMatrix<4, 4, float>(DirectX::XMMatrixRotationRollPitchYawFromVector(angles.Native));
 }
 
+inline CEMatrix<4, 4, float> CEMatrixRotationRollPitchYaw(float angleX, float angleY, float angleZ) {
+	return CEMatrix<4, 4, float>(DirectX::XMMatrixRotationRollPitchYaw(angleX, angleY, angleZ));
+}
+
 inline CEMatrix<4, 4, float> CEMatrixTranslationFromVector(CEVector<3, float> offset) {
 	return CEMatrix<4, 4, float>(DirectX::XMMatrixTranslationFromVector(offset.Native));
 }
@@ -496,6 +500,10 @@ inline CEMatrix<4, 4, float> CEMatrixTranslation(float x, float y, float z) {
 
 inline CEMatrix<4, 4, float> CEMatrixScaling(float x, float y, float z) {
 	return CEMatrix<4, 4, float>(DirectX::XMMatrixScaling(x, y, z));
+}
+
+inline CEMatrix<4, 4, float> CEMatrixIdentity() {
+	return DirectX::XMMatrixIdentity();
 }
 
 inline void CEStoreFloat3x4(CEMatrixFloat3X4* destination, const CEMatrix<4, 4, float> M) {
@@ -528,6 +536,35 @@ inline CEVector<L, T> CEVector4Transform(CEVector<L, T> V, CEMatrix<X, R, T> M) 
 	return DirectX::XMVector4Transform(V.Native, M.Native);
 }
 
+template <int L, int X, int R, typename T>
+inline CEVector<L, T> CEVector3Transform(CEVector<L, T> V, CEMatrix<X, R, T> M) {
+	return DirectX::XMVector3Transform(V.Native, M.Native);
+}
+
+inline CEVector<4, float> CEVector3Normalize(CEVector<4, float> V) {
+	return DirectX::XMVector3Normalize(V.Native);
+}
+
+inline CEVector<4, float> CEVectorScale(CEVector<4, float> V, float Scale) {
+	return DirectX::XMVectorScale(V.Native, Scale);
+}
+
+inline CEVector<4, float> CEVectorAdd(CEVector<3, float> V1, CEVector<4, float> V2) {
+	return DirectX::XMVectorAdd(V1.Native, V2.Native);
+}
+
+inline CEMatrix<4, 4, float> CEMatrixLookAtLH(CEVector<3, float> V1, CEVector<4, float> V2, CEVector<4, float> V3) {
+	return DirectX::XMMatrixLookAtLH(V1.Native, V2.Native, V3.Native);
+}
+
+inline CEMatrix<4, 4, float> CEMatrixOrthographicOffCenterLH(float ViewLeft,
+                                                             float ViewRight,
+                                                             float ViewBottom,
+                                                             float ViewTop,
+                                                             float NearZ,
+                                                             float FarZ) {
+	return DirectX::XMMatrixOrthographicOffCenterLH(ViewLeft, ViewRight, ViewBottom, ViewTop, NearZ, FarZ);
+}
 
 inline CEVectorFloat2 operator*(CEVectorFloat2 Left, float Right) {
 	return CEVectorFloat2(Left.x * Right, Left.y * Right);
