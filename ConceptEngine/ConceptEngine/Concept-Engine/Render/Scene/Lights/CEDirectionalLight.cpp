@@ -1,6 +1,5 @@
 #include "CEDirectionalLight.h"
 
-//TODO: Implement
 ConceptEngine::Render::Scene::Lights::CEDirectionalLight::CEDirectionalLight(): CELight(), Direction(0.0f, -1.0f, 0.0f),
 	Rotation(0.0f, 0.0f, 0.0f), ShadowMapPosition(0.0f, 0.0f, 0.0f), LookAt(0.0f, 0.0f, 0.0f), Matrix() {
 	CORE_OBJECT_INIT();

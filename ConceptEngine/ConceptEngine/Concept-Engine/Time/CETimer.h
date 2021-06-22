@@ -6,6 +6,8 @@
 namespace ConceptEngine::Time {
 	class CETimer {
 	public:
+		CETimer();
+		
 		void Update();
 
 		void Reset() {
