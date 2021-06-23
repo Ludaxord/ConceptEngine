@@ -27,16 +27,17 @@ Application::CEGameCore::CEGameCore(GraphicsAPI api, Compilers::Language languag
 }
 
 bool Application::CEGameCore::Create() {
-	if (!CECore::Create()) {
-		CEDebug::DebugBreak();
-		return false;
-	}
 	if (!GPlatform->CreateSystemWindow()) {
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!GPlatform->CreateCursors()) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	if (!CECore::Create()) {
 		CEDebug::DebugBreak();
 		return false;
 	}

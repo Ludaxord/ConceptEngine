@@ -70,7 +70,7 @@ CEConsoleVariable* CEActionConsole::FindVariable(const std::string& name) {
 
 	CEConsoleVariable* consoleVariable = consoleObject->AsVariable();
 	if (!consoleVariable) {
-		CE_LOG_ERROR('\'' + name "' Is not a Console Variable");
+		CE_LOG_ERROR('\'' + name +"' Is not a Console Variable");
 		return nullptr;
 	}
 
