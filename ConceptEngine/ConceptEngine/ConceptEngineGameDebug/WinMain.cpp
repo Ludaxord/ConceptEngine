@@ -13,6 +13,6 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	CEEngine* cp = new CEEngine(L"Concept Debug Game", GraphicsAPI::DirectX, Core::Generic::Platform::Platform::Windows,
 	                            Core::Compilers::Language::None);
 
-	return RuntimeRun(cp);
+	return RuntimeExec(cp);
 
 }

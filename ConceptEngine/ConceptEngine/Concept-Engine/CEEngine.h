@@ -62,7 +62,7 @@ namespace ConceptEngine {
 
 	};
 
-	inline int RuntimeRun(ConceptEngine::CEEngine* conceptEngine) {
+	inline int RuntimeExec(ConceptEngine::CEEngine* conceptEngine) {
 		if (!conceptEngine->Init()) {
 			CEPlatformActions::MessageBox("Error", "Concept Engine Run -> Failed");
 			return -1;
