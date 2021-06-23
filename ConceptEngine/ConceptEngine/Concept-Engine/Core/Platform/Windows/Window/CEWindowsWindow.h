@@ -17,7 +17,8 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		static void Create(int width, int height, int x = 0, int y = 0) {
 			Generic::Window::WndSize = new CEWindowsWindowSize(width, height, x, y);
 			Generic::Window::WndSize->CreateSize();
-
+			SetResolution(width, height);
+			SetPosition(x, y);
 		}
 
 		void CreateSize(int width, int height) override {
@@ -25,6 +26,7 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		};
 
 		friend class CEWindowsWindow;
+
 		CEWindowsWindowSize(int width, int height, int x, int y): CEWindowSize(width, height, x, y) {
 
 		}

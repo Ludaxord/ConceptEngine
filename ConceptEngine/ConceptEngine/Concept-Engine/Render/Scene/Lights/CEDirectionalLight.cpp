@@ -30,7 +30,7 @@ void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetLookAt(float x
 
 void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetShadowNearPlane(float shadowNearPlane) {
 	if (shadowNearPlane > 0.0f) {
-		if (abs(ShadowFarPlane - shadowNearPlane) >= 0.1f) {
+		if (fabsf(ShadowFarPlane - shadowNearPlane) >= 0.1f) {
 			ShadowNearPlane = shadowNearPlane;
 			CalculateMatrix();
 		}
@@ -39,7 +39,7 @@ void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetShadowNearPlan
 
 void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetShadowFarPlane(float shadowFarPlane) {
 	if (shadowFarPlane > 0.0f) {
-		if (abs(shadowFarPlane - ShadowNearPlane) >= 0.1) {
+		if (fabsf(shadowFarPlane - ShadowNearPlane) >= 0.1) {
 			ShadowFarPlane = shadowFarPlane;
 			CalculateMatrix();
 		}

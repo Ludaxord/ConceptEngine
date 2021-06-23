@@ -211,6 +211,9 @@
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXMeshManager.h" />
     <ClInclude Include="Utilities\CEUtilities.h" />
     <ClInclude Include="Elements\CECoreElements.h" />
+    <ClInclude Include="Core\Platform\Generic\Time\CEPlatformTime.h" />
+    <ClInclude Include="Core\Platform\Windows\Time\CEWindowsTime.h" />
+    <ClInclude Include="Core\Platform\Generic\Time\CEGenericTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />

@@ -58,8 +58,6 @@ namespace ConceptEngine::Core::Platform::Generic { namespace Window {
 	public:
 		CEWindowSize(int width, int height, int x, int y): Width(width), Height(height), ScreenWidth(0),
 		                                                   ScreenHeight(0) {
-			SetResolution(width, height);
-			SetPosition(x, y);
 		}
 
 		virtual ~CEWindowSize() = default;

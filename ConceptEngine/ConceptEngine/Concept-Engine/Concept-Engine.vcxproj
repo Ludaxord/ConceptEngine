@@ -54,6 +54,8 @@
     <ClInclude Include="Core\Platform\Generic\Input\CEKey.h" />
     <ClInclude Include="Core\Platform\Generic\Input\CEModifierKeyState.h" />
     <ClInclude Include="Core\Platform\Generic\Managers\CECastManager.h" />
+    <ClInclude Include="Core\Platform\Generic\Time\CEGenericTime.h" />
+    <ClInclude Include="Core\Platform\Generic\Time\CEPlatformTime.h" />
     <ClInclude Include="Core\Platform\Generic\Utilities\OSUtilities.h" />
     <ClInclude Include="Core\Platform\Windows\Actions\CEWindowsActions.h" />
     <ClInclude Include="Core\Platform\Windows\Debug\CEWindowsCommandConsole.h" />
@@ -64,6 +66,7 @@
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsMutex.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsProcess.h" />
     <ClInclude Include="Core\Platform\Windows\Threading\CEWindowsThread.h" />
+    <ClInclude Include="Core\Platform\Windows\Time\CEWindowsTime.h" />
     <ClInclude Include="Core\Threading\CEAtomic.h" />
     <ClInclude Include="Core\Threading\CEConditionVariable.h" />
     <ClInclude Include="Core\Threading\CEGenericAtomic.h" />

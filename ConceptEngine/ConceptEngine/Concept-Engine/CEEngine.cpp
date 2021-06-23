@@ -24,8 +24,8 @@ ConceptEngine::CEEngine::CEEngine(std::wstring name,
 }
 
 ConceptEngine::CEEngine::CEEngine(std::wstring name,
-                                            GraphicsAPI api,
-                                            Core::Generic::Platform::Platform platform) : EnumApi(api),
+                                  GraphicsAPI api,
+                                  Core::Generic::Platform::Platform platform) : EnumApi(api),
 	EnumLanguage(Core::Compilers::Language::None),
 	EnumPlatform(platform) {
 	InstanceName = name;
@@ -56,7 +56,7 @@ bool ConceptEngine::CEEngine::Release() {
 
 bool ConceptEngine::CEEngine::Create(EngineBoot boot) {
 	CurrentBoot = boot;
-	
+
 	switch (boot) {
 	case EngineBoot::Game:
 		return CreateGame();
@@ -65,7 +65,7 @@ bool ConceptEngine::CEEngine::Create(EngineBoot boot) {
 	case EngineBoot::GameDebug:
 		return CreateGameDebug();
 	}
-	
+
 	return false;
 }
 
@@ -80,20 +80,32 @@ std::wstring ConceptEngine::CEEngine::GetName() {
 bool ConceptEngine::CEEngine::CreateEditor() {
 	auto editor = std::make_unique<Core::Application::Editor::CEEditor>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(editor);
-	CEDebug::DebugBreak();
+	if (!Core) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	
 	return true;
 }
 
 bool ConceptEngine::CEEngine::CreateGame() {
 	auto game = std::make_unique<Core::Application::Game::CEGame>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(game);
-	CEDebug::DebugBreak();
+	if (!Core) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
 	return true;
 }
 
 bool ConceptEngine::CEEngine::CreateGameDebug() {
 	auto gameDebug = std::make_unique<Core::Application::GameDebug::CEGameDebug>(EnumApi, EnumLanguage, EnumPlatform);
 	Core = std::move(gameDebug);
-	CEDebug::DebugBreak();
+	if (!Core) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
 	return true;
 }
