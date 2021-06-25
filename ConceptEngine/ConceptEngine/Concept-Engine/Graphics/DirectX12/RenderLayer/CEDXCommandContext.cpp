@@ -184,26 +184,31 @@ CEDXCommandContext::~CEDXCommandContext() {
 
 bool CEDXCommandContext::Create() {
 	if (!CommandQueue.Create(D3D12_COMMAND_LIST_TYPE_DIRECT)) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create CommandQueue of type : D3D12_COMMAND_LIST_TYPE_DIRECT");
 		return false;
 	}
 
 	for (uint32 i = 0; i < 3; i++) {
 		CEDXCommandBatch& batch = CommandBatches.EmplaceBack(GetDevice());
 		if (!batch.Create()) {
+			CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create CommandBatch of index: " + std::to_string(i));
 			return false;
 		}
 	}
 
 	if (!CommandList.Create(D3D12_COMMAND_LIST_TYPE_DIRECT, CommandBatches[0].GetCommandAllocator(), nullptr)) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create CommandList of type: D3D12_COMMAND_LIST_TYPE_DIRECT");
 		return false;
 	}
 
 	FenceValue = 0;
 	if (!Fence.Create(FenceValue)) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create Fence");
 		return false;
 	}
 
 	if (!DescriptorCache.Create()) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create DescriptorCache");
 		return false;
 	}
 
@@ -217,6 +222,7 @@ bool CEDXCommandContext::Create() {
 
 	CERef<CEDXComputeShader> shader = new CEDXComputeShader(GetDevice(), code);
 	if (shader->Create()) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create CEDXComputeShader for GenerateMipsTex2D");
 		return false;
 	}
 
@@ -229,13 +235,14 @@ bool CEDXCommandContext::Create() {
 	GenerateMipsTex2D_PSO->SetName("GenerateMipsTex2D Gen PSO");
 
 	if (ShaderCompiler->CompileFromFile("DirectX12/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr,
-	                                         CEShaderStage::Compute, CEShaderModel::SM_6_0, code)) {
+	                                    CEShaderStage::Compute, CEShaderModel::SM_6_0, code)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to compile GenerateMipsTexCube Shader");
 		return false;
 	}
 
 	shader = new CEDXComputeShader(GetDevice(), code);
 	if (!shader->Create()) {
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create CEDXComputeShader for GenerateMipsTexCube");
 		return false;
 	}
 

@@ -186,6 +186,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 	}
 
 	if (!Base::CEDirectXHandler::CECreate(option, DXGILib, D3D12Lib, PIXLib)) {
+		CE_LOG_ERROR("[CEDXDevice]: Failed to Create CEDirectXHandler")
 		return false;
 	}
 

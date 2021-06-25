@@ -1,8 +1,13 @@
 #include "CEDirectXHandlers.h"
 
+#include <comdef.h>
+
 #include "../../../Core/Debug/CEDebug.h"
 
 #include <dxgi1_3.h>
+#include <system_error>
+
+#include "../../../Utilities/CEStringUtilities.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Base;
 
@@ -54,8 +59,10 @@ HRESULT CEDirectXLibHandler::XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_
                                                           _Out_ ID3DBlob** ppBlob,
                                                           _Always_(_Outptr_opt_result_maybenull_) ID3DBlob**
                                                           ppErrorBlob) {
-	CE_LOG_INFO("[CEDirectXLibHandler]: D3D12SerializeRootSignature");
 	const HRESULT hr = D3D12SerializeRootSignature(pRootSignature, Version, ppBlob, ppErrorBlob);
+	if (FAILED(hr)) {
+		CE_LOG_ERROR("[CEDirectXLibHandler]: Failed to Serialize Root Signature: " + HResultToString(hr));
+	}
 	return hr;
 }
 
@@ -91,7 +98,7 @@ bool CEDirectXLibHandler::LibCreate() {
 	if (!DXHandler->Create()) {
 		CEDebug::DebugBreak();
 		return false;
-	} 
+	}
 
 	return true;
 }
@@ -142,6 +149,7 @@ HRESULT CEDirectXHandler::CED3D12SerializeRootSignature(_In_ const D3D12_ROOT_SI
                                                         _Out_ ID3DBlob** ppBlob,
                                                         _Always_(_Outptr_opt_result_maybenull_) ID3DBlob**
                                                         ppErrorBlob) {
+	CE_LOG_INFO("[CEDirectXHandler]: CED3D12SerializeRootSignature")
 	return DXHandler->XD3D12SerializeRootSignature(pRootSignature, Version, ppBlob, ppErrorBlob);
 }
 

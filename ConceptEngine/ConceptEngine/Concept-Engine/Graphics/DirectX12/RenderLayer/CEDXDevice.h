@@ -21,7 +21,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		CEDXDevice(bool enableDebugLayer, bool enableGPUValidation, bool EnableDRED);
 		~CEDXDevice();
 
-		bool Create(Base::CreateOption create = Base::CreateOption::DLL);
+		bool Create(Base::CreateOption create = Base::CreateOption::Lib);
 
 		int32 GetMultiSampleQuality(DXGI_FORMAT format, uint32 sampleCount);
 

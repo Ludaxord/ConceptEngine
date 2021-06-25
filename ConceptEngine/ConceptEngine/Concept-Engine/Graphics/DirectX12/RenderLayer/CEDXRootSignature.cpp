@@ -163,19 +163,56 @@ CEDXRootSignatureDescHelper::CEDXRootSignatureDescHelper(const CEDXRootSignature
 		}
 
 		if (resourceCounts.Ranges.NumSRVs > 0) {
+			Assert(NumDescriptorRanges < D3D12_MAX_DESCRIPTOR_RANGES);
+			Assert(numRootParameters < D3D12_MAX_ROOT_PARAMETERS);
 
+			InitDescriptorRange(DescriptorRanges[NumDescriptorRanges], D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
+			                    resourceCounts.Ranges.NumSRVs, 0, space);
+			InitDescriptorTable(Parameters[numRootParameters], GetDXShaderVisibility(i),
+			                    &DescriptorRanges[NumDescriptorRanges], 1);
+			NumDescriptorRanges++;
+			numRootParameters++;
+
+			addFlag = false;
 		}
 
 		if (resourceCounts.Ranges.NumUAVs > 0) {
+			Assert(NumDescriptorRanges < D3D12_MAX_DESCRIPTOR_RANGES);
+			Assert(numRootParameters < D3D12_MAX_ROOT_PARAMETERS);
 
+			InitDescriptorRange(DescriptorRanges[NumDescriptorRanges], D3D12_DESCRIPTOR_RANGE_TYPE_UAV,
+			                    resourceCounts.Ranges.NumUAVs, 0, space);
+			InitDescriptorTable(Parameters[numRootParameters], GetDXShaderVisibility(i),
+			                    &DescriptorRanges[NumDescriptorRanges], 1);
+			NumDescriptorRanges++;
+			numRootParameters++;
+
+			addFlag = false;
 		}
 
 		if (resourceCounts.Ranges.NumSamplers > 0) {
+			Assert(NumDescriptorRanges < D3D12_MAX_DESCRIPTOR_RANGES);
+			Assert(numRootParameters < D3D12_MAX_ROOT_PARAMETERS);
 
+			InitDescriptorRange(DescriptorRanges[NumDescriptorRanges], D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER,
+			                    resourceCounts.Ranges.NumSamplers, 0, space);
+			InitDescriptorTable(Parameters[numRootParameters], GetDXShaderVisibility(i),
+			                    &DescriptorRanges[NumDescriptorRanges], 1);
+			NumDescriptorRanges++;
+			numRootParameters++;
+
+			addFlag = false;
 		}
 
 		if (resourceCounts.Num32BitConstants > 0) {
+			Assert(NumDescriptorRanges < D3D12_MAX_DESCRIPTOR_RANGES);
+			Assert(numRootParameters < D3D12_MAX_ROOT_PARAMETERS);
 
+			Init32BitConstantRange(Parameters[numRootParameters], GetDXShaderVisibility(i),
+			                       resourceCounts.Num32BitConstants, 0, D3D12_SHADER_REGISTER_SPACE_32BIT_CONSTANTS);
+			numRootParameters++;
+
+			addFlag = false;
 		}
 
 		if (addFlag) {
@@ -190,13 +227,15 @@ CEDXRootSignatureDescHelper::CEDXRootSignatureDescHelper(const CEDXRootSignature
 
 	Desc.NumParameters = numRootParameters;
 	Desc.pParameters = Parameters;
-	Desc.NumStaticSamplers = samplers.size();
-	if (!samplers.empty()) {
-		Desc.pStaticSamplers = samplers.data();
-	}
-	else {
-		Desc.pStaticSamplers = nullptr;
-	}
+	//TODO: Check if there is need to remove static samplers for now;
+	// Desc.NumStaticSamplers = samplers.size();
+	// if (!samplers.empty()) {
+	// Desc.pStaticSamplers = samplers.data();
+	// }
+	// else {
+	Desc.NumStaticSamplers = 0;
+	Desc.pStaticSamplers = nullptr;
+	// }
 
 	if (rootSignatureInfo.AllowInputAssembler) {
 		Desc.Flags |= D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -263,6 +302,8 @@ bool CEDXRootSignature::Create(const D3D12_ROOT_SIGNATURE_DESC& desc) {
 	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob;
 	if (!Serialize(desc, &signatureBlob)) {
 		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize From Root Signature Desc")
+		//TEST
+		// CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -277,6 +318,8 @@ bool CEDXRootSignature::Create(const void* blobWithRootSignature, uint64 blobLen
 		blobWithRootSignature, blobLengthInBytes, IID_PPV_ARGS(&deserializer));
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Retrive Root Signature Desc");
+		//TEST
+		// CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -307,12 +350,12 @@ bool CEDXRootSignature::Serialize(const D3D12_ROOT_SIGNATURE_DESC& desc, ID3DBlo
 	HRESULT hResult = Base::CEDirectXHandler::CED3D12SerializeRootSignature(
 		&desc, D3D_ROOT_SIGNATURE_VERSION_1, blob, &errorBlob);
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize RootSignature");
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize RootSignature " + HResultToString(hResult));
 		CE_LOG_ERROR(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
 		return false;
 	}
 
-	return false;
+	return true;
 }
 
 void CEDXRootSignature::CreateRootParameterMap(const D3D12_ROOT_SIGNATURE_DESC& desc) {
@@ -372,8 +415,11 @@ bool CEDXRootSignatureCache::Create() {
 
 	CEDXRootSignature* graphicsRootSignature = CreateRootSignature(graphicsKey);
 	if (!graphicsRootSignature) {
+		CE_LOG_ERROR("[CEDXRootSignatureCache]: Failed to Create Graphics Root Signature")
 		return false;
 	}
+
+	CE_LOG_INFO("[CEDXRootSignatureCache]: Create Graphics Root Signature")
 
 	graphicsRootSignature->SetName("Default Graphics Root Signature");
 
@@ -388,8 +434,11 @@ bool CEDXRootSignatureCache::Create() {
 
 	CEDXRootSignature* computeRootSignature = CreateRootSignature(computeKey);
 	if (!computeRootSignature) {
+		CE_LOG_ERROR("[CEDXRootSignatureCache]: Failed to Create Compute Root Signature")
 		return false;
 	}
+
+	CE_LOG_INFO("[CEDXRootSignatureCache]: Create Compute Root Signature")
 
 	computeRootSignature->SetName("Default Compute Root Signature");
 

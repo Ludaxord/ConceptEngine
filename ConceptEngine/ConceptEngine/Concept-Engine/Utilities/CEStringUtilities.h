@@ -12,3 +12,7 @@ inline std::string ConvertToString(const std::wstring& wString) {
 	std::string string(wString.begin(), wString.end());
 	return string;
 }
+
+inline std::string HResultToString(HRESULT hr) {
+	return std::system_category().message(hr);
+}
