@@ -20,11 +20,11 @@ bool CEDXDescriptorHeap::Create() {
 
 	HRESULT hResult = GetDevice()->GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&Heap));
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[D3D12DescriptorHeap]: Failed to create Descriptor Heap");
+		CE_LOG_ERROR("[CEDXDescriptorHeap]: Failed to create Descriptor Heap");
 		return false;
 	}
 
-	CE_LOG_INFO("[D3D12DescriptorHeap]: Descriptor Heap Created");
+	CE_LOG_INFO("[CEDXDescriptorHeap]: Descriptor Heap Created");
 
 	CpuStart = Heap->GetCPUDescriptorHandleForHeapStart();
 	GpuStart = Heap->GetGPUDescriptorHandleForHeapStart();

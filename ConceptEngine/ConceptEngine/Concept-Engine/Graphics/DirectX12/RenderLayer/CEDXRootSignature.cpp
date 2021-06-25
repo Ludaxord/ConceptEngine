@@ -1,5 +1,7 @@
 #include "CEDXRootSignature.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
 static D3D12_SHADER_VISIBILITY GetDXShaderVisibility(uint32 visibility) {
@@ -260,6 +262,7 @@ bool CEDXRootSignature::Create(const CEDXRootSignatureResourceCount& rootSignatu
 bool CEDXRootSignature::Create(const D3D12_ROOT_SIGNATURE_DESC& desc) {
 	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob;
 	if (!Serialize(desc, &signatureBlob)) {
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize From Root Signature Desc")
 		return false;
 	}
 
@@ -273,8 +276,7 @@ bool CEDXRootSignature::Create(const void* blobWithRootSignature, uint64 blobLen
 	HRESULT hResult = Base::CEDirectXHandler::CED3D12CreateRootSignatureDeserializer(
 		blobWithRootSignature, blobLengthInBytes, IID_PPV_ARGS(&deserializer));
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[D3D12RootSignature]: Failed to Retrive Root Signature Desc");
-
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Retrive Root Signature Desc");
 		return false;
 	}
 
@@ -286,13 +288,14 @@ bool CEDXRootSignature::Create(const void* blobWithRootSignature, uint64 blobLen
 
 	Microsoft::WRL::ComPtr<ID3DBlob> blob;
 	if (!Serialize(*desc, &blob)) {
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize From Blob")
 		return false;
 	}
 
 	hResult = GetDevice()->CreateRootSignature(1, blob->GetBufferPointer(), blob->GetBufferSize(),
 	                                           IID_PPV_ARGS(&RootSignature));
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[D3D12RootSignature]: Failed to Create Root Signature");
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Create Root Signature");
 		return false;
 	}
 
@@ -304,7 +307,7 @@ bool CEDXRootSignature::Serialize(const D3D12_ROOT_SIGNATURE_DESC& desc, ID3DBlo
 	HRESULT hResult = Base::CEDirectXHandler::CED3D12SerializeRootSignature(
 		&desc, D3D_ROOT_SIGNATURE_VERSION_1, blob, &errorBlob);
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[D3D12RootSignature]: Failed to Serialize RootSignature");
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize RootSignature");
 		CE_LOG_ERROR(reinterpret_cast<const char*>(errorBlob->GetBufferPointer()));
 		return false;
 	}
@@ -335,7 +338,7 @@ bool CEDXRootSignature::InternalCreate(const void* blobWithRootSignature, uint64
 	HRESULT hResult = GetDevice()->CreateRootSignature(1, blobWithRootSignature, blobLengthInBytes,
 	                                                   IID_PPV_ARGS(&RootSignature));
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[D3D12RootSignature]: Failed to create Root Signature");
+		CE_LOG_ERROR("[CEDXRootSignature]: Failed to create Root Signature");
 		return false;
 	}
 

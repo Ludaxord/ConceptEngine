@@ -54,6 +54,7 @@ HRESULT CEDirectXLibHandler::XD3D12SerializeRootSignature(_In_ const D3D12_ROOT_
                                                           _Out_ ID3DBlob** ppBlob,
                                                           _Always_(_Outptr_opt_result_maybenull_) ID3DBlob**
                                                           ppErrorBlob) {
+	CE_LOG_INFO("[CEDirectXLibHandler]: D3D12SerializeRootSignature");
 	const HRESULT hr = D3D12SerializeRootSignature(pRootSignature, Version, ppBlob, ppErrorBlob);
 	return hr;
 }

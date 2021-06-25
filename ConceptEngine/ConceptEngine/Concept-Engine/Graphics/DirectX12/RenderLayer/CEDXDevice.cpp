@@ -192,7 +192,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 	if (EnableDebugLayer) {
 		Microsoft::WRL::ComPtr<ID3D12Debug> debugInterface;
 		if (FAILED(Base::CEDirectXHandler::CED3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface)))) {
-			CE_LOG_ERROR("[D3D12Device]: Failed to enable DebugLayer");
+			CE_LOG_ERROR("[CEDXDevice]: Failed to enable DebugLayer");
 			return false;
 		}
 
@@ -205,14 +205,14 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 				dredSettings->SetPageFaultEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
 			}
 			else {
-				CE_LOG_ERROR("[D3D12Device]: Failed to enable DRED");
+				CE_LOG_ERROR("[CEDXDevice]: Failed to enable DRED");
 			}
 		}
 
 		if (EnableGPUValidation) {
 			Microsoft::WRL::ComPtr<ID3D12Debug1> debugInterface1;
 			if (FAILED(debugInterface.As(&debugInterface1))) {
-				CE_LOG_ERROR("[D3D12Device]: Failed to enable GPU Validation");
+				CE_LOG_ERROR("[CEDXDevice]: Failed to enable GPU Validation");
 				return false;
 			}
 
@@ -225,7 +225,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 			infoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, DXGI_INFO_QUEUE_MESSAGE_SEVERITY_CORRUPTION, true);
 		}
 		else {
-			CE_LOG_ERROR("[D3D12Device]: Failed to retrive InfoQueue");
+			CE_LOG_ERROR("[CEDXDevice]: Failed to retrive InfoQueue");
 		}
 
 		Microsoft::WRL::ComPtr<IDXGraphicsAnalysis> tempPixCaptureInterface;
@@ -233,18 +233,18 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 			PIXCaptureInterface = tempPixCaptureInterface;
 		}
 		else {
-			CE_LOG_INFO("[D3D12Device]: PIX is not connected to applicaiton")
+			CE_LOG_INFO("[CEDXDevice]: PIX is not connected to applicaiton")
 		}
 	}
 
 	if (FAILED(Base::CEDirectXHandler::CECreateDXGIFactory2(0, IID_PPV_ARGS(&Factory)))) {
-		CE_LOG_ERROR("[D3D12Device]: Failed to create factory");
+		CE_LOG_ERROR("[CEDXDevice]: Failed to create factory");
 		return false;
 	}
 
 	Microsoft::WRL::ComPtr<IDXGIFactory5> factory5;
 	if (FAILED(Factory.As(&factory5))) {
-		CE_LOG_ERROR("[D3D12Device]: Failed to retrive IDXGIFactory5");
+		CE_LOG_ERROR("[CEDXDevice]: Failed to retrive IDXGIFactory5");
 		return false;
 	}
 
@@ -252,8 +252,8 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 	                                                sizeof(AllowTearing));
 	if (SUCCEEDED(hResult)) {
 		CE_LOG_INFO(AllowTearing
-			? "[D32D12Device]: Tearing is supported"
-			: "[D32D12Device]: Tearing is NOT supported");
+			? "[CEDXDevice]: Tearing is supported"
+			: "[CEDXDevice]: Tearing is NOT supported");
 
 	}
 
@@ -261,7 +261,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 	for (UINT id = 0; DXGI_ERROR_NOT_FOUND != Factory->EnumAdapters1(id, &tempAdapter); id++) {
 		DXGI_ADAPTER_DESC1 desc;
 		if (FAILED(tempAdapter->GetDesc1(&desc))) {
-			CE_LOG_ERROR("[D3D12Device]: failed to retrive DXGI_ADAPTER_DESC1");
+			CE_LOG_ERROR("[CEDXDevice]: failed to retrive DXGI_ADAPTER_DESC1");
 			return false;
 		}
 
@@ -274,7 +274,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 				nullptr))) {
 			AdapterID = id;
 			char buff[256] = {};
-			sprintf_s(buff, "[D3D12Device]: Direct3D Adapter (%u): %ls", AdapterID, desc.Description);
+			sprintf_s(buff, "[CEDXDevice]: Direct3D Adapter (%u): %ls", AdapterID, desc.Description);
 			CE_LOG_INFO(buff);
 
 			break;
@@ -282,7 +282,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 	}
 
 	if (!tempAdapter) {
-		CE_LOG_ERROR("[D3D12Device]: failed to retrive adapter");
+		CE_LOG_ERROR("[CEDXDevice]: failed to retrive adapter");
 		return false;
 	}
 
@@ -293,7 +293,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 		return false;
 	}
 
-	CE_LOG_INFO("[D3D12Device]: create device");
+	CE_LOG_INFO("[CEDXDevice]: create device");
 
 	if (EnableDebugLayer) {
 		Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue;
@@ -316,7 +316,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 	}
 
 	if (FAILED(Device.As<ID3D12Device5>(&DXRDevice))) {
-		CE_LOG_ERROR("[D3D12Device]: Failed to retrive DXR-Device");
+		CE_LOG_ERROR("[CEDXDevice]: Failed to retrive DXR-Device");
 		return false;
 	}
 
@@ -402,7 +402,7 @@ int32 CEDXDevice::GetMultiSampleQuality(DXGI_FORMAT format, uint32 sampleCount) 
 	HRESULT hr = Device->CheckFeatureSupport(D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS, &data,
 	                                         sizeof(D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS));
 	if (FAILED(hr)) {
-		CE_LOG_ERROR("[D3D12Device] CheckFeatureSupport Failed");
+		CE_LOG_ERROR("[CEDXDevice] CheckFeatureSupport Failed");
 		return 0;
 	}
 

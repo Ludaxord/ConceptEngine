@@ -1,5 +1,8 @@
 #include "CEWindowsWindow.h"
 
+#include <comdef.h>
+#include <spdlog/spdlog.h>
+
 #include "../../../../Memory/CEMemory.h"
 #include "../CEWindows.h"
 #include "../../../../CEEngine.h"
@@ -7,6 +10,7 @@
 #include "../../../Log/CELog.h"
 
 #include "../../../Debug/CEDebug.h"
+
 
 using namespace ConceptEngine::Core::Platform::Windows::Window;
 
@@ -30,18 +34,42 @@ bool CEWindowsWindow::Create() {
 }
 
 bool CEWindowsWindow::RegisterWindowClass() {
-	WNDCLASS windowClass;
-	Memory::CEMemory::Memzero(&windowClass);
+	// WNDCLASS windowClass;
+	// Memory::CEMemory::Memzero(&windowClass);
+	//
+	// windowClass.hInstance = CEWindows::Instance;
+	// windowClass.lpszClassName = CEEngine::GetName().c_str();
+	// windowClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+	// windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	// windowClass.lpfnWndProc = CEWindows::MessageProc;
+	//
+	// auto classAtm = RegisterClass(&windowClass);
+	// if (classAtm == 0) {
+	// 	CE_LOG_ERROR("[CEWindows]: Failed to register CEWindowsWindow Class\n");
+	// 	return false;
+	// }
 
-	windowClass.hInstance = CEWindows::Instance;
-	windowClass.lpszClassName = CEEngine::GetName().c_str();
-	windowClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	windowClass.lpfnWndProc = CEWindows::MessageProc;
+	HRESULT hr = CoInitialize(NULL);
+	if (FAILED(hr)) {
+		CE_LOG_ERROR("[CEWindowsWindow]: Failed to CoInitialize\n")
+		return false;
+	}
 
-	auto classAtm = RegisterClass(&windowClass);
-	if (classAtm == 0) {
-		CE_LOG_ERROR("[CEWindows]: Failed to register CEWindowsWindow Class\n");
+	WNDCLASSEXW wndClass = {0};
+
+	wndClass.cbSize = sizeof(WNDCLASSEX);
+	wndClass.style = CS_HREDRAW | CS_VREDRAW;
+	wndClass.lpfnWndProc = &CEWindows::MessageProc;
+	wndClass.hInstance = CEWindows::Instance;
+	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wndClass.hIcon = static_cast<HICON>(LoadImage(CEWindows::Instance, nullptr, IMAGE_ICON, 32, 32, 0));
+	wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wndClass.lpszMenuName = nullptr;
+	wndClass.lpszClassName = CEWindows::GetWindowClassName();
+	wndClass.hIconSm = static_cast<HICON>(LoadImage(CEWindows::Instance, nullptr, IMAGE_ICON, 16, 16, 0));
+
+	if (!RegisterClassExW(&wndClass)) {
+		CE_LOG_ERROR("[CEWindowsWindow]: Unable to register window class.\n")
 		return false;
 	}
 
@@ -78,26 +106,50 @@ bool CEWindowsWindow::Create(const std::string& title, uint32 width, uint32 heig
 	}
 
 	RECT clientRect = {0, 0, static_cast<LONG>(width), static_cast<LONG>(height)};
-	AdjustWindowRect(&clientRect, dwStyle, FALSE);
+	::AdjustWindowRect(&clientRect, WS_OVERLAPPEDWINDOW, FALSE);
 
 	INT nWidth = clientRect.right - clientRect.left;
 	INT nHeight = clientRect.bottom - clientRect.top;
 
-	HINSTANCE Instance = CEWindows::Instance;
-	auto windowClassName = CEWindows::GetWindowClassName();
-	CEWindows::HWnd = CreateWindowEx(0,
-	                                 windowClassName,
-	                                 std::wstring(title.begin(), title.end()).c_str(),
-	                                 dwStyle,
-	                                 CW_USEDEFAULT,
-	                                 CW_USEDEFAULT,
-	                                 nWidth,
-	                                 nHeight,
-	                                 NULL,
-	                                 NULL,
-	                                 Instance,
-	                                 NULL
-	);
+	// CEWindows::HWnd = CreateWindowEx(0,
+	//                                  windowClassName,
+	//                                  std::wstring(title.begin(), title.end()).c_str(),
+	//                                  dwStyle,
+	//                                  CW_USEDEFAULT,
+	//                                  CW_USEDEFAULT,
+	//                                  nWidth,
+	//                                  nHeight,
+	//                                  NULL,
+	//                                  NULL,
+	//                                  Instance,
+	//                                  NULL
+	// );
+
+	int screenWidth = ::GetSystemMetrics(SM_CXSCREEN);
+	int screenHeight = ::GetSystemMetrics(SM_CYSCREEN);
+	int windowX = std::max<int>(0, (screenWidth - (int)width) / 2);
+	int windowY = std::max<int>(0, (screenHeight - (int)height) / 2);
+
+	CEWindows::HWnd = ::CreateWindowExW(NULL,
+	                                    CEWindows::GetWindowClassName(),
+	                                    std::wstring(title.begin(), title.end()).c_str(),
+	                                    dwStyle,
+	                                    windowX,
+	                                    windowY,
+	                                    width,
+	                                    height,
+	                                    NULL,
+	                                    NULL,
+	                                    CEWindows::Instance,
+	                                    NULL);
+
+	CE_LOG_INFO(
+		"[CEWindowsWindow] Window Size: width " + std::to_string(width) + "px " + "height " + std::to_string(height) +
+		"px")
+
+	if (CEWindows::Instance) {
+		CE_LOG_INFO("[CEWindowsWindow] Window Instance Exists")
+	}
 
 	if (CEWindows::HWnd == NULL) {
 		CE_LOG_ERROR("[CEWindowsWindow] Failed to create Window \n");
