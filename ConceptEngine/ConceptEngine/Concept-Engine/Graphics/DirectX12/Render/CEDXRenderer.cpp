@@ -26,6 +26,8 @@
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
+#include "../../../Utilities/CEDirectoryUtilities.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
@@ -517,7 +519,7 @@ void CEDXRenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
 
 bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Debug.hlsl", "VSMain", nullptr, CEShaderStage::Vertex,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/Debug.hlsl"), "VSMain", nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
 	}
@@ -529,7 +531,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	AABBVertexShader->SetName("Debug Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shader/Debug.hlsl", "PSMain", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shader/Debug.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
 	}
@@ -659,7 +661,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 bool CEDXRenderer::CreateAA() {
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/FullscreenVS.hlsl", "Main", nullptr, CEShaderStage::Vertex,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/FullscreenVS.hlsl"), "Main", nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
 	}
@@ -671,7 +673,7 @@ bool CEDXRenderer::CreateAA() {
 
 	vertexShader->SetName("Fullscreen Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/PostProcessPS.hlsl", "Main", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/PostProcessPS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
 	}
@@ -749,7 +751,7 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/FXAA_PS.hlsl", "Main", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		return false;
 	}
@@ -822,7 +824,7 @@ bool CEDXRenderer::CreateShadingImage() {
 	ShadingImage->SetName("Shading Rate Image");
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadingImage.hlsl", "Main", nullptr, CEShaderStage::Compute,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ShadingImage.hlsl"), "Main", nullptr, CEShaderStage::Compute,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;

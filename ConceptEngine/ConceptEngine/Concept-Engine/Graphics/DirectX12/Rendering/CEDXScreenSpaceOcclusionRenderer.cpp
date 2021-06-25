@@ -8,6 +8,7 @@
 #include "../../../Core/Debug/CEProfiler.h"
 
 #include "../../../Math/CEFloat.h"
+#include "../../../Utilities/CEDirectoryUtilities.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
@@ -25,7 +26,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	}
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/SSAO.hlsl", "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/SSAO.hlsl"), "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
 		CEDebug::DebugBreak();
@@ -143,7 +144,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	CEArray<RenderLayer::CEShaderDefine> defines;
 	defines.EmplaceBack("HORIZONTAL_PASS", "1");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/Blur.hlsl"), "Main", &defines,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
 		CEDebug::DebugBreak();
@@ -172,7 +173,7 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	defines.Clear();
 	defines.EmplaceBack("VERTICAL_PASS", "1");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Blur.hlsl", "Main", &defines,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/Blur.hlsl"), "Main", &defines,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
 		CEDebug::DebugBreak();

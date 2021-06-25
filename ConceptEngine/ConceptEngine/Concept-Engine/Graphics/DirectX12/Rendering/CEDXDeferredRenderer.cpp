@@ -13,6 +13,8 @@
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
+#include "../../../Utilities/CEDirectoryUtilities.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> DrawTileDebug(true);
@@ -44,7 +46,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			{"ENABLE_NORMAL_MAPPING", "1"}
 		};
 
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/GeometryPass.hlsl", "VSMain", &defines,
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/GeometryPass.hlsl"), "VSMain", &defines,
 		                                     Main::RenderLayer::CEShaderStage::Vertex,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
 			CEDebug::DebugBreak();
@@ -59,7 +61,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 		BaseVertexShader->SetName("Geometry Pass Vertex Shader");
 
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/GeometryPass.hlsl", "PSMain", &defines,
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/GeometryPass.hlsl"), "PSMain", &defines,
 		                                     Main::RenderLayer::CEShaderStage::Pixel,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
 			CEDebug::DebugBreak();
@@ -141,7 +143,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	}
 
 	{
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/PrePass.hlsl",
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/PrePass.hlsl"),
 		                                     "Main",
 		                                     nullptr,
 		                                     Main::RenderLayer::CEShaderStage::Vertex,
@@ -277,7 +279,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	FrameResources.IntegrationLUTSampler->SetName("Integration LUT Sampler");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/BRDFIntegrationGen.hlsl", "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/BRDFIntegrationGen.hlsl"), "Main", nullptr,
 	                                     Main::RenderLayer::CEShaderStage::Compute,
 	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
@@ -341,7 +343,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	CommandListExecutor.ExecuteCommandList(commandList);
 
 	{
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/DeferredLightPass.hlsl", "Main", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/DeferredLightPass.hlsl"), "Main", nullptr,
 		                                     Main::RenderLayer::CEShaderStage::Compute,
 		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
 			CEDebug::DebugBreak();

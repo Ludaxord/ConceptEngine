@@ -225,6 +225,7 @@
     <ClInclude Include="Save\Project\CEProjectSaveWriter.h" />
     <ClInclude Include="Time\CETimer.h" />
     <ClInclude Include="Time\CETimestamp.h" />
+    <ClInclude Include="Utilities\CEDirectoryUtilities.h" />
     <ClInclude Include="Utilities\CEHashUtilities.h" />
     <ClInclude Include="Utilities\CEScreenUtilities.h" />
     <ClInclude Include="Core\Platform\Generic\Window\CEConsole.h" />

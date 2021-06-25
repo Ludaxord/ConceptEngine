@@ -4,6 +4,7 @@
 #include "../../../Core/Debug/CEProfiler.h"
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
+#include "../../../Utilities/CEDirectoryUtilities.h"
 
 #ifdef max
 #undef max
@@ -18,7 +19,7 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 	}
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/IrradianceGen.hlsl", "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/IrradianceGen.hlsl"), "Main", nullptr,
 	                                     Main::RenderLayer::CEShaderStage::Compute,
 	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("Failed to compile Irradiance Gen Shader");
@@ -38,7 +39,7 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
 
 	IrradianceGenPSO->SetName("Irradiance Gen Pipeline State");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/SpecularIrradianceGen.hlsl"), "Main", nullptr,
 	                                     CEShaderStage::Compute, CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("Failed to compile Specular Irradiance Gen Shader");
 		CEDebug::DebugBreak();

@@ -6,12 +6,13 @@
 #include "../../../Core/Debug/CEProfiler.h"
 #include "../../../Render/Scene/CEScene.h"
 #include "../../Main/Common/CEMaterial.h"
+#include "../../../Utilities/CEDirectoryUtilities.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
 bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/RayGen.hlsl", "RayGen", nullptr, CEShaderStage::RayGen,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/RayGen.hlsl"), "RayGen", nullptr, CEShaderStage::RayGen,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -25,7 +26,7 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 
 	RayGenShader->SetName("Ray Gen Shader");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ClosestHit.hlsl", "ClosestHit", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ClosestHit.hlsl"), "ClosestHit", nullptr,
 	                                     CEShaderStage::RayClosestHit, CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -39,7 +40,7 @@ bool CEDXRayTracer::Create(Main::Rendering::CEFrameResources& resources) {
 
 	RayClosestHitShader->SetName("Ray Closest Hit Shader");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/Miss.hlsl", "Miss", nullptr, CEShaderStage::RayMiss,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/Miss.hlsl"), "Miss", nullptr, CEShaderStage::RayMiss,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;

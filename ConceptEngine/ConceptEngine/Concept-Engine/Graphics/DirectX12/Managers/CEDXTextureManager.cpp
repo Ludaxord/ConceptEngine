@@ -10,6 +10,8 @@
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
+#include "../../../Utilities/CEDirectoryUtilities.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 
 CEDXTextureManager::CEDXTextureManager() : CETextureManager() {
@@ -20,7 +22,7 @@ CEDXTextureManager::~CEDXTextureManager() {
 
 bool CEDXTextureManager::Create() {
 	CEArray<uint8> code;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/CubeMapGen.hlsl", "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/CubeMapGen.hlsl"), "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     code)) {
 		CEDebug::DebugBreak();

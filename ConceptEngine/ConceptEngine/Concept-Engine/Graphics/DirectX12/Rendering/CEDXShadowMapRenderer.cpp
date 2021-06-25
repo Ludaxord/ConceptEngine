@@ -9,6 +9,7 @@
 #include "../../../Core/Platform/Generic/Debug/CETypedConsole.h"
 
 #include "../../../Render/Scene/CEFrustum.h"
+#include "../../../Utilities/CEDirectoryUtilities.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
@@ -38,7 +39,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 	CEArray<uint8> shaderCode;
 	{
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "VSMain", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "VSMain", nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
 			CEDebug::DebugBreak();
@@ -53,7 +54,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 		PointLightVertexShader->SetName("Linear Shadow Map Vertex Shader");
 
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "PSMain", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "PSMain", nullptr,
 		                                     RenderLayer::CEShaderStage::Pixel, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
 			CEDebug::DebugBreak();
@@ -130,7 +131,7 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 	}
 
 	{
-		if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ShadowMap.hlsl", "Main", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "Main", nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
 			CEDebug::DebugBreak();

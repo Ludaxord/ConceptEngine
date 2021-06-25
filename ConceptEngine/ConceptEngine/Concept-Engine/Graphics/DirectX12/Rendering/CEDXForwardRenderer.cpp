@@ -5,6 +5,7 @@
 #include "../../../Core/Debug/CEDebug.h"
 #include "../../../Core/Debug/CEProfiler.h"
 #include "../../Main/Common/CEMaterial.h"
+#include "../../../Utilities/CEDirectoryUtilities.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
@@ -16,7 +17,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	};
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ForwardPass.hlsl",
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ForwardPass.hlsl"),
 	                                     "VSMain",
 	                                     &defines,
 	                                     Main::RenderLayer::CEShaderStage::Vertex,
@@ -33,7 +34,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 
 	VertexShader->SetName("Forward Pass Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shaders/ForwardPass.hlsl", "PSMain", &defines, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/ForwardPass.hlsl"), "PSMain", &defines, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
