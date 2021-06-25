@@ -225,7 +225,7 @@ bool CEDXCommandContext::Create() {
 	}
 
 	CERef<CEDXComputeShader> shader = new CEDXComputeShader(GetDevice(), code);
-	if (shader->Create()) {
+	if (!shader->Create()) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Create CEDXComputeShader for GenerateMipsTex2D");
 		return false;
 	}
