@@ -136,6 +136,7 @@ bool CEDXBaseAmplificationShader::Create() {
 bool CEDXBaseComputeShader::Create() {
 	Microsoft::WRL::ComPtr<ID3D12ShaderReflection> reflection;
 	if (!static_cast<CEDXShaderCompiler*>(ShaderCompiler)->GetReflection(this, &reflection)) {
+		CE_LOG_ERROR("[CEDXBaseComputeShader]: Error in GetReflection");
 		return false;
 	}
 

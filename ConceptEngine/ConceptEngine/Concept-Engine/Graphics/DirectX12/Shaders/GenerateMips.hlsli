@@ -102,7 +102,7 @@ void Main(ComputeShaderInput input) {
 	float4 Src1 = SourceMip.SampleLevel(LinearSampler, TexCoord, SrcMipLevel);
 #else
 #if POWER_OF_TWO
-        float2 TexCoord = TexelSize * (Input.DispatchThreadID.xy + 0.5f);
+        float2 TexCoord = TexelSize * (input.DispatchThreadID.xy + 0.5f);
         float4 Src1		= SourceMip.SampleLevel(LinearSampler, TexCoord, SrcMipLevel);
 #else
         #error "Not supported yet"
