@@ -20,6 +20,23 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		bool Create(D3D12_COMMAND_LIST_TYPE type, CEDXCommandAllocatorHandle& allocator,
 		            ID3D12PipelineState* pipelineState) {
+			HRESULT hr = GetDevice()->GetDevice()->CreateCommandList(1, type, allocator.GetAllocator(), pipelineState,
+			                                                         IID_PPV_ARGS(&CommandList));
+			if (SUCCEEDED(hr)) {
+				CommandList->Close();
+
+				CE_LOG_INFO("[CEDXDevice]: Created Command List");
+
+				if (FAILED(CommandList.As<ID3D12GraphicsCommandList5>(&CommandList5))) {
+					CE_LOG_ERROR("[CEDXCommandList]: Failed to Retrive DXR Command List");
+					return false;
+				}
+
+				return true;
+			}
+
+			CE_LOG_ERROR("[CEDXCommandList]: Failed to create Command List");
+
 			return false;
 		}
 
