@@ -65,6 +65,8 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 
 		bool HasRootSignature(CEDXBaseShader* shader);
 
+		bool ValidateShader(Microsoft::WRL::ComPtr<IDxcBlobEncoding> Blob);
+
 	private:
 		bool InternalCompileFromSource(
 			IDxcBlob* sourceBlob,
@@ -82,13 +84,14 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 	private:
 		ComPtr<IDxcCompiler> DXCompiler;
 		ComPtr<IDxcLibrary> DXLibrary;
+		ComPtr<IDxcValidator> DXValidator;
 		ComPtr<IDxcLinker> DXLinker;
 		ComPtr<IDxcIncludeHandler> DXIncludeHandler;
 		ComPtr<IDxcContainerReflection> DXReflection;
 		HMODULE DXCompilerDLL;
 		bool UseLib = false;
 	};
-}};
+}}
 
 
 extern DxcCreateInstanceProc DxcCreateInstanceFunc;

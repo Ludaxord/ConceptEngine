@@ -267,6 +267,12 @@ bool CEDXShaderCompiler::CreateDLL() {
 		return false;
 	}
 
+	hResult = DxcCreateInstanceFunc(CLSID_DxcValidator, IID_PPV_ARGS(&DXValidator));
+	if (FAILED(hResult)) {
+		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create DXValidator");
+		return false;
+	}
+
 	return true;
 }
 
@@ -374,6 +380,33 @@ bool CEDXShaderCompiler::HasRootSignature(CEDXBaseShader* shader) {
 	}
 
 	return false;
+}
+
+bool CEDXShaderCompiler::ValidateShader(Microsoft::WRL::ComPtr<IDxcBlobEncoding> Blob) {
+	ComPtr<IDxcOperationResult> Result;
+	DXValidator->Validate(Blob.Get(), DxcValidatorFlags_InPlaceEdit, &Result);
+	HRESULT Status;
+	Result->GetStatus(&Status);
+
+	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlob;
+	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlobUtf8;
+	if (SUCCEEDED(Result->GetErrorBuffer(&printBlob))) {
+		DXLibrary->GetBlobAsUtf8(printBlob.Get(), &printBlobUtf8);
+	}
+
+	if (FAILED(Status)) {
+		if (printBlobUtf8 && printBlobUtf8->GetBufferSize() > 0) {
+			CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to Validate Shader");
+			CE_LOG_ERROR(reinterpret_cast<LPCSTR>(printBlobUtf8->GetBufferPointer()));
+		}
+		else {
+			CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to validate with Unknown error");
+		}
+
+		return false;
+	}
+
+	return true;
 }
 
 bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR filePath, LPCWSTR entryPoint,
