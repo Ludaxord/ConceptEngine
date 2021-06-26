@@ -96,22 +96,25 @@ ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::CEDXC
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::Create() {
 	
-	struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) ComputePipelineStream {
-		struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) {
-			D3D12_PIPELINE_STATE_SUBOBJECT_TYPE Type0 = D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE;
-			ID3D12RootSignature* RootSignature = nullptr;
-		};
-		
-		struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) {
-			D3D12_PIPELINE_STATE_SUBOBJECT_TYPE Type1 = D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CS;
-			D3D12_SHADER_BYTECODE ComputeShader = {};
-		};
-			
-	} PipelineStream;
+    struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT) ComputePipelineStream
+    {
+        struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT)
+        {
+            D3D12_PIPELINE_STATE_SUBOBJECT_TYPE Type0 = D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE;
+            ID3D12RootSignature* RootSignature = nullptr;
+        };
+
+        struct alignas(D3D12_PIPELINE_STATE_STREAM_ALIGNMENT)
+        {
+            D3D12_PIPELINE_STATE_SUBOBJECT_TYPE Type1 = D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CS;
+            D3D12_SHADER_BYTECODE ComputeShader = { };
+        };
+    } PipelineStream;
 
 	PipelineStream.ComputeShader = Shader->GetByteCode();
 
 	if (!Shader->HasRootSignature()) {
+		CE_LOG_INFO("[CEDXComputePipelineState]: Shader Has Root Signature");
 		CEDXRootSignatureResourceCount resourceCounts;
 		resourceCounts.Type = CERootSignatureType::Compute;
 		resourceCounts.AllowInputAssembler = false;
@@ -119,7 +122,9 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::
 
 		RootSignature = CEDXRootSignatureCache::Get().GetRootSignature(resourceCounts);
 	} else {
+		CE_LOG_INFO("[CEDXComputePipelineState]: Shader Does not Have Root Signature");
 		D3D12_SHADER_BYTECODE byteCode = Shader->GetByteCode();
+		
 		RootSignature = new CEDXRootSignature(GetDevice());
 		if (!RootSignature->Create(byteCode.pShaderBytecode, byteCode.BytecodeLength)) {
 			return false;

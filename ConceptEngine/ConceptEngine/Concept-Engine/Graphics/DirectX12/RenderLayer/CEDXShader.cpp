@@ -154,7 +154,7 @@ bool CEDXBaseComputeShader::Create() {
 		ContainsRootSignature = true;
 	}
 
-	reflection->GetThreadGroupSize(&ThreadGroupXYZ.x, &ThreadGroupXYZ.y, &ThreadGroupXYZ.z);
+	reflection->GetThreadGroupSize(&ThreadGroupXYZ.Native.x, &ThreadGroupXYZ.Native.y, &ThreadGroupXYZ.Native.z);
 
 	return true;
 }

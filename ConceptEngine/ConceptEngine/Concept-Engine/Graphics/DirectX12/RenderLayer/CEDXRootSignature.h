@@ -31,6 +31,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	struct CEDXRootSignatureResourceCount {
 		bool IsCompatible(const CEDXRootSignatureResourceCount& another) const;
+		
 		CERootSignatureType Type = CERootSignatureType::Unknown;
 		CEShaderResourceCount ResourceCounts[ShaderVisibility_Count];
 		bool AllowInputAssembler = false;
