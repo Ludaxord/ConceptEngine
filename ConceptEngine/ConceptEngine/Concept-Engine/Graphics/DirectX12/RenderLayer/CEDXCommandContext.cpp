@@ -214,11 +214,11 @@ bool CEDXCommandContext::Create() {
 		return false;
 	}
 
-	CE_LOG_INFO("Shader DIR: " + GetShaderDirectory("DirectX12\\Shaders\\GenerateMipsTex2D.hlsl"))
+	CE_LOG_INFO("Shader DIR: " + GetGraphicsContentDirectory("DirectX12\\Shaders\\GenerateMipsTex2D.hlsl"))
 
 	CEArray<uint8> code;
 	if (!ShaderCompiler->
-		CompileFromFile(GetShaderDirectory("DirectX12\\Shaders\\GenerateMipsTex2D.hlsl"), "Main", nullptr, CEShaderStage::Compute,
+		CompileFromFile(GetGraphicsContentDirectory("DirectX12\\Shaders\\GenerateMipsTex2D.hlsl"), "Main", nullptr, CEShaderStage::Compute,
 		                CEShaderModel::SM_6_0, code)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to compile GenerateMipsTex2D shader");
 		return false;
@@ -238,7 +238,7 @@ bool CEDXCommandContext::Create() {
 
 	GenerateMipsTex2D_PSO->SetName("GenerateMipsTex2D Gen PSO");
 
-	if (ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/GenerateMipsTexCube.hlsl"), "Main", nullptr,
+	if (ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/GenerateMipsTexCube.hlsl"), "Main", nullptr,
 	                                    CEShaderStage::Compute, CEShaderModel::SM_6_0, code)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to compile GenerateMipsTexCube Shader");
 		return false;

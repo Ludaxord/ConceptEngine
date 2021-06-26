@@ -6,6 +6,8 @@
 #include "CEDXShader.h"
 #include "../../Main/RenderLayer/CEShaderCompiler.h"
 
+#pragma comment(lib, "dxcompiler.lib")
+
 #ifndef MAKE_FOUR_CC
 #define MAKE_FOUR_CC(a,b,c,d) (unsigned int)((unsigned char)(a) | (unsigned char)(b) << 8 | (unsigned char)(c) << 16 | (unsigned char)(d) << 24)
 #endif
@@ -86,7 +88,7 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 		HMODULE DXCompilerDLL;
 		bool UseLib = false;
 	};
-}}
+}};
 
 
 extern DxcCreateInstanceProc DxcCreateInstanceFunc;

@@ -72,7 +72,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	}
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/Skybox.hlsl"), "VSMain", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Skybox.hlsl"), "VSMain", nullptr,
 	                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
 		CEDebug::DebugBreak();
@@ -87,7 +87,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	SkyboxVertexShader->SetName("Skybox Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/Skybox.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Skybox.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;

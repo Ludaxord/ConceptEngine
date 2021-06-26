@@ -28,6 +28,6 @@ inline std::string GetMainDirectory() {
 	return working_dir.parent_path().string();
 }
 
-inline std::string GetShaderDirectory(std::string shaderPath) {
-	return GetMainDirectory() + "\\Concept-Engine\\Graphics\\" + shaderPath;
+inline std::string GetGraphicsContentDirectory(std::string path) {
+	return GetMainDirectory() + "\\Concept-Engine\\Graphics\\" + path;
 }

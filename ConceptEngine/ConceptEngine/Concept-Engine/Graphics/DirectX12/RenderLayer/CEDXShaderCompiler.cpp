@@ -383,7 +383,7 @@ bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR
 	CEArray<LPCWSTR> args = {L"-O3"};
 
 	if (ShaderStageIsRayTracing(shaderStage)) {
-		args.EmplaceBack(L"");
+		args.EmplaceBack(L"-exports");
 		args.EmplaceBack(entryPoint);
 	}
 

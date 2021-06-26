@@ -22,7 +22,7 @@ CEDXTextureManager::~CEDXTextureManager() {
 
 bool CEDXTextureManager::Create() {
 	CEArray<uint8> code;
-	if (!ShaderCompiler->CompileFromFile(GetShaderDirectory("DirectX12/Shaders/CubeMapGen.hlsl"), "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/CubeMapGen.hlsl"), "Main", nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     code)) {
 		CEDebug::DebugBreak();

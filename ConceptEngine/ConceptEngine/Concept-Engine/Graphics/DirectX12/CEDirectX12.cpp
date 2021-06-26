@@ -72,12 +72,12 @@ bool CEDirectX12::CreateDebugUi() {
 
 bool CEDirectX12::CreateShaderCompiler() {
 	auto shaderCompiler = new RenderLayer::CEDXShaderCompiler();
-	if (!shaderCompiler->Create()) {
+	if (!shaderCompiler->Create(false)) {
 		CEDebug::DebugBreak();
 		return false;
 	}
 
-	ShaderCompiler = shaderCompiler;
+	// ShaderCompiler = shaderCompiler;
 
 	return true;
 }
