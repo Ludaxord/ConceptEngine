@@ -42,7 +42,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		Microsoft::WRL::ComPtr<IDXGISwapChain3> SwapChain;
 		CEDXCommandContext* CommandContext;
-		HWND hwnd = 0;
+		HWND Hwnd = 0;
 		uint32 Flags = 0;
 		uint32 NumBackBuffers = 0;
 		uint32 BackBufferIndex = 0;

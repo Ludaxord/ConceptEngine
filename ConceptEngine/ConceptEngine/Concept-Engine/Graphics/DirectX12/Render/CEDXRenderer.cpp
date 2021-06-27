@@ -65,6 +65,7 @@ bool CEDXRenderer::Create() {
 		);
 
 	if (!Resources.MainWindowViewport) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create ViewPort");
 		CEDebug::DebugBreak();
 		return false;
 	}

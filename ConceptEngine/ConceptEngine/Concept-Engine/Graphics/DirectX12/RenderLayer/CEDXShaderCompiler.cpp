@@ -591,6 +591,7 @@ bool CEDXShaderCompiler::InternalGetReflection(const ComPtr<IDxcBlob>& shaderBlo
 bool CEDXShaderCompiler::ValidateRayTracingShader(const ComPtr<IDxcBlob>& shaderBlob, LPCWSTR entryPoint) {
 	Microsoft::WRL::ComPtr<ID3D12LibraryReflection> libraryReflection;
 	if (!InternalGetReflection(shaderBlob, IID_PPV_ARGS(&libraryReflection))) {
+		CE_LOG_ERROR("[CEDXShaderCompiler]: Were not able to Get Reflection from Shader");
 		return false;
 	}
 
