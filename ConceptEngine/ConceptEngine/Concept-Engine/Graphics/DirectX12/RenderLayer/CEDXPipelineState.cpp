@@ -85,6 +85,152 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXGraphicsPipelineState:
 	D3D12_INPUT_LAYOUT_DESC& inputLayoutDesc = pipelineStream.InputLayout;
 
 	CEDXInputLayoutState* dxInputLayoutState = static_cast<CEDXInputLayoutState*>(createInfo.InputLayoutState);
+ if (!dxInputLayoutState)
+    {
+        inputLayoutDesc.pInputElementDescs = nullptr;
+        inputLayoutDesc.NumElements = 0;
+    }
+    else
+    {
+        inputLayoutDesc = dxInputLayoutState->GetDesc();
+    }
+
+    CEArray<CEDXBaseShader*> ShadersWithRootSignature;
+    CEArray<CEDXBaseShader*> BaseShaders;
+
+    // VertexShader
+    CEDXVertexShader* DxVertexShader = static_cast<CEDXVertexShader*>(createInfo.ShaderState.VertexShader);
+    Assert(DxVertexShader != nullptr);
+
+    if (DxVertexShader->HasRootSignature())
+    {
+        ShadersWithRootSignature.EmplaceBack(DxVertexShader);
+    }
+
+    D3D12_SHADER_BYTECODE& VertexShader = pipelineStream.VertexShader;
+    VertexShader = DxVertexShader->GetByteCode();
+    BaseShaders.EmplaceBack(DxVertexShader);
+
+    // PixelShader
+    CEDXPixelShader* DxPixelShader = static_cast<CEDXPixelShader*>(createInfo.ShaderState.PixelShader);
+
+    D3D12_SHADER_BYTECODE& PixelShader = pipelineStream.PixelShader;
+    if (DxPixelShader)
+    {
+        PixelShader = DxPixelShader->GetByteCode();
+        BaseShaders.EmplaceBack(DxPixelShader);
+
+        if (DxPixelShader->HasRootSignature())
+        {
+            ShadersWithRootSignature.EmplaceBack(DxPixelShader);
+        }
+    }
+    else
+    {
+        PixelShader.pShaderBytecode = nullptr;
+        PixelShader.BytecodeLength  = 0;
+    }
+
+    // RenderTarget
+    const uint32 NumRenderTargets = createInfo.PipelineFormats.NumRenderTargets;
+
+    D3D12_RT_FORMAT_ARRAY& RenderTargetInfo = pipelineStream.RenderTargetInfo;
+    RenderTargetInfo.NumRenderTargets = NumRenderTargets;
+    for (uint32 Index = 0; Index < NumRenderTargets; Index++)
+    {
+        RenderTargetInfo.RTFormats[Index] = ConvertFormat(createInfo.PipelineFormats.RenderTargetFormats[Index]);
+    }
+
+    // DepthStencil
+    pipelineStream.DepthBufferFormat = ConvertFormat(createInfo.PipelineFormats.DepthStencilFormat);
+
+    // RasterizerState
+    CEDXRasterizerState* DxRasterizerState = static_cast<CEDXRasterizerState*>(createInfo.RasterizerState);
+    Assert(DxRasterizerState != nullptr);
+
+    D3D12_RASTERIZER_DESC& RasterizerDesc = pipelineStream.RasterizerDesc;
+    RasterizerDesc = DxRasterizerState->GetDesc();
+
+    // DepthStencilState
+    CEDXDepthStencilState* DxDepthStencilState = static_cast<CEDXDepthStencilState*>(createInfo.DepthStencilState);
+    Assert(DxDepthStencilState != nullptr);
+
+    D3D12_DEPTH_STENCIL_DESC& DepthStencilDesc = pipelineStream.DepthStencilDesc;
+    DepthStencilDesc = DxDepthStencilState->GetDesc();
+
+    // BlendState
+    CEDXBlendState* DxBlendState = static_cast<CEDXBlendState*>(createInfo.BlendState);
+    Assert(DxBlendState != nullptr);
+
+    D3D12_BLEND_DESC& BlendStateDesc = pipelineStream.BlendStateDesc;
+    BlendStateDesc = DxBlendState->GetDesc();
+
+    // Topology
+    pipelineStream.PrimitiveTopologyType = ConvertPrimitiveTopologyType(createInfo.PrimitiveTopologyType);
+
+    // MSAA
+    DXGI_SAMPLE_DESC& SamplerDesc = pipelineStream.SampleDesc;
+    SamplerDesc.Count   = createInfo.SampleCount;
+    SamplerDesc.Quality = createInfo.SampleQuality;
+
+    // RootSignature
+    if (ShadersWithRootSignature.IsEmpty())
+    {
+        CEDXRootSignatureResourceCount ResourceCounts;
+        ResourceCounts.Type                = CERootSignatureType::Graphics;
+        // TODO: Check if any shader actually uses the input assembler
+        ResourceCounts.AllowInputAssembler = true;
+
+        // NOTE: For now all constants are put in visibility_all
+        uint32 Num32BitConstants = 0;
+        for (CEDXBaseShader* DxShader : BaseShaders)
+        {
+            uint32 Index = DxShader->GetShaderVisibility();
+            ResourceCounts.ResourceCounts[Index] = DxShader->GetResourceCount();
+            Num32BitConstants = Math::CEMath::Max<uint32>(Num32BitConstants, ResourceCounts.ResourceCounts[Index].Num32BitConstants);
+            ResourceCounts.ResourceCounts[Index].Num32BitConstants = 0;
+        }
+
+        ResourceCounts.ResourceCounts[ShaderVisibility_All].Num32BitConstants = Num32BitConstants;
+
+        RootSignature = CEDXRootSignatureCache::Get().GetRootSignature(ResourceCounts);
+    }
+    else
+    {
+        // TODO: Maybe use all shaders and create one that fits all
+        D3D12_SHADER_BYTECODE ByteCode = ShadersWithRootSignature.Front()->GetByteCode();
+
+        RootSignature = new CEDXRootSignature(GetDevice());
+        if (!RootSignature->Create(ByteCode.pShaderBytecode, ByteCode.BytecodeLength))
+        {
+            return false;
+        }
+        else
+        {
+            RootSignature->SetName("Custom Graphics RootSignature");
+        }
+    }
+
+    Assert(RootSignature != nullptr);
+
+    pipelineStream.RootSignature = RootSignature->GetRootSignature();
+    
+    // Create PipelineState
+    D3D12_PIPELINE_STATE_STREAM_DESC PipelineStreamDesc;
+    Memory::CEMemory::Memzero(&PipelineStreamDesc);
+
+    PipelineStreamDesc.pPipelineStateSubobjectStream = &pipelineStream;
+    PipelineStreamDesc.SizeInBytes                   = sizeof(GraphicsPipelineStream);
+
+    Microsoft::WRL::ComPtr<ID3D12PipelineState> NewPipelineState;
+    HRESULT Result = GetDevice()->CreatePipelineState(&PipelineStreamDesc, IID_PPV_ARGS(&NewPipelineState));
+    if (FAILED(Result))
+    {
+        CE_LOG_ERROR("[CEDXGraphicsPipelineState]: FAILED to Create GraphicsPipelineState");
+        return false;
+    }
+
+    PipelineState = NewPipelineState;
 	
 	return true;
 }

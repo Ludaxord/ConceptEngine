@@ -973,7 +973,27 @@ Main::RenderLayer::CERasterizerState* CEDXManager::CreateRasterizerState(
 }
 
 Main::RenderLayer::CEBlendState* CEDXManager::CreateBlendState(const RenderLayer::CEBlendStateCreateInfo& createInfo) {
-	return nullptr;
+	D3D12_BLEND_DESC Desc;
+	Memory::CEMemory::Memzero(&Desc);
+
+	Desc.AlphaToCoverageEnable = createInfo.AlphaToCoverageEnable;
+	Desc.IndependentBlendEnable = createInfo.independentBlendEnable;
+	for (uint32 i = 0; i < 8; i++) {
+		Desc.RenderTarget[i].BlendEnable = createInfo.RenderTarget[i].BlendEnable;
+		Desc.RenderTarget[i].BlendOp = RenderLayer::ConvertBlendOp(createInfo.RenderTarget[i].BlendOp);
+		Desc.RenderTarget[i].BlendOpAlpha = RenderLayer::ConvertBlendOp(createInfo.RenderTarget[i].BlendOpAlpha);
+		Desc.RenderTarget[i].DestBlend = RenderLayer::ConvertBlend(createInfo.RenderTarget[i].DestinationBlend);
+		Desc.RenderTarget[i].DestBlendAlpha = RenderLayer::ConvertBlend(
+			createInfo.RenderTarget[i].DestinationBlendAlpha);
+		Desc.RenderTarget[i].SrcBlend = RenderLayer::ConvertBlend(createInfo.RenderTarget[i].SourceBlend);
+		Desc.RenderTarget[i].SrcBlendAlpha = RenderLayer::ConvertBlend(createInfo.RenderTarget[i].SourceBlendAlpha);
+		Desc.RenderTarget[i].LogicOpEnable = createInfo.RenderTarget[i].LogicOpEnable;
+		Desc.RenderTarget[i].LogicOp = RenderLayer::ConvertLogicOp(createInfo.RenderTarget[i].LogicOp);
+		Desc.RenderTarget[i].RenderTargetWriteMask = RenderLayer::ConvertRenderTargetWriteState(
+			createInfo.RenderTarget[i].RenderTargetWriteMask);
+	}
+
+	return new RenderLayer::CEDXBlendState(Device, Desc);
 }
 
 Main::RenderLayer::CEInputLayoutState* CEDXManager::CreateInputLayout(

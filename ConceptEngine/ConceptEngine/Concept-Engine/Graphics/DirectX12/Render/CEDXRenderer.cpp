@@ -664,11 +664,13 @@ bool CEDXRenderer::CreateAA() {
 	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FullscreenVS.hlsl"), "Main", nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FullscreenVS Shader");
 		return false;
 	}
 
 	CERef<CEVertexShader> vertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 	if (!vertexShader) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Vertex Shader");
 		return false;
 	}
 
@@ -676,11 +678,13 @@ bool CEDXRenderer::CreateAA() {
 
 	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/PostProcessPS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile PostProcessPS Shader");
 		return false;
 	}
 
 	PostShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!PostShader) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Pixel Shader");
 		return false;
 	}
 
@@ -695,6 +699,7 @@ bool CEDXRenderer::CreateAA() {
 		CreateDepthStencilState(depthStencilStateInfo);
 
 	if (!depthStencilState) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Depth Stencil State");
 		return false;
 	}
 
@@ -705,6 +710,7 @@ bool CEDXRenderer::CreateAA() {
 
 	CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(rasterizerStateInfo);
 	if (!rasterizerState) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Rasterizer State");
 		return false;
 	}
 
@@ -716,6 +722,7 @@ bool CEDXRenderer::CreateAA() {
 
 	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 	if (!blendState) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Blend State");
 		return false;
 	}
 
@@ -735,6 +742,7 @@ bool CEDXRenderer::CreateAA() {
 
 	PostPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!PostPipelineState) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Graphics Pipeline State");
 		return false;
 	}
 
@@ -749,16 +757,19 @@ bool CEDXRenderer::CreateAA() {
 
 	Resources.FXAASampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 	if (!Resources.FXAASampler) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create FXAA Sampler State");
 		return false;
 	}
 
 	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FXAA_PS Shader");
 		return false;
 	}
 
 	FXAAShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!FXAAShader) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Pixel Shader");
 		return false;
 	}
 
@@ -768,6 +779,7 @@ bool CEDXRenderer::CreateAA() {
 
 	FXAAPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!FXAAPipelineState) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create FXAA Graphics Pipeline State");
 		return false;
 	}
 
@@ -779,12 +791,14 @@ bool CEDXRenderer::CreateAA() {
 
 	if (!ShaderCompiler->CompileFromFile("DirectX12/Shader/FXAA_PS.hlsl", "Main", &defines, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FXAA_PS Shader with DEBUG Define");
 		return false;
 	}
 
 	FXAADebugShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 
 	if (!FXAADebugShader) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Debug FXAA Pixel Shader");
 		return false;
 	}
 
@@ -794,12 +808,13 @@ bool CEDXRenderer::CreateAA() {
 
 	FXAADebugPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 	if (!FXAADebugPipelineState) {
+		CE_LOG_ERROR("[CEDXRenderer]: Failed to Create Debug FXAA Pipeline State");
 		return false;
 	}
 
 	FXAADebugPipelineState->SetName("FXAA Debug Pipeline State");
 
-	return false;
+	return true;
 }
 
 bool CEDXRenderer::CreateShadingImage() {
