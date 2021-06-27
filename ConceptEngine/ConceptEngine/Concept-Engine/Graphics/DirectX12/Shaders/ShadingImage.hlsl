@@ -3,6 +3,7 @@
 
 RWTexture2D<uint> output : register(u0, space0);
 
+[numthreads(1, 1, 1)]
 void Main(ComputeShaderInput input) {
 	uint width;
 	uint height;

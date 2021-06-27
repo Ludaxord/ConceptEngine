@@ -84,7 +84,7 @@ bool CELightSetup::Create() {
 
 	ShadowCastingPointLightsPosRadBuffer->SetName("Shadow Casting Point Lights Pos Rad Buffer");
 
-	return false;
+	return true;
 }
 
 void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Render::Scene::CEScene& scene) {

@@ -142,8 +142,22 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	inline CEDXBaseTexture* TextureCast(CETexture* Texture) {
 		Assert(Texture != nullptr);
 
+		if (Texture->AsTexture2D() != nullptr) {
+			return static_cast<CEDXTexture2D*>(Texture);
+		}
+		else if (Texture->AsTexture2DArray() != nullptr) {
+			return static_cast<CEDXTexture2DArray*>(Texture);
+		}
+		else if (Texture->AsTextureCube() != nullptr) {
+			return static_cast<CEDXTextureCube*>(Texture);
+		}
+		else if (Texture->AsTextureCubeArray() != nullptr) {
+			return static_cast<CEDXTextureCubeArray*>(Texture);
+		}
+		else if (Texture->AsTexture3D() != nullptr) {
+			return static_cast<CEDXTexture3D*>(Texture);
+		}
 
-		
 		return nullptr;
 	}
 

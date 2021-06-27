@@ -34,6 +34,7 @@ bool CEDXResource::Create(D3D12_RESOURCE_STATES initialState,
 	HeapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
 	HeapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 
+	//TODO: Fix
 	HRESULT Result = GetDevice()->CreateCommittedResource(&HeapProperties, D3D12_HEAP_FLAG_NONE, &Desc, initialState,
 	                                                      optimizedClearValue, IID_PPV_ARGS(&DXResource));
 	if (SUCCEEDED(Result)) {
