@@ -25,3 +25,11 @@
         ConceptEngine::Core::Generic::Platform::CEPlatform::Console->Print(std::string(message) + "\n"); \
         ConceptEngine::Core::Generic::Platform::CEPlatform::Console->SetColor(ConceptEngine::Core::Platform::Generic::Window::CEConsoleColor::White); \
     }
+
+#define CE_LOG_VERBOSE(message) \
+    {\
+        Assert(ConceptEngine::Core::Generic::Platform::CEPlatform::Console != nullptr); \
+        ConceptEngine::Core::Generic::Platform::CEPlatform::Console->SetColor(ConceptEngine::Core::Platform::Generic::Window::CEConsoleColor::Blue); \
+        ConceptEngine::Core::Generic::Platform::CEPlatform::Console->Print(std::string(message) + "\n"); \
+        ConceptEngine::Core::Generic::Platform::CEPlatform::Console->SetColor(ConceptEngine::Core::Platform::Generic::Window::CEConsoleColor::White); \
+    }

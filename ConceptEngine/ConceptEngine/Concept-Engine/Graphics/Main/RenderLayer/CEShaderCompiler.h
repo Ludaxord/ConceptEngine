@@ -59,6 +59,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		                             CEShaderModel shaderModel,
 		                             CEArray<uint8>& code) = 0;
 
+		virtual bool CompileWithEncodingFromPinned(const std::string& filePath, const std::string& entryPoint,
+                                                       const CEArray<CEShaderDefine>* defines,
+                                                       CEShaderStage shaderStage, CEShaderModel shaderModel,
+                                                       CEArray<uint8>& code) = 0;
 
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,

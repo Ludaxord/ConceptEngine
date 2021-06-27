@@ -4,6 +4,9 @@
 
 #include "../../../Core/Platform/CEPlatformActions.h"
 
+#include "../../../Utilities/CEDirectoryUtilities.h"
+#include "../../../Utilities/CEStringUtilities.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
 ConceptEngine::Graphics::Main::RenderLayer::CEIShaderCompiler* ShaderCompiler = nullptr;
@@ -224,9 +227,23 @@ bool CEDXShaderCompiler::Create(bool useLib) {
 }
 
 bool CEDXShaderCompiler::CreateDLL() {
-	DXCompilerDLL = ::LoadLibrary(L"dxcompiler.dll");
+	auto CompilerDLLPath = GetGraphicsContentDirectory("DirectX12\\Lib\\dxcompiler.dll");
+	auto DxilDLLPath = GetGraphicsContentDirectory("DirectX12\\Lib\\dxil.dll");
+
+	CE_LOG_VERBOSE("[CEDXShaderCompiler]: COMPILER DLL Path: " + CompilerDLLPath)
+	CE_LOG_VERBOSE("[CEDXShaderCompiler]: DXIL DLL Path: " + DxilDLLPath)
+	
+	HMODULE DxilDLL = ::LoadLibraryA(DxilDLLPath.c_str());
+
+	DXCompilerDLL = ::LoadLibraryA(CompilerDLLPath.c_str());
+
 	if (!DXCompilerDLL) {
 		CEPlatformActions::MessageBox("Error", "Failed to load dxCompiler.dll");
+		return false;
+	}
+
+	if (!DxilDLL) {
+		CEPlatformActions::MessageBox("Error", "Failed to load dxil.dll");
 		return false;
 	}
 
@@ -267,11 +284,16 @@ bool CEDXShaderCompiler::CreateDLL() {
 		return false;
 	}
 
-	hResult = DxcCreateInstanceFunc(CLSID_DxcValidator, IID_PPV_ARGS(&DXValidator));
+	DxcCreateInstanceProc DXILCreateFunc = CEPlatformActions::GetTypedProcAddress<DxcCreateInstanceProc>(
+		DxilDLL, "DxcCreateInstance");
+
+	hResult = DXILCreateFunc(CLSID_DxcValidator, IID_PPV_ARGS(&DXValidator));
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create DXValidator");
 		return false;
 	}
+
+	CE_LOG_INFO("[CEDXShaderCompiler]: Create Shader Compiler with DLL");
 
 	return true;
 }
@@ -307,6 +329,8 @@ bool CEDXShaderCompiler::CreateLib() {
 		return false;
 	}
 
+	CE_LOG_INFO("[CEDXShaderCompiler]: Create Shader Compiler with LIB");
+
 	return true;
 }
 
@@ -318,10 +342,41 @@ bool CEDXShaderCompiler::CompileFromFile(const std::string& filePath, const std:
 	std::wstring wEntryPoint = ConvertToWString(entryPoint);
 
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> sourceBlob;
+
 	HRESULT hResult = DXLibrary->CreateBlobFromFile(wFilePath.c_str(), nullptr, &sourceBlob);
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create Source data.");
 
+		return false;
+	}
+
+	// if (!ValidateShader(sourceBlob.Get())) {
+	// 	CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to Validate Shader");
+	// 	return false;
+	// }
+
+	return InternalCompileFromSource(sourceBlob.Get(), wFilePath.c_str(), wEntryPoint.c_str(), shaderStage, shaderModel,
+	                                 defines, code);
+}
+
+bool CEDXShaderCompiler::CompileWithEncodingFromPinned(const std::string& filePath, const std::string& entryPoint,
+                                                       const CEArray<CEShaderDefine>* defines,
+                                                       CEShaderStage shaderStage, CEShaderModel shaderModel,
+                                                       CEArray<uint8>& code) {
+
+	std::wstring wFilePath = ConvertToWString(filePath);
+	std::wstring wEntryPoint = ConvertToWString(entryPoint);
+
+	Microsoft::WRL::ComPtr<IDxcBlobEncoding> sourceBlob;
+	HRESULT Result = DXLibrary->CreateBlobWithEncodingFromPinned(wFilePath.c_str(),
+	                                                             sizeof(char) * static_cast<uint32>(wFilePath.
+		                                                             size()),
+	                                                             CP_UTF8,
+	                                                             &sourceBlob);
+
+
+	if (FAILED(Result)) {
+		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create Source Data With Encoding From Pinned");
 		return false;
 	}
 
@@ -382,9 +437,9 @@ bool CEDXShaderCompiler::HasRootSignature(CEDXBaseShader* shader) {
 	return false;
 }
 
-bool CEDXShaderCompiler::ValidateShader(Microsoft::WRL::ComPtr<IDxcBlobEncoding> Blob) {
+bool CEDXShaderCompiler::ValidateShader(IDxcBlob* Blob) {
 	ComPtr<IDxcOperationResult> Result;
-	DXValidator->Validate(Blob.Get(), DxcValidatorFlags_InPlaceEdit, &Result);
+	DXValidator->Validate(Blob, DxcValidatorFlags_InPlaceEdit, &Result);
 	HRESULT Status;
 	Result->GetStatus(&Status);
 
@@ -392,11 +447,14 @@ bool CEDXShaderCompiler::ValidateShader(Microsoft::WRL::ComPtr<IDxcBlobEncoding>
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlobUtf8;
 	if (SUCCEEDED(Result->GetErrorBuffer(&printBlob))) {
 		DXLibrary->GetBlobAsUtf8(printBlob.Get(), &printBlobUtf8);
+		CE_LOG_VERBOSE("[CEDXShaderCompiler]: Shader Validated with output: ")
+		CE_LOG_VERBOSE(reinterpret_cast<LPCSTR>(printBlobUtf8->GetBufferPointer()));
 	}
 
 	if (FAILED(Status)) {
 		if (printBlobUtf8 && printBlobUtf8->GetBufferSize() > 0) {
 			CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to Validate Shader");
+			CE_LOG_ERROR("[CEDXShaderCompiler]: Error Message: " + HResultToString(Status))
 			CE_LOG_ERROR(reinterpret_cast<LPCSTR>(printBlobUtf8->GetBufferPointer()));
 		}
 		else {
@@ -454,6 +512,12 @@ bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR
 		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to retrive result. Unknown error");
 	}
 
+
+	// if (!ValidateShader(sourceBlob)) {
+	// 	CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to Validate Shader In Internal Compile From Source");
+	// 	return false;
+	// }
+
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlob;
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlobUtf8;
 	if (SUCCEEDED(result->GetErrorBuffer(&printBlob))) {
@@ -474,9 +538,9 @@ bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR
 
 	std::string asciiFilePath = filePath != nullptr ? ConvertToString(filePath) : "";
 	if (printBlobUtf8 && printBlobUtf8->GetBufferSize() > 0) {
-		CE_LOG_INFO(
+		CE_LOG_WARNING(
 			"[CEDXShaderCompiler]: Successfully compiled shader '" + asciiFilePath + "' with following output: ");
-		CE_LOG_INFO(reinterpret_cast<LPCSTR>(printBlobUtf8->GetBufferPointer()));
+		CE_LOG_WARNING(reinterpret_cast<LPCSTR>(printBlobUtf8->GetBufferPointer()));
 	}
 	else {
 		CE_LOG_INFO("[CEDXShaderCompiler]: Successfully compiled shader: '" + asciiFilePath + "'.");

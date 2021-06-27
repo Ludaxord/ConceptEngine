@@ -144,7 +144,7 @@ bool CEWindowsWindow::Create(const std::string& title, uint32 width, uint32 heig
 	                                    NULL);
 
 	CE_LOG_INFO(
-		"[CEWindowsWindow] Window Size: width " + std::to_string(width) + "px " + "height " + std::to_string(height) +
+		"[CEWindowsWindow]: Window Size: width " + std::to_string(width) + "px " + "height " + std::to_string(height) +
 		"px")
 
 	if (CEWindows::Instance) {

@@ -53,6 +53,11 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 		                             CEShaderModel shaderModel,
 		                             CEArray<uint8>& code) override;
 
+		bool CompileWithEncodingFromPinned(const std::string& filePath, const std::string& entryPoint,
+                                                       const CEArray<CEShaderDefine>* defines,
+                                                       CEShaderStage shaderStage, CEShaderModel shaderModel,
+                                                       CEArray<uint8>& code) override;
+
 		virtual bool CompileShader(const std::string& shaderSource,
 		                           const std::string& entryPoint,
 		                           const CEArray<CEShaderDefine>* defines,
@@ -65,7 +70,7 @@ namespace ConceptEngine::Graphics { namespace DirectX12::RenderLayer {
 
 		bool HasRootSignature(CEDXBaseShader* shader);
 
-		bool ValidateShader(Microsoft::WRL::ComPtr<IDxcBlobEncoding> Blob);
+		bool ValidateShader(IDxcBlob* Blob);
 
 	private:
 		bool InternalCompileFromSource(
