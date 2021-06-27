@@ -23,7 +23,7 @@ namespace ConceptEngine::Core::Platform::Windows::Actions {
 			PostQuitMessage(exitCode);
 		}
 
-		static void DebugBreak() {
+		static void DebugBreak() { 
 			__debugbreak();
 		}
 

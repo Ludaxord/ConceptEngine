@@ -522,23 +522,27 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> shaderCode;
 	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "VSMain", nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Compile Debug Vertex Shader");
 		return false;
 	}
 
 	AABBVertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 	if (!AABBVertexShader) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create AABBVertexShader");
 		return false;
 	}
 
 	AABBVertexShader->SetName("Debug Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shader/Debug.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Compile Debug Pixel Shader");
 		return false;
 	}
 
 	AABBPixelShader = CastGraphicsManager()->CreatePixelShader(shaderCode);
 	if (!AABBPixelShader) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create AABBPixelShader");
 		return false;
 	}
 
@@ -550,6 +554,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	CERef<CEInputLayoutState> inputLayoutState = CastGraphicsManager()->CreateInputLayout(inputLayout);
 	if (!inputLayoutState) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create InputLayout");
 		return false;
 	}
 
@@ -563,6 +568,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CERef<CEDepthStencilState> depthStencilState = CastGraphicsManager()->
 		CreateDepthStencilState(depthStencilStateInfo);
 	if (!depthStencilState) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create Depth Stencil State");
 		return false;
 	}
 
@@ -574,6 +580,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CERef<CERasterizerState> rasterizerState = CastGraphicsManager()->CreateRasterizerState(rasterizerStateInfo);
 
 	if (!rasterizerState) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create Rasterizer State");
 		return false;
 	}
 
@@ -584,6 +591,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
 
 	if (!blendState) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Blend State");
 		return false;
 	}
 
@@ -604,6 +612,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	AABBDebugPipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(psoProperties);
 
 	if (!AABBDebugPipelineState) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create AABBDebugPipelineState");
 		return false;
 	}
 
@@ -626,6 +635,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	AABBVertexBuffer = CastGraphicsManager()->CreateVertexBuffer<DirectX::XMFLOAT3>(
 		vertices.Size(), BufferFlag_Default, CEResourceState::Common, &vertexData);
 	if (!AABBVertexBuffer) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create AABBVertexBuffer");
 		return false;
 	}
 
@@ -652,12 +662,13 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	                                                           BufferFlag_Default, CEResourceState::Common,
 	                                                           &indexData);
 	if (!AABBIndexBuffer) {
+		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Create AABBIndexBuffer");
 		return false;
 	}
 
 	AABBIndexBuffer->SetName("AABB Index Buffer");
 
-	return false;
+	return true;
 }
 
 bool CEDXRenderer::CreateAA() {
@@ -789,7 +800,7 @@ bool CEDXRenderer::CreateAA() {
 		CEShaderDefine("ENABLE_DEBUG", "1")
 	};
 
-	if (!ShaderCompiler->CompileFromFile("DirectX12/Shader/FXAA_PS.hlsl", "Main", &defines, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", &defines, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FXAA_PS Shader with DEBUG Define");
 		return false;

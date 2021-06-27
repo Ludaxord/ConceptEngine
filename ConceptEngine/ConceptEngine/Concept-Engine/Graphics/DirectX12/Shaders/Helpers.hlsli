@@ -59,7 +59,7 @@ float Depth_ProjectionToView(float Depth, float4x4 projectionInverse) {
 }
 
 float3 Float3_ProjectionToView(float3 P, float4x4 projectionInverse) {
-	float3 viewP = mul(float4(P, 1.0f), projectionInverse);
+	float4 viewP = mul(float4(P, 1.0f), projectionInverse);
 	return (viewP / viewP.w).xyz;
 }
 

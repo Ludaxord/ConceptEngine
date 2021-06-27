@@ -345,7 +345,7 @@ bool CEDXShaderCompiler::CompileFromFile(const std::string& filePath, const std:
 
 	HRESULT hResult = DXLibrary->CreateBlobFromFile(wFilePath.c_str(), nullptr, &sourceBlob);
 	if (FAILED(hResult)) {
-		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create Source data.");
+		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create Source data. Output: " + HResultToString(hResult));
 
 		return false;
 	}

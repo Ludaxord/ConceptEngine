@@ -33,15 +33,7 @@ float4 FXAASample(in Texture2D Texture, in SamplerState Sampler, float2 TexCoord
 	return Texture.SampleLevel(Sampler, TexCoord, 0.0f);
 }
 
-float4 FXAASample(in Texture2D Texture, SamplerState Sampler, float2 TexCoord) {
-	return Texture.SampleLevel(Sampler, TexCoord, 0.0f);
-}
-
 float4 FXAASampleOffset(in Texture2D Texture, in SamplerState Sampler, float2 TexCoord, int2 Offset) {
-	return Texture.SampleLevel(Sampler, TexCoord, 0.0f, Offset);
-}
-
-float4 FXAASampleOffset(in Texture2D Texture, SamplerState Sampler, float2 TexCoord, int2 Offset) {
 	return Texture.SampleLevel(Sampler, TexCoord, 0.0f, Offset);
 }
 
@@ -88,7 +80,7 @@ float4 Main(float2 TexCoord : TEXCOORD0) : SV_TARGET0 {
 	}
 
 #if DEBUG_EDGES
-	return float(1.0f, 0.0f, 0.0f, 1.0f);
+	return float4(1.0f, 0.0f, 0.0f, 1.0f);
 #endif
 
 	float LumaL = (LumaN + LumaS + LumaW + LumaE) * 0.25f;
@@ -104,10 +96,10 @@ float4 Main(float2 TexCoord : TEXCOORD0) : SV_TARGET0 {
 	return Float4(BlendL);
 #endif
 
-	float NW = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(-1, -1));
-	float SW = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(-1, 1));
-	float NE = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(1, -1));
-	float SE = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(1, 1));
+	float4 NW = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(-1, -1));
+	float4 SW = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(-1, 1));
+	float4 NE = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(1, -1));
+	float4 SE = FXAASampleOffset(FinalImage, Sampler, TexCoord, int2(1, 1));
 
 	float LumaNW = NW.a;
 	float LumaNE = NE.a;
@@ -223,7 +215,7 @@ float4 Main(float2 TexCoord : TEXCOORD0) : SV_TARGET0 {
 #endif
 
 	float subPixelOffset = (0.5f + (Distance0 * (-1.0f / spanLength))) * spanLength;
-	float finalTexCoord = TexCoord + float2(isHorizontal ? 0.0f : subPixelOffset, isHorizontal ? subPixelOffset : 0.0f);
+    float2 finalTexCoord  = TexCoord + float2(isHorizontal ? 0.0f : subPixelOffset, isHorizontal ? subPixelOffset : 0.0f);
 	float3 ColorF = FXAASample(FinalImage, Sampler, finalTexCoord).rgb;
 	float3 FinalColor = Lerp(ColorL, ColorF, BlendL);
 	return float4(FinalColor, 1.0f);
