@@ -313,9 +313,9 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	Main::RenderLayer::CECommandList commandList;
 
-	// commandList.Begin();
-	commandList.Execute(
-		[&commandList, &stagingTexture, &BRDF_pipelineState, &computeShader, &FrameResources, &LUTSize] {
+	commandList.Begin();
+	// commandList.Execute(
+	// 	[&commandList, &stagingTexture, &BRDF_pipelineState, &computeShader, &FrameResources, &LUTSize] {
 			commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::Common,
 			                              Main::RenderLayer::CEResourceState::UnorderedAccess);
 
@@ -342,8 +342,8 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
 			                              Main::RenderLayer::CEResourceState::CopyDest,
 			                              Main::RenderLayer::CEResourceState::PixelShaderResource);
-		});
-	// commandList.End();
+		// });
+	commandList.End();
 
 	CommandListExecutor.ExecuteCommandList(commandList);
 
