@@ -71,7 +71,7 @@ float3 DirectRadiance(float3 F0, float3 N, float3 V, float3 L, float3 Radiance, 
 	float3 F = FresnelSchlick(F0, V, H);
 	float3 Numerator = DistributionGGX(N, H, Roughness) * F * GeometrySmithGGX(N, L, V, Roughness);
 	float3 Denominator = 4.0f * max(dot(N, L), 0.0f) * max(dot(N, V), 0.0f);
-	float3 SpecBRDF = Numerator ? max(Denominator, 0.0000001f);
+	float3 SpecBRDF = Numerator / max(Denominator, 0.0000001f);
 
 	float3 Ks = F;
 	float3 Kd = (Float3(1.0f) - Ks) * (1.0f - Metallic);

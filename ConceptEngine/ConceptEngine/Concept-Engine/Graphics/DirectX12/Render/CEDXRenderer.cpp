@@ -84,9 +84,7 @@ bool CEDXRenderer::Create() {
 
 	Resources.CameraBuffer->SetName("CameraBuffer");
 
-	const auto inputLayout = CreateInputLayoutCreateInfo();
-
-	Resources.StdInputLayout = CastGraphicsManager()->CreateInputLayout(inputLayout);
+	Resources.StdInputLayout = CastGraphicsManager()->CreateInputLayout(CreateInputLayoutCreateInfo());
 	if (!Resources.StdInputLayout) {
 		CEDebug::DebugBreak();
 		return false;

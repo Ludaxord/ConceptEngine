@@ -15,13 +15,16 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	public:
 		CEDXInputLayoutState(CEDXDevice* device, const CEInputLayoutStateCreateInfo& createInfo) : CEInputLayoutState(),
 			CEDXDeviceElement(device), SemanticNames(), ElementDesc(), Desc() {
+
 			SemanticNames.Reserve(createInfo.Elements.Size());
+
 			for (const CEInputElement& element : createInfo.Elements) {
 				D3D12_INPUT_ELEMENT_DESC dxElement;
 				dxElement.SemanticName = SemanticNames.EmplaceBack(element.Semantic).c_str();
 				dxElement.SemanticIndex = element.SemanticIndex;
 				dxElement.Format = ConvertFormat(element.Format);
 				dxElement.InputSlot = element.InputSlot;
+				dxElement.AlignedByteOffset = element.ByteOffset;
 				dxElement.InputSlotClass = ConvertInputClassification(element.InputClassification);
 				dxElement.InstanceDataStepRate = element.InstanceStepRate;
 				ElementDesc.EmplaceBack(dxElement);

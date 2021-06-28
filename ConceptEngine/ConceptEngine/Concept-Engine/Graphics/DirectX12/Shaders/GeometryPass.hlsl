@@ -40,7 +40,7 @@ struct VSOutput {
 	float3 ViewNormal : NORMAL1;
 #if defined(NORMAL_MAPPING_ENABLED) || defined(PARALLAX_MAPPING_ENABLED)
 	float3 Tangent : TANGENT0;
-	float3 Bitangent Bitangent0;
+	float3 Bitangent : BITANGENT0;
 #endif
 	float2 TexCoord : TEXCOORD0;
 #ifdef PARALLAX_MAPPING_ENABLED
@@ -89,7 +89,7 @@ float2 ParallaxMapping(float2 texCoords, float3 viewDir) {
 	float2 DeltaTexCoords = P / NumLayers;
 
 	float2 CurrentTexCoords = texCoords;
-	float2 CurrentDepthMapValue = SampleHeightMap(CurrentTexCoords);
+	float CurrentDepthMapValue = SampleHeightMap(CurrentTexCoords);
 
 	float CurrentLayerDepth = 0.0f;
 	while (CurrentLayerDepth < CurrentDepthMapValue) {
@@ -135,7 +135,7 @@ VSOutput VSMain(VSInput input) {
 	float4 worldPosition = mul(float4(input.Position, 1.0f), TransformBuffer.Transform);
 	output.Position = mul(worldPosition, CameraBuffer.ViewProjection);
 
-#if PARALLAX_MAPPING_ENABLED
+#ifdef PARALLAX_MAPPING_ENABLED
 	float3x3 TBN = float3x3(tangent, bitangent, normal);
 	output.TangentViewPos = mul(TBN, CameraBuffer.Position);
 	output.TangentPosition = mul(TBN, worldPosition.xyz);
@@ -150,7 +150,7 @@ PSOutput PSMain(PSInput input) {
 
 #ifdef PARALLAX_MAPPING_ENABLED
 	if (MaterialBuffer.EnableHeight != 0) {
-		float3 viewDir = normalize(input.TangentViewPos, - input.TangentPosition);
+		float3 viewDir = normalize(input.TangentViewPos - input.TangentPosition);
 		texCoords = ParallaxMapping(texCoords, viewDir);
 		if (texCoords.x > 1.0f || texCoords.y > 1.0f || texCoords.x < 0.0f || texCoords.y < 0.0f) {
 			discard;
