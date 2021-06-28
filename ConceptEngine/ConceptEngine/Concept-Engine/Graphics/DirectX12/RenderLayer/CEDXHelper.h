@@ -93,6 +93,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 		}
 		if (Flag & Main::RenderLayer::CETextureFlags::TextureFlag_DSV) {
+			        result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 			if (!(Flag & Main::RenderLayer::CETextureFlags::TextureFlag_SRV)) {
 				result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
 			}

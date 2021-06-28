@@ -43,11 +43,6 @@ inline D3D12_RESOURCE_DIMENSION DirectX12::Managers::GetD3D12TextureResourceDime
 }
 
 template <typename TD3D12Texture>
-D3D12_RESOURCE_DIMENSION DirectX12::Managers::GetD3D12TextureResourceDimension() {
-	return {};
-}
-
-template <typename TD3D12Texture>
 inline bool DirectX12::Managers::IsTextureCube() {
 	return false;
 }
@@ -1175,12 +1170,12 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		if (optimalClearValue.GetType() == RenderLayer::CEClearValue::CEType::DepthStencil) {
 			clearValue.DepthStencil.Depth = optimalClearValue.AsDepthStencil().Depth;
 			clearValue.DepthStencil.Stencil = optimalClearValue.AsDepthStencil().Stencil;
+			clearValuePtr = &clearValue;
 		}
 		else if (optimalClearValue.GetType() == RenderLayer::CEClearValue::CEType::Color) {
 			Memory::CEMemory::Memcpy(clearValue.Color, optimalClearValue.AsColor().Elements);
+			clearValuePtr = &clearValue;
 		}
-		clearValuePtr = &clearValue;
-
 	}
 
 	CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(
