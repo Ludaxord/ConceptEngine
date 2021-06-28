@@ -337,7 +337,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 			commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
 			                              Main::RenderLayer::CEResourceState::CopyDest,
-			                              Main::RenderLayer::CEResourceState::NonPixelShaderResource);
+			                              Main::RenderLayer::CEResourceState::PixelShaderResource);
 		});
 
 	CommandListExecutor.ExecuteCommandList(commandList);

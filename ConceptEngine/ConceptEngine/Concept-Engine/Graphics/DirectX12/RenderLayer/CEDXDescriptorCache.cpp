@@ -177,7 +177,7 @@ void CEDXDescriptorCache::CommitComputeDescriptors(CEDXCommandListHandle& comman
 
 	ID3D12GraphicsCommandList* dxCommandList = commandList.GetGraphicsCommandList();
 	CEDXOnlineDescriptorHeap* resourceHeap = commandBatch->GetOnlineResourceDescriptorHeap();
-	CEDXOnlineDescriptorHeap* samplerHeap = commandBatch->GetOnlineResourceDescriptorHeap();
+	CEDXOnlineDescriptorHeap* samplerHeap = commandBatch->GetOnlineSamplerDescriptorHeap();
 
 	CopyDescriptorsAndSetHeaps(dxCommandList, resourceHeap, samplerHeap);
 
