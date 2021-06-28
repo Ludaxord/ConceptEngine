@@ -300,6 +300,8 @@ void CEDXCommandContext::Begin() {
 	}
 
 	IsReady = true;
+
+	CE_LOG_VERBOSE("[CEDXCommandContext]: Begin Command Context");
 }
 
 void CEDXCommandContext::End() {
@@ -325,6 +327,8 @@ void CEDXCommandContext::End() {
 	if (!CommandQueue.SignalFence(Fence, newFenceValue)) {
 		return;
 	}
+
+	CE_LOG_VERBOSE("[CEDXCommandContext]: End Command Context");
 }
 
 void CEDXCommandContext::BeginTimeStamp(CEGPUProfiler* profiler, uint32 index) {

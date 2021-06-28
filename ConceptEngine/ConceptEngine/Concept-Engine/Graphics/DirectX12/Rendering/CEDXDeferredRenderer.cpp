@@ -320,6 +320,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			                              Main::RenderLayer::CEResourceState::UnorderedAccess);
 
 			commandList.SetComputePipelineState(BRDF_pipelineState.Get());
+			CE_LOG_VERBOSE("EXECUTE: BRDF_pipelineState")
 
 			Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
 			commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
