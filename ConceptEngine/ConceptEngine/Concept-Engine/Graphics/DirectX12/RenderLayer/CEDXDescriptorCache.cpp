@@ -226,15 +226,17 @@ void CEDXDescriptorCache::Reset() {
 	PreviousDescriptorHeaps[1] = nullptr;
 }
 
-void CEDXDescriptorCache::CopyDescriptorsAndSetHeaps(ID3D12GraphicsCommandList* commandList,
-                                                     CEDXOnlineDescriptorHeap* resourceHeap,
-                                                     CEDXOnlineDescriptorHeap* samplerHeap) {
+void CEDXDescriptorCache::CopyDescriptorsAndSetHeaps(ID3D12GraphicsCommandList* CommandList,
+                                                     CEDXOnlineDescriptorHeap* ResourceHeap,
+                                                     CEDXOnlineDescriptorHeap* SamplerHeap) {
 
-	uint32 numResourceDescriptors = ConstantBufferViewCache.CountNeededDescriptors() + ShaderResourceViewCache.
-		CountNeededDescriptors() + UnorderedAccessViewCache.CountNeededDescriptors();
+	uint32 numResourceDescriptors =
+		ConstantBufferViewCache.CountNeededDescriptors() +
+		ShaderResourceViewCache.CountNeededDescriptors() +
+		UnorderedAccessViewCache.CountNeededDescriptors();
 
-	if (!resourceHeap->HasSpace(numResourceDescriptors)) {
-		resourceHeap->AllocateFreshHeap();
+	if (!ResourceHeap->HasSpace(numResourceDescriptors)) {
+		ResourceHeap->AllocateFreshHeap();
 
 		ConstantBufferViewCache.InvalidateAll();
 		ShaderResourceViewCache.InvalidateAll();
@@ -246,74 +248,76 @@ void CEDXDescriptorCache::CopyDescriptorsAndSetHeaps(ID3D12GraphicsCommandList* 
 	UnorderedAccessViewCache.PrepareForCopy(NullUAV);
 
 	uint32 numSamplerDescriptors = SamplerStateCache.CountNeededDescriptors();
-	if (!samplerHeap->HasSpace(numSamplerDescriptors)) {
-		samplerHeap->AllocateFreshHeap();
+	if (!SamplerHeap->HasSpace(numSamplerDescriptors)) {
+		SamplerHeap->AllocateFreshHeap();
 		SamplerStateCache.InvalidateAll();
 	}
 
 	SamplerStateCache.PrepareForCopy(NullSampler);
 
 	Assert(numResourceDescriptors < D3D12_MAX_ONLINE_DESCRIPTOR_COUNT);
-	uint32 resourceDescriptorHandle = resourceHeap->AllocateHandles(numResourceDescriptors);
+	uint32 resourceDescriptorHandle = ResourceHeap->AllocateHandles(numResourceDescriptors);
 
 	Assert(numSamplerDescriptors < D3D12_MAX_ONLINE_DESCRIPTOR_COUNT);
-	uint32 samplerDescriptorHandle = samplerHeap->AllocateHandles(numSamplerDescriptors);
+	uint32 samplerDescriptorHandle = SamplerHeap->AllocateHandles(numSamplerDescriptors);
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = {
-		resourceHeap->GetNativeHeap(),
-		samplerHeap->GetNativeHeap()
+	ID3D12DescriptorHeap* DescriptorHeaps[] =
+	{
+		ResourceHeap->GetNativeHeap(),
+		SamplerHeap->GetNativeHeap()
 	};
 
-	if (PreviousDescriptorHeaps[0] != descriptorHeaps[0] || PreviousDescriptorHeaps[1] != descriptorHeaps[1]) {
-		commandList->SetDescriptorHeaps(sizeof(descriptorHeaps) / sizeof(descriptorHeaps[0]), descriptorHeaps);
+	if (PreviousDescriptorHeaps[0] != DescriptorHeaps[0] || PreviousDescriptorHeaps[1] != DescriptorHeaps[1]) {
+		CommandList->SetDescriptorHeaps(_countof(DescriptorHeaps), DescriptorHeaps);
 
-		PreviousDescriptorHeaps[0] = descriptorHeaps[0];
-		PreviousDescriptorHeaps[1] = descriptorHeaps[1];
+		PreviousDescriptorHeaps[0] = DescriptorHeaps[0];
+		PreviousDescriptorHeaps[1] = DescriptorHeaps[1];
 	}
+
 
 	ID3D12Device* dxDevice = GetDevice()->GetDevice();
 	if (ConstantBufferViewCache.TotalNumDescriptors > 0) {
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = resourceHeap->GetCPUDescriptorHandleAt(resourceDescriptorHandle);
-		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = resourceHeap->GetGPUDescriptorHandleAt(resourceDescriptorHandle);
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = ResourceHeap->GetCPUDescriptorHandleAt(resourceDescriptorHandle);
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = ResourceHeap->GetGPUDescriptorHandleAt(resourceDescriptorHandle);
 
 		UINT destDescriptorRangeSize = ConstantBufferViewCache.TotalNumDescriptors;
 		dxDevice->CopyDescriptors(1, &cpuHandle, &destDescriptorRangeSize, destDescriptorRangeSize,
 		                          ConstantBufferViewCache.CopyDescriptors, RangeSizes,
 		                          D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-		ConstantBufferViewCache.SetGPUHandles(gpuHandle, resourceHeap->GetDescriptorHandleIncrementSize());
+		ConstantBufferViewCache.SetGPUHandles(gpuHandle, ResourceHeap->GetDescriptorHandleIncrementSize());
 		resourceDescriptorHandle += destDescriptorRangeSize;
 	}
 	if (ShaderResourceViewCache.TotalNumDescriptors > 0) {
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = resourceHeap->GetCPUDescriptorHandleAt(resourceDescriptorHandle);
-		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = resourceHeap->GetGPUDescriptorHandleAt(resourceDescriptorHandle);
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = ResourceHeap->GetCPUDescriptorHandleAt(resourceDescriptorHandle);
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = ResourceHeap->GetGPUDescriptorHandleAt(resourceDescriptorHandle);
 
 		UINT destDescriptorRangeSize = ShaderResourceViewCache.TotalNumDescriptors;
 		dxDevice->CopyDescriptors(1, &cpuHandle, &destDescriptorRangeSize, destDescriptorRangeSize,
 		                          ShaderResourceViewCache.CopyDescriptors, RangeSizes,
 		                          D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-		ShaderResourceViewCache.SetGPUHandles(gpuHandle, resourceHeap->GetDescriptorHandleIncrementSize());
+		ShaderResourceViewCache.SetGPUHandles(gpuHandle, ResourceHeap->GetDescriptorHandleIncrementSize());
 		resourceDescriptorHandle += destDescriptorRangeSize;
 	}
 	if (UnorderedAccessViewCache.TotalNumDescriptors > 0) {
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = resourceHeap->GetCPUDescriptorHandleAt(resourceDescriptorHandle);
-		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = resourceHeap->GetGPUDescriptorHandleAt(resourceDescriptorHandle);
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = ResourceHeap->GetCPUDescriptorHandleAt(resourceDescriptorHandle);
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = ResourceHeap->GetGPUDescriptorHandleAt(resourceDescriptorHandle);
 
 		UINT destDescriptorRangeSize = UnorderedAccessViewCache.TotalNumDescriptors;
 		dxDevice->CopyDescriptors(1, &cpuHandle, &destDescriptorRangeSize, destDescriptorRangeSize,
 		                          UnorderedAccessViewCache.CopyDescriptors, RangeSizes,
 		                          D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-		UnorderedAccessViewCache.SetGPUHandles(gpuHandle, resourceHeap->GetDescriptorHandleIncrementSize());
+		UnorderedAccessViewCache.SetGPUHandles(gpuHandle, ResourceHeap->GetDescriptorHandleIncrementSize());
 		resourceDescriptorHandle += destDescriptorRangeSize;
 	}
 	if (SamplerStateCache.TotalNumDescriptors > 0) {
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = samplerHeap->GetCPUDescriptorHandleAt(samplerDescriptorHandle);
-		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = samplerHeap->GetGPUDescriptorHandleAt(samplerDescriptorHandle);
+		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = SamplerHeap->GetCPUDescriptorHandleAt(samplerDescriptorHandle);
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = SamplerHeap->GetGPUDescriptorHandleAt(samplerDescriptorHandle);
 
 		UINT destDescriptorRangeSize = SamplerStateCache.TotalNumDescriptors;
 		dxDevice->CopyDescriptors(1, &cpuHandle, &destDescriptorRangeSize, destDescriptorRangeSize,
 		                          SamplerStateCache.CopyDescriptors, RangeSizes, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
-		SamplerStateCache.SetGPUHandles(gpuHandle, samplerHeap->GetDescriptorHandleIncrementSize());
+		SamplerStateCache.SetGPUHandles(gpuHandle, SamplerHeap->GetDescriptorHandleIncrementSize());
 	}
 }

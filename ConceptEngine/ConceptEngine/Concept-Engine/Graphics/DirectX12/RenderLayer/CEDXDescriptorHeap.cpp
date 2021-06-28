@@ -101,6 +101,72 @@ void CEDXOfflineDescriptorHeap::Free(D3D12_CPU_DESCRIPTOR_HANDLE handle, uint32 
 	}
 }
 
+CEDXOnlineDescriptorHeap::CEDXOnlineDescriptorHeap(CEDXDevice* device, uint32 descriptorCount,
+                                                   D3D12_DESCRIPTOR_HEAP_TYPE type): CEDXDeviceElement(device),
+	Heap(nullptr), DescriptorCount(descriptorCount), Type(type) {
+}
+
+bool CEDXOnlineDescriptorHeap::Create() {
+	Heap = new CEDXDescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+	if (Heap->Create()) {
+		return true;
+	}
+
+	return false;
+}
+
+uint32 CEDXOnlineDescriptorHeap::AllocateHandles(uint32 numHandles) {
+	Assert(numHandles <= DescriptorCount);
+
+	if (!HasSpace(numHandles)) {
+		if (!AllocateFreshHeap()) {
+			return (uint32)-1;
+		}
+	}
+
+	const uint32 Handle = CurrentHandle;
+	CurrentHandle += numHandles;
+	return Handle;
+}
+
+bool CEDXOnlineDescriptorHeap::AllocateFreshHeap() {
+	DiscardedHeaps.EmplaceBack(Heap);
+
+	if (HeapPool.IsEmpty()) {
+		Heap = new CEDXDescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		if (!Heap->Create()) {
+			return false;
+		}
+	}
+	else {
+		Heap = HeapPool.Back();
+		HeapPool.PopBack();
+	}
+
+	CurrentHandle = 0;
+	return true;
+}
+
+bool CEDXOnlineDescriptorHeap::HasSpace(uint32 numHandles) const {
+	const uint32 NewCurrentHandle = CurrentHandle + numHandles;
+	return NewCurrentHandle < DescriptorCount;
+}
+
+void CEDXOnlineDescriptorHeap::Reset() {
+	if (!HeapPool.IsEmpty()) {
+		for (CERef<CEDXDescriptorHeap>& CurrentHeap : DiscardedHeaps) {
+			HeapPool.EmplaceBack(CurrentHeap);
+		}
+
+		DiscardedHeaps.Clear();
+	}
+	else {
+		HeapPool.Swap(DiscardedHeaps);
+	}
+
+	CurrentHandle = 0;
+}
+
 void CEDXOfflineDescriptorHeap::SetName(const std::string& name) {
 	Name = name;
 	uint32 heapIndex = 0;
@@ -126,69 +192,4 @@ bool CEDXOfflineDescriptorHeap::AllocateHeap() {
 	}
 
 	return false;
-}
-
-CEDXOnlineDescriptorHeap::CEDXOnlineDescriptorHeap(CEDXDevice* device, uint32 descriptorCount,
-                                                   D3D12_DESCRIPTOR_HEAP_TYPE type) : CEDXDeviceElement(device),
-	Heap(nullptr), DescriptorCount(descriptorCount), Type(type) {
-}
-
-bool CEDXOnlineDescriptorHeap::Create() {
-	Heap = new CEDXDescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
-	if (Heap->Create()) {
-		return true;
-	}
-
-	return false;
-}
-
-uint32 CEDXOnlineDescriptorHeap::AllocateHandles(uint32 numHandles) {
-	Assert(numHandles <= DescriptorCount);
-
-	if (!HasSpace(numHandles)) {
-		if (!AllocateFreshHeap()) {
-			return (uint32)-1;
-		}
-	}
-
-	const uint32 handle = CurrentHandle;
-	CurrentHandle += numHandles;
-	return handle;
-}
-
-bool CEDXOnlineDescriptorHeap::AllocateFreshHeap() {
-	DiscardedHeaps.EmplaceBack(Heap);
-	if (HeapPool.IsEmpty()) {
-		Heap = new CEDXDescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
-		if (!Heap->Create()) {
-			return false;
-		}
-	}
-	else {
-		Heap = HeapPool.Back();
-		HeapPool.PopBack();
-	}
-
-	CurrentHandle = 0;
-	return true;
-}
-
-bool CEDXOnlineDescriptorHeap::HasSpace(uint32 numHandles) const {
-	const uint32 currentHandle = CurrentHandle + numHandles;
-	return currentHandle < DescriptorCount;
-}
-
-void CEDXOnlineDescriptorHeap::Reset() {
-	if (!HeapPool.IsEmpty()) {
-		for (CERef<CEDXDescriptorHeap>& currentHeap : DiscardedHeaps) {
-			HeapPool.EmplaceBack(currentHeap);
-		}
-
-		DiscardedHeaps.Clear();
-	}
-	else {
-		HeapPool.Swap(DiscardedHeaps);
-	}
-
-	CurrentHandle = 0;
 }
