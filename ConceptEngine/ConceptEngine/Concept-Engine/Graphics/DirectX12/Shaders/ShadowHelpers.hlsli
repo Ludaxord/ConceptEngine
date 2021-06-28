@@ -16,103 +16,61 @@ static const float3 SampleOffsetDirections[OFFSET_SAMPLES] = {
 };
 
 float PointLightShadowFactor(
-	in TextureCube<float> ShadowMap,
-	in SamplerComparisonState Sampler,
-	float3 WorldPosition,
-	float3 Normal,
-	ShadowPointLight light,
-	PositionRadius lightPos
-) {
-	const float3 directionToLight = WorldPosition - lightPos.Position;
-	const float3 lightDirection = normalize(lightPos.Position - WorldPosition);
+    in TextureCube<float> ShadowMap,
+    in SamplerComparisonState Sampler,
+    float3 WorldPosition, 
+    float3 Normal,
+    ShadowPointLight Light, PositionRadius LightPos)
+{
+    const float3 DirToLight = WorldPosition - LightPos.Position;
+    const float3 LightDir   = normalize(LightPos.Position - WorldPosition);
 
-	const float ShadowBias = max(light.MaxShadowBias * (1.0f - (max(dot(Normal, lightDirection), 0.0f))),
-	                             light.ShadowBias);
-	float depth = length(directionToLight) / light.FarPlane;
-
-	depth = (depth - ShadowBias);
-
-	float shadow = 0.0f;
-	const float diskRadius = (0.4f + (depth)) / light.FarPlane;
-
-	[unroll]
-	for (int i = 0; i < POINT_LIGHT_SAMPLES; i++) {
-		const int Index = int(float(OFFSET_SAMPLES) * Random(floor(WorldPosition.xyz * 1000.0f), i)) % OFFSET_SAMPLES;
-		shadow += ShadowMap.SampleCmpLevelZero(Sampler, directionToLight + SampleOffsetDirections[Index] * diskRadius,
-		                                       depth);
-	}
-
-	shadow = shadow / POINT_LIGHT_SAMPLES;
-	return min(shadow, 1.0f);
+    const float ShadowBias = max(Light.MaxShadowBias * (1.0f - (max(dot(Normal, LightDir), 0.0f))), Light.ShadowBias);
+    float Depth = length(DirToLight) / Light.FarPlane;
+    Depth = (Depth - ShadowBias);
+    
+    float Shadow = 0.0f;
+    const float DiskRadius = (0.4f + (Depth)) / Light.FarPlane;
+    
+    [unroll]
+    for (int i = 0; i < POINT_LIGHT_SAMPLES; i++)
+    {
+        const int Index = int(float(OFFSET_SAMPLES) * Random(floor(WorldPosition.xyz * 1000.0f), i)) % OFFSET_SAMPLES;
+        Shadow += ShadowMap.SampleCmpLevelZero(Sampler, DirToLight + SampleOffsetDirections[Index] * DiskRadius, Depth);
+    }
+    
+    Shadow = Shadow / POINT_LIGHT_SAMPLES;
+    return min(Shadow, 1.0f);
 }
 
 float PointLightShadowFactor(
-	in TextureCubeArray<float> ShadowMap,
-	float Index,
-	in SamplerComparisonState Sampler,
-	float3 WorldPosition,
-	float3 Normal,
-	ShadowPointLight light,
-	PositionRadius lightPos
-) {
-	const float3 directionToLight = WorldPosition - lightPos.Position;
-	const float3 lightDirection = normalize(lightPos.Position - WorldPosition);
+    in TextureCubeArray<float> ShadowMap, float Index,
+    in SamplerComparisonState Sampler,
+    float3 WorldPosition,
+    float3 Normal,
+    ShadowPointLight Light, PositionRadius LightPos)
+{
+    const float3 DirToLight = WorldPosition - LightPos.Position;
+    const float3 LightDir   = normalize(LightPos.Position - WorldPosition);
 
-	const float ShadowBias = max(light.MaxShadowBias * (1.0f - (max(dot(Normal, lightDirection), 0.0f))),
-	                             light.ShadowBias);
-	float depth = length(directionToLight) / light.FarPlane;
-
-	depth = (depth - ShadowBias);
-
-	float shadow = 0.0f;
-	const float diskRadius = (0.4f + (depth)) / light.FarPlane;
-
-	[unroll]
-	for (int i = 0; i < POINT_LIGHT_SAMPLES; i++) {
-		const int OffsetIndex = int(float(OFFSET_SAMPLES) * Random(floor(WorldPosition.xyz * 1000.0f), i)) %
-			OFFSET_SAMPLES;
-
-		const float3 sampleVec = directionToLight + SampleOffsetDirections[OffsetIndex] * diskRadius;
-		shadow += ShadowMap.SampleCmpLevelZero(Sampler, float4(sampleVec, Index), depth);
-	}
-
-	shadow = shadow / POINT_LIGHT_SAMPLES;
-	return min(shadow, 1.0f);
-}
-
-//Just for test
-float PointLightShadowFactor(
-	in TextureCubeArray<float> ShadowMap,
-	float Index,
-	SamplerComparisonState Sampler,
-	float3 WorldPosition,
-	float3 Normal,
-	ShadowPointLight light,
-	PositionRadius lightPos
-) {
-	const float3 directionToLight = WorldPosition - lightPos.Position;
-	const float3 lightDirection = normalize(lightPos.Position - WorldPosition);
-
-	const float ShadowBias = max(light.MaxShadowBias * (1.0f - (max(dot(Normal, lightDirection), 0.0f))),
-	                             light.ShadowBias);
-	float depth = length(directionToLight) / light.FarPlane;
-
-	depth = (depth - ShadowBias);
-
-	float shadow = 0.0f;
-	const float diskRadius = (0.4f + (depth)) / light.FarPlane;
-
-	[unroll]
-	for (int i = 0; i < POINT_LIGHT_SAMPLES; i++) {
-		const int OffsetIndex = int(float(OFFSET_SAMPLES) * Random(floor(WorldPosition.xyz * 1000.0f), i)) %
-			OFFSET_SAMPLES;
-
-		const float3 sampleVec = directionToLight + SampleOffsetDirections[OffsetIndex] * diskRadius;
-		shadow += ShadowMap.SampleCmpLevelZero(Sampler, float4(sampleVec, Index), depth);
-	}
-
-	shadow = shadow / POINT_LIGHT_SAMPLES;
-	return min(shadow, 1.0f);
+    const float ShadowBias = max(Light.MaxShadowBias * (1.0f - (max(dot(Normal, LightDir), 0.0f))), Light.ShadowBias);
+    float Depth = length(DirToLight) / Light.FarPlane;
+    Depth       = (Depth - ShadowBias);
+    
+    float Shadow = 0.0f;
+    const float DiskRadius = (0.4f + (Depth)) / Light.FarPlane;
+    
+    [unroll]
+    for (int i = 0; i < POINT_LIGHT_SAMPLES; i++)
+    {
+        const int OffsetIndex = int(float(OFFSET_SAMPLES) * Random(floor(WorldPosition.xyz * 1000.0f), i)) % OFFSET_SAMPLES;
+        
+        const float3 SampleVec = DirToLight + SampleOffsetDirections[OffsetIndex] * DiskRadius;
+        Shadow += ShadowMap.SampleCmpLevelZero(Sampler, float4(SampleVec, Index), Depth);
+    }
+    
+    Shadow = Shadow / POINT_LIGHT_SAMPLES;
+    return min(Shadow, 1.0f);
 }
 
 #define PCF_RANGE 2
@@ -185,93 +143,52 @@ float CalculateVSM(float2 TexCoords, float CompareDepth) {
 #else
 
 float StandardShadow(
-	in Texture2D<float> ShadowMap,
-	in SamplerComparisonState Sampler,
-	float2 texCoords,
-	float compareDepth
-) {
-	float shadow = 0.0f;
-	[unroll]
-	for (int x = -PCF_RANGE; x <= PCF_RANGE; x++) {
-		[unroll]
-		for (int y = -PCF_RANGE; y <= PCF_RANGE; y++) {
-			shadow += ShadowMap.SampleCmpLevelZero(Sampler, texCoords, compareDepth, int2(x, y)).r;
-		}
-	}
+    in Texture2D<float> ShadowMap,
+    in SamplerComparisonState Sampler,
+    float2 Texcoords,
+    float CompareDepth)
+{
+    float Shadow = 0.0f;
+    
+    [unroll]
+    for (int x = -PCF_RANGE; x <= PCF_RANGE; x++)
+    {
+        [unroll]
+        for (int y = -PCF_RANGE; y <= PCF_RANGE; y++)
+        {
+            Shadow += ShadowMap.SampleCmpLevelZero(Sampler, Texcoords, CompareDepth, int2(x, y)).r;
+        }
+    }
 
-	shadow = shadow / (PCF_WIDTH * PCF_WIDTH);
-	return min(shadow, 1.0f);
-}
-
-//Just for test
-float StandardShadow(
-	in Texture2D<float> ShadowMap,
-	SamplerComparisonState Sampler,
-	float2 texCoords,
-	float compareDepth
-) {
-	float shadow = 0.0f;
-	[unroll]
-	for (int x = -PCF_RANGE; x <= PCF_RANGE; x++) {
-		[unroll]
-		for (int y = -PCF_RANGE; y <= PCF_RANGE; y++) {
-			shadow += ShadowMap.SampleCmpLevelZero(Sampler, texCoords, compareDepth, int2(x, y)).r;
-		}
-	}
-
-	shadow = shadow / (PCF_WIDTH * PCF_WIDTH);
-	return min(shadow, 1.0f);
+    Shadow = Shadow / (PCF_WIDTH * PCF_WIDTH);
+    return min(Shadow, 1.0f);
 }
 
 #endif
 
 float DirectionalLightShadowFactor(
-	in Texture2D<float> ShadowMap,
-	in SamplerComparisonState Sampler,
-	float3 WorldPosition,
-	float3 N,
-	DirectionalLight Light
-) {
-	float4 LightSpacePosition = mul(float4(WorldPosition, 1.0f), Light.LightMatrix);
-	float3 L = normalize(-Light.Direction);
-
-	float3 projCoords = LightSpacePosition.xyz / LightSpacePosition.w;
-	projCoords.xy = (projCoords.xy * 0.5f) + 0.5f;
-	projCoords.y = 1.0f - projCoords.y;
-
-	float depth = projCoords.z;
-	if (depth >= 1.0f) {
-		return 1.0f;
-	}
-
-	float shadowBias = max(Light.MaxShadowBias * (1.0f - (max(dot(N, L), 0.0f))), Light.ShadowBias);
-	float biasedDepth = (depth - shadowBias);
-    return StandardShadow(ShadowMap, Sampler, projCoords.xy, biasedDepth);
-}
-
-//just for tests
-float DirectionalLightShadowFactor(
-	in Texture2D<float> ShadowMap,
-	SamplerComparisonState Sampler,
-	float3 WorldPosition,
-	float3 N,
-	DirectionalLight Light
-) {
-	float4 LightSpacePosition = mul(float4(WorldPosition, 1.0f), Light.LightMatrix);
-	float3 L = normalize(-Light.Direction);
-
-	float3 projCoords = LightSpacePosition.xyz / LightSpacePosition.w;
-	projCoords.xy = (projCoords.xy * 0.5f) + 0.5f;
-	projCoords.y = 1.0f - projCoords.y;
-
-	float depth = projCoords.z;
-	if (depth >= 1.0f) {
-		return 1.0f;
-	}
-
-	float shadowBias = max(Light.MaxShadowBias * (1.0f - (max(dot(N, L), 0.0f))), Light.ShadowBias);
-	float biasedDepth = (depth - shadowBias);
-    return StandardShadow(ShadowMap, Sampler, projCoords.xy, biasedDepth);
+    in Texture2D<float> ShadowMap,
+    in SamplerComparisonState Sampler,
+    float3 WorldPosition, 
+    float3 N,
+    DirectionalLight Light)
+{
+    float4 LightSpacePosition = mul(float4(WorldPosition, 1.0f), Light.LightMatrix);
+    float3 L = normalize(-Light.Direction);
+    
+    float3 ProjCoords = LightSpacePosition.xyz / LightSpacePosition.w;
+    ProjCoords.xy     = (ProjCoords.xy * 0.5f) + 0.5f;
+    ProjCoords.y      = 1.0f - ProjCoords.y;
+    
+    float Depth = ProjCoords.z;
+    if (Depth >= 1.0f)
+    {
+        return 1.0f;
+    }
+    
+    float ShadowBias  = max(Light.MaxShadowBias * (1.0f - (max(dot(N, L), 0.0f))), Light.ShadowBias);
+    float BiasedDepth = (Depth - ShadowBias);
+    return StandardShadow(ShadowMap, Sampler, ProjCoords.xy, BiasedDepth);
 }
 
 #endif

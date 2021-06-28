@@ -17,7 +17,7 @@
 Texture2D<float4> AlbedoTexture : register(t0, space0);
 Texture2D<float4> NormalTexture : register(t1, space0);
 Texture2D<float4> MaterialTexture : register(t2, space0);
-Texture2D<float4> DepthStencilTexture : register(t3, space0);
+Texture2D<float> DepthStencilTexture : register(t3, space0);
 Texture2D<float4> DXRReflection : register(t4, space0);
 TextureCube<float4> IrradianceMap : register(t5, space0);
 TextureCube<float4> SpecularIrradianceMap : register(t6, space0);
@@ -42,7 +42,7 @@ int ScreenHeight;
 
 ConstantBuffer<Camera> CameraBuffer : register(b0, space0);
 
-cbuffer PointLightsBuffer : register(b1, space) {
+cbuffer PointLightsBuffer : register(b1, space0) {
 PointLight PointLights[MAX_LIGHTS_PER_TILE];
 }
 
@@ -70,11 +70,11 @@ groupshared uint GroupShadowPointLightCounter;
 groupshared uint GroupShadowPointLightIndices[MAX_LIGHTS_PER_TILE];
 
 float GetNumTilesX() {
-	DivideByMultiple(ScreenWidth, THREAD_COUNT);
+	return DivideByMultiple(ScreenWidth, THREAD_COUNT);
 }
 
 float GetNumTilesY() {
-	DivideByMultiple(ScreenHeight, THREAD_COUNT);
+	return DivideByMultiple(ScreenHeight, THREAD_COUNT);
 }
 
 [numthreads(THREAD_COUNT, THREAD_COUNT, 1)]
@@ -193,7 +193,7 @@ void Main(ComputeShaderInput input) {
 	const float BufferMetallic = BufferMaterial.g;
 	const float BufferAO = BufferMaterial.b * ScreenSpaceAO;
 
-	float F0 = Float3(0.04f);
+	float3 F0 = Float3(0.04f);
 	F0 = lerp(F0, BufferAlbedo, BufferMetallic);
 
 	float3 L0 = Float3(0.0f);
@@ -209,7 +209,7 @@ void Main(ComputeShaderInput input) {
 		L = normalize(L);
 
 		float3 incidentRadiance = light.Color * Attenuation;
-		incidentRadiance = DirectRadiance(F0, N, V, L, incidentRadiance, BufferAlbedo, BufferRoughness, BufferMaterial);
+		incidentRadiance = DirectRadiance(F0, N, V, L, incidentRadiance, BufferAlbedo, BufferRoughness, BufferMetallic);
 
 		L0 += incidentRadiance;
 	}
