@@ -152,7 +152,7 @@ public:
 		}
 
 		T* DataEnd = Array + ArraySize;
-		new(reinterpret_cast<void*>(DataEnd)) T(Forward<TArgs>(Args)...);
+		new(reinterpret_cast<void*>(DataEnd)) T(::Forward<TArgs>(Args)...);
 		ArraySize++;
 		return (*DataEnd);
 	}
@@ -696,7 +696,7 @@ private:
 		}
 		else {
 			while (InBegin != InEnd) {
-				new(reinterpret_cast<void*>(Dest)) T(Move(*InBegin));
+				new(reinterpret_cast<void*>(Dest)) T(::Move(*InBegin));
 				InBegin++;
 				Dest++;
 			}

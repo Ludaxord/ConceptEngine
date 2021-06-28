@@ -18,16 +18,16 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 			SemanticNames.Reserve(createInfo.Elements.Size());
 
-			for (const CEInputElement& element : createInfo.Elements) {
-				D3D12_INPUT_ELEMENT_DESC dxElement;
-				dxElement.SemanticName = SemanticNames.EmplaceBack(element.Semantic).c_str();
-				dxElement.SemanticIndex = element.SemanticIndex;
-				dxElement.Format = ConvertFormat(element.Format);
-				dxElement.InputSlot = element.InputSlot;
-				dxElement.AlignedByteOffset = element.ByteOffset;
-				dxElement.InputSlotClass = ConvertInputClassification(element.InputClassification);
-				dxElement.InstanceDataStepRate = element.InstanceStepRate;
-				ElementDesc.EmplaceBack(dxElement);
+			for (const CEInputElement& Element : createInfo.Elements) {
+            D3D12_INPUT_ELEMENT_DESC DxElement;
+            DxElement.SemanticName         = SemanticNames.EmplaceBack(Element.Semantic).c_str();
+            DxElement.SemanticIndex        = Element.SemanticIndex;
+            DxElement.Format               = ConvertFormat(Element.Format);
+            DxElement.InputSlot            = Element.InputSlot;
+            DxElement.AlignedByteOffset    = Element.ByteOffset;
+            DxElement.InputSlotClass       = ConvertInputClassification(Element.InputClassification);
+            DxElement.InstanceDataStepRate = Element.InstanceStepRate;
+            ElementDesc.EmplaceBack(DxElement);
 			}
 
 			Desc.NumElements = GetElementCount();
