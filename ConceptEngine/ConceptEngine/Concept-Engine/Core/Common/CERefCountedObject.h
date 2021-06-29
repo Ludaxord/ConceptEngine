@@ -7,7 +7,11 @@
 		virtual ~CERefCountedObject() = default;
 
 		uint32 AddRef();
-		uint32 Release();
+		virtual uint32 Release();
+
+		virtual void DebugMessage() {
+			
+		}
 
 		uint32 GetRefCount() const {
 			return StrongReferences;

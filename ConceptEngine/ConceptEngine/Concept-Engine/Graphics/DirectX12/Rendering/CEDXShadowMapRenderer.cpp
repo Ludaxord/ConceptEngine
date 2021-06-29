@@ -388,7 +388,9 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& fram
 		frameResources.PointLightShadowSize,
 		1,
 		frameResources.MaxPointLightShadows,
-		TextureFlags_ShadowMap, CEResourceState::PixelShaderResource, nullptr);
+		TextureFlags_ShadowMap,
+		CEResourceState::PixelShaderResource, 
+		nullptr);
 
 	if (!frameResources.PointLightShadowMaps) {
 		return false;

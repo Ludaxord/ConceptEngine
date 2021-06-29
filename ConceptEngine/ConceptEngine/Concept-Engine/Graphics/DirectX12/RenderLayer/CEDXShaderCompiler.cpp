@@ -230,9 +230,6 @@ bool CEDXShaderCompiler::CreateDLL() {
 	auto CompilerDLLPath = GetGraphicsContentDirectory("DirectX12\\Lib\\dxcompiler.dll");
 	auto DxilDLLPath = GetGraphicsContentDirectory("DirectX12\\Lib\\dxil.dll");
 
-	CE_LOG_VERBOSE("[CEDXShaderCompiler]: COMPILER DLL Path: " + CompilerDLLPath)
-	CE_LOG_VERBOSE("[CEDXShaderCompiler]: DXIL DLL Path: " + DxilDLLPath)
-	
 	HMODULE DxilDLL = ::LoadLibraryA(DxilDLLPath.c_str());
 
 	DXCompilerDLL = ::LoadLibraryA(CompilerDLLPath.c_str());

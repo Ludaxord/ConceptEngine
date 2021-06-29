@@ -1329,7 +1329,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		}
 
 		DirectCommandContext->Execute(
-			[&texture2D, &sizeX, &sizeY, &sizeZ,&initialData, &initialState, this] {
+			[&texture2D, &sizeX, &sizeY, &sizeZ, &initialData, &initialState, this] {
 				DirectCommandContext->TransitionTexture(texture2D, RenderLayer::CEResourceState::Common,
 				                                        RenderLayer::CEResourceState::CopyDest);
 				DirectCommandContext->UpdateTexture2D(texture2D, sizeX, sizeY, 0, initialData->GetData());

@@ -71,6 +71,12 @@ void CEWindowsConsole::SetColor(Generic::Window::CEConsoleColor color) {
 		case Generic::Window::CEConsoleColor::Blue:
 			wColor = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
 			break;
+		case Generic::Window::CEConsoleColor::Magenta:
+			wColor = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+			break;
+		case Generic::Window::CEConsoleColor::Cyan:
+			wColor = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+			break;
 		case Generic::Window::CEConsoleColor::White:
 			break;
 		}

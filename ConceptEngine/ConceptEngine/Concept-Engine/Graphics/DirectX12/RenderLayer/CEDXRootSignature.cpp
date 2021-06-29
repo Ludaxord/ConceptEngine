@@ -532,8 +532,6 @@ CEDXRootSignature* CEDXRootSignatureCache::CreateRootSignature(const CEDXRootSig
 		return nullptr;
 	}
 
-	CE_LOG_INFO("Create new root signature");
-
 	RootSignatures.EmplaceBack(rootSignature);
 	ResourceCounts.EmplaceBack(resourceCount);
 	return rootSignature.Get();

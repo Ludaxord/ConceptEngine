@@ -30,6 +30,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 		bool SignalFence(CEDXFenceHandle& fence, uint64 fenceValue) {
+			CE_LOG_DEBUG("[CEDXCommandQueueHandle]: SignalFence Value: " + std::to_string(fenceValue))
 			HRESULT result = Queue->Signal(fence.GetFence(), fenceValue);
 			if (result == DXGI_ERROR_DEVICE_REMOVED) {
 				DeviceRemovedHandler(GetDevice());

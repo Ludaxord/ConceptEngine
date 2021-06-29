@@ -2,6 +2,8 @@
 
 #include "../../../Core/Common/CERefCountedObject.h"
 
+#include "../../../Core/Log/CELog.h"
+
 #include <string>
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
@@ -23,6 +25,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		const std::string& GetName() const {
 			return Name;
+		}
+
+		virtual void DebugMessage() override {
+			CE_LOG_VERBOSE("[CEResource]: Releasing Resource: " + GetName());
 		}
 
 	private:

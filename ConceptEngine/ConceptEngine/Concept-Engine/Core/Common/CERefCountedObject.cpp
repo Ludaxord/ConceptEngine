@@ -9,6 +9,7 @@ uint32 CERefCountedObject::AddRef() {
 }
 
 uint32 CERefCountedObject::Release() {
+	DebugMessage();
 	uint32 newRefCount = --StrongReferences;
 	if (StrongReferences <= 0) {
 		delete this;

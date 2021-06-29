@@ -22,6 +22,7 @@ ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXViewport::~CEDXViewport() {
 }
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXViewport::Create() {
+	
 	Flags = GetDevice()->IsTearingSupported() ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
 	Flags = Flags | DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 

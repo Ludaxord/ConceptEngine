@@ -11,7 +11,9 @@ namespace ConceptEngine::Core::Platform::Generic::Window {
 		Green = 1,
 		Yellow = 2,
 		White = 3,
-		Blue = 4
+		Blue = 4,
+		Magenta = 5,
+		Cyan = 6
 	};
 	
 	class CEConsole : public CEScreen {

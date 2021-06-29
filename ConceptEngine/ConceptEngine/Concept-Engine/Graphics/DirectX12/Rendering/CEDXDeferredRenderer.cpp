@@ -254,7 +254,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		LUTSize,
 		1,
 		1,
-		Main::RenderLayer::TextureFlag_UAV,
+		Main::RenderLayer::TextureFlag_SRV,
 		Main::RenderLayer::CEResourceState::Common,
 		nullptr
 	);
@@ -320,7 +320,6 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			                              Main::RenderLayer::CEResourceState::UnorderedAccess);
 
 			commandList.SetComputePipelineState(BRDF_pipelineState.Get());
-			CE_LOG_VERBOSE("EXECUTE: BRDF_pipelineState")
 
 			Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
 			commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
@@ -628,7 +627,7 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 		return false;
 	}
 
-	frameResources.GBuffer[BUFFER_DEPTH_INDEX]->SetName("Buffer Depth");
+	frameResources.GBuffer[BUFFER_DEPTH_INDEX]->SetName("Buffer DepthStencil");
 
 	//View Normal
 	frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX] = CastGraphicsManager()->CreateTexture2D(

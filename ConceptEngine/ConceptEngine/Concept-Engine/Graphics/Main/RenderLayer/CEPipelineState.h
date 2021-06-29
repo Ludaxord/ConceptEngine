@@ -22,6 +22,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual class CERayTracingPipelineState* AsRayTracing() {
 			return nullptr;
 		}
+		
+		virtual void DebugMessage() override {
+			CE_LOG_VERBOSE("[CEPipelineState]: Releasing Compute Pipeline State: " + GetName());
+		}
 	};
 
 	enum class CEDepthWriteMask {

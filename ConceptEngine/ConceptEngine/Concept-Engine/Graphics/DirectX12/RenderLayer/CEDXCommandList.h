@@ -46,7 +46,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			if (result == DXGI_ERROR_DEVICE_REMOVED) {
 				DeviceRemovedHandler(GetDevice());
 			}
-
+			
 			return SUCCEEDED(result);
 		}
 
