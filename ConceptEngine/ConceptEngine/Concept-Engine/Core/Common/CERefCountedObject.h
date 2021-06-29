@@ -1,23 +1,44 @@
 #pragma once
 #include "CETypes.h"
 
-	class CERefCountedObject {
-	public:
-		CERefCountedObject();
-		virtual ~CERefCountedObject() = default;
+// Macro for deleting objects safley
+#define SafeDelete(OutObject) \
+    if ((OutObject)) \
+    { \
+        delete (OutObject); \
+        (OutObject) = nullptr; \
+    }
 
-		uint32 AddRef();
-		virtual uint32 Release();
+#define SafeRelease(OutObject) \
+    if ((OutObject)) \
+    { \
+        (OutObject)->Release(); \
+        (OutObject) = nullptr; \
+    }
 
-		virtual void DebugMessage() {
-			
-		}
+#define SafeAddRef(OutObject) \
+    if ((OutObject)) \
+    { \
+        (OutObject)->AddRef(); \
+    }
 
-		uint32 GetRefCount() const {
-			return StrongReferences;
-		}
+class CERefCountedObject {
+public:
+	CERefCountedObject();
+	virtual ~CERefCountedObject() = default;
 
-	protected:
-	private:
-		uint32 StrongReferences;
-	};
+	uint32 AddRef();
+	virtual uint32 Release();
+
+	virtual void DebugMessage() {
+
+	}
+
+	uint32 GetRefCount() const {
+		return StrongReferences;
+	}
+
+protected:
+private:
+	uint32 StrongReferences;
+};

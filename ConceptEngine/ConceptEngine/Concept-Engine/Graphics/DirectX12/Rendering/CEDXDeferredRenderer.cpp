@@ -309,7 +309,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		return false;
 	}
 
-	BRDF_pipelineState->SetName("BRD Integration Gen Pipeline State");
+	BRDF_pipelineState->SetName("BRDF Integration Gen Pipeline State");
 
 	Main::RenderLayer::CECommandList commandList;
 

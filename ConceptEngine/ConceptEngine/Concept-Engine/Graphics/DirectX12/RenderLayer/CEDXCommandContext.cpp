@@ -87,7 +87,7 @@ CEDXUploadAllocation CEDXGPUResourceUploader::LinearAllocate(uint32 sizeInBytes)
 	constexpr uint32 EXTRA_BYTES_ALLOCATED = 1024;
 
 	const uint32 requiredSize = OffsetInBytes + sizeInBytes;
-	if (requiredSize > sizeInBytes) {
+	if (requiredSize > SizeInBytes) {
 		Reserve(requiredSize + EXTRA_BYTES_ALLOCATED);
 	}
 
@@ -841,6 +841,8 @@ void CEDXCommandContext::UpdateBuffer(CEBuffer* destination, uint64 offsetInByte
                                       const void* sourceData) {
 	CEDXBaseBuffer* dxDestination = CEDXBufferCast(destination);
 	UpdateBuffer(dxDestination->GetResource(), offsetInBytes, sizeInBytes, sourceData);
+
+	CommandBatch->AddInUseResource(destination);
 }
 
 void CEDXCommandContext::UpdateTexture2D(CETexture2D* destination, uint32 width, uint32 height, uint32 mipLevel,

@@ -171,12 +171,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			const CERayTracingShaderResources* hitGroupResources,
 			uint32 numHitGroupResources
 		) {
-			if (rayTracingScene) {
-				rayTracingScene->AddRef();
-			}
-			if (pipelineState) {
-				pipelineState->AddRef();
-			}
+			SafeAddRef(rayTracingScene);
+			SafeAddRef(pipelineState);
 			InsertCommand<CESetRayTracingBindingsRenderCommand>(
 				rayTracingScene,
 				pipelineState,
@@ -189,16 +185,12 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void SetGraphicsPipelineState(CEGraphicsPipelineState* pipelineState) {
-			if (pipelineState) {
-				pipelineState->AddRef();
-			}
+			SafeAddRef(pipelineState);
 			InsertCommand<CESetGraphicsPipelineStateRenderCommand>(pipelineState);
 		}
 
 		void SetComputePipelineState(CEComputePipelineState* pipelineState) {
-			if (pipelineState) {
-				pipelineState->AddRef();
-			}
+			SafeAddRef(pipelineState);
 			InsertCommand<CESetComputePipelineStateRenderCommand>(pipelineState);
 		}
 
@@ -209,20 +201,15 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void SetShaderResourceView(CEShader* shader, CEShaderResourceView* shaderResourceView, uint32 parameterIndex) {
-			if (shader) {
-				shader->AddRef();
-			}
-			if (shaderResourceView) {
-				shaderResourceView->AddRef();
-			}
+			SafeAddRef(shader);
+			SafeAddRef(shaderResourceView);
+
 			InsertCommand<CESetShaderResourceViewRenderCommand>(shader, shaderResourceView, parameterIndex);
 		}
 
 		void SetShaderResourceViews(CEShader* shader, CEShaderResourceView* const* shaderResourceViews,
 		                            uint32 numShaderResourceViews, uint32 parameterIndex) {
-			if (shader) {
-				shader->AddRef();
-			}
+			SafeAddRef(shader);
 			CEShaderResourceView** tempShaderResourceViews = new(CommandAllocator) CEShaderResourceView*[
 				numShaderResourceViews];
 			for (uint32 i = 0; i < numShaderResourceViews; i++) {
@@ -237,12 +224,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		void SetUnorderedAccessView(CEShader* shader, CEUnorderedAccessView* unorderedAccessView,
 		                            uint32 parameterIndex) {
-			if (shader) {
-				shader->AddRef();
-			}
-			if (unorderedAccessView) {
-				unorderedAccessView->AddRef();
-			}
+			SafeAddRef(shader);
+			SafeAddRef(unorderedAccessView);
+
 			InsertCommand<CESetUnorderedAccessViewRenderCommand>(shader, unorderedAccessView, parameterIndex);
 		}
 
@@ -256,20 +240,16 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					tempUnorderedAccessViews[i]->AddRef();
 				}
 			}
-			if (shader) {
-				shader->AddRef();
-			}
+			SafeAddRef(shader);
+
 			InsertCommand<CESetUnorderedAccessViewsRenderCommand>(shader, tempUnorderedAccessViews,
 			                                                      numUnorderedAccessViews, parameterIndex);
 		}
 
 		void SetConstantBuffer(CEShader* shader, CEConstantBuffer* constantBuffer, uint32 parameterIndex) {
-			if (shader) {
-				shader->AddRef();
-			}
-			if (constantBuffer) {
-				constantBuffer->AddRef();
-			}
+			SafeAddRef(shader);
+			SafeAddRef(constantBuffer);
+
 			InsertCommand<CESetConstantBufferRenderCommand>(shader, constantBuffer, parameterIndex);
 		}
 
@@ -282,21 +262,16 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					tempConstantBuffers[i]->AddRef();
 				}
 			}
-
-			if (shader) {
-				shader->AddRef();
-			}
+			
+			SafeAddRef(shader);
 			InsertCommand<CESetConstantBuffersRenderCommand>(shader, tempConstantBuffers, numConstantBuffers,
 			                                                 parameterIndex);
 		}
 
 		void SetSamplerState(CEShader* shader, CESamplerState* samplerState, uint32 parameterIndex) {
-			if (shader) {
-				shader->AddRef();
-			}
-			if (samplerState) {
-				samplerState->AddRef();
-			}
+			SafeAddRef(shader);
+			SafeAddRef(samplerState);
+
 			InsertCommand<CESetSamplerStateRenderCommand>(shader, samplerState, parameterIndex);
 		}
 
@@ -309,20 +284,15 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					tempSamplerStates[i]->AddRef();
 				}
 			}
-
-			if (shader) {
-				shader->AddRef();
-			}
+			
+			SafeAddRef(shader);
 			InsertCommand<CESetSamplerStatesRenderCommand>(shader, tempSamplerStates, numSamplerStates, parameterIndex);
 		}
 
 		void ResolveTexture(CETexture* destination, CETexture* source) {
-			if (destination) {
-				destination->AddRef();
-			}
-			if (source) {
-				source->AddRef();
-			}
+			SafeAddRef(destination);
+			SafeAddRef(source);
+
 			InsertCommand<CEResolveTextureRenderCommand>(destination, source);
 		}
 
@@ -330,9 +300,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		                  const void* sourceData) {
 			void* tempSourceData = CommandAllocator.Allocate(sizeInBytes, 1);
 			Memory::CEMemory::Memcpy(tempSourceData, sourceData, sizeInBytes);
-			if (destination) {
-				destination->AddRef();
-			}
+			SafeAddRef(destination);
+
 			InsertCommand<CEUpdateBufferRenderCommand>(destination, destinationOffsetInBytes, sizeInBytes,
 			                                           tempSourceData);
 		}
@@ -347,39 +316,29 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void CopyBuffer(CEBuffer* destination, CEBuffer* source, const CECopyBufferInfo& copyInfo) {
-			if (destination) {
-				destination->AddRef();
-			}
-			if (source) {
-				source->AddRef();
-			}
+			SafeAddRef(destination);
+			SafeAddRef(source);
+			
 			InsertCommand<CECopyBufferRenderCommand>(destination, source, copyInfo);
 		}
 
 		void CopyTexture(CETexture* destination, CETexture* source) {
-			if (destination) {
-				destination->AddRef();
-			}
-			if (source) {
-				source->AddRef();
-			}
+			SafeAddRef(destination);
+			SafeAddRef(source);
+			
 			InsertCommand<CECopyTextureRenderCommand>(destination, source);
 		}
 
 		void CopyTextureRegion(CETexture* destination, CETexture* source, const CECopyTextureInfo& copyTextureInfo) {
-			if (destination) {
-				destination->AddRef();
-			}
-			if (source) {
-				source->AddRef();
-			}
+			SafeAddRef(destination);
+			SafeAddRef(source);
+			
 			InsertCommand<CECopyTextureRegionRenderCommand>(destination, source, copyTextureInfo);
 		}
 
 		void DiscardResource(CEResource* resource) {
-			if (resource) {
-				resource->AddRef();
-			}
+			SafeAddRef(resource);
+
 			InsertCommand<CEDiscardResourceRenderCommand>(resource);
 		}
 
@@ -388,15 +347,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			Assert(geometry != nullptr);
 			Assert(!update || (update && geometry->GetFlags() & RayTracingStructureBuildFlag_AllowUpdate));
 
-			if (geometry) {
-				geometry->AddRef();
-			}
-			if (vertexBuffer) {
-				vertexBuffer->AddRef();
-			}
-			if (indexBuffer) {
-				indexBuffer->AddRef();
-			}
+			SafeAddRef(geometry);
+			SafeAddRef(vertexBuffer);
+			SafeAddRef(indexBuffer);
+
 			InsertCommand<CEBuildRayTracingGeometryRenderCommand>(geometry, vertexBuffer, indexBuffer, update);
 		}
 
@@ -404,9 +358,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		                          uint32 numInstances, bool update) {
 			Assert(scene != nullptr);
 			Assert(!update || (update && scene->GetFlags() & RayTracingStructureBuildFlag_AllowUpdate));
-			if (scene) {
-				scene->AddRef();
-			}
+			SafeAddRef(scene);
+
 			InsertCommand<CEBuildRayTracingSceneRenderCommand>(scene, instances, numInstances, update);
 
 		}

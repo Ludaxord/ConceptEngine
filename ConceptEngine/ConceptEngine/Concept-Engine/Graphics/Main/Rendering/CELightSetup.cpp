@@ -52,6 +52,11 @@ bool CELightSetup::Create() {
 		nullptr
 	);
 
+	if (!PointLightsPosRadBuffer) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	
 	PointLightsPosRadBuffer->SetName("Point Lights Pos Rad Buffer");
 
 	ShadowCastingPointLightsData.Reserve(8);
@@ -246,7 +251,7 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 			nullptr
 		);
 
-		if (!ShadowCastingPointLightsBuffer) {
+		if (!ShadowCastingPointLightsPosRadBuffer) {
 			CEDebug::DebugBreak();
 		}
 	}
