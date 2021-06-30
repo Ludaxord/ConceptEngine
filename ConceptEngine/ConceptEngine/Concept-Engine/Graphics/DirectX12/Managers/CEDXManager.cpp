@@ -242,8 +242,7 @@ Main::RenderLayer::CEVertexBuffer* CEDXManager::CreateVertexBuffer(uint32 stride
                                                                    RenderLayer::CEResourceState initialState,
                                                                    const RenderLayer::CEResourceData* initialData) {
 	const uint32 sizeInBytes = numVertices * stride;
-	CERef<RenderLayer::CEDXVertexBuffer> buffer = new RenderLayer::CEDXVertexBuffer(
-		Device, numVertices, stride, flags);
+	CERef<RenderLayer::CEDXVertexBuffer> buffer = new RenderLayer::CEDXVertexBuffer(Device, numVertices, stride, flags);
 	if (!FinishBufferResource<RenderLayer::CEDXVertexBuffer>(buffer.Get(), sizeInBytes, flags, initialState,
 	                                                         initialData)) {
 		CE_LOG_ERROR("[CEDXManager]: Failed to create VertexBuffer");
@@ -497,7 +496,7 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();
 
-		Assert(texture->IsUAV() && createInfo.Texture2D.Format = != RenderLayer::CEFormat::Unknown);
+		Assert(texture->IsUAV() && createInfo.Texture2D.Format != RenderLayer::CEFormat::Unknown);
 
 		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture2D.Format);
 		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
@@ -523,7 +522,7 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();
 
-		Assert(texture->IsUAV() && createInfo.TextureCube.Texture != RenderLayer::CEFormat::Unknown);
+		Assert(texture->IsUAV() && createInfo.TextureCube.Format != RenderLayer::CEFormat::Unknown);
 
 		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCube.Format);
 		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
@@ -538,7 +537,7 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();
 
-		Assert(texture->IsUAV() && createInfo.TextureCubeArray.Texture != RenderLayer::CEFormat::Unknown);
+		Assert(texture->IsUAV() && createInfo.TextureCubeArray.Format != RenderLayer::CEFormat::Unknown);
 
 		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCubeArray.Format);
 		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
@@ -731,7 +730,7 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 	RenderLayer::CEDXResource* resource = nullptr;
 
 	desc.Format = RenderLayer::ConvertFormat(createInfo.Format);
-	Assert(createInfo.Format = != RenderLayer::CEFormat::Unknown);
+	Assert(createInfo.Format != RenderLayer::CEFormat::Unknown);
 
 	if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2D) {
 		RenderLayer::CETexture2D* texture = createInfo.Texture2D.Texture;

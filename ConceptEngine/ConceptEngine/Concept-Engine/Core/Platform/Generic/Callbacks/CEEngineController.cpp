@@ -18,10 +18,9 @@ std::unordered_map<std::string, ConceptEngine::Core::Platform::Generic::Debug::C
 CEEngineController EngineController;
 
 bool CEEngineController::Create() {
-	if (Core::Generic::Platform::CEPlatform::GetWindow()) {
-		Core::Generic::Platform::CEPlatform::GetWindow()->Show(false);
-		Commands["ToggleFullscreen"].OnExecute.AddObject(Core::Generic::Platform::CEPlatform::GetWindow(),
-		                                     &Window::CEWindow::ToggleFullscreen);
+	if (CEPlatform::GetWindow()) {
+		CEPlatform::GetWindow()->Show(false);
+		Commands["ToggleFullscreen"].OnExecute.AddObject(CEPlatform::GetWindow(), &Window::CEWindow::ToggleFullscreen);
 		INIT_CONSOLE_COMMAND("CE.ToggleFullscreen", &Commands["ToggleFullscreen"]);
 	}
 	else {

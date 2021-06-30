@@ -8,7 +8,7 @@ Texture2D<float3> Noise : register(t2, space0);
 StructuredBuffer<float3> Samples : register(t3, space0);
 
 SamplerState BufferSampler : register(s0, space0);
-SamplerState NoiseSampler : register(s1, space1);
+SamplerState NoiseSampler : register(s1, space0);
 
 RWTexture2D<float> Output : register(u0, space0);
 

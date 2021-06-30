@@ -10,9 +10,9 @@
 #include "../RenderLayer/CEResourceViews.h"
 
 
-#define ENABLE_API_DEBUGGING 0;
-#define ENABLE_API_GPU_DEBUGGING 0;
-#define ENABLE_API_GPU_BREADCRUMBS 0;
+#define ENABLE_API_DEBUGGING 1;
+#define ENABLE_API_GPU_DEBUGGING 1;
+#define ENABLE_API_GPU_BREADCRUMBS 1;
 
 namespace ConceptEngine {namespace Core {namespace Platform {namespace Generic {namespace Window {
 	class CEWindow;

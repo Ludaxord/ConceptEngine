@@ -155,8 +155,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			return false;
 		}
 
-		PrePassVertexShader = CastGraphicsManager()->CreateVertexShader(
-			shaderCode);
+		PrePassVertexShader = CastGraphicsManager()->CreateVertexShader(shaderCode);
 		if (!PrePassVertexShader) {
 			CEDebug::DebugBreak();
 			return false;
@@ -324,7 +323,8 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 			Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
 			commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
 
-			constexpr uint32 threadCount = 16;
+			// constexpr uint32 threadCount = 16;
+			constexpr uint32 threadCount = 23;
 			const uint32 dispatchWidth = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
 			const uint32 dispatchHeight = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
 			commandList.Dispatch(dispatchWidth, dispatchHeight, 1);

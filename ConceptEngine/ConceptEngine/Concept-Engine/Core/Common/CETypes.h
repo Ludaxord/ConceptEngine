@@ -1,5 +1,14 @@
 #pragma once
 
+#include <assert.h>
+
+#define DEBUG_BUILD 1
+
+// Assert
+#ifdef DEBUG_BUILD
+    #define ENABLE_ASSERTS 1
+#endif
+
 #ifndef Assert
 #if ENABLE_ASSERTS
     #define Assert(Condition) assert(Condition)

@@ -133,9 +133,9 @@ void ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderBindingTableBuil
 	CEDXOnlineDescriptorHeap* resourceHeap, CEDXOnlineDescriptorHeap* samplerHeap,
 	CEDXShaderBindingTableEntry& shaderBindingEntry, const CERayTracingShaderResources& resources) {
 	Assert(pipelineState != nullptr);
-	Assert(rootSignature != nulllptr);
-	Assert(resourceHeap != nulllptr);
-	Assert(samplerHeap != nulllptr);
+	Assert(rootSignature != nullptr);
+	Assert(resourceHeap != nullptr);
+	Assert(samplerHeap != nullptr);
 
 	Memory::CEMemory::Memcpy(shaderBindingEntry.ShaderIdentifier,
 	                         pipelineState->GetShaderIdentifier(resources.Identifier),

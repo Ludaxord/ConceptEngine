@@ -31,3 +31,7 @@ inline std::string GetMainDirectory() {
 inline std::string GetGraphicsContentDirectory(std::string path) {
 	return GetMainDirectory() + "\\Concept-Engine\\Graphics\\" + path;
 }
+
+inline std::string GetEngineSourceDirectory(std::string path) {
+	return GetMainDirectory() + "\\Concept-Engine\\" + path;
+}

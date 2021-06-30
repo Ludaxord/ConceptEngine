@@ -160,7 +160,7 @@ bool CEDXBaseComputeShader::Create() {
 }
 
 bool CEDXBaseRayTracingShader::GetRayTracingShaderReflection(CEDXBaseRayTracingShader* shader) {
-	Assert(Shader != nullptr);
+	Assert(shader != nullptr);
 	Microsoft::WRL::ComPtr<ID3D12LibraryReflection> reflection;
 	if (!static_cast<CEDXShaderCompiler*>(ShaderCompiler)->GetLibraryReflection(shader, &reflection)) {
 		return false;

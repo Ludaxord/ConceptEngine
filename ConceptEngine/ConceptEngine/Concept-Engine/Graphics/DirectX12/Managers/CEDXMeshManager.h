@@ -1,5 +1,7 @@
 #pragma once
 
+#include <complex>
+
 #include "../../Main/Managers/CEMeshManager.h"
 
 namespace ConceptEngine::Graphics::DirectX12::Managers {

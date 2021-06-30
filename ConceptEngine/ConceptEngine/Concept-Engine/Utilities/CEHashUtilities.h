@@ -47,4 +47,49 @@ namespace std {
 			return hash;
 		}
 	};
+
+#if defined(WINDOWS_PLATFORM)
+	
+    template<> struct hash<DirectX::XMFLOAT4>
+    {
+        size_t operator()(const DirectX::XMFLOAT4& XmFloat) const
+        {
+            std::hash<float> Hasher;
+
+            size_t Hash = Hasher(XmFloat.x);
+            HashCombine<float>(Hash, XmFloat.y);
+            HashCombine<float>(Hash, XmFloat.z);
+            HashCombine<float>(Hash, XmFloat.w);
+
+            return Hash;
+        }
+    };
+
+    template<> struct hash<DirectX::XMFLOAT3>
+    {
+        size_t operator()(const DirectX::XMFLOAT3& XmFloat) const
+        {
+            std::hash<float> Hasher;
+
+            size_t Hash = Hasher(XmFloat.x);
+            HashCombine<float>(Hash, XmFloat.y);
+            HashCombine<float>(Hash, XmFloat.z);
+
+            return Hash;
+        }
+    };
+
+    template<> struct hash<DirectX::XMFLOAT2>
+    {
+        size_t operator()(const DirectX::XMFLOAT2& XmFloat) const
+        {
+            std::hash<float> Hasher;
+
+            size_t Hash = Hasher(XmFloat.x);
+            HashCombine<float>(Hash, XmFloat.y);
+
+            return Hash;
+        }
+    };
+#endif
 }

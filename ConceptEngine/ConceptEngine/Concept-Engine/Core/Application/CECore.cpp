@@ -71,7 +71,7 @@ bool ConceptEngine::Core::Application::CECore::Create() {
 		GPlayground = CreatePlayground();
 	}
 
-	Assert(::Common::GPlayground != nullptr);
+	Assert(GPlayground != nullptr);
 
 	GPlatform->SetCallbacks(&EngineController);
 

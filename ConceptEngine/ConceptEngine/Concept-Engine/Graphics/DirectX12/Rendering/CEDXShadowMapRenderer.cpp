@@ -383,14 +383,15 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 }
 
 bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& frameResources) {
-	frameResources.PointLightShadowMaps = CastGraphicsManager()->CreateTextureCubeArray(
-		frameResources.ShadowMapFormat,
-		frameResources.PointLightShadowSize,
-		1,
-		frameResources.MaxPointLightShadows,
-		TextureFlags_ShadowMap,
-		CEResourceState::PixelShaderResource, 
-		nullptr);
+
+	    frameResources.PointLightShadowMaps = CastGraphicsManager()->CreateTextureCubeArray(
+        frameResources.ShadowMapFormat, 
+        frameResources.PointLightShadowSize, 
+        1, 
+			frameResources.MaxPointLightShadows, 
+        TextureFlags_ShadowMap, 
+        CEResourceState::PixelShaderResource,
+        nullptr);
 
 	if (!frameResources.PointLightShadowMaps) {
 		return false;

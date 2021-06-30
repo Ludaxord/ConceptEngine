@@ -78,20 +78,19 @@ bool CEDXRenderer::Create() {
 
 	if (!Resources.CameraBuffer) {
 		CE_LOG_ERROR("[CERenderer]: Failed to Create Camera Buffer");
-		CEDebug::DebugBreak();
 		return false;
 	}
 
 	Resources.CameraBuffer->SetName("CameraBuffer");
 
 	CEInputLayoutStateCreateInfo InputLayout =
-    {
-        { "POSITION", 0, CEFormat::R32G32B32_Float, 0, 0,  CEInputClassification::Vertex, 0 },
-        { "NORMAL",   0, CEFormat::R32G32B32_Float, 0, 12, CEInputClassification::Vertex, 0 },
-        { "TANGENT",  0, CEFormat::R32G32B32_Float, 0, 24, CEInputClassification::Vertex, 0 },
-        { "TEXCOORD", 0, CEFormat::R32G32_Float,    0, 36, CEInputClassification::Vertex, 0 },
-    };
-	
+	{
+		{"POSITION", 0, CEFormat::R32G32B32_Float, 0, 0, CEInputClassification::Vertex, 0},
+		{"NORMAL", 0, CEFormat::R32G32B32_Float, 0, 12, CEInputClassification::Vertex, 0},
+		{"TANGENT", 0, CEFormat::R32G32B32_Float, 0, 24, CEInputClassification::Vertex, 0},
+		{"TEXCOORD", 0, CEFormat::R32G32_Float, 0, 36, CEInputClassification::Vertex, 0},
+	};
+
 	Resources.StdInputLayout = CastGraphicsManager()->CreateInputLayout(InputLayout);
 	if (!Resources.StdInputLayout) {
 		CEDebug::DebugBreak();
@@ -111,6 +110,7 @@ bool CEDXRenderer::Create() {
 
 		Resources.DirectionalShadowSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 		if (!Resources.DirectionalShadowSampler) {
+			CEDebug::DebugBreak();
 			return false;
 		}
 
@@ -181,10 +181,11 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
-		CEDebug::DebugBreak();
-		return false;
-	}
+	//Comment TEST TODO: Uncomment when issue is fixed
+	// if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
+	// 	CEDebug::DebugBreak();
+	// 	return false;
+	// }
 
 	SSAORenderer = new Rendering::CEDXScreenSpaceOcclusionRenderer();
 
@@ -193,10 +194,11 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!SSAORenderer->Create(Resources)) {
-		CEDebug::DebugBreak();
-		return false;
-	}
+	//Comment TEST TODO: Uncomment when issue is fixed
+	// if (!SSAORenderer->Create(Resources)) {
+	// 	CEDebug::DebugBreak();
+	// 	return false;
+	// }
 
 	LightProbeRenderer = new Rendering::CEDXLightProbeRenderer();
 
@@ -218,7 +220,7 @@ bool CEDXRenderer::Create() {
 	}
 
 	//TODO: make property to edit in editor and load if from file!!!!
-	auto panoConf = Main::Rendering::CEPanoramaConfig{"Assets/Textures/arches.hdr", true};
+	auto panoConf = Main::Rendering::CEPanoramaConfig{GetEngineSourceDirectory("Assets/Textures/arches.hdr"), true};
 
 	if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
 		CEDebug::DebugBreak();
@@ -526,7 +528,8 @@ void CEDXRenderer::OnWindowResize(const CEWindowResizeEvent& Event) {
 
 bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "VSMain", nullptr, CEShaderStage::Vertex,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "VSMain", nullptr,
+	                                     CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Compile Debug Vertex Shader");
 		return false;
@@ -540,7 +543,8 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 	AABBVertexShader->SetName("Debug Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "PSMain", nullptr,
+	                                     CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer::CreateBoundingBoxDebugPass]: Failed to Compile Debug Pixel Shader");
 		return false;
@@ -679,7 +683,8 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 
 bool CEDXRenderer::CreateAA() {
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FullscreenVS.hlsl"), "Main", nullptr, CEShaderStage::Vertex,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FullscreenVS.hlsl"), "Main",
+	                                     nullptr, CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FullscreenVS Shader");
 		return false;
@@ -693,7 +698,8 @@ bool CEDXRenderer::CreateAA() {
 
 	vertexShader->SetName("Fullscreen Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/PostProcessPS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/PostProcessPS.hlsl"), "Main",
+	                                     nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile PostProcessPS Shader");
 		return false;
@@ -778,7 +784,8 @@ bool CEDXRenderer::CreateAA() {
 		return false;
 	}
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", nullptr,
+	                                     CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FXAA_PS Shader");
 		return false;
@@ -806,7 +813,8 @@ bool CEDXRenderer::CreateAA() {
 		CEShaderDefine("ENABLE_DEBUG", "1")
 	};
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", &defines, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main",
+	                                     &defines, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CE_LOG_ERROR("[CEDXRenderer]: Failed to Compile FXAA_PS Shader with DEBUG Define");
 		return false;
@@ -857,7 +865,8 @@ bool CEDXRenderer::CreateShadingImage() {
 	ShadingImage->SetName("Shading Rate Image");
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadingImage.hlsl"), "Main", nullptr, CEShaderStage::Compute,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadingImage.hlsl"), "Main",
+	                                     nullptr, CEShaderStage::Compute,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;

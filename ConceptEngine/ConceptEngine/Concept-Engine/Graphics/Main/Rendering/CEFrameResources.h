@@ -16,12 +16,17 @@
 #include "../../../Core/Common/CERef.h"
 #include "../../../Core/Containers/CEArray.h"
 
+#define BUFFER_ALBEDO_INDEX 0
+#define BUFFER_NORMAL_INDEX 1
+#define BUFFER_MATERIAL_INDEX 2
+#define BUFFER_DEPTH_INDEX 3
+#define BUFFER_VIEW_NORMAL_INDEX 4
 
-constexpr int BUFFER_ALBEDO_INDEX = 0;
-constexpr int BUFFER_NORMAL_INDEX = 1;
-constexpr int BUFFER_MATERIAL_INDEX = 2;
-constexpr int BUFFER_DEPTH_INDEX = 3;
-constexpr int BUFFER_VIEW_NORMAL_INDEX = 4;
+// constexpr int BUFFER_ALBEDO_INDEX = 0;
+// constexpr int BUFFER_NORMAL_INDEX = 1;
+// constexpr int BUFFER_MATERIAL_INDEX = 2;
+// constexpr int BUFFER_DEPTH_INDEX = 3;
+// constexpr int BUFFER_VIEW_NORMAL_INDEX = 4;
 
 
 namespace ConceptEngine::Graphics::Main::Rendering {
@@ -113,7 +118,6 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		const RenderLayer::CEFormat MaterialFormat = RenderLayer::CEFormat::R8G8B8A8_Unorm;
 		const RenderLayer::CEFormat NormalFormat = RenderLayer::CEFormat::R10G10B10A2_Unorm;
 		const RenderLayer::CEFormat ViewNormalFormat = RenderLayer::CEFormat::R10G10B10A2_Unorm;
-
 
 		RenderLayer::CETexture2D* BackBuffer = nullptr;
 

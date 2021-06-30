@@ -13,8 +13,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
                                   const Main::Rendering::CEPanoramaConfig& panoramaConfig) {
 	SkyboxMesh = CastMeshManager()->CreateSphere(1);
 
-	RenderLayer::CEResourceData vertexData = RenderLayer::CEResourceData(
-		SkyboxMesh.Vertices.Data(), SkyboxMesh.Vertices.SizeInBytes());
+	CEResourceData vertexData = CEResourceData(SkyboxMesh.Vertices.Data(), SkyboxMesh.Vertices.SizeInBytes());
 	SkyboxVertexBuffer = CastGraphicsManager()->CreateVertexBuffer<Main::CEVertex>(
 		SkyboxMesh.Vertices.Size(), RenderLayer::BufferFlag_Upload,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer, &vertexData);
