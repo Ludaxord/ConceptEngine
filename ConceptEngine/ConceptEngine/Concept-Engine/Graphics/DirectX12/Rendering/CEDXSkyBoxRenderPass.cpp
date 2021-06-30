@@ -40,8 +40,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 		return false;
 	}
 
-	CERef<RenderLayer::CETexture2D> panorama =
-		Main::Managers::CETextureManager::LoadFromFile(
+	CERef panorama = Main::Managers::CETextureManager::LoadFromFile(
 			panoramaConfig.SourceFile, 0, RenderLayer::CEFormat::R32G32B32A32_Float);
 	if (!panorama) {
 		return false;

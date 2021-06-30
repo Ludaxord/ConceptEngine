@@ -70,9 +70,9 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 	}
 
 	const bool generateMips = createFlags & TextureFlag_GenerateMips;
-	const uint32 numMips = generateMips ? uint32(std::min(std::log2(width), std::log2(height))) : 1;
+    const uint32 NumMips    = generateMips ? uint32(std::min(std::log2(width), std::log2(height))) : 1;
 
-	Assert(numMips != 0);
+	Assert(NumMips != 0);
 
 	const uint32 stride = GetByteStrideFromFormat(format);
 	const uint32 rowPitch = width * stride;
@@ -83,7 +83,7 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 	CERef<CETexture2D> texture = CastGraphicsManager()->CreateTexture2D(format,
 	                   width,
 	                   height,
-	                   numMips,
+	                   NumMips,
 	                   1,
 	                   TextureFlag_SRV,
 	                   CEResourceState::PixelShaderResource,
