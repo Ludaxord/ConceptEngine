@@ -143,13 +143,6 @@ bool CEWindowsWindow::Create(const std::string& title, uint32 width, uint32 heig
 	                                    CEWindows::Instance,
 	                                    NULL);
 
-	CE_LOG_INFO(
-		"[CEWindowsWindow]: Window Size: width " + std::to_string(width) + "px " + "height " + std::to_string(height) +
-		"px")
-
-	if (CEWindows::Instance) {
-		CE_LOG_INFO("[CEWindowsWindow] Window Instance Exists")
-	}
 
 	if (CEWindows::HWnd == NULL) {
 		CE_LOG_ERROR("[CEWindowsWindow] Failed to create Window \n");

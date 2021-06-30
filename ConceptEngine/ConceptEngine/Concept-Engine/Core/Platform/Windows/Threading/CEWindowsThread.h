@@ -10,7 +10,7 @@ namespace ConceptEngine::Core::Platform::Windows::Threading {
 		CEWindowsThread();
 		~CEWindowsThread();
 
-		bool Create(Core::Threading::ThreadFunction func);
+		bool Init(Core::Threading::ThreadFunction func);
 
 		virtual void Wait() override final;
 		virtual void SetName(const std::string& name) override final;

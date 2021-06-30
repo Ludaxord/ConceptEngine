@@ -8,13 +8,19 @@
 
 #include "../../../../Utilities/CEStringUtilities.h"
 
+#ifdef _DEBUG
+    #define DBG_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#else
+    #define DBG_NEW	new
+#endif
+
 using namespace ConceptEngine::Core::Platform::Windows::Threading;
 
 ConceptEngine::Core::Threading::CEThread* ConceptEngine::Core::Threading::CEThread::Create(ThreadFunction func) {
 	std::condition_variable variable;
 
-	CERef<CEWindowsThread> newThread = new CEWindowsThread();
-	if (!newThread->Create(func)) {
+	CERef<CEWindowsThread> newThread = DBG_NEW CEWindowsThread();
+	if (!newThread->Init(func)) {
 		return nullptr;
 	}
 
@@ -30,9 +36,8 @@ CEWindowsThread::~CEWindowsThread() {
 	}
 }
 
-bool CEWindowsThread::Create(Core::Threading::ThreadFunction func) {
+bool CEWindowsThread::Init(Core::Threading::ThreadFunction func) {
 	Func = func;
-
 	Thread = CreateThread(NULL, 0, CEWindowsThread::ThreadRoutine, (LPVOID)this, 0, &ThreadID);
 	if (!Thread) {
 		CE_LOG_ERROR("[CEWindowsThread]: Failed to create thread");
@@ -55,8 +60,7 @@ ConceptEngine::Core::Threading::ThreadID CEWindowsThread::GetID() {
 	return ThreadID;
 }
 
-DWORD CEWindowsThread::ThreadRoutine(LPVOID threadParameter) {
-
+DWORD WINAPI CEWindowsThread::ThreadRoutine(LPVOID threadParameter) {
 	volatile CEWindowsThread* currentThread = (CEWindowsThread*)threadParameter;
 	if (currentThread) {
 		Assert(currentThread->Func != nullptr);

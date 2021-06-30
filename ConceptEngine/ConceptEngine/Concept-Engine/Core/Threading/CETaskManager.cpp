@@ -19,7 +19,8 @@ bool CETaskManager::Create() {
 	IsRunning = true;
 
 	for (uint32 i = 0; i < threadCount; i++) {
-		if (CERef<CEThread> newThread = CEThread::Create(CETaskManager::WorkThread); newThread) {
+		CERef<CEThread> newThread = CEThread::Create(CETaskManager::WorkThread);
+		if (newThread) {
 			Threads[i] = newThread;
 			newThread->SetName("CEThread_" + std::to_string(i));
 		}
