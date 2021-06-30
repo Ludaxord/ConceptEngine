@@ -341,6 +341,17 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	private:
 		void InternalClearState();
 
+		void FlushGpu() {
+			for (int i = 0; i < 3; i++) {
+				uint64_t fenceValueForSignal = ++FenceValue;
+				CommandQueue.GetQueue()->Signal(Fence.GetFence(), fenceValueForSignal);
+				if (Fence.GetFence()->GetCompletedValue() < FenceValue) {
+					Fence.GetFence()->SetEventOnCompletion(fenceValueForSignal, Fence.GetEvent());
+					WaitForSingleObject(Fence.GetEvent(), INFINITE);
+				}
+			}
+		}
+
 	private:
 		CEDXCommandListHandle CommandList;
 		CEDXFenceHandle Fence;

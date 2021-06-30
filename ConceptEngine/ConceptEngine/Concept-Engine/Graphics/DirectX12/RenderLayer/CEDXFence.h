@@ -44,6 +44,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return SUCCEEDED(result);
 		}
 
+		HANDLE GetEvent() {
+			return Event;
+		}
+
 		void SetName(const std::string& name) {
 			std::wstring wName = ConvertToWString(name);
 			Fence->SetName(wName.c_str());

@@ -1,6 +1,7 @@
 #include "CEWindowsThread.h"
 
 #include <condition_variable>
+#include <iostream>
 
 #include "../../../Common/CERef.h"
 
@@ -9,7 +10,7 @@
 #include "../../../../Utilities/CEStringUtilities.h"
 
 #ifdef _DEBUG
-    #define DBG_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define DBG_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #else
     #define DBG_NEW	new
 #endif

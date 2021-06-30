@@ -296,6 +296,8 @@ void CEDXCommandContext::Begin() {
 		return;
 	}
 
+	// FlushGpu();
+
 	InternalClearState();
 
 	if (!CommandList.Reset(CommandBatch->GetCommandAllocator())) {
