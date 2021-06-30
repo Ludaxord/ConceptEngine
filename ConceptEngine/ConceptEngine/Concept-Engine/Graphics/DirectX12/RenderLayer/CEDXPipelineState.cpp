@@ -236,8 +236,12 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXGraphicsPipelineState:
 }
 
 ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::CEDXComputePipelineState(CEDXDevice* device,
-	const CERef<CEDXComputeShader>& shader): CEComputePipelineState(), CEDXDeviceElement(device),
-	                                         PipelineState(nullptr), Shader(shader), RootSignature(nullptr) {
+	const CERef<CEDXComputeShader>& shader):    CEComputePipelineState(),
+												CEDXDeviceElement(device),
+	                                            PipelineState(nullptr),
+												Shader(shader),
+												RootSignature(nullptr) {
+	
 }
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::Create() {

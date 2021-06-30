@@ -97,7 +97,8 @@ namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
 		public:
 			CEGraphicsManager(): CEManager() {
 			};
-			~CEGraphicsManager() override = default;
+			
+			virtual ~CEGraphicsManager() override = default;
 
 			virtual bool Create() override {
 				return true;

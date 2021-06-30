@@ -10,7 +10,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			assert(Device != nullptr);
 		}
 
-		~CEDXDeviceElement() {
+		virtual ~CEDXDeviceElement() {
 			Device = nullptr;
 		}
 

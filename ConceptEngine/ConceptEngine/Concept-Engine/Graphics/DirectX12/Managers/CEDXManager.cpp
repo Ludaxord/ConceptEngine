@@ -57,29 +57,24 @@ inline bool DirectX12::Managers::IsTextureCube<DirectX12::RenderLayer::CEDXTextu
 	return true;
 }
 
-CEDXManager::CEDXManager(): CEGraphicsManager(), Device(nullptr), DirectCommandContext(nullptr),
+CEDXManager::CEDXManager(): CEGraphicsManager(),
+                            Device(nullptr),
+                            DirectCommandContext(nullptr),
                             RootSignatureCache(nullptr) {
 }
 
 CEDXManager::~CEDXManager() {
 	DirectCommandContext.Reset();
-	if (RootSignatureCache) {
-		delete RootSignatureCache;
-	}
-	if (ResourceOfflineDescriptorHeap) {
-		delete ResourceOfflineDescriptorHeap;
-	}
-	if (RenderTargetOfflineDescriptorHeap) {
-		delete RenderTargetOfflineDescriptorHeap;
-	}
-	if (DepthStencilOfflineDescriptorHeap) {
-		delete DepthStencilOfflineDescriptorHeap;
-	}
-	if (SamplerOfflineDescriptorHeap) {
-		delete SamplerOfflineDescriptorHeap;
-	}
 
-	delete Device;
+	SafeDelete(RootSignatureCache);
+
+	SafeDelete(ResourceOfflineDescriptorHeap);
+	SafeDelete(RenderTargetOfflineDescriptorHeap);
+	SafeDelete(DepthStencilOfflineDescriptorHeap);
+	SafeDelete(SamplerOfflineDescriptorHeap);
+	SafeDelete(SamplerOfflineDescriptorHeap);
+	SafeDelete(Device);
+
 }
 
 bool CEDXManager::Create() {
@@ -316,7 +311,7 @@ Main::RenderLayer::CERayTracingScene* CEDXManager::CreateRayTracingScene(
 		}
 	});
 
-	return nullptr;
+	return scene.ReleaseOwnership();
 }
 
 Main::RenderLayer::CERayTracingGeometry* CEDXManager::CreateRayTracingGeometry(
@@ -385,6 +380,8 @@ Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(
 		}
 		else {
 			desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMSARRAY;
+			desc.Texture2DMSArray.ArraySize = createInfo.Texture2DArray.NumArraySlices;
+			desc.Texture2DMSArray.FirstArraySlice = createInfo.Texture2DArray.ArraySlice;
 		}
 	}
 	else if (createInfo.Type == RenderLayer::CEShaderResourceViewCreateInfo::CEType::TextureCube) {
@@ -407,7 +404,8 @@ Main::RenderLayer::CEShaderResourceView* CEDXManager::CreateShaderResourceView(
 
 		Assert(texture->IsSRV() && createInfo.TextureCubeArray.Format != RenderLayer::CEFormat::Unknown);
 
-		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCubeArray.Format);
+		//TODO: Check if it is correct???
+		desc.Format = RenderLayer::ConvertFormat(createInfo.Texture2D.Format);
 		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBEARRAY;
 		desc.TextureCubeArray.MipLevels = createInfo.TextureCubeArray.NumMips;
 		desc.TextureCubeArray.MostDetailedMip = createInfo.TextureCubeArray.Mip;
@@ -495,7 +493,7 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 
 	RenderLayer::CEDXResource* resource = nullptr;
 	if (createInfo.Type == RenderLayer::CEUnorderedAccessViewCreateInfo::CEType::Texture2D) {
-		RenderLayer::CETexture2D* texture = nullptr;
+		RenderLayer::CETexture2D* texture = createInfo.Texture2D.Texture;
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();
 
@@ -529,7 +527,7 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 
 		desc.Format = RenderLayer::ConvertFormat(createInfo.TextureCube.Format);
 		desc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
-		desc.Texture2DArray.MipSlice = createInfo.Texture2DArray.Mip;
+		desc.Texture2DArray.MipSlice = createInfo.TextureCube.Mip;
 		desc.Texture2DArray.ArraySize = TEXTURE_CUBE_FACE_COUNT;
 		desc.Texture2DArray.FirstArraySlice = 0;
 		desc.Texture2DArray.PlaneSlice = 0;
@@ -608,12 +606,13 @@ Main::RenderLayer::CEUnorderedAccessView* CEDXManager::CreateUnorderedAccessView
 		desc.Buffer.StructureByteStride = buffer->GetStride();
 	}
 
-	Assert(resource != nullptr);
 	CERef<RenderLayer::CEDXUnorderedAccessView> dxView = new RenderLayer::CEDXUnorderedAccessView(
 		Device, ResourceOfflineDescriptorHeap);
 	if (!dxView->Create()) {
 		return nullptr;
 	}
+
+	Assert(resource != nullptr);
 
 	if (dxView->CreateView(nullptr, resource, desc)) {
 		return dxView.ReleaseOwnership();
@@ -652,7 +651,8 @@ Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(
 	else if (createInfo.Type == RenderLayer::CERenderTargetViewCreateInfo::CEType::Texture2DArray) {
 		RenderLayer::CETexture2DArray* texture = createInfo.Texture2DArray.Texture;
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
-
+		resource = dxTexture->GetResource();
+		
 		Assert(texture->IsRTV());
 
 		if (texture->IsMultiSampled()) {

@@ -76,7 +76,7 @@ bool CELightSetup::Create() {
 
 	ShadowCastingPointLightsPosRad.Reserve(8);
 	ShadowCastingPointLightsPosRadBuffer = CastGraphicsManager()->CreateConstantBuffer(
-		ShadowCastingPointLightsData.CapacityInBytes(),
+		ShadowCastingPointLightsPosRad.CapacityInBytes(),
 		RenderLayer::BufferFlag_Default,
 		RenderLayer::CEResourceState::VertexAndConstantBuffer,
 		nullptr

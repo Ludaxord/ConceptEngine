@@ -29,15 +29,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 	}
 
-	inline uint32 GetStrideFromIndexFormat(CEIndexFormat indexFormat) {
-		switch (indexFormat) {
-		case CEIndexFormat::uint16:
+	inline uint32 GetStrideFromIndexFormat(CEIndexFormat IndexFormat) {
+		if (IndexFormat == CEIndexFormat::uint16) {
 			return 2;
-		case CEIndexFormat::uint32:
+		}
+		else if (IndexFormat == CEIndexFormat::uint32) {
 			return 4;
-		case CEIndexFormat::Unknown:
-			return 0;
-		default:
+		}
+		else {
 			return 0;
 		}
 	}
