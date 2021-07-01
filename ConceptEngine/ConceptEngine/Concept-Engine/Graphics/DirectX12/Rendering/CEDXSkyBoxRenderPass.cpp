@@ -7,6 +7,8 @@
 #include "../../../Render/Scene/CEScene.h"
 #include "../../../Utilities/CEDirectoryUtilities.h"
 
+#include "../../Main/Common/CETextureData.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
 bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
@@ -53,6 +55,10 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	}
 
 	panorama->SetName(panoramaConfig.SourceFile);
+
+	if (!MainTextureData.PanoramaPSO) {
+		CE_LOG_ERROR("[CEDXSkyBoxRenderPass]: PanoramaPSO == nullptr BEFORE CreateTextureCubeFromPanorama");
+	}
 
 	resources.Skybox = Main::Managers::CETextureManager::CreateTextureCubeFromPanorama(
 		panorama.Get(), 1024, Main::Managers::TextureFlag_GenerateMips, CEFormat::R16G16B16A16_Float);

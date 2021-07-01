@@ -39,6 +39,7 @@ bool CEGraphics::CreateManagers() {
 	}
 
 	if (!TextureManager->Create()) {
+		CEPlatformActions::MessageBox("Error", "Failed to initialize Texture Manager");
 		return false;
 	}
 
@@ -66,7 +67,7 @@ bool CEGraphics::CreateManagers() {
 	if (!MeshManager->Create()) {
 		return false;
 	}
- 	
+
 	return true;
 }
 

@@ -198,6 +198,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			const uint32 num32BitConstantsInBytes = num32BitConstants * 4;
 			void* shader32BitConstantsMemory = CommandAllocator.Allocate(num32BitConstantsInBytes, 1);
 			Memory::CEMemory::Memcpy(shader32BitConstantsMemory, shader32BitConstants, num32BitConstantsInBytes);
+
+			SafeAddRef(shader);
+			InsertCommand<
+				CESet32BitShaderConstantsRenderCommand>(shader, shader32BitConstantsMemory, num32BitConstants);
 		}
 
 		void SetShaderResourceView(CEShader* shader, CEShaderResourceView* shaderResourceView, uint32 parameterIndex) {
@@ -262,7 +266,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					tempConstantBuffers[i]->AddRef();
 				}
 			}
-			
+
 			SafeAddRef(shader);
 			InsertCommand<CESetConstantBuffersRenderCommand>(shader, tempConstantBuffers, numConstantBuffers,
 			                                                 parameterIndex);
@@ -284,7 +288,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 					tempSamplerStates[i]->AddRef();
 				}
 			}
-			
+
 			SafeAddRef(shader);
 			InsertCommand<CESetSamplerStatesRenderCommand>(shader, tempSamplerStates, numSamplerStates, parameterIndex);
 		}
@@ -318,21 +322,21 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void CopyBuffer(CEBuffer* destination, CEBuffer* source, const CECopyBufferInfo& copyInfo) {
 			SafeAddRef(destination);
 			SafeAddRef(source);
-			
+
 			InsertCommand<CECopyBufferRenderCommand>(destination, source, copyInfo);
 		}
 
 		void CopyTexture(CETexture* destination, CETexture* source) {
 			SafeAddRef(destination);
 			SafeAddRef(source);
-			
+
 			InsertCommand<CECopyTextureRenderCommand>(destination, source);
 		}
 
 		void CopyTextureRegion(CETexture* destination, CETexture* source, const CECopyTextureInfo& copyTextureInfo) {
 			SafeAddRef(destination);
 			SafeAddRef(source);
-			
+
 			InsertCommand<CECopyTextureRegionRenderCommand>(destination, source, copyTextureInfo);
 		}
 

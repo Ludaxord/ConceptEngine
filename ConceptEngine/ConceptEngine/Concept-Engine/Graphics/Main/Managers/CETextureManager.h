@@ -12,14 +12,6 @@
 
 namespace ConceptEngine::Graphics::Main {
 
-	struct CETextureData {
-		CERef<RenderLayer::CEComputePipelineState> PanoramaPSO;
-		CERef<RenderLayer::CEComputeShader> ComputeShader;
-		RenderLayer::CECommandList CommandList;
-	};
-
-	static CETextureData MainTextureData;
-
 	namespace Managers {
 
 		enum CETextureFlags : uint32 {

@@ -215,6 +215,7 @@
     <ClInclude Include="Core\Platform\Windows\Time\CEWindowsTime.h" />
     <ClInclude Include="Core\Platform\Generic\Time\CEGenericTime.h" />
     <ClInclude Include="Utilities\CEDirectoryUtilities.h" />
+    <ClInclude Include="Graphics\Main\Common\CETextureData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />

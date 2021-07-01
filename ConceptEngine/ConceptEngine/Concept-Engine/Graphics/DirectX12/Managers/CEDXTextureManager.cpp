@@ -12,6 +12,8 @@
 
 #include "../../../Utilities/CEDirectoryUtilities.h"
 
+#include "../../Main/Common/CETextureData.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::Managers;
 
 CEDXTextureManager::CEDXTextureManager() : CETextureManager() {
@@ -22,7 +24,8 @@ CEDXTextureManager::~CEDXTextureManager() {
 
 bool CEDXTextureManager::Create() {
 	CEArray<uint8> code;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/CubeMapGen.hlsl"), "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/CubeMapGen.hlsl"), "Main",
+	                                     nullptr,
 	                                     RenderLayer::CEShaderStage::Compute, RenderLayer::CEShaderModel::SM_6_0,
 	                                     code)) {
 		CEDebug::DebugBreak();
@@ -30,24 +33,25 @@ bool CEDXTextureManager::Create() {
 	}
 
 
-	Main::MainTextureData.ComputeShader = CastGraphicsManager()->CreateComputeShader(code);
+	MainTextureData.ComputeShader = CastGraphicsManager()->CreateComputeShader(code);
 
-	if (!Main::MainTextureData.ComputeShader) {
+	if (!MainTextureData.ComputeShader) {
 		CEDebug::DebugBreak();
 		return false;
 	}
 
-	Main::MainTextureData.PanoramaPSO = CastGraphicsManager()->CreateComputePipelineState(
+	MainTextureData.PanoramaPSO = CastGraphicsManager()->CreateComputePipelineState(
 		RenderLayer::CEComputePipelineStateCreateInfo(
-			Main::MainTextureData.ComputeShader.Get()
+			MainTextureData.ComputeShader.Get()
 		)
 	);
 
-	if (Main::MainTextureData.PanoramaPSO) {
-		Main::MainTextureData.PanoramaPSO->SetName("Generate Cube Map Root Signature");
-		return true;
+	if (!MainTextureData.PanoramaPSO) {
+		CE_LOG_ERROR("[CEDXTextureManager]: Failed to create PanoramaPSO");
+		return false;
 	}
 
-	return false;
+	MainTextureData.PanoramaPSO->SetName("Generate Cube Map Root Signature");
 
+	return true;
 }

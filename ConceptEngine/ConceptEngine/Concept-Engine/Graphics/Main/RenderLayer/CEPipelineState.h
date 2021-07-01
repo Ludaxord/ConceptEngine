@@ -24,7 +24,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 		
 		virtual void DebugMessage() override {
-			CE_LOG_VERBOSE("[CEPipelineState]: Releasing Compute Pipeline State: " + GetName());
+			// CE_LOG_VERBOSE("[CEPipelineState]: Releasing Compute Pipeline State: " + GetName());
 		}
 	};
 

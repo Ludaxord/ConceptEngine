@@ -154,6 +154,7 @@
     <ClInclude Include="Graphics\Main\Common\CEMaterial.h" />
     <ClInclude Include="Graphics\Main\Common\CEMesh.h" />
     <ClInclude Include="Graphics\Main\Common\CEPlayground.h" />
+    <ClInclude Include="Graphics\Main\Common\CETextureData.h" />
     <ClInclude Include="Graphics\Main\Common\CETransform.h" />
     <ClInclude Include="Graphics\Main\Managers\CEMeshManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />

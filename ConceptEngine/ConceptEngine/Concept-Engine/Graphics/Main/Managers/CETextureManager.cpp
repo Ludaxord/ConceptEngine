@@ -11,14 +11,15 @@
 
 #include "CEGraphicsManager.h"
 
-#include "../../../Core/Application/CECore.h"
-
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
 #include "../../../Core/Containers/CEUniquePtr.h"
 
+#include "../Common/CETextureData.h"
+
 using namespace ConceptEngine::Graphics::Main::Managers;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
+
 
 CETextureManager::CETextureManager(): CEManager() {
 }
@@ -27,6 +28,7 @@ CETextureManager::~CETextureManager() {
 }
 
 void CETextureManager::Release() {
+	CE_LOG_DEBUG("[CETextureManager]: Releasing...")
 	MainTextureData.PanoramaPSO.Reset();
 	MainTextureData.ComputeShader.Reset();
 }
@@ -121,7 +123,13 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 	const uint16 numMips = (generateNumMips) ? static_cast<uint16>(std::log2(cubeMapSize)) : 1U;
 
 	CERef<CETextureCube> stagingTexture = CastGraphicsManager()->CreateTextureCube(
-		format, cubeMapSize, numMips, TextureFlag_UAV, CEResourceState::Common, nullptr);
+		format,
+		cubeMapSize,
+		numMips,
+		TextureFlag_UAV,
+		CEResourceState::Common,
+		nullptr
+	);
 
 	if (!stagingTexture) {
 		return nullptr;
