@@ -284,12 +284,12 @@ void CEDXRootSignatureDescHelper::Init32BitConstantRange(
 }
 
 CEDXRootSignature::CEDXRootSignature(CEDXDevice* device): CEDXDeviceElement(device), RootSignature(nullptr),
-                                                          RootParameterMap{},
+                                                          RootParameterMap(),
                                                           ConstantRootParameterIndex(-1) {
 	constexpr uint32 numElements = sizeof(RootParameterMap) / sizeof(uint32);
 	int32* ptr = reinterpret_cast<int32*>(&RootParameterMap);
 	for (uint32 i = 0; i < numElements; i++) {
-		*(ptr) = -1;
+		*(ptr++) = -1;
 	}
 }
 
@@ -302,8 +302,6 @@ bool CEDXRootSignature::Create(const D3D12_ROOT_SIGNATURE_DESC& desc) {
 	Microsoft::WRL::ComPtr<ID3DBlob> signatureBlob;
 	if (!Serialize(desc, &signatureBlob)) {
 		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Serialize From Root Signature Desc")
-		//TEST
-		// CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -318,8 +316,7 @@ bool CEDXRootSignature::Create(const void* blobWithRootSignature, uint64 blobLen
 		blobWithRootSignature, blobLengthInBytes, IID_PPV_ARGS(&deserializer));
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Retrive Root Signature Desc");
-		//TEST
-		// CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -339,6 +336,7 @@ bool CEDXRootSignature::Create(const void* blobWithRootSignature, uint64 blobLen
 	                                           IID_PPV_ARGS(&RootSignature));
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXRootSignature]: Failed to Create Root Signature");
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -382,6 +380,7 @@ bool CEDXRootSignature::InternalCreate(const void* blobWithRootSignature, uint64
 	                                                   IID_PPV_ARGS(&RootSignature));
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXRootSignature]: Failed to create Root Signature");
+		CEDebug::DebugBreak();
 		return false;
 	}
 

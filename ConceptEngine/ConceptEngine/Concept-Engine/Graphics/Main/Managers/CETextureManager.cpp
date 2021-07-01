@@ -155,9 +155,11 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 	CECommandList& commandList = MainTextureData.CommandList;
 	commandList.Execute(
 		[&commandList,&panoramaSource, &stagingTexture, &cubeMapSize, &stagingTextureUAV, &texture, &generateNumMips] {
-			commandList.TransitionTexture(panoramaSource, CEResourceState::PixelShaderResource,
+			commandList.TransitionTexture(panoramaSource,
+			                              CEResourceState::PixelShaderResource,
 			                              CEResourceState::NonPixelShaderResource);
-			commandList.TransitionTexture(stagingTexture.Get(), CEResourceState::Common,
+			commandList.TransitionTexture(stagingTexture.Get(),
+			                              CEResourceState::Common,
 			                              CEResourceState::UnorderedAccess);
 
 			commandList.SetComputePipelineState(MainTextureData.PanoramaPSO.Get());
