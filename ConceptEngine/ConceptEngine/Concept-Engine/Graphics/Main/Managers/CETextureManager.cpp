@@ -15,6 +15,8 @@
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
+#include "../../../Core/Containers/CEUniquePtr.h"
+
 using namespace ConceptEngine::Graphics::Main::Managers;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 
@@ -34,18 +36,16 @@ CETexture2D* CETextureManager::LoadFromFile(const std::string& filePath, uint32 
 	int32 height = 0;
 	int32 channelCount = 0;
 
-	std::unique_ptr<uint8> pixels;
+	CEUniquePtr<uint8> pixels;
 	if (format == CEFormat::R8G8B8A8_Unorm) {
-		pixels = std::make_unique<uint8>(
-			reinterpret_cast<uint8>(stbi_load(filePath.c_str(), &width, &height, &channelCount, 4)));
+		pixels = CEUniquePtr<uint8>(stbi_load(filePath.c_str(), &width, &height, &channelCount, 4));
 	}
 	else if (format == CEFormat::R8_Unorm) {
-		pixels = std::make_unique<uint8>(
-			reinterpret_cast<uint8>(stbi_load(filePath.c_str(), &width, &height, &channelCount, 1)));
+		pixels = CEUniquePtr<uint8>(stbi_load(filePath.c_str(), &width, &height, &channelCount, 1));
 	}
 	else if (format == CEFormat::R32G32B32A32_Float) {
-		pixels = std::make_unique<uint8>(
-			reinterpret_cast<uint8>(stbi_loadf(filePath.c_str(), &width, &height, &channelCount, 4)));
+		pixels = CEUniquePtr<uint8>(
+			reinterpret_cast<uint8*>(stbi_loadf(filePath.c_str(), &width, &height, &channelCount, 4)));
 	}
 	else {
 		CE_LOG_ERROR("[CETextureManager]: Format not supported");
@@ -59,7 +59,7 @@ CETexture2D* CETextureManager::LoadFromFile(const std::string& filePath, uint32 
 
 	CE_LOG_INFO("[CETexutreManager]: Loaded image from file path: '" + filePath + "'");
 
-	return LoadFromMemory(pixels.get(), width, height, flags, format);
+	return LoadFromMemory(pixels.Get(), width, height, flags, format);
 }
 
 CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width, uint32 height, uint32 createFlags,
@@ -70,7 +70,7 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 	}
 
 	const bool generateMips = createFlags & TextureFlag_GenerateMips;
-    const uint32 NumMips    = generateMips ? uint32(std::min(std::log2(width), std::log2(height))) : 1;
+	const uint32 NumMips = generateMips ? uint32(std::min(std::log2(width), std::log2(height))) : 1;
 
 	Assert(NumMips != 0);
 
@@ -81,13 +81,13 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 
 	CEResourceData initialData = CEResourceData(pixels, format, width);
 	CERef<CETexture2D> texture = CastGraphicsManager()->CreateTexture2D(format,
-	                   width,
-	                   height,
-	                   NumMips,
-	                   1,
-	                   TextureFlag_SRV,
-	                   CEResourceState::PixelShaderResource,
-	                   &initialData);
+	                                                                    width,
+	                                                                    height,
+	                                                                    NumMips,
+	                                                                    1,
+	                                                                    TextureFlag_SRV,
+	                                                                    CEResourceState::PixelShaderResource,
+	                                                                    &initialData);
 
 	if (!texture) {
 		return nullptr;
@@ -120,7 +120,8 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 	const bool generateNumMips = flags & TextureFlag_GenerateMips;
 	const uint16 numMips = (generateNumMips) ? static_cast<uint16>(std::log2(cubeMapSize)) : 1U;
 
-	CERef<CETextureCube> stagingTexture = CastGraphicsManager()->CreateTextureCube(format, cubeMapSize, numMips, TextureFlag_UAV, CEResourceState::Common, nullptr);
+	CERef<CETextureCube> stagingTexture = CastGraphicsManager()->CreateTextureCube(
+		format, cubeMapSize, numMips, TextureFlag_UAV, CEResourceState::Common, nullptr);
 
 	if (!stagingTexture) {
 		return nullptr;
@@ -128,7 +129,8 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 
 	stagingTexture->SetName("TextureCube from panorama staging texture");
 
-	CERef<CEUnorderedAccessView> stagingTextureUAV = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(stagingTexture.Get(), format, 0);
+	CERef<CEUnorderedAccessView> stagingTextureUAV = CastGraphicsManager()->CreateUnorderedAccessViewForTextureCube(
+		stagingTexture.Get(), format, 0);
 
 	if (!stagingTextureUAV) {
 		return nullptr;
@@ -136,7 +138,8 @@ CETextureCube* CETextureManager::CreateTextureCubeFromPanorama(CETexture2D* pano
 
 	stagingTexture->SetName("Texture Cube from Panorama staging texture Unordered Access View");
 
-	CERef<CETextureCube> texture = CastGraphicsManager()->CreateTextureCube(format, cubeMapSize, numMips, TextureFlag_SRV, CEResourceState::Common, nullptr);
+	CERef<CETextureCube> texture = CastGraphicsManager()->CreateTextureCube(
+		format, cubeMapSize, numMips, TextureFlag_SRV, CEResourceState::Common, nullptr);
 	if (!texture) {
 		return nullptr;
 	}

@@ -14,21 +14,23 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	SkyboxMesh = CastMeshManager()->CreateSphere(1);
 
 	CEResourceData vertexData = CEResourceData(SkyboxMesh.Vertices.Data(), SkyboxMesh.Vertices.SizeInBytes());
-	SkyboxVertexBuffer = CastGraphicsManager()->CreateVertexBuffer<Main::CEVertex>(
-		SkyboxMesh.Vertices.Size(), RenderLayer::BufferFlag_Upload,
-		RenderLayer::CEResourceState::VertexAndConstantBuffer, &vertexData);
+
+	SkyboxVertexBuffer = CastGraphicsManager()->
+		CreateVertexBuffer<Main::CEVertex>(SkyboxMesh.Vertices.Size(),
+		                                   BufferFlag_Upload,
+		                                   CEResourceState::VertexAndConstantBuffer,
+		                                   &vertexData);
 	if (!SkyboxVertexBuffer) {
 		return false;
 	}
 
 	SkyboxVertexBuffer->SetName("Skybox Vertex Buffer");
 
-	RenderLayer::CEResourceData indexData = RenderLayer::CEResourceData(SkyboxMesh.Indices.Data(),
-	                                                                    SkyboxMesh.Indices.SizeInBytes());
-	SkyboxIndexBuffer = CastGraphicsManager()->CreateIndexBuffer(RenderLayer::CEIndexFormat::uint32,
+	CEResourceData indexData = CEResourceData(SkyboxMesh.Indices.Data(), SkyboxMesh.Indices.SizeInBytes());
+	SkyboxIndexBuffer = CastGraphicsManager()->CreateIndexBuffer(CEIndexFormat::uint32,
 	                                                             SkyboxMesh.Indices.Size(),
-	                                                             RenderLayer::BufferFlag_Upload,
-	                                                             RenderLayer::CEResourceState::VertexAndConstantBuffer,
+	                                                             BufferFlag_Upload,
+	                                                             CEResourceState::VertexAndConstantBuffer,
 	                                                             &indexData);
 	if (!SkyboxIndexBuffer) {
 		return false;
@@ -40,8 +42,12 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 		return false;
 	}
 
-	CERef panorama = Main::Managers::CETextureManager::LoadFromFile(
-			panoramaConfig.SourceFile, 0, RenderLayer::CEFormat::R32G32B32A32_Float);
+	CERef<CETexture2D> panorama = Main::Managers::CETextureManager::LoadFromFile(
+		panoramaConfig.SourceFile,
+		0,
+		CEFormat::R32G32B32A32_Float
+	);
+	
 	if (!panorama) {
 		return false;
 	}
@@ -70,7 +76,8 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	}
 
 	CEArray<uint8> shaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Skybox.hlsl"), "VSMain", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Skybox.hlsl"), "VSMain",
+	                                     nullptr,
 	                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 	                                     shaderCode)) {
 		CEDebug::DebugBreak();
@@ -85,7 +92,8 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	SkyboxVertexShader->SetName("Skybox Vertex Shader");
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Skybox.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Skybox.hlsl"), "PSMain",
+	                                     nullptr, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
