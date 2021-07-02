@@ -678,27 +678,6 @@ void CEDXCommandContext::SetComputePipelineState(CEComputePipelineState* pipelin
 
 	CEDXRootSignature* DxRootSignature = DxPipelineState->GetRootSignature();
 
-	try {
-		CE_LOG_VERBOSE(
-			"[CEDXCommandContext] DxRootSignature Get32BitContantsIndex: " + std::to_string(
-				DxRootSignature->Get32BitContantsIndex()
-			)
-		);
-		try {
-			CE_LOG_DEBUG(
-				"[CEDXCommandContext] CurrentRootSignature Get32BitContantsIndex: " + std::to_string(
-					DxRootSignature->Get32BitContantsIndex()
-				)
-			);
-		}
-		catch (std::exception e) {
-
-		}
-	}
-	catch (std::exception e) {
-
-	}
-
 	if (DxRootSignature != CurrentRootSignature.Get()) {
 		CurrentRootSignature = MakeSharedRef<CEDXRootSignature>(DxRootSignature);
 		CommandList.SetComputeRootSignature(CurrentRootSignature.Get());

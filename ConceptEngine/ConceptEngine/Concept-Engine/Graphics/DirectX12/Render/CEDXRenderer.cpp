@@ -181,6 +181,9 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	//TODO: Global note: Error when getting/creating root signatures for any type. Investigate bug
+	//TODO: Fix problem with disapearing of objects, possible cause: resource tracker has a bug
+
 	//Comment TEST TODO: Uncomment when issue is fixed
 	// if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
 	// 	CEDebug::DebugBreak();
@@ -212,6 +215,10 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	if (!LightSetup.IrradianceMap) {
+		CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after Pointer pass")
+	}
+
 	SkyBoxRenderPass = new Rendering::CEDXSkyBoxRenderPass();
 
 	if (!SkyBoxRenderPass) {
@@ -222,10 +229,11 @@ bool CEDXRenderer::Create() {
 	//TODO: make property to edit in editor and load if from file!!!!
 	auto panoConf = Main::Rendering::CEPanoramaConfig{GetEngineSourceDirectory("Assets/Textures/arches.hdr"), true};
 
-	if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
-		CEDebug::DebugBreak();
-		return false;
-	}
+	//Comment TEST TODO: Uncomment when issue is fixed
+	// if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
+	// 	CEDebug::DebugBreak();
+	// 	return false;
+	// }
 
 	ForwardRenderer = new Rendering::CEDXForwardRenderer();
 
@@ -238,6 +246,10 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	if (!LightSetup.IrradianceMap) {
+		CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after Forward Renderer created")
+	}
+
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
 		RayTracer = new Rendering::CEDXRayTracer();
 
@@ -245,16 +257,26 @@ bool CEDXRenderer::Create() {
 			CEDebug::DebugBreak();
 			return false;
 		}
-		if (!RayTracer->Create(Resources)) {
-			CEDebug::DebugBreak();
-			return false;
+		//Comment TEST TODO: Uncomment when issue is fixed
+		// if (!RayTracer->Create(Resources)) {
+		// 	CEDebug::DebugBreak();
+		// 	return false;
+		// }
+
+		if (!LightSetup.IrradianceMap) {
+			CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after RayTracer created")
 		}
 	}
 
 	using namespace std::placeholders;
-	CommandList.Execute([this] {
-		LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
-	});
+	// CommandList.Execute([this] {
+	CommandList.Begin();
+	if (!LightSetup.IrradianceMap) {
+		CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after Command Begin")
+	}
+	LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
+	CommandList.End();
+	// });
 
 	CommandListExecutor.ExecuteCommandList(CommandList);
 

@@ -15,7 +15,7 @@ SamplerState TextureSampler : register(s1, space0);
 StructuredBuffer<Vertex> Vertices : register(t0, D3D12_SHADER_REGISTER_SPACE_RT_LOCAL);
 ByteAddressBuffer Indices : register(t1, D3D12_SHADER_REGISTER_SPACE_RT_LOCAL);
 
-[shader("closestHit")]
+[shader("closesthit")]
 void ClosestHit(inout RayPayload payload, in BuiltInTriangleIntersectionAttributes intersectionAttributes) {
 	payload.Color = float3(1.0f, 0.0f, 0.0f);
 	payload.CurrentDepth = payload.CurrentDepth + 1;
@@ -59,7 +59,8 @@ void ClosestHit(inout RayPayload payload, in BuiltInTriangleIntersectionAttribut
 		triangleTexCoords[2] * barycentricCoords.z);
 	texCoords.y = 1.0f - texCoords.y;
 
-	float3 tangent = (triangleTangent[0] * barycentricCoords.x) + (triangleTangent[1] * barycentricCoords.y) + (triangleTangent[2] * barycentricCoords.z);
+	float3 tangent = (triangleTangent[0] * barycentricCoords.x) + (triangleTangent[1] * barycentricCoords.y) + (
+		triangleTangent[2] * barycentricCoords.z);
 	tangent = normalize(tangent);
 
 	uint textureIndex = InstanceID();
@@ -70,10 +71,10 @@ void ClosestHit(inout RayPayload payload, in BuiltInTriangleIntersectionAttribut
 	mappedNormal = UnpackNormal(mappedNormal);
 
 	float3 bitangent = normalize(cross(normal, tangent));
-	normal = ApplyNormalMapping(mappedNormal, normal);
+	normal = ApplyNormalMapping(mappedNormal, normal, tangent, bitangent);
 
 	float LOD = (min(RayTCurrent(), 1000.0f) / 1000.0f) * 15.0f;
-	float AlbedoColor = ApplyGamma(MaterialTextures[albedoIndex].SampleLevel(TextureSampler, texCoords, LOD).rgb);
+	float3 AlbedoColor = ApplyGamma(MaterialTextures[albedoIndex].SampleLevel(TextureSampler, texCoords, LOD).rgb);
 
 	const float3 HitPosition = WorldHitPosition();
 	const float3 LightDirection = normalize(float3(0.0f, 1.0f, 0.0f));
@@ -84,11 +85,11 @@ void ClosestHit(inout RayPayload payload, in BuiltInTriangleIntersectionAttribut
 	const float SampledRoughness = 1.0f;
 	const float finalRoughness = min(max(SampledRoughness, MIN_ROUGHNESS), MAX_ROUGHNESS);
 
-	float F0 = Float3(0.04f);
+	float3 F0 = Float3(0.04f);
 	F0 = lerp(F0, AlbedoColor, SampledMetallic);
 
 	float3 IncidentRadiance = Float3(10.0f);
-	float L0 = DirectRadiance(F0,
+	float3 L0 = DirectRadiance(F0,
 	                          normal,
 	                          ViewDirection,
 	                          LightDirection,

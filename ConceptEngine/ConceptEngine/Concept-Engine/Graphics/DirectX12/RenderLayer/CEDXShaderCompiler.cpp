@@ -343,14 +343,8 @@ bool CEDXShaderCompiler::CompileFromFile(const std::string& filePath, const std:
 	HRESULT hResult = DXLibrary->CreateBlobFromFile(wFilePath.c_str(), nullptr, &sourceBlob);
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to create Source data. Output: " + HResultToString(hResult));
-
 		return false;
 	}
-
-	// if (!ValidateShader(sourceBlob.Get())) {
-	// 	CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to Validate Shader");
-	// 	return false;
-	// }
 
 	return InternalCompileFromSource(sourceBlob.Get(), wFilePath.c_str(), wEntryPoint.c_str(), shaderStage, shaderModel,
 	                                 defines, code);
@@ -516,12 +510,6 @@ bool CEDXShaderCompiler::InternalCompileFromSource(IDxcBlob* sourceBlob, LPCWSTR
 		CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to retrive result. Unknown error");
 	}
 
-
-	// if (!ValidateShader(sourceBlob)) {
-	// 	CE_LOG_ERROR("[CEDXShaderCompiler]: Failed to Validate Shader In Internal Compile From Source");
-	// 	return false;
-	// }
-
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlob;
 	Microsoft::WRL::ComPtr<IDxcBlobEncoding> printBlobUtf8;
 	if (SUCCEEDED(result->GetErrorBuffer(&printBlob))) {
@@ -636,5 +624,5 @@ bool CEDXShaderCompiler::ValidateRayTracingShader(const ComPtr<IDxcBlob>& shader
 		return false;
 	}
 
-	return false;
+	return true;
 }

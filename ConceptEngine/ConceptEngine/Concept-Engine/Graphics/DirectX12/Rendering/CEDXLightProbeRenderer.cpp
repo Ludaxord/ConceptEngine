@@ -161,6 +161,10 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 		return false;
 	}
 
+	if (!lightSetup.IrradianceMap) {
+		CE_LOG_ERROR("[CEDXLightProbeRenderer]: Irradiance Map Is Released!!!")
+	}
+
 	const uint16 specularIrradianceSize = 128;
 	const uint16 specularIrradianceMipLevels = uint16(std::max(std::log2(specularIrradianceSize), 1.0));
 	lightSetup.SpecularIrradianceMap = CastGraphicsManager()->CreateTextureCube(

@@ -175,7 +175,7 @@ float4 PSMain(PSInput Input) : SV_Target0 {
 	texCoords.y = 1.0f - texCoords.y;
 
 #ifdef PARALLAX_MAPPING_ENABLED
-	if (MaterialBuffer.EnableWeight != 0) {
+    if (MaterialBuffer.EnableHeight != 0) {
 		float3 viewDir = normalize(Input.TangentViewPos - Input.TangentPosition);
 		texCoords = ParallaxMapping(texCoords, viewDir);
 		if (texCoords.x > 1.0f || texCoords.y > 1.0f || texCoords.x < 0.0f || texCoords.y < 0.0f) {
@@ -187,7 +187,7 @@ float4 PSMain(PSInput Input) : SV_Target0 {
 	float3 SampledAlbedo = ApplyGamma(AlbedoTexture.Sample(MaterialSampler, texCoords).rgb) * MaterialBuffer.Albedo;
 
 	const float3 WorldPosition = Input.WorldPosition;
-	const float V = normalize(CameraBuffer.Position - WorldPosition);
+	const float3 V = normalize(CameraBuffer.Position - WorldPosition);
 	float3 N = normalize(Input.Normal);
 	if (!Input.IsFrontFace) {
 		N = -N;

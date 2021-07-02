@@ -142,6 +142,7 @@ bool CEDXBaseComputeShader::Create() {
 
 	D3D12_SHADER_DESC shaderDesc;
 	if (FAILED(reflection->GetDesc(&shaderDesc))) {
+		CE_LOG_ERROR("[CEDXBaseComputeShader]: Error in Get Desc");
 		return false;
 	}
 

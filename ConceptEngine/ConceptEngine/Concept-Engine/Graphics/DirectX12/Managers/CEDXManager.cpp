@@ -87,7 +87,7 @@ bool CEDXManager::Create() {
 
 	bool DREDOn =
 #if ENABLE_API_GPU_BREADCRUMBS
-        Core::Application::CECore::EnableDebug;
+		Core::Application::CECore::EnableDebug;
 #else
 		false;
 #endif
@@ -651,7 +651,7 @@ Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(
 		RenderLayer::CETexture2DArray* texture = createInfo.Texture2DArray.Texture;
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();
-		
+
 		Assert(texture->IsRTV());
 
 		if (texture->IsMultiSampled()) {
@@ -806,17 +806,17 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 	return nullptr;
 }
 
-Main::RenderLayer::CEComputeShader*
-CEDXManager::CreateComputeShader(const CEArray<uint8>& shaderCode) {
+CEComputeShader* CEDXManager::CreateComputeShader(const CEArray<uint8>& shaderCode) {
 	CERef<RenderLayer::CEDXComputeShader> shader = new RenderLayer::CEDXComputeShader(Device, shaderCode);
 	if (!shader->Create()) {
+		CE_LOG_ERROR("[CEDXManager] Failed to Create Compute Shader...")
 		return nullptr;
 	}
 
 	return shader.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEVertexShader* CEDXManager::CreateVertexShader(const CEArray<uint8>& shaderCode) {
+CEVertexShader* CEDXManager::CreateVertexShader(const CEArray<uint8>& shaderCode) {
 	CERef<RenderLayer::CEDXVertexShader> shader = new RenderLayer::CEDXVertexShader(Device, shaderCode);
 	if (!RenderLayer::CEDXBaseShader::GetShaderReflection(shader.Get())) {
 		return nullptr;
