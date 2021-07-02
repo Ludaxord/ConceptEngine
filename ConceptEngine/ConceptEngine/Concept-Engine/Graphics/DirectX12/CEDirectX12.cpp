@@ -46,27 +46,22 @@ bool CEDirectX12::CreateManagers() {
 }
 
 bool CEDirectX12::CreateGraphicsManager() {
-	auto manager = new Managers::CEDXManager();
-	GraphicsManager = manager;
-
+	GraphicsManager = new Managers::CEDXManager();
 	return true;
 }
 
 bool CEDirectX12::CreateTextureManager() {
-	auto manager = new Managers::CEDXTextureManager();
-	TextureManager = manager;
+	TextureManager = new Managers::CEDXTextureManager();
 	return true;
 }
 
 bool CEDirectX12::CreateRendererManager() {
-	auto manager = new Managers::CEDXRendererManager();
-	RendererManager = manager;
+	RendererManager = new Managers::CEDXRendererManager();
 	return true;
 }
 
 bool CEDirectX12::CreateDebugUi() {
-	auto debugUi = std::make_unique<Rendering::CEDXDebugUI>();
-	DebugUI = std::move(debugUi);
+	DebugUI = std::make_unique<Rendering::CEDXDebugUI>();
 	return true;
 }
 
@@ -83,8 +78,7 @@ bool CEDirectX12::CreateShaderCompiler() {
 }
 
 bool CEDirectX12::CreateMeshManager() {
-	auto meshManager = new Managers::CEDXMeshManager();
-	MeshManager = meshManager;
+	MeshManager = new Managers::CEDXMeshManager();
 	return true;
 }
 
