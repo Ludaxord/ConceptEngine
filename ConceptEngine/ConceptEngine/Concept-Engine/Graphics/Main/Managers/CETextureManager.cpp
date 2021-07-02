@@ -17,6 +17,8 @@
 
 #include "../Common/CETextureData.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::Main::Managers;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 
@@ -92,6 +94,7 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 	                                                                    &initialData);
 
 	if (!texture) {
+		CEDebug::DebugBreak();
 		return nullptr;
 	}
 

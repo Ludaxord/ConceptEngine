@@ -669,15 +669,38 @@ void CEDXCommandContext::SetGraphicsPipelineState(CEGraphicsPipelineState* pipel
 
 void CEDXCommandContext::SetComputePipelineState(CEComputePipelineState* pipelineState) {
 	Assert(pipelineState != nullptr);
-	CEDXComputePipelineState* dxPipelineState = static_cast<CEDXComputePipelineState*>(pipelineState);
-	if (dxPipelineState != CurrentComputePipelineState.Get()) {
-		CurrentComputePipelineState = MakeSharedRef<CEDXComputePipelineState>(dxPipelineState);
+
+	CEDXComputePipelineState* DxPipelineState = static_cast<CEDXComputePipelineState*>(pipelineState);
+	if (DxPipelineState != CurrentComputePipelineState.Get()) {
+		CurrentComputePipelineState = MakeSharedRef<CEDXComputePipelineState>(DxPipelineState);
 		CommandList.SetPipelineState(CurrentComputePipelineState->GetPipeline());
 	}
 
-	CEDXRootSignature* dxRootSignature = dxPipelineState->GetRootSignature();
-	if (dxRootSignature != CurrentRootSignature.Get()) {
-		CurrentRootSignature = MakeSharedRef<CEDXRootSignature>(dxRootSignature);
+	CEDXRootSignature* DxRootSignature = DxPipelineState->GetRootSignature();
+
+	try {
+		CE_LOG_VERBOSE(
+			"[CEDXCommandContext] DxRootSignature Get32BitContantsIndex: " + std::to_string(
+				DxRootSignature->Get32BitContantsIndex()
+			)
+		);
+		try {
+			CE_LOG_DEBUG(
+				"[CEDXCommandContext] CurrentRootSignature Get32BitContantsIndex: " + std::to_string(
+					DxRootSignature->Get32BitContantsIndex()
+				)
+			);
+		}
+		catch (std::exception e) {
+
+		}
+	}
+	catch (std::exception e) {
+
+	}
+
+	if (DxRootSignature != CurrentRootSignature.Get()) {
+		CurrentRootSignature = MakeSharedRef<CEDXRootSignature>(DxRootSignature);
 		CommandList.SetComputeRootSignature(CurrentRootSignature.Get());
 	}
 }
@@ -996,9 +1019,7 @@ void CEDXCommandContext::GenerateMips(CETexture* texture) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to create StagingTexture for GenerateMips");
 		return;
 	}
-	else {
-		stagingTexture->SetName("GenerateMips StagingTexture");
-	}
+	stagingTexture->SetName("GenerateMips StagingTexture");
 
 	const bool isTextureCube = texture->AsTextureCube();
 

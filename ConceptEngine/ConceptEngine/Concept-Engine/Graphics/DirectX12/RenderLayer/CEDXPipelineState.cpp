@@ -267,14 +267,16 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXComputePipelineState::
 		CEDXRootSignatureResourceCount resourceCounts;
 		resourceCounts.Type = CERootSignatureType::Compute;
 		resourceCounts.AllowInputAssembler = false;
-		resourceCounts.ResourceCounts[ShaderVisibility_All]= Shader->GetResourceCount();
+		resourceCounts.ResourceCounts[ShaderVisibility_All] = Shader->GetResourceCount();
 
 		RootSignature = CEDXRootSignatureCache::Get().GetRootSignature(resourceCounts);
 	} else {
+		CE_LOG_DEBUG("[CEDXComputePipelineState]: Does Not have Root Signature");
 		D3D12_SHADER_BYTECODE byteCode = Shader->GetByteCode();
 		
 		RootSignature = new CEDXRootSignature(GetDevice());
 		if (!RootSignature->Create(byteCode.pShaderBytecode, byteCode.BytecodeLength)) {
+			CE_LOG_ERROR("[CEDXComputePipelineState]: Failed to create Root Signature");
 			return false;
 		}
 

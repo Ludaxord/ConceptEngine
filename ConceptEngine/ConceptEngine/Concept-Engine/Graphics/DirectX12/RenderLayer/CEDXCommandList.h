@@ -46,7 +46,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			if (result == DXGI_ERROR_DEVICE_REMOVED) {
 				DeviceRemovedHandler(GetDevice());
 			}
-			
+
 			return SUCCEEDED(result);
 		}
 
@@ -153,6 +153,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 		void SetComputeRootSignature(CEDXRootSignature* rootSignature) {
+			CE_LOG_DEBUG("[CEDXCommandList] Root Signature Index: " + std::to_string(rootSignature->Get32BitContantsIndex()));
 			CommandList->SetComputeRootSignature(rootSignature->GetRootSignature());
 		}
 

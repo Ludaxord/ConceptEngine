@@ -493,6 +493,7 @@ CEDXRootSignature* CEDXRootSignatureCache::GetRootSignature(const CEDXRootSignat
 
 	for (uint32 i = 0; i < ResourceCounts.Size(); i++) {
 		if (resourceCount.IsCompatible(ResourceCounts[i])) {
+			CE_LOG_DEBUG("[CEDXRootSignature] Found Compatible Root Signature at: " + std::to_string(i));
 			return RootSignatures[i].Get();
 		}
 	}
@@ -528,8 +529,11 @@ CEDXRootSignatureCache& CEDXRootSignatureCache::Get() {
 CEDXRootSignature* CEDXRootSignatureCache::CreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount) {
 	CERef<CEDXRootSignature> rootSignature = new CEDXRootSignature(GetDevice());
 	if (!rootSignature->Create(resourceCount)) {
+		CE_LOG_ERROR("[CEDXRootSignatureCache] Failed to create Root Signature");
 		return nullptr;
 	}
+
+	CE_LOG_VERBOSE("[CEDXRootSignatureCache] Create Root Signature Name: " + rootSignature->GetName());
 
 	RootSignatures.EmplaceBack(rootSignature);
 	ResourceCounts.EmplaceBack(resourceCount);

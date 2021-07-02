@@ -1000,6 +1000,7 @@ Main::RenderLayer::CEGraphicsPipelineState* CEDXManager::CreateGraphicsPipelineS
 	CERef<RenderLayer::CEDXGraphicsPipelineState> pipelineState = new
 		RenderLayer::CEDXGraphicsPipelineState(Device);
 	if (!pipelineState->Create(createInfo)) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create GraphicsPipelineState");
 		return nullptr;
 	}
 
@@ -1015,6 +1016,7 @@ Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineSta
 	CERef<RenderLayer::CEDXComputePipelineState> pipelineState = new
 		RenderLayer::CEDXComputePipelineState(Device, shader);
 	if (!pipelineState->Create()) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create ComputePipelineState");
 		return nullptr;
 	}
 
@@ -1026,6 +1028,7 @@ Main::RenderLayer::CERayTracingPipelineState* CEDXManager::CreateRayTracingPipel
 	CERef<RenderLayer::CEDXRayTracingPipelineState> pipelineState = new
 		RenderLayer::CEDXRayTracingPipelineState(Device);
 	if (!pipelineState->Create(createInfo)) {
+		CE_LOG_ERROR("[CEDXManager]: Failed to create RayTracingPipelineState");
 		return nullptr;
 	}
 

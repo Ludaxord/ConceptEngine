@@ -31,7 +31,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	struct CEDXRootSignatureResourceCount {
 		bool IsCompatible(const CEDXRootSignatureResourceCount& another) const;
-		
+
 		CERootSignatureType Type = CERootSignatureType::Unknown;
 		CEShaderResourceCount ResourceCounts[ShaderVisibility_Count];
 		bool AllowInputAssembler = false;
@@ -93,8 +93,13 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		}
 
 		void SetName(const std::string& name) {
+			Name = name;
 			std::wstring wName = ConvertToWString(name);
 			RootSignature->SetName(wName.c_str());
+		}
+
+		std::string GetName() {
+			return Name;
 		}
 
 		ID3D12RootSignature* GetRootSignature() const {
@@ -115,6 +120,8 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		int32 RootParameterMap[ShaderVisibility_Count][ResourceType_Count];
 
 		int32 ConstantRootParameterIndex;
+
+		std::string Name = "Default Root Signature";
 	};
 
 	class CEDXRootSignatureCache : public CEDXDeviceElement {

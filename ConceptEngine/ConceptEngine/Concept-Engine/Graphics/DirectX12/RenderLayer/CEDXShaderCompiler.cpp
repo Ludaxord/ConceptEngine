@@ -425,6 +425,13 @@ bool CEDXShaderCompiler::HasRootSignature(CEDXBaseShader* shader) {
 		return false;
 	}
 
+	Microsoft::WRL::ComPtr<IDxcBlob> ShaderBlob = new CEExistingBlob((LPVOID)shader->GetCode(), shader->GetCodeSize());
+	hResult = reflection->Load(ShaderBlob.Get());
+	if (FAILED(hResult)) {
+		CE_LOG_ERROR("[D3D12ShaderCompiler]: Reflection were not able to load shader");
+		return false;
+	}
+
 	uint32 partIndex;
 	hResult = reflection->FindFirstPartKind(DFCC_RootSignature, &partIndex);
 	if (FAILED(hResult)) {

@@ -56,10 +56,6 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	panorama->SetName(panoramaConfig.SourceFile);
 
-	if (!MainTextureData.PanoramaPSO) {
-		CE_LOG_ERROR("[CEDXSkyBoxRenderPass]: PanoramaPSO == nullptr BEFORE CreateTextureCubeFromPanorama");
-	}
-
 	resources.Skybox = Main::Managers::CETextureManager::CreateTextureCubeFromPanorama(
 		panorama.Get(), 1024, Main::Managers::TextureFlag_GenerateMips, CEFormat::R16G16B16A16_Float);
 	if (!resources.Skybox) {
