@@ -12,6 +12,7 @@
 #include "../../../Core/Common/CETypes.h"
 #include "../../../Math/CEColor.h"
 #include "../../../Core/Log/CELog.h"
+#include "../../../Core/Debug/CEDebug.h"
 
 namespace ConceptEngine::Graphics::Main::RenderLayer {
 	struct CERenderCommand {
@@ -234,12 +235,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		~CESetVertexBuffersRenderCommand() override {
+		~CESetVertexBuffersRenderCommand() {
 			for (uint32 i = 0; i < VertexBufferCount; i++) {
-				if (VertexBuffers[i]) {
-					VertexBuffers[i]->Release();
-					VertexBuffers[i] = nullptr;
-				}
+				SafeRelease(VertexBuffers[i]);
 			}
 			VertexBuffers = nullptr;
 		}
@@ -272,12 +270,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		~CESetRenderTargetsRenderCommand() override {
+		~CESetRenderTargetsRenderCommand() {
 			for (uint32 i = 0; i < RenderTargetViewCount; i++) {
-				if (RenderTargetViews[i]) {
-					RenderTargetViews[i]->Release();
-					RenderTargetViews[i] = nullptr;
-				}
+				SafeRelease(RenderTargetViews[i]);
 			}
 			RenderTargetViews = nullptr;
 		}
@@ -399,10 +394,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		~CESetShaderResourceViewsRenderCommand() {
 			for (uint32 i = 0; i < NumShaderResourceViews; i++) {
-				if (ShaderResourceViews[i]) {
-					ShaderResourceViews[i]->Release();
-					ShaderResourceViews[i] = nullptr;
-				}
+				SafeRelease(ShaderResourceViews[i]);
 			}
 			ShaderResourceViews = nullptr;
 		}
@@ -444,12 +436,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
-		~CESetUnorderedAccessViewsRenderCommand() override {
+		~CESetUnorderedAccessViewsRenderCommand() {
 			for (uint32 i = 0; i < NumUnorderedAccessViews; i ++) {
-				if (UnorderedAccessViews[i]) {
-					UnorderedAccessViews[i]->Release();
-					UnorderedAccessViews[i] = nullptr;
-				}
+				SafeRelease(UnorderedAccessViews[i])
 			}
 
 			UnorderedAccessViews = nullptr;
@@ -483,16 +472,17 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	struct CESetConstantBuffersRenderCommand : public CERenderCommand {
 		CESetConstantBuffersRenderCommand(CEShader* shader, CEConstantBuffer** constantBuffers,
-		                                  uint32 numConstantBuffers, uint32 parameterIndex) {
+		                                  uint32 numConstantBuffers, uint32 parameterIndex)
+			: Shader(shader)
+			  , ConstantBuffers(constantBuffers)
+			  , NumConstantBuffers(numConstantBuffers)
+			  , ParameterIndex(parameterIndex) {
 
 		}
 
 		~CESetConstantBuffersRenderCommand() {
 			for (uint32 i = 0; i < NumConstantBuffers; i++) {
-				if (ConstantBuffers[i]) {
-					ConstantBuffers[i]->Release();
-					ConstantBuffers[i] = nullptr;
-				}
+				SafeRelease(ConstantBuffers[i]);
 			}
 
 			ConstantBuffers = nullptr;
@@ -534,10 +524,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		~CESetSamplerStatesRenderCommand() {
 			for (uint32 i = 0; i < NumSamplerStates; i++) {
-				if (SamplerStates[i]) {
-					SamplerStates[i]->Release();
-					SamplerStates[i] = nullptr;
-				}
+				SafeRelease(SamplerStates[i]);
 			}
 
 			SamplerStates = nullptr;
@@ -883,6 +870,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
+			CEDebug::OutputDebugString(Marker + '\n');
 			CE_LOG_INFO(Marker);
 			commandContext.InsertMaker(Marker);
 		}
@@ -891,19 +879,14 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEDebugBreakRenderCommand : public CERenderCommand {
-		CEDebugBreakRenderCommand() {
-
-		}
 
 		void Execute(CEICommandContext& commandContext) override {
 			(void)commandContext;
+			CEDebug::DebugBreak();
 		}
 	};
 
 	struct CEBeginExternalCaptureRenderCommand : public CERenderCommand {
-		CEBeginExternalCaptureRenderCommand() {
-
-		}
 
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.BeginExternalCapture();
@@ -911,10 +894,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CEEndExternalCaptureRenderCommand : public CERenderCommand {
-		CEEndExternalCaptureRenderCommand() {
-
-		}
-
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.EndExternalCapture();
 		}

@@ -107,15 +107,17 @@ bool CEDXScreenSpaceOcclusionRenderer::Create(Main::Rendering::CEFrameResources&
 	SSAONoiseTexture->SetName("SSAO Noise Texture");
 
 	RenderLayer::CECommandList commandList;
-	commandList.Execute([&commandList, &resources, this, &SSAONoise] {
-		commandList.TransitionTexture(resources.SSAOBuffer.Get(), RenderLayer::CEResourceState::Common,
-		                              RenderLayer::CEResourceState::NonPixelShaderResource);
-		commandList.TransitionTexture(SSAONoiseTexture.Get(), RenderLayer::CEResourceState::NonPixelShaderResource,
-		                              RenderLayer::CEResourceState::CopyDest);
-		commandList.UpdateTexture2D(SSAONoiseTexture.Get(), 4, 4, 0, SSAONoise.Data());
-		commandList.TransitionTexture(SSAONoiseTexture.Get(), RenderLayer::CEResourceState::CopyDest,
-		                              RenderLayer::CEResourceState::NonPixelShaderResource);
-	});
+	commandList.Begin();
+	// commandList.Execute([&commandList, &resources, this, &SSAONoise] {
+	commandList.TransitionTexture(resources.SSAOBuffer.Get(), RenderLayer::CEResourceState::Common,
+	                              RenderLayer::CEResourceState::NonPixelShaderResource);
+	commandList.TransitionTexture(SSAONoiseTexture.Get(), RenderLayer::CEResourceState::NonPixelShaderResource,
+	                              RenderLayer::CEResourceState::CopyDest);
+	commandList.UpdateTexture2D(SSAONoiseTexture.Get(), 4, 4, 0, SSAONoise.Data());
+	commandList.TransitionTexture(SSAONoiseTexture.Get(), RenderLayer::CEResourceState::CopyDest,
+	                              RenderLayer::CEResourceState::NonPixelShaderResource);
+	commandList.End();
+	// });
 
 	CommandListExecutor.ExecuteCommandList(commandList);
 

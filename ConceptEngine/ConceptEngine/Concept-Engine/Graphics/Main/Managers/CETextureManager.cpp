@@ -101,7 +101,8 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 	if (generateMips) {
 		CECommandList& commandList = MainTextureData.CommandList;
 		using namespace std::placeholders;
-		commandList.Execute([&commandList, &texture] {
+		// commandList.Execute([&commandList, &texture] {
+		commandList.Begin();
 			commandList.TransitionTexture(texture.Get(),
 			                              CEResourceState::PixelShaderResource,
 			                              CEResourceState::CopyDest);
@@ -109,7 +110,8 @@ CETexture2D* CETextureManager::LoadFromMemory(const uint8* pixels, uint32 width,
 			commandList.TransitionTexture(texture.Get(),
 			                              CEResourceState::CopyDest,
 			                              CEResourceState::PixelShaderResource);
-		});
+		commandList.End();
+		// });
 		CommandListExecutor.ExecuteCommandList(commandList);
 	}
 

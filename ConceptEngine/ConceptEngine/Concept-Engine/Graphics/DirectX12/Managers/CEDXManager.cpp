@@ -1298,7 +1298,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		newTexture2D->SetDepthStencilView(DSV.ReleaseOwnership());
 	}
 
-	if (flags & RenderLayer::TextureFlag_UAV && !(flags & RenderLayer::TextureFlag_NoDefaultUAV) && isTexture2D) {
+	if (flags & RenderLayer::TextureFlag_UAV && !(flags & TextureFlag_NoDefaultUAV) && isTexture2D) {
 		RenderLayer::CEDXTexture2D* newTexture2D = static_cast<RenderLayer::CEDXTexture2D*>(newTexture->AsTexture2D());
 
 		D3D12_UNORDERED_ACCESS_VIEW_DESC viewDesc;
@@ -1335,10 +1335,11 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		DirectCommandContext->UpdateTexture2D(texture2D, sizeX, sizeY, 0, initialData->GetData());
 
 		DirectCommandContext->TransitionTexture(texture2D, CEResourceState::CopyDest, initialState);
+		DirectCommandContext->End();
 		// });
 	}
 	else {
-		if (initialState != RenderLayer::CEResourceState::Common) {
+		if (initialState != CEResourceState::Common) {
 
 			// DirectCommandContext->Execute(
 			// 	[&newTexture, &initialState, this] {

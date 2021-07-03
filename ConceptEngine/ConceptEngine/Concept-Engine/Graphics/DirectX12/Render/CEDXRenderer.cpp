@@ -169,6 +169,7 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
+	//TODO: Fix, D3D12 ERROR: ID3D12PipelineState::<final-release>: CORRUPTION: An ID3D12PipelineState object ('BRDF Integration Gen Pipeline State') is referenced by GPU operations in-flight on Command Queue ('Unnamed ID3D12CommandQueue Object').  It is not safe to final-release objects that may have GPU operations pending.  This can result in application instability.
 	if (!DeferredRenderer->Create(Resources)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -935,259 +936,260 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	Resources.BackBuffer = Resources.MainWindowViewport->GetBackBuffer();
 
 	CommandList.BeginExternalCapture();
-	CommandList.Execute([this, &scene] {
-		Core::Debug::CEProfiler::BeginGPUFrame(CommandList);
+	// CommandList.Execute([this, &scene] {
+	CommandList.Begin();
+	Core::Debug::CEProfiler::BeginGPUFrame(CommandList);
 
-		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "-- BEGIN FRAME --");
+	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "-- BEGIN FRAME --");
 
-		if (ShadingImage && ConceptEngine::Render::Variables["CE.EnableVariableRateShading"].GetBool()) {
-			INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== BEGIN VARIABLE RATE SHADING IMAGE ==");
-			CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
+	if (ShadingImage && ConceptEngine::Render::Variables["CE.EnableVariableRateShading"].GetBool()) {
+		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== BEGIN VARIABLE RATE SHADING IMAGE ==");
+		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 
-			CommandList.TransitionTexture(ShadingImage.Get(), CEResourceState::ShadingRateSource,
-			                              CEResourceState::UnorderedAccess);
-
-			CommandList.SetComputePipelineState(ShadingRatePipeline.Get());
-
-			CEUnorderedAccessView* shadingImageUAV = ShadingImage->GetUnorderedAccessView();
-			CommandList.SetUnorderedAccessView(ShadingRateShader.Get(), shadingImageUAV, 0);
-
-			CommandList.Dispatch(ShadingImage->GetWidth(), ShadingImage->GetHeight(), 1);
-
-			CommandList.TransitionTexture(ShadingImage.Get(), CEResourceState::UnorderedAccess,
-			                              CEResourceState::ShadingRateSource);
-
-			CommandList.SetShadingRateImage(ShadingImage.Get());
-
-			INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== END VARIABLE RATE SHADING IMAGE ==");
-		}
-		else if (CastGraphicsManager()->IsShadingRateSupported()) {
-			CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
-		}
-
-		LightSetup.BeginFrame(CommandList, scene);
-
-		ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
-		ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
-
-		if (CastGraphicsManager()->IsRayTracingSupported() && ConceptEngine::Render::Variables[
-			"CE.RayTracingEnabled"].GetBool()) {
-			GPU_TRACE_SCOPE(CommandList, "== RAY TRACING ==");
-			RayTracer->PreRender(CommandList, Resources, scene);
-		}
-
-		CEDXCameraBufferDesc cameraBuffer;
-		cameraBuffer.ViewProjection = scene.GetCamera()->GetViewProjectionMatrix().Native;
-		cameraBuffer.View = scene.GetCamera()->GetViewMatrix().Native;
-		cameraBuffer.ViewInv = scene.GetCamera()->GetViewInverseMatrix().Native;
-		cameraBuffer.Projection = scene.GetCamera()->GetProjectionMatrix().Native;
-		cameraBuffer.ProjectionInv = scene.GetCamera()->GetProjectionInverseMatrix().Native;
-		cameraBuffer.ViewProjectionInv = scene.GetCamera()->GetViewProjectionInverseMatrix().Native;
-		cameraBuffer.Position = scene.GetCamera()->GetPosition().Native;
-		cameraBuffer.Forward = scene.GetCamera()->GetForward().Native;
-		cameraBuffer.NearPlane = scene.GetCamera()->GetNearPlane();
-		cameraBuffer.FarPlane = scene.GetCamera()->GetFarPlane();
-		cameraBuffer.AspectRatio = scene.GetCamera()->GetAspectRatio();
-
-		//Transition CameraBuffer
-		CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
-		                             CEResourceState::CopyDest);
-		CommandList.UpdateBuffer(Resources.CameraBuffer.Get(), 0, sizeof(CEDXCameraBufferDesc), &cameraBuffer);
-		CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::CopyDest,
-		                             CEResourceState::VertexAndConstantBuffer);
-
-		//
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_ALBEDO_INDEX].Get(),
-		                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_NORMAL_INDEX].Get(),
-		                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_MATERIAL_INDEX].Get(),
-		                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX].Get(),
-		                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(),
-		                              CEResourceState::PixelShaderResource, CEResourceState::DepthWrite);
-
-		Math::CEColorF blackClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_ALBEDO_INDEX]->GetRenderTargetView(),
-		                                  blackClearColor);
-		CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_NORMAL_INDEX]->GetRenderTargetView(),
-		                                  blackClearColor);
-		CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_MATERIAL_INDEX]->GetRenderTargetView(),
-		                                  blackClearColor);
-		CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->GetRenderTargetView(),
-		                                  blackClearColor);
-		CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
-		                                  CEDepthStencilF(1.0f, 0));
-
-		if (ConceptEngine::Render::Variables["CE.PrePassEnabled"].GetBool()) {
-			DeferredRenderer->RenderPrePass(CommandList, Resources);
-		}
-
-		{
-			GPU_TRACE_SCOPE(CommandList, "== BASE PASS ==");
-			DeferredRenderer->RenderPrePass(CommandList, Resources);
-		}
-
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_ALBEDO_INDEX].Get(), CEResourceState::RenderTarget,
-		                              CEResourceState::NonPixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_ALBEDO_INDEX]->GetShaderResourceView()),
-			Resources.GBuffer[BUFFER_ALBEDO_INDEX],
-			CEResourceState::NonPixelShaderResource,
-			CEResourceState::NonPixelShaderResource
-		);
-
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_NORMAL_INDEX].Get(), CEResourceState::RenderTarget,
-		                              CEResourceState::NonPixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_NORMAL_INDEX]->GetShaderResourceView()),
-			Resources.GBuffer[BUFFER_NORMAL_INDEX],
-			CEResourceState::NonPixelShaderResource,
-			CEResourceState::NonPixelShaderResource
-		);
-
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX].Get(), CEResourceState::RenderTarget,
-		                              CEResourceState::NonPixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->GetShaderResourceView()),
-			Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX],
-			CEResourceState::NonPixelShaderResource,
-			CEResourceState::NonPixelShaderResource
-		);
-
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_MATERIAL_INDEX].Get(), CEResourceState::RenderTarget,
-		                              CEResourceState::NonPixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_MATERIAL_INDEX]->GetShaderResourceView()),
-			Resources.GBuffer[BUFFER_MATERIAL_INDEX],
-			CEResourceState::NonPixelShaderResource,
-			CEResourceState::NonPixelShaderResource
-		);
-
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(), CEResourceState::DepthWrite,
-		                              CEResourceState::NonPixelShaderResource);
-		CommandList.TransitionTexture(Resources.SSAOBuffer.Get(), CEResourceState::NonPixelShaderResource,
+		CommandList.TransitionTexture(ShadingImage.Get(), CEResourceState::ShadingRateSource,
 		                              CEResourceState::UnorderedAccess);
 
-		const Math::CEColorF whiteColor = {1.0f, 1.0f, 1.0f, 1.0f};
-		CommandList.ClearUnorderedAccessView(Resources.SSAOBuffer->GetUnorderedAccessView(), whiteColor);
+		CommandList.SetComputePipelineState(ShadingRatePipeline.Get());
 
-		if (ConceptEngine::Render::Variables["CE.EnableSSAO"].GetBool()) {
-			SSAORenderer->Render(CommandList, Resources);
+		CEUnorderedAccessView* shadingImageUAV = ShadingImage->GetUnorderedAccessView();
+		CommandList.SetUnorderedAccessView(ShadingRateShader.Get(), shadingImageUAV, 0);
+
+		CommandList.Dispatch(ShadingImage->GetWidth(), ShadingImage->GetHeight(), 1);
+
+		CommandList.TransitionTexture(ShadingImage.Get(), CEResourceState::UnorderedAccess,
+		                              CEResourceState::ShadingRateSource);
+
+		CommandList.SetShadingRateImage(ShadingImage.Get());
+
+		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== END VARIABLE RATE SHADING IMAGE ==");
+	}
+	else if (CastGraphicsManager()->IsShadingRateSupported()) {
+		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
+	}
+
+	LightSetup.BeginFrame(CommandList, scene);
+
+	ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
+	ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
+
+	if (CastGraphicsManager()->IsRayTracingSupported() && ConceptEngine::Render::Variables[
+		"CE.RayTracingEnabled"].GetBool()) {
+		GPU_TRACE_SCOPE(CommandList, "== RAY TRACING ==");
+		RayTracer->PreRender(CommandList, Resources, scene);
+	}
+
+	CEDXCameraBufferDesc cameraBuffer;
+	cameraBuffer.ViewProjection = scene.GetCamera()->GetViewProjectionMatrix().Native;
+	cameraBuffer.View = scene.GetCamera()->GetViewMatrix().Native;
+	cameraBuffer.ViewInv = scene.GetCamera()->GetViewInverseMatrix().Native;
+	cameraBuffer.Projection = scene.GetCamera()->GetProjectionMatrix().Native;
+	cameraBuffer.ProjectionInv = scene.GetCamera()->GetProjectionInverseMatrix().Native;
+	cameraBuffer.ViewProjectionInv = scene.GetCamera()->GetViewProjectionInverseMatrix().Native;
+	cameraBuffer.Position = scene.GetCamera()->GetPosition().Native;
+	cameraBuffer.Forward = scene.GetCamera()->GetForward().Native;
+	cameraBuffer.NearPlane = scene.GetCamera()->GetNearPlane();
+	cameraBuffer.FarPlane = scene.GetCamera()->GetFarPlane();
+	cameraBuffer.AspectRatio = scene.GetCamera()->GetAspectRatio();
+
+	//Transition CameraBuffer
+	CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
+	                             CEResourceState::CopyDest);
+	CommandList.UpdateBuffer(Resources.CameraBuffer.Get(), 0, sizeof(CEDXCameraBufferDesc), &cameraBuffer);
+	CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::CopyDest,
+	                             CEResourceState::VertexAndConstantBuffer);
+
+	//
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_ALBEDO_INDEX].Get(),
+	                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_NORMAL_INDEX].Get(),
+	                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_MATERIAL_INDEX].Get(),
+	                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX].Get(),
+	                              CEResourceState::NonPixelShaderResource, CEResourceState::RenderTarget);
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(),
+	                              CEResourceState::PixelShaderResource, CEResourceState::DepthWrite);
+
+	Math::CEColorF blackClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_ALBEDO_INDEX]->GetRenderTargetView(),
+	                                  blackClearColor);
+	CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_NORMAL_INDEX]->GetRenderTargetView(),
+	                                  blackClearColor);
+	CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_MATERIAL_INDEX]->GetRenderTargetView(),
+	                                  blackClearColor);
+	CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->GetRenderTargetView(),
+	                                  blackClearColor);
+	CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
+	                                  CEDepthStencilF(1.0f, 0));
+
+	if (ConceptEngine::Render::Variables["CE.PrePassEnabled"].GetBool()) {
+		DeferredRenderer->RenderPrePass(CommandList, Resources);
+	}
+
+	{
+		GPU_TRACE_SCOPE(CommandList, "== BASE PASS ==");
+		DeferredRenderer->RenderPrePass(CommandList, Resources);
+	}
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_ALBEDO_INDEX].Get(), CEResourceState::RenderTarget,
+	                              CEResourceState::NonPixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_ALBEDO_INDEX]->GetShaderResourceView()),
+		Resources.GBuffer[BUFFER_ALBEDO_INDEX],
+		CEResourceState::NonPixelShaderResource,
+		CEResourceState::NonPixelShaderResource
+	);
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_NORMAL_INDEX].Get(), CEResourceState::RenderTarget,
+	                              CEResourceState::NonPixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_NORMAL_INDEX]->GetShaderResourceView()),
+		Resources.GBuffer[BUFFER_NORMAL_INDEX],
+		CEResourceState::NonPixelShaderResource,
+		CEResourceState::NonPixelShaderResource
+	);
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX].Get(), CEResourceState::RenderTarget,
+	                              CEResourceState::NonPixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->GetShaderResourceView()),
+		Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX],
+		CEResourceState::NonPixelShaderResource,
+		CEResourceState::NonPixelShaderResource
+	);
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_MATERIAL_INDEX].Get(), CEResourceState::RenderTarget,
+	                              CEResourceState::NonPixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_MATERIAL_INDEX]->GetShaderResourceView()),
+		Resources.GBuffer[BUFFER_MATERIAL_INDEX],
+		CEResourceState::NonPixelShaderResource,
+		CEResourceState::NonPixelShaderResource
+	);
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(), CEResourceState::DepthWrite,
+	                              CEResourceState::NonPixelShaderResource);
+	CommandList.TransitionTexture(Resources.SSAOBuffer.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::UnorderedAccess);
+
+	const Math::CEColorF whiteColor = {1.0f, 1.0f, 1.0f, 1.0f};
+	CommandList.ClearUnorderedAccessView(Resources.SSAOBuffer->GetUnorderedAccessView(), whiteColor);
+
+	if (ConceptEngine::Render::Variables["CE.EnableSSAO"].GetBool()) {
+		SSAORenderer->Render(CommandList, Resources);
+	}
+
+	CommandList.TransitionTexture(Resources.SSAOBuffer.Get(), CEResourceState::UnorderedAccess,
+	                              CEResourceState::NonPixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.SSAOBuffer->GetShaderResourceView()), Resources.SSAOBuffer,
+		CEResourceState::NonPixelShaderResource, CEResourceState::NonPixelShaderResource);
+
+	CommandList.TransitionTexture(Resources.FinalTarget.Get(), CEResourceState::PixelShaderResource,
+	                              CEResourceState::UnorderedAccess);
+	CommandList.TransitionTexture(Resources.BackBuffer, CEResourceState::Present, CEResourceState::RenderTarget);
+	CommandList.TransitionTexture(LightSetup.IrradianceMap.Get(), CEResourceState::PixelShaderResource,
+	                              CEResourceState::NonPixelShaderResource);
+	CommandList.TransitionTexture(LightSetup.SpecularIrradianceMap.Get(), CEResourceState::PixelShaderResource,
+	                              CEResourceState::NonPixelShaderResource);
+	CommandList.TransitionTexture(Resources.IntegrationLUT.Get(), CEResourceState::PixelShaderResource,
+	                              CEResourceState::NonPixelShaderResource);
+
+	{
+		GPU_TRACE_SCOPE(CommandList, "== LIGHT PASS ==");
+		DeferredRenderer->RenderDeferredTiledLightPass(CommandList, Resources, LightSetup);
+	}
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(),
+	                              CEResourceState::NonPixelShaderResource, CEResourceState::DepthWrite);
+	CommandList.TransitionTexture(Resources.FinalTarget.Get(), CEResourceState::UnorderedAccess,
+	                              CEResourceState::RenderTarget);
+
+	SkyBoxRenderPass->Render(CommandList, Resources, scene);
+
+	CommandList.TransitionTexture(LightSetup.PointLightShadowMaps.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::PixelShaderResource);
+	CommandList.TransitionTexture(LightSetup.DirLightShadowMaps.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::PixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(LightSetup.DirLightShadowMaps->GetShaderResourceView()),
+		LightSetup.DirLightShadowMaps,
+		CEResourceState::PixelShaderResource,
+		CEResourceState::PixelShaderResource
+	);
+
+	CommandList.TransitionTexture(LightSetup.IrradianceMap.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::PixelShaderResource);
+	CommandList.TransitionTexture(LightSetup.SpecularIrradianceMap.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::PixelShaderResource);
+	CommandList.TransitionTexture(Resources.IntegrationLUT.Get(), CEResourceState::NonPixelShaderResource,
+	                              CEResourceState::PixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.IntegrationLUT->GetShaderResourceView()),
+		Resources.IntegrationLUT,
+		CEResourceState::PixelShaderResource,
+		CEResourceState::PixelShaderResource
+	);
+
+	{
+		GPU_TRACE_SCOPE(CommandList, "== FORWARD PASS ==");
+		ForwardRenderer->Render(CommandList, Resources, LightSetup);
+	}
+
+	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(), CEResourceState::DepthWrite,
+	                              CEResourceState::PixelShaderResource);
+
+	Resources.DebugTextures.EmplaceBack(
+		MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetShaderResourceView()),
+		Resources.GBuffer[BUFFER_DEPTH_INDEX],
+		CEResourceState::PixelShaderResource,
+		CEResourceState::PixelShaderResource
+	);
+
+	if (ConceptEngine::Render::Variables["CE.EnableFXAA"].GetBool()) {
+		PerformFXAA(CommandList);
+	}
+	else {
+		PerformBackBufferBlit(CommandList);
+	}
+
+	if (ConceptEngine::Render::Variables["CE.DrawAABB"].GetBool()) {
+		PerformAABBDebugPass(CommandList);
+	}
+
+	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== BEGIN UI RENDER ==");
+
+	{
+		TRACE_SCOPE("== RENDER UI ==");
+
+		Main::CEGraphics::GetDebugUI()->DrawUI([]() {
+			Renderer->RenderDebugInterface();
+		});
+
+		if (CastGraphicsManager()->IsShadingRateSupported()) {
+			CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
+			CommandList.SetShadingRateImage(nullptr);
 		}
 
-		CommandList.TransitionTexture(Resources.SSAOBuffer.Get(), CEResourceState::UnorderedAccess,
-		                              CEResourceState::NonPixelShaderResource);
+		Main::CEGraphics::GetDebugUI()->Render(CommandList);
+	}
 
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.SSAOBuffer->GetShaderResourceView()), Resources.SSAOBuffer,
-			CEResourceState::NonPixelShaderResource, CEResourceState::NonPixelShaderResource);
+	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== END UI RENDER ==");
 
-		CommandList.TransitionTexture(Resources.FinalTarget.Get(), CEResourceState::PixelShaderResource,
-		                              CEResourceState::UnorderedAccess);
-		CommandList.TransitionTexture(Resources.BackBuffer, CEResourceState::Present, CEResourceState::RenderTarget);
-		CommandList.TransitionTexture(LightSetup.IrradianceMap.Get(), CEResourceState::PixelShaderResource,
-		                              CEResourceState::NonPixelShaderResource);
-		CommandList.TransitionTexture(LightSetup.SpecularIrradianceMap.Get(), CEResourceState::PixelShaderResource,
-		                              CEResourceState::NonPixelShaderResource);
-		CommandList.TransitionTexture(Resources.IntegrationLUT.Get(), CEResourceState::PixelShaderResource,
-		                              CEResourceState::NonPixelShaderResource);
+	CommandList.TransitionTexture(Resources.BackBuffer, CEResourceState::RenderTarget, CEResourceState::Present);
 
-		{
-			GPU_TRACE_SCOPE(CommandList, "== LIGHT PASS ==");
-			DeferredRenderer->RenderDeferredTiledLightPass(CommandList, Resources, LightSetup);
-		}
+	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "-- END FRAME --");
 
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(),
-		                              CEResourceState::NonPixelShaderResource, CEResourceState::DepthWrite);
-		CommandList.TransitionTexture(Resources.FinalTarget.Get(), CEResourceState::UnorderedAccess,
-		                              CEResourceState::RenderTarget);
-
-		SkyBoxRenderPass->Render(CommandList, Resources, scene);
-
-		CommandList.TransitionTexture(LightSetup.PointLightShadowMaps.Get(), CEResourceState::NonPixelShaderResource,
-		                              CEResourceState::PixelShaderResource);
-		CommandList.TransitionTexture(LightSetup.DirLightShadowMaps.Get(), CEResourceState::NonPixelShaderResource,
-		                              CEResourceState::PixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(LightSetup.DirLightShadowMaps->GetShaderResourceView()),
-			LightSetup.DirLightShadowMaps,
-			CEResourceState::PixelShaderResource,
-			CEResourceState::PixelShaderResource
-		);
-
-		CommandList.TransitionTexture(LightSetup.IrradianceMap.Get(), CEResourceState::NonPixelShaderResource,
-		                              CEResourceState::PixelShaderResource);
-		CommandList.TransitionTexture(LightSetup.SpecularIrradianceMap.Get(), CEResourceState::NonPixelShaderResource,
-		                              CEResourceState::PixelShaderResource);
-		CommandList.TransitionTexture(Resources.IntegrationLUT.Get(), CEResourceState::NonPixelShaderResource,
-		                              CEResourceState::PixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.IntegrationLUT->GetShaderResourceView()),
-			Resources.IntegrationLUT,
-			CEResourceState::PixelShaderResource,
-			CEResourceState::PixelShaderResource
-		);
-
-		{
-			GPU_TRACE_SCOPE(CommandList, "== FORWARD PASS ==");
-			ForwardRenderer->Render(CommandList, Resources, LightSetup);
-		}
-
-		CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(), CEResourceState::DepthWrite,
-		                              CEResourceState::PixelShaderResource);
-
-		Resources.DebugTextures.EmplaceBack(
-			MakeSharedRef<CEShaderResourceView>(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetShaderResourceView()),
-			Resources.GBuffer[BUFFER_DEPTH_INDEX],
-			CEResourceState::PixelShaderResource,
-			CEResourceState::PixelShaderResource
-		);
-
-		if (ConceptEngine::Render::Variables["CE.EnableFXAA"].GetBool()) {
-			PerformFXAA(CommandList);
-		}
-		else {
-			PerformBackBufferBlit(CommandList);
-		}
-
-		if (ConceptEngine::Render::Variables["CE.DrawAABB"].GetBool()) {
-			PerformAABBDebugPass(CommandList);
-		}
-
-		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== BEGIN UI RENDER ==");
-
-		{
-			TRACE_SCOPE("== RENDER UI ==");
-
-			Main::CEGraphics::GetDebugUI()->DrawUI([]() {
-				Renderer->RenderDebugInterface();
-			});
-
-			if (CastGraphicsManager()->IsShadingRateSupported()) {
-				CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
-				CommandList.SetShadingRateImage(nullptr);
-			}
-
-			Main::CEGraphics::GetDebugUI()->Render(CommandList);
-		}
-
-		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== END UI RENDER ==");
-
-		CommandList.TransitionTexture(Resources.BackBuffer, CEResourceState::RenderTarget, CEResourceState::Present);
-
-		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "-- END FRAME --");
-
-		Core::Debug::CEProfiler::EndGPUFrame(CommandList);
-	});
-
+	Core::Debug::CEProfiler::EndGPUFrame(CommandList);
+	// });
+	CommandList.End();
 	CommandList.EndExternalCapture();
 
 	LastFrameNumDrawCalls = CommandList.GetNumDrawCalls();

@@ -322,7 +322,7 @@ void CEDXCommandContext::End() {
 
 	if (!CommandList.Close()) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Close CommandList ");
-        CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return;
 	}
 
@@ -330,7 +330,7 @@ void CEDXCommandContext::End() {
 
 	if (!CommandQueue.SignalFence(Fence, newFenceValue)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to SignalFence for value " + std::to_string(newFenceValue))
-        CEDebug::DebugBreak();
+		CEDebug::DebugBreak();
 		return;
 	}
 

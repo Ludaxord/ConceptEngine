@@ -300,7 +300,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	computeShader->SetName("BRDF Integration Compute Shader");
 
-	Main::RenderLayer::CEComputePipelineStateCreateInfo pipelineStateCreateInfo;
+	CEComputePipelineStateCreateInfo pipelineStateCreateInfo;
 	pipelineStateCreateInfo.Shader = computeShader.Get();
 
 	CERef<Main::RenderLayer::CEComputePipelineState> BRDF_pipelineState = CastGraphicsManager()->
@@ -321,7 +321,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	commandList.SetComputePipelineState(BRDF_pipelineState.Get());
 
-	Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
+	CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
 	commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
 
 	constexpr uint32 threadCount = 16;
@@ -337,9 +337,8 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	commandList.CopyTexture(FrameResources.IntegrationLUT.Get(), stagingTexture.Get());
 
-	commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
-	                              Main::RenderLayer::CEResourceState::CopyDest,
-	                              Main::RenderLayer::CEResourceState::PixelShaderResource);
+	commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(), CEResourceState::CopyDest,
+	                              CEResourceState::PixelShaderResource);
 	// });
 	commandList.End();
 
@@ -347,9 +346,8 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	{
 		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/DeferredLightPass.hlsl"),
-		                                     "Main", nullptr,
-		                                     Main::RenderLayer::CEShaderStage::Compute,
-		                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
+		                                     "Main", nullptr, CEShaderStage::Compute, CEShaderModel::SM_6_0,
+		                                     shaderCode)) {
 			CEDebug::DebugBreak();
 			return false;
 		}
