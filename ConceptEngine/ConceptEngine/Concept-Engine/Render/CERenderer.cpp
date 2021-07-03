@@ -17,6 +17,8 @@ using namespace ConceptEngine::Graphics::Main::Managers;
 using namespace ConceptEngine::Core::Common;
 
 void CERenderer::Release() {
+	CE_LOG_WARNING("[CERenderer] Releasing...");
+	
 	CommandListExecutor.WaitForGPU();
 	CommandList.Reset();
 

@@ -9,7 +9,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		CELightProbeRenderer() = default;
 		virtual ~CELightProbeRenderer() = default;
 
-		virtual bool Create(CELightSetup lightSetup, CEFrameResources& frameResources) = 0;
+		virtual bool Create(CELightSetup& lightSetup, CEFrameResources& frameResources) = 0;
 
 		void Release() {
 			IrradianceGenPSO.Reset();

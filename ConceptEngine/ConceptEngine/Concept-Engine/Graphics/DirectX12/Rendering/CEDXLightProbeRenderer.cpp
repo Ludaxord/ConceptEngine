@@ -12,7 +12,7 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
-bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup lightSetup,
+bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
                                     Main::Rendering::CEFrameResources& frameResources) {
 	if (!CreateSkyLightResources(lightSetup)) {
 		return false;
