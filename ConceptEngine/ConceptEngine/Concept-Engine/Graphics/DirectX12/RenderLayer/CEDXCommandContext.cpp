@@ -321,7 +321,8 @@ void CEDXCommandContext::End() {
 	ResolveProfilers.Clear();
 
 	if (!CommandList.Close()) {
-		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Close CommandList ")
+		CE_LOG_ERROR("[CEDXCommandContext]: Failed to Close CommandList ");
+        CEDebug::DebugBreak();
 		return;
 	}
 
@@ -329,6 +330,7 @@ void CEDXCommandContext::End() {
 
 	if (!CommandQueue.SignalFence(Fence, newFenceValue)) {
 		CE_LOG_ERROR("[CEDXCommandContext]: Failed to SignalFence for value " + std::to_string(newFenceValue))
+        CEDebug::DebugBreak();
 		return;
 	}
 

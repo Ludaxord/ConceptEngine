@@ -39,7 +39,8 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 	CEArray<uint8> shaderCode;
 	{
-		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "VSMain", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "VSMain",
+		                                     nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
 			CEDebug::DebugBreak();
@@ -54,7 +55,8 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 
 		PointLightVertexShader->SetName("Linear Shadow Map Vertex Shader");
 
-		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "PSMain", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "PSMain",
+		                                     nullptr,
 		                                     RenderLayer::CEShaderStage::Pixel, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
 			CEDebug::DebugBreak();
@@ -131,7 +133,8 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 	}
 
 	{
-		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "Main", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "Main",
+		                                     nullptr,
 		                                     RenderLayer::CEShaderStage::Vertex, RenderLayer::CEShaderModel::SM_6_0,
 		                                     shaderCode)) {
 			CEDebug::DebugBreak();
@@ -382,58 +385,48 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 
 }
 
-bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& frameResources) {
+bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& LightSetup) {
+	LightSetup.PointLightShadowMaps = CastGraphicsManager()->CreateTextureCubeArray(
+		LightSetup.ShadowMapFormat,
+		LightSetup.PointLightShadowSize,
+		1, LightSetup.MaxPointLightShadows,
+		TextureFlags_ShadowMap,
+		CEResourceState::PixelShaderResource,
+		nullptr);
+	if (LightSetup.PointLightShadowMaps) {
+		LightSetup.PointLightShadowMaps->SetName("PointLight ShadowMaps");
 
-	    frameResources.PointLightShadowMaps = CastGraphicsManager()->CreateTextureCubeArray(
-        frameResources.ShadowMapFormat, 
-        frameResources.PointLightShadowSize, 
-        1, 
-			frameResources.MaxPointLightShadows, 
-        TextureFlags_ShadowMap, 
-        CEResourceState::PixelShaderResource,
-        nullptr);
-
-	if (!frameResources.PointLightShadowMaps) {
-		return false;
-	}
-
-	frameResources.PointLightShadowMaps->SetName("Point Light Shadow Maps");
-
-	frameResources.PointLightShadowMapDSVs.Resize(frameResources.MaxPointLightShadows);
-
-	for (uint32 i = 0; i < frameResources.MaxPointLightShadows; i++) {
-		for (uint32 face = 0; face < 6; face++) {
-			CEStaticArray<CERef<CEDepthStencilView>, 6>& depthCube = frameResources.
-				PointLightShadowMapDSVs[i];
-			depthCube[face] = CastGraphicsManager()->CreateDepthStencilViewForTextureCubeArray(
-				frameResources.PointLightShadowMaps.Get(),
-				frameResources.ShadowMapFormat,
-				i,
-				0,
-				GetCubeFaceFromIndex(face)
-			);
-			if (!depthCube[face]) {
-				CEDebug::DebugBreak();
-				return false;
+		LightSetup.PointLightShadowMapDSVs.Resize(LightSetup.MaxPointLightShadows);
+		for (uint32 i = 0; i < LightSetup.MaxPointLightShadows; i++) {
+			for (uint32 Face = 0; Face < 6; Face++) {
+				CEStaticArray<CERef<CEDepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];
+				DepthCube[Face] = CastGraphicsManager()->CreateDepthStencilViewForTextureCubeArray(
+					LightSetup.PointLightShadowMaps.Get(),
+					LightSetup.ShadowMapFormat, 0, i, GetCubeFaceFromIndex(Face));
+				if (!DepthCube[Face]) {
+					CEDebug::DebugBreak();
+					return false;
+				}
 			}
 		}
 	}
-
-	frameResources.DirLightShadowMaps = CastGraphicsManager()->CreateTexture2D(
-		frameResources.ShadowMapFormat,
-		frameResources.ShadowMapWidth,
-		frameResources.ShadowMapHeight,
-		1,
-		1,
-		TextureFlags_ShadowMap,
-		CEResourceState::PixelShaderResource,
-		nullptr
-	);
-	if (!frameResources.DirLightShadowMaps) {
+	else {
 		return false;
 	}
 
-	frameResources.DirLightShadowMaps->SetName("Directional Light Shadow Maps");
+	LightSetup.DirLightShadowMaps = CastGraphicsManager()->CreateTexture2D(
+		LightSetup.ShadowMapFormat,
+		LightSetup.ShadowMapWidth,
+		LightSetup.ShadowMapHeight,
+		1, 1, TextureFlags_ShadowMap,
+		CEResourceState::PixelShaderResource,
+		nullptr);
+	if (LightSetup.DirLightShadowMaps) {
+		LightSetup.DirLightShadowMaps->SetName("Directional Light ShadowMaps");
+	}
+	else {
+		return false;
+	}
 
 	return true;
 }

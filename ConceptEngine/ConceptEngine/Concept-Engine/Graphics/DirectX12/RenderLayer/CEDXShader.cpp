@@ -151,7 +151,7 @@ bool CEDXBaseComputeShader::Create() {
 		return false;
 	}
 
-	if (static_cast<CEDXShaderCompiler*>(ShaderCompiler)->HasRootSignature(this)) {
+	if (dynamic_cast<CEDXShaderCompiler*>(ShaderCompiler)->HasRootSignature(this)) {
 		ContainsRootSignature = true;
 	}
 

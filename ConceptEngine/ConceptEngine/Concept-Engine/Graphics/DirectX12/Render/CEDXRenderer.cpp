@@ -185,10 +185,10 @@ bool CEDXRenderer::Create() {
 	//TODO: Fix problem with disapearing of objects, possible cause: resource tracker has a bug
 
 	//Comment TEST TODO: Uncomment when issue is fixed
-	// if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
-	// 	CEDebug::DebugBreak();
-	// 	return false;
-	// }
+	if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
 
 	SSAORenderer = new Rendering::CEDXScreenSpaceOcclusionRenderer();
 
@@ -198,10 +198,10 @@ bool CEDXRenderer::Create() {
 	}
 
 	//Comment TEST TODO: Uncomment when issue is fixed
-	// if (!SSAORenderer->Create(Resources)) {
-	// 	CEDebug::DebugBreak();
-	// 	return false;
-	// }
+	if (!SSAORenderer->Create(Resources)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
 
 	LightProbeRenderer = new Rendering::CEDXLightProbeRenderer();
 
@@ -215,10 +215,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!LightSetup.IrradianceMap) {
-		CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after Pointer pass")
-	}
-
 	SkyBoxRenderPass = new Rendering::CEDXSkyBoxRenderPass();
 
 	if (!SkyBoxRenderPass) {
@@ -230,10 +226,10 @@ bool CEDXRenderer::Create() {
 	auto panoConf = Main::Rendering::CEPanoramaConfig{GetEngineSourceDirectory("Assets/Textures/arches.hdr"), true};
 
 	//Comment TEST TODO: Uncomment when issue is fixed
-	// if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
-	// 	CEDebug::DebugBreak();
-	// 	return false;
-	// }
+	if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
 
 	ForwardRenderer = new Rendering::CEDXForwardRenderer();
 
@@ -246,10 +242,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	if (!LightSetup.IrradianceMap) {
-		CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after Forward Renderer created")
-	}
-
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
 		RayTracer = new Rendering::CEDXRayTracer();
 
@@ -258,22 +250,15 @@ bool CEDXRenderer::Create() {
 			return false;
 		}
 		//Comment TEST TODO: Uncomment when issue is fixed
-		// if (!RayTracer->Create(Resources)) {
-		// 	CEDebug::DebugBreak();
-		// 	return false;
-		// }
-
-		if (!LightSetup.IrradianceMap) {
-			CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after RayTracer created")
+		if (!RayTracer->Create(Resources)) {
+			CEDebug::DebugBreak();
+			return false;
 		}
 	}
 
 	using namespace std::placeholders;
 	// CommandList.Execute([this] {
 	CommandList.Begin();
-	if (!LightSetup.IrradianceMap) {
-		CE_LOG_ERROR("[CEDXRenderer]: Irradiance Map Is Released after Command Begin")
-	}
 	LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
 	CommandList.End();
 	// });

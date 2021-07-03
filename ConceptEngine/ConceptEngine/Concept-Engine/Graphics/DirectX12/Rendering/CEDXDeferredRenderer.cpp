@@ -27,11 +27,11 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	}
 
 	{
-		Main::RenderLayer::CESamplerStateCreateInfo createInfo;
-		createInfo.AddressU = Main::RenderLayer::CESamplerMode::Clamp;
-		createInfo.AddressV = Main::RenderLayer::CESamplerMode::Clamp;
-		createInfo.AddressW = Main::RenderLayer::CESamplerMode::Clamp;
-		createInfo.Filter = Main::RenderLayer::CESamplerFilter::MinMagMipPoint;
+		CESamplerStateCreateInfo createInfo;
+		createInfo.AddressU = CESamplerMode::Clamp;
+		createInfo.AddressV = CESamplerMode::Clamp;
+		createInfo.AddressW = CESamplerMode::Clamp;
+		createInfo.Filter = CESamplerFilter::MinMagMipPoint;
 
 		FrameResources.GBufferSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 		if (!FrameResources.GBufferSampler) {
@@ -41,7 +41,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	CEArray<uint8> shaderCode;
 	{
-		CEArray<Main::RenderLayer::CEShaderDefine> defines = {
+		CEArray<CEShaderDefine> defines = {
 			{"ENABLE_PARALLAX_MAPPING", "1"},
 			{"ENABLE_NORMAL_MAPPING", "1"}
 		};
@@ -265,11 +265,11 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	FrameResources.IntegrationLUT->SetName("Integration LUT");
 
-	Main::RenderLayer::CESamplerStateCreateInfo createInfo;
-	createInfo.AddressU = Main::RenderLayer::CESamplerMode::Clamp;
-	createInfo.AddressV = Main::RenderLayer::CESamplerMode::Clamp;
-	createInfo.AddressW = Main::RenderLayer::CESamplerMode::Clamp;
-	createInfo.Filter = Main::RenderLayer::CESamplerFilter::MinMagMipPoint;
+	CESamplerStateCreateInfo createInfo;
+	createInfo.AddressU = CESamplerMode::Clamp;
+	createInfo.AddressV = CESamplerMode::Clamp;
+	createInfo.AddressW = CESamplerMode::Clamp;
+	createInfo.Filter = CESamplerFilter::MinMagMipPoint;
 
 	FrameResources.IntegrationLUTSampler = CastGraphicsManager()->CreateSamplerState(createInfo);
 
@@ -281,9 +281,11 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 	FrameResources.IntegrationLUTSampler->SetName("Integration LUT Sampler");
 
 	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/BRDFIntegrationGen.hlsl"),
-	                                     "Main", nullptr,
-	                                     Main::RenderLayer::CEShaderStage::Compute,
-	                                     Main::RenderLayer::CEShaderModel::SM_6_0, shaderCode)) {
+	                                     "Main",
+	                                     nullptr,
+	                                     CEShaderStage::Compute,
+	                                     CEShaderModel::SM_6_0,
+	                                     shaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
 	}
@@ -310,40 +312,36 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 
 	BRDF_pipelineState->SetName("BRDF Integration Gen Pipeline State");
 
-	Main::RenderLayer::CECommandList commandList;
+	CECommandList commandList;
+	commandList.Begin();
+	// commandList.Execute(
+	// [&commandList, &stagingTexture, &BRDF_pipelineState, &computeShader, &FrameResources, &LUTSize] {
+	commandList.TransitionTexture(stagingTexture.Get(), CEResourceState::Common,
+	                              CEResourceState::UnorderedAccess);
 
-	// commandList.Begin();
-	commandList.Execute(
-		[&commandList, &stagingTexture, &BRDF_pipelineState, &computeShader, &FrameResources, &LUTSize] {
-			commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::Common,
-			                              Main::RenderLayer::CEResourceState::UnorderedAccess);
+	commandList.SetComputePipelineState(BRDF_pipelineState.Get());
 
-			commandList.SetComputePipelineState(BRDF_pipelineState.Get());
+	Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
+	commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
 
-			Main::RenderLayer::CEUnorderedAccessView* stagingUAV = stagingTexture->GetUnorderedAccessView();
-			commandList.SetUnorderedAccessView(computeShader.Get(), stagingUAV, 0);
+	constexpr uint32 threadCount = 16;
+	const uint32 dispatchWidth = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
+	const uint32 dispatchHeight = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
+	commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
 
-			// constexpr uint32 threadCount = 16;
-			constexpr uint32 threadCount = 23;
-			const uint32 dispatchWidth = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
-			const uint32 dispatchHeight = Math::CEMath::DivideByMultiple(LUTSize, threadCount);
-			commandList.Dispatch(dispatchWidth, dispatchHeight, 1);
+	commandList.UnorderedAccessTextureBarrier(stagingTexture.Get());
 
-			commandList.UnorderedAccessTextureBarrier(stagingTexture.Get());
+	commandList.TransitionTexture(stagingTexture.Get(), CEResourceState::UnorderedAccess, CEResourceState::CopySource);
+	commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(), CEResourceState::Common,
+	                              CEResourceState::CopyDest);
 
-			commandList.TransitionTexture(stagingTexture.Get(), Main::RenderLayer::CEResourceState::UnorderedAccess,
-			                              Main::RenderLayer::CEResourceState::CopySource);
-			commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
-			                              Main::RenderLayer::CEResourceState::Common,
-			                              Main::RenderLayer::CEResourceState::CopyDest);
+	commandList.CopyTexture(FrameResources.IntegrationLUT.Get(), stagingTexture.Get());
 
-			commandList.CopyTexture(FrameResources.IntegrationLUT.Get(), stagingTexture.Get());
-
-			commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
-			                              Main::RenderLayer::CEResourceState::CopyDest,
-			                              Main::RenderLayer::CEResourceState::PixelShaderResource);
-		});
-	// commandList.End();
+	commandList.TransitionTexture(FrameResources.IntegrationLUT.Get(),
+	                              Main::RenderLayer::CEResourceState::CopyDest,
+	                              Main::RenderLayer::CEResourceState::PixelShaderResource);
+	// });
+	commandList.End();
 
 	CommandListExecutor.ExecuteCommandList(commandList);
 
@@ -399,7 +397,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		TiledLightDebugShader->SetName("Deferred Light Pass Debug Shader");
 
 		Main::RenderLayer::CEComputePipelineStateCreateInfo deferredLightPassCreateInfo;
-		deferredLightPassCreateInfo.Shader = TiledLightShader.Get();
+		deferredLightPassCreateInfo.Shader = TiledLightDebugShader.Get();
 
 		TiledLightPassPSODebug = CastGraphicsManager()->CreateComputePipelineState(
 			deferredLightPassCreateInfo);

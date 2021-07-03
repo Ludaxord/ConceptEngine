@@ -1007,14 +1007,12 @@ Main::RenderLayer::CEGraphicsPipelineState* CEDXManager::CreateGraphicsPipelineS
 	return pipelineState.ReleaseOwnership();
 }
 
-Main::RenderLayer::CEComputePipelineState* CEDXManager::CreateComputePipelineState(
-	const RenderLayer::CEComputePipelineStateCreateInfo& createInfo) {
+CEComputePipelineState* CEDXManager::CreateComputePipelineState(const CEComputePipelineStateCreateInfo& createInfo) {
 	Assert(createInfo.Shader != nullptr);
 
 	CERef<RenderLayer::CEDXComputeShader> shader = MakeSharedRef<
 		RenderLayer::CEDXComputeShader>(createInfo.Shader);
-	CERef<RenderLayer::CEDXComputePipelineState> pipelineState = new
-		RenderLayer::CEDXComputePipelineState(Device, shader);
+	CERef pipelineState = new RenderLayer::CEDXComputePipelineState(Device, shader);
 	if (!pipelineState->Create()) {
 		CE_LOG_ERROR("[CEDXManager]: Failed to create ComputePipelineState");
 		return nullptr;
@@ -1325,29 +1323,29 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 	}
 
 	if (initialData) {
-		RenderLayer::CETexture2D* texture2D = newTexture->AsTexture2D();
+		CETexture2D* texture2D = newTexture->AsTexture2D();
 		if (!texture2D) {
 			return nullptr;
 		}
 
-		DirectCommandContext->Execute(
-			[&texture2D, &sizeX, &sizeY, &sizeZ, &initialData, &initialState, this] {
-				DirectCommandContext->TransitionTexture(texture2D, RenderLayer::CEResourceState::Common,
-				                                        RenderLayer::CEResourceState::CopyDest);
-				DirectCommandContext->UpdateTexture2D(texture2D, sizeX, sizeY, 0, initialData->GetData());
+		// DirectCommandContext->Execute(
+		// [&texture2D, &sizeX, &sizeY, &sizeZ, &initialData, &initialState, this] {
+		DirectCommandContext->Begin();
+		DirectCommandContext->TransitionTexture(texture2D, CEResourceState::Common, CEResourceState::CopyDest);
+		DirectCommandContext->UpdateTexture2D(texture2D, sizeX, sizeY, 0, initialData->GetData());
 
-				DirectCommandContext->
-					TransitionTexture(texture2D, RenderLayer::CEResourceState::CopyDest, initialState);
-			});
+		DirectCommandContext->TransitionTexture(texture2D, CEResourceState::CopyDest, initialState);
+		// });
 	}
 	else {
 		if (initialState != RenderLayer::CEResourceState::Common) {
 
-			DirectCommandContext->Execute(
-				[&newTexture, &initialState, this] {
-					DirectCommandContext->TransitionTexture(newTexture.Get(), RenderLayer::CEResourceState::Common,
-					                                        initialState);
-				});
+			// DirectCommandContext->Execute(
+			// 	[&newTexture, &initialState, this] {
+			DirectCommandContext->Begin();
+			DirectCommandContext->TransitionTexture(newTexture.Get(), CEResourceState::Common, initialState);
+			DirectCommandContext->End();
+			// });
 		}
 	}
 
