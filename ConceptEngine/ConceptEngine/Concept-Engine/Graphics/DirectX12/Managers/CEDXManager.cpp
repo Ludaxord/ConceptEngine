@@ -779,7 +779,7 @@ CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilView
 		desc.Texture2DArray.FirstArraySlice = RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
 	}
 	else if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCubeArray) {
-		RenderLayer::CETextureCubeArray* texture = createInfo.TextureCubeArray.Texture;
+		CETextureCubeArray* texture = createInfo.TextureCubeArray.Texture;
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();
 
@@ -789,11 +789,11 @@ CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilView
 		desc.Texture2DArray.MipSlice = createInfo.TextureCubeArray.Mip;
 		desc.Texture2DArray.ArraySize = 1;
 		desc.Texture2DArray.FirstArraySlice = createInfo.TextureCubeArray.ArraySlice * TEXTURE_CUBE_FACE_COUNT +
-			RenderLayer::GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
+			GetCubeFaceIndex(createInfo.TextureCube.CubeFace);
 	}
 
 	CERef<RenderLayer::CEDXDepthStencilView> dxView = new RenderLayer::CEDXDepthStencilView(
-		Device, ResourceOfflineDescriptorHeap);
+		Device, DepthStencilOfflineDescriptorHeap);
 	if (!dxView->Create()) {
 		return nullptr;
 	}
