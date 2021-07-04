@@ -188,7 +188,7 @@ bool CEDXBaseRayTracingShader::GetRayTracingShaderReflection(CEDXBaseRayTracingS
 	}
 
 	if (!GetShaderResourceBindings(function, shader, funDesc.BoundResources)) {
-		CE_LOG_ERROR("[CEDXBaseRayTracingShader]: Error when analysing ");
+		CE_LOG_ERROR("[CEDXBaseRayTracingShader]: Error when analysing shader parameters");
 		return false;
 	}
 
