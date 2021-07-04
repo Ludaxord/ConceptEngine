@@ -182,10 +182,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: Global note: Error when getting/creating root signatures for any type. Investigate bug
-	//TODO: Fix problem with disapearing of objects, possible cause: resource tracker has a bug
-
-	//Comment TEST TODO: Uncomment when issue is fixed
 	if (!ShadowMapRenderer->Create(LightSetup, Resources)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -198,7 +194,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//Comment TEST TODO: Uncomment when issue is fixed
 	if (!SSAORenderer->Create(Resources)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -223,10 +218,8 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: make property to edit in editor and load if from file!!!!
 	auto panoConf = Main::Rendering::CEPanoramaConfig{GetEngineSourceDirectory("Assets/Textures/arches.hdr"), true};
 
-	//Comment TEST TODO: Uncomment when issue is fixed
 	if (!SkyBoxRenderPass->Create(Resources, panoConf)) {
 		CEDebug::DebugBreak();
 		return false;

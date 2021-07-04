@@ -28,7 +28,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		virtual void DebugMessage() override {
-			// CE_LOG_DEBUG("[CEResource]: Releasing Resource: " + GetName());
 		}
 
 	private:

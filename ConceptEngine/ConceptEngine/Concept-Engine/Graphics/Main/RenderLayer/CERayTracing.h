@@ -93,7 +93,11 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 	};
 
 	struct CERayPayload {
+#if defined(WINDOWS_PLATFORM)
+		DirectX::XMFLOAT3 Color;
+#else
 		CEVectorFloat3 Color;
+#endif
 		uint32 CurrentDepth;
 	};
 

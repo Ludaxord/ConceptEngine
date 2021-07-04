@@ -52,7 +52,7 @@ float4 VSM_VSMain(VSInput input) : SV_Position {
 	return mul(worldPosition, LightProjection);
 }
 
-float4 VSM_PSMain(float Position : SV_Position) : SV_Tangent0 {
+float4 VSM_PSMain(float4 Position : SV_Position) : SV_Tangent0 {
 	float depth = Position.z;
 	return float4(depth, depth * depth, 0.0f, 1.0f);
 }

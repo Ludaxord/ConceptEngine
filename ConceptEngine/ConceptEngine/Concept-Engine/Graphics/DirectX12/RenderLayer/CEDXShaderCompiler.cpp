@@ -429,7 +429,6 @@ bool CEDXShaderCompiler::HasRootSignature(CEDXBaseShader* shader) {
 	uint32 partIndex;
 	hResult = reflection->FindFirstPartKind(DFCC_RootSignature, &partIndex);
 	if (FAILED(hResult)) {
-		CE_LOG_WARNING("[D3D12ShaderCompiler]: Cannot Find First Part Kind");
 		return false;
 	}
 

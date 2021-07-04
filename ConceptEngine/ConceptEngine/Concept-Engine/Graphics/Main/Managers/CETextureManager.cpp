@@ -30,7 +30,6 @@ CETextureManager::~CETextureManager() {
 }
 
 void CETextureManager::Release() {
-	CE_LOG_DEBUG("[CETextureManager]: Releasing...")
 	MainTextureData.PanoramaPSO.Reset();
 	MainTextureData.ComputeShader.Reset();
 }

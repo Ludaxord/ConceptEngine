@@ -552,7 +552,8 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 
 	CEShaderResourceCount combinedResourceCount;
 	for (CEDXBaseShader* shader : Shaders) {
-		
+		Assert(shader != nullptr);
+		combinedResourceCount.Combine(shader->GetResourceCount());
 	}
 
 	CEDXRootSignatureResourceCount GlobalResourceCounts;

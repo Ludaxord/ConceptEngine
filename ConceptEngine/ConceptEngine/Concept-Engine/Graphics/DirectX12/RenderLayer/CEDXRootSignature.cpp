@@ -464,10 +464,10 @@ bool CEDXRootSignatureCache::Create() {
 	CEDXRootSignatureResourceCount rtLocalKey;
 	rtLocalKey.Type = CERootSignatureType::RayTracingLocal;
 	rtLocalKey.AllowInputAssembler = false;
-	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumCBVs = D3D12_DEFAULT_CONSTANT_BUFFER_COUNT;
-	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSRVs = D3D12_DEFAULT_SHADER_RESOURCE_VIEW_COUNT;
-	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumUAVs = D3D12_DEFAULT_UNORDERED_ACCESS_VIEW_COUNT;
-	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSamplers = D3D12_DEFAULT_SAMPLER_STATE_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumCBVs = D3D12_DEFAULT_LOCAL_CONSTANT_BUFFER_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSRVs = D3D12_DEFAULT_LOCAL_SHADER_RESOURCE_VIEW_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumUAVs = D3D12_DEFAULT_LOCAL_UNORDERED_ACCESS_VIEW_COUNT;
+	rtLocalKey.ResourceCounts[ShaderVisibility_All].Ranges.NumSamplers = D3D12_DEFAULT_LOCAL_SAMPLER_STATE_COUNT;
 
 	CEDXRootSignature* rtLocalRootSignature = CreateRootSignature(rtLocalKey);
 	if (!rtLocalRootSignature) {
@@ -493,7 +493,6 @@ CEDXRootSignature* CEDXRootSignatureCache::GetRootSignature(const CEDXRootSignat
 
 	for (uint32 i = 0; i < ResourceCounts.Size(); i++) {
 		if (resourceCount.IsCompatible(ResourceCounts[i])) {
-			CE_LOG_DEBUG("[CEDXRootSignature] Found Compatible Root Signature at: " + std::to_string(i));
 			return RootSignatures[i].Get();
 		}
 	}

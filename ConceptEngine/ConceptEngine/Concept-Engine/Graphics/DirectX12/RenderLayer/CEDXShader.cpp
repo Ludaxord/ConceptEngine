@@ -253,8 +253,10 @@ bool CEDXBaseShader::GetShaderResourceBindings(TCEDXReflectionInterface* reflect
 				resourceCount.Num32BitConstants = num32BitConstants;
 			}
 			else {
-				samplerParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space,
-				                              shaderBindDesc.BindCount, 0);
+				// samplerParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space,
+				//                               shaderBindDesc.BindCount, 0);
+				constantBufferParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint,
+				                                     shaderBindDesc.Space, shaderBindDesc.BindCount, sizeInBytes);
 				if (shaderBindDesc.Space == 0) {
 					resourceCount.Ranges.NumCBVs = Math::CEMath::Max(resourceCount.Ranges.NumCBVs,
 					                                                 shaderBindDesc.BindPoint + shaderBindDesc.
