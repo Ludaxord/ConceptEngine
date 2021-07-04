@@ -97,13 +97,13 @@ namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
 		public:
 			CEGraphicsManager(): CEManager() {
 			};
-			
+
 			virtual ~CEGraphicsManager() override = default;
 
 			virtual bool Create() override {
 				return true;
 			};
-			
+
 			virtual void Destroy() = 0;
 
 			virtual RenderLayer::CETexture2D* CreateTexture2D(RenderLayer::CEFormat format,
@@ -515,12 +515,16 @@ namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
 			}
 
 			inline RenderLayer::CEDepthStencilView* CreateDepthStencilViewForTextureCubeArray(
-				RenderLayer::CETextureCubeArray* texture, RenderLayer::CEFormat format, uint32 mip,
-				uint32 arraySlice, RenderLayer::CECubeFace cubeFace) {
+				RenderLayer::CETextureCubeArray* texture,
+				RenderLayer::CEFormat format,
+				uint32 mip,
+				uint32 arraySlice,
+				RenderLayer::CECubeFace cubeFace
+			) {
 				RenderLayer::CEDepthStencilViewCreateInfo createInfo(
 					RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCubeArray);
-				createInfo.TextureCubeArray.Texture = texture;
 				createInfo.Format = format;
+				createInfo.TextureCubeArray.Texture = texture;
 				createInfo.TextureCubeArray.Mip = mip;
 				createInfo.TextureCubeArray.ArraySlice = arraySlice;
 				createInfo.TextureCubeArray.CubeFace = cubeFace;

@@ -17,7 +17,7 @@
 
 using namespace ConceptEngine::Graphics::DirectX12::Rendering;
 
-ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> DrawTileDebug(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx<bool> DrawTileDebug(false);
 
 bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResources) {
 	INIT_CONSOLE_VARIABLE("CE.DrawTileDebug", &DrawTileDebug);
@@ -590,7 +590,16 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	//Albedo
 	frameResources.GBuffer[BUFFER_ALBEDO_INDEX] = CastGraphicsManager()->CreateTexture2D(
-		frameResources.AlbedoFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+		frameResources.AlbedoFormat,
+		width,
+		height,
+		1,
+		1,
+		usage,
+		CEResourceState::Common,
+		nullptr
+	);
+
 	if (!frameResources.GBuffer[BUFFER_ALBEDO_INDEX]) {
 		return false;
 	}
@@ -599,7 +608,16 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	//Normal
 	frameResources.GBuffer[BUFFER_NORMAL_INDEX] = CastGraphicsManager()->CreateTexture2D(
-		frameResources.NormalFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+		frameResources.NormalFormat,
+		width,
+		height,
+		1,
+		1,
+		usage,
+		CEResourceState::Common,
+		nullptr
+	);
+
 	if (!frameResources.GBuffer[BUFFER_NORMAL_INDEX]) {
 		return false;
 	}
@@ -608,7 +626,16 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	//Material
 	frameResources.GBuffer[BUFFER_MATERIAL_INDEX] = CastGraphicsManager()->CreateTexture2D(
-		frameResources.MaterialFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+		frameResources.MaterialFormat,
+		width,
+		height,
+		1,
+		1,
+		usage,
+		CEResourceState::Common,
+		nullptr
+	);
+
 	if (!frameResources.GBuffer[BUFFER_MATERIAL_INDEX]) {
 		return false;
 	}
@@ -618,7 +645,15 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 	//DepthStencil
 	const uint32 usageDS = TextureFlag_DSV | TextureFlag_SRV;
 	frameResources.GBuffer[BUFFER_DEPTH_INDEX] = CastGraphicsManager()->CreateTexture2D(
-		frameResources.DepthBufferFormat, width, height, 1, 1, usageDS, CEResourceState::Common, nullptr);
+		frameResources.DepthBufferFormat,
+		width,
+		height,
+		1,
+		1,
+		usageDS,
+		CEResourceState::Common,
+		nullptr
+	);
 	if (!frameResources.GBuffer[BUFFER_DEPTH_INDEX]) {
 		return false;
 	}
@@ -627,7 +662,15 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	//View Normal
 	frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX] = CastGraphicsManager()->CreateTexture2D(
-		frameResources.ViewNormalFormat, width, height, 1, 1, usage, CEResourceState::Common, nullptr);
+		frameResources.ViewNormalFormat,
+		width,
+		height,
+		1,
+		1,
+		usage,
+		CEResourceState::Common,
+		nullptr
+	);
 	if (!frameResources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]) {
 		return false;
 	}
@@ -636,7 +679,13 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	//Final Image
 	frameResources.FinalTarget = CastGraphicsManager()->CreateTexture2D(
-		frameResources.FinalTargetFormat, width, height, 1, 1, usage | TextureFlag_UAV, CEResourceState::Common,
+		frameResources.FinalTargetFormat, 
+		width, 
+		height, 
+		1, 
+		1, 
+		usage | TextureFlag_UAV, 
+		CEResourceState::Common,
 		nullptr);
 	if (!frameResources.FinalTarget) {
 		return false;

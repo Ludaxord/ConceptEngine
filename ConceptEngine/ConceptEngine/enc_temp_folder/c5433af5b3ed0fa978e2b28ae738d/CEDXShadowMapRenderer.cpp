@@ -397,7 +397,6 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& Ligh
 		LightSetup.PointLightShadowMaps->SetName("PointLight ShadowMaps");
 
 		LightSetup.PointLightShadowMapDSVs.Resize(LightSetup.MaxPointLightShadows);
-		
 		for (uint32 i = 0; i < LightSetup.MaxPointLightShadows; i++) {
 			for (uint32 Face = 0; Face < 6; Face++) {
 				CEStaticArray<CERef<CEDepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];

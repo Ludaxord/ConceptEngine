@@ -202,10 +202,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			return this;
 		}
 
-		uint32 GetNumArraySlices() const {
-			return NumArraySlices;
-		}
-
 	private:
 		uint32 NumArraySlices;
 	};

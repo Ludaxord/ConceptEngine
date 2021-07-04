@@ -721,8 +721,7 @@ Main::RenderLayer::CERenderTargetView* CEDXManager::CreateRenderTargetView(
 	return nullptr;
 }
 
-Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
-	const RenderLayer::CEDepthStencilViewCreateInfo& createInfo) {
+CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilViewCreateInfo& createInfo) {
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc;
 	Memory::CEMemory::Memzero(&desc);
@@ -732,7 +731,7 @@ Main::RenderLayer::CEDepthStencilView* CEDXManager::CreateDepthStencilView(
 	desc.Format = RenderLayer::ConvertFormat(createInfo.Format);
 	Assert(createInfo.Format != RenderLayer::CEFormat::Unknown);
 
-	if (createInfo.Type == RenderLayer::CEDepthStencilViewCreateInfo::CEType::Texture2D) {
+	if (createInfo.Type == CEDepthStencilViewCreateInfo::CEType::Texture2D) {
 		RenderLayer::CETexture2D* texture = createInfo.Texture2D.Texture;
 		RenderLayer::CEDXBaseTexture* dxTexture = RenderLayer::TextureCast(texture);
 		resource = dxTexture->GetResource();

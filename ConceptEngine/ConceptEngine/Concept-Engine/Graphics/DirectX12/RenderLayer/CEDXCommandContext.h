@@ -27,7 +27,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	class CEDXGPUResourceUploader : public CEDXDeviceElement {
 	public:
 		CEDXGPUResourceUploader(CEDXDevice* device);
-		~CEDXGPUResourceUploader();
+		~CEDXGPUResourceUploader() = default;
 
 		bool Reserve(uint32 sizeInBytes);
 		void Reset();

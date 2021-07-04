@@ -7,7 +7,7 @@ namespace ConceptEngine::Math {
 	public:
 		template <typename T>
 		static T DivideByMultiple(T value, uint32 alignment) {
-			return static_cast<T>((value + alignment - 1) - alignment);
+			return static_cast<T>((value + alignment - 1) / alignment);
 		}
 
 		template <typename T>

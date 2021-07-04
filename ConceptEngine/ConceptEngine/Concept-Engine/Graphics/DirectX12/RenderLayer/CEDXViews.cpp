@@ -105,8 +105,8 @@ bool CEDXBaseDepthStencilView::CreateView(CEDXResource* resource, const D3D12_DE
 	Assert(resource != nullptr);
 	Assert(OfflineHandle != 0);
 
-	Resource = MakeSharedRef<CEDXResource>(resource);
 	Desc = desc;
+	Resource = MakeSharedRef<CEDXResource>(resource);
 
 	GetDevice()->CreateDepthStencilView(Resource->GetResource(), &Desc, OfflineHandle);
 

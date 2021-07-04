@@ -20,9 +20,6 @@ CEDXGPUResourceUploader::CEDXGPUResourceUploader(CEDXDevice* device): CEDXDevice
                                                                       GarbageResources() {
 }
 
-CEDXGPUResourceUploader::~CEDXGPUResourceUploader() {
-}
-
 bool CEDXGPUResourceUploader::Reserve(uint32 sizeInBytes) {
 	if (sizeInBytes == SizeInBytes) {
 		return true;
