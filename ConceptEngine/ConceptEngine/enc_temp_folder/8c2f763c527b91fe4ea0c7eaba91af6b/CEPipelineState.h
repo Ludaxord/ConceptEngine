@@ -22,7 +22,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual class CERayTracingPipelineState* AsRayTracing() {
 			return nullptr;
 		}
-
+		
 		virtual void DebugMessage() override {
 			// CE_LOG_VERBOSE("[CEPipelineState]: Releasing Compute Pipeline State: " + GetName());
 		}
@@ -308,8 +308,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		CERayTracingHitGroup() = default;
 
 		CERayTracingHitGroup(const std::string& name, CERayAnyHitShader* anyHitShader,
-		                     CERayClosestHitShader* closestHitShader): Name(name),
-		                                                               AnyHit(anyHitShader),
+		                     CERayClosestHitShader* closestHitShader): Name(name), AnyHit(anyHitShader),
 		                                                               ClosestHit(closestHitShader) {
 
 		}
