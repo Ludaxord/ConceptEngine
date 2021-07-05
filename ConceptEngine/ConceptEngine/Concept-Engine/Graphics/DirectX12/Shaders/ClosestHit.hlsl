@@ -88,7 +88,7 @@ void ClosestHit(inout RayPayload payload, in BuiltInTriangleIntersectionAttribut
 	float3 F0 = Float3(0.04f);
 	F0 = lerp(F0, AlbedoColor, SampledMetallic);
 
-	float3 IncidentRadiance = Float3(10.0f);
+	float3 IncidentRadiance = float3(10.0f, 10.0f, 10.0f);
 	float3 L0 = DirectRadiance(F0,
 	                          normal,
 	                          ViewDirection,
