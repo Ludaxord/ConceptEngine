@@ -244,10 +244,10 @@ bool CEDXRenderer::Create() {
 			return false;
 		}
 		//Comment TEST TODO: Uncomment when issue is fixed
-		if (!RayTracer->Create(Resources)) {
-			CEDebug::DebugBreak();
-			return false;
-		}
+		// if (!RayTracer->Create(Resources)) {
+		// 	CEDebug::DebugBreak();
+		// 	return false;
+		// }
 	}
 
 	using namespace std::placeholders;
@@ -1204,15 +1204,18 @@ void CEDXRenderer::Update(const CEScene& scene) {
 void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
 	if (!Resources.MainWindowViewport->Resize(width, height)) {
 		CEDebug::DebugBreak();
+		CE_LOG_ERROR("[CEDXRenderer::ResizeResources] Failed to Resize MainWindowViewport");
 		return;
 	}
 
 	if (!DeferredRenderer->ResizeResources(Resources)) {
+		CE_LOG_ERROR("[CEDXRenderer::ResizeResources] Failed to Resize DeferredRenderer");
 		CEDebug::DebugBreak();
 		return;
 	}
 
 	if (!SSAORenderer->ResizeResources(Resources)) {
+		CE_LOG_ERROR("[CEDXRenderer::ResizeResources] Failed to Resize SSAORenderer");
 		CEDebug::DebugBreak();
 		return;
 	}

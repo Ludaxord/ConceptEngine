@@ -194,7 +194,7 @@ float4 PSMain(PSInput Input) : SV_Target0 {
 	}
 
 #ifdef NORMAL_MAPPING_ENABLED
-	float3 SampledNormal = NormalTexture.Sample(MaterialSampler, texCoords);
+	float3 SampledNormal = NormalTexture.Sample(MaterialSampler, texCoords).rgb;
 	SampledNormal = UnpackNormal(SampledNormal);
 
 	float3 tangent = normalize(Input.Tangent);
