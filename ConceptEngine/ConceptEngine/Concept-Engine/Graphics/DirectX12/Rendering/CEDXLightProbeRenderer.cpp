@@ -78,19 +78,22 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 	return true;
 }
 
-void CEDXLightProbeRenderer::RenderSkyLightProbe(Main::RenderLayer::CECommandList& commandList,
+void CEDXLightProbeRenderer::RenderSkyLightProbe(CECommandList& commandList,
                                                  const Main::Rendering::CELightSetup& lightSetup,
                                                  const Main::Rendering::CEFrameResources& resources) {
 	const uint32 irradianceMapSize = static_cast<uint32>(lightSetup.IrradianceMap->GetSize());
 
-	commandList.TransitionTexture(resources.Skybox.Get(), CEResourceState::PixelShaderResource,
+	commandList.TransitionTexture(resources.Skybox.Get(),
+	                              CEResourceState::PixelShaderResource,
 	                              CEResourceState::NonPixelShaderResource);
-	commandList.TransitionTexture(lightSetup.IrradianceMap.Get(), CEResourceState::Common,
+	commandList.TransitionTexture(lightSetup.IrradianceMap.Get(),
+	                              CEResourceState::Common,
 	                              CEResourceState::UnorderedAccess);
 
 	commandList.SetComputePipelineState(IrradianceGenPSO.Get());
 
 	CEShaderResourceView* skyboxSRV = resources.Skybox->GetShaderResourceView();
+	
 	commandList.SetShaderResourceView(IrradianceGenShader.Get(), skyboxSRV, 0);
 	commandList.SetUnorderedAccessView(IrradianceGenShader.Get(), lightSetup.IrradianceMapUAV.Get(), 0);
 

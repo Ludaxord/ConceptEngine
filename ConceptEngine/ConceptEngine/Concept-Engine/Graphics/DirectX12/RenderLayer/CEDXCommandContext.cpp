@@ -1057,7 +1057,7 @@ void CEDXCommandContext::GenerateMips(CETexture* texture) {
 		GetDevice()->CreateUnorderedAccessView(stagingTexture->GetResource(), nullptr, &uavDesc, uavHandleCPU);
 	}
 
-	for (uint32 i = desc.MipLevels; i < uavDescriptorHandleCount; i ++) {
+	for (uint32 i = desc.MipLevels; i < uavDescriptorHandleCount; i++) {
 		if (isTextureCube) {
 			uavDesc.Texture2DArray.MipSlice = 0;
 		}

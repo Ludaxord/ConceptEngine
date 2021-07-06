@@ -1202,18 +1202,22 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 
 void CEDXRenderer::ResizeResources(uint32 width, uint32 height) {
+
+	CE_LOG_DEBUG("[CEDXRenderer::ResizeResources] Resize MainWindowViewport");
 	if (!Resources.MainWindowViewport->Resize(width, height)) {
 		CEDebug::DebugBreak();
 		CE_LOG_ERROR("[CEDXRenderer::ResizeResources] Failed to Resize MainWindowViewport");
 		return;
 	}
 
+	CE_LOG_DEBUG("[CEDXRenderer::ResizeResources] Resize DeferredRenderer");
 	if (!DeferredRenderer->ResizeResources(Resources)) {
 		CE_LOG_ERROR("[CEDXRenderer::ResizeResources] Failed to Resize DeferredRenderer");
 		CEDebug::DebugBreak();
 		return;
 	}
 
+	CE_LOG_DEBUG("[CEDXRenderer::ResizeResources] Resize SSAORenderer");
 	if (!SSAORenderer->ResizeResources(Resources)) {
 		CE_LOG_ERROR("[CEDXRenderer::ResizeResources] Failed to Resize SSAORenderer");
 		CEDebug::DebugBreak();
