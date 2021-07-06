@@ -251,11 +251,10 @@ bool CEDXRenderer::Create() {
 	}
 
 	using namespace std::placeholders;
-	// CommandList.Execute([this] {
-	CommandList.Begin();
-	LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
-	CommandList.End();
-	// });
+	//Comment TEST TODO: Uncomment when issue is fixed
+	// CommandList.Begin();
+	// LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
+	// CommandList.End();
 
 	CommandListExecutor.ExecuteCommandList(CommandList);
 
