@@ -61,3 +61,7 @@ Game engine project, focused on develop cross-platform games and implements many
 * [Ray Tracing in One Weekend — The Book Series](https://raytracing.github.io/)
 * [Ray Tracey's blog](https://raytracey.blogspot.com/)
 * [3D Game Engine Programming](https://www.3dgep.com/)
+* [DXR-Project By Mumsfilibaba](https://github.com/Mumsfilibaba/DXR-Project)
+* [FlaxEngine](https://github.com/FlaxEngine/FlaxEngine)
+* [D3D12 Book](https://github.com/d3dcoder/d3d12book)
+* [DirectX Graphics Samples](https://github.com/microsoft/DirectX-Graphics-Samples)

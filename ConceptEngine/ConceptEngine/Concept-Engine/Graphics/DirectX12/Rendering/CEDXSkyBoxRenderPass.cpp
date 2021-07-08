@@ -58,6 +58,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 
 	resources.Skybox = Main::Managers::CETextureManager::CreateTextureCubeFromPanorama(
 		panorama.Get(), 1024, Main::Managers::TextureFlag_GenerateMips, CEFormat::R16G16B16A16_Float);
+	
 	if (!resources.Skybox) {
 		return false;
 	}
