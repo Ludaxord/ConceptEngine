@@ -10,7 +10,7 @@
 static QTextStream engineOutput;
 
 static void log(const char* c) {
-	engineOutput << c << Qt::endl;
+	engineOutput << c << endl;
 }
 
 namespace ConceptEngine::Editor::Widgets {
