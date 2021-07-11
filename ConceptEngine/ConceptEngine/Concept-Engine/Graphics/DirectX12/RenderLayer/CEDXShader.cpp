@@ -264,17 +264,14 @@ bool CEDXBaseShader::GetShaderResourceBindings(TCEDXReflectionInterface* reflect
 			}
 		}
 		else if (shaderBindDesc.Type == D3D_SIT_SAMPLER) {
-			samplerParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space,
-			                              shaderBindDesc.BindCount, 0);
-			if (shaderBindDesc.Space == 0) {
-				resourceCount.Ranges.NumSamplers == Math::CEMath::Max(resourceCount.Ranges.NumSamplers,
-				                                                      shaderBindDesc.BindPoint + shaderBindDesc.
-				                                                      BindCount);
-			}
-			else {
-				RTLocalResourceCount.Ranges.NumSamplers = Math::CEMath::Max(
-					RTLocalResourceCount.Ranges.NumSamplers, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
-			}
+            samplerParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space, shaderBindDesc.BindCount, 0);
+
+            if (shaderBindDesc.Space == 0) {
+                resourceCount.Ranges.NumSamplers = Math::CEMath::Max(resourceCount.Ranges.NumSamplers, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
+            }
+            else {
+                RTLocalResourceCount.Ranges.NumSamplers = Math::CEMath::Max(RTLocalResourceCount.Ranges.NumSamplers, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
+            }
 
 		}
 		else if (IsShaderResourceView(shaderBindDesc.Type)) {
