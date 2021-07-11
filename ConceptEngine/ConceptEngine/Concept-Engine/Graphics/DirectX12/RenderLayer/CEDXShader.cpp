@@ -55,8 +55,7 @@ CEDXBaseShader::~CEDXBaseShader() {
 }
 
 static bool IsShaderResourceView(D3D_SHADER_INPUT_TYPE type) {
-	return type == D3D_SIT_TEXTURE || type == D3D_SIT_BYTEADDRESS || type == D3D_SIT_STRUCTURED || type ==
-		D3D_SIT_RTACCELERATIONSTRUCTURE;
+    return type == D3D_SIT_TEXTURE || type == D3D_SIT_BYTEADDRESS || type == D3D_SIT_STRUCTURED || type == D3D_SIT_RTACCELERATIONSTRUCTURE;
 }
 
 static bool IsUnorderedAccessView(D3D_SHADER_INPUT_TYPE type) {
@@ -253,18 +252,15 @@ bool CEDXBaseShader::GetShaderResourceBindings(TCEDXReflectionInterface* reflect
 				resourceCount.Num32BitConstants = num32BitConstants;
 			}
 			else {
-				constantBufferParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint,
-				                                     shaderBindDesc.Space, shaderBindDesc.BindCount, sizeInBytes);
-				if (shaderBindDesc.Space == 0) {
-					resourceCount.Ranges.NumCBVs = Math::CEMath::Max(resourceCount.Ranges.NumCBVs,
-					                                                 shaderBindDesc.BindPoint + shaderBindDesc.
-					                                                 BindCount);
-				}
-				else {
-					RTLocalResourceCount.Ranges.NumCBVs = Math::CEMath::Max(RTLocalResourceCount.Ranges.NumCBVs,
-					                                                        shaderBindDesc.BindPoint + shaderBindDesc.
-					                                                        BindCount);
-				}
+                constantBufferParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space, shaderBindDesc.BindCount, sizeInBytes);
+                if (shaderBindDesc.Space == 0)
+                {
+                    resourceCount.Ranges.NumCBVs = Math::CEMath::Max(resourceCount.Ranges.NumCBVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
+                }
+                else
+                {
+                    RTLocalResourceCount.Ranges.NumCBVs = Math::CEMath::Max(RTLocalResourceCount.Ranges.NumCBVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
+                }
 			}
 		}
 		else if (shaderBindDesc.Type == D3D_SIT_SAMPLER) {
@@ -283,34 +279,27 @@ bool CEDXBaseShader::GetShaderResourceBindings(TCEDXReflectionInterface* reflect
 		}
 		else if (IsShaderResourceView(shaderBindDesc.Type)) {
 
-			const uint32 numDescriptors = shaderBindDesc.BindCount != 0 ? shaderBindDesc.BindCount : UINT_MAX;
+            const uint32 NumDescriptors = shaderBindDesc.BindCount != 0 ? shaderBindDesc.BindCount : UINT_MAX;
 
-			shaderResourceParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space,
-			                                     numDescriptors, 0);
+            shaderResourceParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space, NumDescriptors, 0);
+
 
 			if (shaderBindDesc.Space == 0) {
-				resourceCount.Ranges.NumSRVs == Math::CEMath::Max(resourceCount.Ranges.NumSRVs,
-				                                                  shaderBindDesc.BindPoint + shaderBindDesc.
-				                                                  BindCount);
+                resourceCount.Ranges.NumSRVs = Math::CEMath::Max(resourceCount.Ranges.NumSRVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
 			}
 			else {
-				RTLocalResourceCount.Ranges.NumSRVs = Math::CEMath::Max(
-					RTLocalResourceCount.Ranges.NumSRVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
+                RTLocalResourceCount.Ranges.NumSRVs = Math::CEMath::Max(RTLocalResourceCount.Ranges.NumSRVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
 			}
 		}
 		else if (IsUnorderedAccessView(shaderBindDesc.Type)) {
 
-			unorderedAccessParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space,
-			                                      shaderBindDesc.BindCount, 0);
+            unorderedAccessParameters.EmplaceBack(shaderBindDesc.Name, shaderBindDesc.BindPoint, shaderBindDesc.Space, shaderBindDesc.BindCount, 0);
 
 			if (shaderBindDesc.Space == 0) {
-				resourceCount.Ranges.NumUAVs == Math::CEMath::Max(resourceCount.Ranges.NumUAVs,
-				                                                  shaderBindDesc.BindPoint + shaderBindDesc.
-				                                                  BindCount);
+                resourceCount.Ranges.NumUAVs = Math::CEMath::Max(resourceCount.Ranges.NumUAVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
 			}
 			else {
-				RTLocalResourceCount.Ranges.NumUAVs = Math::CEMath::Max(
-					RTLocalResourceCount.Ranges.NumUAVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
+                RTLocalResourceCount.Ranges.NumUAVs = Math::CEMath::Max(RTLocalResourceCount.Ranges.NumUAVs, shaderBindDesc.BindPoint + shaderBindDesc.BindCount);
 			}
 		}
 	}
