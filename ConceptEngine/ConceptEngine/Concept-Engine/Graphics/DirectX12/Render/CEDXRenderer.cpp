@@ -242,7 +242,6 @@ bool CEDXRenderer::Create() {
 			CEDebug::DebugBreak();
 			return false;
 		}
-		//Comment TEST TODO: Uncomment when issue is fixed
 		if (!RayTracer->Create(Resources)) {
 			CEDebug::DebugBreak();
 			return false;

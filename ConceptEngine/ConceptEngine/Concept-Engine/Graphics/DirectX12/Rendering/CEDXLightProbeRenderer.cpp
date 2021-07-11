@@ -62,8 +62,19 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 		return false;
 	}
 
-	SpecularIrradianceGenShader->SetName("Specular Irradiance Gen Pipeline State");
+	SpecularIrradianceGenShader->SetName("Specular IrradianceGen Shader");
 
+
+	SpecularIrradianceGenPSO = CastGraphicsManager()->CreateComputePipelineState(
+		CEComputePipelineStateCreateInfo(SpecularIrradianceGenShader.Get()));
+	if (!SpecularIrradianceGenPSO) {
+		CE_LOG_ERROR("Failed to create Specular Irradiance Gen PipelineState");
+		CEDebug::DebugBreak();
+	}
+	else {
+		SpecularIrradianceGenPSO->SetName("Specular IrradianceGen PSO");
+	}
+	
 	CESamplerStateCreateInfo createInfo;
 	createInfo.AddressU = CESamplerMode::Wrap;
 	createInfo.AddressV = CESamplerMode::Wrap;
@@ -93,7 +104,7 @@ void CEDXLightProbeRenderer::RenderSkyLightProbe(CECommandList& commandList,
 	commandList.SetComputePipelineState(IrradianceGenPSO.Get());
 
 	CEShaderResourceView* skyboxSRV = resources.Skybox->GetShaderResourceView();
-	
+
 	commandList.SetShaderResourceView(IrradianceGenShader.Get(), skyboxSRV, 0);
 	commandList.SetUnorderedAccessView(IrradianceGenShader.Get(), lightSetup.IrradianceMapUAV.Get(), 0);
 

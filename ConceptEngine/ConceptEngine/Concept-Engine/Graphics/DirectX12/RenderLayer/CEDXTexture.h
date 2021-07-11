@@ -131,6 +131,23 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			device, format, sizeX, sizeY, sizeZ, numMips, numSamplers, flags, clearValue) {
 
 		}
+
+		virtual void SetName(const std::string& InName) override {
+			CEResource::SetName(InName);
+			CEDXBaseTexture::Resource->SetName(InName);
+		}
+
+		virtual void* GetNativeResource() const override {
+			return reinterpret_cast<void*>(CEDXBaseTexture::Resource->GetResource());
+		}
+
+		virtual class CEShaderResourceView* GetShaderResourceView() const {
+			return CEDXBaseTexture::ShaderResourceView.Get();
+		}
+
+		virtual bool IsValid() const override {
+			return CEDXBaseTexture::Resource->GetResource() != nullptr;
+		}
 	};
 
 	using CEDXTexture2D = TCEDXBaseTexture<CEDXBaseTexture2D>;
