@@ -132,7 +132,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		bool Create();
 		void ReleaseAll();
 
-		CEDXRootSignature* GetRootSignature(const CEDXRootSignatureResourceCount& resourceCount);
+		CEDXRootSignature* GetOrCreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount);
 
 		static CEDXRootSignatureCache& Get();
 

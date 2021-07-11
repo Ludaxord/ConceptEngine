@@ -169,7 +169,6 @@ bool CEDXRenderer::Create() {
 		return false;
 	}
 
-	//TODO: Fix, D3D12 ERROR: ID3D12PipelineState::<final-release>: CORRUPTION: An ID3D12PipelineState object ('BRDF Integration Gen Pipeline State') is referenced by GPU operations in-flight on Command Queue ('Unnamed ID3D12CommandQueue Object').  It is not safe to final-release objects that may have GPU operations pending.  This can result in application instability.
 	if (!DeferredRenderer->Create(Resources)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -244,17 +243,17 @@ bool CEDXRenderer::Create() {
 			return false;
 		}
 		//Comment TEST TODO: Uncomment when issue is fixed
-		// if (!RayTracer->Create(Resources)) {
-		// 	CEDebug::DebugBreak();
-		// 	return false;
-		// }
+		if (!RayTracer->Create(Resources)) {
+			CEDebug::DebugBreak();
+			return false;
+		}
 	}
 
 	using namespace std::placeholders;
 	//Comment TEST TODO: Uncomment when issue is fixed
-	// CommandList.Begin();
-	// LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
-	// CommandList.End();
+	CommandList.Begin();
+	LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
+	CommandList.End();
 
 	CommandListExecutor.ExecuteCommandList(CommandList);
 

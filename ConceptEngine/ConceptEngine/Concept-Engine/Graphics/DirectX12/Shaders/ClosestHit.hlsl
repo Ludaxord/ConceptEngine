@@ -54,9 +54,11 @@ void ClosestHit(inout RayPayload payload, in BuiltInTriangleIntersectionAttribut
 		Vertices[indices[1]].TexCoord,
 		Vertices[indices[2]].TexCoord
 	};
-
-	float2 texCoords = (triangleTexCoords[0] * barycentricCoords.x) + (triangleTexCoords[1] * barycentricCoords.y) + (
-		triangleTexCoords[2] * barycentricCoords.z);
+	 
+    float2 texCoords =
+        (triangleTexCoords[0] * barycentricCoords.x) +
+        (triangleTexCoords[1] * barycentricCoords.y) +
+        (triangleTexCoords[2] * barycentricCoords.z);
 	texCoords.y = 1.0f - texCoords.y;
 
 	float3 tangent = (triangleTangent[0] * barycentricCoords.x) + (triangleTangent[1] * barycentricCoords.y) + (

@@ -205,7 +205,7 @@ CEDXRootSignatureDescHelper::CEDXRootSignatureDescHelper(const CEDXRootSignature
 		}
 
 		if (resourceCounts.Num32BitConstants > 0) {
-			Assert(NumDescriptorRanges < D3D12_MAX_DESCRIPTOR_RANGES);
+			Assert(resourceCounts.Num32BitConstants <= D3D12_MAX_32BIT_SHADER_CONSTANTS_COUNT);
 			Assert(numRootParameters < D3D12_MAX_ROOT_PARAMETERS);
 
 			Init32BitConstantRange(Parameters[numRootParameters], GetDXShaderVisibility(i),
@@ -220,10 +220,10 @@ CEDXRootSignatureDescHelper::CEDXRootSignatureDescHelper(const CEDXRootSignature
 		}
 	}
 
-	std::vector<D3D12_STATIC_SAMPLER_DESC> samplers;
-	for (uint8 i = 0; i < CEStaticSamplers::All; ++i) {
-		samplers.emplace_back(GetStaticSamplers(static_cast<CEStaticSamplers>(i)));
-	}
+	// std::vector<D3D12_STATIC_SAMPLER_DESC> samplers;
+	// for (uint8 i = 0; i < CEStaticSamplers::All; ++i) {
+	// 	samplers.emplace_back(GetStaticSamplers(static_cast<CEStaticSamplers>(i)));
+	// }
 
 	Desc.NumParameters = numRootParameters;
 	Desc.pParameters = Parameters;
@@ -252,6 +252,11 @@ void CEDXRootSignatureDescHelper::InitDescriptorRange(
 	uint32 numDescriptors,
 	uint32 baseShaderRegister,
 	uint32 registerSpace) {
+
+	CE_LOG_DEBUG(
+		"[CEDXRootSignatureDescHelper::InitDescriptorRange] BaseShaderRegister=" + std::to_string(baseShaderRegister) +
+		" NumDescriptors=" + std::to_string(numDescriptors) + " RegisterSpace=" + std::to_string(registerSpace));
+
 	range.BaseShaderRegister = baseShaderRegister;
 	range.NumDescriptors = numDescriptors;
 	range.RangeType = type;
@@ -456,10 +461,13 @@ bool CEDXRootSignatureCache::Create() {
 
 	CEDXRootSignature* rtGlobalRootSignature = CreateRootSignature(rtGlobalKey);
 	if (!rtGlobalRootSignature) {
+		CEDebug::DebugBreak();
 		return false;
 	}
-
-	rtGlobalRootSignature->SetName("Default Global Ray Tracing RootSignature");
+	else {
+		CE_LOG_WARNING("Create Global Root Signature");
+		rtGlobalRootSignature->SetName("Default Global Ray Tracing RootSignature");
+	}
 
 	CEDXRootSignatureResourceCount rtLocalKey;
 	rtLocalKey.Type = CERootSignatureType::RayTracingLocal;
@@ -473,8 +481,10 @@ bool CEDXRootSignatureCache::Create() {
 	if (!rtLocalRootSignature) {
 		return false;
 	}
+	else {
+		rtLocalRootSignature->SetName("Default Local Ray Tracing RootSignature");
+	}
 
-	rtLocalRootSignature->SetName("Default Local Ray Tracing RootSignature");
 
 	return true;
 }
@@ -488,14 +498,19 @@ void CEDXRootSignatureCache::ReleaseAll() {
 	ResourceCounts.Clear();
 }
 
-CEDXRootSignature* CEDXRootSignatureCache::GetRootSignature(const CEDXRootSignatureResourceCount& resourceCount) {
+CEDXRootSignature*
+CEDXRootSignatureCache::GetOrCreateRootSignature(const CEDXRootSignatureResourceCount& resourceCount) {
 	Assert(RootSignatures.Size() == ResourceCounts.Size());
 
 	for (uint32 i = 0; i < ResourceCounts.Size(); i++) {
 		if (resourceCount.IsCompatible(ResourceCounts[i])) {
+			CE_LOG_DEBUG(
+				"Root Signature '" + RootSignatures[i].Get()->GetName() + "' Compatible... " + std::to_string(i));
 			return RootSignatures[i].Get();
 		}
 	}
+
+	CE_LOG_WARNING("Compatible Root Signature not Found...")
 
 	CEDXRootSignatureResourceCount newResourceCount = resourceCount;
 	for (uint32 i = 0; i < ShaderVisibility_Count; i++) {
@@ -531,6 +546,8 @@ CEDXRootSignature* CEDXRootSignatureCache::CreateRootSignature(const CEDXRootSig
 		CE_LOG_ERROR("[CEDXRootSignatureCache] Failed to create Root Signature");
 		return nullptr;
 	}
+
+	CE_LOG_VERBOSE("[CEDXRootSignatureCache]: Create New Root Signature: " + rootSignature->GetName());
 
 	RootSignatures.EmplaceBack(rootSignature);
 	ResourceCounts.EmplaceBack(resourceCount);

@@ -327,6 +327,6 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		CEArray<CERayTracingHitGroup> HitGroups;
 		uint32 MaxAttributeSizeInBytes = 0;
 		uint32 MaxPayloadSizeInBytes = 0;
-		uint32 MaxRecursionDepth = 0;
+		uint32 MaxRecursionDepth = 1;
 	};
 }
