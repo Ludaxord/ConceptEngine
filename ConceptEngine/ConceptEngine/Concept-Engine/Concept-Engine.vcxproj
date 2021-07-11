@@ -214,6 +214,7 @@
     <ClInclude Include="Render\Scene\CEActor.h" />
     <ClInclude Include="Render\Scene\CECamera.h" />
     <ClInclude Include="Render\Scene\CEFrustum.h" />
+    <ClInclude Include="Render\Scene\Components\CEMeshComponent.h" />
     <ClInclude Include="Render\Scene\Lights\CEDirectionalLight.h" />
     <ClInclude Include="Render\Scene\Lights\CELight.h" />
     <ClInclude Include="Render\Scene\CEScene.h" />

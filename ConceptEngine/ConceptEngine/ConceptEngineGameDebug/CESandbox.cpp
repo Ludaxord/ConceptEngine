@@ -19,7 +19,6 @@ bool CESandbox::Create() {
 	Scene = ConceptEngine::Render::Scene::CEScene::LoadFromFile("");
 
 	ConceptEngine::Graphics::Main::CEMeshData SphereMeshData = CastMeshManager()->CreateSphere(3);
-	CESharedPtr<>
 
 	return true;
 }
