@@ -46,7 +46,7 @@ namespace ConceptEngine::Core::Compilers::Mono {
 
 		bool Create();
 
-		void AddFilePath(std::pair<std::string&, std::string&> FilePath);
+		bool AddFilePath(std::pair<std::string&, std::string&> FilePath);
 
 	private:
 		MonoAssembly* CreateAssembly(const char* DllFilePath) const;
