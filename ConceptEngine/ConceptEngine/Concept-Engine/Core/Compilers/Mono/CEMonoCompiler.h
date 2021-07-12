@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <unordered_map>
-
+#include "../../Log/CELog.h"
 #include "../CECompiler.h"
 #include "../../Containers/CEArray.h"
 
@@ -42,11 +40,11 @@ namespace ConceptEngine::Core::Compilers::Mono {
 		CEMonoCompiler(CEArray<CEMonoData>& MonoData);
 		CEMonoCompiler(CEMonoData& MonoData);
 		CEMonoCompiler(std::string& DllPath, std::string& FilePath);
-		CEMonoCompiler(std::unordered_map<std::string&, std::string&> FilePaths);
+		CEMonoCompiler(CEArray<std::string> DllPaths, CEArray<std::string> FilePaths);
 
 		bool Create();
 
-		bool AddFilePath(std::pair<std::string&, std::string&> FilePath);
+		bool AddFilePath(std::string& InDllFilePath, std::string& InCSFilePath);
 
 	private:
 		MonoAssembly* CreateAssembly(const char* DllFilePath) const;

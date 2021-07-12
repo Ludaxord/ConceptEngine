@@ -1,9 +1,5 @@
 #include "CEMonoCompiler.h"
 
-#include <unordered_map>
-
-#include "../../Log/CELog.h"
-
 using namespace ConceptEngine::Core::Compilers::Mono;
 
 CEMonoCompiler::CEMonoCompiler(CEArray<CEMonoData>& MonoData): Domain(nullptr) {
@@ -19,9 +15,10 @@ CEMonoCompiler::CEMonoCompiler(std::string& DllPath,
 	MonoArray.EmplaceBack(CEMonoData(DllPath, FilePath));
 }
 
-CEMonoCompiler::CEMonoCompiler(std::unordered_map<std::string&, std::string&> FilePaths): Domain(nullptr) {
-	for (auto& uMap : FilePaths) {
-		MonoArray.EmplaceBack(CEMonoData(uMap.first, uMap.second));
+CEMonoCompiler::CEMonoCompiler(CEArray<std::string> DllPaths, CEArray<std::string> CSFilePaths): Domain(nullptr) {
+	Assert(DllPaths.Size() == CSFilePaths.Size());
+	for (uint32 i = 0; i < CSFilePaths.Size(); i++) {
+		MonoArray.EmplaceBack(CEMonoData(DllPaths[i], CSFilePaths[i]));
 	}
 }
 
@@ -52,8 +49,8 @@ bool CEMonoCompiler::Create() {
 	return true;
 }
 
-bool CEMonoCompiler::AddFilePath(std::pair<std::string&, std::string&> FilePath) {
-	CEMonoData MonoData = CEMonoData(FilePath.first, FilePath.second);
+bool CEMonoCompiler::AddFilePath(std::string& InDllFilePath, std::string& InCSFilePath) {
+	CEMonoData MonoData = CEMonoData(InDllFilePath, InCSFilePath);
 	MonoData.Assembly = CreateAssembly(MonoData.DllFilePath.c_str());
 	if (!MonoData.Assembly) {
 		CE_LOG_ERROR("[CEMonoCompiler] Failed to create Assembly for DllFile: " + MonoData.DllFilePath)

@@ -25,6 +25,7 @@
     <ClInclude Include="Core\Common\CEClassType.h" />
     <ClInclude Include="Core\Common\CERef.h" />
     <ClInclude Include="Core\Common\CERefCountedObject.h" />
+    <ClInclude Include="Core\Compilers\Mono\CEMonoCompiler.h" />
     <ClInclude Include="Core\Containers\CEAllocator.h" />
     <ClInclude Include="Core\Containers\CEArray.h" />
     <ClInclude Include="Core\Common\CEEvents.h" />
@@ -242,6 +243,7 @@
     <ClCompile Include="Core\Compilers\Cpp\CECppCompiler.cpp" />
     <ClCompile Include="Core\Compilers\CSharp\CECSCompiler.cpp" />
     <ClCompile Include="Core\Compilers\JS\CEJSCompiler.cpp" />
+    <ClCompile Include="Core\Compilers\Mono\CEMonoCompiler.cpp" />
     <ClCompile Include="Core\Compilers\Python\CEPyCompiler.cpp" />
     <ClCompile Include="Core\Compilers\Schematics\CESchematicsCompiler.cpp" />
     <ClCompile Include="CEEngine.cpp" />
@@ -699,6 +701,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>C:\src\vcpkg\packages\physx_x64-windows-static\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -764,8 +767,8 @@
       <ShaderModel>6.0</ShaderModel>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;libmono-static-sgen.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Lib;C:\Program Files\Mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
