@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../CEActor.h"
+#include "Core/Containers/CESharedPtr.h"
 
 namespace ConceptEngine::Render::Scene::Components {
 	class CEMeshComponent : public CEComponent {
