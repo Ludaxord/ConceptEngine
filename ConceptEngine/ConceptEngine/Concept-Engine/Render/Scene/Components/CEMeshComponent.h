@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../CEActor.h"
-#include "Core/Containers/CESharedPtr.h"
+#include "../../Core/Containers/CESharedPtr.h"
 
 namespace ConceptEngine::Render::Scene::Components {
 	class CEMeshComponent : public CEComponent {
@@ -12,7 +12,7 @@ namespace ConceptEngine::Render::Scene::Components {
 			CORE_OBJECT_INIT();
 		}
 
-		CESharedPtr<class CEMaterial> Material; 
-		CESharedPtr<class CEMesh> Mesh; 
+		CESharedPtr<class Graphics::Main::Common::CEMaterial> Material; 
+		CESharedPtr<class Graphics::Main::Common::CEMesh> Mesh; 
 	};
 }

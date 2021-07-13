@@ -10,7 +10,10 @@
 #include "../../Graphics/Main/Rendering/CEMeshDrawCommand.h"
 #include "Lights/CELight.h"
 
-namespace ConceptEngine::Render::Scene {
+namespace ConceptEngine::Render::Scene {namespace Components {
+		class CEMeshComponent;
+	}
+
 	class CEScene {
 	public:
 		CEScene();
@@ -20,6 +23,7 @@ namespace ConceptEngine::Render::Scene {
 
 		void AddCamera(CECamera* camera);
 		void AddActor(CEActor* actor);
+		void AddLight(Lights::CELight* Light);
 
 		void OnAddedComponent(CEComponent* component);
 
@@ -55,7 +59,7 @@ namespace ConceptEngine::Render::Scene {
 		static CEScene* LoadFromFile(const std::string& filePath);
 
 	private:
-		void AddMeshComponent(class CEMeshComponent* component);
+		void AddMeshComponent(Components::CEMeshComponent* component);
 
 		CEArray<CEActor*> Actors;
 		CEArray<Lights::CELight*> Lights;

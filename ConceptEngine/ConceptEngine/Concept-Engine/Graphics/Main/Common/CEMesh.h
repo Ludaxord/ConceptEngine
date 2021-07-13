@@ -24,11 +24,11 @@ namespace ConceptEngine::Graphics::Main::Common {
 
 		void CreateBoundingBox(const CEMeshData& data);
 
-		CERef<ConceptEngine::Graphics::Main::RenderLayer::CEVertexBuffer> VertexBuffer;
-		CERef<ConceptEngine::Graphics::Main::RenderLayer::CEShaderResourceView> VertexBufferSRV;
-		CERef<ConceptEngine::Graphics::Main::RenderLayer::CEIndexBuffer> IndexBuffer;
-		CERef<ConceptEngine::Graphics::Main::RenderLayer::CEShaderResourceView> IndexBufferSRV;
-		CERef<ConceptEngine::Graphics::Main::RenderLayer::CERayTracingGeometry> RayTracingGeometry;
+		CERef<RenderLayer::CEVertexBuffer> VertexBuffer;
+		CERef<RenderLayer::CEShaderResourceView> VertexBufferSRV;
+		CERef<RenderLayer::CEIndexBuffer> IndexBuffer;
+		CERef<RenderLayer::CEShaderResourceView> IndexBufferSRV;
+		CERef<RenderLayer::CERayTracingGeometry> RayTracingGeometry;
 
 		uint32 VertexCount = 0;
 		uint32 IndexCount = 0;
