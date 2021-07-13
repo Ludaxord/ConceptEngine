@@ -288,7 +288,6 @@ class CESharedPtr : public CEPtrBase<T, CETDelete<T>> {
 
 public:
 	CESharedPtr() noexcept : Base() {
-
 	}
 
 	CESharedPtr(std::nullptr_t) noexcept : Base() {
@@ -346,14 +345,519 @@ public:
 		Base::template InternalConstructStrong<TAnother, CETDelete<T>>(Another.Release());
 	}
 
+	~CESharedPtr() noexcept {
+		Reset();
+	}
+
+	void Reset() noexcept {
+		Base::InternalDestructStrong();
+	}
+
+	void Swap(CESharedPtr& Other) noexcept {
+		Base::InternalSwap(Other);
+	}
+
+	bool IsUnique() const noexcept {
+		return (Base::GetStrongReferences() == 1);
+	}
+
+	T* operator->() const noexcept {
+		return Base::Get();
+	}
+
+	T& operator*() const noexcept {
+		Assert(Base::Ptr != nullptr);
+		return *Base::Ptr;
+	}
+
+	CESharedPtr& operator=(const CESharedPtr& Other) noexcept {
+		CESharedPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	CESharedPtr& operator=(CESharedPtr&& Other) noexcept {
+		CESharedPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CESharedPtr& operator=(const CESharedPtr<TOther>& Other) noexcept {
+		CESharedPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CESharedPtr& operator=(CESharedPtr<TOther>&& Other) noexcept {
+		CESharedPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	CESharedPtr& operator=(T* InPtr) noexcept {
+		if (Base::Ptr != InPtr) {
+			Reset();
+			Base::InternalConstructStrong(InPtr);
+		}
+
+		return *this;
+	}
+
+	CESharedPtr& operator=(std::nullptr_t) noexcept {
+		Reset();
+		return *this;
+	}
+
+	bool operator==(const CESharedPtr& Other) const noexcept {
+		return (Base::Ptr == Other.Ptr);
+	}
+
+	bool operator!=(const CESharedPtr& Other) const noexcept {
+		return !(*this == Other);
+	}
 };
+
+template <typename T>
+class CESharedPtr<T[]> : public CEPtrBase<T, CETDelete<T[]>> {
+	using Base = CEPtrBase<T, CETDelete<T[]>>;
+
+public:
+	CESharedPtr() noexcept : Base() {
+
+	}
+
+	CESharedPtr(std::nullptr_t) noexcept : Base() {
+
+	}
+
+	explicit CESharedPtr(T* Ptr) noexcept : Base() {
+		Base::InternalConstructStrong(Ptr);
+	}
+
+	CESharedPtr(const CESharedPtr& Other) noexcept : Base() {
+		Base::InternalConstructStrong(Other);
+	}
+
+	CESharedPtr(CESharedPtr&& Other) noexcept : Base() {
+		Base::InternalMove(Move(Other));
+	}
+
+	template <typename TOther>
+	CESharedPtr(const CESharedPtr<TOther[]>& Other) noexcept : Base() {
+		static_assert(std::is_convertible<TOther*, T*>());
+		Base::template InternalConstructStrong<TOther>(Other);
+	}
+
+	template <typename TOther>
+	CESharedPtr(const CESharedPtr<TOther[]>& Other, T* InPtr) noexcept : Base() {
+		Base::template InternalConstructStrong<TOther>(Move(Other), InPtr);
+	}
+
+	template <typename TOther>
+	CESharedPtr(CESharedPtr<TOther[]>&& Other, T* InPtr) noexcept : Base() {
+		Base::template InternalConstructStrong<TOther>(Move(Other), InPtr);
+	}
+
+	template <typename TOther>
+	CESharedPtr(CESharedPtr<TOther[]>&& Other) noexcept : Base() {
+		static_assert(std::is_convertible<TOther*, T*>());
+		Base::template InternalMove<TOther>(Move(Other));
+	}
+
+	template <typename TOther>
+	explicit CESharedPtr(const CEWeakPtr<TOther[]>& Other) noexcept : Base() {
+		static_assert(std::is_convertible<TOther*, T*>());
+		Base::template InternalConstructStrong<TOther>(Other);
+	}
+
+	template <typename TOther>
+	CESharedPtr(CEUniquePtr<TOther[]>&& Other) noexcept : Base() {
+		static_assert(std::is_convertible<TOther*, T*>());
+		Base::template InternalConstructStrong<TOther>(Other.Release());
+	}
+
+	~CESharedPtr() {
+		Reset();
+	}
+
+	void Reset() noexcept {
+		Base::InternalDestructStrong();
+	}
+
+	void Swap(CESharedPtr& Other) noexcept {
+		Base::InternalSwap(Other);
+	}
+
+	bool IsUnique() const noexcept {
+		return (Base::GetStrongReferences() == 1);
+	}
+
+	T& operator[](uint32 Index) noexcept {
+		Assert(Base::Ptr != nullptr);;
+		return Base::Ptr[Index];
+	}
+
+	CESharedPtr& operator=(const CESharedPtr& Other) noexcept {
+		CESharedPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	CESharedPtr& operator=(CESharedPtr&& Other) noexcept {
+		CESharedPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CESharedPtr& operator=(const CESharedPtr<TOther[]>& Other) noexcept {
+		CESharedPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CESharedPtr& operator=(CESharedPtr<TOther[]>&& Other) noexcept {
+		CESharedPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	CESharedPtr& operator=(T* InPtr) noexcept {
+		if (this->Ptr != InPtr) {
+			Reset();
+			Base::InternalConstructStrong(InPtr);
+		}
+
+		return *this;
+	}
+
+	CESharedPtr& operator=(std::nullptr_t) noexcept {
+		Reset();
+		return *this;
+	}
+
+	bool operator==(const CESharedPtr& Other) const noexcept {
+		return (Base::Ptr == Other.Ptr);
+	}
+
+	bool operator!=(const CESharedPtr& Other) const noexcept {
+		return !(*this == Other);
+	}
+};
+
 
 template <typename T>
 class CEWeakPtr : public CEPtrBase<T, CETDelete<T>> {
 	using Base = CEPtrBase<T, CETDelete<T>>;
+
+public:
+	CEWeakPtr() noexcept : Base() {
+
+	}
+
+	CEWeakPtr(const CESharedPtr<T>& Other) noexcept
+		: Base() {
+		Base::InternalConstructWeak(Other);
+	}
+
+	template <typename TOther>
+	CEWeakPtr(const CESharedPtr<TOther>& Other) noexcept
+		: Base() {
+		static_assert(std::is_convertible<TOther*, T*>(), "TWeakPtr: Trying to convert non-convertable types");
+		Base::template InternalConstructWeak<TOther>(Other);
+	}
+
+	CEWeakPtr(const CEWeakPtr& Other) noexcept
+		: Base() {
+		Base::InternalConstructWeak(Other);
+	}
+
+	CEWeakPtr(CEWeakPtr&& Other) noexcept
+		: Base() {
+		Base::InternalMove(Move(Other));
+	}
+
+	template <typename TOther>
+	CEWeakPtr(const CEWeakPtr<TOther>& Other) noexcept
+		: Base() {
+		static_assert(std::is_convertible<TOther*, T*>(), "TWeakPtr: Trying to convert non-convertable types");
+		Base::template InternalConstructWeak<TOther>(Other);
+	}
+
+	template <typename TOther>
+	CEWeakPtr(CEWeakPtr<TOther>&& Other) noexcept
+		: Base() {
+		static_assert(std::is_convertible<TOther*, T*>(), "TWeakPtr: Trying to convert non-convertable types");
+		Base::template InternalMove<TOther>(Move(Other));
+	}
+
+	~CEWeakPtr() {
+		Reset();
+	}
+
+	void Reset() noexcept {
+		Base::InternalDestructWeak();
+	}
+
+	void Swap(CEWeakPtr& Other) noexcept {
+		Base::InternalSwap(Other);
+	}
+
+	bool IsExpired() const noexcept {
+		return (Base::GetStrongReferences() < 1);
+	}
+
+	CEWeakPtr<T> MakeShared() noexcept {
+		const CEWeakPtr& This = *this;
+		return Move(CESharedPtr<T>(This));
+	}
+
+	T* operator->() const noexcept {
+		return Base::Get();
+	}
+
+	T& operator*() const noexcept {
+		Assert(Base::Ptr != nullptr);
+		return *Base::Ptr;
+	}
+
+	CEWeakPtr& operator=(const CEWeakPtr& Other) noexcept {
+		CEWeakPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	CEWeakPtr& operator=(CEWeakPtr&& Other) noexcept {
+		CEWeakPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CEWeakPtr& operator=(const CEWeakPtr<TOther>& Other) noexcept {
+		CEWeakPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CEWeakPtr& operator=(CEWeakPtr<TOther>&& Other) noexcept {
+		CEWeakPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	CEWeakPtr& operator=(T* InPtr) noexcept {
+		if (Base::Ptr != InPtr) {
+			Reset();
+			Base::InternalConstructWeak(InPtr);
+		}
+
+		return *this;
+	}
+
+	CEWeakPtr& operator=(std::nullptr_t) noexcept {
+		Reset();
+		return *this;
+	}
+
+	bool operator==(const CEWeakPtr& Other) const noexcept {
+		return (Base::Ptr == Other.Ptr);
+	}
+
+	bool operator!=(const CEWeakPtr& Other) const noexcept {
+		return !(*this == Other);
+	}
 };
 
 template <typename T>
 class CEWeakPtr<T[]> : public CEPtrBase<T, CETDelete<T[]>> {
 	using Base = CEPtrBase<T, CETDelete<T[]>>;
+
+public:
+	CEWeakPtr() noexcept
+		: Base() {
+	}
+
+	CEWeakPtr(const CESharedPtr<T>& Other) noexcept
+		: Base() {
+		Base::InternalConstructWeak(Other);
+	}
+
+	template <typename TOther>
+	CEWeakPtr(const CESharedPtr<TOther[]>& Other) noexcept
+		: Base() {
+		static_assert(std::is_convertible<TOther*, T*>(), "TWeakPtr: Trying to convert non-convertable types");
+		Base::template InternalConstructWeak<TOther>(Other);
+	}
+
+	CEWeakPtr(const CEWeakPtr& Other) noexcept
+		: Base() {
+		Base::InternalConstructWeak(Other);
+	}
+
+	CEWeakPtr(CEWeakPtr&& Other) noexcept
+		: Base() {
+		Base::InternalMove(Move(Other));
+	}
+
+	template <typename TOther>
+	CEWeakPtr(const CEWeakPtr<TOther[]>& Other) noexcept
+		: Base() {
+		static_assert(std::is_convertible<TOther*, T*>(), "TWeakPtr: Trying to convert non-convertable types");
+		Base::template InternalConstructWeak<TOther>(Other);
+	}
+
+	template <typename TOther>
+	CEWeakPtr(CEWeakPtr<TOther[]>&& Other) noexcept
+		: Base() {
+		static_assert(std::is_convertible<TOther*, T*>(), "TWeakPtr: Trying to convert non-convertable types");
+		Base::template InternalMove<TOther>(Move(Other));
+	}
+
+	~CEWeakPtr() {
+		Reset();
+	}
+
+	void Reset() noexcept {
+		Base::InternalDestructWeak();
+	}
+
+	void Swap(CEWeakPtr& Other) noexcept {
+		Base::InternalSwap(Other);
+	}
+
+	bool IsExpired() const noexcept {
+		return (Base::GetStrongReferences() < 1);
+	}
+
+	CESharedPtr<T[]> MakeShared() noexcept {
+		const CEWeakPtr& This = *this;
+		return Move(CESharedPtr<T[]>(This));
+	}
+
+	T& operator[](uint32 Index) noexcept {
+		Assert(Base::Ptr != nullptr);
+		return Base::Ptr[Index];
+	}
+
+	CEWeakPtr& operator=(const CEWeakPtr& Other) noexcept {
+		CEWeakPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	CEWeakPtr& operator=(CEWeakPtr&& Other) noexcept {
+		CEWeakPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CEWeakPtr& operator=(const CEWeakPtr<TOther[]>& Other) noexcept {
+		CEWeakPtr(Other).Swap(*this);
+		return *this;
+	}
+
+	template <typename TOther>
+	CEWeakPtr& operator=(CEWeakPtr<TOther[]>&& Other) noexcept {
+		CEWeakPtr(Move(Other)).Swap(*this);
+		return *this;
+	}
+
+	CEWeakPtr& operator=(T* InPtr) noexcept {
+		if (Base::Ptr != InPtr) {
+			Reset();
+			Base::InternalConstructWeak(InPtr);
+		}
+
+		return *this;
+	}
+
+	CEWeakPtr& operator=(std::nullptr_t) noexcept {
+		Reset();
+		return *this;
+	}
+
+	bool operator==(const CEWeakPtr& Other) const noexcept {
+		return (Base::Ptr == Other.Ptr);
+	}
+
+	bool operator!=(const CEWeakPtr& Other) const noexcept {
+		return !(*this == Other);
+	}
 };
+
+template <typename T, typename... TArgs>
+CEEnableIf<!CEIsArray<T>, CESharedPtr<T>> MakeShared(TArgs&&... Args) noexcept {
+	T* RefCountedPtr = new T(Forward<TArgs>(Args)...);
+	return Move(CESharedPtr<T>(RefCountedPtr));
+}
+
+template <typename T>
+CEEnableIf<CEIsArray<T>, CESharedPtr<T>> MakeShared(uint32 Size) noexcept {
+	using TType = CERemoveExtent<T>;
+
+	TType* RefCountedPtr = new TType[Size];
+	return Move(CESharedPtr<T>(RefCountedPtr));
+}
+
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> StaticCast(const CESharedPtr<T1>& Pointer) noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = static_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Pointer, RawPointer));
+}
+
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> StaticCast(CESharedPtr<T1>&& Pointer)
+noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = static_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Move(Pointer), RawPointer));
+}
+
+// const_cast
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> ConstCast(const CESharedPtr<T1>& Pointer) noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = const_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Pointer, RawPointer));
+}
+
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> ConstCast(CESharedPtr<T1>&& Pointer)
+noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = const_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Move(Pointer), RawPointer));
+}
+
+// reinterpret_cast
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> ReinterpretCast(const CESharedPtr<T1>& Pointer) noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = reinterpret_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Pointer, RawPointer));
+}
+
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> ReinterpretCast(CESharedPtr<T1>&& Pointer)
+noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = reinterpret_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Move(Pointer), RawPointer));
+}
+
+// dynamic_cast
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> DynamicCast(const CESharedPtr<T1>& Pointer) noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = dynamic_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Pointer, RawPointer));
+}
+
+template <typename T0, typename T1>
+CEEnableIf<CEIsArray<T0> == CEIsArray<T1>, CESharedPtr<T0>> DynamicCast(CESharedPtr<T1>&& Pointer)
+noexcept {
+	using TType = CERemoveExtent<T0>;
+
+	TType* RawPointer = dynamic_cast<TType*>(Pointer.Get());
+	return Move(CESharedPtr<T0>(Move(Pointer), RawPointer));
+}
