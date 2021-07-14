@@ -5,7 +5,10 @@
 #include "Render/Scene/CEScene.h"
 #include "Render/Scene/Components/CEMeshComponent.h"
 
-ConceptEngine::Graphics::Main::Common::CEPlayground* CreatePlayground() {
+using namespace ConceptEngine::Render::Scene;
+using namespace ConceptEngine::Graphics::Main;
+
+Common::CEPlayground* CreatePlayground() {
 	return new CESandbox();
 }
 
@@ -14,11 +17,11 @@ bool CESandbox::Create() {
 		return false;
 	}
 
-	ConceptEngine::Render::Scene::CEActor* Actor = nullptr;
-	ConceptEngine::Render::Scene::Components::CEMeshComponent* MeshComponent = nullptr;
-	Scene = ConceptEngine::Render::Scene::CEScene::LoadFromFile("");
+	CEActor* Actor = nullptr;
+	Components::CEMeshComponent* MeshComponent = nullptr;
+	Scene = CEScene::LoadFromFile("");
 
-	ConceptEngine::Graphics::Main::CEMeshData SphereMeshData = CastMeshManager()->CreateSphere(3);
+	CEMeshData SphereMeshData = CastMeshManager()->CreateSphere(3);
 
 	return true;
 }

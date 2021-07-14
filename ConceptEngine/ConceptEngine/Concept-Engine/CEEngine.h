@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <ctime>
 #include <Windows.h>
 
 #include "Core/Platform/CEPlatformActions.h"
@@ -51,6 +52,8 @@ namespace ConceptEngine {
 		bool CreateGame();
 		bool CreateGameDebug();
 
+		bool SetStartTime();
+	
 	private:
 		GraphicsAPI EnumApi;
 		Core::Compilers::Language EnumLanguage;
@@ -59,6 +62,8 @@ namespace ConceptEngine {
 		std::unique_ptr<Core::Application::CECore> Core;
 
 		friend class Core::Generic::Platform::CEPlatform;
+
+		std::time_t StartTime;
 
 	};
 

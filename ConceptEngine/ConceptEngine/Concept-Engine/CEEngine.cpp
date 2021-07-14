@@ -1,5 +1,7 @@
 #include "CEEngine.h"
 
+#include <chrono>
+
 #include "Core/Application/CECore.h"
 #include "Core/Application/Editor/CEEditor.h"
 #include "Core/Application/Game/CEGame.h"
@@ -14,6 +16,7 @@ ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                   Core::Compilers::Language language): EnumApi(api),
                                                                        EnumLanguage(language),
                                                                        EnumPlatform(platform) {
+	SetStartTime();
 	InstanceName = name;
 	if (Core::Application::CECore::ShowConsole) {
 		Create(EngineBoot::GameDebug);
@@ -28,6 +31,7 @@ ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                   Core::Generic::Platform::Platform platform) : EnumApi(api),
 	EnumLanguage(Core::Compilers::Language::None),
 	EnumPlatform(platform) {
+	SetStartTime();
 	InstanceName = name;
 	Create(EngineBoot::Editor);
 }
@@ -84,7 +88,7 @@ bool ConceptEngine::CEEngine::CreateEditor() {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -107,5 +111,10 @@ bool ConceptEngine::CEEngine::CreateGameDebug() {
 		return false;
 	}
 
+	return true;
+}
+
+bool ConceptEngine::CEEngine::SetStartTime() {
+	StartTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	return true;
 }

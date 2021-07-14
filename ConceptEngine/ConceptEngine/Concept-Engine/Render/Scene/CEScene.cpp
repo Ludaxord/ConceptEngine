@@ -4,6 +4,7 @@
 
 #include "Components/CEMeshComponent.h"
 #include "../../Graphics/Main/Common/CEMaterial.h"
+#include "../../Graphics/DirectX12/Common/CEDXMaterial.h"
 #include "../../Utilities/CEStringUtilities.h"
 
 #include "../../Core/Platform/Generic/Managers/CECastManager.h"
@@ -126,8 +127,13 @@ CEScene* CEScene::LoadFromFile(const std::string& filePath) {
 	Properties.Metallic = 0.0f;
 	Properties.Roughness = 1.0f;
 
-	CESharedPtr<Graphics::Main::Common::CEMaterial> BaseMaterial = MakeShared<
-		Graphics::Main::Common::CEMaterial>(Properties);
+#ifdef WINDOWS_PLATFORM
+	using namespace Graphics::DirectX12::Common;
+	CESharedPtr<CEDXMaterial> BaseMaterial = MakeShared<CEDXMaterial>(Properties);
+#else
+	CESharedPtr<CEMaterial> BaseMaterial = MakeShared<CEMaterial>(Properties);
+#endif
+
 	BaseMaterial->AlbedoMap = WhiteTexture;
 	BaseMaterial->AOMap = WhiteTexture;
 	BaseMaterial->HeightMap = WhiteTexture;
@@ -136,7 +142,13 @@ CEScene* CEScene::LoadFromFile(const std::string& filePath) {
 	BaseMaterial->NormalMap = NormalMap;
 	BaseMaterial->Create();
 
+#ifdef WINDOWS_PLATFORM
+	using namespace Graphics::DirectX12::Common;
+	CEArray<CESharedPtr<CEDXMaterial>> LoadedMaterials;
+#else
 	CEArray<CESharedPtr<Graphics::Main::Common::CEMaterial>> LoadedMaterials;
+#endif
+
 	std::unordered_map<std::string, CERef<Graphics::Main::RenderLayer::CETexture2D>> MaterialTextures;
 	for (tinyobj::material_t& Mat : Materials) {
 		CEMaterialProperties MaterialProperties;
@@ -144,7 +156,13 @@ CEScene* CEScene::LoadFromFile(const std::string& filePath) {
 		MaterialProperties.AO = 1.0f;
 		MaterialProperties.Roughness = 1.0f;
 
+#ifdef WINDOWS_PLATFORM
+		using namespace Graphics::DirectX12::Common;
+		CESharedPtr<CEDXMaterial>& NewMaterial = LoadedMaterials.EmplaceBack(
+			MakeShared<CEDXMaterial>(MaterialProperties));
+#else
 		CESharedPtr<CEMaterial>& NewMaterial = LoadedMaterials.EmplaceBack(MakeShared<CEMaterial>(MaterialProperties));
+#endif
 
 		CE_LOG_INFO("[CEScene] Loaded Material ID = " + std::to_string(LoadedMaterials.Size() - 1));
 
