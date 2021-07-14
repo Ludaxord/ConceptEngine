@@ -8,6 +8,7 @@
 #include "../RenderLayer/CEBuffer.h"
 #include "../RenderLayer/CEResourceViews.h"
 #include "../RenderLayer/CERayTracing.h"
+#include "../../../Core/Containers/CESharedPtr.h"
 
 
 namespace ConceptEngine::Graphics::Main::Common {
@@ -20,7 +21,7 @@ namespace ConceptEngine::Graphics::Main::Common {
 
 		bool BuildAccelerationStructure(ConceptEngine::Graphics::Main::RenderLayer::CECommandList& commandList);
 
-		static std::shared_ptr<CEMesh> Make(const CEMeshData& data);
+		static CESharedPtr<CEMesh> Make(const CEMeshData& data);
 
 		void CreateBoundingBox(const CEMeshData& data);
 
