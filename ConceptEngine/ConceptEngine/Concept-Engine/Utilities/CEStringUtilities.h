@@ -16,3 +16,11 @@ inline std::string ConvertToString(const std::wstring& wString) {
 inline std::string HResultToString(HRESULT hr) {
 	return std::system_category().message(hr);
 }
+
+inline void ConvertBackslashes(std::string& OutString) {
+	size_t pos = OutString.find_first_of('\\');
+	while (pos != std::string::npos) {
+		OutString.replace(pos, 1, 1, '/');
+		pos = OutString.find_first_of('\\', pos + 1);
+	}
+}
