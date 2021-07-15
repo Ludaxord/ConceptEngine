@@ -3,7 +3,7 @@
 #include <random>
 
 #include "Core/Platform/Generic/Managers/CECastManager.h"
-#include "Graphics/Main/Common/CEMaterial.h"
+#include "Graphics/DirectX12/Common/CEDXMaterial.h"
 #include "Render/Scene/CEActor.h"
 #include "Render/Scene/CEScene.h"
 #include "Render/Scene/Components/CEMeshComponent.h"
@@ -14,6 +14,7 @@ using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main;
 using namespace ConceptEngine::Core::Generic::Platform;
 using namespace ConceptEngine::Core::Platform::Generic::Input;
+using namespace ConceptEngine::Graphics::DirectX12::Common;
 
 #define ENABLE_LIGHT_TEST 0
 
@@ -95,7 +96,7 @@ bool CESandbox::Create() {
 
 			MeshComponent = new Components::CEMeshComponent(Actor);
 			MeshComponent->Mesh = SphereMesh;
-			MeshComponent->Material = MakeShared<Common::CEMaterial>(MaterialProperties);
+			MeshComponent->Material = MakeShared<CEDXMaterial>(MaterialProperties);
 
 			MeshComponent->Material->AlbedoMap = BaseTexture;
 			MeshComponent->Material->NormalMap = BaseNormal;
@@ -129,7 +130,7 @@ bool CESandbox::Create() {
 
 	MeshComponent = new Components::CEMeshComponent(Actor);
 	MeshComponent->Mesh = Common::CEMesh::Make(CubeMeshData);
-	MeshComponent->Material = MakeShared<Common::CEMaterial>(MaterialProperties);
+	MeshComponent->Material = MakeShared<CEDXMaterial>(MaterialProperties);
 
 	CERef AlbedoMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
@@ -211,7 +212,7 @@ bool CESandbox::Create() {
 
 	MeshComponent = new Components::CEMeshComponent(Actor);
 	MeshComponent->Mesh = Common::CEMesh::Make(CastMeshManager()->CreatePlane(10, 10));
-	MeshComponent->Material = MakeShared<Common::CEMaterial>(MaterialProperties);
+	MeshComponent->Material = MakeShared<CEDXMaterial>(MaterialProperties);
 	MeshComponent->Material->AlbedoMap = BaseTexture;
 	MeshComponent->Material->NormalMap = BaseNormal;
 	MeshComponent->Material->RoughnessMap = WhiteTexture;
