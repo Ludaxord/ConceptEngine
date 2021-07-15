@@ -4,7 +4,7 @@
 
 using namespace ConceptEngine::Render::Scene;
 
-//TODO: Implement
+//TODO: Change all DirectX specific Matrix to CE Matrix class.
 CECamera::CECamera(): View(),
                       Projection(),
                       ViewProjection(),

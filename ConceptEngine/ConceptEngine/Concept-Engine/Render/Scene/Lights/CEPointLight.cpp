@@ -3,7 +3,7 @@
 
 using namespace ConceptEngine::Render::Scene::Lights;
 
-//TODO: Implement
+//TODO: Change all DirectX specific Matrix to CE Matrix class.
 CEPointLight::CEPointLight(): CELight(), Position(0.0f, 0.0f, 0.0f), Matrices() {
 	CORE_OBJECT_INIT();
 	CalculateMatrices();
