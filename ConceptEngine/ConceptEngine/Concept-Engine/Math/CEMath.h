@@ -5,6 +5,12 @@
 namespace ConceptEngine::Math {
 	class CEMath {
 	public:
+		static constexpr float PI = 3.14159265359f;
+		static constexpr float TWO_PI = PI * 2.0f;
+		static constexpr float HALF_PI = PI / 2.0f;
+
+
+	public:
 		template <typename T>
 		static T DivideByMultiple(T value, uint32 alignment) {
 			return static_cast<T>((value + alignment - 1) / alignment);
