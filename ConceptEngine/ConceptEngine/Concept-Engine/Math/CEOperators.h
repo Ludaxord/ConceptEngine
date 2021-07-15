@@ -10,6 +10,8 @@
 
 #if defined(WINDOWS_PLATFORM)
 
+using namespace DirectX;
+
 struct CEMatrixFloat4X4 {
 
 	CEMatrixFloat4X4() = default;
@@ -624,6 +626,67 @@ inline CEVectorFloat4 operator-(CEVectorFloat4 Left, CEVectorFloat4 Right) {
 
 inline CEVectorFloat4 operator-(CEVectorFloat4 Value) {
 	return CEVectorFloat4(-Value.x, -Value.y, -Value.z, -Value.w);
+}
+
+
+inline XMFLOAT2 operator*(XMFLOAT2 Left, float Right) {
+	return XMFLOAT2(Left.x * Right, Left.y * Right);
+}
+
+inline XMFLOAT2 operator*(XMFLOAT2 Left, XMFLOAT2 Right) {
+	return XMFLOAT2(Left.x * Right.x, Left.y * Right.y);
+}
+
+inline XMFLOAT2 operator+(XMFLOAT2 Left, XMFLOAT2 Right) {
+	return XMFLOAT2(Left.x + Right.x, Left.y + Right.y);
+}
+
+inline XMFLOAT2 operator-(XMFLOAT2 Left, XMFLOAT2 Right) {
+	return XMFLOAT2(Left.x - Right.x, Left.y - Right.y);
+}
+
+inline XMFLOAT2 operator-(XMFLOAT2 Value) {
+	return XMFLOAT2(-Value.x, -Value.y);
+}
+
+inline XMFLOAT3 operator*(XMFLOAT3 Left, float Right) {
+	return XMFLOAT3(Left.x * Right, Left.y * Right, Left.z * Right);
+}
+
+inline XMFLOAT3 operator*(XMFLOAT3 Left, XMFLOAT3 Right) {
+	return XMFLOAT3(Left.x * Right.x, Left.y * Right.y, Left.z * Right.z);
+}
+
+inline XMFLOAT3 operator+(XMFLOAT3 Left, XMFLOAT3 Right) {
+	return XMFLOAT3(Left.x + Right.x, Left.y + Right.y, Left.z + Right.z);
+}
+
+inline XMFLOAT3 operator-(XMFLOAT3 Left, XMFLOAT3 Right) {
+	return XMFLOAT3(Left.x - Right.x, Left.y - Right.y, Left.z - Right.z);
+}
+
+inline XMFLOAT3 operator-(XMFLOAT3 Value) {
+	return XMFLOAT3(-Value.x, -Value.y, -Value.z);
+}
+
+inline XMFLOAT4 operator*(XMFLOAT4 Left, float Right) {
+	return XMFLOAT4(Left.x * Right, Left.y * Right, Left.z * Right, Left.w * Right);
+}
+
+inline XMFLOAT4 operator*(XMFLOAT4 Left, XMFLOAT4 Right) {
+	return XMFLOAT4(Left.x * Right.x, Left.y * Right.y, Left.z * Right.z, Left.w * Right.w);
+}
+
+inline XMFLOAT4 operator+(XMFLOAT4 Left, XMFLOAT4 Right) {
+	return XMFLOAT4(Left.x + Right.x, Left.y + Right.y, Left.z + Right.z, Left.w + Right.w);
+}
+
+inline XMFLOAT4 operator-(XMFLOAT4 Left, XMFLOAT4 Right) {
+	return XMFLOAT4(Left.x - Right.x, Left.y - Right.y, Left.z - Right.z, Left.w - Right.w);
+}
+
+inline XMFLOAT4 operator-(XMFLOAT4 Value) {
+	return XMFLOAT4(-Value.x, -Value.y, -Value.z, -Value.w);
 }
 
 #elif defined(MACOS_PLATFORM)

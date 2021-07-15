@@ -12,6 +12,8 @@
 
 using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main;
+using namespace ConceptEngine::Core::Generic::Platform;
+using namespace ConceptEngine::Core::Platform::Generic::Input;
 
 #define ENABLE_LIGHT_TEST 0
 
@@ -296,4 +298,57 @@ bool CESandbox::Create() {
 }
 
 void CESandbox::Update(ConceptEngine::Time::CETimestamp DeltaTime) {
+	CEPlayground::Update(DeltaTime);
+
+	const float Delta = static_cast<float>(DeltaTime.AsSeconds());
+	const float RotationSpeed = 45.0f;
+	//TODO: Replace it with mouse movement!!!
+	if (CEPlatform::GetInputManager()->IsKeyDown(Key_Right)) {
+		CurrentCamera->Rotate(0.0f, XMConvertToRadians(RotationSpeed * Delta), 0.0f);
+	}
+	else if (CEPlatform::GetInputManager()->IsKeyDown(Key_Left)) {
+		CurrentCamera->Rotate(0.0f, XMConvertToRadians(-RotationSpeed * Delta), 0.0f);
+	}
+
+	if (CEPlatform::GetInputManager()->IsKeyDown(Key_Up)) {
+		CurrentCamera->Rotate(XMConvertToRadians(-RotationSpeed * Delta), 0.0f, 0.0f);
+	}
+	else if (CEPlatform::GetInputManager()->IsKeyDown(Key_Down)) {
+		CurrentCamera->Rotate(XMConvertToRadians(RotationSpeed * Delta), 0.0f, 0.0f);
+	}
+
+	float Acceleration = 15.0f;
+	if (CEPlatform::GetInputManager()->IsKeyDown(CEKey::Key_LeftShift)) {
+		Acceleration = Acceleration * 3;
+	}
+
+	auto CameraAcceleration = CEVectorFloat3(0.0f, 0.0f, 0.0f).Native;
+	if (CEPlatform::GetInputManager()->IsKeyDown(Key_W)) {
+		CameraAcceleration.z = Acceleration;
+	}
+	else if (CEPlatform::GetInputManager()->IsKeyDown(Key_S)) {
+		CameraAcceleration.z = -Acceleration;
+	}
+
+	if (CEPlatform::GetInputManager()->IsKeyDown(CEKey::Key_A)) {
+		CameraAcceleration.x = Acceleration;
+	}
+	else if (CEPlatform::GetInputManager()->IsKeyDown(Key_D)) {
+		CameraAcceleration.x = -Acceleration;
+	}
+
+	if (CEPlatform::GetInputManager()->IsKeyDown(CEKey::Key_Q)) {
+		CameraAcceleration.y = Acceleration;
+	}
+	else if (CEPlatform::GetInputManager()->IsKeyDown(Key_E)) {
+		CameraAcceleration.y = -Acceleration;
+	}
+
+	const float DeAcceleration = -5.0f;
+	CameraSpeed = CameraSpeed + (CameraSpeed * DeAcceleration) * Delta;
+	CameraSpeed = CameraSpeed + (CameraAcceleration * Delta);
+
+	XMFLOAT3 Speed = CameraSpeed * Delta;
+	CurrentCamera->Move(Speed.x, Speed.y, Speed.z);
+	CurrentCamera->UpdateMatrices();
 }
