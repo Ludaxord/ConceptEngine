@@ -41,11 +41,10 @@ bool CESandbox::Create() {
 
 	CERef BaseTexture = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!BaseTexture) {
-
+		return false;
 	}
-	else {
 
-	}
+	BaseTexture->SetName("BaseTexture");
 
 	Pixels[0] = 127;
 	Pixels[1] = 127;
@@ -53,11 +52,10 @@ bool CESandbox::Create() {
 
 	CERef BaseNormal = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!BaseNormal) {
-
+		return false;
 	}
-	else {
 
-	}
+	BaseNormal->SetName("BaseNormal");
 
 	Pixels[0] = 255;
 	Pixels[1] = 255;
@@ -65,11 +63,10 @@ bool CESandbox::Create() {
 
 	CERef WhiteTexture = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!WhiteTexture) {
-
+		return false;
 	}
-	else {
 
-	}
+	WhiteTexture->SetName("WhiteTexture");
 
 	constexpr float SphereOffset = 1.25f;
 	constexpr uint32 SphereCountX = 8;
@@ -84,7 +81,35 @@ bool CESandbox::Create() {
 
 	uint32 SphereIndex = 0;
 	for (uint32 y = 0; y < SphereCountY; y++) {
+		for (uint32 x = 0; x < SphereCountX; x++) {
+			Actor = new CEActor();
+			Actor->GetTransform().SetTranslation(StartPositionX + (x * SphereOffset), 1.0f,
+			                                     40.0f + StartPositionY + (y * SphereOffset));
 
+			Actor->SetName("Sphere [" + std::to_string(SphereIndex) + "]");
+			SphereIndex++;
+
+			Scene->AddActor(Actor);
+
+			MeshComponent = new Components::CEMeshComponent(Actor);
+			MeshComponent->Mesh = SphereMesh;
+			MeshComponent->Material = MakeShared<Common::CEMaterial>(MaterialProperties);
+
+			MeshComponent->Material->AlbedoMap = BaseTexture;
+			MeshComponent->Material->NormalMap = BaseNormal;
+			MeshComponent->Material->RoughnessMap = WhiteTexture;
+			MeshComponent->Material->HeightMap = WhiteTexture;
+			MeshComponent->Material->AOMap = WhiteTexture;
+			MeshComponent->Material->MetallicMap = WhiteTexture;
+			MeshComponent->Material->Create();
+
+			Actor->AddComponent(MeshComponent);
+
+			MaterialProperties.Roughness += RoughnessDelta;
+		}
+
+		MaterialProperties.Roughness = 0.05f;
+		MaterialProperties.Metallic = MetallicDelta;
 	}
 
 	CEMeshData CubeMeshData = CastMeshManager()->CreateCube();
@@ -107,55 +132,56 @@ bool CESandbox::Create() {
 	CERef AlbedoMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!AlbedoMap) {
-
+		return false;
 	}
 	else {
-
+		AlbedoMap->SetName("AlbedoMap");
 	}
 
 	CERef NormalMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!NormalMap) {
-
+		return false;
 	}
 	else {
-
+		NormalMap->SetName("NormalMap");
 	}
 
 	CERef AOMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                 RenderLayer::CEFormat::R8_Unorm);
 	if (!AOMap) {
+		return false;
 
 	}
 	else {
-
+		AOMap->SetName("AOMap");
 	}
 
 	CERef RoughnessMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                        RenderLayer::CEFormat::R8_Unorm);
 	if (!RoughnessMap) {
-
+		return false;
 	}
 	else {
-
+		RoughnessMap->SetName("RoughnessMap");
 	}
 
 	CERef HeightMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8_Unorm);
 	if (!HeightMap) {
-
+		return false;
 	}
 	else {
-
+		HeightMap->SetName("HeightMap");
 	}
 
 	CERef MetallicMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
 	                                                       RenderLayer::CEFormat::R8_Unorm);
 	if (!MetallicMap) {
-
+		return false;
 	}
 	else {
-
+		HeightMap->SetName("MetallicMap");
 	}
 
 	MeshComponent->Material->AlbedoMap = AlbedoMap;
@@ -258,12 +284,12 @@ bool CESandbox::Create() {
 #endif
 
 	Lights::CEDirectionalLight* Light4 = new Lights::CEDirectionalLight();
-    Light4->SetShadowBias(0.0008f);
-    Light4->SetMaxShadowBias(0.008f);
-    Light4->SetShadowNearPlane(0.01f);
-    Light4->SetShadowFarPlane(140.0f);
-    Light4->SetColor(1.0f, 1.0f, 1.0f);
-    Light4->SetIntensity(10.0f);
+	Light4->SetShadowBias(0.0008f);
+	Light4->SetMaxShadowBias(0.008f);
+	Light4->SetShadowNearPlane(0.01f);
+	Light4->SetShadowFarPlane(140.0f);
+	Light4->SetColor(1.0f, 1.0f, 1.0f);
+	Light4->SetIntensity(10.0f);
 	Scene->AddLight(Light4);
 
 	return true;
