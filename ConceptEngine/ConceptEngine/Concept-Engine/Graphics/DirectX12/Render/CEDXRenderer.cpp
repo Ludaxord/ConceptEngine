@@ -35,6 +35,18 @@ using namespace ConceptEngine::Core::Common;
 
 ConceptEngine::Render::CERenderer* Renderer = new CEDXRenderer();
 
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawTextureDebugger(false);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawRendererInfo(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GEnableSSAO(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GEnableFXAA(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GFXAADebug(false);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GEnableVariableRateShading(false);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GPrePassEnabled(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawAABBs(false);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GVSyncEnabled(false);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GFrustumCullEnabled(true);
+ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GRayTracingEnabled(false);
+
 struct CEDXCameraBufferDesc {
 	DirectX::XMFLOAT4X4 ViewProjection;
 	DirectX::XMFLOAT4X4 View;
@@ -51,9 +63,20 @@ struct CEDXCameraBufferDesc {
 
 bool CEDXRenderer::Create() {
 
-	for (auto variable : ConceptEngine::Render::Variables) {
-		INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
-	}
+	// for (auto variable : ConceptEngine::Render::Variables) {
+	// 	INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
+	// }
+	INIT_CONSOLE_VARIABLE("CE.DrawTextureDebugger", &GDrawTextureDebugger);
+	INIT_CONSOLE_VARIABLE("CE.DrawRendererInfo", &GDrawRendererInfo);
+	INIT_CONSOLE_VARIABLE("CE.EnableSSAO", &GEnableSSAO);
+	INIT_CONSOLE_VARIABLE("CE.EnableFXAA", &GEnableFXAA);
+	INIT_CONSOLE_VARIABLE("CE.GFXAADebug", &GFXAADebug);
+	INIT_CONSOLE_VARIABLE("CE.EnableVariableRateShading", &GEnableVariableRateShading);
+	INIT_CONSOLE_VARIABLE("CE.PrePassEnabled", &GPrePassEnabled);
+	INIT_CONSOLE_VARIABLE("CE.DrawAABB", &GDrawAABBs);
+	INIT_CONSOLE_VARIABLE("CE.VSyncEnabled", &GVSyncEnabled);
+	INIT_CONSOLE_VARIABLE("CE.FrustumCullEnabled", &GFrustumCullEnabled);
+	INIT_CONSOLE_VARIABLE("CE.RayTracingEnabled", &GRayTracingEnabled);
 
 	Resources.MainWindowViewport = CastGraphicsManager()
 		->CreateViewport(
