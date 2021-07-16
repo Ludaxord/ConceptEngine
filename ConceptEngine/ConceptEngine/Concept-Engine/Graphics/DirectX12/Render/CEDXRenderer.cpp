@@ -950,6 +950,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 	CommandList.BeginExternalCapture();
 	// CommandList.Execute([this, &scene] {
+	//TODO: Fix D3D12_RESOURCE_STATES
 	CommandList.Begin();
 	Core::Debug::CEProfiler::BeginGPUFrame(CommandList);
 
