@@ -235,9 +235,17 @@ void ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXShaderBindingTableBuil
 }
 
 ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingScene::CEDXRayTracingScene(CEDXDevice* device,
-	uint32 flags): CERayTracingScene(flags), CEDXDeviceElement(device), ResultBuffer(nullptr), ScratchBuffer(nullptr),
-	               InstanceBuffer(nullptr), BindingTable(nullptr), BindingTableStride(0), NumHitGroups(0),
-	               View(nullptr), Instances(), ShaderBindingTableBuilder(nullptr) {
+	uint32 flags): CERayTracingScene(flags),
+	               CEDXDeviceElement(device),
+	               ResultBuffer(nullptr),
+	               ScratchBuffer(nullptr),
+	               InstanceBuffer(nullptr),
+	               BindingTable(nullptr),
+	               BindingTableStride(0),
+	               NumHitGroups(0),
+	               View(nullptr),
+	               Instances(),
+	               ShaderBindingTableBuilder(device) {
 }
 
 bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingScene::Build(CEDXCommandContext& commandContext,
