@@ -29,7 +29,7 @@ namespace ConceptEngine::Graphics::Main::Common {
 		CERef<RenderLayer::CEShaderResourceView> VertexBufferSRV;
 		CERef<RenderLayer::CEIndexBuffer> IndexBuffer;
 		CERef<RenderLayer::CEShaderResourceView> IndexBufferSRV;
-		CERef<RenderLayer::CERayTracingGeometry> RayTracingGeometry;
+		CERef<RenderLayer::CERayTracingGeometry> RTGeometry;
 
 		uint32 VertexCount = 0;
 		uint32 IndexCount = 0;

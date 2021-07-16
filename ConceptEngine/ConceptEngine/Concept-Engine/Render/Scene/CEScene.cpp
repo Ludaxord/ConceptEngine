@@ -364,7 +364,7 @@ CEScene* CEScene::LoadFromFile(const std::string& filePath) {
 void CEScene::AddMeshComponent(Components::CEMeshComponent* component) {
 	Graphics::Main::Rendering::CEMeshDrawCommand Command;
 	Command.CurrentActor = component->GetOwningActor();
-	Command.Geometry = component->Mesh->RayTracingGeometry.Get();
+	Command.Geometry = component->Mesh->RTGeometry.Get();
 	Command.VertexBuffer = component->Mesh->VertexBuffer.Get();
 	Command.IndexBuffer = component->Mesh->IndexBuffer.Get();
 	Command.Material = component->Material.Get();
