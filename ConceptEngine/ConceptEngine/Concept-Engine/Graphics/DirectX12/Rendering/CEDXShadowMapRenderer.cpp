@@ -266,7 +266,7 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 				commandList.SetConstantBuffer(PointLightPixelShader.Get(), PerShadowMapBuffer.Get(), 0);
 
 				Core::Platform::Generic::Debug::CEConsoleVariable* globalFrustumCullEnabled = GTypedConsole.
-					FindVariable("CE.EnableFrustumCulling");
+					FindVariable("CE.FrustumCullEnabled");
 				if (globalFrustumCullEnabled->GetBool()) {
 					Render::Scene::CEFrustum cameraFrustum = Render::Scene::CEFrustum(data.FarPlane,
 						data.ViewMatrix[face],

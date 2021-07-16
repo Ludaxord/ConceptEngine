@@ -133,7 +133,8 @@ bool CESandbox::Create() {
 	MeshComponent->Mesh = Common::CEMesh::Make(CubeMeshData);
 	MeshComponent->Material = MakeShared<CEDXMaterial>(MaterialProperties);
 
-	CERef AlbedoMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Albedo.png"), Managers::TextureFlag_GenerateMips,
+	CERef AlbedoMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Albedo.png"),
+	                                                     Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!AlbedoMap) {
 		return false;
@@ -142,7 +143,8 @@ bool CESandbox::Create() {
 		AlbedoMap->SetName("AlbedoMap");
 	}
 
-	CERef NormalMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Normal.png"), Managers::TextureFlag_GenerateMips,
+	CERef NormalMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Normal.png"),
+	                                                     Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!NormalMap) {
 		return false;
@@ -151,7 +153,8 @@ bool CESandbox::Create() {
 		NormalMap->SetName("NormalMap");
 	}
 
-	CERef AOMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_AO.png"), Managers::TextureFlag_GenerateMips,
+	CERef AOMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_AO.png"),
+	                                                 Managers::TextureFlag_GenerateMips,
 	                                                 RenderLayer::CEFormat::R8_Unorm);
 	if (!AOMap) {
 		return false;
@@ -161,8 +164,9 @@ bool CESandbox::Create() {
 		AOMap->SetName("AOMap");
 	}
 
-	CERef RoughnessMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Roughness.png"), Managers::TextureFlag_GenerateMips,
-	                                                        RenderLayer::CEFormat::R8_Unorm);
+	CERef RoughnessMap = CastTextureManager()->LoadFromFile(
+		GetEngineSourceDirectory("Assets/Textures/Gate_Roughness.png"), Managers::TextureFlag_GenerateMips,
+		RenderLayer::CEFormat::R8_Unorm);
 	if (!RoughnessMap) {
 		return false;
 	}
@@ -170,7 +174,8 @@ bool CESandbox::Create() {
 		RoughnessMap->SetName("RoughnessMap");
 	}
 
-	CERef HeightMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Height.png"), Managers::TextureFlag_GenerateMips,
+	CERef HeightMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Height.png"),
+	                                                     Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8_Unorm);
 	if (!HeightMap) {
 		return false;
@@ -179,8 +184,9 @@ bool CESandbox::Create() {
 		HeightMap->SetName("HeightMap");
 	}
 
-	CERef MetallicMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Metallic.png"), Managers::TextureFlag_GenerateMips,
-	                                                       RenderLayer::CEFormat::R8_Unorm);
+	CERef MetallicMap = CastTextureManager()->LoadFromFile(
+		GetEngineSourceDirectory("Assets/Textures/Gate_Metallic.png"), Managers::TextureFlag_GenerateMips,
+		RenderLayer::CEFormat::R8_Unorm);
 	if (!MetallicMap) {
 		return false;
 	}
@@ -304,6 +310,10 @@ void CESandbox::Update(ConceptEngine::Time::CETimestamp DeltaTime) {
 
 	const float Delta = static_cast<float>(DeltaTime.AsSeconds());
 	const float RotationSpeed = 45.0f;
+	if (!CEPlatform::GetInputManager()) {
+		CE_LOG_ERROR("[CESandbox] Input Manager is nullptr");
+	}
+
 	//TODO: Replace it with mouse movement!!!
 	if (CEPlatform::GetInputManager()->IsKeyDown(Key_Right)) {
 		CurrentCamera->Rotate(0.0f, XMConvertToRadians(RotationSpeed * Delta), 0.0f);

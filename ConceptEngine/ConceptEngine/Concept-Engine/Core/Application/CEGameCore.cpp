@@ -42,6 +42,11 @@ bool Application::CEGameCore::Create() {
 		return false;
 	}
 
+	if (!GPlatform->CreateManagers()) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
 	return true;
 }
 
