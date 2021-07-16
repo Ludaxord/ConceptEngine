@@ -9,6 +9,7 @@
 #include "Render/Scene/Components/CEMeshComponent.h"
 #include "Render/Scene/Lights/CEDirectionalLight.h"
 #include "Render/Scene/Lights/CEPointLight.h"
+#include "Utilities/CEDirectoryUtilities.h"
 
 using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main;
@@ -29,7 +30,7 @@ bool CESandbox::Create() {
 
 	CEActor* Actor = nullptr;
 	Components::CEMeshComponent* MeshComponent = nullptr;
-	Scene = CEScene::LoadFromFile("");
+	Scene = CEScene::LoadFromFile(GetEngineSourceDirectory("Assets/Scenes/Sponza/Sponza.obj"));
 
 	CEMeshData SphereMeshData = CastMeshManager()->CreateSphere(3);
 	CESharedPtr<Common::CEMesh> SphereMesh = Common::CEMesh::Make(SphereMeshData);
@@ -132,7 +133,7 @@ bool CESandbox::Create() {
 	MeshComponent->Mesh = Common::CEMesh::Make(CubeMeshData);
 	MeshComponent->Material = MakeShared<CEDXMaterial>(MaterialProperties);
 
-	CERef AlbedoMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
+	CERef AlbedoMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Albedo.png"), Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!AlbedoMap) {
 		return false;
@@ -141,7 +142,7 @@ bool CESandbox::Create() {
 		AlbedoMap->SetName("AlbedoMap");
 	}
 
-	CERef NormalMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
+	CERef NormalMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Normal.png"), Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8G8B8A8_Unorm);
 	if (!NormalMap) {
 		return false;
@@ -150,7 +151,7 @@ bool CESandbox::Create() {
 		NormalMap->SetName("NormalMap");
 	}
 
-	CERef AOMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
+	CERef AOMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_AO.png"), Managers::TextureFlag_GenerateMips,
 	                                                 RenderLayer::CEFormat::R8_Unorm);
 	if (!AOMap) {
 		return false;
@@ -160,7 +161,7 @@ bool CESandbox::Create() {
 		AOMap->SetName("AOMap");
 	}
 
-	CERef RoughnessMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
+	CERef RoughnessMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Roughness.png"), Managers::TextureFlag_GenerateMips,
 	                                                        RenderLayer::CEFormat::R8_Unorm);
 	if (!RoughnessMap) {
 		return false;
@@ -169,7 +170,7 @@ bool CESandbox::Create() {
 		RoughnessMap->SetName("RoughnessMap");
 	}
 
-	CERef HeightMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
+	CERef HeightMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Height.png"), Managers::TextureFlag_GenerateMips,
 	                                                     RenderLayer::CEFormat::R8_Unorm);
 	if (!HeightMap) {
 		return false;
@@ -178,7 +179,7 @@ bool CESandbox::Create() {
 		HeightMap->SetName("HeightMap");
 	}
 
-	CERef MetallicMap = CastTextureManager()->LoadFromFile("", Managers::TextureFlag_GenerateMips,
+	CERef MetallicMap = CastTextureManager()->LoadFromFile(GetEngineSourceDirectory("Assets/Textures/Gate_Metallic.png"), Managers::TextureFlag_GenerateMips,
 	                                                       RenderLayer::CEFormat::R8_Unorm);
 	if (!MetallicMap) {
 		return false;
