@@ -338,7 +338,7 @@ void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
 	commandList.SetRenderTargets(&backBufferRTV, 1, nullptr);
 
 	CEShaderResourceView* finalTargetSRV = Resources.FinalTarget->GetShaderResourceView();
-	if (ConceptEngine::Render::Variables["CE.GFXAADebug"].GetBool()) {
+	if (GFXAADebug.GetBool()) {
 		commandList.SetShaderResourceView(FXAADebugShader.Get(), finalTargetSRV, 0);
 		commandList.SetSamplerState(FXAADebugShader.Get(), Resources.FXAASampler.Get(), 0);
 		commandList.Set32BitShaderConstants(FXAADebugShader.Get(), &Settings, 2);
@@ -420,7 +420,7 @@ void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 }
 
 void CEDXRenderer::RenderDebugInterface() {
-	if (ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool()) {
+	if (GDrawTextureDebugger.GetBool()) {
 		//TODO: find actual screen aspect ratio <== Use functions from ConceptEngine Framework
 		constexpr float inverseAspectRatio = 16.0f / 9.0f;
 		constexpr float AspectRatio = 9.0f / 16.0f;
@@ -438,7 +438,7 @@ void CEDXRenderer::RenderDebugInterface() {
 		const ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar |
 			ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoSavedSettings;
 
-		bool tempDrawTextureDebugger = ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool();
+		bool tempDrawTextureDebugger = GDrawTextureDebugger.GetBool();
 		if (ImGui::Begin("Frame Buffer Debugger", &tempDrawTextureDebugger, flags)) {
 			ImGui::BeginChild("##ScrollBox", ImVec2(width * 0.985f, height * 0.125f), true,
 			                  ImGuiWindowFlags_HorizontalScrollbar);
@@ -489,10 +489,10 @@ void CEDXRenderer::RenderDebugInterface() {
 
 		ImGui::End();
 
-		ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].SetBool(tempDrawTextureDebugger);
+		GDrawTextureDebugger.SetBool(tempDrawTextureDebugger);
 	}
 
-	if (ConceptEngine::Render::Variables["CE.DrawTextureDebugger"].GetBool()) {
+	if (GDrawTextureDebugger.GetBool()) {
 		const uint32 windowWidth = Core::Generic::Platform::CEPlatform::GetWindow()->GetWidth();
 		const uint32 windowHeight = Core::Generic::Platform::CEPlatform::GetWindow()->GetHeight();
 		const float width = 300.0f;
@@ -931,7 +931,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	Resources.ForwardVisibleCommands.Clear();
 	Resources.DebugTextures.Clear();
 
-	if (!ConceptEngine::Render::Variables["CE.FrustumCullEnabled"].GetBool()) {
+	if (!GFrustumCullEnabled.GetBool()) {
 		for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
 			if (command.Material->HasAlphaMask()) {
 				Resources.ForwardVisibleCommands.EmplaceBack(command);
@@ -956,7 +956,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "-- BEGIN FRAME --");
 
-	if (ShadingImage && ConceptEngine::Render::Variables["CE.EnableVariableRateShading"].GetBool()) {
+	if (ShadingImage && GEnableVariableRateShading.GetBool()) {
 		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== BEGIN VARIABLE RATE SHADING IMAGE ==");
 		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 
@@ -986,8 +986,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
 	ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
 
-	if (CastGraphicsManager()->IsRayTracingSupported() && ConceptEngine::Render::Variables[
-		"CE.RayTracingEnabled"].GetBool()) {
+	if (GRayTracingEnabled.GetBool()) {
 		GPU_TRACE_SCOPE(CommandList, "== RAY TRACING ==");
 		RayTracer->PreRender(CommandList, Resources, scene);
 	}
@@ -1094,7 +1093,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	const Math::CEColorF whiteColor = {1.0f, 1.0f, 1.0f, 1.0f};
 	CommandList.ClearUnorderedAccessView(Resources.SSAOBuffer->GetUnorderedAccessView(), whiteColor);
 
-	if (ConceptEngine::Render::Variables["CE.EnableSSAO"].GetBool()) {
+	if (GEnableSSAO.GetBool()) {
 		SSAORenderer->Render(CommandList, Resources);
 	}
 
@@ -1168,14 +1167,14 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		CEResourceState::PixelShaderResource
 	);
 
-	if (ConceptEngine::Render::Variables["CE.EnableFXAA"].GetBool()) {
+	if (GEnableFXAA.GetBool()) {
 		PerformFXAA(CommandList);
 	}
 	else {
 		PerformBackBufferBlit(CommandList);
 	}
 
-	if (ConceptEngine::Render::Variables["CE.DrawAABB"].GetBool()) {
+	if (GDrawAABBs.GetBool()) {
 		PerformAABBDebugPass(CommandList);
 	}
 
@@ -1218,7 +1217,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 	{
 		TRACE_SCOPE("Present");
-		Resources.MainWindowViewport->Present(ConceptEngine::Render::Variables["CE.VSyncEnabled"].GetBool());
+		Resources.MainWindowViewport->Present(GVSyncEnabled.GetBool());
 	}
 }
 
