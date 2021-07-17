@@ -253,10 +253,6 @@ void CEDXRootSignatureDescHelper::InitDescriptorRange(
 	uint32 baseShaderRegister,
 	uint32 registerSpace) {
 
-	CE_LOG_DEBUG(
-		"[CEDXRootSignatureDescHelper::InitDescriptorRange] BaseShaderRegister=" + std::to_string(baseShaderRegister) +
-		" NumDescriptors=" + std::to_string(numDescriptors) + " RegisterSpace=" + std::to_string(registerSpace));
-
 	range.BaseShaderRegister = baseShaderRegister;
 	range.NumDescriptors = numDescriptors;
 	range.RangeType = type;
@@ -504,8 +500,7 @@ CEDXRootSignatureCache::GetOrCreateRootSignature(const CEDXRootSignatureResource
 
 	for (uint32 i = 0; i < ResourceCounts.Size(); i++) {
 		if (resourceCount.IsCompatible(ResourceCounts[i])) {
-			CE_LOG_DEBUG(
-				"Root Signature '" + RootSignatures[i].Get()->GetName() + "' Compatible... " + std::to_string(i));
+
 			return RootSignatures[i].Get();
 		}
 	}
@@ -546,8 +541,6 @@ CEDXRootSignature* CEDXRootSignatureCache::CreateRootSignature(const CEDXRootSig
 		CE_LOG_ERROR("[CEDXRootSignatureCache] Failed to create Root Signature");
 		return nullptr;
 	}
-
-	CE_LOG_VERBOSE("[CEDXRootSignatureCache]: Create New Root Signature: " + rootSignature->GetName());
 
 	RootSignatures.EmplaceBack(rootSignature);
 	ResourceCounts.EmplaceBack(resourceCount);

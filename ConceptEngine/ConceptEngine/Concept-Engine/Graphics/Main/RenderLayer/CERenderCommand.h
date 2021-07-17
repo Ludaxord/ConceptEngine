@@ -24,6 +24,8 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			Execute(commandContext);
 		}
 
+		virtual std::string GetName() = 0;
+
 		CERenderCommand* NextCommand = nullptr;
 	};
 
@@ -36,6 +38,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.Begin();
 		}
 
+		std::string GetName() override {
+			return "CEBeginRenderCommand";
+		};
 	};
 
 	struct CEEndRenderCommand : public CERenderCommand {
@@ -46,6 +51,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.End();
 		}
+
+		std::string GetName() override {
+			return "CEEndRenderCommand";
+		};
 	};
 
 	struct CEBeginTimeStampRenderCommand : public CERenderCommand {
@@ -55,6 +64,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.BeginTimeStamp(Profiler.Get(), Index);
 		}
+
+		std::string GetName() override {
+			return "CEBeginTimeStampRenderCommand";
+		};
 
 		CERef<CEGPUProfiler> Profiler;
 		uint32 Index;
@@ -68,6 +81,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.EndTimeStamp(Profiler.Get(), Index);
 		}
+
+		std::string GetName() override {
+			return "CEEndTimeStampRenderCommand";
+		};
 
 		CERef<CEGPUProfiler> Profiler;
 		uint32 Index;
@@ -83,6 +100,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.ClearRenderTargetView(RenderTargetView.Get(), ClearColor);
 		}
 
+		std::string GetName() override {
+			return "CEClearRenderTargetViewRenderCommand";
+		};
+
 		CERef<CERenderTargetView> RenderTargetView;
 		Math::CEColorF ClearColor;
 	};
@@ -95,6 +116,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.ClearDepthStencilView(DepthStencilView.Get(), ClearValue);
+		};
+
+		std::string GetName() override {
+			return "CEClearDepthStencilViewRenderCommand";
 		};
 
 		CERef<CEDepthStencilView> DepthStencilView;
@@ -112,6 +137,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.ClearUnorderedAccessViewFloat(UnorderedAccessView.Get(), ClearColor);
 		}
 
+		std::string GetName() override {
+			return "CEClearUnorderedAccessViewFloatRenderCommand";
+		};
+
 		CERef<CEUnorderedAccessView> UnorderedAccessView;
 		Math::CEColorF ClearColor;
 	};
@@ -125,6 +154,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetShadingRate(ShadingRate);
 		}
 
+		std::string GetName() override {
+			return "CESetShadingRateRenderCommand";
+		};
+
 		CEShadingRate ShadingRate;
 	};
 
@@ -136,6 +169,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetShadingRateImage(ShadingImage.Get());
 		}
+
+		std::string GetName() override {
+			return "CESetShadingRateImageRenderCommand";
+		};
 
 		CERef<CETexture2D> ShadingImage;
 
@@ -150,6 +187,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetViewport(Width, Height, MinDepth, MaxDepth, X, Y);
 		}
+
+		std::string GetName() override {
+			return "CESetViewportRenderCommand";
+		};
 
 		float Width;
 		float Height;
@@ -169,6 +210,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetScissorRect(Width, Height, X, Y);
 		}
 
+		std::string GetName() override {
+			return "CESetScissorRectRenderCommand";
+		};
+
 		float Width;
 		float Height;
 		float X;
@@ -183,6 +228,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		virtual void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetBlendFactor(Color);
 		}
+
+		std::string GetName() override {
+			return "CESetBlendFactorRenderCommand";
+		};
 
 		Math::CEColorF Color;
 
@@ -201,6 +250,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.BeginRenderPass(Color, RenderTargetView.Get(), DepthStencilView.Get());
 		}
 
+		std::string GetName() override {
+			return "CEBeginRenderPassRenderCommand";
+		};
+
 		Math::CEColorF Color;
 		CERef<CERenderTargetView> RenderTargetView;
 		CERef<CEDepthStencilView> DepthStencilView;
@@ -214,6 +267,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.EndRenderPass();
 		}
+
+		std::string GetName() override {
+			return "CEEndRenderPassRenderCommand";
+		};
 	};
 
 	struct CESetPrimitiveTopologyRenderCommand : public CERenderCommand {
@@ -225,6 +282,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetPrimitiveTopology(PrimitiveTopologyType);
 		}
+
+		std::string GetName() override {
+			return "CESetPrimitiveTopologyRenderCommand";
+		};
 
 		CEPrimitiveTopology PrimitiveTopologyType;
 	};
@@ -246,6 +307,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetVertexBuffers(VertexBuffers, VertexBufferCount, StartSlot);
 		}
 
+		std::string GetName() override {
+			return "CESetVertexBuffersRenderCommand";
+		};
+
 		CEVertexBuffer** VertexBuffers;
 		uint32 VertexBufferCount;
 		uint32 StartSlot;
@@ -259,6 +324,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetIndexBuffer(IndexBuffer.Get());
 		}
+
+		std::string GetName() override {
+			return "CESetIndexBufferRenderCommand";
+		};
 
 		CERef<CEIndexBuffer> IndexBuffer;
 	};
@@ -280,6 +349,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetRenderTargets(RenderTargetViews, RenderTargetViewCount, DepthStencilView.Get());
 		}
+
+		std::string GetName() override {
+			return "CESetRenderTargetsRenderCommand";
+		};
 
 		CERenderTargetView** RenderTargetViews;
 		uint32 RenderTargetViewCount;
@@ -317,6 +390,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			);
 		}
 
+		std::string GetName() override {
+			return "CESetRayTracingBindingsRenderCommand";
+		};
+
 		CERef<CERayTracingScene> Scene;
 		CERef<CERayTracingPipelineState> PipelineState;
 		const CERayTracingShaderResources* GlobalResources;
@@ -335,6 +412,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetGraphicsPipelineState(PipelineState.Get());
 		}
 
+		std::string GetName() override {
+			return "CESetGraphicsPipelineStateRenderCommand";
+		};
+
 		CERef<CEGraphicsPipelineState> PipelineState;
 	};
 
@@ -346,6 +427,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetComputePipelineState(PipelineState.Get());
 		}
+
+		std::string GetName() override {
+			return "CESetComputePipelineStateRenderCommand";
+		};
 
 		CERef<CEComputePipelineState> PipelineState;
 	};
@@ -361,6 +446,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.Set32BitShaderConstants(Shader.Get(), Shader32BitConstants, Num32BitConstants);
 		}
+
+		std::string GetName() override {
+			return "CESet32BitShaderConstantsRenderCommand";
+		};
 
 		CERef<CEShader> Shader;
 		const void* Shader32BitConstants;
@@ -378,6 +467,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetShaderResourceView(Shader.Get(), ShaderResourceView.Get(), ParameterIndex);
 		}
+
+		std::string GetName() override {
+			return "CESetShaderResourceViewRenderCommand";
+		};
 
 		CERef<CEShader> Shader;
 		CERef<CEShaderResourceView> ShaderResourceView;
@@ -404,6 +497,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                      ParameterIndex);
 		}
 
+		std::string GetName() override {
+			return "CESetShaderResourceViewsRenderCommand";
+		};
+
 		CERef<CEShader> Shader;
 		CEShaderResourceView** ShaderResourceViews;
 		uint32 NumShaderResourceViews;
@@ -421,6 +518,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetUnorderedAccessView(Shader.Get(), UnorderedAccessView.Get(), ParameterIndex);
 		}
+
+		std::string GetName() override {
+			return "CESetUnorderedAccessViewRenderCommand";
+		};
 
 		CERef<CEShader> Shader;
 		CERef<CEUnorderedAccessView> UnorderedAccessView;
@@ -449,6 +550,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                       ParametersIndex);
 		}
 
+		std::string GetName() override {
+			return "CESetUnorderedAccessViewsRenderCommand";
+		};
+
 		CERef<CEShader> Shader;
 		CEUnorderedAccessView** UnorderedAccessViews;
 		uint32 NumUnorderedAccessViews;
@@ -464,6 +569,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetConstantBuffer(Shader.Get(), ConstantBuffer.Get(), ParameterIndex);
 		}
+
+		std::string GetName() override {
+			return "CESetConstantBufferRenderCommand";
+		};
 
 		CERef<CEShader> Shader;
 		CERef<CEConstantBuffer> ConstantBuffer;
@@ -492,6 +601,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetConstantBuffers(Shader.Get(), ConstantBuffers, NumConstantBuffers, ParameterIndex);
 		}
 
+		std::string GetName() override {
+			return "CESetConstantBuffersRenderCommand";
+		};
+
 		CERef<CEShader> Shader;
 		CEConstantBuffer** ConstantBuffers;
 		uint32 NumConstantBuffers;
@@ -508,6 +621,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.SetSamplerState(Shader.Get(), SamplerState.Get(), ParameterIndex);
 		}
+
+		std::string GetName() override {
+			return "CESetSamplerStateRenderCommand";
+		};
 
 		CERef<CEShader> Shader;
 		CERef<CESamplerState> SamplerState;
@@ -534,6 +651,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.SetSamplerStates(Shader.Get(), SamplerStates, NumSamplerStates, ParameterIndex);
 		}
 
+		std::string GetName() override {
+			return "CESetSamplerStatesRenderCommand";
+		};
+
 		CERef<CEShader> Shader;
 		CESamplerState** SamplerStates;
 		uint32 NumSamplerStates;
@@ -550,6 +671,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.ResolveTexture(Destination.Get(), Source.Get());
 		}
+
+		std::string GetName() override {
+			return "CEResolveTextureRenderCommand";
+		};
 
 		CERef<CETexture> Destination;
 		CERef<CETexture> Source;
@@ -568,6 +693,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.UpdateBuffer(Destination.Get(), DestinationOffsetInBytes, SizeInBytes, SourceData);
 		}
 
+		std::string GetName() override {
+			return "CEUpdateBufferRenderCommand";
+		};
+
 		CERef<CEBuffer> Destination;
 		uint64 DestinationOffsetInBytes;
 		uint64 SizeInBytes;
@@ -584,6 +713,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.UpdateTexture2D(Destination.Get(), Width, Height, MipLevel, SourceData);
 		}
+
+		std::string GetName() override {
+			return "CEUpdateTexture2DRenderCommand";
+		};
 
 		CERef<CETexture2D> Destination;
 		uint32 Width;
@@ -602,6 +735,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.CopyBuffer(Destination.Get(), Source.Get(), CopyBufferInfo);
 		}
 
+		std::string GetName() override {
+			return "CECopyBufferRenderCommand";
+		};
+
 		CERef<CEBuffer> Destination;
 		CERef<CEBuffer> Source;
 		CECopyBufferInfo CopyBufferInfo;
@@ -616,6 +753,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.CopyTexture(Destination.Get(), Source.Get());
 		}
+
+		std::string GetName() override {
+			return "CECopyTextureRenderCommand";
+		};
 
 		CERef<CETexture> Destination;
 		CERef<CETexture> Source;
@@ -633,6 +774,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
+		std::string GetName() override {
+			return "CECopyTextureRegionRenderCommand";
+		};
+
 		CERef<CETexture> Destination;
 		CERef<CETexture> Source;
 		CECopyTextureInfo CopyTextureInfo;
@@ -647,6 +792,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.DiscardResource(Resource.Get());
 		}
+
+		std::string GetName() override {
+			return "CEDiscardResourceRenderCommand";
+		};
 
 		CERef<CEResource> Resource;
 	};
@@ -663,6 +812,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.BuildRayTracingGeometry(RayTracingGeometry.Get(), VertexBuffer.Get(), IndexBuffer.Get(),
 			                                       Update);
 		}
+
+		std::string GetName() override {
+			return "CEBuildRayTracingGeometryRenderCommand";
+		};
 
 		CERef<CERayTracingGeometry> RayTracingGeometry;
 		CERef<CEVertexBuffer> VertexBuffer;
@@ -683,6 +836,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.BuildRayTracingScene(RayTracingScene.Get(), Instances, NumInstances, Update);
 		}
 
+		std::string GetName() override {
+			return "CEBuildRayTracingSceneRenderCommand";
+		};
+
 		CERef<CERayTracingScene> RayTracingScene;
 		const CERayTracingGeometryInstance* Instances;
 		uint32 NumInstances;
@@ -698,6 +855,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.GenerateMips(Texture.Get());
 		}
 
+		std::string GetName() override {
+			return "CEGenerateMipsRenderCommand";
+		};
+		
 		CERef<CETexture> Texture;
 	};
 
@@ -710,6 +871,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.TransitionTexture(Texture.Get(), BeforeState, AfterState);
 		}
+
+		std::string GetName() override {
+			return "CETransitionTextureRenderCommand";
+		};
 
 		CERef<CETexture> Texture;
 		CEResourceState BeforeState;
@@ -726,6 +891,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.TransitionBuffer(Buffer.Get(), BeforeState, AfterState);
 		}
 
+		std::string GetName() override {
+			return "CETransitionBufferRenderCommand";
+		};
+
 		CERef<CEBuffer> Buffer;
 		CEResourceState BeforeState;
 		CEResourceState AfterState;
@@ -740,6 +909,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.UnorderedAccessTextureBarrier(Texture.Get());
 		}
 
+		std::string GetName() override {
+			return "CEUnorderedAccessTextureBarrierRenderCommand";
+		};
+
 		CERef<CETexture> Texture;
 	};
 
@@ -751,6 +924,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.UnorderedAccessBufferBarrier(Buffer.Get());
 		}
+
+		std::string GetName() override {
+			return "CEUnorderedAccessBufferBarrierRenderCommand";
+		};
 
 		CERef<CEBuffer> Buffer;
 	};
@@ -765,6 +942,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.Draw(VertexCount, StartVertexLocation);
 		}
 
+		std::string GetName() override {
+			return "CEDrawRenderCommand";
+		};
+
 		uint32 VertexCount;
 		uint32 StartVertexLocation;
 	};
@@ -778,6 +959,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 		}
+
+		std::string GetName() override {
+			return "CEDrawIndexedRenderCommand";
+		};
 
 		uint32 IndexCount;
 		uint32 StartIndexLocation;
@@ -797,6 +982,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.DrawInstanced(VertexCountPerInstance, InstanceCount, StartVertexLocation,
 			                             StartInstanceLocation);
 		}
+
+		std::string GetName() override {
+			return "CEDrawInstancedRenderCommand";
+		};
 
 		uint32 VertexCountPerInstance;
 		uint32 InstanceCount;
@@ -821,6 +1010,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			                                    BaseVertexLocation, StartInstanceLocation);
 		}
 
+		std::string GetName() override {
+			return "CEDrawIndexedInstancedRenderCommand";
+		};
+
 		uint32 IndexCountPerInstance;
 		uint32 InstanceCount;
 		uint32 StartIndexLocation;
@@ -838,6 +1031,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.Dispatch(ThreadGroupCountX, ThreadGroupCountY, ThreadGroupCountZ);
 		}
+
+		std::string GetName() override {
+			return "CEDispatchComputeRenderCommand";
+		};
 
 		uint32 ThreadGroupCountX;
 		uint32 ThreadGroupCountY;
@@ -857,6 +1054,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.DispatchRays(Scene.Get(), PipelineState.Get(), Width, Height, Depth);
 		}
 
+		std::string GetName() override {
+			return "CEDispatchRayRenderCommand";
+		};
+
 		CERef<CERayTracingScene> Scene;
 		CERef<CERayTracingPipelineState> PipelineState;
 		uint32 Width;
@@ -875,6 +1076,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			commandContext.InsertMaker(Marker);
 		}
 
+		std::string GetName() override {
+			return "CEInsertCommandListMarkerRenderCommand";
+		};
+
 		std::string Marker;
 	};
 
@@ -884,6 +1089,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			(void)commandContext;
 			CEDebug::DebugBreak();
 		}
+
+		std::string GetName() override {
+			return "CEDebugBreakRenderCommand";
+		};
 	};
 
 	struct CEBeginExternalCaptureRenderCommand : public CERenderCommand {
@@ -891,11 +1100,19 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.BeginExternalCapture();
 		}
+
+		std::string GetName() override {
+			return "CEBeginExternalCaptureRenderCommand";
+		};
 	};
 
 	struct CEEndExternalCaptureRenderCommand : public CERenderCommand {
 		void Execute(CEICommandContext& commandContext) override {
 			commandContext.EndExternalCapture();
 		}
+
+		std::string GetName() override {
+			return "CEEndExternalCaptureRenderCommand";
+		};
 	};
 }

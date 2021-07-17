@@ -465,8 +465,6 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 		return false;
 	}
 
-	CE_LOG_VERBOSE("[CERayGenShader] Use of RayGenLocalRootSignature " + RayGenLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumSamplers));
-
 	std::wstring rayGenIdentifier = ConvertToWString(RayGen->GetIdentifier());
 	PipelineStateStream.AddLibrary(RayGen->GetByteCode(), {rayGenIdentifier});
 	PipelineStateStream.AddRootSignatureAssociation(RayGenLocalRootSignature->GetRootSignature(), {rayGenIdentifier});
@@ -502,9 +500,7 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 		if (!HitLocalRootSignature) {
 			return false;
 		}
-
-		CE_LOG_VERBOSE("[CERayAnyHitShader] Use of HitLocalRootSignature " + HitLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(dxAnyHit->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(dxAnyHit->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(dxAnyHit->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(dxAnyHit->GetRTLocalResourceCount().Ranges.NumSamplers));
-
+		
 		std::wstring anyHitIdentifier = ConvertToWString(dxAnyHit->GetIdentifier());
 		PipelineStateStream.AddLibrary(dxAnyHit->GetByteCode(), {anyHitIdentifier});
 		PipelineStateStream.AddRootSignatureAssociation(HitLocalRootSignature->GetRootSignature(), {anyHitIdentifier});
@@ -523,8 +519,6 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 		if (!HitLocalRootSignature) {
 			return false;
 		}
-
-		CE_LOG_VERBOSE("[CERayClosestHitShader] Use of HitLocalRootSignature " + HitLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(dxClosestHit->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(dxClosestHit->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(dxClosestHit->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(dxClosestHit->GetRTLocalResourceCount().Ranges.NumSamplers))
 		
 		std::wstring closestHitIdentifier = ConvertToWString(dxClosestHit->GetIdentifier());
 		PipelineStateStream.AddLibrary(dxClosestHit->GetByteCode(), {closestHitIdentifier});
@@ -559,7 +553,6 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 	CEShaderResourceCount combinedResourceCount;
 	for (CEDXBaseShader* shader : Shaders) {
 		Assert(shader != nullptr);
-		CE_LOG_DEBUG("[CEDXBaseShader] SHADER => ResourceCount SRV: " + std::to_string(shader->GetResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(shader->GetResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(shader->GetResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(shader->GetResourceCount().Ranges.NumSamplers))
 		combinedResourceCount.Combine(shader->GetResourceCount());
 	}
 
@@ -573,8 +566,6 @@ bool ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXRayTracingPipelineStat
 	if (!GlobalRootSignature) {
 		return false;
 	}
-
-	CE_LOG_VERBOSE("[GlobalRootSignature] Use of GlobalRootSignature " + GlobalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(combinedResourceCount.Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(combinedResourceCount.Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(combinedResourceCount.Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(combinedResourceCount.Ranges.NumSamplers))
 
 	PipelineStateStream.GlobalRootSignature = GlobalRootSignature->GetRootSignature();
 
