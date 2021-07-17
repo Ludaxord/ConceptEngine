@@ -411,7 +411,7 @@ void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 		                )
 		);
 
-		commandList.Set32BitShaderConstants(AABBVertexShader.Get(), &transform, 16);
+		commandList.Set32BitShaderConstants(AABBVertexShader.Get(), &transform.Native, 16);
 
 		commandList.DrawIndexedInstanced(24, 1, 0, 0, 0);
 	}
