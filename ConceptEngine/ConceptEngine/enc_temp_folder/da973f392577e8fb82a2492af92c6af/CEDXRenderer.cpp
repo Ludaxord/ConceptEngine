@@ -1006,7 +1006,6 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	cameraBuffer.AspectRatio = scene.GetCamera()->GetAspectRatio();
 
 	//Transition CameraBuffer
-	//TODO: Possible error here
 	CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
 	                             CEResourceState::CopyDest);
 	CommandList.UpdateBuffer(Resources.CameraBuffer.Get(), 0, sizeof(CEDXCameraBufferDesc), &cameraBuffer);
