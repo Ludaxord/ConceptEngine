@@ -1036,7 +1036,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
 	                                  CEDepthStencilF(1.0f, 0));
 
-	if (ConceptEngine::Render::Variables["CE.PrePassEnabled"].GetBool()) {
+	if (GPrePassEnabled.GetBool()) {
 		DeferredRenderer->RenderPrePass(CommandList, Resources);
 	}
 
