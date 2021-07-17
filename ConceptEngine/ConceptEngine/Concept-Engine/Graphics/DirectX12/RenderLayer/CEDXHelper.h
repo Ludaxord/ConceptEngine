@@ -75,6 +75,19 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		return heapProperties;
 	}
 
+	inline D3D12_HEAP_PROPERTIES GetDefaultHeapProperties() {
+		D3D12_HEAP_PROPERTIES HeapProperties;
+		Memory::CEMemory::Memzero(&HeapProperties);
+
+		HeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+		HeapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		HeapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+		HeapProperties.VisibleNodeMask = 1;
+		HeapProperties.CreationNodeMask = 1;
+
+		return HeapProperties;
+	}
+
 	inline D3D12_RESOURCE_FLAGS ConvertBufferFlags(uint32 Flag) {
 		D3D12_RESOURCE_FLAGS result = D3D12_RESOURCE_FLAG_NONE;
 		if (Flag & Main::RenderLayer::CEBufferFlags::BufferFlag_UAV) {
@@ -93,7 +106,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 		}
 		if (Flag & Main::RenderLayer::CETextureFlags::TextureFlag_DSV) {
-			        result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+			result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 			if (!(Flag & Main::RenderLayer::CETextureFlags::TextureFlag_SRV)) {
 				result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
 			}
