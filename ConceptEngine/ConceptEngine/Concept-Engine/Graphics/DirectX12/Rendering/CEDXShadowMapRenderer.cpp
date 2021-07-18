@@ -278,7 +278,9 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 
 					int indx = 0;
 					for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
-						commandList.SetDebugPoint("Renderer ShadowMapRenderer GetMeshDrawCommands Index: " + std::to_string(indx));
+						commandList.SetDebugPoint(
+							"Renderer globalFrustumCullEnabled ShadowMapRenderer GetMeshDrawCommands Index: " +
+							std::to_string(indx));
 						CEMatrixFloat4X4 transform = command.CurrentActor->GetTransform().GetMatrix();
 						auto ceTransform = CEMatrixTranspose(CELoadFloat4X4(&transform));
 						auto ceTop = CEVectorSetW(CELoadFloat3(&command.Mesh->BoundingBox.Top), 1.0f);
@@ -305,6 +307,9 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 				}
 				else {
 					for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+
+						commandList.SetDebugPoint(
+							"Renderer globalFrustumCullDISABLED ShadowMapRenderer GetMeshDrawCommands Index: ");
 						commandList.SetVertexBuffers(&command.VertexBuffer, 1, 0);
 						commandList.SetIndexBuffer(command.IndexBuffer);
 
@@ -341,6 +346,7 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 	                              CEResourceState::DepthWrite);
 
 	CEDepthStencilView* dirLightDSV = lightSetup.DirLightShadowMaps->GetDepthStencilView();
+
 	commandList.ClearDepthStencilView(dirLightDSV, CEDepthStencilF(1.0f, 0));
 
 	commandList.SetRenderTargets(nullptr, 0, dirLightDSV);
@@ -353,7 +359,7 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 	commandList.SetPrimitiveTopology(CEPrimitiveTopology::TriangleList);
 
 	struct ShadowPerObject {
-		DirectX::XMFLOAT4X4 Matrix;
+		XMFLOAT4X4 Matrix;
 		float ShadowOffset;
 	} ShadowPerObjectBuffer;
 
@@ -372,7 +378,12 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 
 		commandList.SetConstantBuffers(DirLightShader.Get(), &PerShadowMapBuffer, 1, 0);
 
+		int indx = 0;
 		for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+			commandList.SetDebugPoint(
+				"Renderer ShadowMapRenderer RenderDirectionalLightShadows GetMeshDrawCommands Index: " +
+				std::to_string(indx));
+
 			commandList.SetVertexBuffers(&command.VertexBuffer, 1, 0);
 			commandList.SetIndexBuffer(command.IndexBuffer);
 
@@ -382,6 +393,7 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 			commandList.Set32BitShaderConstants(DirLightShader.Get(), &ShadowPerObjectBuffer, 17);
 
 			commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
+			indx++;
 		}
 	}
 
