@@ -272,7 +272,6 @@ bool CEDXRenderer::Create() {
 	}
 
 	using namespace std::placeholders;
-	//Comment TEST TODO: Uncomment when issue is fixed
 	CommandList.Begin();
 	LightProbeRenderer->RenderSkyLightProbe(CommandList, LightSetup, Resources);
 	CommandList.End();
@@ -950,7 +949,6 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 	CommandList.BeginExternalCapture();
 	// CommandList.Execute([this, &scene] {
-	//TODO: Fix D3D12_RESOURCE_STATES
 	CommandList.Begin();
 	Core::Debug::CEProfiler::BeginGPUFrame(CommandList);
 
@@ -1005,7 +1003,6 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	cameraBuffer.AspectRatio = scene.GetCamera()->GetAspectRatio();
 
 	//Transition CameraBuffer
-	//TODO: Possible error here
 	CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
 	                             CEResourceState::CopyDest);
 	CommandList.UpdateBuffer(Resources.CameraBuffer.Get(), 0, sizeof(CEDXCameraBufferDesc), &cameraBuffer);
