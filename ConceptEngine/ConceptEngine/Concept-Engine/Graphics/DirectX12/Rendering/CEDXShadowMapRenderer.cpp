@@ -384,6 +384,7 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 				"Renderer ShadowMapRenderer RenderDirectionalLightShadows GetMeshDrawCommands Index: " +
 				std::to_string(indx));
 
+			//TODO: FIX [ID3D12CommandList::DrawIndexedInstanced: The depth stencil format does not match that specified by the current pipeline state.]
 			commandList.SetVertexBuffers(&command.VertexBuffer, 1, 0);
 			commandList.SetIndexBuffer(command.IndexBuffer);
 
@@ -391,7 +392,7 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 			ShadowPerObjectBuffer.ShadowOffset = command.Mesh->ShadowOffset;
 
 			commandList.Set32BitShaderConstants(DirLightShader.Get(), &ShadowPerObjectBuffer, 17);
-
+			
 			commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
 			indx++;
 		}
