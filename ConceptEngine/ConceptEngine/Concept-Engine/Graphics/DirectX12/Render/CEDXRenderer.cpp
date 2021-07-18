@@ -387,6 +387,8 @@ void CEDXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 
 	commandList.SetConstantBuffer(AABBVertexShader.Get(), Resources.CameraBuffer.Get(), 0);
 
+	commandList.SetDebugPoint("PerformAABBDebugPass");
+
 	commandList.SetVertexBuffers(&AABBVertexBuffer, 1, 0);
 	commandList.SetIndexBuffer(AABBIndexBuffer.Get());
 
@@ -953,8 +955,11 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	Core::Debug::CEProfiler::BeginGPUFrame(CommandList);
 
 	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "-- BEGIN FRAME --");
+	CommandList.SetDebugPoint("Renderer Update Start");
 
 	if (ShadingImage && GEnableVariableRateShading.GetBool()) {
+		CommandList.SetDebugPoint("Renderer Update GEnableVariableRateShading Enabled");
+
 		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== BEGIN VARIABLE RATE SHADING IMAGE ==");
 		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 
@@ -976,17 +981,22 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "== END VARIABLE RATE SHADING IMAGE ==");
 	}
 	else if (CastGraphicsManager()->IsShadingRateSupported()) {
+		CommandList.SetDebugPoint("Renderer Update IsShadingRateSupported");
 		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 	}
 
 	LightSetup.BeginFrame(CommandList, scene);
+	CommandList.SetDebugPoint("Renderer Update LightSetup Begin Frame");
 
 	ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
+	CommandList.SetDebugPoint("Renderer ShadowMapRenderer RenderPointLightShadows");
 	ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
+	CommandList.SetDebugPoint("Renderer ShadowMapRenderer RenderDirectionalLightShadows");
 
 	if (GRayTracingEnabled.GetBool()) {
 		GPU_TRACE_SCOPE(CommandList, "== RAY TRACING ==");
 		RayTracer->PreRender(CommandList, Resources, scene);
+		CommandList.SetDebugPoint("Renderer RayTracer PreRender");
 	}
 
 	CEDXCameraBufferDesc cameraBuffer;
@@ -1003,6 +1013,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	cameraBuffer.AspectRatio = scene.GetCamera()->GetAspectRatio();
 
 	//Transition CameraBuffer
+	CommandList.SetDebugPoint("Renderer Update CameraBuffer...");
 	CommandList.TransitionBuffer(Resources.CameraBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
 	                             CEResourceState::CopyDest);
 	CommandList.UpdateBuffer(Resources.CameraBuffer.Get(), 0, sizeof(CEDXCameraBufferDesc), &cameraBuffer);

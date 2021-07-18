@@ -178,6 +178,21 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	};
 
+	struct CESetDebugPointCommand : public CERenderCommand {
+		CESetDebugPointCommand(std::string Message) : Message(Message) {
+		}
+
+		virtual void Execute(CEICommandContext&) override {
+			CE_LOG_DEBUG("[DEBUG_POINT]: "+ Message)
+		}
+
+		std::string GetName() override {
+			return "CESetDebugPointCommand";
+		};
+		
+		std::string Message;
+	};
+
 	struct CESetViewportRenderCommand : public CERenderCommand {
 		CESetViewportRenderCommand(float width, float height, float minDepth, float maxDepth, float x, float y):
 			Width(width), Height(height), MinDepth(minDepth), MaxDepth(maxDepth), X(x), Y(y) {
@@ -858,7 +873,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		std::string GetName() override {
 			return "CEGenerateMipsRenderCommand";
 		};
-		
+
 		CERef<CETexture> Texture;
 	};
 

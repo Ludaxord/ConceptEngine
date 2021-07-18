@@ -247,6 +247,9 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 		PerShadowMap perShadowMapData;
 		for (uint32 i = 0; i < lightSetup.PointLightShadowMapsGenerationData.Size(); i++) {
 			for (uint32 face = 0; face < 6; face++) {
+				commandList.SetDebugPoint(
+					"Renderer ShadowMapRenderer PointLightShadowMapsGenerationData Face: " + std::to_string(face));
+
 				auto& cube = lightSetup.PointLightShadowMapDSVs[i];
 				commandList.ClearDepthStencilView(cube[face].Get(), CEDepthStencilF(1.0f, 0));;
 				commandList.SetRenderTargets(nullptr, 0, cube[face].Get());
@@ -273,7 +276,9 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 						data.ProjMatrix[face]
 					);
 
+					int indx = 0;
 					for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
+						commandList.SetDebugPoint("Renderer ShadowMapRenderer GetMeshDrawCommands Index: " + std::to_string(indx));
 						CEMatrixFloat4X4 transform = command.CurrentActor->GetTransform().GetMatrix();
 						auto ceTransform = CEMatrixTranspose(CELoadFloat4X4(&transform));
 						auto ceTop = CEVectorSetW(CELoadFloat3(&command.Mesh->BoundingBox.Top), 1.0f);
@@ -295,6 +300,7 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 							                                    17);
 							commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
 						}
+						indx++;
 					}
 				}
 				else {
@@ -397,7 +403,7 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& Ligh
 		LightSetup.PointLightShadowMaps->SetName("PointLight ShadowMaps");
 
 		LightSetup.PointLightShadowMapDSVs.Resize(LightSetup.MaxPointLightShadows);
-		
+
 		for (uint32 i = 0; i < LightSetup.MaxPointLightShadows; i++) {
 			for (uint32 Face = 0; Face < 6; Face++) {
 				CEStaticArray<CERef<CEDepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];

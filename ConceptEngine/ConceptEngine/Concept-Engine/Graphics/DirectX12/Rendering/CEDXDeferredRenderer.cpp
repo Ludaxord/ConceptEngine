@@ -430,8 +430,10 @@ void CEDXDeferredRenderer::RenderPrePass(CECommandList& commandList,
 	commandList.SetGraphicsPipelineState(PrePassPipelineState.Get());
 	commandList.SetConstantBuffer(PrePassVertexShader.Get(), frameResources.CameraBuffer.Get(), 0);
 
+	int i = 0;
 	for (const Main::Rendering::CEMeshDrawCommand& command : frameResources.DeferredVisibleCommands) {
 		if (!command.Material->HasHeightMap()) {
+			commandList.SetDebugPoint("CEDXDeferredRenderer Mesh Command number: " + std::to_string(i));
 			commandList.SetVertexBuffers(&command.VertexBuffer, 1, 0);
 			commandList.SetIndexBuffer(command.IndexBuffer);
 
@@ -440,6 +442,7 @@ void CEDXDeferredRenderer::RenderPrePass(CECommandList& commandList,
 			commandList.Set32BitShaderConstants(PrePassVertexShader.Get(), &PerObjectBuffer, 16);
 			commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
 		}
+		i++;
 	}
 
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END PRE PASS ==");
@@ -453,6 +456,8 @@ void CEDXDeferredRenderer::RenderBasePass(CECommandList& commandList,
 
 	const float renderWidth = float(frameResources.MainWindowViewport->GetWidth());
 	const float renderHeight = float(frameResources.MainWindowViewport->GetHeight());
+
+	commandList.SetDebugPoint("CEDXDeferredRenderer RenderBasePass");
 
 	commandList.SetViewport(renderWidth, renderHeight, 0.0f, 1.0f, 0.0f, 0.0f);
 	commandList.SetScissorRect(renderWidth, renderHeight, 0, 0);
@@ -679,12 +684,12 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	//Final Image
 	frameResources.FinalTarget = CastGraphicsManager()->CreateTexture2D(
-		frameResources.FinalTargetFormat, 
-		width, 
-		height, 
-		1, 
-		1, 
-		usage | TextureFlag_UAV, 
+		frameResources.FinalTargetFormat,
+		width,
+		height,
+		1,
+		1,
+		usage | TextureFlag_UAV,
 		CEResourceState::Common,
 		nullptr);
 	if (!frameResources.FinalTarget) {

@@ -12,6 +12,6 @@ namespace ConceptEngine::Render::Scene {
 		bool CheckAABB(const CEAABB& boundingBox);
 
 	private:
-		CEMatrixFloat4X4 Planes[6];
+		CEVectorFloat4 Planes[6];
 	};
 }

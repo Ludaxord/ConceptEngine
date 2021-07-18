@@ -116,6 +116,10 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 			InsertCommand<CESetViewportRenderCommand>(width, height, minDepth, maxDepth, x, y);
 		}
 
+		void SetDebugPoint(std::string Message) {
+			InsertCommand<CESetDebugPointCommand>(Message);
+		}
+
 		void SetScissorRect(float width, float height, float x, float y) {
 			InsertCommand<CESetScissorRectRenderCommand>(width, height, x, y);
 		}
