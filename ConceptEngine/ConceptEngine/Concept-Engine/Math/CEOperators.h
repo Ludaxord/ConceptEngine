@@ -52,6 +52,10 @@ struct CEMatrixFloat4X4 {
 		float m[4][4];
 	};
 
+	explicit CEMatrixFloat4X4(const DirectX::XMFLOAT4X4& native) {
+		Native = native;
+	};
+
 	const CEMatrixFloat4X4& operator=(const DirectX::XMFLOAT4X4& native) const {
 		return CEMatrixFloat4X4(
 			native.m[0][0], native.m[0][1], native.m[0][2], native.m[0][3],

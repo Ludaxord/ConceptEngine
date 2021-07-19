@@ -255,8 +255,8 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 				commandList.SetRenderTargets(nullptr, 0, cube[face].Get());
 
 				auto& data = lightSetup.PointLightShadowMapsGenerationData[i];
-				perShadowMapData.Matrix = data.Matrix[face].Native;
-				perShadowMapData.Position = data.Position.Native;
+				perShadowMapData.Matrix = data.Matrix[face];
+				perShadowMapData.Position = data.Position;
 				perShadowMapData.FarPlane = data.FarPlane;
 
 				commandList.TransitionBuffer(PerShadowMapBuffer.Get(), CEResourceState::VertexAndConstantBuffer,
@@ -272,8 +272,8 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 					FindVariable("CE.FrustumCullEnabled");
 				if (globalFrustumCullEnabled->GetBool()) {
 					Render::Scene::CEFrustum cameraFrustum = Render::Scene::CEFrustum(data.FarPlane,
-						data.ViewMatrix[face],
-						data.ProjMatrix[face]
+						CEMatrixFloat4X4(data.ViewMatrix[face]),
+						CEMatrixFloat4X4(data.ProjMatrix[face])
 					);
 
 					int indx = 0;
@@ -366,8 +366,8 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 	PerShadowMap perShadowMapData;
 	for (uint32 i = 0; i < lightSetup.DirLightShadowMapGenerationData.Size(); i++) {
 		auto& data = lightSetup.DirLightShadowMapGenerationData[i];
-		perShadowMapData.Matrix = data.Matrix.Native;
-		perShadowMapData.Position = data.Position.Native;
+		perShadowMapData.Matrix = data.Matrix;
+		perShadowMapData.Position = data.Position;
 		perShadowMapData.FarPlane = data.FarPlane;
 
 		commandList.TransitionBuffer(PerShadowMapBuffer.Get(), CEResourceState::VertexAndConstantBuffer,

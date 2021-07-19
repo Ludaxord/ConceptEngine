@@ -12,12 +12,20 @@
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	struct CEPointLightData {
+#if WINDOWS_PLATFORM
+		XMFLOAT3 Color = XMFLOAT3(1.0f, 1.0f, 1.0f);
+#else
 		CEVectorFloat3 Color = CEVectorFloat3(1.0f, 1.0f, 1.0f);
+#endif
 		float Padding0;
 	};
 
 	struct CEShadowCastingPointLightData {
+#if WINDOWS_PLATFORM
+		XMFLOAT3 Color = XMFLOAT3(1.0f, 1.0f, 1.0f);
+#else
 		CEVectorFloat3 Color = CEVectorFloat3(1.0f, 1.0f, 1.0f);
+#endif
 		float ShadowBias = 0.005f;
 		float FarPlane = 10.0f;
 		float MaxShadowBias = 0.05f;
@@ -26,26 +34,43 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	};
 
 	struct CEPointLightShadowMapGenerationData {
-
+#if WINDOWS_PLATFORM
+		CEStaticArray<XMFLOAT4X4, 6> Matrix;
+		CEStaticArray<XMFLOAT4X4, 6> ViewMatrix;
+		CEStaticArray<XMFLOAT4X4, 6> ProjMatrix;
+		XMFLOAT3 Position;
+#else
 		CEStaticArray<CEMatrixFloat4X4, 6> Matrix;
 		CEStaticArray<CEMatrixFloat4X4, 6> ViewMatrix;
 		CEStaticArray<CEMatrixFloat4X4, 6> ProjMatrix;
 		CEVectorFloat3 Position;
-
+#endif
 		float FarPlane;
 	};
 
 	struct CEDirectionalLightData {
+#if WINDOWS_PLATFORM
+		XMFLOAT3 Color = XMFLOAT3(1.0f, 1.0f, 1.0f);
+		XMFLOAT3 Direction = XMFLOAT3(0.0f, -1.0f, 0.0f);
+		XMFLOAT4X4 LightMatrix;
+#else
 		CEVectorFloat3 Color = CEVectorFloat3(1.0f, 1.0f, 1.0f);
 		CEVectorFloat3 Direction = CEVectorFloat3(0.0f, -1.0f, 0.0f);
 		CEMatrixFloat4X4 LightMatrix;
+#endif
+
 		float ShadowBias = 0.005f;
 		float MaxShadowBias = 0.05f;
 	};
 
 	struct CEDirLightShadowMapGenerationData {
+#if WINDOWS_PLATFORM
+		DirectX::XMFLOAT4X4 Matrix;
+		DirectX::XMFLOAT3 Position;
+#else
 		CEMatrixFloat4X4 Matrix;
 		CEVectorFloat3 Position;
+#endif
 		float FarPlane;
 
 	};
@@ -92,8 +117,12 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		CEArray<CERef<RenderLayer::CEUnorderedAccessView>> SpecularIrradianceMapUAVs;
 		CEArray<RenderLayer::CEUnorderedAccessView*> WeakSpecularIrradianceMapUAVs;
 
+#if WINDOWS_PLATFORM
+		CEArray<DirectX::XMFLOAT4> PointLightsPosRad;
+		CEArray<DirectX::XMFLOAT4> ShadowCastingPointLightsPosRad;
+#else
 		CEArray<CEVectorFloat4> PointLightsPosRad;
 		CEArray<CEVectorFloat4> ShadowCastingPointLightsPosRad;
-
+#endif
 	};
 }

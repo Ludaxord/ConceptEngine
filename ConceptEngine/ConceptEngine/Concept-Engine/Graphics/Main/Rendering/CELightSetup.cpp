@@ -56,7 +56,7 @@ bool CELightSetup::Create() {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	
+
 	PointLightsPosRadBuffer->SetName("Point Lights Pos Rad Buffer");
 
 	ShadowCastingPointLightsData.Reserve(8);
@@ -123,42 +123,43 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 
 			if (currentLight->IsShadowCaster()) {
 				CEShadowCastingPointLightData data;
-				data.Color = color;
+				data.Color = color.Native;
 				data.FarPlane = currentLight->GetShadowFarPlane();
 				data.MaxShadowBias = currentLight->GetMaxShadowBias();
 				data.ShadowBias = currentLight->GetShadowBias();
 
 				ShadowCastingPointLightsData.EmplaceBack(data);
-				ShadowCastingPointLightsPosRad.EmplaceBack(positionRad);
+				ShadowCastingPointLightsPosRad.EmplaceBack(positionRad.Native);
 
 				CEPointLightShadowMapGenerationData shadowMapData;
 				shadowMapData.FarPlane = currentLight->GetShadowFarPlane();
-				shadowMapData.Position = currentLight->GetPosition();
+				shadowMapData.Position = currentLight->GetPosition().Native;
 
 				for (uint32 face = 0; face < 6; face++) {
-					shadowMapData.Matrix[face] = currentLight->GetMatrix(face);
-					shadowMapData.ViewMatrix[face] = currentLight->GetViewMatrix(face);
-					shadowMapData.ProjMatrix[face] = currentLight->GetProjectionMatrix(face);
+					shadowMapData.Matrix[face] = currentLight->GetMatrix(face).Native;
+					shadowMapData.ViewMatrix[face] = currentLight->GetViewMatrix(face).Native;
+					shadowMapData.ProjMatrix[face] = currentLight->GetProjectionMatrix(face).Native;
 				}
 
 				PointLightShadowMapsGenerationData.EmplaceBack(shadowMapData);
 			}
 			else {
 				CEPointLightData data;
-				data.Color = color;
+				data.Color = color.Native;
 
 				PointLightsData.EmplaceBack(data);
-				PointLightsPosRad.EmplaceBack(positionRad);
+				PointLightsPosRad.EmplaceBack(positionRad.Native);
 			}
 		}
 		else if (IsSubClassOf<Render::Scene::Lights::CEDirectionalLight>(light)) {
-			Render::Scene::Lights::CEDirectionalLight* currentLight = Cast<Render::Scene::Lights::CEDirectionalLight>(light);
+			Render::Scene::Lights::CEDirectionalLight* currentLight = Cast<
+				Render::Scene::Lights::CEDirectionalLight>(light);
 			Assert(currentLight != nullptr);
 
 			CEDirectionalLightData data;
-			data.Color = color;
+			data.Color = color.Native;
 			data.ShadowBias = currentLight->GetShadowBias();
-			data.Direction = currentLight->GetDirection();
+			data.Direction = currentLight->GetDirection().Native;
 
 			CEVectorFloat3 cameraPosition = scene.GetCamera()->GetPosition();
 			CEVectorFloat3 cameraForward = scene.GetCamera()->GetForward();
@@ -167,18 +168,18 @@ void CELightSetup::BeginFrame(RenderLayer::CECommandList& commandList, const Ren
 
 			//TODO: add it to creator and project properties
 			float dirFrustum = 35.0f;
-			CEVectorFloat3 lookAt = cameraPosition + (cameraForward * (dirFrustum));
+			CEVectorFloat3 lookAt = cameraPosition + (cameraForward * (dirFrustum + nearPlane));
 			currentLight->SetLookAt(lookAt);
 
-			data.LightMatrix = currentLight->GetMatrix();
+			data.LightMatrix = currentLight->GetMatrix().Native;
 			data.MaxShadowBias = currentLight->GetMaxShadowBias();
 
 			DirectionalLightsData.EmplaceBack(data);
 
 			CEDirLightShadowMapGenerationData shadowMapData;
-			shadowMapData.Matrix = currentLight->GetMatrix();
+			shadowMapData.Matrix = currentLight->GetMatrix().Native;
 			shadowMapData.FarPlane = currentLight->GetShadowFarPlane();
-			shadowMapData.Position = currentLight->GetShadowMapPosition();
+			shadowMapData.Position = currentLight->GetShadowMapPosition().Native;
 
 			DirLightShadowMapGenerationData.EmplaceBack(shadowMapData);
 		}
