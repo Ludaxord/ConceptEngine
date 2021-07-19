@@ -186,6 +186,7 @@ void CEDXSkyBoxRenderPass::Render(Main::RenderLayer::CECommandList& commandList,
 	commandList.SetViewport(renderWidth, renderHeight, 0.0f, 1.0f, 0.0f, 0.0f);
 	commandList.SetScissorRect(renderWidth, renderHeight, 0, 0);
 
+	//TODO: Check if frameResources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView() is Nullptr...
 	commandList.SetRenderTargets(renderTarget, 1, frameResources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView());
 
 	commandList.SetPrimitiveTopology(CEPrimitiveTopology::TriangleList);

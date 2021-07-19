@@ -335,6 +335,7 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CECommandList& commandList,
                                                           const Main::Rendering::CELightSetup& lightSetup,
                                                           const Render::Scene::CEScene& scene) {
+	commandList.SetDebugPoint(":::: Renderer ShadowMapRenderer RenderDirectionalLightShadows BEGIN ::::");
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== BEGIN UPDATE DIRECTIONAL LIGHT BUFFER ==");
 	commandList.SetPrimitiveTopology(CEPrimitiveTopology::TriangleList);
 
@@ -346,6 +347,9 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 	                              CEResourceState::DepthWrite);
 
 	CEDepthStencilView* dirLightDSV = lightSetup.DirLightShadowMaps->GetDepthStencilView();
+	if (!dirLightDSV) {
+		commandList.SetDebugPoint(":::: Renderer ShadowMapRenderer DirLightDSV IS FALSE ::::");
+	}
 
 	commandList.ClearDepthStencilView(dirLightDSV, CEDepthStencilF(1.0f, 0));
 
@@ -392,7 +396,7 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 			ShadowPerObjectBuffer.ShadowOffset = command.Mesh->ShadowOffset;
 
 			commandList.Set32BitShaderConstants(DirLightShader.Get(), &ShadowPerObjectBuffer, 17);
-			
+
 			commandList.DrawIndexedInstanced(command.IndexBuffer->GetNumIndices(), 1, 0, 0, 0);
 			indx++;
 		}

@@ -350,7 +350,6 @@ void CEDXRenderer::PerformFXAA(CECommandList& commandList) {
 		commandList.SetGraphicsPipelineState(FXAAPipelineState.Get());
 	}
 
-	//TODO: create property for vertex count per instance, instance count, start vertex location and start instance location.
 	commandList.DrawInstanced(3, 1, 0, 0);
 
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "End FXAA");
@@ -990,6 +989,9 @@ void CEDXRenderer::Update(const CEScene& scene) {
 
 	ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
 	CommandList.SetDebugPoint("Renderer ShadowMapRenderer RenderPointLightShadows");
+	//TODO: Check if works without it, fix if does work...
+	//TODO: There is problem with nullptr DepthStencilView... Find where DSV is used and where it can be nullptr;
+	//TODO: FIX DSV
 	ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
 	CommandList.SetDebugPoint("Renderer ShadowMapRenderer RenderDirectionalLightShadows");
 
@@ -1044,6 +1046,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
 	                                  CEDepthStencilF(1.0f, 0));
 
+	CommandList.SetDebugPoint("Renderer Update GPrePassEnabled...");
 	if (GPrePassEnabled.GetBool()) {
 		DeferredRenderer->RenderPrePass(CommandList, Resources);
 	}
@@ -1123,6 +1126,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	                              CEResourceState::NonPixelShaderResource);
 
 	{
+		CommandList.SetDebugPoint("Renderer Update RenderDeferredTiledLightPass BEGIN...");
 		GPU_TRACE_SCOPE(CommandList, "== LIGHT PASS ==");
 		DeferredRenderer->RenderDeferredTiledLightPass(CommandList, Resources, LightSetup);
 	}
@@ -1132,6 +1136,8 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	CommandList.TransitionTexture(Resources.FinalTarget.Get(), CEResourceState::UnorderedAccess,
 	                              CEResourceState::RenderTarget);
 
+	CommandList.SetDebugPoint("Renderer Update SkyBoxRenderPass BEGIN...");
+	//TODO: FIX DSV
 	SkyBoxRenderPass->Render(CommandList, Resources, scene);
 
 	CommandList.TransitionTexture(LightSetup.PointLightShadowMaps.Get(), CEResourceState::NonPixelShaderResource,
@@ -1161,6 +1167,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	);
 
 	{
+		CommandList.SetDebugPoint("Renderer Update ForwardRenderer Render BEGIN...");
 		GPU_TRACE_SCOPE(CommandList, "== FORWARD PASS ==");
 		ForwardRenderer->Render(CommandList, Resources, LightSetup);
 	}
@@ -1176,13 +1183,18 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	);
 
 	if (GEnableFXAA.GetBool()) {
+		CommandList.SetDebugPoint("Renderer Update PerformFXAA BEGIN...");
+		//TODO: FIX DSV
 		PerformFXAA(CommandList);
 	}
 	else {
+		CommandList.SetDebugPoint("Renderer Update PerformBackBufferBlit BEGIN...");
+		//TODO: FIX DSV
 		PerformBackBufferBlit(CommandList);
 	}
 
 	if (GDrawAABBs.GetBool()) {
+		CommandList.SetDebugPoint("Renderer Update PerformAABBDebugPass BEGIN...");
 		PerformAABBDebugPass(CommandList);
 	}
 
@@ -1196,6 +1208,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 		});
 
 		if (CastGraphicsManager()->IsShadingRateSupported()) {
+			CommandList.SetDebugPoint("Renderer Update IsShadingRateSupported BEGIN...");
 			CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 			CommandList.SetShadingRateImage(nullptr);
 		}

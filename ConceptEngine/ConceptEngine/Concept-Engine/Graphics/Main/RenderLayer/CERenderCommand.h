@@ -189,7 +189,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		std::string GetName() override {
 			return "CESetDebugPointCommand";
 		};
-		
+
 		std::string Message;
 	};
 
@@ -337,6 +337,9 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		void Execute(CEICommandContext& commandContext) override {
+			if (IndexBuffer == nullptr) {
+				CE_LOG_VERBOSE("INDEX BUFFER IS NULLPTR")
+			}
 			commandContext.SetIndexBuffer(IndexBuffer.Get());
 		}
 

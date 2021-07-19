@@ -1,5 +1,7 @@
 #include "CEDXDescriptorHeap.h"
 
+#include "../../../Core/Debug/CEDebug.h"
+
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
 CEDXDescriptorHeap::CEDXDescriptorHeap(CEDXDevice* device, D3D12_DESCRIPTOR_HEAP_TYPE type, uint32 numDescriptors,
@@ -21,6 +23,7 @@ bool CEDXDescriptorHeap::Create() {
 	HRESULT hResult = GetDevice()->GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&Heap));
 	if (FAILED(hResult)) {
 		CE_LOG_ERROR("[CEDXDescriptorHeap]: Failed to create Descriptor Heap");
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -135,6 +138,7 @@ bool CEDXOnlineDescriptorHeap::AllocateFreshHeap() {
 	if (HeapPool.IsEmpty()) {
 		Heap = new CEDXDescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 		if (!Heap->Create()) {
+			CEDebug::DebugBreak();
 			return false;
 		}
 	}

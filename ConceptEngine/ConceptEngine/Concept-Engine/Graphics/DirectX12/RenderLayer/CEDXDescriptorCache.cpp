@@ -5,6 +5,8 @@
 
 #include "../Managers/CEDXManager.h"
 
+// Helper Macros
+#define ArrayCount(Array) (sizeof(Array) / sizeof(Array[0]))
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
@@ -268,7 +270,7 @@ void CEDXDescriptorCache::CopyDescriptorsAndSetHeaps(ID3D12GraphicsCommandList* 
 	};
 
 	if (PreviousDescriptorHeaps[0] != DescriptorHeaps[0] || PreviousDescriptorHeaps[1] != DescriptorHeaps[1]) {
-		CommandList->SetDescriptorHeaps(_countof(DescriptorHeaps), DescriptorHeaps);
+		CommandList->SetDescriptorHeaps(ArrayCount(DescriptorHeaps), DescriptorHeaps);
 
 		PreviousDescriptorHeaps[0] = DescriptorHeaps[0];
 		PreviousDescriptorHeaps[1] = DescriptorHeaps[1];
