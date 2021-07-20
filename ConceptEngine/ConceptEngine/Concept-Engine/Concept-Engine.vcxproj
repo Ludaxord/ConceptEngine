@@ -127,6 +127,7 @@
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.h" />
+    <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXBuffer.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXCommandAllocator.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXCommandContext.h" />
@@ -291,6 +292,7 @@
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp" />
+    <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXCommandContext.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXCommandQueue.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp" />

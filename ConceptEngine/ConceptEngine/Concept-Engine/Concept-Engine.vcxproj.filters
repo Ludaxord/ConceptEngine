@@ -221,6 +221,7 @@
     <ClInclude Include="Core\Debug\Nsight\CENsightAftermathGPUCrashTracker.h" />
     <ClInclude Include="Core\Debug\Nsight\CENsightAftermathShaderDatabase.h" />
     <ClInclude Include="Core\Debug\Nsight\CENsightAftermathHelpers.h" />
+    <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />
@@ -349,6 +350,7 @@
     <ClCompile Include="Core\Compilers\Mono\CEMonoCompiler.cpp" />
     <ClCompile Include="Core\Debug\Nsight\CENsightAftermathShaderDatabase.cpp" />
     <ClCompile Include="Core\Debug\Nsight\CENsightAftermathGPUCrashTracker.cpp" />
+    <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
