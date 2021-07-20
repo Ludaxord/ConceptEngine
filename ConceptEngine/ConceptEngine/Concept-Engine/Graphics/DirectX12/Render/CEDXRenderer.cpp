@@ -1046,6 +1046,11 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
 	                                  CEDepthStencilF(1.0f, 0));
 
+	if (!Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView()) {
+		CommandList.SetDebugPoint(
+			"Renderer Update Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView() is nullptr");
+	}
+
 	CommandList.SetDebugPoint("Renderer Update GPrePassEnabled...");
 	if (GPrePassEnabled.GetBool()) {
 		DeferredRenderer->RenderPrePass(CommandList, Resources);

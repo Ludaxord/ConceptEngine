@@ -700,8 +700,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\src\vcpkg\packages\physx_x64-windows-static\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>C:\Program Files\Mono\include\mono-2.0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\src\vcpkg\packages\physx_x64-windows-static\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);F:\Projects\libs\AftermathSDK\lib\x64</LibraryPath>
+    <IncludePath>C:\Program Files\Mono\include\mono-2.0;F:\Projects\libs\AftermathSDK\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -757,6 +757,8 @@
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>F:\Projects\libs\AftermathSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>F:\Projects\libs\AftermathSDK\lib\x64;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -767,8 +769,8 @@
       <ShaderModel>6.0</ShaderModel>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;libmono-static-sgen.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Lib;C:\Program Files\Mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;libmono-static-sgen.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;GFSDK_Aftermath_Lib.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Lib;C:\Program Files\Mono\lib;F:\Projects\libs\AftermathSDK\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
