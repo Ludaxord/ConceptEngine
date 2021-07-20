@@ -1,5 +1,10 @@
 #pragma once
 
+#include <map>
+#include <vector>
+
+#include "CENsightAftermathHelpers.h"
+
 namespace ConceptEngine::Core::Debug::Nsight {
 	class CENsightAftermathShaderDatabase {
 	public:

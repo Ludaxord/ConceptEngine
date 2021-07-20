@@ -7,6 +7,7 @@
 #include "CENsightAftermathShaderDatabase.h"
 
 namespace ConceptEngine::Core::Debug::Nsight {
+	//TODO: Create different versions for Vulkan && DX12 when Vulkan will be implemented into engine...
 	class CENsightAftermathGPUCrashTracker {
 	public:
 		CENsightAftermathGPUCrashTracker();
@@ -48,7 +49,7 @@ namespace ConceptEngine::Core::Debug::Nsight {
 		static void CrashDumpDescriptionCallback(PFN_GFSDK_Aftermath_AddGpuCrashDumpDescription AddDescription,
 		                                         void* UserData);
 
-		static void ShaderDebugInfoLookupCallback(const PFN_GFSDK_Aftermath_GetShaderDebugInfoIdentifier* Identifier,
+		static void ShaderDebugInfoLookupCallback(const GFSDK_Aftermath_ShaderDebugInfoIdentifier* Identifier,
 		                                          PFN_GFSDK_Aftermath_SetData SetShaderDebugInfo, void* UserData);
 
 		static void ShaderLookupCallback(const GFSDK_Aftermath_ShaderHash* ShaderHash,
