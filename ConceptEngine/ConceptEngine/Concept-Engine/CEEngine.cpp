@@ -12,7 +12,7 @@
 #define USE_NSIGHT_AFTERMATH 1
 
 #if defined(USE_NSIGHT_AFTERMATH)
-#include "NsightAftermathGpuCrashTracker.h"
+#include "Core/Debug/Nsight/CENsightAftermathGPUCrashTracker.h"
 #endif
 
 ConceptEngine::CEEngine::CEEngine(std::wstring name,

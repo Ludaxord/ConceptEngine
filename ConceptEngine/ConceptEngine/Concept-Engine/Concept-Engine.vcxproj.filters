@@ -218,6 +218,9 @@
     <ClInclude Include="Graphics\Main\Common\CETextureData.h" />
     <ClInclude Include="Render\Scene\Components\CEMeshComponent.h" />
     <ClInclude Include="Core\Compilers\Mono\CEMonoCompiler.h" />
+    <ClInclude Include="Core\Debug\Nsight\CENsightAftermathGPUCrashTracker.h" />
+    <ClInclude Include="Core\Debug\Nsight\CENsightAftermathShaderDatabase.h" />
+    <ClInclude Include="Core\Debug\Nsight\CENsightAftermathHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />
@@ -344,6 +347,8 @@
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXRayTracer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXMeshManager.cpp" />
     <ClCompile Include="Core\Compilers\Mono\CEMonoCompiler.cpp" />
+    <ClCompile Include="Core\Debug\Nsight\CENsightAftermathShaderDatabase.cpp" />
+    <ClCompile Include="Core\Debug\Nsight\CENsightAftermathGPUCrashTracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
