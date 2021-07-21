@@ -22,7 +22,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		            ID3D12PipelineState* pipelineState) {
 			HRESULT hr = GetDevice()->GetDevice()->CreateCommandList(1, type, allocator.GetAllocator(), pipelineState,
 			                                                         IID_PPV_ARGS(&CommandList));
+
 			if (SUCCEEDED(hr)) {
+				if (GetDevice()->IsNsightAftermathEnabled()) {
+					Aftermath.CreateAMCommandList(CommandList.Get());
+				}
+
 				CommandList->Close();
 
 				CE_LOG_INFO("[CEDXDevice]: Created Command List");

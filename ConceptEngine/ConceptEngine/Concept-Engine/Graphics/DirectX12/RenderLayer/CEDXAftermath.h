@@ -19,7 +19,7 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	public:
 		CEDXAftermath();
 
-		bool CreateAMCommandList();
+		bool CreateAMCommandList(ID3D12CommandList* D3DCommandList);
 
 		bool CreateCrashTracker();
 
@@ -29,3 +29,5 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		Core::Debug::Nsight::CENsightAftermathGPUCrashTracker GPUCrashTracker;
 	};
 }
+
+extern ConceptEngine::Graphics::DirectX12::RenderLayer::CEDXAftermath Aftermath;

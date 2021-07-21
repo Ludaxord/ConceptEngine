@@ -60,8 +60,7 @@ inline bool DirectX12::Managers::IsTextureCube<DirectX12::RenderLayer::CEDXTextu
 CEDXManager::CEDXManager(): CEGraphicsManager(),
                             Device(nullptr),
                             DirectCommandContext(nullptr),
-                            RootSignatureCache(nullptr),
-                            Aftermath(nullptr) {
+                            RootSignatureCache(nullptr) {
 }
 
 CEDXManager::~CEDXManager() {
@@ -100,7 +99,7 @@ bool CEDXManager::Create() {
 	}
 
 	if (Device->IsNsightAftermathEnabled()) {
-		if (!Aftermath->Create(Device)) {
+		if (!Aftermath.Create(Device)) {
 			return false;
 		}
 	}
