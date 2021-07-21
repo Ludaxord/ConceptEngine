@@ -60,7 +60,8 @@ inline bool DirectX12::Managers::IsTextureCube<DirectX12::RenderLayer::CEDXTextu
 CEDXManager::CEDXManager(): CEGraphicsManager(),
                             Device(nullptr),
                             DirectCommandContext(nullptr),
-                            RootSignatureCache(nullptr) {
+                            RootSignatureCache(nullptr),
+                            Aftermath(nullptr) {
 }
 
 CEDXManager::~CEDXManager() {
@@ -96,6 +97,12 @@ bool CEDXManager::Create() {
 	if (!Device->Create()) {
 		CEDebug::DebugBreak();
 		return false;
+	}
+
+	if (Device->IsNsightAftermathEnabled()) {
+		if (!Aftermath->Create(Device)) {
+			return false;
+		}
 	}
 
 	RootSignatureCache = new RenderLayer::CEDXRootSignatureCache(Device);
@@ -1020,7 +1027,8 @@ CEComputePipelineState* CEDXManager::CreateComputePipelineState(const CEComputeP
 	return pipelineState.ReleaseOwnership();
 }
 
-CERayTracingPipelineState* CEDXManager::CreateRayTracingPipelineState(const CERayTracingPipelineStateCreateInfo& createInfo) {
+CERayTracingPipelineState* CEDXManager::CreateRayTracingPipelineState(
+	const CERayTracingPipelineStateCreateInfo& createInfo) {
 	CERef<RenderLayer::CEDXRayTracingPipelineState> pipelineState = new
 		RenderLayer::CEDXRayTracingPipelineState(Device);
 	if (!pipelineState->Create(createInfo)) {

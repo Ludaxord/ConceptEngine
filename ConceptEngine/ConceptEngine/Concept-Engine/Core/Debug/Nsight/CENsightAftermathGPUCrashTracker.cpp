@@ -16,18 +16,25 @@ CENsightAftermathGPUCrashTracker::~CENsightAftermathGPUCrashTracker() {
 	}
 }
 
-void CENsightAftermathGPUCrashTracker::Create() {
-	AFTERMATH_CHECK_ERROR(
-		GFSDK_Aftermath_EnableGpuCrashDumps(GFSDK_Aftermath_Version_API,
-			GFSDK_Aftermath_GpuCrashDumpWatchedApiFlags_DX,
-			GFSDK_Aftermath_GpuCrashDumpFeatureFlags_DeferDebugInfoCallbacks,
-			GPUCrashDumpCallback,
-			ShaderDebugInfoCallback,
-			CrashDumpDescriptionCallback,
-			this
-		));
+bool CENsightAftermathGPUCrashTracker::Create() {
+
+	GFSDK_Aftermath_Result Result = GFSDK_Aftermath_EnableGpuCrashDumps(GFSDK_Aftermath_Version_API,
+	                                                                    GFSDK_Aftermath_GpuCrashDumpWatchedApiFlags_DX,
+	                                                                    GFSDK_Aftermath_GpuCrashDumpFeatureFlags_DeferDebugInfoCallbacks,
+	                                                                    GPUCrashDumpCallback,
+	                                                                    ShaderDebugInfoCallback,
+	                                                                    CrashDumpDescriptionCallback,
+	                                                                    this
+	);
+
+	if (!GFSDK_Aftermath_SUCCEED(Result)) {
+		Initialized = false;
+	}
 
 	Initialized = true;
+
+	return Initialized;
+
 }
 
 void CENsightAftermathGPUCrashTracker::OnCrashDump(const void* GpuCrashDump, const uint32_t GpuCrashDumpSize) {

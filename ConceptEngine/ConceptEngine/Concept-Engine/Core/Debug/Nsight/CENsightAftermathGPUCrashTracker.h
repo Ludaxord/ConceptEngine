@@ -13,7 +13,7 @@ namespace ConceptEngine::Core::Debug::Nsight {
 		CENsightAftermathGPUCrashTracker();
 		~CENsightAftermathGPUCrashTracker();
 
-		void Create();
+		bool Create();
 
 	private:
 		void OnCrashDump(const void* GpuCrashDump, const uint32_t GpuCrashDumpSize);

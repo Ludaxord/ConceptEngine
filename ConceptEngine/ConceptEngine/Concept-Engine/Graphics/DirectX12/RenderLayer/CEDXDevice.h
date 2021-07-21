@@ -6,6 +6,7 @@
 #include <DXProgrammableCapture.h>
 #include <string>
 
+#include "CEDXAftermath.h"
 #include "../../../Core/Common/CETypes.h"
 
 #define D3D12_PIPELINE_STATE_STREAM_ALIGNMENT (sizeof(void*));
@@ -141,6 +142,10 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 			return AllowTearing;
 		}
 
+		bool IsNsightAftermathEnabled() const {
+			return EnableNsightAftermath;
+		}
+
 		D3D12_RAYTRACING_TIER GetRayTracingTier() const {
 			return RayTracingTier;
 		}
@@ -191,9 +196,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 		bool AllowTearing = false;
 		bool EnableDebugLayer = false;
+		bool EnableNsightAftermath = false;
 		bool EnableGPUValidation = false;
 		bool EnableDRED = false;
 
 		Base::CreateOption DXFunc;
+
+		Core::Debug::Nsight::CENsightAftermathGPUCrashTracker GPUCrashTracker;
 	};
 }

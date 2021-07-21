@@ -135,6 +135,9 @@ CEDXDevice::CEDXDevice(bool enableDebugLayer, bool enableGPUValidation, bool Ena
 	EnableDebugLayer(enableDebugLayer),
 	EnableGPUValidation(enableGPUValidation),
 	EnableDRED(EnableDRED) {
+#if USE_NSIGHT_AFTERMATH
+	EnableNsightAftermath = true;
+#endif
 }
 
 CEDXDevice::~CEDXDevice() {
@@ -190,7 +193,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 		return false;
 	}
 
-	if (EnableDebugLayer) {
+	if (EnableDebugLayer && !EnableNsightAftermath) {
 		Microsoft::WRL::ComPtr<ID3D12Debug> debugInterface;
 		if (FAILED(Base::CEDirectXHandler::CED3D12GetDebugInterface(IID_PPV_ARGS(&debugInterface)))) {
 			CE_LOG_ERROR("[CEDXDevice]: Failed to enable DebugLayer");
@@ -289,6 +292,13 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 
 	Adapter = tempAdapter;
 
+	if (EnableNsightAftermath) {
+		if (!GPUCrashTracker.Create()) {
+			CE_LOG_ERROR("[CEDXDevice]: Failed to Create CrashTracker");
+			return false;
+		}
+	}
+
 	if (FAILED(Base::CEDirectXHandler::CED3D12CreateDevice(Adapter.Get(), MinFeatureLevel, IID_PPV_ARGS(&Device)))) {
 		Core::Platform::Windows::Actions::CEWindowsActions::MessageBox("Error", "Failed to create device");
 		return false;
@@ -296,7 +306,7 @@ bool CEDXDevice::Create(Base::CreateOption option) {
 
 	CE_LOG_INFO("[CEDXDevice]: create device");
 
-	if (EnableDebugLayer) {
+	if (EnableDebugLayer && !EnableNsightAftermath) {
 		Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue;
 		if (SUCCEEDED(Device.As(&infoQueue))) {
 			infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
