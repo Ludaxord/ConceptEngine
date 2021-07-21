@@ -9,7 +9,7 @@
 #include <GFSDK_Aftermath_GpuCrashDumpDecoding.h>
 
 #ifndef USE_NSIGHT_AFTERMATH
-#define USE_NSIGHT_AFTERMATH 1
+#define USE_NSIGHT_AFTERMATH 0
 #endif
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {

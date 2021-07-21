@@ -9,12 +9,6 @@
 #include "Core/Debug/CEDebug.h"
 #include "Utilities/CEUtilities.h"
 
-#define USE_NSIGHT_AFTERMATH 1
-
-#if defined(USE_NSIGHT_AFTERMATH)
-#include "Core/Debug/Nsight/CENsightAftermathGPUCrashTracker.h"
-#endif
-
 ConceptEngine::CEEngine::CEEngine(std::wstring name,
                                   GraphicsAPI api,
                                   Core::Generic::Platform::Platform platform,
