@@ -211,7 +211,7 @@ namespace ConceptEngine::Graphics::DirectX12::Managers {
 	private:
 		RenderLayer::CEDXDevice* Device;
 		CERef<RenderLayer::CEDXCommandContext> DirectCommandContext;
-		CERef<RenderLayer::CEDXAftermath> Aftermath;
+		RenderLayer::CEDXAftermath* Aftermath;
 		RenderLayer::CEDXRootSignatureCache* RootSignatureCache;
 
 		RenderLayer::CEDXOfflineDescriptorHeap* ResourceOfflineDescriptorHeap = nullptr;

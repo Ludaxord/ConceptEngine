@@ -8,19 +8,18 @@
 #include <GFSDK_Aftermath_GpuCrashDump.h>
 #include <GFSDK_Aftermath_GpuCrashDumpDecoding.h>
 
-#include "CEDXCommandContext.h"
-#include "CEDXDevice.h"
-
 #ifndef USE_NSIGHT_AFTERMATH
 #define USE_NSIGHT_AFTERMATH 1
 #endif
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
+	class CEDXDevice;
+
 	class CEDXAftermath {
 	public:
 		CEDXAftermath();
 
-		bool CreateAMCommandList(CEDXCommandContext& CommandContext);
+		bool CreateAMCommandList();
 
 		bool CreateCrashTracker();
 

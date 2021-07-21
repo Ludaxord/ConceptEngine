@@ -1,4 +1,5 @@
 #include "CEDXAftermath.h"
+#include "CEDXDevice.h"
 
 using namespace ConceptEngine::Graphics::DirectX12::RenderLayer;
 
@@ -6,13 +7,13 @@ CEDXAftermath::CEDXAftermath(): AftermathCommandListContext(nullptr),
                                 GPUCrashTracker() {
 }
 
-bool CEDXAftermath::CreateAMCommandList(CEDXCommandContext& CommandContext) {
-	GFSDK_Aftermath_Result Result = GFSDK_Aftermath_DX12_CreateContextHandle(
-		CommandContext.GetCommandList().GetCommandList(), &AftermathCommandListContext);
-	
-	if (!GFSDK_Aftermath_SUCCEED(Result)) {
-		return false;
-	}
+bool CEDXAftermath::CreateAMCommandList() {
+	// GFSDK_Aftermath_Result Result = GFSDK_Aftermath_DX12_CreateContextHandle(
+	// 	CommandContext.GetCommandList().GetCommandList(), &AftermathCommandListContext);
+	//
+	// if (!GFSDK_Aftermath_SUCCEED(Result)) {
+	// 	return false;
+	// }
 
 	return true;
 }
