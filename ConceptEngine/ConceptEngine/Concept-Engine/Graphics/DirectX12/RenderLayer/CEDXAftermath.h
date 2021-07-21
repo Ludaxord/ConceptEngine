@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <GFSDK_Aftermath.h>
 
+#include "CEDXDeviceElement.h"
 #include "../../../Core/Debug/Nsight/CENsightAftermathGPUCrashTracker.h"
 
 #ifndef USE_NSIGHT_AFTERMATH
@@ -9,13 +10,11 @@
 #endif
 
 namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
-	class CEDXAftermath {
+	class CEDXAftermath : public CEDXDeviceElement {
 	public:
-		CEDXAftermath();
-		~CEDXAftermath();
+		CEDXAftermath(CEDXDevice* Device);
 
-		void Create();
-
+		void Create(CEDXCommandContext& commandContext);
 
 	private:
 		GFSDK_Aftermath_ContextHandle AftermathCommandListContext;
