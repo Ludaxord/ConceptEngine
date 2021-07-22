@@ -24,8 +24,7 @@ bool CENsightAftermathGPUCrashTracker::Create() {
 	                                                                    GPUCrashDumpCallback,
 	                                                                    ShaderDebugInfoCallback,
 	                                                                    CrashDumpDescriptionCallback,
-	                                                                    this
-	);
+	                                                                    this);
 
 	if (!GFSDK_Aftermath_SUCCEED(Result)) {
 		Initialized = false;
