@@ -431,9 +431,12 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& Ligh
 		for (uint32 i = 0; i < LightSetup.MaxPointLightShadows; i++) {
 			for (uint32 Face = 0; Face < 6; Face++) {
 				CEStaticArray<CERef<CEDepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];
+
+				std::string Name = "ShadowMapDepthStencilCubeMap Face " + std::to_string(Face) + " Index " +
+					std::to_string(i);
 				DepthCube[Face] = CastGraphicsManager()->CreateDepthStencilViewForTextureCubeArray(
 					LightSetup.PointLightShadowMaps.Get(),
-					LightSetup.ShadowMapFormat, 0, i, GetCubeFaceFromIndex(Face));
+					LightSetup.ShadowMapFormat, 0, i, GetCubeFaceFromIndex(Face), Name);
 				if (!DepthCube[Face]) {
 					CEDebug::DebugBreak();
 					return false;

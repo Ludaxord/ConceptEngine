@@ -252,9 +252,15 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 		}
 
+		CEDepthStencilViewCreateInfo(CEType type, std::string& Name) : Type(type), Name(Name) {
+
+		}
+
 		CEType Type;
 		CEFormat Format = CEFormat::Unknown;
 
+		std::string Name = "";
+		
 		union {
 			struct {
 				CETexture2D* Texture = nullptr;

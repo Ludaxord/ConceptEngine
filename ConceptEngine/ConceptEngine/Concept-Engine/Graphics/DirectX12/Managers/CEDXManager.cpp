@@ -800,6 +800,10 @@ CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilView
 
 	CERef<RenderLayer::CEDXDepthStencilView> dxView = new RenderLayer::CEDXDepthStencilView(
 		Device, DepthStencilOfflineDescriptorHeap);
+
+	//TODO: Check if resource name is set anywhere else...
+	// resource->SetName(createInfo.Name);
+
 	if (!dxView->Create()) {
 		return nullptr;
 	}

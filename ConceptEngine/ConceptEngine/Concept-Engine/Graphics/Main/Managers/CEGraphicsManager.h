@@ -519,11 +519,13 @@ namespace ConceptEngine::Graphics::Main {namespace RenderLayer {
 				RenderLayer::CEFormat format,
 				uint32 mip,
 				uint32 arraySlice,
-				RenderLayer::CECubeFace cubeFace
+				RenderLayer::CECubeFace cubeFace,
+				std::string& Name 
 			) {
 				RenderLayer::CEDepthStencilViewCreateInfo createInfo(
 					RenderLayer::CEDepthStencilViewCreateInfo::CEType::TextureCubeArray);
 				createInfo.Format = format;
+				createInfo.Name = Name;
 				createInfo.TextureCubeArray.Texture = texture;
 				createInfo.TextureCubeArray.Mip = mip;
 				createInfo.TextureCubeArray.ArraySlice = arraySlice;
