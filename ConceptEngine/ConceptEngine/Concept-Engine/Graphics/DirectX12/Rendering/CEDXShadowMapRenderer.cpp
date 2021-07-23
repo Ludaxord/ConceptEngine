@@ -357,9 +357,6 @@ void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CEC
 	                              CEResourceState::DepthWrite);
 
 	CEDepthStencilView* dirLightDSV = lightSetup.DirLightShadowMaps->GetDepthStencilView();
-	if (!dirLightDSV) {
-		commandList.SetDebugPoint(":::: Renderer ShadowMapRenderer DirLightDSV IS FALSE ::::");
-	}
 
 	commandList.ClearDepthStencilView(dirLightDSV, CEDepthStencilF(1.0f, 0));
 

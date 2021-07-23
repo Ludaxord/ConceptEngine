@@ -46,9 +46,9 @@
 		}
 
 		void Swap(CEStaticArray& Another) noexcept {
-			CEStaticArray TempArray(Move(*this));
-			*this = Move(Another);
-			Another = Move(TempArray);
+			CEStaticArray TempArray(::Move(*this));
+			*this = ::Move(Another);
+			Another = ::Move(TempArray);
 		}
 
 		constexpr SizeType LastIndex() const noexcept {

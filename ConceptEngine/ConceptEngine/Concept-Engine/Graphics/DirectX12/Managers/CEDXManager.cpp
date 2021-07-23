@@ -804,11 +804,11 @@ CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilView
 		return nullptr;
 	}
 
-	if (dxView->CreateView(resource, desc)) {
-		return dxView.ReleaseOwnership();
+	if (!dxView->CreateView(resource, desc)) {
+		return nullptr;
 	}
 
-	return nullptr;
+	return dxView.ReleaseOwnership();
 }
 
 CEComputeShader* CEDXManager::CreateComputeShader(const CEArray<uint8>& shaderCode) {

@@ -496,11 +496,14 @@ void CEDXCommandContext::ClearDepthStencilView(CEDepthStencilView* depthStencilV
 	FlushResourceBarriers();
 
 	CEDXDepthStencilView* dxDepthStencilView = static_cast<CEDXDepthStencilView*>(depthStencilView);
+
 	CommandBatch->AddInUseResource(dxDepthStencilView);
 
 	CommandList.ClearDepthStencilView(dxDepthStencilView->GetOfflineHandle(),
-	                                  D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, clearColor.Depth,
-	                                  clearColor.Stencil);
+	                                  D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
+	                                  clearColor.Depth,
+	                                  clearColor.Stencil
+	);
 }
 
 void CEDXCommandContext::ClearUnorderedAccessViewFloat(CEUnorderedAccessView* unorderedAccessView,
