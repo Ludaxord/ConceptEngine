@@ -183,7 +183,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 		}
 
 		virtual void Execute(CEICommandContext&) override {
-			CE_LOG_DEBUG("[DEBUG_POINT]: "+ Message)
+			CE_LOG_DEBUGX("[DEBUG_POINT]: "+ Message)
 		}
 
 		std::string GetName() override {

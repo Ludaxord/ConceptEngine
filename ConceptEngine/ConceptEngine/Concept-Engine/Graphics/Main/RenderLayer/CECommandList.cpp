@@ -12,7 +12,7 @@ void CECommandListExecutor::ExecuteCommandList(CECommandList& commandList) {
 		CERenderCommand* oldCommand = command;
 		command = command->NextCommand;
 		if (command != nullptr) {
-			CE_LOG_DEBUG("[CECommandListExecutor]: Execute =>" + command->GetName());
+			CE_LOG_DEBUGX("[CECommandListExecutor]: Execute =>" + command->GetName());
 		}
 
 		oldCommand->Execute(GetContext());

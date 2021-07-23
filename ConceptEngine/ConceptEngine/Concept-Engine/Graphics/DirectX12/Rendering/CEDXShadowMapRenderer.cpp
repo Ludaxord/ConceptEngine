@@ -248,9 +248,19 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 		for (uint32 i = 0; i < lightSetup.PointLightShadowMapsGenerationData.Size(); i++) {
 			for (uint32 face = 0; face < 6; face++) {
 				commandList.SetDebugPoint(
-					"Renderer ShadowMapRenderer PointLightShadowMapsGenerationData Face: " + std::to_string(face));
+					"Renderer ShadowMapRenderer PointLightShadowMapsGenerationData Face: " + std::to_string(face) +
+					"' and index " +
+					std::to_string(i));
 
 				auto& cube = lightSetup.PointLightShadowMapDSVs[i];
+
+				if (cube[face] == nullptr || !cube[face]) {
+
+					commandList.SetDebugPoint(
+						"Renderer ShadowMapRenderer Cube Face at: '" + std::to_string(face) + "' and index " +
+						std::to_string(i) + " is Empty");
+				}
+
 				commandList.ClearDepthStencilView(cube[face].Get(), CEDepthStencilF(1.0f, 0));;
 				commandList.SetRenderTargets(nullptr, 0, cube[face].Get());
 
@@ -278,9 +288,9 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 
 					int indx = 0;
 					for (const Main::Rendering::CEMeshDrawCommand& command : scene.GetMeshDrawCommands()) {
-						commandList.SetDebugPoint(
-							"Renderer globalFrustumCullEnabled ShadowMapRenderer GetMeshDrawCommands Index: " +
-							std::to_string(indx));
+						// commandList.SetDebugPoint(
+						// 	"Renderer globalFrustumCullEnabled ShadowMapRenderer GetMeshDrawCommands Index: " +
+						// 	std::to_string(indx));
 						CEMatrixFloat4X4 transform = command.CurrentActor->GetTransform().GetMatrix();
 						auto ceTransform = CEMatrixTranspose(CELoadFloat4X4(&transform));
 						auto ceTop = CEVectorSetW(CELoadFloat3(&command.Mesh->BoundingBox.Top), 1.0f);
