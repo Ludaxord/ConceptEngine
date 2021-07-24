@@ -227,7 +227,7 @@ namespace ConceptEngine::Graphics::Main::RenderLayer {
 
 	struct CEBlendStateCreateInfo {
 		bool AlphaToCoverageEnable = false;
-		bool independentBlendEnable = false;
+		bool IndependentBlendEnable = false;
 		CERenderTargetBlendState RenderTarget[8];
 	};
 

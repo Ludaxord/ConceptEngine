@@ -107,7 +107,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		geometryRasterizerState->SetName("Geometry Pass Rasterizer State");
 
 		Main::RenderLayer::CEBlendStateCreateInfo blendStateInfo;
-		blendStateInfo.independentBlendEnable = false;
+		blendStateInfo.IndependentBlendEnable = false;
 		blendStateInfo.RenderTarget[0].BlendEnable = false;
 
 		CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(
@@ -191,7 +191,7 @@ bool CEDXDeferredRenderer::Create(Main::Rendering::CEFrameResources& FrameResour
 		rasterizerState->SetName("Pre Pass Rasterizer State");
 
 		Main::RenderLayer::CEBlendStateCreateInfo blendStateInfo;
-		blendStateInfo.independentBlendEnable = false;
+		blendStateInfo.IndependentBlendEnable = false;
 		blendStateInfo.RenderTarget[0].BlendEnable = false;
 
 		CERef<Main::RenderLayer::CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(

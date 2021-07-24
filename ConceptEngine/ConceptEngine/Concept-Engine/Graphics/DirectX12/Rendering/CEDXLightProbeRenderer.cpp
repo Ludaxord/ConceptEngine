@@ -206,3 +206,12 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 
 	return true;
 }
+
+bool CEDXLightProbeRenderer::Create(Main::Rendering::CEBaseLightSetup& lightSetup,
+	Main::Rendering::CEFrameResources& frameResources) {
+	return false;
+}
+
+void CEDXLightProbeRenderer::RenderSkyLightProbe(Main::RenderLayer::CECommandList& commandList,
+	const Main::Rendering::CEBaseLightSetup& lightSetup, const Main::Rendering::CEFrameResources& resources) {
+}

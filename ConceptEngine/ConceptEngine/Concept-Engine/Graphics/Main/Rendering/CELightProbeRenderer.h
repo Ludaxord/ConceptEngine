@@ -1,6 +1,7 @@
 #pragma once
 #include "CEFrameResources.h"
 #include "CELightSetup.h"
+#include "CEBaseLightSetup.h"
 #include "../RenderLayer/CECommandList.h"
 
 namespace ConceptEngine::Graphics::Main::Rendering {
@@ -10,6 +11,7 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual ~CELightProbeRenderer() = default;
 
 		virtual bool Create(CELightSetup& lightSetup, CEFrameResources& frameResources) = 0;
+		virtual bool Create(CEBaseLightSetup& lightSetup, CEFrameResources& frameResources) = 0;
 
 		void Release() {
 			IrradianceGenPSO.Reset();
@@ -19,6 +21,9 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		};
 
 		virtual void RenderSkyLightProbe(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
+		                                 const CEFrameResources& resources) = 0;
+
+		virtual void RenderSkyLightProbe(RenderLayer::CECommandList& commandList, const CEBaseLightSetup& lightSetup,
 		                                 const CEFrameResources& resources) = 0;
 
 	protected:

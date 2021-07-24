@@ -75,7 +75,7 @@ bool CEDXForwardRenderer::Create(const Main::Rendering::CEFrameResources& resour
 	rasterizerState->SetName("Forward Pass Rasterizer State");
 
 	CEBlendStateCreateInfo blendStateInfo;
-	blendStateInfo.independentBlendEnable = false;
+	blendStateInfo.IndependentBlendEnable = false;
 	blendStateInfo.RenderTarget[0].BlendEnable = true;
 
 	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);

@@ -465,3 +465,8 @@ bool CEDXShadowMapRenderer::CreateShadowMaps(Main::Rendering::CELightSetup& Ligh
 
 	return true;
 }
+
+bool CEDXShadowMapRenderer::Create(Main::Rendering::CEBaseLightSetup& lightSetup,
+	Main::Rendering::CEFrameResources& resources) {
+	return false;
+}

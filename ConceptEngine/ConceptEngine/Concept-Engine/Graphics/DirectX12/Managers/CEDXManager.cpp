@@ -980,7 +980,7 @@ Main::RenderLayer::CEBlendState* CEDXManager::CreateBlendState(const RenderLayer
 	Memory::CEMemory::Memzero(&Desc);
 
 	Desc.AlphaToCoverageEnable = createInfo.AlphaToCoverageEnable;
-	Desc.IndependentBlendEnable = createInfo.independentBlendEnable;
+	Desc.IndependentBlendEnable = createInfo.IndependentBlendEnable;
 	for (uint32 i = 0; i < 8; i++) {
 		Desc.RenderTarget[i].BlendEnable = createInfo.RenderTarget[i].BlendEnable;
 		Desc.RenderTarget[i].BlendOp = RenderLayer::ConvertBlendOp(createInfo.RenderTarget[i].BlendOp);

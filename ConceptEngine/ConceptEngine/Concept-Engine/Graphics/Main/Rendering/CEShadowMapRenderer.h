@@ -1,12 +1,14 @@
 #pragma once
 #include "CEFrameResources.h"
 #include "CELightSetup.h"
+#include "CEBaseLightSetup.h"
 
 namespace ConceptEngine::Graphics::Main::Rendering {
 	class CEShadowMapRenderer {
 	public:
 		virtual ~CEShadowMapRenderer() = default;
 		virtual bool Create( CELightSetup& lightSetup, CEFrameResources& resources) = 0;
+		virtual bool Create( CEBaseLightSetup& lightSetup, CEFrameResources& resources) = 0;
 		void Release();
 
 		virtual void RenderPointLightShadows(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,

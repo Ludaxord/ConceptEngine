@@ -33,7 +33,8 @@ using namespace ConceptEngine::Render::Scene;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 using namespace ConceptEngine::Core::Common;
 
-ConceptEngine::Render::CERenderer* Renderer = new CEDXRenderer();
+//TODO: Uncomment to use
+// ConceptEngine::Render::CERenderer* Renderer = new CEDXRenderer();
 
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawTextureDebugger(false);
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawRendererInfo(true);
@@ -66,6 +67,9 @@ bool CEDXRenderer::Create() {
 	// for (auto variable : ConceptEngine::Render::Variables) {
 	// 	INIT_CONSOLE_VARIABLE(variable.first, &variable.second);
 	// }
+
+	CE_LOG_DEBUGX(std::string("CE DX Renderer Lanuched"));
+
 	INIT_CONSOLE_VARIABLE("CE.DrawTextureDebugger", &GDrawTextureDebugger);
 	INIT_CONSOLE_VARIABLE("CE.DrawRendererInfo", &GDrawRendererInfo);
 	INIT_CONSOLE_VARIABLE("CE.EnableSSAO", &GEnableSSAO);
@@ -761,7 +765,7 @@ bool CEDXRenderer::CreateAA() {
 	rasterizerState->SetName("Post Process Rasterizer State");
 
 	CEBlendStateCreateInfo blendStateInfo;
-	blendStateInfo.independentBlendEnable = false;
+	blendStateInfo.IndependentBlendEnable = false;
 	blendStateInfo.RenderTarget[0].BlendEnable = false;
 
 	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);

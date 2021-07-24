@@ -13,6 +13,8 @@
 #include "../Graphics/Main/Rendering/CESkyBoxRenderPass.h"
 #include "../Graphics/Main/Rendering/CEForwardRenderer.h"
 
+#include "../Graphics/Main/Rendering/CEBaseLightSetup.h"
+
 // #include "../Graphics/Main/Rendering/CEFrameResources.h"
 // #include "../Graphics/Main/Rendering/CELightSetup.h"
 // #include "../Graphics/Main/RenderLayer/CETexture.h"
@@ -83,6 +85,7 @@ namespace ConceptEngine::Render {
 
 		Graphics::Main::Rendering::CEFrameResources Resources;
 		Graphics::Main::Rendering::CELightSetup LightSetup;
+		Graphics::Main::Rendering::CEBaseLightSetup BaseLightSetup;
 
 		CERef<Graphics::Main::RenderLayer::CETexture2D> ShadingImage;
 		CERef<Graphics::Main::RenderLayer::CEComputePipelineState> ShadingRatePipeline;

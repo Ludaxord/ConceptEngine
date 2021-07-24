@@ -123,7 +123,7 @@ bool CEDXSkyBoxRenderPass::Create(Main::Rendering::CEFrameResources& resources,
 	rasterizerState->SetName("Skybox Rasterizer State");
 
 	CEBlendStateCreateInfo blendStateInfo;
-	blendStateInfo.independentBlendEnable = false;
+	blendStateInfo.IndependentBlendEnable = false;
 	blendStateInfo.RenderTarget[0].BlendEnable = false;
 
 	CERef<CEBlendState> blendState = CastGraphicsManager()->CreateBlendState(blendStateInfo);
