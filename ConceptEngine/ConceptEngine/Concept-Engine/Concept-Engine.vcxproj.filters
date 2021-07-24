@@ -223,6 +223,15 @@
     <ClInclude Include="Core\Debug\Nsight\CENsightAftermathHelpers.h" />
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.h" />
     <ClInclude Include="Graphics\DirectX12\Render\CEDirectXRenderer.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEBaseLightSetup.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseDeferredRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseShadowMapRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseScreenSpaceOcclusionRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseForwardRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseSkyBoxRenderPass.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseLightProbeRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseRayTracer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseDebugUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />
@@ -353,6 +362,15 @@
     <ClCompile Include="Core\Debug\Nsight\CENsightAftermathGPUCrashTracker.cpp" />
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.cpp" />
     <ClCompile Include="Graphics\DirectX12\Render\CEDirectXRenderer.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEBaseLightSetup.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseDeferredRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseShadowMapRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseScreenSpaceOcclusionRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseSkyBoxRenderPass.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseLightProbeRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseRayTracer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseDebugUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -16,6 +16,8 @@ namespace ConceptEngine::Graphics::DirectX12::Rendering {
 
 	private:
 		bool CreateShadowMaps(Main::Rendering::CELightSetup& frameResources);
-	
+	public:
+		bool Create(Main::Rendering::CEBaseLightSetup& lightSetup,
+			Main::Rendering::CEFrameResources& resources) override;
 	};
 }

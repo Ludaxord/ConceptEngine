@@ -119,6 +119,14 @@
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXMeshManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXTextureManager.h" />
     <ClInclude Include="Graphics\DirectX12\Managers\CEDXRendererManager.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseDebugUI.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseForwardRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseLightProbeRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseRayTracer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseShadowMapRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseDeferredRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseScreenSpaceOcclusionRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseSkyBoxRenderPass.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDebugUI.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.h" />
     <ClInclude Include="Graphics\DirectX12\Rendering\CEDXForwardRenderer.h" />
@@ -165,6 +173,7 @@
     <ClInclude Include="Graphics\Main\Managers\CEMeshManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CERendererManager.h" />
     <ClInclude Include="Graphics\Main\Managers\CETextureManager.h" />
+    <ClInclude Include="Graphics\Main\Rendering\CEBaseLightSetup.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEDebugUI.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEDeferredRenderer.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEForwardRenderer.h" />
@@ -285,6 +294,14 @@
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXMeshManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXTextureManager.cpp" />
     <ClCompile Include="Graphics\DirectX12\Managers\CEDXRendererManager.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseDebugUI.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseLightProbeRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseRayTracer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseShadowMapRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseDeferredRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseScreenSpaceOcclusionRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseSkyBoxRenderPass.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDebugUI.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp" />
     <ClCompile Include="Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp" />
@@ -320,6 +337,7 @@
     <ClCompile Include="Graphics\Main\Common\CETransform.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CERendererManager.cpp" />
     <ClCompile Include="Graphics\Main\Managers\CETextureManager.cpp" />
+    <ClCompile Include="Graphics\Main\Rendering\CEBaseLightSetup.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEDebugUI.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEDeferredRenderer.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEForwardRenderer.cpp" />

@@ -74,7 +74,7 @@ bool CEDXLightProbeRenderer::Create(Main::Rendering::CELightSetup& lightSetup,
 	else {
 		SpecularIrradianceGenPSO->SetName("Specular IrradianceGen PSO");
 	}
-	
+
 	CESamplerStateCreateInfo createInfo;
 	createInfo.AddressU = CESamplerMode::Wrap;
 	createInfo.AddressV = CESamplerMode::Wrap;
@@ -208,10 +208,11 @@ bool CEDXLightProbeRenderer::CreateSkyLightResources(Main::Rendering::CELightSet
 }
 
 bool CEDXLightProbeRenderer::Create(Main::Rendering::CEBaseLightSetup& lightSetup,
-	Main::Rendering::CEFrameResources& frameResources) {
+                                    Main::Rendering::CEFrameResources& frameResources) {
 	return false;
 }
 
 void CEDXLightProbeRenderer::RenderSkyLightProbe(Main::RenderLayer::CECommandList& commandList,
-	const Main::Rendering::CEBaseLightSetup& lightSetup, const Main::Rendering::CEFrameResources& resources) {
+                                                 const Main::Rendering::CEBaseLightSetup& lightSetup,
+                                                 const Main::Rendering::CEFrameResources& resources) {
 }
