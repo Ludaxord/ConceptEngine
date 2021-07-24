@@ -987,15 +987,15 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	LightSetup.BeginFrame(CommandList, scene);
 	CommandList.SetDebugPoint("Renderer Update LightSetup Begin Frame");
 
-	//NOTE: temporary comment Render Point Lights && Render Directional Lights
+	//TODO: NOTE: temporary comment Render Point Lights && Render Directional Lights
 
-	ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
+	// ShadowMapRenderer->RenderPointLightShadows(CommandList, LightSetup, scene);
 	// CommandList.SetDebugPoint("Renderer ShadowMapRenderer RenderPointLightShadows");
 	//TODO: Check if works without it, fix if does work...
 	//TODO: There is problem with nullptr DepthStencilView... Find where DSV is used and where it can be nullptr;
 	//TODO: FIX DSV
 	//TODO: Probably error in clearing Render target/depth stencil view
-	ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
+	// ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, LightSetup, scene);
 	// CommandList.SetDebugPoint("Renderer ShadowMapRenderer RenderDirectionalLightShadows");
 
 	if (GRayTracingEnabled.GetBool()) {
@@ -1037,6 +1037,7 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	CommandList.TransitionTexture(Resources.GBuffer[BUFFER_DEPTH_INDEX].Get(),
 	                              CEResourceState::PixelShaderResource, CEResourceState::DepthWrite);
 
+	//TODO: NOTE: Comment temporary
 	Math::CEColorF blackClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_ALBEDO_INDEX]->GetRenderTargetView(),
 	                                  blackClearColor);
@@ -1046,8 +1047,8 @@ void CEDXRenderer::Update(const CEScene& scene) {
 	                                  blackClearColor);
 	CommandList.ClearRenderTargetView(Resources.GBuffer[BUFFER_VIEW_NORMAL_INDEX]->GetRenderTargetView(),
 	                                  blackClearColor);
-	CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
-	                                  CEDepthStencilF(1.0f, 0));
+	// CommandList.ClearDepthStencilView(Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView(),
+	//                                   CEDepthStencilF(1.0f, 0));
 
 	if (!Resources.GBuffer[BUFFER_DEPTH_INDEX]->GetDepthStencilView()) {
 		CommandList.SetDebugPoint(

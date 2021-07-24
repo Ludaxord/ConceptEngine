@@ -342,10 +342,11 @@ void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommand
 	                              CEResourceState::NonPixelShaderResource);
 }
 
-void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CECommandList& commandList,
+void CEDXShadowMapRenderer::RenderDirectionalLightShadows(CECommandList& commandList,
                                                           const Main::Rendering::CELightSetup& lightSetup,
                                                           const Render::Scene::CEScene& scene) {
 	commandList.SetDebugPoint(":::: Renderer ShadowMapRenderer RenderDirectionalLightShadows BEGIN ::::");
+
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== BEGIN UPDATE DIRECTIONAL LIGHT BUFFER ==");
 	commandList.SetPrimitiveTopology(CEPrimitiveTopology::TriangleList);
 
