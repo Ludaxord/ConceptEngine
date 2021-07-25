@@ -470,3 +470,11 @@ bool CEDXShadowMapRenderer::Create(Main::Rendering::CEBaseLightSetup& lightSetup
 	Main::Rendering::CEFrameResources& resources) {
 	return false;
 }
+
+void CEDXShadowMapRenderer::RenderPointLightShadows(Main::RenderLayer::CECommandList& commandList,
+	const Main::Rendering::CEBaseLightSetup& lightSetup, const Render::Scene::CEScene& scene) {
+}
+
+void CEDXShadowMapRenderer::RenderDirectionalLightShadows(Main::RenderLayer::CECommandList& commandList,
+	const Main::Rendering::CEBaseLightSetup& lightSetup, const Render::Scene::CEScene& scene) {
+}

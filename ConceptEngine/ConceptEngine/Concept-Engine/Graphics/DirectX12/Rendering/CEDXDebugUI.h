@@ -16,5 +16,6 @@ namespace ConceptEngine::Graphics::DirectX12::Rendering {
 		void OnMouseReleased(const Core::Common::CEMouseReleasedEvent& Event) override;
 		void OnMouseScrolled(const Core::Common::CEMouseScrolledEvent& Event) override;
 		void Render(Main::RenderLayer::CECommandList& commandList) override;
+		void DrawUI(UIDrawFunc DrawFunc) override;
 	};
 }

@@ -30,6 +30,10 @@ namespace ConceptEngine::Core::Platform::Windows::Window {
 		CEWindowsWindowSize(int width, int height, int x, int y): CEWindowSize(width, height, x, y) {
 
 		}
+
+		CEWindowsWindowSize(): CEWindowSize() {
+
+		}
 	};
 
 	class CEWindowsWindow final : public Generic::Window::CEWindow {

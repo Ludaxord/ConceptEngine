@@ -700,3 +700,7 @@ bool CEDXDeferredRenderer::CreateGBuffer(Main::Rendering::CEFrameResources& fram
 
 	return true;
 }
+
+void CEDXDeferredRenderer::RenderDeferredTiledLightPass(Main::RenderLayer::CECommandList& commandList,
+	const Main::Rendering::CEFrameResources& frameResources, const Main::Rendering::CEBaseLightSetup& lightSetup) {
+}

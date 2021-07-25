@@ -16,13 +16,13 @@
 
 #include "../../Main/Rendering/CEFrameResources.h"
 
-#include "../Rendering/CEDXDeferredRenderer.h"
-#include "../Rendering/CEDXShadowMapRenderer.h"
-#include "../Rendering/CEDXScreenSpaceOcclusionRenderer.h"
-#include "../Rendering/CEDXLightProbeRenderer.h"
-#include "../Rendering/CEDXSkyBoxRenderPass.h"
-#include "../Rendering/CEDXForwardRenderer.h"
-#include "../Rendering/CEDXRayTracer.h"
+#include "../Rendering/Base/CEDXBaseDeferredRenderer.h"
+#include "../Rendering/Base/CEDXBaseShadowMapRenderer.h"
+#include "../Rendering/Base/CEDXBaseScreenSpaceOcclusionRenderer.h"
+#include "../Rendering/Base/CEDXBaseLightProbeRenderer.h"
+#include "../Rendering/Base/CEDXBaseSkyBoxRenderPass.h"
+#include "../Rendering/Base/CEDXBaseForwardRenderer.h"
+#include "../Rendering/Base/CEDXBaseRayTracer.h"
 
 #include "../../../Core/Platform/Generic/Managers/CECastManager.h"
 
@@ -32,7 +32,7 @@ using namespace ConceptEngine::Graphics::DirectX12::Modules::Render;
 using namespace ConceptEngine::Graphics::Main::RenderLayer;
 
 
-// ConceptEngine::Render::CERenderer* Renderer = new CEDirectXRenderer();
+ConceptEngine::Render::CERenderer* Renderer = new CEDirectXRenderer();
 
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawTextureDebugger(false);
 ConceptEngine::Core::Platform::Generic::Debug::CEConsoleVariableEx GDrawRendererInfo(true);
@@ -63,7 +63,7 @@ struct CEDXCameraBufferDesc {
 bool CEDirectXRenderer::Create() {
 
 	CE_LOG_DEBUGX(std::string("Concept Engine DirectX Renderer Lanuched"));
-	
+
 	INIT_CONSOLE_VARIABLE("CE.DrawTextureDebugger", &GDrawTextureDebugger);
 	INIT_CONSOLE_VARIABLE("CE.DrawRendererInfo", &GDrawRendererInfo);
 	INIT_CONSOLE_VARIABLE("CE.EnableSSAO", &GEnableSSAO);
@@ -174,39 +174,46 @@ bool CEDirectXRenderer::Create() {
 		return false;
 	}
 
-	DeferredRenderer = new Rendering::CEDXBaseDeferredRenderer();
+	//TODO: Implement
+	DeferredRenderer = new Rendering::Base::CEDXBaseDeferredRenderer();
 	if (!DeferredRenderer->Create(Resources)) {
 		return false;
 	}
 
-	ShadowMapRenderer = new Rendering::CEDXBaseShadowMapRenderer();
+	//TODO: Implement
+	ShadowMapRenderer = new Rendering::Base::CEDXBaseShadowMapRenderer();
 	if (!ShadowMapRenderer->Create(BaseLightSetup, Resources)) {
 		return false;
 	}
 
-	SSAORenderer = new Rendering::CEDXBaseScreenSpaceOcclusionRenderer();
+	//TODO: Implement
+	SSAORenderer = new Rendering::Base::CEDXBaseScreenSpaceOcclusionRenderer();
 	if (!SSAORenderer->Create(Resources)) {
 		return false;
 	}
 
-	LightProbeRenderer = new Rendering::CEDXBaseLightProbeRenderer();
+	//TODO: Implement
+	LightProbeRenderer = new Rendering::Base::CEDXBaseLightProbeRenderer();
 	if (!LightProbeRenderer->Create(BaseLightSetup, Resources)) {
 		return false;
 	}
 
-	SkyBoxRenderPass = new Rendering::CEDXBaseSkyBoxRenderPass();
+	//TODO: Implement
+	SkyBoxRenderPass = new Rendering::Base::CEDXBaseSkyBoxRenderPass();
 	auto PanoConf = Main::Rendering::CEPanoramaConfig{GetEngineSourceDirectory("Assets/Textures/arches.hdr"), true};
 	if (!SkyBoxRenderPass->Create(Resources, PanoConf)) {
 		return false;
 	}
 
-	ForwardRenderer = new Rendering::CEDXBaseForwardRenderer();
+	//TODO: Implement
+	ForwardRenderer = new Rendering::Base::CEDXBaseForwardRenderer();
 	if (!ForwardRenderer->Create(Resources)) {
 		return false;
 	}
 
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
-		RayTracer = new Rendering::CEDXBaseRayTracer();
+		//TODO: Implement
+		RayTracer = new Rendering::Base::CEDXBaseRayTracer();
 		if (!RayTracer->Create(Resources)) {
 			return false;
 		}
@@ -566,7 +573,8 @@ void CEDirectXRenderer::PerformFrustumCulling(const ConceptEngine::Render::Scene
 	TRACE_SCOPE("Frustum Culling");
 
 	ConceptEngine::Render::Scene::CECamera* Camera = scene.GetCamera();
-	ConceptEngine::Render::Scene::CEFrustum CameraFrustum = ConceptEngine::Render::Scene::CEFrustum(Camera->GetFarPlane(), Camera->GetViewMatrix(), Camera->GetProjectionMatrix());
+	ConceptEngine::Render::Scene::CEFrustum CameraFrustum = ConceptEngine::Render::Scene::CEFrustum(
+		Camera->GetFarPlane(), Camera->GetViewMatrix(), Camera->GetProjectionMatrix());
 	for (const Main::Rendering::CEMeshDrawCommand& Command : scene.GetMeshDrawCommands()) {
 		const XMFLOAT4X4& Transform = Command.CurrentActor->GetTransform().GetMatrix().Native;
 		XMMATRIX XmTransform = XMMatrixTranspose(XMLoadFloat4x4(&Transform));
@@ -808,7 +816,8 @@ void CEDirectXRenderer::OnWindowResize(const Core::Common::CEWindowResizeEvent& 
 
 bool CEDirectXRenderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> ShaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "VSMain", nullptr, CEShaderStage::Vertex,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "VSMain", nullptr,
+	                                     CEShaderStage::Vertex,
 	                                     CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -823,7 +832,8 @@ bool CEDirectXRenderer::CreateBoundingBoxDebugPass() {
 		AABBVertexShader->SetName("Debug VertexShader");
 	}
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "PSMain", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/Debug.hlsl"), "PSMain", nullptr,
+	                                     CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -857,7 +867,8 @@ bool CEDirectXRenderer::CreateBoundingBoxDebugPass() {
 	DepthStencilStateInfo.DepthEnable = false;
 	DepthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::Zero;
 
-	CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(DepthStencilStateInfo);
+	CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->
+		CreateDepthStencilState(DepthStencilStateInfo);
 	if (!DepthStencilState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -925,8 +936,9 @@ bool CEDirectXRenderer::CreateBoundingBoxDebugPass() {
 
 	CEResourceData VertexData(Vertices.Data(), Vertices.SizeInBytes());
 
-	AABBVertexBuffer = CastGraphicsManager()->CreateVertexBuffer<XMFLOAT3>(Vertices.Size(), BufferFlag_Default, CEResourceState::Common,
-	                                                &VertexData);
+	AABBVertexBuffer = CastGraphicsManager()->CreateVertexBuffer<XMFLOAT3>(
+		Vertices.Size(), BufferFlag_Default, CEResourceState::Common,
+		&VertexData);
 	if (!AABBVertexBuffer) {
 		CEDebug::DebugBreak();
 		return false;
@@ -954,8 +966,9 @@ bool CEDirectXRenderer::CreateBoundingBoxDebugPass() {
 
 	CEResourceData IndexData(Indices.Data(), Indices.SizeInBytes());
 
-	AABBIndexBuffer = CastGraphicsManager()->CreateIndexBuffer(CEIndexFormat::uint16, Indices.Size(), BufferFlag_Default,
-	                                    CEResourceState::Common, &IndexData);
+	AABBIndexBuffer = CastGraphicsManager()->CreateIndexBuffer(CEIndexFormat::uint16, Indices.Size(),
+	                                                           BufferFlag_Default,
+	                                                           CEResourceState::Common, &IndexData);
 	if (!AABBIndexBuffer) {
 		CEDebug::DebugBreak();
 		return false;
@@ -969,7 +982,8 @@ bool CEDirectXRenderer::CreateBoundingBoxDebugPass() {
 
 bool CEDirectXRenderer::CreateAA() {
 	CEArray<uint8> ShaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FullscreenVS.hlsl"), "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FullscreenVS.hlsl"), "Main",
+	                                     nullptr,
 	                                     CEShaderStage::Vertex, CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -984,7 +998,8 @@ bool CEDirectXRenderer::CreateAA() {
 		VShader->SetName("Fullscreen VertexShader");
 	}
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/PostProcessPS.hlsl"), "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/PostProcessPS.hlsl"), "Main",
+	                                     nullptr,
 	                                     CEShaderStage::Pixel, CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1004,7 +1019,8 @@ bool CEDirectXRenderer::CreateAA() {
 	DepthStencilStateInfo.DepthEnable = false;
 	DepthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::Zero;
 
-	CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(DepthStencilStateInfo);
+	CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->
+		CreateDepthStencilState(DepthStencilStateInfo);
 	if (!DepthStencilState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1071,7 +1087,8 @@ bool CEDirectXRenderer::CreateAA() {
 		return false;
 	}
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", nullptr, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", nullptr,
+	                                     CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1102,7 +1119,8 @@ bool CEDirectXRenderer::CreateAA() {
 		CEShaderDefine("ENABLE_DEBUG", "1")
 	};
 
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main", &Defines, CEShaderStage::Pixel,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/FXAA_PS.hlsl"), "Main",
+	                                     &Defines, CEShaderStage::Pixel,
 	                                     CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1141,8 +1159,9 @@ bool CEDirectXRenderer::CreateShadingImage() {
 
 	uint32 Width = Resources.MainWindowViewport->GetWidth() / Support.ShadingRateImageTileSize;
 	uint32 Height = Resources.MainWindowViewport->GetHeight() / Support.ShadingRateImageTileSize;
-	ShadingImage = CastGraphicsManager()->CreateTexture2D(CEFormat::R8_Uint, Width, Height, 1, 1, TextureFlags_RWTexture,
-	                               CEResourceState::ShadingRateSource, nullptr);
+	ShadingImage = CastGraphicsManager()->CreateTexture2D(CEFormat::R8_Uint, Width, Height, 1, 1,
+	                                                      TextureFlags_RWTexture,
+	                                                      CEResourceState::ShadingRateSource, nullptr);
 	if (!ShadingImage) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1152,7 +1171,8 @@ bool CEDirectXRenderer::CreateShadingImage() {
 	}
 
 	CEArray<uint8> ShaderCode;
-	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadingImage.hlsl"), "Main", nullptr,
+	if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadingImage.hlsl"), "Main",
+	                                     nullptr,
 	                                     CEShaderStage::Compute, CEShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;

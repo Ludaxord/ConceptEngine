@@ -24,6 +24,11 @@ void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetLookAt(const C
 	CalculateMatrix();
 }
 
+void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetLookAt(const XMFLOAT3& lookAt) {
+	LookAt = lookAt;
+	CalculateMatrix();
+}
+
 void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetLookAt(float x, float y, float z) {
 	SetLookAt(CEVectorFloat3(x, y, z));
 }
@@ -49,23 +54,24 @@ void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::SetShadowFarPlane
 void ConceptEngine::Render::Scene::Lights::CEDirectionalLight::CalculateMatrix() {
 	auto direction = CEVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
 	auto rotation = CEMatrixRotationRollPitchYaw(Rotation.x, Rotation.y, Rotation.z);
-	auto offset=  CEVector4Transform(direction, rotation);
+	auto offset = CEVector4Transform(direction, rotation);
 	direction = CEVector3Normalize(offset);
-	    CEStoreFloat3(&Direction, direction);
+	CEStoreFloat3(&Direction, direction);
 
-    const float Scale = (ShadowFarPlane - ShadowNearPlane) / 2.0f;
-    offset = CEVectorScale(offset, -Scale);
+	const float Scale = (ShadowFarPlane - ShadowNearPlane) / 2.0f;
+	offset = CEVectorScale(offset, -Scale);
 
-    auto lookAt   = CELoadFloat3(&LookAt);
-    auto position = CEVectorAdd(lookAt, offset);
-    CEStoreFloat3(&ShadowMapPosition, position);
+	auto lookAt = CELoadFloat3(&LookAt);
+	auto position = CEVectorAdd(lookAt, offset);
+	CEStoreFloat3(&ShadowMapPosition, position);
 
-    auto XmUp = CEVectorSet(0.0, 0.0f, 1.0f, 0.0f);
-    XmUp = CEVector3Normalize(CEVector3Transform(XmUp, rotation));
+	auto XmUp = CEVectorSet(0.0, 0.0f, 1.0f, 0.0f);
+	XmUp = CEVector3Normalize(CEVector3Transform(XmUp, rotation));
 
-    const float Offset    = 35.0f;
-    auto projection = CEMatrixOrthographicOffCenterLH(-Offset, Offset, -Offset, Offset, ShadowNearPlane, ShadowFarPlane);
-    auto view       = CEMatrixLookAtLH(position, lookAt, XmUp);
+	const float Offset = 35.0f;
+	auto projection =
+		CEMatrixOrthographicOffCenterLH(-Offset, Offset, -Offset, Offset, ShadowNearPlane, ShadowFarPlane);
+	auto view = CEMatrixLookAtLH(position, lookAt, XmUp);
 
-    CEStoreFloat4x4(&Matrix, CEMatrixMultiplyTranspose(view, projection));
+	CEStoreFloat4x4(&Matrix, CEMatrixMultiplyTranspose(view, projection));
 }

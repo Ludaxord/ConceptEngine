@@ -180,3 +180,7 @@ void CEDXForwardRenderer::Render(Main::RenderLayer::CECommandList& commandList,
 
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "== END FORWARD PASS ==");
 }
+
+void CEDXForwardRenderer::Render(Main::RenderLayer::CECommandList& commandList,
+	const Main::Rendering::CEFrameResources& frameResources, const Main::Rendering::CEBaseLightSetup& lightSetup) {
+}

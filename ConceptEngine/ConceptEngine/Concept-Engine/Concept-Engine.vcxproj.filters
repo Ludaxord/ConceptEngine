@@ -224,14 +224,14 @@
     <ClInclude Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.h" />
     <ClInclude Include="Graphics\DirectX12\Render\CEDirectXRenderer.h" />
     <ClInclude Include="Graphics\Main\Rendering\CEBaseLightSetup.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseDeferredRenderer.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseShadowMapRenderer.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseScreenSpaceOcclusionRenderer.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseForwardRenderer.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseSkyBoxRenderPass.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseLightProbeRenderer.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseRayTracer.h" />
-    <ClInclude Include="Graphics\DirectX12\Rendering\CEDXBaseDebugUI.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.h" />
+    <ClInclude Include="Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CEEngine.cpp" />
@@ -363,14 +363,14 @@
     <ClCompile Include="Graphics\DirectX12\RenderLayer\CEDXAftermath.cpp" />
     <ClCompile Include="Graphics\DirectX12\Render\CEDirectXRenderer.cpp" />
     <ClCompile Include="Graphics\Main\Rendering\CEBaseLightSetup.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseDeferredRenderer.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseShadowMapRenderer.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseScreenSpaceOcclusionRenderer.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseForwardRenderer.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseSkyBoxRenderPass.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseLightProbeRenderer.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseRayTracer.cpp" />
-    <ClCompile Include="Graphics\DirectX12\Rendering\CEDXBaseDebugUI.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp" />
+    <ClCompile Include="Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

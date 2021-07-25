@@ -16,6 +16,11 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual void RenderDirectionalLightShadows(RenderLayer::CECommandList& commandList, const CELightSetup& lightSetup,
 		                                   const Render::Scene::CEScene& scene)= 0;
 
+		virtual void RenderPointLightShadows(RenderLayer::CECommandList& commandList, const CEBaseLightSetup& lightSetup,
+		                             const Render::Scene::CEScene& scene)= 0;
+		virtual void RenderDirectionalLightShadows(RenderLayer::CECommandList& commandList, const CEBaseLightSetup& lightSetup,
+		                                   const Render::Scene::CEScene& scene)= 0;
+
 	protected:
 		CERef<RenderLayer::CEConstantBuffer> PerShadowMapBuffer;
 

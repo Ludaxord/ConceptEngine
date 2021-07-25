@@ -40,7 +40,7 @@ namespace ConceptEngine::Graphics::Main { namespace RenderLayer {
 			virtual bool Create() = 0;
 			virtual void Release() = 0;
 
-			virtual void DrawUI(UIDrawFunc DrawFunc);
+			virtual void DrawUI(UIDrawFunc DrawFunc) = 0;
 			virtual void DrawDebugString(const std::string& debugString) = 0;
 
 			virtual void OnKeyPressed(const Core::Common::CEKeyPressedEvent& Event) = 0;
@@ -53,7 +53,6 @@ namespace ConceptEngine::Graphics::Main { namespace RenderLayer {
 
 			virtual void Render(class Graphics::Main::RenderLayer::CECommandList& commandList) = 0;
 
-			static ImGuiContext* GetCurrentContext();
 		protected:
 		private:
 		};

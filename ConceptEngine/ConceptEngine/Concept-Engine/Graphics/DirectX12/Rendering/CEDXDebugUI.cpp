@@ -39,3 +39,6 @@ void CEDXDebugUI::OnMouseScrolled(const Core::Common::CEMouseScrolledEvent& Even
 
 void CEDXDebugUI::Render(Main::RenderLayer::CECommandList& commandList) {
 }
+
+void CEDXDebugUI::DrawUI(UIDrawFunc DrawFunc) {
+}

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../Main/Rendering/CEDeferredRenderer.h"
+#include "../../../Main/Rendering/CEDeferredRenderer.h"
 
-namespace ConceptEngine::Graphics::DirectX12::Rendering {
-	class CEDXDeferredRenderer : public Main::Rendering::CEDeferredRenderer {
+namespace ConceptEngine::Graphics::DirectX12::Rendering::Base {
+	class CEDXBaseDeferredRenderer : public Main::Rendering::CEDeferredRenderer {
 	public:
 		bool Create(Main::Rendering::CEFrameResources& FrameResources) override;
 		void RenderPrePass(Main::RenderLayer::CECommandList& commandList,

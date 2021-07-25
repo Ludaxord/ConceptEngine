@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Main/Rendering/CEForwardRenderer.h"
+#include "../../../Main/Rendering/CEForwardRenderer.h"
 
-namespace ConceptEngine::Graphics::DirectX12::Rendering {
+namespace ConceptEngine::Graphics::DirectX12::Rendering::Base {
 
-	class CEDXForwardRenderer : public Main::Rendering::CEForwardRenderer {
+	class CEDXBaseForwardRenderer : public Main::Rendering::CEForwardRenderer {
 
 	public:
 		bool Create(const Main::Rendering::CEFrameResources& resources) override;

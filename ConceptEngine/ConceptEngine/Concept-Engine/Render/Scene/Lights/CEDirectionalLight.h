@@ -13,6 +13,10 @@ namespace ConceptEngine::Render::Scene::Lights {
 		void SetRotation(float x, float y, float z);
 
 		void SetLookAt(const CEVectorFloat3& lookAt);
+#ifdef WINDOWS_PLATFORM
+		void SetLookAt(const XMFLOAT3& lookAt);
+#endif
+		
 		void SetLookAt(float x, float y, float z);
 
 		void SetShadowNearPlane(float shadowNearPlane);

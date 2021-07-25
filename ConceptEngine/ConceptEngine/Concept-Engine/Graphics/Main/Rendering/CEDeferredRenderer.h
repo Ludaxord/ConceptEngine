@@ -1,4 +1,5 @@
 #pragma once
+#include "CEBaseLightSetup.h"
 #include "CEFrameResources.h"
 #include "CELightSetup.h"
 
@@ -18,6 +19,10 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 		virtual void RenderDeferredTiledLightPass(RenderLayer::CECommandList& commandList,
 		                                          const CEFrameResources& frameResources,
 		                                          const CELightSetup& lightSetup) = 0;
+		
+		virtual void RenderDeferredTiledLightPass(RenderLayer::CECommandList& commandList,
+		                                          const CEFrameResources& frameResources,
+		                                          const CEBaseLightSetup& lightSetup) = 0;
 
 		virtual bool ResizeResources(CEFrameResources& resources) = 0;
 

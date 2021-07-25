@@ -1,0 +1,762 @@
+#include "CEDXBaseDebugUI.h"
+#include "../../../../Core/Platform/Generic/Managers/CECastManager.h"
+#include "../../../../Core/Platform/Windows/Window/CEWindowsWindow.h"
+
+#include "../../RenderLayer/CEDXShader.h"
+#include "../../RenderLayer/CEDXBuffer.h"
+#include "../../RenderLayer/CEDXTexture.h"
+#include "../../../../Time/CETimer.h"
+#include "../../../../Core/Platform/Generic/Callbacks/CEEngineController.h"
+
+
+struct ImGuiState {
+	void Reset() {
+		FontTexture.Reset();
+		PipelineState.Reset();
+		PipelineStateNoBlending.Reset();
+		VertexBuffer.Reset();
+		IndexBuffer.Reset();
+		PointSampler.Reset();
+		PShader.Reset();
+	}
+
+	ConceptEngine::Time::CETimer FrameClock;
+
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CETexture2D> FontTexture;
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CEGraphicsPipelineState> PipelineState;
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CEGraphicsPipelineState> PipelineStateNoBlending;
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CEPixelShader> PShader;
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CEVertexBuffer> VertexBuffer;
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CEIndexBuffer> IndexBuffer;
+	CERef<ConceptEngine::Graphics::Main::RenderLayer::CESamplerState> PointSampler;
+	CEArray<ConceptEngine::Graphics::Main::Rendering::ImGuiImage*> Images;
+
+	ImGuiContext* Context = nullptr;
+};
+
+static ImGuiState GlobalImGuiState;
+
+static uint32 GetMouseButtonIndex(ConceptEngine::Core::Platform::Generic::Input::CEMouseButton Button) {
+	switch (Button) {
+	case ConceptEngine::Core::Platform::Generic::Input::MouseButton_Left: return 0;
+	case ConceptEngine::Core::Platform::Generic::Input::MouseButton_Right: return 1;
+	case ConceptEngine::Core::Platform::Generic::Input::MouseButton_Middle: return 2;
+	case ConceptEngine::Core::Platform::Generic::Input::MouseButton_Back: return 3;
+	case ConceptEngine::Core::Platform::Generic::Input::MouseButton_Forward: return 4;
+	default: return static_cast<uint32>(-1);
+	}
+}
+
+static CEArray<ConceptEngine::Graphics::Main::Rendering::CEDebugUI::UIDrawFunc> GlobalDrawFuncs;
+static CEArray<std::string> GlobalDebugStrings;
+
+ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::CEDXBaseDebugUI() {
+}
+
+ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::~CEDXBaseDebugUI() {
+}
+
+bool ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::Create() {
+	// Create context
+	IMGUI_CHECKVERSION();
+
+	GlobalImGuiState.Context = ImGui::CreateContext();
+	if (!GlobalImGuiState.Context) {
+		return false;
+	}
+
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+	IO.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+	IO.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+	IO.BackendPlatformName = "Windows";
+	IO.ImeWindowHandle = EngineController.GetWindow()->GetNativeHandle();
+
+	// Keyboard mapping. ImGui will use those indices to peek into the IO.KeysDown[] array that we will update during the application lifetime.
+	IO.KeyMap[ImGuiKey_Tab] = Core::Platform::Generic::Input::CEKey::Key_Tab;
+	IO.KeyMap[ImGuiKey_LeftArrow] = Core::Platform::Generic::Input::CEKey::Key_Left;
+	IO.KeyMap[ImGuiKey_RightArrow] = Core::Platform::Generic::Input::CEKey::Key_Right;
+	IO.KeyMap[ImGuiKey_UpArrow] = Core::Platform::Generic::Input::CEKey::Key_Up;
+	IO.KeyMap[ImGuiKey_DownArrow] = Core::Platform::Generic::Input::CEKey::Key_Down;
+	IO.KeyMap[ImGuiKey_PageUp] = Core::Platform::Generic::Input::CEKey::Key_PageUp;
+	IO.KeyMap[ImGuiKey_PageDown] = Core::Platform::Generic::Input::CEKey::Key_PageDown;
+	IO.KeyMap[ImGuiKey_Home] = Core::Platform::Generic::Input::CEKey::Key_Home;
+	IO.KeyMap[ImGuiKey_End] = Core::Platform::Generic::Input::CEKey::Key_End;
+	IO.KeyMap[ImGuiKey_Insert] = Core::Platform::Generic::Input::CEKey::Key_Insert;
+	IO.KeyMap[ImGuiKey_Delete] = Core::Platform::Generic::Input::CEKey::Key_Delete;
+	IO.KeyMap[ImGuiKey_Backspace] = Core::Platform::Generic::Input::CEKey::Key_Backspace;
+	IO.KeyMap[ImGuiKey_Space] = Core::Platform::Generic::Input::CEKey::Key_Space;
+	IO.KeyMap[ImGuiKey_Enter] = Core::Platform::Generic::Input::CEKey::Key_Enter;
+	IO.KeyMap[ImGuiKey_Escape] = Core::Platform::Generic::Input::CEKey::Key_Escape;
+	IO.KeyMap[ImGuiKey_KeyPadEnter] = Core::Platform::Generic::Input::CEKey::Key_KeypadEnter;
+	IO.KeyMap[ImGuiKey_A] = Core::Platform::Generic::Input::CEKey::Key_A;
+	IO.KeyMap[ImGuiKey_C] = Core::Platform::Generic::Input::CEKey::Key_C;
+	IO.KeyMap[ImGuiKey_V] = Core::Platform::Generic::Input::CEKey::Key_V;
+	IO.KeyMap[ImGuiKey_X] = Core::Platform::Generic::Input::CEKey::Key_X;
+	IO.KeyMap[ImGuiKey_Y] = Core::Platform::Generic::Input::CEKey::Key_Y;
+	IO.KeyMap[ImGuiKey_Z] = Core::Platform::Generic::Input::CEKey::Key_Z;
+
+	// Setup style
+	ImGui::StyleColorsDark();
+
+	ImGuiStyle& Style = ImGui::GetStyle();
+	Style.WindowRounding = 0.0f;
+	Style.FrameRounding = 0.0f;
+	Style.GrabRounding = 0.0f;
+	Style.TabRounding = 0.0f;
+	Style.WindowBorderSize = 0.0f;
+	Style.ScrollbarRounding = 0.0f;
+	Style.ScrollbarSize = 12.0f;
+
+	Style.Colors[ImGuiCol_WindowBg].x = 0.2f;
+	Style.Colors[ImGuiCol_WindowBg].y = 0.2f;
+	Style.Colors[ImGuiCol_WindowBg].z = 0.2f;
+	Style.Colors[ImGuiCol_WindowBg].w = 0.9f;
+
+	Style.Colors[ImGuiCol_Text].x = 1.0f;
+	Style.Colors[ImGuiCol_Text].y = 1.0f;
+	Style.Colors[ImGuiCol_Text].z = 1.0f;
+	Style.Colors[ImGuiCol_Text].w = 1.0f;
+
+	Style.Colors[ImGuiCol_PlotHistogram].x = 0.9f;
+	Style.Colors[ImGuiCol_PlotHistogram].y = 0.9f;
+	Style.Colors[ImGuiCol_PlotHistogram].z = 0.9f;
+	Style.Colors[ImGuiCol_PlotHistogram].w = 1.0f;
+
+	Style.Colors[ImGuiCol_PlotHistogramHovered].x = 0.75f;
+	Style.Colors[ImGuiCol_PlotHistogramHovered].y = 0.75f;
+	Style.Colors[ImGuiCol_PlotHistogramHovered].z = 0.75f;
+	Style.Colors[ImGuiCol_PlotHistogramHovered].w = 1.0f;
+
+	Style.Colors[ImGuiCol_TitleBg].x = 0.3f;
+	Style.Colors[ImGuiCol_TitleBg].y = 0.3f;
+	Style.Colors[ImGuiCol_TitleBg].z = 0.3f;
+	Style.Colors[ImGuiCol_TitleBg].w = 1.0f;
+
+	Style.Colors[ImGuiCol_TitleBgActive].x = 0.15f;
+	Style.Colors[ImGuiCol_TitleBgActive].y = 0.15f;
+	Style.Colors[ImGuiCol_TitleBgActive].z = 0.15f;
+	Style.Colors[ImGuiCol_TitleBgActive].w = 1.0f;
+
+	Style.Colors[ImGuiCol_FrameBg].x = 0.4f;
+	Style.Colors[ImGuiCol_FrameBg].y = 0.4f;
+	Style.Colors[ImGuiCol_FrameBg].z = 0.4f;
+	Style.Colors[ImGuiCol_FrameBg].w = 1.0f;
+
+	Style.Colors[ImGuiCol_FrameBgHovered].x = 0.3f;
+	Style.Colors[ImGuiCol_FrameBgHovered].y = 0.3f;
+	Style.Colors[ImGuiCol_FrameBgHovered].z = 0.3f;
+	Style.Colors[ImGuiCol_FrameBgHovered].w = 1.0f;
+
+	Style.Colors[ImGuiCol_FrameBgActive].x = 0.24f;
+	Style.Colors[ImGuiCol_FrameBgActive].y = 0.24f;
+	Style.Colors[ImGuiCol_FrameBgActive].z = 0.24f;
+	Style.Colors[ImGuiCol_FrameBgActive].w = 1.0f;
+
+	Style.Colors[ImGuiCol_Button].x = 0.4f;
+	Style.Colors[ImGuiCol_Button].y = 0.4f;
+	Style.Colors[ImGuiCol_Button].z = 0.4f;
+	Style.Colors[ImGuiCol_Button].w = 1.0f;
+
+	Style.Colors[ImGuiCol_ButtonHovered].x = 0.3f;
+	Style.Colors[ImGuiCol_ButtonHovered].y = 0.3f;
+	Style.Colors[ImGuiCol_ButtonHovered].z = 0.3f;
+	Style.Colors[ImGuiCol_ButtonHovered].w = 1.0f;
+
+	Style.Colors[ImGuiCol_ButtonActive].x = 0.25f;
+	Style.Colors[ImGuiCol_ButtonActive].y = 0.25f;
+	Style.Colors[ImGuiCol_ButtonActive].z = 0.25f;
+	Style.Colors[ImGuiCol_ButtonActive].w = 1.0f;
+
+	Style.Colors[ImGuiCol_CheckMark].x = 0.15f;
+	Style.Colors[ImGuiCol_CheckMark].y = 0.15f;
+	Style.Colors[ImGuiCol_CheckMark].z = 0.15f;
+	Style.Colors[ImGuiCol_CheckMark].w = 1.0f;
+
+	Style.Colors[ImGuiCol_SliderGrab].x = 0.15f;
+	Style.Colors[ImGuiCol_SliderGrab].y = 0.15f;
+	Style.Colors[ImGuiCol_SliderGrab].z = 0.15f;
+	Style.Colors[ImGuiCol_SliderGrab].w = 1.0f;
+
+	Style.Colors[ImGuiCol_SliderGrabActive].x = 0.16f;
+	Style.Colors[ImGuiCol_SliderGrabActive].y = 0.16f;
+	Style.Colors[ImGuiCol_SliderGrabActive].z = 0.16f;
+	Style.Colors[ImGuiCol_SliderGrabActive].w = 1.0f;
+
+	Style.Colors[ImGuiCol_ResizeGrip].x = 0.25f;
+	Style.Colors[ImGuiCol_ResizeGrip].y = 0.25f;
+	Style.Colors[ImGuiCol_ResizeGrip].z = 0.25f;
+	Style.Colors[ImGuiCol_ResizeGrip].w = 1.0f;
+
+	Style.Colors[ImGuiCol_ResizeGripHovered].x = 0.35f;
+	Style.Colors[ImGuiCol_ResizeGripHovered].y = 0.35f;
+	Style.Colors[ImGuiCol_ResizeGripHovered].z = 0.35f;
+	Style.Colors[ImGuiCol_ResizeGripHovered].w = 1.0f;
+
+	Style.Colors[ImGuiCol_ResizeGripActive].x = 0.5f;
+	Style.Colors[ImGuiCol_ResizeGripActive].y = 0.5f;
+	Style.Colors[ImGuiCol_ResizeGripActive].z = 0.5f;
+	Style.Colors[ImGuiCol_ResizeGripActive].w = 1.0f;
+
+	Style.Colors[ImGuiCol_Tab].x = 0.55f;
+	Style.Colors[ImGuiCol_Tab].y = 0.55f;
+	Style.Colors[ImGuiCol_Tab].z = 0.55f;
+	Style.Colors[ImGuiCol_Tab].w = 1.0f;
+
+	Style.Colors[ImGuiCol_TabHovered].x = 0.4f;
+	Style.Colors[ImGuiCol_TabHovered].y = 0.4f;
+	Style.Colors[ImGuiCol_TabHovered].z = 0.4f;
+	Style.Colors[ImGuiCol_TabHovered].w = 1.0f;
+
+	Style.Colors[ImGuiCol_TabActive].x = 0.25f;
+	Style.Colors[ImGuiCol_TabActive].y = 0.25f;
+	Style.Colors[ImGuiCol_TabActive].z = 0.25f;
+	Style.Colors[ImGuiCol_TabActive].w = 1.0f;
+
+	// Build texture atlas
+	uint8* Pixels = nullptr;
+	int32 Width = 0;
+	int32 Height = 0;
+	IO.Fonts->GetTexDataAsRGBA32(&Pixels, &Width, &Height);
+
+	GlobalImGuiState.FontTexture = CastTextureManager()->LoadFromMemory(Pixels, Width, Height, 0,
+	                                                                    RenderLayer::CEFormat::R8G8B8A8_Unorm);
+	if (!GlobalImGuiState.FontTexture) {
+		return false;
+	}
+
+	static const char* VSSource =
+		R"*(
+    cbuffer VertexBuffer : register(b0, space1)
+    {
+        float4x4 ProjectionMatrix;
+    };
+    struct VS_INPUT
+    {
+        float2 Position : POSITION;
+        float4 Color    : COLOR0;
+        float2 TexCoord : TEXCOORD0;
+    };
+    struct PS_INPUT
+    {
+        float4 Position : SV_POSITION;
+        float4 Color    : COLOR0;
+        float2 TexCoord : TEXCOORD0;
+    };
+    PS_INPUT Main(VS_INPUT Input)
+    {
+        PS_INPUT Output;
+        Output.Position = mul(ProjectionMatrix, float4(Input.Position.xy, 0.0f, 1.0f));
+        Output.Color    = Input.Color;
+        Output.TexCoord = Input.TexCoord;
+        return Output;
+    })*";
+
+	CEArray<uint8> ShaderCode;
+	if (!ShaderCompiler->CompileShader(VSSource, "Main", nullptr, RenderLayer::CEShaderStage::Vertex,
+	                                   RenderLayer::CEShaderModel::SM_6_0, ShaderCode)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	CERef<RenderLayer::CEVertexShader> VShader = CastGraphicsManager()->CreateVertexShader(ShaderCode);
+	if (!VShader) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	static const char* PSSource =
+		R"*(
+        struct PS_INPUT
+        {
+            float4 Position : SV_POSITION;
+            float4 Color    : COLOR0;
+            float2 TexCoord : TEXCOORD0;
+        };
+        SamplerState Sampler0 : register(s0);
+        Texture2D    Texture0 : register(t0);
+        float4 Main(PS_INPUT Input) : SV_Target
+        {
+            float4 OutColor = Input.Color * Texture0.Sample(Sampler0, Input.TexCoord);
+            return OutColor;
+        })*";
+
+	if (!ShaderCompiler->CompileShader(PSSource, "Main", nullptr, RenderLayer::CEShaderStage::Pixel,
+	                                   RenderLayer::CEShaderModel::SM_6_0,
+	                                   ShaderCode)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	GlobalImGuiState.PShader = CastGraphicsManager()->CreatePixelShader(ShaderCode);
+	if (!GlobalImGuiState.PShader) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	RenderLayer::CEInputLayoutStateCreateInfo InputLayoutInfo =
+	{
+		{
+			"POSITION", 0, RenderLayer::CEFormat::R32G32_Float, 0, static_cast<UINT>(IM_OFFSETOF(ImDrawVert, pos)),
+			RenderLayer::CEInputClassification::Vertex, 0
+		},
+		{
+			"TEXCOORD", 0, RenderLayer::CEFormat::R32G32_Float, 0, static_cast<UINT>(IM_OFFSETOF(ImDrawVert, uv)),
+			RenderLayer::CEInputClassification::Vertex, 0
+		},
+		{
+			"COLOR", 0, RenderLayer::CEFormat::R8G8B8A8_Unorm, 0, static_cast<UINT>(IM_OFFSETOF(ImDrawVert, col)),
+			RenderLayer::CEInputClassification::Vertex, 0
+		},
+	};
+
+	CERef<RenderLayer::CEInputLayoutState> InputLayout = CastGraphicsManager()->CreateInputLayout(InputLayoutInfo);
+	if (!InputLayout) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	else {
+		InputLayout->SetName("ImGui InputLayoutState");
+	}
+
+	RenderLayer::CEDepthStencilStateCreateInfo DepthStencilStateInfo;
+	DepthStencilStateInfo.DepthEnable = false;
+	DepthStencilStateInfo.DepthWriteMask = RenderLayer::CEDepthWriteMask::Zero;
+
+	CERef<RenderLayer::CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(
+		DepthStencilStateInfo);
+	if (!DepthStencilState) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	else {
+		DepthStencilState->SetName("ImGui DepthStencilState");
+	}
+
+	RenderLayer::CERasterizerStateCreateInfo RasterizerStateInfo;
+	RasterizerStateInfo.CullMode = RenderLayer::CECullMode::None;
+
+	CERef<RenderLayer::CERasterizerState> RasterizerState = CastGraphicsManager()->CreateRasterizerState(
+		RasterizerStateInfo);
+	if (!RasterizerState) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	else {
+		RasterizerState->SetName("ImGui RasterizerState");
+	}
+
+	RenderLayer::CEBlendStateCreateInfo BlendStateInfo;
+	BlendStateInfo.IndependentBlendEnable = false;
+	BlendStateInfo.RenderTarget[0].BlendEnable = true;
+	BlendStateInfo.RenderTarget[0].SourceBlend = RenderLayer::CEBlend::SrcAlpha;
+	BlendStateInfo.RenderTarget[0].SourceBlendAlpha = RenderLayer::CEBlend::InvSrcAlpha;
+	BlendStateInfo.RenderTarget[0].DestinationBlend = RenderLayer::CEBlend::InvSrcAlpha;
+	BlendStateInfo.RenderTarget[0].DestinationBlendAlpha = RenderLayer::CEBlend::Zero;
+	BlendStateInfo.RenderTarget[0].BlendOpAlpha = RenderLayer::CEBlendOp::Add;
+	BlendStateInfo.RenderTarget[0].BlendOp = RenderLayer::CEBlendOp::Add;
+
+	CERef<RenderLayer::CEBlendState> BlendStateBlending = CastGraphicsManager()->CreateBlendState(BlendStateInfo);
+	if (!BlendStateBlending) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	else {
+		BlendStateBlending->SetName("ImGui BlendState");
+	}
+
+	BlendStateInfo.RenderTarget[0].BlendEnable = false;
+
+	CERef<RenderLayer::CEBlendState> BlendStateNoBlending = CastGraphicsManager()->CreateBlendState(BlendStateInfo);
+	if (!BlendStateBlending) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	else {
+		BlendStateBlending->SetName("ImGui BlendState No Blending");
+	}
+
+	RenderLayer::CEGraphicsPipelineStateCreateInfo PSOProperties;
+	PSOProperties.ShaderState.VertexShader = VShader.Get();
+	PSOProperties.ShaderState.PixelShader = GlobalImGuiState.PShader.Get();
+	PSOProperties.InputLayoutState = InputLayout.Get();
+	PSOProperties.DepthStencilState = DepthStencilState.Get();
+	PSOProperties.BlendState = BlendStateBlending.Get();
+	PSOProperties.RasterizerState = RasterizerState.Get();
+	PSOProperties.PipelineFormats.RenderTargetFormats[0] = RenderLayer::CEFormat::R8G8B8A8_Unorm;
+	PSOProperties.PipelineFormats.NumRenderTargets = 1;
+	PSOProperties.PrimitiveTopologyType = RenderLayer::CEPrimitiveTopologyType::Triangle;
+
+	GlobalImGuiState.PipelineState = CastGraphicsManager()->CreateGraphicsPipelineState(PSOProperties);
+	if (!GlobalImGuiState.PipelineState) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	PSOProperties.BlendState = BlendStateNoBlending.Get();
+
+	GlobalImGuiState.PipelineStateNoBlending = CastGraphicsManager()->CreateGraphicsPipelineState(PSOProperties);
+	if (!GlobalImGuiState.PipelineStateNoBlending) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	GlobalImGuiState.VertexBuffer = CastGraphicsManager()->CreateVertexBuffer<ImDrawVert>(
+		1024 * 1024, RenderLayer::BufferFlag_Default,
+		RenderLayer::CEResourceState::VertexAndConstantBuffer, nullptr);
+	if (!GlobalImGuiState.VertexBuffer) {
+		return false;
+	}
+	else {
+		GlobalImGuiState.VertexBuffer->SetName("ImGui VertexBuffer");
+	}
+
+	GlobalImGuiState.IndexBuffer = CastGraphicsManager()->CreateIndexBuffer(
+		sizeof(ImDrawIdx) == 2 ? RenderLayer::CEIndexFormat::uint16 : RenderLayer::CEIndexFormat::uint32,
+		1024 * 1024,
+		RenderLayer::BufferFlag_Default,
+		RenderLayer::CEResourceState::Common,
+		nullptr);
+	if (!GlobalImGuiState.IndexBuffer) {
+		return false;
+	}
+	else {
+		GlobalImGuiState.IndexBuffer->SetName("ImGui IndexBuffer");
+	}
+
+	RenderLayer::CESamplerStateCreateInfo CreateInfo;
+	CreateInfo.AddressU = RenderLayer::CESamplerMode::Clamp;
+	CreateInfo.AddressV = RenderLayer::CESamplerMode::Clamp;
+	CreateInfo.AddressW = RenderLayer::CESamplerMode::Clamp;
+	CreateInfo.Filter = RenderLayer::CESamplerFilter::MinMagMipPoint;
+
+	GlobalImGuiState.PointSampler = CastGraphicsManager()->CreateSamplerState(CreateInfo);
+	if (!GlobalImGuiState.PointSampler) {
+		return false;
+	}
+
+	EngineController.OnKeyPressedEvent.AddFunction(OnKeyEventPressed);
+	EngineController.OnKeyReleasedEvent.AddFunction(OnKeyEventReleased);
+	EngineController.OnKeyTypedEvent.AddFunction(OnKeyEventTyped);
+	
+	EngineController.OnMousePressedEvent.AddFunction(OnMouseEventPressed);
+	EngineController.OnMouseReleasedEvent.AddFunction(OnMouseEventReleased);
+	EngineController.OnMouseScrolledEvent.AddFunction(OnMouseEventScrolled);
+
+	return true;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::Release() {
+	GlobalImGuiState.Reset();
+
+	ImGui::DestroyContext(GlobalImGuiState.Context);
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::DrawDebugString(
+	const std::string& DebugString) {
+	GlobalDebugStrings.EmplaceBack(DebugString);
+
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnKeyPressed(
+	const Core::Common::CEKeyPressedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.KeysDown[Event.Key] = true;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnKeyReleased(
+	const Core::Common::CEKeyReleasedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.KeysDown[Event.Key] = false;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnKeyTyped(
+	const Core::Common::CEKeyTypedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.AddInputCharacter(Event.Character);
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnMousePressed(
+	const Core::Common::CEMousePressedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	const uint32 ButtonIndex = GetMouseButtonIndex(Event.Button);
+	IO.MouseDown[ButtonIndex] = true;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnMouseReleased(
+	const Core::Common::CEMouseReleasedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	const uint32 ButtonIndex = GetMouseButtonIndex(Event.Button);
+	IO.MouseDown[ButtonIndex] = false;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnMouseScrolled(
+	const Core::Common::CEMouseScrolledEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.MouseWheel += Event.VerticalDelta;
+	IO.MouseWheelH += Event.HorizontalDelta;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::Render(
+	Main::RenderLayer::CECommandList& CmdList) {
+	GlobalImGuiState.FrameClock.Update();
+
+	ImGuiIO& IO = ImGui::GetIO();
+
+	auto* Window = EngineController.GetWindow();
+	if (IO.WantSetMousePos) {
+		Core::Application::CECore::GetPlatform()->SetCursorPosition(Window, static_cast<int32>(IO.MousePos.x),
+		                                                            static_cast<int32>(IO.MousePos.y));
+	}
+
+	Core::Platform::Windows::Window::CEWindowsWindowSize CurrentWindowShape;
+	Window->GetWindowSize(CurrentWindowShape);
+
+	Time::CETimestamp Delta = GlobalImGuiState.FrameClock.GetDeltaTime();
+	IO.DeltaTime = static_cast<float>(Delta.AsSeconds());
+	IO.DisplaySize = ImVec2(float(CurrentWindowShape.Width), float(CurrentWindowShape.Height));
+	IO.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+
+	int32 x = 0;
+	int32 y = 0;
+	Core::Application::CECore::GetPlatform()->GetCursorPosition(Window, x, y);
+
+	IO.MousePos = ImVec2(static_cast<float>(x), static_cast<float>(y));
+
+	Core::Platform::Generic::Input::CEModifierKeyState KeyState = Core::Application::CECore::GetPlatform()->
+		GetModifierKeyState();
+	IO.KeyCtrl = KeyState.IsCtrlDown();
+	IO.KeyShift = KeyState.IsShiftDown();
+	IO.KeyAlt = KeyState.IsAltDown();
+	IO.KeySuper = KeyState.IsSuperKeyDown();
+
+	if (!(IO.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange)) {
+		ImGuiMouseCursor ImguiCursor = ImGui::GetMouseCursor();
+		if (ImguiCursor == ImGuiMouseCursor_None || IO.MouseDrawCursor) {
+			Core::Application::CECore::GetPlatform()->SetCursor(nullptr);
+		}
+		else {
+			CERef<Core::Platform::Generic::Cursor::CECursor> Cursor = Core::Application::CECore::GetPlatform()->
+				GetCursor();
+			switch (ImguiCursor) {
+			case ImGuiMouseCursor_Arrow: Cursor = Core::Platform::Generic::Cursor::CECursor::Arrow;
+				break;
+			case ImGuiMouseCursor_TextInput: Cursor = Core::Platform::Generic::Cursor::CECursor::TextInput;
+				break;
+			case ImGuiMouseCursor_ResizeAll: Cursor = Core::Platform::Generic::Cursor::CECursor::ResizeAll;
+				break;
+			case ImGuiMouseCursor_ResizeEW: Cursor = Core::Platform::Generic::Cursor::CECursor::ResizeEW;
+				break;
+			case ImGuiMouseCursor_ResizeNS: Cursor = Core::Platform::Generic::Cursor::CECursor::ResizeNS;
+				break;
+			case ImGuiMouseCursor_ResizeNESW: Cursor = Core::Platform::Generic::Cursor::CECursor::ResizeNESW;
+				break;
+			case ImGuiMouseCursor_ResizeNWSE: Cursor = Core::Platform::Generic::Cursor::CECursor::ResizeNWSE;
+				break;
+			case ImGuiMouseCursor_Hand: Cursor = Core::Platform::Generic::Cursor::CECursor::Hand;
+				break;
+			case ImGuiMouseCursor_NotAllowed: Cursor = Core::Platform::Generic::Cursor::CECursor::NotAllowed;
+				break;
+			}
+
+			Core::Application::CECore::GetPlatform()->SetCursor(Cursor.Get());
+		}
+	}
+
+	// Begin new frame
+	ImGui::NewFrame();
+
+	for (UIDrawFunc Func : GlobalDrawFuncs) {
+		Func();
+	}
+	GlobalDrawFuncs.Clear();
+
+	// Draw DebugWindow with DebugStrings
+	if (!GlobalDebugStrings.IsEmpty()) {
+		constexpr float Width = 400.0f;
+		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(CurrentWindowShape.Width - Width), 18.0f));
+		ImGui::SetNextWindowSize(ImVec2(Width, 0.0f));
+
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.3f, 0.3f, 0.3f, 0.6f));
+
+		ImGui::Begin(
+			"DebugWindow",
+			nullptr,
+			ImGuiWindowFlags_NoMove |
+			ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoSavedSettings);
+
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		for (const std::string& Str : GlobalDebugStrings) {
+			ImGui::Text(Str.c_str());
+		}
+		GlobalDebugStrings.Clear();
+
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
+		ImGui::End();
+
+		// EndFrame
+		ImGui::EndFrame();
+	}
+
+	// Render ImgGui draw data
+	ImGui::Render();
+
+	ImDrawData* DrawData = ImGui::GetDrawData();
+
+	float L = DrawData->DisplayPos.x;
+	float R = DrawData->DisplayPos.x + DrawData->DisplaySize.x;
+	float T = DrawData->DisplayPos.y;
+	float B = DrawData->DisplayPos.y + DrawData->DisplaySize.y;
+	float MVP[4][4] =
+	{
+		{2.0f / (R - L), 0.0f, 0.0f, 0.0f},
+		{0.0f, 2.0f / (T - B), 0.0f, 0.0f},
+		{0.0f, 0.0f, 0.5f, 0.0f},
+		{(R + L) / (L - R), (T + B) / (B - T), 0.5f, 1.0f},
+	};
+
+	// Setup viewport
+	CmdList.SetViewport(DrawData->DisplaySize.x, DrawData->DisplaySize.y, 0.0f, 1.0f, 0.0f, 0.0f);
+
+	CmdList.Set32BitShaderConstants(GlobalImGuiState.PShader.Get(), &MVP, 16);
+
+	CmdList.SetVertexBuffers(&GlobalImGuiState.VertexBuffer, 1, 0);
+	CmdList.SetIndexBuffer(GlobalImGuiState.IndexBuffer.Get());
+	CmdList.SetPrimitiveTopology(RenderLayer::CEPrimitiveTopology::TriangleList);
+	CmdList.SetBlendFactor(Math::CEColorF(0.0f, 0.0f, 0.0f, 0.0f));
+
+	// TODO: Do not change to GenericRead, change to vertex/constantbuffer
+	CmdList.TransitionBuffer(GlobalImGuiState.VertexBuffer.Get(), RenderLayer::CEResourceState::GenericRead,
+	                         RenderLayer::CEResourceState::CopyDest);
+	CmdList.TransitionBuffer(GlobalImGuiState.IndexBuffer.Get(), RenderLayer::CEResourceState::GenericRead,
+	                         RenderLayer::CEResourceState::CopyDest);
+
+	uint32 VertexOffset = 0;
+	uint32 IndexOffset = 0;
+	for (int32 i = 0; i < DrawData->CmdListsCount; i++) {
+		const ImDrawList* ImCmdList = DrawData->CmdLists[i];
+
+		const uint32 VertexSize = ImCmdList->VtxBuffer.Size * sizeof(ImDrawVert);
+		CmdList.UpdateBuffer(GlobalImGuiState.VertexBuffer.Get(), VertexOffset, VertexSize, ImCmdList->VtxBuffer.Data);
+
+		const uint32 IndexSize = ImCmdList->IdxBuffer.Size * sizeof(ImDrawIdx);
+		CmdList.UpdateBuffer(GlobalImGuiState.IndexBuffer.Get(), IndexOffset, IndexSize, ImCmdList->IdxBuffer.Data);
+
+		VertexOffset += VertexSize;
+		IndexOffset += IndexSize;
+	}
+
+	CmdList.TransitionBuffer(GlobalImGuiState.VertexBuffer.Get(), RenderLayer::CEResourceState::CopyDest,
+	                         RenderLayer::CEResourceState::GenericRead);
+	CmdList.TransitionBuffer(GlobalImGuiState.IndexBuffer.Get(), RenderLayer::CEResourceState::CopyDest,
+	                         RenderLayer::CEResourceState::GenericRead);
+
+	CmdList.SetSamplerState(GlobalImGuiState.PShader.Get(), GlobalImGuiState.PointSampler.Get(), 0);
+
+	int32 GlobalVertexOffset = 0;
+	int32 GlobalIndexOffset = 0;
+	ImVec2 ClipOff = DrawData->DisplayPos;
+	for (int32 i = 0; i < DrawData->CmdListsCount; i++) {
+		const ImDrawList* DrawCmdList = DrawData->CmdLists[i];
+		for (int32 CmdIndex = 0; CmdIndex < DrawCmdList->CmdBuffer.Size; CmdIndex++) {
+			CmdList.SetGraphicsPipelineState(GlobalImGuiState.PipelineState.Get());
+
+			const ImDrawCmd* Cmd = &DrawCmdList->CmdBuffer[CmdIndex];
+			if (Cmd->TextureId) {
+				Main::Rendering::ImGuiImage* Image = reinterpret_cast<Main::Rendering::ImGuiImage*>(Cmd->TextureId);
+				GlobalImGuiState.Images.EmplaceBack(Image);
+
+				if (Image->BeforeState != RenderLayer::CEResourceState::PixelShaderResource) {
+					CmdList.TransitionTexture(Image->Image.Get(), Image->BeforeState,
+					                          RenderLayer::CEResourceState::PixelShaderResource);
+
+					// TODO: Another way to do this? May break somewhere?
+					Image->BeforeState = RenderLayer::CEResourceState::PixelShaderResource;
+				}
+
+				CmdList.SetShaderResourceView(GlobalImGuiState.PShader.Get(), Image->ImageView.Get(), 0);
+
+				if (!Image->AllowBlending) {
+					CmdList.SetGraphicsPipelineState(GlobalImGuiState.PipelineStateNoBlending.Get());
+				}
+			}
+			else {
+				RenderLayer::CEShaderResourceView* View = GlobalImGuiState.FontTexture->GetShaderResourceView();
+				CmdList.SetShaderResourceView(GlobalImGuiState.PShader.Get(), View, 0);
+			}
+
+			CmdList.SetScissorRect(Cmd->ClipRect.z - ClipOff.x, Cmd->ClipRect.w - ClipOff.y,
+			                       Cmd->ClipRect.x - ClipOff.x, Cmd->ClipRect.y - ClipOff.y);
+
+			CmdList.DrawIndexedInstanced(Cmd->ElemCount, 1, Cmd->IdxOffset + GlobalIndexOffset,
+			                             Cmd->VtxOffset + GlobalVertexOffset, 0);
+		}
+
+		GlobalIndexOffset += DrawCmdList->IdxBuffer.Size;
+		GlobalVertexOffset += DrawCmdList->VtxBuffer.Size;
+	}
+
+	for (Main::Rendering::ImGuiImage* Image : GlobalImGuiState.Images) {
+		Assert(Image != nullptr);
+
+		if (Image->AfterState != RenderLayer::CEResourceState::PixelShaderResource) {
+			CmdList.TransitionTexture(Image->Image.Get(), RenderLayer::CEResourceState::PixelShaderResource,
+			                          Image->AfterState);
+		}
+	}
+
+
+	GlobalImGuiState.Images.Clear();
+}
+
+
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnKeyEventPressed(
+	const Core::Common::CEKeyPressedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.KeysDown[Event.Key] = true;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnKeyEventReleased(
+	const Core::Common::CEKeyReleasedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.KeysDown[Event.Key] = false;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnKeyEventTyped(
+	const Core::Common::CEKeyTypedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.AddInputCharacter(Event.Character);
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnMouseEventPressed(
+	const Core::Common::CEMousePressedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	const uint32 ButtonIndex = GetMouseButtonIndex(Event.Button);
+	IO.MouseDown[ButtonIndex] = true;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnMouseEventReleased(
+	const Core::Common::CEMouseReleasedEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	const uint32 ButtonIndex = GetMouseButtonIndex(Event.Button);
+	IO.MouseDown[ButtonIndex] = false;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::OnMouseEventScrolled(
+	const Core::Common::CEMouseScrolledEvent& Event) {
+	ImGuiIO& IO = ImGui::GetIO();
+	IO.MouseWheel += Event.VerticalDelta;
+	IO.MouseWheelH += Event.HorizontalDelta;
+}
+
+ImGuiContext* ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::GetCurrentContext() {
+	return GlobalImGuiState.Context;
+}
+
+void ConceptEngine::Graphics::DirectX12::Rendering::Base::CEDXBaseDebugUI::DrawUI(UIDrawFunc DrawFunc) {
+	GlobalDrawFuncs.EmplaceBack(DrawFunc);
+}

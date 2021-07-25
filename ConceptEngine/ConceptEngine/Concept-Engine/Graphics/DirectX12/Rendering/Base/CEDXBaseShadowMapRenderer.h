@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../Main/Rendering/CEShadowMapRenderer.h"
+#include "../../../Main/Rendering/CEShadowMapRenderer.h"
 
-namespace ConceptEngine::Graphics::DirectX12::Rendering {
-	class CEDXShadowMapRenderer : public Main::Rendering::CEShadowMapRenderer {
+namespace ConceptEngine::Graphics::DirectX12::Rendering::Base {
+	class CEDXBaseShadowMapRenderer : public Main::Rendering::CEShadowMapRenderer {
 	public:
 		bool Create( Main::Rendering::CELightSetup& lightSetup,
 		            Main::Rendering::CEFrameResources& resources) override;
@@ -16,6 +16,7 @@ namespace ConceptEngine::Graphics::DirectX12::Rendering {
 
 	private:
 		bool CreateShadowMaps(Main::Rendering::CELightSetup& frameResources);
+		bool CreateShadowMaps(Main::Rendering::CEBaseLightSetup& frameResources);
 	public:
 		bool Create(Main::Rendering::CEBaseLightSetup& lightSetup,
 			Main::Rendering::CEFrameResources& resources) override;
