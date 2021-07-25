@@ -498,8 +498,17 @@ void CEDXCommandContext::ClearDepthStencilView(CEDepthStencilView* depthStencilV
 	CEDXDepthStencilView* dxDepthStencilView = static_cast<CEDXDepthStencilView*>(depthStencilView);
 
 	CommandBatch->AddInUseResource(dxDepthStencilView);
+	auto desc = dxDepthStencilView->GetDesc();
+	auto dxHandle = dxDepthStencilView->GetOfflineHandle();
 
-	CommandList.ClearDepthStencilView(dxDepthStencilView->GetOfflineHandle(),
+	CE_LOG_DEBUG(
+		"DX Handle => " +std::to_string(dxHandle.ptr) + " DESC Format => " + ConvertDXGIFormatToString(desc.Format) +
+		" First Array Slice => " + std::to_string(desc.Texture2DArray.FirstArraySlice)+ " Array Slice => " + std::
+		to_string(desc.Texture2DArray.
+			ArraySize)+ " Mip Slice => " + std::to_string(desc.Texture2DArray.MipSlice));
+
+
+	CommandList.ClearDepthStencilView(dxHandle,
 	                                  D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL,
 	                                  clearColor.Depth,
 	                                  clearColor.Stencil

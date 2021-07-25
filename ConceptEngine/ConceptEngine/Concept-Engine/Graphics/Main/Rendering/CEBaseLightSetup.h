@@ -52,14 +52,14 @@ namespace ConceptEngine::Graphics::Main::Rendering {
 	};
 
 	struct CEBaseLightSetup {
-		const RenderLayer::CEFormat ShadowMapFormat = RenderLayer::CEFormat::D32_Float;
-		const RenderLayer::CEFormat LightProbeFormat = RenderLayer::CEFormat::R16G16B16A16_Float;
-		const uint32 MaxPointLights = 256;
-		const uint32 MaxDirectionalLights = 256;
-		const uint32 MaxPointLightShadows = 8;
-		const uint16 ShadowMapWidth = 4096;
-		const uint16 ShadowMapHeight = 4096;
-		const uint16 PointLightShadowSize = 1024;
+    const RenderLayer::CEFormat ShadowMapFormat      = RenderLayer::CEFormat::D32_Float;
+    const RenderLayer::CEFormat LightProbeFormat     = RenderLayer::CEFormat::R16G16B16A16_Float;
+    const uint32  MaxPointLights       = 256;
+    const uint32  MaxDirectionalLights = 256;
+    const uint32  MaxPointLightShadows = 8;
+    const uint16  ShadowMapWidth       = 4096;
+    const uint16  ShadowMapHeight      = 4096;
+    const uint16  PointLightShadowSize = 1024;
 
 		CEBaseLightSetup() = default;
 		~CEBaseLightSetup() = default;
