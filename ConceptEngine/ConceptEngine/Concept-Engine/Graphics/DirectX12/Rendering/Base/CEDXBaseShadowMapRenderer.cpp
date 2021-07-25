@@ -57,8 +57,11 @@ bool CEDXBaseShadowMapRenderer::CreateShadowMaps(Main::Rendering::CEBaseLightSet
 				std::string Name = "ShadowMapDepthStencilCubeMap Face " + std::to_string(Face) + " Index " +
 					std::to_string(i);
 
-				//D3D12 ERROR: ID3D12Device::CreateDepthStencilView: The Dimensions of the View are invalid due to at least one of the following conditions. MipSlice (value = 1) must be between 0 and MipLevels-1 of the Texture Resource, 0, inclusively. FirstArraySlice (value = 0) must be between 0 and ArraySize-1 of the Texture Resource, 47, inclusively. With the current FirstArraySlice, ArraySize (value = 1) must be between 1 and 48, inclusively, or -1 to default to all slices from FirstArraySlice, in order that the View fit on the Texture. [ STATE_CREATION ERROR #48: CREATEDEPTHSTENCILVIEW_INVALIDDIMENSIONS]
-
+				//D3D12 ERROR: ID3D12Device::CreateDepthStencilView: The Dimensions of the View are invalid due to at least one of the following conditions.
+				//MipSlice (value = 1) must be between 0 and MipLevels-1 of the Texture Resource, 0, inclusively.
+				//FirstArraySlice (value = 0) must be between 0 and ArraySize-1 of the Texture Resource, 47, inclusively.
+				//With the current FirstArraySlice, ArraySize (value = 1) must be between 1 and 48, inclusively, or -1 to default to all slices from FirstArraySlice,
+				//in order that the View fit on the Texture. [ STATE_CREATION ERROR #48: CREATEDEPTHSTENCILVIEW_INVALIDDIMENSIONS]
 				DepthCube[Face] = CastGraphicsManager()->CreateDepthStencilViewForTextureCubeArray(
 					LightSetup.PointLightShadowMaps.Get(),
 					LightSetup.ShadowMapFormat,
@@ -67,6 +70,7 @@ bool CEDXBaseShadowMapRenderer::CreateShadowMaps(Main::Rendering::CEBaseLightSet
 					GetCubeFaceFromIndex(Face),
 					Name);
 				if (!DepthCube[Face]) {
+					CE_LOG_ERROR("[CEDXBaseShadowMapRenderer]: Failed to create Depth Stencil View For Texture")
 					CEDebug::DebugBreak();
 					return false;
 				}
@@ -328,6 +332,17 @@ void CEDXBaseShadowMapRenderer::RenderPointLightShadows(
 		for (uint32 i = 0; i < LightSetup.PointLightShadowMapsGenerationData.Size(); i++) {
 			for (uint32 Face = 0; Face < 6; Face++) {
 				auto& Cube = LightSetup.PointLightShadowMapDSVs[i];
+
+				// D3D12 WARNING: ID3D12CommandList::ClearDepthStencilView: The clear values do not match those passed to resource creation.
+				//The clear operation is typically slower as a result; but will still clear to the desired value.
+				//[ EXECUTION WARNING #821: CLEARDEPTHSTENCILVIEW_MISMATCHINGCLEARVALUE]
+
+				//D3D12 ERROR: ID3D12CommandList::DrawIndexedInstanced:
+				//The depth stencil format does not match that specified by the current pipeline state.
+				//A null depth stencil view may only be bound when the pipeline state depth stencil format is UNKNOWN.
+				//(pipeline state = D32_FLOAT, DSV ID3D12Resource* = 0x0000000000000000:'(nullptr)')
+				//[ EXECUTION ERROR #615: DEPTH_STENCIL_FORMAT_MISMATCH_PIPELINE_STATE]
+
 				CmdList.ClearDepthStencilView(Cube[Face].Get(), CEDepthStencilF(1.0f, 0));
 				CmdList.SetRenderTargets(nullptr, 0, Cube[Face].Get());
 

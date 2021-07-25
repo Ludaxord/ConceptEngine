@@ -791,6 +791,12 @@ CEDepthStencilView* CEDXManager::CreateDepthStencilView(const CEDepthStencilView
 
 		Assert(texture->IsDSV());
 
+
+		//D3D12 ERROR: ID3D12Device::CreateDepthStencilView: The Dimensions of the View are invalid due to at least one of the following conditions.
+		//MipSlice (value = 1) must be between 0 and MipLevels-1 of the Texture Resource, 0, inclusively.
+		//FirstArraySlice (value = 0) must be between 0 and ArraySize-1 of the Texture Resource, 47, inclusively.
+		//With the current FirstArraySlice, ArraySize (value = 1) must be between 1 and 48, inclusively, or -1 to default to all slices from FirstArraySlice,
+		//in order that the View fit on the Texture. [ STATE_CREATION ERROR #48: CREATEDEPTHSTENCILVIEW_INVALIDDIMENSIONS]
 		desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2DARRAY;
 		desc.Texture2DArray.MipSlice = createInfo.TextureCubeArray.Mip;
 		desc.Texture2DArray.ArraySize = 1;

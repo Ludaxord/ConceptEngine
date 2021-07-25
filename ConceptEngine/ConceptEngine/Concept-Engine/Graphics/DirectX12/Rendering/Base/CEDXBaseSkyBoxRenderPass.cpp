@@ -38,15 +38,15 @@ bool CEDXBaseSkyBoxRenderPass::Create(
     }
 
     // Create Texture Cube
-    const std::string PanoramaSourceFilename = "../Assets/Textures/arches.hdr";
-    CERef<CETexture2D> Panorama = CastTextureManager()->LoadFromFile(PanoramaSourceFilename, 0, CEFormat::R32G32B32A32_Float);
+    
+    CERef<CETexture2D> Panorama = CastTextureManager()->LoadFromFile(panoramaConfig.SourceFile, 0, CEFormat::R32G32B32A32_Float);
     if (!Panorama)
     {
         return false;
     }
     else
     {
-        Panorama->SetName(PanoramaSourceFilename);
+        Panorama->SetName(panoramaConfig.SourceFile);
     }
 
     FrameResources.Skybox = CastTextureManager()->CreateTextureCubeFromPanorama(Panorama.Get(), 1024, Main::Managers::TextureFlag_GenerateMips, CEFormat::R16G16B16A16_Float);

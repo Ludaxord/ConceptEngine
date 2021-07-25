@@ -275,6 +275,7 @@ void CEDirectXRenderer::Release() {
 
 void CEDirectXRenderer::Update(const ConceptEngine::Render::Scene::CEScene& Scene) {
 	// Perform frustum culling
+
 	Resources.DeferredVisibleCommands.Clear();
 	Resources.ForwardVisibleCommands.Clear();
 	Resources.DebugTextures.Clear();
@@ -298,11 +299,14 @@ void CEDirectXRenderer::Update(const ConceptEngine::Render::Scene::CEScene& Scen
 	CommandList.BeginExternalCapture();
 	CommandList.Begin();
 
+	CommandList.SetDebugPoint("START UPDATE....");
+
 	Core::Debug::CEProfiler::BeginGPUFrame(CommandList);
 
 	INSERT_DEBUG_CMDLIST_MARKER(CommandList, "--BEGIN FRAME--");
 
 	if (ShadingImage && GEnableVariableRateShading.GetBool()) {
+		CommandList.SetDebugPoint("START VRS....");
 		INSERT_DEBUG_CMDLIST_MARKER(CommandList, "Begin VRS Image");
 		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 
@@ -327,16 +331,22 @@ void CEDirectXRenderer::Update(const ConceptEngine::Render::Scene::CEScene& Scen
 		CommandList.SetShadingRate(CEShadingRate::VRS_1x1);
 	}
 
+	CommandList.SetDebugPoint("START BaseLightSetup BEGIN FRAME....");
 	BaseLightSetup.BeginFrame(CommandList, Scene);
 
+	CommandList.SetDebugPoint("START RenderPointLightShadows....");
 	ShadowMapRenderer->RenderPointLightShadows(CommandList, BaseLightSetup, Scene);
+
+	CommandList.SetDebugPoint("START RenderDirectionalLightShadows....");
 	ShadowMapRenderer->RenderDirectionalLightShadows(CommandList, BaseLightSetup, Scene);
 
 	if (CastGraphicsManager()->IsRayTracingSupported()) {
 		GPU_TRACE_SCOPE(CommandList, "Ray Tracing");
+		CommandList.SetDebugPoint("START RayTracer PreRender....");
 		RayTracer->PreRender(CommandList, Resources, Scene);
 	}
 
+	CommandList.SetDebugPoint("UPDATE CAMERA BUFFER....");
 	// Update camerabuffer
 	CEDXCameraBufferDesc CamBuff;
 	CamBuff.ViewProjection = Scene.GetCamera()->GetViewProjectionMatrix().Native;
@@ -602,6 +612,8 @@ void CEDirectXRenderer::PerformFXAA(CECommandList& commandList) {
 
 	TRACE_SCOPE("FXAA");
 
+	commandList.SetDebugPoint("PERFORM FXAA....");
+
 	struct FXAASettings {
 		float Width;
 		float Height;
@@ -654,6 +666,8 @@ void CEDirectXRenderer::PerformAABBDebugPass(CECommandList& commandList) {
 	INSERT_DEBUG_CMDLIST_MARKER(commandList, "Begin DebugPass");
 
 	TRACE_SCOPE("DebugPass");
+
+	commandList.SetDebugPoint("PERFORM AABB DEBUG PASS....");
 
 	commandList.SetGraphicsPipelineState(AABBDebugPipelineState.Get());
 

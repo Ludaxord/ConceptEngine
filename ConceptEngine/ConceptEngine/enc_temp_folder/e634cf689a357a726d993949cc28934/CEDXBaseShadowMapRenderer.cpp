@@ -54,11 +54,24 @@ bool CEDXBaseShadowMapRenderer::CreateShadowMaps(Main::Rendering::CEBaseLightSet
 			for (uint32 Face = 0; Face < 6; Face++) {
 				auto n = std::string("");
 				CEStaticArray<CERef<CEDepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];
+				std::string Name = "ShadowMapDepthStencilCubeMap Face " + std::to_string(Face) + " Index " +
+					std::to_string(i);
+
+				//D3D12 ERROR: ID3D12Device::CreateDepthStencilView: The Dimensions of the View are invalid due to at least one of the following conditions.
+				//MipSlice (value = 1) must be between 0 and MipLevels-1 of the Texture Resource, 0, inclusively.
+				//FirstArraySlice (value = 0) must be between 0 and ArraySize-1 of the Texture Resource, 47, inclusively.
+				//With the current FirstArraySlice, ArraySize (value = 1) must be between 1 and 48, inclusively, or -1 to default to all slices from FirstArraySlice,
+				//in order that the View fit on the Texture. [ STATE_CREATION ERROR #48: CREATEDEPTHSTENCILVIEW_INVALIDDIMENSIONS]
+
 				DepthCube[Face] = CastGraphicsManager()->CreateDepthStencilViewForTextureCubeArray(
 					LightSetup.PointLightShadowMaps.Get(),
 					LightSetup.ShadowMapFormat,
-					i, 0, GetCubeFaceFromIndex(Face), n);
+					0,
+					i,
+					GetCubeFaceFromIndex(Face),
+					Name);
 				if (!DepthCube[Face]) {
+					CE_LOG_ERROR("[CEDXBaseShadowMapRenderer]: Failed to create Depth Stencil View For Texture")
 					CEDebug::DebugBreak();
 					return false;
 				}
@@ -92,8 +105,9 @@ bool CEDXBaseShadowMapRenderer::Create(
 		return false;
 	}
 
-	PerShadowMapBuffer = CastGraphicsManager()->CreateConstantBuffer<PerShadowMap>(BufferFlag_Default, CEResourceState::VertexAndConstantBuffer,
-	                                                        nullptr);
+	PerShadowMapBuffer = CastGraphicsManager()->CreateConstantBuffer<PerShadowMap>(
+		BufferFlag_Default, CEResourceState::VertexAndConstantBuffer,
+		nullptr);
 	if (!PerShadowMapBuffer) {
 		CEDebug::DebugBreak();
 		return false;
@@ -105,7 +119,8 @@ bool CEDXBaseShadowMapRenderer::Create(
 	// Linear Shadow Maps
 	CEArray<uint8> ShaderCode;
 	{
-		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "VSMain", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "VSMain",
+		                                     nullptr,
 		                                     CEShaderStage::Vertex, CEShaderModel::SM_6_0, ShaderCode)) {
 			CEDebug::DebugBreak();
 			return false;
@@ -120,7 +135,8 @@ bool CEDXBaseShadowMapRenderer::Create(
 			PointLightVertexShader->SetName("Linear ShadowMap VertexShader");
 		}
 
-		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "PSMain", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "PSMain",
+		                                     nullptr,
 		                                     CEShaderStage::Pixel, CEShaderModel::SM_6_0, ShaderCode)) {
 			CEDebug::DebugBreak();
 			return false;
@@ -140,7 +156,8 @@ bool CEDXBaseShadowMapRenderer::Create(
 		DepthStencilStateInfo.DepthEnable = true;
 		DepthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::All;
 
-		CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(DepthStencilStateInfo);
+		CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(
+			DepthStencilStateInfo);
 		if (!DepthStencilState) {
 			CEDebug::DebugBreak();
 			return false;
@@ -198,7 +215,8 @@ bool CEDXBaseShadowMapRenderer::Create(
 	}
 
 	{
-		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "Main", nullptr,
+		if (!ShaderCompiler->CompileFromFile(GetGraphicsContentDirectory("DirectX12/Shaders/ShadowMap.hlsl"), "Main",
+		                                     nullptr,
 		                                     CEShaderStage::Vertex, CEShaderModel::SM_6_0, ShaderCode)) {
 			CEDebug::DebugBreak();
 			return false;
@@ -218,7 +236,8 @@ bool CEDXBaseShadowMapRenderer::Create(
 		DepthStencilStateInfo.DepthEnable = true;
 		DepthStencilStateInfo.DepthWriteMask = CEDepthWriteMask::All;
 
-		CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(DepthStencilStateInfo);
+		CERef<CEDepthStencilState> DepthStencilState = CastGraphicsManager()->CreateDepthStencilState(
+			DepthStencilStateInfo);
 		if (!DepthStencilState) {
 			CEDebug::DebugBreak();
 			return false;
@@ -328,15 +347,17 @@ void CEDXBaseShadowMapRenderer::RenderPointLightShadows(
 				CmdList.UpdateBuffer(PerShadowMapBuffer.Get(), 0, sizeof(PerShadowMap), &PerShadowMapData);
 
 				CmdList.TransitionBuffer(PerShadowMapBuffer.Get(), CEResourceState::CopyDest,
-				                        CEResourceState::VertexAndConstantBuffer);
+				                         CEResourceState::VertexAndConstantBuffer);
 
 				CmdList.SetConstantBuffer(PointLightVertexShader.Get(), PerShadowMapBuffer.Get(), 0);
 				CmdList.SetConstantBuffer(PointLightPixelShader.Get(), PerShadowMapBuffer.Get(), 0);
 
 				// Draw all objects to depthbuffer
-				Core::Platform::Generic::Debug::CEConsoleVariable* GlobalFrustumCullEnabled = GTypedConsole.FindVariable("CE.FrustumCullEnabled");
+				Core::Platform::Generic::Debug::CEConsoleVariable* GlobalFrustumCullEnabled = GTypedConsole.
+					FindVariable("CE.FrustumCullEnabled");
 				if (GlobalFrustumCullEnabled->GetBool()) {
-					Render::Scene::CEFrustum CameraFrustum = Render::Scene::CEFrustum(Data.FarPlane, Data.ViewMatrix[Face], Data.ProjMatrix[Face]);
+					Render::Scene::CEFrustum CameraFrustum = Render::Scene::CEFrustum(
+						Data.FarPlane, Data.ViewMatrix[Face], Data.ProjMatrix[Face]);
 					for (const Main::Rendering::CEMeshDrawCommand& Command : Scene.GetMeshDrawCommands()) {
 						const XMFLOAT4X4& Transform = Command.CurrentActor->GetTransform().GetMatrix().Native;
 						XMMATRIX XmTransform = XMMatrixTranspose(XMLoadFloat4x4(&Transform));
