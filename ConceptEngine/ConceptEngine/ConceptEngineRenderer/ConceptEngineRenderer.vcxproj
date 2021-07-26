@@ -18,6 +18,223 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="Core\Application\Application.h" />
+    <ClInclude Include="Core\Application\Events.h" />
+    <ClInclude Include="Core\Application\Generic\GenericCursor.h" />
+    <ClInclude Include="Core\Application\Generic\GenericMisc.h" />
+    <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h" />
+    <ClInclude Include="Core\Application\Generic\GenericPlatform.h" />
+    <ClInclude Include="Core\Application\Generic\GenericWindow.h" />
+    <ClInclude Include="Core\Application\Log.h" />
+    <ClInclude Include="Core\Application\Platform\Platform.h" />
+    <ClInclude Include="Core\Application\Platform\PlatformCallbacks.h" />
+    <ClInclude Include="Core\Application\Platform\PlatformMisc.h" />
+    <ClInclude Include="Core\Application\Windows\WindowsCursor.h" />
+    <ClInclude Include="Core\Application\Windows\WindowsMisc.h" />
+    <ClInclude Include="Core\Application\Windows\WindowsOutputConsole.h" />
+    <ClInclude Include="Core\Application\Windows\WindowsPlatform.h" />
+    <ClInclude Include="Core\Application\Windows\WindowsWindow.h" />
+    <ClInclude Include="Core\Containers\Allocator.h" />
+    <ClInclude Include="Core\Containers\Array.h" />
+    <ClInclude Include="Core\Containers\ArrayView.h" />
+    <ClInclude Include="Core\Containers\Function.h" />
+    <ClInclude Include="Core\Containers\Iterator.h" />
+    <ClInclude Include="Core\Containers\SharedPtr.h" />
+    <ClInclude Include="Core\Containers\StaticArray.h" />
+    <ClInclude Include="Core\Containers\UniquePtr.h" />
+    <ClInclude Include="Core\Containers\Utilities.h" />
+    <ClInclude Include="Core\CoreObject\ClassType.h" />
+    <ClInclude Include="Core\CoreObject\CoreObject.h" />
+    <ClInclude Include="Core\Delegates\Delegate.h" />
+    <ClInclude Include="Core\Delegates\DelegateBase.h" />
+    <ClInclude Include="Core\Delegates\Event.h" />
+    <ClInclude Include="Core\Delegates\MulticastBase.h" />
+    <ClInclude Include="Core\Delegates\MulticastDelegate.h" />
+    <ClInclude Include="Core\Engine\Engine.h" />
+    <ClInclude Include="Core\Engine\EngineGlobals.h" />
+    <ClInclude Include="Core\Engine\EngineLoop.h" />
+    <ClInclude Include="Core\Input\InputCodes.h" />
+    <ClInclude Include="Core\Input\InputManager.h" />
+    <ClInclude Include="Core\Ref.h" />
+    <ClInclude Include="Core\RefCountedObject.h" />
+    <ClInclude Include="Core\Threading\Generic\GenericAtomic.h" />
+    <ClInclude Include="Core\Threading\Generic\GenericProcess.h" />
+    <ClInclude Include="Core\Threading\Generic\GenericThread.h" />
+    <ClInclude Include="Core\Threading\Platform\ConditionVariable.h" />
+    <ClInclude Include="Core\Threading\Platform\Mutex.h" />
+    <ClInclude Include="Core\Threading\Platform\PlatformAtomic.h" />
+    <ClInclude Include="Core\Threading\Platform\PlatformProcess.h" />
+    <ClInclude Include="Core\Threading\ScopedLock.h" />
+    <ClInclude Include="Core\Threading\TaskManager.h" />
+    <ClInclude Include="Core\Threading\ThreadSafeInt.h" />
+    <ClInclude Include="Core\Threading\Windows\WindowsAtomic.h" />
+    <ClInclude Include="Core\Threading\Windows\WindowsConditionVariable.h" />
+    <ClInclude Include="Core\Threading\Windows\WindowsMutex.h" />
+    <ClInclude Include="Core\Threading\Windows\WindowsProcess.h" />
+    <ClInclude Include="Core\Threading\Windows\WindowsThread.h" />
+    <ClInclude Include="Core\Types.h" />
+    <ClInclude Include="D3D12\D3D12Buffer.h" />
+    <ClInclude Include="D3D12\D3D12CommandAllocator.h" />
+    <ClInclude Include="D3D12\D3D12CommandContext.h" />
+    <ClInclude Include="D3D12\D3D12CommandList.h" />
+    <ClInclude Include="D3D12\D3D12CommandQueue.h" />
+    <ClInclude Include="D3D12\D3D12Constants.h" />
+    <ClInclude Include="D3D12\D3D12DescriptorCache.h" />
+    <ClInclude Include="D3D12\D3D12DescriptorHeap.h" />
+    <ClInclude Include="D3D12\D3D12Device.h" />
+    <ClInclude Include="D3D12\D3D12DeviceChild.h" />
+    <ClInclude Include="D3D12\D3D12Fence.h" />
+    <ClInclude Include="D3D12\D3D12GPUProfiler.h" />
+    <ClInclude Include="D3D12\D3D12Helpers.h" />
+    <ClInclude Include="D3D12\D3D12PipelineState.h" />
+    <ClInclude Include="D3D12\D3D12RayTracing.h" />
+    <ClInclude Include="D3D12\D3D12RenderLayer.h" />
+    <ClInclude Include="D3D12\D3D12Resource.h" />
+    <ClInclude Include="D3D12\D3D12RootSignature.h" />
+    <ClInclude Include="D3D12\D3D12SamplerState.h" />
+    <ClInclude Include="D3D12\D3D12Shader.h" />
+    <ClInclude Include="D3D12\D3D12ShaderCompiler.h" />
+    <ClInclude Include="D3D12\D3D12Texture.h" />
+    <ClInclude Include="D3D12\D3D12Viewport.h" />
+    <ClInclude Include="D3D12\D3D12Views.h" />
+    <ClInclude Include="Debug\Console\Console.h" />
+    <ClInclude Include="Debug\Console\ConsoleCommand.h" />
+    <ClInclude Include="Debug\Console\ConsoleObject.h" />
+    <ClInclude Include="Debug\Console\ConsoleVariable.h" />
+    <ClInclude Include="Debug\Debug.h" />
+    <ClInclude Include="Debug\Profiler.h" />
+    <ClInclude Include="Editor\Editor.h" />
+    <ClInclude Include="Main\EngineMain.h" />
+    <ClInclude Include="Math\Color.h" />
+    <ClInclude Include="Math\Float.h" />
+    <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Memory\LinearAllocator.h" />
+    <ClInclude Include="Memory\Memory.h" />
+    <ClInclude Include="Memory\New.h" />
+    <ClInclude Include="Rendering\DebugUI.h" />
+    <ClInclude Include="Rendering\DeferredRenderer.h" />
+    <ClInclude Include="Rendering\ForwardRenderer.h" />
+    <ClInclude Include="Rendering\FrameResources.h" />
+    <ClInclude Include="Rendering\LightProbeRenderer.h" />
+    <ClInclude Include="Rendering\LightSetup.h" />
+    <ClInclude Include="Rendering\MeshDrawCommand.h" />
+    <ClInclude Include="Rendering\RayTracer.h" />
+    <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Rendering\Resources\Material.h" />
+    <ClInclude Include="Rendering\Resources\Mesh.h" />
+    <ClInclude Include="Rendering\Resources\MeshFactory.h" />
+    <ClInclude Include="Rendering\Resources\TextureFactory.h" />
+    <ClInclude Include="Rendering\ScreenSpaceOcclusionRenderer.h" />
+    <ClInclude Include="Rendering\ShadowMapRenderer.h" />
+    <ClInclude Include="Rendering\SkyboxRenderPass.h" />
+    <ClInclude Include="RenderLayer\Buffer.h" />
+    <ClInclude Include="RenderLayer\CommandList.h" />
+    <ClInclude Include="RenderLayer\GenericRenderLayer.h" />
+    <ClInclude Include="RenderLayer\GPUProfiler.h" />
+    <ClInclude Include="RenderLayer\ICommandContext.h" />
+    <ClInclude Include="RenderLayer\PipelineState.h" />
+    <ClInclude Include="RenderLayer\RayTracing.h" />
+    <ClInclude Include="RenderLayer\RenderCommand.h" />
+    <ClInclude Include="RenderLayer\RenderingCore.h" />
+    <ClInclude Include="RenderLayer\RenderLayer.h" />
+    <ClInclude Include="RenderLayer\ResourceBase.h" />
+    <ClInclude Include="RenderLayer\Resources.h" />
+    <ClInclude Include="RenderLayer\ResourceViews.h" />
+    <ClInclude Include="RenderLayer\SamplerState.h" />
+    <ClInclude Include="RenderLayer\Shader.h" />
+    <ClInclude Include="RenderLayer\ShaderCompiler.h" />
+    <ClInclude Include="RenderLayer\Texture.h" />
+    <ClInclude Include="RenderLayer\Viewport.h" />
+    <ClInclude Include="Scene\AABB.h" />
+    <ClInclude Include="Scene\Actor.h" />
+    <ClInclude Include="Scene\Camera.h" />
+    <ClInclude Include="Scene\Components\MeshComponent.h" />
+    <ClInclude Include="Scene\Frustum.h" />
+    <ClInclude Include="Scene\Lights\DirectionalLight.h" />
+    <ClInclude Include="Scene\Lights\Light.h" />
+    <ClInclude Include="Scene\Lights\PointLight.h" />
+    <ClInclude Include="Scene\Lights\SpotLight.h" />
+    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Time\Generic\GenericTime.h" />
+    <ClInclude Include="Time\Platform\PlatformTime.h" />
+    <ClInclude Include="Time\Timer.h" />
+    <ClInclude Include="Time\Timestamp.h" />
+    <ClInclude Include="Time\Windows\WindowsTime.h" />
+    <ClInclude Include="Utilities\HashUtilities.h" />
+    <ClInclude Include="Utilities\StringUtilities.h" />
+    <ClInclude Include="Windows\Windows.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Windows\Windows.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\Application\Application.cpp" />
+    <ClCompile Include="Core\Application\Generic\GenericCursor.cpp" />
+    <ClCompile Include="Core\Application\Generic\GenericOutputConsole.cpp" />
+    <ClCompile Include="Core\Application\Generic\GenericPlatform.cpp" />
+    <ClCompile Include="Core\Application\Windows\WindowsCursor.cpp" />
+    <ClCompile Include="Core\Application\Windows\WindowsOutputConsole.cpp" />
+    <ClCompile Include="Core\Application\Windows\WindowsPlatform.cpp" />
+    <ClCompile Include="Core\Application\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Core\CoreObject\ClassType.cpp" />
+    <ClCompile Include="Core\Engine\Engine.cpp" />
+    <ClCompile Include="Core\Engine\EngineGlobals.cpp" />
+    <ClCompile Include="Core\Engine\EngineLoop.cpp" />
+    <ClCompile Include="Core\Input\InputManager.cpp" />
+    <ClCompile Include="Core\RefCountedObject.cpp" />
+    <ClCompile Include="Core\Threading\TaskManager.cpp" />
+    <ClCompile Include="Core\Threading\Windows\WindowsThread.cpp" />
+    <ClCompile Include="D3D12\D3D12CommandContext.cpp" />
+    <ClCompile Include="D3D12\D3D12DescriptorCache.cpp" />
+    <ClCompile Include="D3D12\D3D12DescriptorHeap.cpp" />
+    <ClCompile Include="D3D12\D3D12Device.cpp" />
+    <ClCompile Include="D3D12\D3D12GPUProfiler.cpp" />
+    <ClCompile Include="D3D12\D3D12PipelineState.cpp" />
+    <ClCompile Include="D3D12\D3D12RayTracing.cpp" />
+    <ClCompile Include="D3D12\D3D12RenderLayer.cpp" />
+    <ClCompile Include="D3D12\D3D12Resource.cpp" />
+    <ClCompile Include="D3D12\D3D12RootSignature.cpp" />
+    <ClCompile Include="D3D12\D3D12Shader.cpp" />
+    <ClCompile Include="D3D12\D3D12ShaderCompiler.cpp" />
+    <ClCompile Include="D3D12\D3D12Viewport.cpp" />
+    <ClCompile Include="D3D12\D3D12Views.cpp" />
+    <ClCompile Include="Debug\Console\Console.cpp" />
+    <ClCompile Include="Debug\Profiler.cpp" />
+    <ClCompile Include="Editor\Editor.cpp" />
+    <ClCompile Include="Main\EngineMain.cpp" />
+    <ClCompile Include="Main\Windows\WindowsMain.cpp" />
+    <ClCompile Include="Memory\LinearAllocator.cpp" />
+    <ClCompile Include="Memory\Memory.cpp" />
+    <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="Rendering\DebugUI.cpp" />
+    <ClCompile Include="Rendering\DeferredRenderer.cpp" />
+    <ClCompile Include="Rendering\ForwardRenderer.cpp" />
+    <ClCompile Include="Rendering\FrameResources.cpp" />
+    <ClCompile Include="Rendering\LightProbeRenderer.cpp" />
+    <ClCompile Include="Rendering\LightSetup.cpp" />
+    <ClCompile Include="Rendering\RayTracer.cpp" />
+    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Rendering\Resources\Material.cpp" />
+    <ClCompile Include="Rendering\Resources\Mesh.cpp" />
+    <ClCompile Include="Rendering\Resources\MeshFactory.cpp" />
+    <ClCompile Include="Rendering\Resources\TextureFactory.cpp" />
+    <ClCompile Include="Rendering\ScreenSpaceOcclusionRenderer.cpp" />
+    <ClCompile Include="Rendering\ShadowMapRenderer.cpp" />
+    <ClCompile Include="Rendering\SkyboxRenderPass.cpp" />
+    <ClCompile Include="RenderLayer\CommandList.cpp" />
+    <ClCompile Include="RenderLayer\RenderLayer.cpp" />
+    <ClCompile Include="Scene\Actor.cpp" />
+    <ClCompile Include="Scene\Camera.cpp" />
+    <ClCompile Include="Scene\Frustum.cpp" />
+    <ClCompile Include="Scene\Lights\DirectionalLight.cpp" />
+    <ClCompile Include="Scene\Lights\Light.cpp" />
+    <ClCompile Include="Scene\Lights\PointLight.cpp" />
+    <ClCompile Include="Scene\Lights\SpotLight.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Time\Timer.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -82,6 +299,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -122,8 +343,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -150,19 +372,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="pch.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="ConceptEngineRenderer.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
