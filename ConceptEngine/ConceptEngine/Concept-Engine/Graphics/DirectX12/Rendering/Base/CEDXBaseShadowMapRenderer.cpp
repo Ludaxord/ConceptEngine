@@ -342,11 +342,7 @@ void CEDXBaseShadowMapRenderer::RenderPointLightShadows(
 				//A null depth stencil view may only be bound when the pipeline state depth stencil format is UNKNOWN.
 				//(pipeline state = D32_FLOAT, DSV ID3D12Resource* = 0x0000000000000000:'(nullptr)')
 				//[ EXECUTION ERROR #615: DEPTH_STENCIL_FORMAT_MISMATCH_PIPELINE_STATE]
-				auto c = Cube[Face].Get();
-				// auto dxC = dynamic_cast<RenderLayer::CEDXDepthStencilView*>(c)->GetDesc();
-				CmdList.SetDebugPoint("Depth Stencil Point Light Shadow Map DSV: " + c->GetName());
-
-				CmdList.ClearDepthStencilView(c, CEDepthStencilF(1.0f, 0));
+				CmdList.ClearDepthStencilView( Cube[Face].Get(), CEDepthStencilF(1.0f, 0));
 				CmdList.SetRenderTargets(nullptr, 0, Cube[Face].Get());
 
 				auto& Data = LightSetup.PointLightShadowMapsGenerationData[i];

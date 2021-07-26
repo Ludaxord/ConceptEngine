@@ -99,16 +99,16 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	inline D3D12_RESOURCE_FLAGS ConvertTextureFlags(uint32 Flag) {
 		D3D12_RESOURCE_FLAGS result = D3D12_RESOURCE_FLAG_NONE;
-		if (Flag & Main::RenderLayer::CETextureFlags::TextureFlag_UAV) {
-			result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+		if (Flag & TextureFlag_UAV) {
+			result |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 		}
-		if (Flag & Main::RenderLayer::CETextureFlags::TextureFlag_RTV) {
-			result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+		if (Flag & TextureFlag_RTV) {
+			result |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 		}
-		if (Flag & Main::RenderLayer::CETextureFlags::TextureFlag_DSV) {
-			result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
-			if (!(Flag & Main::RenderLayer::CETextureFlags::TextureFlag_SRV)) {
-				result |= D3D12_RESOURCE_FLAGS::D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
+		if (Flag & TextureFlag_DSV) {
+			result |= D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+			if (!(Flag & TextureFlag_SRV)) {
+				result |= D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
 			}
 		}
 
@@ -198,12 +198,12 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 		case CEFormat::R16G16B16A16_Uint: return DXGI_FORMAT_R16G16B16A16_UINT;
 		case CEFormat::R16G16B16A16_Snorm: return DXGI_FORMAT_R16G16B16A16_SNORM;
 		case CEFormat::R16G16B16A16_Sint: return DXGI_FORMAT_R16G16B16A16_SINT;
-		case Main::RenderLayer::CEFormat::R32G32_Typeless: return DXGI_FORMAT_R32G32_TYPELESS;
-		case Main::RenderLayer::CEFormat::R32G32_Float: return DXGI_FORMAT_R32G32_FLOAT;
-		case Main::RenderLayer::CEFormat::R32G32_Uint: return DXGI_FORMAT_R32G32_UINT;
-		case Main::RenderLayer::CEFormat::R32G32_Sint: return DXGI_FORMAT_R32G32_SINT;
-		case Main::RenderLayer::CEFormat::R10G10B10A2_Typeless: return DXGI_FORMAT_R10G10B10A2_TYPELESS;
-		case Main::RenderLayer::CEFormat::R10G10B10A2_Unorm: return DXGI_FORMAT_R10G10B10A2_UNORM;
+		case CEFormat::R32G32_Typeless: return DXGI_FORMAT_R32G32_TYPELESS;
+		case CEFormat::R32G32_Float: return DXGI_FORMAT_R32G32_FLOAT;
+		case CEFormat::R32G32_Uint: return DXGI_FORMAT_R32G32_UINT;
+		case CEFormat::R32G32_Sint: return DXGI_FORMAT_R32G32_SINT;
+		case CEFormat::R10G10B10A2_Typeless: return DXGI_FORMAT_R10G10B10A2_TYPELESS;
+		case CEFormat::R10G10B10A2_Unorm: return DXGI_FORMAT_R10G10B10A2_UNORM;
 		case Main::RenderLayer::CEFormat::R10G10B10A2_Uint: return DXGI_FORMAT_R10G10B10A2_UINT;
 		case Main::RenderLayer::CEFormat::R11G11B10_Float: return DXGI_FORMAT_R11G11B10_FLOAT;
 		case Main::RenderLayer::CEFormat::R8G8B8A8_Typeless: return DXGI_FORMAT_R8G8B8A8_TYPELESS;

@@ -103,9 +103,19 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 
 	class CEDXBaseTextureCubeArray : public Main::RenderLayer::CETextureCubeArray, public CEDXBaseTexture {
 	public:
-		CEDXBaseTextureCubeArray(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
-		                         uint32 numMips, uint32 numSamplers, uint32 flags,
-		                         const CEClearValue& clearValue) : CETextureCubeArray(format, sizeX, numMips, sizeZ,
+		CEDXBaseTextureCubeArray(CEDXDevice* device,
+		                         CEFormat format,
+		                         uint32 sizeX,
+		                         uint32 sizeY,
+		                         uint32 sizeZ,
+		                         uint32 numMips,
+		                         uint32 numSamplers,
+		                         uint32 flags,
+		                         const CEClearValue& clearValue) : CETextureCubeArray(
+			                                                           format,
+			                                                           sizeX,
+			                                                           numMips,
+			                                                           sizeZ,
 			                                                           flags,
 			                                                           clearValue), CEDXBaseTexture(device) {
 
@@ -125,10 +135,23 @@ namespace ConceptEngine::Graphics::DirectX12::RenderLayer {
 	template <typename TCEBaseTexture>
 	class TCEDXBaseTexture : public TCEBaseTexture {
 	public:
-		TCEDXBaseTexture(CEDXDevice* device, CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
-		                 uint32 numMips, uint32 numSamplers, uint32 flags,
-		                 const CEClearValue& clearValue) : TCEBaseTexture(
-			device, format, sizeX, sizeY, sizeZ, numMips, numSamplers, flags, clearValue) {
+		TCEDXBaseTexture(CEDXDevice* device,
+		                 CEFormat format,
+		                 uint32 sizeX,
+		                 uint32 sizeY,
+		                 uint32 sizeZ,
+		                 uint32 numMips,
+		                 uint32 numSamplers,
+		                 uint32 flags,
+		                 const CEClearValue& clearValue) : TCEBaseTexture(device,
+		                                                                  format,
+		                                                                  sizeX,
+		                                                                  sizeY,
+		                                                                  sizeZ,
+		                                                                  numMips,
+		                                                                  numSamplers,
+		                                                                  flags,
+		                                                                  clearValue) {
 
 		}
 

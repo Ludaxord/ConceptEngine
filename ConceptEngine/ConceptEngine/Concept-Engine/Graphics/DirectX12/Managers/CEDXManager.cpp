@@ -190,16 +190,14 @@ Main::RenderLayer::CETextureCube* CEDXManager::CreateTextureCube(RenderLayer::CE
 	                                                   flags, initialState, initialData, optimizedClearValue);
 }
 
-Main::RenderLayer::CETextureCubeArray* CEDXManager::CreateTextureCubeArray(RenderLayer::CEFormat format,
+Main::RenderLayer::CETextureCubeArray* CEDXManager::CreateTextureCubeArray(CEFormat format,
                                                                            uint32 size,
                                                                            uint32 numMips,
                                                                            uint32 numArraySlices,
                                                                            uint32 flags,
-                                                                           RenderLayer::CEResourceState initialState,
-                                                                           const RenderLayer::CEResourceData*
-                                                                           initialData,
-                                                                           const RenderLayer::CEClearValue&
-                                                                           optimalClearValue) {
+                                                                           CEResourceState initialState,
+                                                                           const CEResourceData* initialData,
+                                                                           const CEClearValue& optimalClearValue) {
 	const uint32 arraySlices = numArraySlices * TEXTURE_CUBE_FACE_COUNT;
 	return CreateTexture<RenderLayer::CEDXTextureCubeArray>(format, size, size, arraySlices, numMips, 1, flags,
 	                                                        initialState, initialData, optimalClearValue);
@@ -1138,11 +1136,16 @@ void CEDXManager::CheckShadingRateSupport(Main::CEShadingRateSupport& outSupport
 
 
 template <typename TCEDXTexture>
-TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 sizeX, uint32 sizeY, uint32 sizeZ,
-                                         uint32 numMips, uint32 numSamplers, uint32 flags,
-                                         RenderLayer::CEResourceState initialState,
-                                         const RenderLayer::CEResourceData* initialData,
-                                         const RenderLayer::CEClearValue& optimalClearValue) {
+TCEDXTexture* CEDXManager::CreateTexture(CEFormat format,
+                                         uint32 sizeX,
+                                         uint32 sizeY,
+                                         uint32 sizeZ,
+                                         uint32 numMips,
+                                         uint32 numSamplers,
+                                         uint32 flags,
+                                         CEResourceState initialState,
+                                         const CEResourceData* initialData,
+                                         const CEClearValue& optimalClearValue) {
 	CERef<TCEDXTexture> newTexture = new TCEDXTexture(Device,
 	                                                  format,
 	                                                  sizeX,
@@ -1178,30 +1181,32 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 	D3D12_CLEAR_VALUE* clearValuePtr = nullptr;
 	D3D12_CLEAR_VALUE clearValue;
 
-	if (flags & RenderLayer::TextureFlag_RTV || flags & RenderLayer::TextureFlag_DSV) {
-		clearValue.Format = optimalClearValue.GetFormat() != RenderLayer::CEFormat::Unknown
+	if (flags & TextureFlag_RTV || flags & TextureFlag_DSV) {
+		clearValue.Format = optimalClearValue.GetFormat() != CEFormat::Unknown
 			                    ? RenderLayer::ConvertFormat(optimalClearValue.GetFormat())
 			                    : Desc.Format;
-		if (optimalClearValue.GetType() == RenderLayer::CEClearValue::CEType::DepthStencil) {
+		if (optimalClearValue.GetType() == CEClearValue::CEType::DepthStencil) {
 			clearValue.DepthStencil.Depth = optimalClearValue.AsDepthStencil().Depth;
 			clearValue.DepthStencil.Stencil = optimalClearValue.AsDepthStencil().Stencil;
 			clearValuePtr = &clearValue;
 		}
-		else if (optimalClearValue.GetType() == RenderLayer::CEClearValue::CEType::Color) {
+		else if (optimalClearValue.GetType() == CEClearValue::CEType::Color) {
 			Memory::CEMemory::Memcpy(clearValue.Color, optimalClearValue.AsColor().Elements);
 			clearValuePtr = &clearValue;
 		}
 	}
 
 	CERef<RenderLayer::CEDXResource> resource = new RenderLayer::CEDXResource(
-		Device, Desc, D3D12_HEAP_TYPE_DEFAULT);
+		Device,
+		Desc,
+		D3D12_HEAP_TYPE_DEFAULT);
 	if (!resource->Create(D3D12_RESOURCE_STATE_COMMON, clearValuePtr)) {
 		return nullptr;
 	}
 
 	newTexture->SetResource(resource.ReleaseOwnership());
 
-	if (flags & RenderLayer::TextureFlag_SRV && !(flags & RenderLayer::TextureFlag_NoDefaultSRV)) {
+	if (flags & TextureFlag_SRV && !(flags & TextureFlag_NoDefaultSRV)) {
 		D3D12_SHADER_RESOURCE_VIEW_DESC viewDesc;
 		Memory::CEMemory::Memzero(&viewDesc);
 
@@ -1241,7 +1246,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 			}
 		}
 		else if (Desc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE3D) {
-			viewDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE3D;
+			viewDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 			viewDesc.Texture3D.MipLevels = numMips;
 			viewDesc.Texture3D.MostDetailedMip = 0;
 			viewDesc.Texture3D.ResourceMinLODClamp = 0.0f;
@@ -1265,7 +1270,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 	}
 
 	const bool isTexture2D = (Desc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE2D) && (sizeZ == 1);
-	if (flags & RenderLayer::TextureFlag_RTV && !(flags & RenderLayer::TextureFlag_NoDefaultRTV) && isTexture2D) {
+	if (flags & TextureFlag_RTV && !(flags & TextureFlag_NoDefaultRTV) && isTexture2D) {
 		RenderLayer::CEDXTexture2D* newTexture2D = static_cast<RenderLayer::CEDXTexture2D*>(newTexture->AsTexture2D());
 
 		D3D12_RENDER_TARGET_VIEW_DESC viewDesc;
@@ -1289,7 +1294,7 @@ TCEDXTexture* CEDXManager::CreateTexture(RenderLayer::CEFormat format, uint32 si
 		newTexture2D->SetRenderTargetView(RTV.ReleaseOwnership());
 	}
 
-	if (flags & RenderLayer::TextureFlag_DSV && !(flags & RenderLayer::TextureFlag_NoDefaultDSV) && isTexture2D) {
+	if (flags & TextureFlag_DSV && !(flags & TextureFlag_NoDefaultDSV) && isTexture2D) {
 		RenderLayer::CEDXTexture2D* newTexture2D = static_cast<RenderLayer::CEDXTexture2D*>(newTexture->AsTexture2D());
 
 		D3D12_DEPTH_STENCIL_VIEW_DESC viewDesc;
