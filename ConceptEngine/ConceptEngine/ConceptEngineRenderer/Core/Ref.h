@@ -1,4 +1,6 @@
 #pragma once
+#include <winnt.h>
+
 #include "RefCountedObject.h"
 
 #include "Containers/Utilities.h"

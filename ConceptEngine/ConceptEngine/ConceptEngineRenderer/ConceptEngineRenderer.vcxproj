@@ -113,6 +113,7 @@
     <ClInclude Include="Memory\LinearAllocator.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Memory\New.h" />
+    <ClInclude Include="PreCompiled.h" />
     <ClInclude Include="Rendering\DebugUI.h" />
     <ClInclude Include="Rendering\DeferredRenderer.h" />
     <ClInclude Include="Rendering\ForwardRenderer.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="PreCompiled.cpp" />
     <ClCompile Include="Rendering\DebugUI.cpp" />
     <ClCompile Include="Rendering\DeferredRenderer.cpp" />
     <ClCompile Include="Rendering\ForwardRenderer.cpp" />
@@ -341,11 +343,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;DEBUG_BUILD;COMPILER_VISUAL_STUDIO;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PreCompiled.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>PreCompiled.h</UndefinePreprocessorDefinitions>
+      <ForcedIncludeFiles>PreCompiled.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>

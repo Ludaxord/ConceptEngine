@@ -279,9 +279,6 @@
     <ClInclude Include="Editor\Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Main\EngineMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Math\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -453,6 +450,12 @@
     <ClInclude Include="Utilities\StringUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Main\EngineMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompiled.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -559,12 +562,6 @@
     <ClCompile Include="Editor\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main\Windows\WindowsMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main\EngineMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Memory\LinearAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -650,6 +647,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Time\Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Windows\WindowsMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\EngineMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompiled.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
