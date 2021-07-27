@@ -1,7 +1,7 @@
 #pragma once
-#include "Utilities/StringUtilities.h"
+#include "../Utilities/StringUtilities.h"
 
-#include "Core/RefCountedObject.h"
+#include "../Core/RefCountedObject.h"
 
 #include "D3D12DeviceChild.h"
 #include "D3D12Helpers.h"

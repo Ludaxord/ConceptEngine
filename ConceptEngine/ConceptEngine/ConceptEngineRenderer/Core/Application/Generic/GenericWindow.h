@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/RefCountedObject.h"
+#include "../../../Core/RefCountedObject.h"
 
 #include <string>
 
@@ -77,7 +77,7 @@ public:
 
     WindowStyle GetStyle() const { return WndStyle; }
 
-    static GenericWindow* Create(const std::string& Title, uint32 Width, uint32 Height, WindowStyle Style);
+    static GenericWindow* Create(const std::wstring& Title, uint32 Width, uint32 Height, WindowStyle Style);
 
 protected:
     WindowStyle WndStyle;

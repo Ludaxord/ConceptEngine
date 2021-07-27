@@ -1,9 +1,9 @@
 #pragma once
-#include "RenderLayer/Resources.h"
-#include "RenderLayer/Viewport.h"
+#include "../RenderLayer/Resources.h"
+#include "../RenderLayer/Viewport.h"
 
-#include "Rendering/MeshDrawCommand.h"
-#include "Rendering/DebugUI.h"
+#include "../Rendering/MeshDrawCommand.h"
+#include "../Rendering/DebugUI.h"
 
 #include <unordered_map>
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "Core.h"
+#include "../../Core.h"
 
-#include "Core/Threading/Platform/PlatformAtomic.h"
+#include "../../Core/Threading/Platform/PlatformAtomic.h"
 
 // TODO: Maybe have an unsigned version?
 template<typename T>

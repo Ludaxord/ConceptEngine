@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Application/Events.h"
+#include "../../Core/Application/Events.h"
 
 #include "ConsoleVariable.h"
 #include "ConsoleCommand.h"

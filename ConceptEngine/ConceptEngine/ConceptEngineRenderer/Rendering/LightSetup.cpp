@@ -1,11 +1,11 @@
 #include "LightSetup.h"
 
-#include "RenderLayer/RenderLayer.h"
+#include "../RenderLayer/RenderLayer.h"
 
-#include "Debug/Profiler.h"
+#include "../Debug/Profiler.h"
 
-#include "Scene/Lights/PointLight.h"
-#include "Scene/Lights/DirectionalLight.h"
+#include "../Scene/Lights/PointLight.h"
+#include "../Scene/Lights/DirectionalLight.h"
 
 bool LightSetup::Init()
 {

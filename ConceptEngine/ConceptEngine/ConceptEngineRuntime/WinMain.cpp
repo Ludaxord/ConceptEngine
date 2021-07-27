@@ -1,10 +1,13 @@
-#include "../../Windows/Windows.h"
+#include <Windows.h>
+#include <crtdbg.h>
 
-#include "../../Main/EngineMain.h"
+#include "../ConceptEngineRenderer/Windows/Windows.h"
 
-#include "../../Core/Application/Windows/WindowsPlatform.h"
+#include "../ConceptEngineRenderer/Main/EngineMain.h"
 
-#include "../../Debug/Debug.h"
+#include "../ConceptEngineRenderer/Core/Application/Windows/WindowsPlatform.h"
+
+#include "../ConceptEngineRenderer/Debug/Debug.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4100) // Disable unreferenced variable

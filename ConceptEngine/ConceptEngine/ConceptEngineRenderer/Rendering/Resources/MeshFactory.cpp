@@ -1,4 +1,4 @@
-#include "Rendering/Resources/MeshFactory.h"
+#include "../../Rendering/Resources/MeshFactory.h"
 
 //#include <assimp/Importer.hpp>
 //#include <assimp/scene.h>

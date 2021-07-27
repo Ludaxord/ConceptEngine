@@ -1,8 +1,8 @@
 #include "EngineMain.h"
 
-#include "Core/Engine/EngineLoop.h"
-#include "Core/Application/Application.h"
-#include "Core/Application/Platform/PlatformMisc.h"
+#include "../Core/Engine/EngineLoop.h"
+#include "../Core/Application/Application.h"
+#include "../Core/Application/Platform/PlatformMisc.h"
 
 int32 EngineMain()
 {

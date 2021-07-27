@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Application/Platform/PlatformMisc.h"
+#include "../Core/Application/Platform/PlatformMisc.h"
 
 #ifdef OutputDebugString
     #undef OutputDebugString

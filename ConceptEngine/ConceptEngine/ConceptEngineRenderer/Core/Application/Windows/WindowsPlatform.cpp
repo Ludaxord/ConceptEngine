@@ -1,7 +1,7 @@
 #include "WindowsPlatform.h"
 #include "WindowsCursor.h"
 
-#include "Core/Input/InputManager.h"
+#include "../../../Core/Input/InputManager.h"
 
 TArray<WindowsEvent> WindowsPlatform::Messages;
 

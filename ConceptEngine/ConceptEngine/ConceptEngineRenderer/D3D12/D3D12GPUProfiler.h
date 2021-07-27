@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderLayer/GPUProfiler.h"
+#include "../RenderLayer/GPUProfiler.h"
 
 #include "D3D12Resource.h"
 

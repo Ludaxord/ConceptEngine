@@ -1,28 +1,28 @@
 #pragma once
-#include "Core/Application/Generic/GenericCursor.h"
+#include "../../../Core/Application/Generic/GenericCursor.h"
 
 #include "Windows.h"
 
 class GenericWindow;
 
-class WindowsCursor : public GenericCursor
-{
+class WindowsCursor : public GenericCursor {
 public:
-    WindowsCursor();
-    ~WindowsCursor();
+	WindowsCursor();
+	~WindowsCursor();
 
-    bool Init(LPCSTR InCursorName);
+	bool Init(LPCWSTR InCursorName);
 
-    virtual void* GetNativeHandle() const override final
-    {
-        return reinterpret_cast<void*>(Cursor);
-    }
+	virtual void* GetNativeHandle() const override final {
+		return reinterpret_cast<void*>(Cursor);
+	}
 
-    HCURSOR GetHandle() const { return Cursor; }
+	HCURSOR GetHandle() const {
+		return Cursor;
+	}
 
-    static GenericCursor* Create(LPCSTR CursorName);
+	static GenericCursor* Create(LPCWSTR CursorName);
 
 private:
-    HCURSOR Cursor;
-    LPCSTR  CursorName;
+	HCURSOR Cursor;
+	LPCWSTR CursorName;
 };

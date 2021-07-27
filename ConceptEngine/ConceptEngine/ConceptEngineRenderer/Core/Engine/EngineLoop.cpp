@@ -1,28 +1,28 @@
 #include "Engine.h"
 #include "EngineLoop.h"
 
-#include "Core/Engine/EngineGlobals.h"
-#include "Core/Application/Application.h"
-#include "Core/Application/Generic/GenericOutputConsole.h"
-#include "Core/Application/Platform/Platform.h"
-#include "Core/Application/Platform/PlatformMisc.h"
-#include "Core/Input/InputManager.h"
-#include "Core/Threading/TaskManager.h"
+#include "../../Core/Engine/EngineGlobals.h"
+#include "../../Core/Application/Application.h"
+#include "../../Core/Application/Generic/GenericOutputConsole.h"
+#include "../../Core/Application/Platform/Platform.h"
+#include "../../Core/Application/Platform/PlatformMisc.h"
+#include "../../Core/Input/InputManager.h"
+#include "../../Core/Threading/TaskManager.h"
 
-#include "Rendering/DebugUI.h"
-#include "Rendering/Renderer.h"
-#include "Rendering/Resources/TextureFactory.h"
+#include "../../Rendering/DebugUI.h"
+#include "../../Rendering/Renderer.h"
+#include "../../Rendering/Resources/TextureFactory.h"
 
-#include "Editor/Editor.h"
+#include "../../Editor/Editor.h"
 
-#include "Debug/Profiler.h"
-#include "Debug/Console/Console.h"
+#include "../../Debug/Profiler.h"
+#include "../../Debug/Console/Console.h"
 
-#include "Memory/Memory.h"
+#include "../../Memory/Memory.h"
 
-#include "Core/Threading/ScopedLock.h"
-#include "Core/Threading/ThreadSafeInt.h"
-#include "Core/Threading/Platform/PlatformProcess.h"
+#include "../../Core/Threading/ScopedLock.h"
+#include "../../Core/Threading/ThreadSafeInt.h"
+#include "../../Core/Threading/Platform/PlatformProcess.h"
 
 bool EngineLoop::Init()
 {
@@ -35,7 +35,7 @@ bool EngineLoop::Init()
     }
     else
     {
-        GConsoleOutput->SetTitle("DXR-Engine Error Console");
+        GConsoleOutput->SetTitle("ConceptEngine Error Console");
     }
 
     Profiler::Init();

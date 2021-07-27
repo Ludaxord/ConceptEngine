@@ -1,11 +1,11 @@
 #pragma once
 #include "FrameResources.h"
 
-#include "Rendering/Resources/MeshFactory.h"
+#include "../Rendering/Resources/MeshFactory.h"
 
-#include "RenderLayer/CommandList.h"
+#include "../RenderLayer/CommandList.h"
 
-#include "Scene/Scene.h"
+#include "../Scene/Scene.h"
 
 class SkyboxRenderPass final
 {

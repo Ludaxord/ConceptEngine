@@ -1,9 +1,9 @@
 #pragma once
 #include "FrameResources.h"
 
-#include "RenderLayer/CommandList.h"
+#include "../RenderLayer/CommandList.h"
 
-#include "Scene/Scene.h"
+#include "../Scene/Scene.h"
 
 class ScreenSpaceOcclusionRenderer
 {

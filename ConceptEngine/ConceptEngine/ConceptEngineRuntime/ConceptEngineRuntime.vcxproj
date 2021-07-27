@@ -78,6 +78,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\Build\bin\Debug-windows-x86_64-x64\ConceptEngineRuntime\</OutDir>
+    <IntDir>..\Build\bin-int\Debug-windows-x86_64-x64\ConceptEngineRuntime\</IntDir>
+    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineRuntime;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -118,12 +122,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;DEBUG_BUILD;COMPILER_VISUAL_STUDIO;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,6 +150,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sandbox.cpp" />
+    <ClCompile Include="WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConceptEngineRenderer\ConceptEngineRenderer.vcxproj">
+      <Project>{db3b753f-b47a-4fc3-9eb8-0bf0e156f825}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sandbox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

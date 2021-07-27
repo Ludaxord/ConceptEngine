@@ -1,13 +1,13 @@
 #pragma once
-#include "Core/Input/InputCodes.h"
-#include "Core/Application/Events.h"
+#include "../Core/Input/InputCodes.h"
+#include "../Core/Application/Events.h"
 
-#include "RenderLayer/Resources.h"
-#include "RenderLayer/ResourceViews.h"
+#include "../RenderLayer/Resources.h"
+#include "../RenderLayer/ResourceViews.h"
 
-#include "Core/Ref.h"
+#include "../Core/Ref.h"
 
-#include <imgui.h>
+#include "../Dependencies/imgui/imgui.h"
 
 // Used when rendering images with ImGui
 struct ImGuiImage

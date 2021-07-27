@@ -14,15 +14,15 @@ class TDelegate<TReturn(TArgs...)> : private TDelegateBase<TReturn(TArgs...)>
     typedef typename Base::FunctionDelegate FunctionDelegate;
 
     template<typename T>
-    using MemberFunctionType = typename Base::MemberFunctionType<T>;
+    using MemberFunctionType = typename Base::template MemberFunctionType<T>;
     template<typename T>
-    using ConstMemberFunctionType = typename Base::ConstMemberFunctionType<T>;
+    using ConstMemberFunctionType = typename Base::template ConstMemberFunctionType<T>;
     template<typename T>
-    using ObjectDelegate = typename Base::ObjectDelegate<T>;
+    using ObjectDelegate = typename Base::template ObjectDelegate<T>;
     template<typename T>
-    using ConstObjectDelegate = typename Base::ConstObjectDelegate<T>;
+    using ConstObjectDelegate = typename Base::template ConstObjectDelegate<T>;
     template<typename F>
-    using LambdaDelegate = typename Base::LambdaDelegate<F>;
+    using LambdaDelegate = typename Base::template LambdaDelegate<F>;
 
     template<typename... TArgs>
     friend class TMulticastBase;

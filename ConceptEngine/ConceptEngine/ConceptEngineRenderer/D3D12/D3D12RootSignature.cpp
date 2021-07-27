@@ -179,7 +179,6 @@ void D3D12RootSignatureDescHelper::InitDescriptorRange(
     uint32 BaseShaderRegister, 
     uint32 RegisterSpace)
 {
-	LOG_ERROR("[CEDXRootSignatureDescHelper::InitDescriptorRange] BaseShaderRegister=" + std::to_string(BaseShaderRegister) + " NumDescriptors=" + std::to_string(NumDescriptors) + " RegisterSpace=" + std::to_string(RegisterSpace) );
     OutRange.BaseShaderRegister                = BaseShaderRegister;
     OutRange.NumDescriptors                    = NumDescriptors;
     OutRange.RangeType                         = Type;

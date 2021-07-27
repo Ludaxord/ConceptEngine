@@ -1,7 +1,7 @@
 #pragma once
-#include "RenderLayer/Resources.h"
+#include "../RenderLayer/Resources.h"
 
-#include "Utilities/StringUtilities.h"
+#include "../Utilities/StringUtilities.h"
 
 #include "D3D12Shader.h"
 #include "D3D12Helpers.h"

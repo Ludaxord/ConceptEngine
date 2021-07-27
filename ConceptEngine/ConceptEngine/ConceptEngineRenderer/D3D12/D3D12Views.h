@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderLayer/ResourceViews.h"
+#include "../RenderLayer/ResourceViews.h"
 
 #include "D3D12DeviceChild.h"
 #include "D3D12Resource.h"
@@ -116,7 +116,7 @@ public:
 
     ~TD3D12BaseView() = default;
 
-    virtual bool IsValid() const override { return OfflineHandle != 0; }
+    virtual bool IsValid() const override { return TBaseView::OfflineHandle != 0; }
 };
 
 using D3D12RenderTargetView    = TD3D12BaseView<D3D12BaseRenderTargetView>;

@@ -1,8 +1,8 @@
 #pragma once
-#include "Core/Application/Generic/GenericOutputConsole.h"
-#include "Core/Threading/Platform/Mutex.h"
+#include "../../../Core/Application/Generic/GenericOutputConsole.h"
+#include "../../../Core/Threading/Platform/Mutex.h"
 
-#include "Windows/Windows.h"
+#include "../../../Windows/Windows.h"
 
 class WindowsOutputConsole : public GenericOutputConsole
 {

@@ -1,4 +1,4 @@
-#include "Core/Application/Platform/PlatformMisc.h"
+#include "../Core/Application/Platform/PlatformMisc.h"
 
 #include "D3D12Device.h"
 #include "D3D12ShaderCompiler.h"
@@ -8,8 +8,8 @@
 #include "D3D12CommandAllocator.h"
 #include "D3D12CommandQueue.h"
 
-#include "Windows/Windows.h"
-#include "Windows/Windows.inl"
+#include "../Windows/Windows.h"
+#include "../Windows/Windows.inl"
 
 #include <dxgidebug.h>
 #pragma comment(lib, "dxguid.lib")
@@ -190,7 +190,7 @@ D3D12Device::~D3D12Device()
 
 bool D3D12Device::Init()
 {
-    DXGILib = ::LoadLibrary("dxgi.dll");
+    DXGILib = ::LoadLibrary(L"dxgi.dll");
     if (DXGILib == NULL)
     {
         PlatformMisc::MessageBox("ERROR", "FAILED to load dxgi.dll");
@@ -201,7 +201,7 @@ bool D3D12Device::Init()
         LOG_INFO("Loaded dxgi.dll");
     }
 
-    D3D12Lib = ::LoadLibrary("d3d12.dll");
+    D3D12Lib = ::LoadLibrary(L"d3d12.dll");
     if (D3D12Lib == NULL)
     {
         PlatformMisc::MessageBox("ERROR", "FAILED to load d3d12.dll");
@@ -234,7 +234,7 @@ bool D3D12Device::Init()
 
     if (EnableDebugLayer)
     {
-        PIXLib = LoadLibrary("WinPixEventRuntime.dll");
+        PIXLib = LoadLibrary(L"WinPixEventRuntime.dll");
         if (PIXLib != NULL)
         {
             LOG_INFO("Loaded WinPixEventRuntime.dll");

@@ -1,8 +1,8 @@
 #include "RenderLayer.h"
 #include "CommandList.h"
 
-#include "D3D12/D3D12RenderLayer.h"
-#include "D3D12/D3D12ShaderCompiler.h"
+#include "../D3D12/D3D12RenderLayer.h"
+#include "../D3D12/D3D12ShaderCompiler.h"
 
 bool RenderLayer::Init(ERenderLayerApi InRenderApi)
 {

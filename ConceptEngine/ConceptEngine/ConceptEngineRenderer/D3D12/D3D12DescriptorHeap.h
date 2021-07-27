@@ -1,8 +1,8 @@
 #pragma once
-#include "Core/RefCountedObject.h"
-#include "Core/Containers/Array.h"
+#include "../Core/RefCountedObject.h"
+#include "../Core/Containers/Array.h"
 
-#include "Utilities/StringUtilities.h"
+#include "../Utilities/StringUtilities.h"
 
 #include "D3D12Device.h"
 #include "D3D12DeviceChild.h"

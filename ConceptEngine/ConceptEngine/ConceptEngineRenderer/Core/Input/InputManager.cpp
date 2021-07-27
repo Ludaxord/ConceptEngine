@@ -1,6 +1,6 @@
 #include "InputManager.h"
 
-#include "Core/Engine/Engine.h"
+#include "../../Core/Engine/Engine.h"
 
 InputManager GInputManager;
 

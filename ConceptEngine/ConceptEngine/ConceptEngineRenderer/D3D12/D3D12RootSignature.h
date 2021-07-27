@@ -3,10 +3,10 @@
 #include "D3D12Device.h"
 #include "D3D12Shader.h"
 
-#include "Core/RefCountedObject.h"
+#include "../Core/RefCountedObject.h"
 
-#include "Utilities/StringUtilities.h"
-#include "Utilities/HashUtilities.h"
+#include "../Utilities/StringUtilities.h"
+#include "../Utilities/HashUtilities.h"
 
 #include <unordered_map>
 

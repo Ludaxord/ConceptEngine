@@ -1,7 +1,7 @@
 #pragma once
 #include "Windows.h"
 
-#include "Core/Application/Generic/GenericWindow.h"
+#include "../../../Core/Application/Generic/GenericWindow.h"
 
 class WindowsWindow : public GenericWindow
 {
@@ -9,7 +9,7 @@ public:
     WindowsWindow();
     ~WindowsWindow();
 
-    bool Init(const std::string& Title, uint32 Width, uint32 Height, WindowStyle Style);
+    bool Init(const std::wstring& Title, uint32 Width, uint32 Height, WindowStyle Style);
 
     virtual void Show(bool Maximized) override final;
     virtual void Close() override final;

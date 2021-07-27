@@ -1,9 +1,9 @@
 #include "Engine.h"
 
-#include "Core/Application/Platform/PlatformMisc.h"
-#include "Core/Application/Platform/Platform.h"
+#include "../../Core/Application/Platform/PlatformMisc.h"
+#include "../../Core/Application/Platform/Platform.h"
 
-#include "Debug/Console/Console.h"
+#include "../../Debug/Console/Console.h"
 
 ConsoleCommand GToggleFullscreen;
 ConsoleCommand GExit;
@@ -19,7 +19,7 @@ bool Engine::Init()
         WindowStyleFlag_Maximizable |
         WindowStyleFlag_Resizeable;
 
-    MainWindow = GenericWindow::Create("DXR Engine", 1920, 1080, Style);
+    MainWindow = GenericWindow::Create(L"Concept Engine", 1920, 1080, Style);
     if (MainWindow)
     {
         MainWindow->Show(false);

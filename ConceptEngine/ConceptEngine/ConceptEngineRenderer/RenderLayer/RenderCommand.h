@@ -4,12 +4,12 @@
 #include "Resources.h"
 #include "ResourceViews.h"
 
-#include "Memory/Memory.h"
+#include "../Memory/Memory.h"
 
-#include "Debug/Debug.h"
+#include "../Debug/Debug.h"
 
-#include "Core/Application/Log.h"
-#include "Core/Containers/ArrayView.h"
+#include "../Core/Application/Log.h"
+#include "../Core/Containers/ArrayView.h"
 
 // Base rendercommand
 struct RenderCommand

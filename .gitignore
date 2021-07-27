@@ -51,6 +51,12 @@ ConceptEngine/ConceptEngine/ConceptEngineTemplate/x64
 ConceptEngine/ConceptEngine/ConceptEngineTemplate/x64/*
 ConceptEngine/ConceptEngine/Concept-Engine/x64
 ConceptEngine/ConceptEngine/Concept-Engine/x64/*
+ConceptEngine/ConceptEngine/ConceptEngineRenderer/x64
+ConceptEngine/ConceptEngine/ConceptEngineRuntime/x64/*
+ConceptEngine/ConceptEngine/Build
+ConceptEngine/ConceptEngine/Build/*
+ConceptEngine/ConceptEngine/Dependencies
+ConceptEngine/ConceptEngine/Dependencies/*
 
 .vs/
 .vs

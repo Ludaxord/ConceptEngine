@@ -1,20 +1,20 @@
 #include "Editor.h"
 
-#include "Rendering/DebugUI.h"
-#include "Rendering/Renderer.h"
+#include "../Rendering/DebugUI.h"
+#include "../Rendering/Renderer.h"
 
-#include "Core/Engine/Engine.h"
-#include "Core/Engine/EngineLoop.h"
-#include "Core/Engine/EngineGlobals.h"
+#include "../Core/Engine/Engine.h"
+#include "../Core/Engine/EngineLoop.h"
+#include "../Core/Engine/EngineGlobals.h"
 
-#include "Scene/Scene.h"
-#include "Scene/Lights/DirectionalLight.h"
-#include "Scene/Lights/PointLight.h"
-#include "Scene/Components/MeshComponent.h"
+#include "../Scene/Scene.h"
+#include "../Scene/Lights/DirectionalLight.h"
+#include "../Scene/Lights/PointLight.h"
+#include "../Scene/Components/MeshComponent.h"
 
-#include "Core/Application/Application.h"
+#include "../Core/Application/Application.h"
 
-#include "Debug/Console/Console.h"
+#include "../Debug/Console/Console.h"
 
 #include <imgui_internal.h>
 

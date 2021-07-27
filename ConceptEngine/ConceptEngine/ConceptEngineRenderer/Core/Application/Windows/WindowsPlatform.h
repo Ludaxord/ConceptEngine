@@ -1,8 +1,8 @@
 #pragma once
-#include "Core/Input/InputCodes.h"
-#include "Core/Application/Generic/GenericPlatform.h"
-#include "Core/Application/Platform/PlatformCallbacks.h"
-#include "Core/Containers/Array.h"
+#include "../../../Core/Input/InputCodes.h"
+#include "../../../Core/Application/Generic/GenericPlatform.h"
+#include "../../../Core/Application/Platform/PlatformCallbacks.h"
+#include "../../../Core/Containers/Array.h"
 
 #include "WindowsWindow.h"
 
@@ -72,7 +72,7 @@ public:
     static void SetCursorPos(GenericWindow* RelativeWindow, int32 x, int32 y);
     static void GetCursorPos(GenericWindow* RelativeWindow, int32& OutX, int32& OutY);
 
-    static LPCSTR GetWindowClassName() { return "WindowClass"; }
+    static LPCWSTR GetWindowClassName() { return L"WindowClass"; }
     static HINSTANCE GetInstance()     { return Instance; }
     
     static void StoreMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam);

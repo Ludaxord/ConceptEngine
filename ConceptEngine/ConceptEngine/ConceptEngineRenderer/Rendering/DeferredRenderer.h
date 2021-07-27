@@ -2,9 +2,9 @@
 #include "FrameResources.h"
 #include "LightSetup.h"
 
-#include "Scene/Scene.h"
+#include "../Scene/Scene.h"
 
-#include "RenderLayer/CommandList.h"
+#include "../RenderLayer/CommandList.h"
 
 class DeferredRenderer
 {

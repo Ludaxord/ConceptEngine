@@ -1,12 +1,14 @@
 #pragma once
-#include "Core.h"
+#include "../../Core.h"
 
-#include "Core/Input/InputCodes.h"
-#include "Core/Application/Events.h"
-#include "Core/Application/Platform/PlatformCallbacks.h"
-#include "Core/Delegates/Event.h"
+#include "../../Core/Input/InputCodes.h"
+#include "../../Core/Application/Events.h"
+#include "../../Core/Application/Platform/PlatformCallbacks.h"
+#include "../../Core/Delegates/Event.h"
 
-#include "RenderLayer/Viewport.h"
+#include "../../RenderLayer/Viewport.h"
+
+#include "../../Core/Delegates/Event.h"
 
 class Engine : public PlatformCallbacks
 {

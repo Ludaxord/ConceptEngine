@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "Scene/Scene.h"
+#include "../../Scene/Scene.h"
 
 Application* GApplication;
 

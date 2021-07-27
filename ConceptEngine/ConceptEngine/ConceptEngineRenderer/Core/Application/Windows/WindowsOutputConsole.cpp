@@ -1,6 +1,6 @@
 #include "WindowsOutputConsole.h"
 
-#include "Core/Threading/ScopedLock.h"
+#include "../../../Core/Threading/ScopedLock.h"
 
 GenericOutputConsole* GenericOutputConsole::Create()
 {

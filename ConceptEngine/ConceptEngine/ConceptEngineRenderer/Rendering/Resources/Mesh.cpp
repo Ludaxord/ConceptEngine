@@ -1,7 +1,7 @@
 #include "Mesh.h"
 
-#include "RenderLayer/CommandList.h"
-#include "RenderLayer/RenderLayer.h"
+#include "../../RenderLayer/CommandList.h"
+#include "../../RenderLayer/RenderLayer.h"
 
 bool Mesh::Init(const MeshData& Data)
 {

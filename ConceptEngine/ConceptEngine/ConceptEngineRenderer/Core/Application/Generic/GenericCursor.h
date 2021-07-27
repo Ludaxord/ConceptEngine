@@ -1,8 +1,8 @@
 #pragma once
-#include "Core.h"
+#include "../../../Core.h"
 
-#include "Core/RefCountedObject.h"
-#include "Core/Ref.h"
+#include "../../../Core/RefCountedObject.h"
+#include "../../../Core/Ref.h"
 
 #ifdef COMPILER_VISUAL_STUDIO
     #pragma warning(push)

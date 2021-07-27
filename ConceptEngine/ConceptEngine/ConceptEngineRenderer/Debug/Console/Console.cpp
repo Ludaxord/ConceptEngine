@@ -1,11 +1,11 @@
 #include "Console.h"
 
-#include "Rendering/DebugUI.h"
+#include "../../Rendering/DebugUI.h"
 
-#include "Core/Engine/EngineLoop.h"
-#include "Core/Engine/Engine.h"
+#include "../../Core/Engine/EngineLoop.h"
+#include "../../Core/Engine/Engine.h"
 
-#include "Core/Application/Application.h"
+#include "../../Core/Application/Application.h"
 
 #include <regex>
 

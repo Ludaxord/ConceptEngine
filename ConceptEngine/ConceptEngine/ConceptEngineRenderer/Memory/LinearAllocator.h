@@ -1,7 +1,7 @@
 #pragma once
 #include "Memory.h"
 
-#include "Core/Containers/Array.h"
+#include "../Core/Containers/Array.h"
 
 struct MemoryArena
 {
@@ -31,7 +31,7 @@ struct MemoryArena
         Memory::Free(Mem);
     }
 
-    void* MemoryArena::Allocate(uint64 InSizeInBytes)
+    void* Allocate(uint64 InSizeInBytes)
     {
         Assert(ReservedSize() >= InSizeInBytes);
 

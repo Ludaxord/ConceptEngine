@@ -1,12 +1,12 @@
 #pragma once
 #include "MeshFactory.h"
 
-#include "Core/Containers/Array.h"
+#include "../../Core/Containers/Array.h"
 
-#include "RenderLayer/Resources.h"
-#include "RenderLayer/CommandList.h"
+#include "../../RenderLayer/Resources.h"
+#include "../../RenderLayer/CommandList.h"
 
-#include "Scene/AABB.h"
+#include "../../Scene/AABB.h"
 
 class Mesh
 {

@@ -163,11 +163,13 @@
     <ClInclude Include="Time\Timer.h" />
     <ClInclude Include="Time\Timestamp.h" />
     <ClInclude Include="Time\Windows\WindowsTime.h" />
+    <ClInclude Include="Utilities\DirectoryUtilities.h" />
     <ClInclude Include="Utilities\HashUtilities.h" />
     <ClInclude Include="Utilities\StringUtilities.h" />
     <ClInclude Include="Windows\Windows.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Windows\Windows.inl" />
   </ItemGroup>
   <ItemGroup>
@@ -209,7 +211,11 @@
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
-    <ClCompile Include="PreCompiled.cpp" />
+    <ClCompile Include="PreCompiled.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PreCompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Rendering\DebugUI.cpp" />
     <ClCompile Include="Rendering\DeferredRenderer.cpp" />
     <ClCompile Include="Rendering\ForwardRenderer.cpp" />
@@ -297,6 +303,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\Build\bin\Debug-windows-x86_64-x64\ConceptEngineRenderer\</OutDir>
+    <IntDir>..\Build\bin-int\Debug-windows-x86_64-x64\ConceptEngineRenderer\</IntDir>
+    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -341,7 +351,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;DEBUG_BUILD;COMPILER_VISUAL_STUDIO;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -351,12 +361,21 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <UndefinePreprocessorDefinitions>PreCompiled.h</UndefinePreprocessorDefinitions>
       <ForcedIncludeFiles>PreCompiled.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>.;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>ImGui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -379,5 +398,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets" Condition="Exists('..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WinPixEventRuntime.1.0.210209001\build\WinPixEventRuntime.targets'))" />
+  </Target>
 </Project>

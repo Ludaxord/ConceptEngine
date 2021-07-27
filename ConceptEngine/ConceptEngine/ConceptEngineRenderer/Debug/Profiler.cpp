@@ -1,12 +1,15 @@
 #include "Profiler.h"
 #include "Console/Console.h"
 
-#include "Rendering/DebugUI.h"
+#include "../Rendering/DebugUI.h"
 
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/GPUProfiler.h"
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/GPUProfiler.h"
 
-#include "Core/Engine/Engine.h"
+#include "../Core/Engine/Engine.h"
+
+#include "../Math/Math.h"
+
 
 constexpr float MICROSECONDS     = 1000.0f;
 constexpr float MILLISECONDS     = 1000.0f * 1000.0f;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Threading/Generic/GenericAtomic.h"
+#include "../../../Core/Threading/Generic/GenericAtomic.h"
 
 class WindowsAtomic : public GenericAtomic
 {

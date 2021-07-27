@@ -6,7 +6,7 @@
 
 #include "Generic/GenericThread.h"
 
-#include "Core/Delegates/Delegate.h"
+#include "../../Core/Delegates/Delegate.h"
 
 typedef int64 TaskID;
 

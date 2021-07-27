@@ -2,7 +2,7 @@
 #include "FrameResources.h"
 #include "LightSetup.h"
 
-#include "RenderLayer/CommandList.h"
+#include "../RenderLayer/CommandList.h"
 
 class LightProbeRenderer
 {

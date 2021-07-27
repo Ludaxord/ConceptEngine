@@ -1,9 +1,9 @@
 #pragma once
-#include "Time/Timer.h"
+#include "../Time/Timer.h"
 
-#include "Scene/Actor.h"
-#include "Scene/Scene.h"
-#include "Scene/Camera.h"
+#include "../Scene/Actor.h"
+#include "../Scene/Scene.h"
+#include "../Scene/Camera.h"
 
 #include "Resources/Mesh.h"
 #include "Resources/Material.h"
@@ -17,9 +17,9 @@
 #include "ForwardRenderer.h"
 #include "RayTracer.h"
 
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/CommandList.h"
-#include "RenderLayer/Viewport.h"
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/CommandList.h"
+#include "../RenderLayer/Viewport.h"
 
 #include "DebugUI.h"
 

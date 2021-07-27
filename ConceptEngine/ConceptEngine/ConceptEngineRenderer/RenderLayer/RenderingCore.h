@@ -1,7 +1,7 @@
 #pragma once
-#include "Core.h"
+#include "../Core.h"
 
-#include "Math/Color.h"
+#include "../Math/Color.h"
 
 enum class ECubeFace
 {

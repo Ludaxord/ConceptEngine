@@ -1,10 +1,10 @@
 #include "SkyboxRenderPass.h"
 
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/ShaderCompiler.h"
-#include "Rendering/Resources/TextureFactory.h"
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/ShaderCompiler.h"
+#include "../Rendering/Resources/TextureFactory.h"
 
-#include "Debug/Profiler.h"
+#include "../Debug/Profiler.h"
 
 bool SkyboxRenderPass::Init(FrameResources& FrameResources)
 {
@@ -33,7 +33,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     }
 
     // Create Texture Cube
-    const std::string PanoramaSourceFilename = "../Assets/Textures/arches.hdr";
+    const std::string PanoramaSourceFilename = "../Concept-Engine/Assets/Textures/arches.hdr";
     TRef<Texture2D> Panorama = TextureFactory::LoadFromFile(PanoramaSourceFilename, 0, EFormat::R32G32B32A32_Float);
     if (!Panorama)
     {
@@ -69,7 +69,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     }
 
     TArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/Skybox.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -86,7 +86,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
         SkyboxVertexShader->SetName("Skybox VertexShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/Skybox.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;

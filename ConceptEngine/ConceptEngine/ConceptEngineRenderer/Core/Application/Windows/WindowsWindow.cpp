@@ -1,12 +1,12 @@
 #include "WindowsWindow.h"
 #include "WindowsPlatform.h"
 
-GenericWindow* GenericWindow::Create(const std::string& InTitle, uint32 InWidth, uint32 InHeight, WindowStyle InStyle)
+GenericWindow* GenericWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, WindowStyle InStyle)
 {
     TRef<WindowsWindow> NewWindow = DBG_NEW WindowsWindow();
     if (!NewWindow->Init(InTitle, InWidth, InHeight, InStyle))
     {
-        return false;
+        return nullptr;
     }
 
     return NewWindow.ReleaseOwnership();
@@ -29,7 +29,7 @@ WindowsWindow::~WindowsWindow()
     }
 }
 
-bool WindowsWindow::Init(const std::string& InTitle, uint32 InWidth, uint32 InHeight, WindowStyle InStyle)
+bool WindowsWindow::Init(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, WindowStyle InStyle)
 {
     // Determine the window style for WinAPI
     DWORD dwStyle = 0;
@@ -70,7 +70,7 @@ bool WindowsWindow::Init(const std::string& InTitle, uint32 InWidth, uint32 InHe
     INT nHeight = ClientRect.bottom - ClientRect.top;
 
     HINSTANCE Instance     = WindowsPlatform::GetInstance();
-    LPCSTR WindowClassName = WindowsPlatform::GetWindowClassName();
+    LPCWSTR WindowClassName = WindowsPlatform::GetWindowClassName();
     Window = CreateWindowEx(0, WindowClassName, InTitle.c_str(), dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, nWidth, nHeight, NULL, NULL, Instance, NULL);
     if (Window == NULL)
     {

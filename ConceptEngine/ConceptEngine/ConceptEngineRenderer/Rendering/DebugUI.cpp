@@ -1,21 +1,21 @@
 #include "DebugUI.h"
 
-#include "Debug/Profiler.h"
+#include "../Debug/Profiler.h"
 
-#include "Core/Engine/Engine.h"
-#include "Core/Application/Generic/GenericCursor.h"
-#include "Core/Application/Platform/Platform.h"
+#include "../Core/Engine/Engine.h"
+#include "../Core/Application/Generic/GenericCursor.h"
+#include "../Core/Application/Platform/Platform.h"
 
-#include "Time/Timer.h"
+#include "../Time/Timer.h"
 
-#include "Rendering/Resources/TextureFactory.h"
-#include "Rendering/Renderer.h"
+#include "../Rendering/Resources/TextureFactory.h"
+#include "../Rendering/Renderer.h"
 
-#include "RenderLayer/Resources.h"
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/Resources.h"
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/ShaderCompiler.h"
 
-#include "Core/Containers/Array.h"
+#include "../Core/Containers/Array.h"
 
 struct ImGuiState
 {

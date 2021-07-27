@@ -122,7 +122,7 @@ public:
     bool operator!=(const TUniquePtr& Other) const noexcept { return !(*this == Other); }
 
     bool operator==(T* InPtr) const noexcept { return (Ptr == InPtr); }
-    bool operator!=(T* InPtr) const noexcept { return !(*this == Other); }
+    bool operator!=(T* InPtr) const noexcept { return !(*this == InPtr); }
 
     operator bool() const noexcept { return (Ptr != nullptr); }
 
@@ -264,7 +264,7 @@ public:
     bool operator!=(const TUniquePtr& Other) const noexcept { return !(*this == Other); }
 
     bool operator==(T* InPtr) const noexcept { return (Ptr == InPtr); }
-    bool operator!=(T* InPtr) const noexcept { return !(*this == Other); }
+    bool operator!=(T* InPtr) const noexcept { return !(*this == InPtr); }
 
     operator bool() const noexcept { return (Ptr != nullptr); }
 

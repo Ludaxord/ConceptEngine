@@ -16,7 +16,7 @@
     #include <wrl/client.h>
 #endif
 
-#include <imgui.h>
+#include "../Dependencies/imgui/imgui.h"
 
 // Debug
 #include "Debug/Debug.h"

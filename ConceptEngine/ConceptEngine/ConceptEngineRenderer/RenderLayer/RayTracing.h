@@ -2,7 +2,7 @@
 #include "ResourceBase.h"
 #include "ResourceViews.h"
 
-#include "Core/Containers/SharedPtr.h"
+#include "../Core/Containers/SharedPtr.h"
 
 enum ERayTracingStructureBuildFlag
 {

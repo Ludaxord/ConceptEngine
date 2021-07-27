@@ -1,7 +1,7 @@
 #include "LightProbeRenderer.h"
 
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/ShaderCompiler.h"
 
 bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResources)
 {
@@ -11,7 +11,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     }
 
     TArray<uint8> Code;
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         LOG_ERROR("Failed to compile IrradianceGen Shader");
         Debug::DebugBreak();
@@ -39,7 +39,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
         IrradianceGenPSO->SetName("IrradianceGen PSO");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         LOG_ERROR("Failed to compile SpecularIrradianceGen Shader");
         Debug::DebugBreak();

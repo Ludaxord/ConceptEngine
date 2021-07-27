@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.h"
+#include "../../../Core.h"
 
 #ifdef InterlockedAdd
     #undef InterlockedAdd

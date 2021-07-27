@@ -4,16 +4,16 @@
 #include "Resources/TextureFactory.h"
 #include "Resources/Mesh.h"
 
-#include "Scene/Frustum.h"
-#include "Scene/Lights/PointLight.h"
-#include "Scene/Lights/DirectionalLight.h"
+#include "../Scene/Frustum.h"
+#include "../Scene/Lights/PointLight.h"
+#include "../Scene/Lights/DirectionalLight.h"
 
-#include "Core/Engine/Engine.h"
+#include "../Core/Engine/Engine.h"
 
-#include "RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/ShaderCompiler.h"
 
-#include "Debug/Profiler.h"
-#include "Debug/Console/Console.h"
+#include "../Debug/Profiler.h"
+#include "../Debug/Console/Console.h"
 
 #include <algorithm>
 #include <imgui_internal.h>
@@ -818,7 +818,7 @@ void Renderer::OnWindowResize(const WindowResizeEvent& Event)
 bool Renderer::InitBoundingBoxDebugPass()
 {
     TArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/Debug.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -835,7 +835,7 @@ bool Renderer::InitBoundingBoxDebugPass()
         AABBVertexShader->SetName("Debug VertexShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/Debug.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -996,7 +996,7 @@ bool Renderer::InitBoundingBoxDebugPass()
 bool Renderer::InitAA()
 {
     TArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/FullscreenVS.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -1013,7 +1013,7 @@ bool Renderer::InitAA()
         VShader->SetName("Fullscreen VertexShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/PostProcessPS.hlsl", "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PostProcessPS.hlsl", "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -1111,7 +1111,7 @@ bool Renderer::InitAA()
         return false;
     }
 
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/FXAA_PS.hlsl", "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -1146,7 +1146,7 @@ bool Renderer::InitAA()
         ShaderDefine("ENABLE_DEBUG", "1")
     };
 
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/FXAA_PS.hlsl", "Main", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;
@@ -1203,7 +1203,7 @@ bool Renderer::InitShadingImage()
     }
 
     TArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/ShadingImage.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadingImage.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         Debug::DebugBreak();
         return false;

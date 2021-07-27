@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderLayer/Resources.h"
+#include "../RenderLayer/Resources.h"
 
 #include "D3D12Constants.h"
 
@@ -8,7 +8,7 @@
 
 #include <wrl/client.h>
 
-#include "Core.h"
+#include "../Core.h"
 
 #define D3D12_DESCRIPTOR_HANDLE_INCREMENT(DescriptorHandle, Value) { (DescriptorHandle.ptr + Value) }
 

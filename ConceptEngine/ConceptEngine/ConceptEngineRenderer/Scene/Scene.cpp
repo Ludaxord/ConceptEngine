@@ -2,12 +2,12 @@
 
 #include "Components/MeshComponent.h"
 
-#include "Rendering/Resources/TextureFactory.h"
-#include "Rendering/Resources/MeshFactory.h"
-#include "Rendering/Resources/Material.h"
-#include "Rendering/Resources/Mesh.h"
+#include "../Rendering/Resources/TextureFactory.h"
+#include "../Rendering/Resources/MeshFactory.h"
+#include "../Rendering/Resources/Material.h"
+#include "../Rendering/Resources/Mesh.h"
 
-#include "RenderLayer/Resources.h"
+#include "../RenderLayer/Resources.h"
 
 #include <tiny_obj_loader.h>
 

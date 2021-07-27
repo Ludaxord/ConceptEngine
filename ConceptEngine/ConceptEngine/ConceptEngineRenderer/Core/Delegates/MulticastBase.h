@@ -1,7 +1,7 @@
 #pragma once
 #include "Delegate.h"
 
-#include "Core/Containers/Array.h"
+#include "../../Core/Containers/Array.h"
 
 class DelegateHandle
 {
@@ -87,7 +87,7 @@ public:
     void Unbind(DelegateHandle Handle)
     {
         IDelegate* DelegateHandle = reinterpret_cast<IDelegate*>(Handle.Handle);
-        for (TArray<IDelegate*>::Iterator It = Delegates.Begin(); It != Delegates.End(); It++)
+        for (typename TArray<IDelegate*>::Iterator It = Delegates.Begin(); It != Delegates.End(); It++)
         {
             if (DelegateHandle == *It)
             {

@@ -1,6 +1,6 @@
 #include "WindowsThread.h"
 
-#include "Utilities/StringUtilities.h"
+#include "../../../Utilities/StringUtilities.h"
 
 #include <condition_variable>
 

@@ -1,18 +1,18 @@
 #include "ShadowMapRenderer.h"
 
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/ShaderCompiler.h"
 
-#include "Debug/Profiler.h"
-#include "Debug/Console/Console.h"
+#include "../Debug/Profiler.h"
+#include "../Debug/Console/Console.h"
 
-#include "Rendering/Resources/Mesh.h"
+#include "../Rendering/Resources/Mesh.h"
 
-#include "Rendering/MeshDrawCommand.h"
+#include "../Rendering/MeshDrawCommand.h"
 
-#include "Scene/Frustum.h"
-#include "Scene/Lights/PointLight.h"
-#include "Scene/Lights/DirectionalLight.h"
+#include "../Scene/Frustum.h"
+#include "../Scene/Lights/PointLight.h"
+#include "../Scene/Lights/DirectionalLight.h"
 
 struct PerShadowMap
 {
@@ -42,7 +42,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     // Linear Shadow Maps
     TArray<uint8> ShaderCode;
     {
-        if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/ShadowMap.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
             Debug::DebugBreak();
             return false;
@@ -59,7 +59,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
             PointLightVertexShader->SetName("Linear ShadowMap VertexShader");
         }
 
-        if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/ShadowMap.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
         {
             Debug::DebugBreak();
             return false;
@@ -147,7 +147,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     }
 
     {
-        if (!ShaderCompiler::CompileFromFile("../DXR-Engine/Shaders/ShadowMap.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
             Debug::DebugBreak();
             return false;

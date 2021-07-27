@@ -1,7 +1,7 @@
 #pragma once
 #include "WindowsMutex.h"
 
-#include "Core/Threading/ScopedLock.h"
+#include "../../../Core/Threading/ScopedLock.h"
 
 class WindowsConditionVariable
 {

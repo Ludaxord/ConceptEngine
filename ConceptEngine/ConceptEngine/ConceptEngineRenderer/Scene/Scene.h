@@ -4,11 +4,11 @@
 
 #include "Lights/Light.h"
 
-#include "Rendering/MeshDrawCommand.h"
+#include "../Rendering/MeshDrawCommand.h"
 
-#include "Time/Timestamp.h"
+#include "../Time/Timestamp.h"
 
-#include "Core/Containers/Array.h"
+#include "../Core/Containers/Array.h"
 
 class Scene
 {

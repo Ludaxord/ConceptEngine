@@ -3,7 +3,7 @@
 #include "Resources.h"
 #include "ResourceViews.h"
 
-#include "Core/Containers/ArrayView.h"
+#include "../Core/Containers/ArrayView.h"
 
 class ICommandContext : public RefCountedObject
 {

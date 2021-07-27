@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Threading/Generic/GenericProcess.h"
+#include "../../../Core/Threading/Generic/GenericProcess.h"
 
 class WindowsProcess : public GenericProcess
 {

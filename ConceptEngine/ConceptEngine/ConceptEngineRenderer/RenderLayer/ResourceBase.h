@@ -1,9 +1,9 @@
 #pragma once
 #include "RenderingCore.h"
 
-#include "Core/RefCountedObject.h"
+#include "../Core/RefCountedObject.h"
 
-#include "Core/Application/Log.h"
+#include "../Core/Application/Log.h"
 
 class Resource : public RefCountedObject
 {

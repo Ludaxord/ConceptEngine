@@ -1,7 +1,7 @@
 #include "Material.h"
 
-#include "RenderLayer/RenderLayer.h"
-#include "RenderLayer/CommandList.h"
+#include "../../RenderLayer/RenderLayer.h"
+#include "../../RenderLayer/CommandList.h"
 
 #define GET_SAFE_SRV(Texture) (Texture != nullptr) ? Texture->GetShaderResourceView() : nullptr
 

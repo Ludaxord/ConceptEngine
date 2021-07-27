@@ -1,6 +1,6 @@
 #pragma once
-#include "Core/Ref.h"
-#include "Core/Input/InputCodes.h"
+#include "../../../Core/Ref.h"
+#include "../../../Core/Input/InputCodes.h"
 
 #ifdef COMPILER_VISUAL_STUDIO
     #pragma warning(push)

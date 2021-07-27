@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderLayer/Resources.h"
+#include "../RenderLayer/Resources.h"
 
 #include "D3D12Device.h"
 #include "D3D12DeviceChild.h"
@@ -218,35 +218,35 @@ public:
 
     virtual void GetShaderParameterInfo(ShaderParameterInfo& OutShaderParameterInfo) const override
     {
-        OutShaderParameterInfo.NumConstantBuffers      = ConstantBufferParameters.Size();
-        OutShaderParameterInfo.NumShaderResourceViews  = ShaderResourceParameters.Size();
-        OutShaderParameterInfo.NumUnorderedAccessViews = UnorderedAccessParameters.Size();
-        OutShaderParameterInfo.NumSamplerStates        = SamplerParameters.Size();
+        OutShaderParameterInfo.NumConstantBuffers      = TBaseShader::ConstantBufferParameters.Size();
+        OutShaderParameterInfo.NumShaderResourceViews  = TBaseShader::ShaderResourceParameters.Size();
+        OutShaderParameterInfo.NumUnorderedAccessViews = TBaseShader::UnorderedAccessParameters.Size();
+        OutShaderParameterInfo.NumSamplerStates        = TBaseShader::SamplerParameters.Size();
     }
 
     virtual bool GetShaderResourceViewIndexByName(const std::string& InName, uint32& OutIndex) const override
     {
-        return InternalFindParameterIndexByName(ShaderResourceParameters, InName, OutIndex);
+        return InternalFindParameterIndexByName(TBaseShader::ShaderResourceParameters, InName, OutIndex);
     }
 
     virtual bool GetSamplerIndexByName(const std::string& InName, uint32& OutIndex) const override
     {
-        return InternalFindParameterIndexByName(SamplerParameters, InName, OutIndex);
+        return InternalFindParameterIndexByName(TBaseShader::SamplerParameters, InName, OutIndex);
     }
 
     virtual bool GetUnorderedAccessViewIndexByName(const std::string& InName, uint32& OutIndex) const override
     {
-        return InternalFindParameterIndexByName(UnorderedAccessParameters, InName, OutIndex);
+        return InternalFindParameterIndexByName(TBaseShader::UnorderedAccessParameters, InName, OutIndex);
     }
 
     virtual bool GetConstantBufferIndexByName(const std::string& InName, uint32& OutIndex) const override
     {
-        return InternalFindParameterIndexByName(ConstantBufferParameters, InName, OutIndex);
+        return InternalFindParameterIndexByName(TBaseShader::ConstantBufferParameters, InName, OutIndex);
     }
 
     virtual bool IsValid() const override 
     { 
-        return ByteCode.pShaderBytecode != nullptr && ByteCode.BytecodeLength > 0;
+        return TBaseShader::ByteCode.pShaderBytecode != nullptr && TBaseShader::ByteCode.BytecodeLength > 0;
     }
 
 private:

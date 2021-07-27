@@ -1,6 +1,6 @@
 #include "WindowsCursor.h"
 
-GenericCursor* WindowsCursor::Create(LPCSTR CursorName)
+GenericCursor* WindowsCursor::Create(LPCWSTR CursorName)
 {
     TRef<WindowsCursor> NewCursor = DBG_NEW WindowsCursor();
     if (!NewCursor->Init(CursorName))
@@ -28,7 +28,7 @@ WindowsCursor::~WindowsCursor()
     }
 }
 
-bool WindowsCursor::Init(LPCSTR InCursorName)
+bool WindowsCursor::Init(LPCWSTR InCursorName)
 {
     CursorName = InCursorName;
     if (CursorName)

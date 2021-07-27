@@ -1,7 +1,7 @@
 #pragma once
 #include "ConsoleObject.h"
 
-#include "Core/Delegates/MulticastDelegate.h"
+#include "../../Core/Delegates/MulticastDelegate.h"
 
 class ConsoleCommand : public ConsoleObject
 {
