@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConceptEngine.h" />
+    <ClInclude Include="Config\CEGlobalConfig.h" />
+    <ClInclude Include="Config\CEProjectConfig.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
@@ -173,6 +176,9 @@
     <None Include="Windows\Windows.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConceptEngine.cpp" />
+    <ClCompile Include="Config\CEGlobalConfig.cpp" />
+    <ClCompile Include="Config\CEProjectConfig.cpp" />
     <ClCompile Include="Core\Application\Application.cpp" />
     <ClCompile Include="Core\Application\Generic\GenericCursor.cpp" />
     <ClCompile Include="Core\Application\Generic\GenericOutputConsole.cpp" />

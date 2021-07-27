@@ -459,6 +459,15 @@
     <ClInclude Include="Utilities\DirectoryUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ConceptEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\CEGlobalConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\CEProjectConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -660,6 +669,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PreCompiled.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConceptEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\CEGlobalConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\CEProjectConfig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
