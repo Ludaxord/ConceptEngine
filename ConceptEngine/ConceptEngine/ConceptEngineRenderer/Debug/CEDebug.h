@@ -5,7 +5,7 @@
     #undef OutputDebugString
 #endif
 
-class Debug
+class CEDebug
 {
 public:
     FORCEINLINE static void DebugBreak()

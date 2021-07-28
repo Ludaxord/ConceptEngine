@@ -1,4 +1,5 @@
-﻿  CEDXShader.cpp
+﻿  CEEngine.cpp
+  CEWindowsWindow.cpp
 dxgi.lib(dxgi.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 D3DCompiler.lib(D3DCOMPILER_47.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 Shlwapi.lib(SHLWAPI.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored

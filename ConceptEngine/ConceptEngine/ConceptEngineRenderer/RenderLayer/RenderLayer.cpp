@@ -23,7 +23,7 @@ bool RenderLayer::Init(ERenderLayerApi InRenderApi)
     {
         LOG_ERROR("[RenderLayer::Init] Invalid RenderLayer enum");
         
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 

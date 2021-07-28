@@ -260,14 +260,14 @@ bool D3D12CommandContext::Init()
     {
         LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTex2D Shader");
         
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     TRef<D3D12ComputeShader> Shader = DBG_NEW D3D12ComputeShader(GetDevice(), Code);
     if (!Shader->Init())
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -285,13 +285,13 @@ bool D3D12CommandContext::Init()
     if (!gD3D12ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTexCube Shader");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
 
     Shader = DBG_NEW D3D12ComputeShader(GetDevice(), Code);
     if (!Shader->Init())
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -343,7 +343,7 @@ void D3D12CommandContext::Begin()
 
     if (!CmdBatch->Reset())
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 
@@ -351,7 +351,7 @@ void D3D12CommandContext::Begin()
 
     if (!CmdList.Reset(CmdBatch->GetCommandAllocator()))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 
@@ -377,7 +377,7 @@ void D3D12CommandContext::End()
     // Execute
     if (!CmdList.Close())
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 
@@ -385,7 +385,7 @@ void D3D12CommandContext::End()
 
     if (!CmdQueue.SignalFence(Fence, NewFenceValue))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 }

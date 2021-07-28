@@ -62,7 +62,7 @@ void D3D12GPUProfiler::ResolveQueries(class D3D12CommandContext& CmdContext)
     {
         if (!AllocateReadResource())
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return;
         }
     }

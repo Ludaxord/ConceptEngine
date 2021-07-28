@@ -22,14 +22,14 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
     TArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     VShader = CreateVertexShader(ShaderCode);
     if (!VShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -39,14 +39,14 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "PSMain", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     PShader = CreatePixelShader(ShaderCode);
     if (!PShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -62,7 +62,7 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
     TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
     if (!DepthStencilState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -76,7 +76,7 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
     TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
     if (!RasterizerState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -91,7 +91,7 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
     TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
     if (!BlendState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -114,7 +114,7 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
     PipelineState = CreateGraphicsPipelineState(PSOProperties);
     if (!PipelineState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else

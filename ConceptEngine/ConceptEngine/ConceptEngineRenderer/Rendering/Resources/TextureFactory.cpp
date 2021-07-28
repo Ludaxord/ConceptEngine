@@ -119,7 +119,7 @@ Texture2D* TextureFactory::LoadFromMemory(const uint8* Pixels, uint32 Width, uin
     TRef<Texture2D> Texture = CreateTexture2D(Format, Width, Height, NumMips, 1, TextureFlag_SRV, EResourceState::PixelShaderResource, &InitalData);
     if (!Texture)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return nullptr;
     }
 

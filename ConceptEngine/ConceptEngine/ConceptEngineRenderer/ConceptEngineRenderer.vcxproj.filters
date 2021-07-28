@@ -270,7 +270,7 @@
     <ClInclude Include="Debug\Console\ConsoleVariable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Debug\Debug.h">
+    <ClInclude Include="Debug\CEDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Debug\Profiler.h">
@@ -462,10 +462,7 @@
     <ClInclude Include="ConceptEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Config\CEGlobalConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Config\CEProjectConfig.h">
+    <ClInclude Include="Config\CEGlobalConfigs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -674,10 +671,7 @@
     <ClCompile Include="ConceptEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Config\CEGlobalConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Config\CEProjectConfig.cpp">
+    <ClCompile Include="Config\CEGlobalConfigs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

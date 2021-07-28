@@ -19,7 +19,7 @@
 #include "../Dependencies/imgui/imgui.h"
 
 // Debug
-#include "Debug/Debug.h"
+#include "Debug/CEDebug.h"
 
 // Core
 #include "Core.h"

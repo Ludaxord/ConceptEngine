@@ -255,7 +255,7 @@ bool D3D12RootSignature::Init(const void* BlobWithRootSignature, uint64 BlobLeng
     {
         LOG_ERROR("[D3D12RootSignature]: FAILED to Retrive Root Signature Desc");
 
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -276,7 +276,7 @@ bool D3D12RootSignature::Init(const void* BlobWithRootSignature, uint64 BlobLeng
     {
         LOG_ERROR("[D3D12RootSignature]: FAILED to Create RootSignature");
 
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -314,7 +314,7 @@ bool D3D12RootSignature::InternalInit(const void* BlobWithRootSignature, uint64 
     {
         LOG_ERROR("[D3D12RootSignature]: FAILED to Create RootSignature");
 
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -331,7 +331,7 @@ bool D3D12RootSignature::Serialize(const D3D12_ROOT_SIGNATURE_DESC& Desc, ID3DBl
         LOG_ERROR("[D3D12RootSignature]: FAILED to Serialize RootSignature");
         LOG_ERROR(reinterpret_cast<const char*>(ErrorBlob->GetBufferPointer()));
 
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -373,7 +373,7 @@ bool D3D12RootSignatureCache::Init()
     D3D12RootSignature* GraphicsRootSignature = CreateRootSignature(GraphicsKey);
     if (!GraphicsRootSignature)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -393,7 +393,7 @@ bool D3D12RootSignatureCache::Init()
     D3D12RootSignature* ComputeRootSignature = CreateRootSignature(ComputeKey);
     if (!ComputeRootSignature)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -418,7 +418,7 @@ bool D3D12RootSignatureCache::Init()
     D3D12RootSignature* RTGlobalRootSignature = CreateRootSignature(RTGlobalKey);
     if (!RTGlobalRootSignature)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -437,7 +437,7 @@ bool D3D12RootSignatureCache::Init()
     D3D12RootSignature* RTLocalRootSignature = CreateRootSignature(RTLocalKey);
     if (!RTLocalRootSignature)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else

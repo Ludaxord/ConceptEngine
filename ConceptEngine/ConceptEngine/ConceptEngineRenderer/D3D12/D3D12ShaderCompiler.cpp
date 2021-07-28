@@ -264,7 +264,7 @@ bool D3D12ShaderCompiler::CompileFromFile(
 	if (FAILED(Result)) {
 		LOG_ERROR("[D3D12ShaderCompiler]: FAILED to create Source Data");
 
-		Debug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -290,7 +290,7 @@ bool D3D12ShaderCompiler::CompileShader(
 	if (FAILED(Result)) {
 		LOG_ERROR("[D3D12ShaderCompiler]: FAILED to create Source Data");
 
-		Debug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
@@ -430,14 +430,14 @@ bool D3D12ShaderCompiler::InternalCompileFromSource(
 	if (FAILED(hResult)) {
 		LOG_ERROR("[D3D12ShaderCompiler]: FAILED to Compile");
 
-		Debug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (FAILED(Result->GetStatus(&hResult))) {
 		LOG_ERROR("[D3D12ShaderCompiler]: FAILED to Retrive result. Unknown Error.");
 
-		Debug::DebugBreak();
+		CEDebug::DebugBreak();
 		return false;
 	}
 

@@ -1,29 +1,28 @@
 #pragma once
-
-enum class GraphicsAPI;
-enum class EngineBoot;
-enum class PlatformBoot;
-enum class ScriptingLanguage;
+#include "Config/CEGlobalConfigs.h"
 
 class CECore;
 class CEPlatform;
 
 class ConceptEngine {
 public:
-	ConceptEngine(std::wstring Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage);
-	ConceptEngine(std::wstring Name, GraphicsAPI GApi, PlatformBoot PBoot);
+	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
+	              EngineBoot EBoot,
+	              bool ShowConsole);
+	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
+	              EngineBoot EBoot);
+	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, EngineBoot EBoot);
+	ConceptEngine(CEEngineConfig& EConfig);
 
-	bool Initialize();
+	bool Create();
 	void Run();
 	bool Release();
 
 	CECore* GetCore() const;
 
-	static std::string GetName();
+	 CEEngineConfig GetEngineConfig() const;
 
 protected:
-	bool Create(EngineBoot Boot);
-
 	bool CreateEditor();
 	bool CreateRuntime();
 	bool CreateDebugRuntime();
@@ -32,19 +31,16 @@ protected:
 
 private:
 	friend class CEPlatform;
+	friend int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
+	                EngineBoot EBoot);
 	CECore* Core;
 
-	//TODO: Move config values to EngineConfig
-	GraphicsAPI GraphicsAPI;
-	ScriptingLanguage ScriptingLanguage;
-	PlatformBoot PlatformBoot;
-
-	std::wstring InstanceName;
+	CEEngineConfig EngineConfig;
 	std::time_t StartTime;
 };
 
 inline int EngineExec(ConceptEngine* Engine) {
-	if (!Engine->Initialize()) {
+	if (!Engine->Create()) {
 		CEPlatformMisc::MessageBox("Error", "Concept Engine Initialize Failed");
 		return -1;
 	}
@@ -57,4 +53,24 @@ inline int EngineExec(ConceptEngine* Engine) {
 	}
 
 	return 0;
+}
+
+inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
+                EngineBoot EBoot) {
+	ConceptEngine* Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot);
+	switch (Engine->EngineConfig.EngineBoot) {
+	case EngineBoot::Runtime:
+		Engine->CreateRuntime();
+		break;
+	case EngineBoot::Editor:
+		Engine->CreateEditor();
+		break;
+	case EngineBoot::DebugRuntime:
+		Engine->CreateDebugRuntime();
+		break;
+	default:
+		throw new CEException();
+	}
+
+	return EngineExec(Engine);
 }

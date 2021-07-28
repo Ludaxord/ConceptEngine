@@ -663,7 +663,7 @@ RayTracingGeometry* D3D12RenderLayer::CreateRayTracingGeometry(uint32 Flags, Ver
     
     if (!Geometry->Build(*DirectCmdContext, false))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         Geometry.Reset();
     }
 
@@ -680,7 +680,7 @@ RayTracingScene* D3D12RenderLayer::CreateRayTracingScene(uint32 Flags, RayTracin
 
     if (!Scene->Build(*DirectCmdContext, Instances, NumInstances, false))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         Scene.Reset();
     }
 

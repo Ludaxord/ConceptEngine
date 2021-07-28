@@ -78,7 +78,7 @@ bool D3D12RayTracingGeometry::Build(D3D12CommandContext& CmdContext, bool Update
         TRef<D3D12Resource> Buffer = DBG_NEW D3D12Resource(GetDevice(), Desc, D3D12_HEAP_TYPE_DEFAULT);
         if (!Buffer->Init(D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE, nullptr))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -109,7 +109,7 @@ bool D3D12RayTracingGeometry::Build(D3D12CommandContext& CmdContext, bool Update
         TRef<D3D12Resource> Buffer = DBG_NEW D3D12Resource(GetDevice(), Desc, D3D12_HEAP_TYPE_DEFAULT);
         if (!Buffer->Init(D3D12_RESOURCE_STATE_COMMON, nullptr))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -194,7 +194,7 @@ bool D3D12RayTracingScene::Build(D3D12CommandContext& CmdContext, const RayTraci
         TRef<D3D12Resource> Buffer = DBG_NEW D3D12Resource(GetDevice(), Desc, D3D12_HEAP_TYPE_DEFAULT);
         if (!Buffer->Init(D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE, nullptr))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -243,7 +243,7 @@ bool D3D12RayTracingScene::Build(D3D12CommandContext& CmdContext, const RayTraci
         TRef<D3D12Resource> Buffer = DBG_NEW D3D12Resource(GetDevice(), Desc, D3D12_HEAP_TYPE_DEFAULT);
         if (!Buffer->Init(D3D12_RESOURCE_STATE_COMMON, nullptr))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -288,7 +288,7 @@ bool D3D12RayTracingScene::Build(D3D12CommandContext& CmdContext, const RayTraci
         TRef<D3D12Resource> Buffer = DBG_NEW D3D12Resource(GetDevice(), Desc, D3D12_HEAP_TYPE_DEFAULT);
         if (!Buffer->Init(D3D12_RESOURCE_STATE_COMMON, nullptr))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -405,7 +405,7 @@ bool D3D12RayTracingScene::BuildBindingTable(
         TRef<D3D12Resource> Buffer = DBG_NEW D3D12Resource(GetDevice(), Desc, D3D12_HEAP_TYPE_DEFAULT);
         if (!Buffer->Init(D3D12_RESOURCE_STATE_COMMON, nullptr))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else

@@ -636,7 +636,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
     HRESULT Result = GetDevice()->GetDXRDevice()->CreateStateObject(&RayTracingPipeline, IID_PPV_ARGS(&TempStateObject));
     if (FAILED(Result))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     

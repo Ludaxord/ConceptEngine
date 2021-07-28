@@ -27,7 +27,7 @@ bool D3D12DescriptorHeap::Init()
     if (FAILED(Result))
     {
         LOG_ERROR("[D3D12DescriptorHeap]: FAILED to Create DescriptorHeap");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         
         return false;
     }
@@ -235,7 +235,7 @@ bool D3D12OnlineDescriptorHeap::AllocateFreshHeap()
         Heap = DBG_NEW D3D12DescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
         if (!Heap->Init())
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
     }

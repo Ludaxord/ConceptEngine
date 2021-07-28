@@ -7,7 +7,7 @@
 
 #include "../ConceptEngineRenderer/Core/Application/Windows/WindowsPlatform.h"
 
-#include "../ConceptEngineRenderer/Debug/Debug.h"
+#include "../ConceptEngineRenderer/Debug/CEDebug.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4100) // Disable unreferenced variable

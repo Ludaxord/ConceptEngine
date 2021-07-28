@@ -20,8 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConceptEngine.h" />
-    <ClInclude Include="Config\CEGlobalConfig.h" />
-    <ClInclude Include="Config\CEProjectConfig.h" />
+    <ClInclude Include="Config\CEGlobalConfigs.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
@@ -106,7 +105,7 @@
     <ClInclude Include="Debug\Console\ConsoleCommand.h" />
     <ClInclude Include="Debug\Console\ConsoleObject.h" />
     <ClInclude Include="Debug\Console\ConsoleVariable.h" />
-    <ClInclude Include="Debug\Debug.h" />
+    <ClInclude Include="Debug\CEDebug.h" />
     <ClInclude Include="Debug\Profiler.h" />
     <ClInclude Include="Editor\Editor.h" />
     <ClInclude Include="Main\EngineMain.h" />
@@ -177,8 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConceptEngine.cpp" />
-    <ClCompile Include="Config\CEGlobalConfig.cpp" />
-    <ClCompile Include="Config\CEProjectConfig.cpp" />
+    <ClCompile Include="Config\CEGlobalConfigs.cpp" />
     <ClCompile Include="Core\Application\Application.cpp" />
     <ClCompile Include="Core\Application\Generic\GenericCursor.cpp" />
     <ClCompile Include="Core\Application\Generic\GenericOutputConsole.cpp" />

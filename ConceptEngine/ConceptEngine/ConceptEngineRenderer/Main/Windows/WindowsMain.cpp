@@ -4,7 +4,7 @@
 
 #include "../../Core/Application/Windows/WindowsPlatform.h"
 
-#include "../../Debug/Debug.h"
+#include "../../Debug/CEDebug.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4100) // Disable unreferenced variable

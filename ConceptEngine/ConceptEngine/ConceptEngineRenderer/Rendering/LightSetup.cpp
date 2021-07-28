@@ -13,7 +13,7 @@ bool LightSetup::Init()
     DirectionalLightsBuffer = CreateConstantBuffer(DirectionalLightsData.CapacityInBytes(), BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
     if (!DirectionalLightsBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -25,7 +25,7 @@ bool LightSetup::Init()
     PointLightsBuffer = CreateConstantBuffer(PointLightsData.CapacityInBytes(), BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
     if (!PointLightsBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -37,7 +37,7 @@ bool LightSetup::Init()
     PointLightsPosRadBuffer = CreateConstantBuffer(PointLightsPosRad.CapacityInBytes(), BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
     if (!PointLightsPosRadBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -53,7 +53,7 @@ bool LightSetup::Init()
         nullptr);
     if (!ShadowCastingPointLightsBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -69,7 +69,7 @@ bool LightSetup::Init()
         nullptr);
     if (!ShadowCastingPointLightsPosRadBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -183,7 +183,7 @@ void LightSetup::BeginFrame(CommandList& CmdList, const Scene& Scene)
         DirectionalLightsBuffer = CreateConstantBuffer(DirectionalLightsData.CapacityInBytes(), BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
         if (!DirectionalLightsBuffer)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
         }
     }
 
@@ -194,7 +194,7 @@ void LightSetup::BeginFrame(CommandList& CmdList, const Scene& Scene)
         PointLightsBuffer = CreateConstantBuffer(PointLightsData.CapacityInBytes(), BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
         if (!PointLightsBuffer)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
         }
     }
 
@@ -205,7 +205,7 @@ void LightSetup::BeginFrame(CommandList& CmdList, const Scene& Scene)
         PointLightsPosRadBuffer = CreateConstantBuffer(PointLightsPosRad.CapacityInBytes(), BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
         if (!PointLightsPosRadBuffer)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
         }
     }
 
@@ -220,7 +220,7 @@ void LightSetup::BeginFrame(CommandList& CmdList, const Scene& Scene)
             nullptr);
         if (!ShadowCastingPointLightsBuffer)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
         }
     }
 
@@ -235,7 +235,7 @@ void LightSetup::BeginFrame(CommandList& CmdList, const Scene& Scene)
             nullptr);
         if (!ShadowCastingPointLightsPosRadBuffer)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
         }
     }
 

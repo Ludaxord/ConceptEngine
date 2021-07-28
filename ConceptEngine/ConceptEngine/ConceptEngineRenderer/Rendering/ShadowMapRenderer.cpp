@@ -31,7 +31,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     PerShadowMapBuffer = CreateConstantBuffer<PerShadowMap>(BufferFlag_Default, EResourceState::VertexAndConstantBuffer, nullptr);
     if (!PerShadowMapBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -44,14 +44,14 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     {
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         PointLightVertexShader = CreateVertexShader(ShaderCode);
         if (!PointLightVertexShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -61,14 +61,14 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
 
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         PointLightPixelShader = CreatePixelShader(ShaderCode);
         if (!PointLightPixelShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -84,7 +84,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
         if (!DepthStencilState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -98,7 +98,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
         if (!RasterizerState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -111,7 +111,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
         if (!BlendState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -137,7 +137,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         PointLightPipelineState = CreateGraphicsPipelineState(PipelineStateInfo);
         if (!PointLightPipelineState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -149,14 +149,14 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     {
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         DirLightShader = CreateVertexShader(ShaderCode);
         if (!DirLightShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -172,7 +172,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
         if (!DepthStencilState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -186,7 +186,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
         if (!RasterizerState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -198,7 +198,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
         if (!BlendState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -224,7 +224,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
         DirLightPipelineState = CreateGraphicsPipelineState(PipelineStateInfo);
         if (!DirLightPipelineState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -465,7 +465,7 @@ bool ShadowMapRenderer::CreateShadowMaps(LightSetup& LightSetup)
                     GetCubeFaceFromIndex(Face), 0, i);
                 if (!DepthCube[Face])
                 {
-                    Debug::DebugBreak();
+                    CEDebug::DebugBreak();
                     return false;
                 }
             }

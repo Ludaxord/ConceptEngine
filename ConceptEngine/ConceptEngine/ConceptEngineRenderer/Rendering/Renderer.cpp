@@ -610,7 +610,7 @@ bool Renderer::Init()
     Resources.MainWindowViewport = CreateViewport(GEngine.MainWindow.Get(), 0, 0, EFormat::R8G8B8A8_Unorm, EFormat::Unknown);
     if (!Resources.MainWindowViewport)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -641,7 +641,7 @@ bool Renderer::Init()
     Resources.StdInputLayout = CreateInputLayout(InputLayout);
     if (!Resources.StdInputLayout)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -661,7 +661,7 @@ bool Renderer::Init()
         Resources.DirectionalShadowSampler = CreateSamplerState(CreateInfo);
         if (!Resources.DirectionalShadowSampler)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -681,7 +681,7 @@ bool Renderer::Init()
         Resources.PointShadowSampler = CreateSamplerState(CreateInfo);
         if (!Resources.PointShadowSampler)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -820,14 +820,14 @@ bool Renderer::InitBoundingBoxDebugPass()
     TArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     AABBVertexShader = CreateVertexShader(ShaderCode);
     if (!AABBVertexShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -837,14 +837,14 @@ bool Renderer::InitBoundingBoxDebugPass()
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     AABBPixelShader = CreatePixelShader(ShaderCode);
     if (!AABBPixelShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -860,7 +860,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     TRef<InputLayoutState> InputLayoutState = CreateInputLayout(InputLayout);
     if (!InputLayoutState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -876,7 +876,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
     if (!DepthStencilState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -890,7 +890,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
     if (!RasterizerState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -903,7 +903,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
     if (!BlendState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -926,7 +926,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     AABBDebugPipelineState = CreateGraphicsPipelineState(PSOProperties);
     if (!AABBDebugPipelineState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -952,7 +952,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     AABBVertexBuffer = CreateVertexBuffer<XMFLOAT3>(Vertices.Size(), BufferFlag_Default, EResourceState::Common, &VertexData);
     if (!AABBVertexBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -982,7 +982,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     AABBIndexBuffer = CreateIndexBuffer(EIndexFormat::uint16, Indices.Size(), BufferFlag_Default, EResourceState::Common, &IndexData);
     if (!AABBIndexBuffer)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -998,14 +998,14 @@ bool Renderer::InitAA()
     TArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     TRef<VertexShader> VShader = CreateVertexShader(ShaderCode);
     if (!VShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1015,14 +1015,14 @@ bool Renderer::InitAA()
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PostProcessPS.hlsl", "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     PostShader = CreatePixelShader(ShaderCode);
     if (!PostShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1038,7 +1038,7 @@ bool Renderer::InitAA()
     TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
     if (!DepthStencilState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1052,7 +1052,7 @@ bool Renderer::InitAA()
     TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
     if (!RasterizerState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1067,7 +1067,7 @@ bool Renderer::InitAA()
     TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
     if (!BlendState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1090,7 +1090,7 @@ bool Renderer::InitAA()
     PostPSO = CreateGraphicsPipelineState(PSOProperties);
     if (!PostPSO)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1113,14 +1113,14 @@ bool Renderer::InitAA()
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     FXAAShader = CreatePixelShader(ShaderCode);
     if (!FXAAShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1133,7 +1133,7 @@ bool Renderer::InitAA()
     FXAAPSO = CreateGraphicsPipelineState(PSOProperties);
     if (!FXAAPSO)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1148,14 +1148,14 @@ bool Renderer::InitAA()
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     FXAADebugShader = CreatePixelShader(ShaderCode);
     if (!FXAADebugShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1168,7 +1168,7 @@ bool Renderer::InitAA()
     FXAADebugPSO = CreateGraphicsPipelineState(PSOProperties);
     if (!FXAADebugPSO)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1194,7 +1194,7 @@ bool Renderer::InitShadingImage()
     ShadingImage = CreateTexture2D(EFormat::R8_Uint, Width, Height, 1, 1, TextureFlags_RWTexture, EResourceState::ShadingRateSource, nullptr);
     if (!ShadingImage)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1205,14 +1205,14 @@ bool Renderer::InitShadingImage()
     TArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadingImage.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     ShadingRateShader = CreateComputeShader(ShaderCode);
     if (!ShadingRateShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1224,7 +1224,7 @@ bool Renderer::InitShadingImage()
     ShadingRatePipeline = CreateComputePipelineState(CreateInfo);
     if (!ShadingRatePipeline)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -1239,19 +1239,19 @@ void Renderer::ResizeResources(uint32 Width, uint32 Height)
 {
     if (!Resources.MainWindowViewport->Resize(Width, Height))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 
     if (!DeferredRenderer.ResizeResources(Resources))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 
     if (!SSAORenderer.ResizeResources(Resources))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return;
     }
 }

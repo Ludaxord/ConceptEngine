@@ -263,14 +263,14 @@ bool DebugUI::Init()
     TArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileShader(VSSource, "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     TRef<VertexShader> VShader = CreateVertexShader(ShaderCode);
     if (!VShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -292,14 +292,14 @@ bool DebugUI::Init()
 
     if (!ShaderCompiler::CompileShader(PSSource, "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     GlobalImGuiState.PShader = CreatePixelShader(ShaderCode);
     if (!GlobalImGuiState.PShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -313,7 +313,7 @@ bool DebugUI::Init()
     TRef<InputLayoutState> InputLayout = CreateInputLayout(InputLayoutInfo);
     if (!InputLayout)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -328,7 +328,7 @@ bool DebugUI::Init()
     TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
     if (!DepthStencilState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -342,7 +342,7 @@ bool DebugUI::Init()
     TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
     if (!RasterizerState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -363,7 +363,7 @@ bool DebugUI::Init()
     TRef<BlendState> BlendStateBlending = CreateBlendState(BlendStateInfo);
     if (!BlendStateBlending)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -376,7 +376,7 @@ bool DebugUI::Init()
     TRef<BlendState> BlendStateNoBlending = CreateBlendState(BlendStateInfo);
     if (!BlendStateBlending)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -398,7 +398,7 @@ bool DebugUI::Init()
     GlobalImGuiState.PipelineState = CreateGraphicsPipelineState(PSOProperties);
     if (!GlobalImGuiState.PipelineState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -407,7 +407,7 @@ bool DebugUI::Init()
     GlobalImGuiState.PipelineStateNoBlending = CreateGraphicsPipelineState(PSOProperties);
     if (!GlobalImGuiState.PipelineStateNoBlending)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 

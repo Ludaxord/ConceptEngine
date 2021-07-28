@@ -14,14 +14,14 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         LOG_ERROR("Failed to compile IrradianceGen Shader");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
 
     IrradianceGenShader = CreateComputeShader(Code);
     if (!IrradianceGenShader)
     {
         LOG_ERROR("Failed to create IrradianceGen Shader");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
     else
     {
@@ -32,7 +32,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     if (!IrradianceGenPSO)
     {
         LOG_ERROR("Failed to create IrradianceGen PipelineState");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
     else
     {
@@ -42,14 +42,14 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         LOG_ERROR("Failed to compile SpecularIrradianceGen Shader");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
 
     SpecularIrradianceGenShader = CreateComputeShader(Code);
     if (!SpecularIrradianceGenShader)
     {
         LOG_ERROR("Failed to create Specular IrradianceGen Shader");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
     else
     {
@@ -60,7 +60,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     if (!SpecularIrradianceGenPSO)
     {
         LOG_ERROR("Failed to create Specular IrradianceGen PipelineState");
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
     else
     {
@@ -154,7 +154,7 @@ bool LightProbeRenderer::CreateSkyLightResources(LightSetup& LightSetup)
     LightSetup.IrradianceMap = CreateTextureCube(EFormat::R16G16B16A16_Float, IrradianceSize, 1, TextureFlags_RWTexture, EResourceState::Common, nullptr);
     if (!LightSetup.IrradianceMap)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -165,7 +165,7 @@ bool LightProbeRenderer::CreateSkyLightResources(LightSetup& LightSetup)
     LightSetup.IrradianceMapUAV = CreateUnorderedAccessView(LightSetup.IrradianceMap.Get(), EFormat::R16G16B16A16_Float, 0);
     if (!LightSetup.IrradianceMapUAV)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
@@ -180,7 +180,7 @@ bool LightProbeRenderer::CreateSkyLightResources(LightSetup& LightSetup)
         nullptr);
     if (!LightSetup.SpecularIrradianceMap)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -198,7 +198,7 @@ bool LightProbeRenderer::CreateSkyLightResources(LightSetup& LightSetup)
         }
         else
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
     }

@@ -45,14 +45,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
 
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/GeometryPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         BaseVertexShader = CreateVertexShader(ShaderCode);
         if (!BaseVertexShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -62,14 +62,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
 
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/GeometryPass.hlsl", "PSMain", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         BasePixelShader = CreatePixelShader(ShaderCode);
         if (!BasePixelShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -85,7 +85,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TRef<DepthStencilState> GeometryDepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
         if (!GeometryDepthStencilState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -99,7 +99,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TRef<RasterizerState> GeometryRasterizerState = CreateRasterizerState(RasterizerStateInfo);
         if (!GeometryRasterizerState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -114,7 +114,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
         if (!BlendState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -139,7 +139,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         PipelineState = CreateGraphicsPipelineState(PipelineStateInfo);
         if (!PipelineState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -152,14 +152,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     {
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PrePass.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         PrePassVertexShader = CreateVertexShader(ShaderCode);
         if (!PrePassVertexShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -175,7 +175,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
         if (!DepthStencilState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -189,7 +189,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
         if (!RasterizerState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -204,7 +204,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
         if (!BlendState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -223,7 +223,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         PrePassPipelineState = CreateGraphicsPipelineState(PipelineStateInfo);
         if (!PrePassPipelineState)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -238,14 +238,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     {
         LOG_ERROR("[Renderer]: R16G16_Float is not supported for UAVs");
 
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     TRef<Texture2D> StagingTexture = CreateTexture2D(LUTFormat, LUTSize, LUTSize, 1, 1, TextureFlag_UAV, EResourceState::Common, nullptr);
     if (!StagingTexture)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -256,7 +256,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     FrameResources.IntegrationLUT = CreateTexture2D(LUTFormat, LUTSize, LUTSize, 1, 1, TextureFlag_SRV, EResourceState::Common, nullptr);
     if (!FrameResources.IntegrationLUT)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -273,7 +273,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     FrameResources.IntegrationLUTSampler = CreateSamplerState(CreateInfo);
     if (!FrameResources.IntegrationLUTSampler)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -283,14 +283,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/BRDFIntegationGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     TRef<ComputeShader> CShader = CreateComputeShader(ShaderCode);
     if (!CShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -304,7 +304,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     TRef<ComputePipelineState> BRDF_PipelineState = CreateComputePipelineState(PipelineStateInfo);
     if (!BRDF_PipelineState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -342,14 +342,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     {
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/DeferredLightPass.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         TiledLightShader = CreateComputeShader(ShaderCode);
         if (!TiledLightShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -363,7 +363,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TiledLightPassPSO = CreateComputePipelineState(DeferredLightPassCreateInfo);
         if (!TiledLightPassPSO)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -380,14 +380,14 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
 
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/DeferredLightPass.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
 
         TiledLightDebugShader = CreateComputeShader(ShaderCode);
         if (!TiledLightDebugShader)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else
@@ -401,7 +401,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         TiledLightPassPSODebug = CreateComputePipelineState(DeferredLightPassCreateInfo);
         if (!TiledLightPassPSODebug)
         {
-            Debug::DebugBreak();
+            CEDebug::DebugBreak();
             return false;
         }
         else

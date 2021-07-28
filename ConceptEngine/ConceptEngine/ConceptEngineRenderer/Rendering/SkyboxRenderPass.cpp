@@ -71,14 +71,14 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     TArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     SkyboxVertexShader = CreateVertexShader(ShaderCode);
     if (!SkyboxVertexShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -88,14 +88,14 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
 
     SkyboxPixelShader = CreatePixelShader(ShaderCode);
     if (!SkyboxPixelShader)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -109,7 +109,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
     if (!RasterizerState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -124,7 +124,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
     if (!BlendState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -140,7 +140,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
     if (!DepthStencilState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else
@@ -162,7 +162,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     PipelineState = CreateGraphicsPipelineState(PipelineStateInfo);
     if (!PipelineState)
     {
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
         return false;
     }
     else

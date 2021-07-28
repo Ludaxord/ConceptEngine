@@ -6,7 +6,7 @@
 
 #include "../Memory/Memory.h"
 
-#include "../Debug/Debug.h"
+#include "../Debug/CEDebug.h"
 
 #include "../Core/Application/Log.h"
 #include "../Core/Containers/ArrayView.h"
@@ -1072,7 +1072,7 @@ struct InsertCommandListMarkerRenderCommand : public RenderCommand
 
     virtual void Execute(ICommandContext& CmdContext) override
     {
-        Debug::OutputDebugString(Marker + '\n');
+        CEDebug::OutputDebugString(Marker + '\n');
         LOG_INFO(Marker);
 
         CmdContext.InsertMarker(Marker);
@@ -1087,7 +1087,7 @@ struct DebugBreakRenderCommand : public RenderCommand
     virtual void Execute(ICommandContext& CmdContext) override
     {
         UNREFERENCED_VARIABLE(CmdContext);
-        Debug::DebugBreak();
+        CEDebug::DebugBreak();
     }
 };
 
