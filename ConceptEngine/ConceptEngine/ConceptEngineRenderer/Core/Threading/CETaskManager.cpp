@@ -1,4 +1,4 @@
-#include "TaskManager.h"
+#include "CETaskManager.h"
 
 #include "Platform/PlatformProcess.h"
 
@@ -6,20 +6,20 @@
 
 #include <condition_variable>
 
-TaskManager TaskManager::Instance;
+CETaskManager CETaskManager::Instance;
 
-TaskManager::TaskManager()
+CETaskManager::CETaskManager()
     : TaskMutex()
     , IsRunning(false)
 {
 }
 
-TaskManager::~TaskManager()
+CETaskManager::~CETaskManager()
 {
     // Empty for now
 }
 
-bool TaskManager::PopTask(Task& OutTask)
+bool CETaskManager::PopTask(Task& OutTask)
 {
     TScopedLock<Mutex> Lock(TaskMutex);
 
@@ -36,16 +36,16 @@ bool TaskManager::PopTask(Task& OutTask)
     }
 }
 
-void TaskManager::KillWorkers()
+void CETaskManager::KillWorkers()
 {
     IsRunning = false;
 
     WakeCondition.NotifyAll();
 }
 
-void TaskManager::WorkThread()
+void CETaskManager::WorkThread()
 {
-    LOG_INFO("Starting Workthread: " + std::to_string(PlatformProcess::GetThreadID()));
+    CE_LOG_INFO("Starting Workthread: " + std::to_string(PlatformProcess::GetThreadID()));
 
     while (Instance.IsRunning)
     {
@@ -63,23 +63,23 @@ void TaskManager::WorkThread()
         }
     }
 
-    LOG_INFO("End Workthread: " + std::to_string(PlatformProcess::GetThreadID()));
+    CE_LOG_INFO("End Workthread: " + std::to_string(PlatformProcess::GetThreadID()));
 }
 
-bool TaskManager::Init()
+bool CETaskManager::Create()
 {
     // NOTE: Maybe change to NumProcessors - 1 -> Test performance
     uint32 ThreadCount = Math::Max<int32>(PlatformProcess::GetNumProcessors() - 1, 1);
     WorkThreads.Resize(ThreadCount);
 
-    LOG_INFO("[TaskManager]: Starting '" + std::to_string(ThreadCount) + "' Workers");
+    CE_LOG_INFO("[TaskManager]: Starting '" + std::to_string(ThreadCount) + "' Workers");
 
     // Start so that workers now that they should be running
     IsRunning = true;
     
     for (uint32 i = 0; i < ThreadCount; i++)
     {
-        TRef<GenericThread> NewThread = GenericThread::Create(TaskManager::WorkThread);
+        TRef<GenericThread> NewThread = GenericThread::Create(CETaskManager::WorkThread);
         if (NewThread)
         {
             WorkThreads[i] = NewThread;
@@ -95,7 +95,7 @@ bool TaskManager::Init()
     return true;
 }
 
-TaskID TaskManager::AddTask(const Task& NewTask)
+TaskID CETaskManager::AddTask(const Task& NewTask)
 {
     {
         TScopedLock<Mutex> Lock(TaskMutex);
@@ -109,7 +109,7 @@ TaskID TaskManager::AddTask(const Task& NewTask)
     return NewTaskID;
 }
 
-void TaskManager::WaitForTask(TaskID Task)
+void CETaskManager::WaitForTask(TaskID Task)
 {
     while (TaskCompleted.Load() < Task)
     {
@@ -118,7 +118,7 @@ void TaskManager::WaitForTask(TaskID Task)
     }
 }
 
-void TaskManager::WaitForAllTasks()
+void CETaskManager::WaitForAllTasks()
 {
     while (TaskCompleted.Load() < TaskAdded.Load())
     {
@@ -127,7 +127,7 @@ void TaskManager::WaitForAllTasks()
     }
 }
 
-void TaskManager::Release()
+void CETaskManager::Release()
 {
     KillWorkers();
 
@@ -139,7 +139,7 @@ void TaskManager::Release()
     WorkThreads.Clear();
 }
 
-TaskManager& TaskManager::Get()
+CETaskManager& CETaskManager::Get()
 {
     return Instance;
 }

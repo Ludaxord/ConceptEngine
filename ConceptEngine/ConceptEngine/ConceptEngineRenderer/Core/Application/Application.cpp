@@ -14,7 +14,7 @@ bool Application::Init()
     return true;
 }
 
-void Application::Tick(Timestamp Deltatime)
+void Application::Tick(CETimestamp Deltatime)
 {
     UNREFERENCED_VARIABLE(Deltatime);
 }

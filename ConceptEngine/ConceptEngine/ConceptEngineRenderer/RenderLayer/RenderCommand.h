@@ -1073,7 +1073,7 @@ struct InsertCommandListMarkerRenderCommand : public RenderCommand
     virtual void Execute(ICommandContext& CmdContext) override
     {
         CEDebug::OutputDebugString(Marker + '\n');
-        LOG_INFO(Marker);
+        CE_LOG_INFO(Marker);
 
         CmdContext.InsertMarker(Marker);
     }

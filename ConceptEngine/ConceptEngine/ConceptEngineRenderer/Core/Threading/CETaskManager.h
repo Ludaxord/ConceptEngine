@@ -15,10 +15,10 @@ struct Task
     TDelegate<void()> Delegate;
 };
 
-class TaskManager
+class CETaskManager
 {
 public:
-    bool Init();
+    bool Create();
 
     TaskID AddTask(const Task& NewTask);
 
@@ -27,11 +27,11 @@ public:
 
     void Release();
 
-    static TaskManager& Get();
+    static CETaskManager& Get();
 
 private:
-    TaskManager();
-    ~TaskManager();
+    CETaskManager();
+    ~CETaskManager();
 
     bool PopTask(Task& OutTask);
 
@@ -53,5 +53,5 @@ private:
 
     volatile bool IsRunning;
 
-    static TaskManager Instance;
+    static CETaskManager Instance;
 };

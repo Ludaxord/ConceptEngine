@@ -8,5 +8,5 @@ public:
 
     FORCEINLINE static ThreadID GetThreadID() { return INVALID_THREAD_ID; }
 
-    FORCEINLINE static void Sleep(Timestamp Time) { UNREFERENCED_VARIABLE(Time); }
+    FORCEINLINE static void Sleep(CETimestamp Time) { UNREFERENCED_VARIABLE(Time); }
 };

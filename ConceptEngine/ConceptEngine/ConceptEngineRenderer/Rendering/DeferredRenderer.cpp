@@ -7,7 +7,7 @@
 #include "../Rendering/Resources/Mesh.h"
 #include "../Rendering/Resources/Material.h"
 
-#include "../Debug/Profiler.h"
+#include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
 
 TConsoleVariable<bool> GDrawTileDebug(false);
@@ -236,7 +236,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     constexpr EFormat LUTFormat = EFormat::R16G16_Float;
     if (!UAVSupportsFormat(LUTFormat))
     {
-        LOG_ERROR("[Renderer]: R16G16_Float is not supported for UAVs");
+        CE_LOG_ERROR("[Renderer]: R16G16_Float is not supported for UAVs");
 
         CEDebug::DebugBreak();
         return false;

@@ -15,12 +15,12 @@ public:
         HRESULT Result = GetDevice()->GetDevice()->CreateCommandAllocator(Type, IID_PPV_ARGS(&Allocator));
         if (SUCCEEDED(Result))
         {
-            LOG_INFO("[D3D12Device]: Created CommandAllocator");
+            CE_LOG_INFO("[D3D12Device]: Created CommandAllocator");
             return true;
         }
         else
         {
-            LOG_ERROR("[D3D12Device]: FAILED to create CommandAllocator");
+            CE_LOG_ERROR("[D3D12Device]: FAILED to create CommandAllocator");
             return false;
         }
     }

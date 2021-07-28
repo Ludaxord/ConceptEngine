@@ -88,6 +88,18 @@ void WindowsOutputConsole::SetColor(EConsoleColor Color)
             wColor = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
             break;
 
+        case EConsoleColor::Blue:
+            wColor = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+            break;
+
+        case EConsoleColor::Magenta:
+            wColor = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+            break;
+
+        case EConsoleColor::Cyan:
+            wColor = FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+            break;
+
         case EConsoleColor::White:
             break;
         }

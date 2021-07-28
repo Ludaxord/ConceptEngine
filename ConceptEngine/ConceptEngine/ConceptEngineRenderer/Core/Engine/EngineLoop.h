@@ -6,7 +6,7 @@ class EngineLoop
 public:
     static bool Init();
   
-    static void Tick(Timestamp Deltatime);
+    static void Tick(CETimestamp Deltatime);
 
     static void Run();
     

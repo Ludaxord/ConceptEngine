@@ -10,7 +10,7 @@
     #pragma warning(disable : 4100) // Disable unreferenced variable
 #endif
 
-class GenericMisc
+class CEGenericMisc
 {
 public:
     FORCEINLINE static void MessageBox(const std::string& Title, const std::string& Message) {}

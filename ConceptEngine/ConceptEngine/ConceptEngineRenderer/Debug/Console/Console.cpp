@@ -36,7 +36,7 @@ void Console::RegisterCommand(const String& Name, ConsoleCommand* Command)
 {
     if (!RegisterObject(Name, Command))
     {
-        LOG_WARNING("ConsoleCommand '" + Name + "' is already registered");
+        CE_LOG_WARNING("ConsoleCommand '" + Name + "' is already registered");
     }
 }
 
@@ -44,7 +44,7 @@ void Console::RegisterVariable(const String& Name, ConsoleVariable* Variable)
 {
     if (!RegisterObject(Name, Variable))
     {
-        LOG_WARNING("ConsoleVariable '" + Name + "' is already registered");
+        CE_LOG_WARNING("ConsoleVariable '" + Name + "' is already registered");
     }
 }
 
@@ -53,14 +53,14 @@ ConsoleCommand* Console::FindCommand(const String& Name)
     ConsoleObject* Object = FindConsoleObject(Name);
     if (!Object)
     {
-        LOG_ERROR("Could not find ConsoleCommand '" + Name + '\'');
+        CE_LOG_ERROR("Could not find ConsoleCommand '" + Name + '\'');
         return nullptr;
     }
 
     ConsoleCommand* Command = Object->AsCommand();
     if (!Command)
     {
-        LOG_ERROR('\'' + Name + "'Is not a ConsoleCommand'");
+        CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleCommand'");
         return nullptr;
     }
     else
@@ -74,14 +74,14 @@ ConsoleVariable* Console::FindVariable(const String& Name)
     ConsoleObject* Object = FindConsoleObject(Name);
     if (!Object)
     {
-        LOG_ERROR("Could not find ConsoleVariable '" + Name + '\'');
+        CE_LOG_ERROR("Could not find ConsoleVariable '" + Name + '\'');
         return nullptr;
     }
 
     ConsoleVariable* Variable = Object->AsVariable();
     if (!Variable)
     {
-        LOG_ERROR('\'' + Name + "'Is not a ConsoleVariable'");
+        CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleVariable'");
         return nullptr;
     }
     else

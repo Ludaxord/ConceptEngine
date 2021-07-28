@@ -9,7 +9,7 @@
 
 #include "../Scene/Actor.h"
 
-#include "../Debug/Profiler.h"
+#include "../Debug/CEProfiler.h"
 
 bool ForwardRenderer::Init(FrameResources& FrameResources)
 {

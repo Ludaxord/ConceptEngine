@@ -1,5 +1,5 @@
 #pragma once
-#include "Timestamp.h"
+#include "CETimestamp.h"
 
 class Timer
 {
@@ -14,16 +14,16 @@ public:
 
     void Reset()
     {
-        DeltaTime = Timestamp(0);
-        TotalTime = Timestamp(0);
+        DeltaTime = CETimestamp(0);
+        TotalTime = CETimestamp(0);
     }
 
-    const Timestamp& GetDeltaTime() const { return DeltaTime; }
-    const Timestamp& GetTotalTime() const { return TotalTime; }
+    const CETimestamp& GetDeltaTime() const { return DeltaTime; }
+    const CETimestamp& GetTotalTime() const { return TotalTime; }
 
 private:
-    Timestamp TotalTime = Timestamp(0);
-    Timestamp DeltaTime = Timestamp(0);
+    CETimestamp TotalTime = CETimestamp(0);
+    CETimestamp DeltaTime = CETimestamp(0);
     uint64 LastTime  = 0;
     uint64 Frequency = 0;
 };

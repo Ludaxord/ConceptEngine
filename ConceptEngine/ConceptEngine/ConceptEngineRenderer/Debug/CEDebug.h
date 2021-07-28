@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Application/Platform/PlatformMisc.h"
+#include "../Core/Application/Platform/CEPlatformMisc.h"
 
 #ifdef OutputDebugString
     #undef OutputDebugString
@@ -10,16 +10,16 @@ class CEDebug
 public:
     FORCEINLINE static void DebugBreak()
     {
-        PlatformMisc::DebugBreak();
+        CEPlatformMisc::DebugBreak();
     }
 
     FORCEINLINE static void OutputDebugString(const std::string& Message)
     {
-        PlatformMisc::OutputDebugString(Message);
+        CEPlatformMisc::OutputDebugString(Message);
     }
 
     FORCEINLINE static bool IsDebuggerPresent()
     {
-        return PlatformMisc::IsDebuggerPresent();
+        return CEPlatformMisc::IsDebuggerPresent();
     }
 };

@@ -224,7 +224,7 @@ bool D3D12GraphicsPipelineState::Init(const GraphicsPipelineStateCreateInfo& Cre
     HRESULT Result = GetDevice()->CreatePipelineState(&PipelineStreamDesc, IID_PPV_ARGS(&NewPipelineState));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12GraphicsPipelineState]: FAILED to Create GraphicsPipelineState");
+        CE_LOG_ERROR("[D3D12GraphicsPipelineState]: FAILED to Create GraphicsPipelineState");
         return false;
     }
 
@@ -298,7 +298,7 @@ bool D3D12ComputePipelineState::Init()
     HRESULT Result = GetDevice()->CreatePipelineState(&PipelineStreamDesc, IID_PPV_ARGS(&PipelineState));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12ComputePipelineState]: FAILED to Create ComputePipelineState");
+        CE_LOG_ERROR("[D3D12ComputePipelineState]: FAILED to Create ComputePipelineState");
         return false;
     }
    
@@ -502,7 +502,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
         return false;
     }
 
-	LOG_WARNING("[CERayGenShader] Use of RayGenLocalRootSignature " + RayGenLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumSamplers));
+	CE_LOG_WARNING("[CERayGenShader] Use of RayGenLocalRootSignature " + RayGenLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(RayGen->GetRTLocalResourceCount().Ranges.NumSamplers));
 	
     std::wstring RayGenIdentifier = ConvertToWide(RayGen->GetIdentifier());
     PipelineStream.AddLibrary(RayGen->GetByteCode(), { RayGenIdentifier });
@@ -543,7 +543,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
             return false;
         }
 
-	    LOG_WARNING("[CERayAnyHitShader] Use of HitLocalRootSignature " + HitLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumSamplers));
+	    CE_LOG_WARNING("[CERayAnyHitShader] Use of HitLocalRootSignature " + HitLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(DxAnyHit->GetRTLocalResourceCount().Ranges.NumSamplers));
     	
         std::wstring AnyHitIdentifier = ConvertToWide(DxAnyHit->GetIdentifier());
         PipelineStream.AddLibrary(DxAnyHit->GetByteCode(), { AnyHitIdentifier });
@@ -566,7 +566,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
             return false;
         }
 
-		LOG_WARNING("[CERayClosestHitShader] Use of HitLocalRootSignature " + HitLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumSamplers))
+		CE_LOG_WARNING("[CERayClosestHitShader] Use of HitLocalRootSignature " + HitLocalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(DxClosestHit->GetRTLocalResourceCount().Ranges.NumSamplers))
 
         std::wstring ClosestHitIdentifier = ConvertToWide(DxClosestHit->GetIdentifier());
         PipelineStream.AddLibrary(DxClosestHit->GetByteCode(), { ClosestHitIdentifier });
@@ -612,14 +612,14 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
     GlobalResourceCounts.AllowInputAssembler = false;
     GlobalResourceCounts.ResourceCounts[ShaderVisibility_All] = CombinedResourceCount;
 
-	LOG_WARNING("CALLING GLOBAL ROOT SIGNATURE");
+	CE_LOG_WARNING("CALLING GLOBAL ROOT SIGNATURE");
     GlobalRootSignature = MakeSharedRef<D3D12RootSignature>(D3D12RootSignatureCache::Get().GetOrCreateRootSignature(GlobalResourceCounts));
     if (!GlobalRootSignature)
     {
         return false;
     }
 
-	LOG_WARNING("[GlobalRootSignature] Use of GlobalRootSignature " + GlobalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(CombinedResourceCount.Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(CombinedResourceCount.Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(CombinedResourceCount.Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(CombinedResourceCount.Ranges.NumSamplers))
+	CE_LOG_WARNING("[GlobalRootSignature] Use of GlobalRootSignature " + GlobalRootSignature->GetName() + " ResourceCount SRV: " + std::to_string(CombinedResourceCount.Ranges.NumSRVs) + " ResourceCount CBV: " + std::to_string(CombinedResourceCount.Ranges.NumCBVs) + " ResourceCount UAV: " + std::to_string(CombinedResourceCount.Ranges.NumUAVs) + " ResourceCount Sampler: " + std::to_string(CombinedResourceCount.Ranges.NumSamplers))
 
     PipelineStream.GlobalRootSignature = GlobalRootSignature->GetRootSignature();
 
@@ -644,7 +644,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
     Result = TempStateObject->QueryInterface(IID_PPV_ARGS(&TempStateObjectProperties));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12RayTracingPipelineState] Failed to retrive ID3D12StateObjectProperties");
+        CE_LOG_ERROR("[D3D12RayTracingPipelineState] Failed to retrive ID3D12StateObjectProperties");
         return false;
     }
 

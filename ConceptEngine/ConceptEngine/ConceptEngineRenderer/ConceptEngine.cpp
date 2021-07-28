@@ -2,6 +2,10 @@
 
 #include <chrono>
 
+#include "Boot/CEDebugRuntime.h"
+#include "Boot/CEEditor.h"
+#include "Boot/CERuntime.h"
+
 ConceptEngine::ConceptEngine(const std::wstring& Name,
                              ::GraphicsAPI GApi,
                              ::PlatformBoot PBoot,

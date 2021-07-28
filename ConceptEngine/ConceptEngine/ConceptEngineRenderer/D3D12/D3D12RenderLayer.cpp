@@ -590,7 +590,7 @@ VertexBuffer* D3D12RenderLayer::CreateVertexBuffer(uint32 Stride, uint32 NumVert
     TRef<D3D12VertexBuffer> NewBuffer = DBG_NEW D3D12VertexBuffer(Device, NumVertices, Stride, Flags);
     if (!FinalizeBufferResource<D3D12VertexBuffer>(NewBuffer.Get(), SizeInBytes, Flags, InitialState, InitialData))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to create VertexBuffer");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to create VertexBuffer");
         return nullptr;
     }
     else
@@ -607,7 +607,7 @@ IndexBuffer* D3D12RenderLayer::CreateIndexBuffer(EIndexFormat Format, uint32 Num
     TRef<D3D12IndexBuffer> NewBuffer = DBG_NEW D3D12IndexBuffer(Device, Format, NumIndices, Flags);
     if (!FinalizeBufferResource<D3D12IndexBuffer>(NewBuffer.Get(), AlignedSizeInBytes, Flags, InitialState, InitialData))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to create IndexBuffer");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to create IndexBuffer");
         return nullptr;
     }
     else
@@ -625,7 +625,7 @@ ConstantBuffer* D3D12RenderLayer::CreateConstantBuffer(uint32 Size, uint32 Flags
     TRef<D3D12ConstantBuffer> NewBuffer = DBG_NEW D3D12ConstantBuffer(Device, ResourceOfflineDescriptorHeap, Size, Flags);
     if (!FinalizeBufferResource<D3D12ConstantBuffer>(NewBuffer.Get(), AlignedSizeInBytes, Flags, InitialState, InitialData))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to create ConstantBuffer");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to create ConstantBuffer");
         return nullptr;
     }
     else
@@ -641,7 +641,7 @@ StructuredBuffer* D3D12RenderLayer::CreateStructuredBuffer(uint32 Stride, uint32
     TRef<D3D12StructuredBuffer> NewBuffer = DBG_NEW D3D12StructuredBuffer(Device, NumElements, Stride, Flags);
     if (!FinalizeBufferResource<D3D12StructuredBuffer>(NewBuffer.Get(), SizeInBytes, Flags, InitialState, InitialData))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to create StructuredBuffer");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to create StructuredBuffer");
         return nullptr;
     }
     else
@@ -1281,7 +1281,7 @@ RayGenShader* D3D12RenderLayer::CreateRayGenShader(const TArray<uint8>& ShaderCo
     TRef<D3D12RayGenShader> Shader = DBG_NEW D3D12RayGenShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
         return nullptr;
     }
     else
@@ -1295,7 +1295,7 @@ RayAnyHitShader* D3D12RenderLayer::CreateRayAnyHitShader(const TArray<uint8>& Sh
     TRef<D3D12RayAnyHitShader> Shader = DBG_NEW D3D12RayAnyHitShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
         return nullptr;
     }
     else
@@ -1309,7 +1309,7 @@ RayClosestHitShader* D3D12RenderLayer::CreateRayClosestHitShader(const TArray<ui
     TRef<D3D12RayClosestHitShader> Shader = DBG_NEW D3D12RayClosestHitShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
         return nullptr;
     }
     else
@@ -1323,7 +1323,7 @@ RayMissShader* D3D12RenderLayer::CreateRayMissShader(const TArray<uint8>& Shader
     TRef<D3D12RayMissShader> Shader = DBG_NEW D3D12RayMissShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
     {
-        LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
+        CE_LOG_ERROR("[D3D12RenderLayer]: Failed to retrive Shader Identifier");
         return nullptr;
     }
     else

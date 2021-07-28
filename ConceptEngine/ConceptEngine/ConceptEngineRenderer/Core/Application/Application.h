@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Time/Timestamp.h"
+#include "../../Time/CETimestamp.h"
 
 extern class Application* CreateApplication();
 
@@ -10,7 +10,7 @@ public:
     
     virtual bool Init();
 
-    virtual void Tick(Timestamp Deltatime);
+    virtual void Tick(CETimestamp Deltatime);
 
     virtual bool Release();
 

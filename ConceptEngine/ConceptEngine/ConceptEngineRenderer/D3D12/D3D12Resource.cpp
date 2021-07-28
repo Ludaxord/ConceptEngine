@@ -45,7 +45,7 @@ bool D3D12Resource::Init(D3D12_RESOURCE_STATES InitialState, const D3D12_CLEAR_V
     }
     else
     {
-        LOG_ERROR("[D3D12Resource]: Failed to create commited resource");
+        CE_LOG_ERROR("[D3D12Resource]: Failed to create commited resource");
         return false;
     }
 }
@@ -57,7 +57,7 @@ void* D3D12Resource::Map(uint32 SubResource, const D3D12_RANGE* Range)
     HRESULT Result = DxResource->Map(SubResource, Range, &MappedData);
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12Resource::Map] Failed");
+        CE_LOG_ERROR("[D3D12Resource::Map] Failed");
         return nullptr;
     }
     else

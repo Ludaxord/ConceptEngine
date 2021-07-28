@@ -13,14 +13,14 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     TArray<uint8> Code;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
-        LOG_ERROR("Failed to compile IrradianceGen Shader");
+        CE_LOG_ERROR("Failed to compile IrradianceGen Shader");
         CEDebug::DebugBreak();
     }
 
     IrradianceGenShader = CreateComputeShader(Code);
     if (!IrradianceGenShader)
     {
-        LOG_ERROR("Failed to create IrradianceGen Shader");
+        CE_LOG_ERROR("Failed to create IrradianceGen Shader");
         CEDebug::DebugBreak();
     }
     else
@@ -31,7 +31,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     IrradianceGenPSO = CreateComputePipelineState(ComputePipelineStateCreateInfo(IrradianceGenShader.Get()));
     if (!IrradianceGenPSO)
     {
-        LOG_ERROR("Failed to create IrradianceGen PipelineState");
+        CE_LOG_ERROR("Failed to create IrradianceGen PipelineState");
         CEDebug::DebugBreak();
     }
     else
@@ -41,14 +41,14 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
 
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
-        LOG_ERROR("Failed to compile SpecularIrradianceGen Shader");
+        CE_LOG_ERROR("Failed to compile SpecularIrradianceGen Shader");
         CEDebug::DebugBreak();
     }
 
     SpecularIrradianceGenShader = CreateComputeShader(Code);
     if (!SpecularIrradianceGenShader)
     {
-        LOG_ERROR("Failed to create Specular IrradianceGen Shader");
+        CE_LOG_ERROR("Failed to create Specular IrradianceGen Shader");
         CEDebug::DebugBreak();
     }
     else
@@ -59,7 +59,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     SpecularIrradianceGenPSO = CreateComputePipelineState(ComputePipelineStateCreateInfo(SpecularIrradianceGenShader.Get()));
     if (!SpecularIrradianceGenPSO)
     {
-        LOG_ERROR("Failed to create Specular IrradianceGen PipelineState");
+        CE_LOG_ERROR("Failed to create Specular IrradianceGen PipelineState");
         CEDebug::DebugBreak();
     }
     else

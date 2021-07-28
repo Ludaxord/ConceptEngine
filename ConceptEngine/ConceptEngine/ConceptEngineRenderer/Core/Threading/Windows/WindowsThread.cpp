@@ -41,7 +41,7 @@ bool WindowsThread::Init(ThreadFunction InFunc)
     Thread = CreateThread(NULL, 0, WindowsThread::ThreadRoutine, (LPVOID)this, 0, &hThreadID);
     if (!Thread)
     {
-        LOG_ERROR("[WindowsThread] Failed to create thread");
+        CE_LOG_ERROR("[WindowsThread] Failed to create thread");
         return false;
     }
     else

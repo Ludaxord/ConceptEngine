@@ -20,11 +20,11 @@
     #define GPU_TRACE_SCOPE(CmdList, Name)
 #endif
 
-class Profiler
+class CEProfiler
 {
 public:
-    static void Init();
-    static void Tick();
+    static void Create();
+    static void Update();
 
     static void Enable();
     static void Disable();
@@ -47,12 +47,12 @@ public:
     ScopedTrace(const char* InName)
         : Name(InName)
     {
-        Profiler::BeginTraceScope(Name);
+        CEProfiler::BeginTraceScope(Name);
     }
 
     ~ScopedTrace()
     {
-        Profiler::EndTraceScope(Name);
+        CEProfiler::EndTraceScope(Name);
     }
 
 private:
@@ -66,12 +66,12 @@ public:
         : CmdList(InCmdList)
         , Name(InName)
     {
-        Profiler::BeginGPUTrace(CmdList, Name);
+        CEProfiler::BeginGPUTrace(CmdList, Name);
     }
 
     ~GPUScopedTrace()
     {
-        Profiler::EndGPUTrace(CmdList, Name);
+        CEProfiler::EndGPUTrace(CmdList, Name);
     }
 
 private:

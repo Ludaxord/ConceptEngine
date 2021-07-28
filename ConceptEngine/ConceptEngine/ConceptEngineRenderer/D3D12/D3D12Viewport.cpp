@@ -69,7 +69,7 @@ bool D3D12Viewport::Init()
         Result = TempSwapChain.As<IDXGISwapChain3>(&SwapChain);
         if (FAILED(Result))
         {
-            LOG_ERROR("[D3D12Viewport]: FAILED to retrive IDXGISwapChain3");
+            CE_LOG_ERROR("[D3D12Viewport]: FAILED to retrive IDXGISwapChain3");
             return false;
         }
 
@@ -79,7 +79,7 @@ bool D3D12Viewport::Init()
     }
     else
     {
-        LOG_ERROR("[D3D12Viewport]: FAILED to create SwapChain");
+        CE_LOG_ERROR("[D3D12Viewport]: FAILED to create SwapChain");
         return false;
     }
 
@@ -90,7 +90,7 @@ bool D3D12Viewport::Init()
         return false;
     }
 
-    LOG_INFO("[D3D12Viewport]: Created SwapChain");
+    CE_LOG_INFO("[D3D12Viewport]: Created SwapChain");
     return true;
 }
 
@@ -113,7 +113,7 @@ bool D3D12Viewport::Resize(uint32 InWidth, uint32 InHeight)
         }
         else
         {
-            LOG_WARNING("[D3D12Viewport]: Resize FAILED");
+            CE_LOG_WARNING("[D3D12Viewport]: Resize FAILED");
             return false;
         }
 
@@ -197,7 +197,7 @@ bool D3D12Viewport::RetriveBackBuffers()
         HRESULT Result = SwapChain->GetBuffer(i, IID_PPV_ARGS(&BackBufferResource));
         if (FAILED(Result))
         {
-            LOG_INFO("[D3D12Viewport]: GetBuffer(" + std::to_string(i) + ") Failed");
+            CE_LOG_INFO("[D3D12Viewport]: GetBuffer(" + std::to_string(i) + ") Failed");
             return false;
         }
 

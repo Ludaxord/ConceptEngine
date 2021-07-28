@@ -26,14 +26,14 @@ bool D3D12DescriptorHeap::Init()
     HRESULT Result = GetDevice()->GetDevice()->CreateDescriptorHeap(&Desc, IID_PPV_ARGS(&Heap));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12DescriptorHeap]: FAILED to Create DescriptorHeap");
+        CE_LOG_ERROR("[D3D12DescriptorHeap]: FAILED to Create DescriptorHeap");
         CEDebug::DebugBreak();
         
         return false;
     }
     else
     {
-        LOG_INFO("[D3D12DescriptorHeap]: Created DescriptorHeap");
+        CE_LOG_INFO("[D3D12DescriptorHeap]: Created DescriptorHeap");
     }
 
     CPUStart = Heap->GetCPUDescriptorHandleForHeapStart();

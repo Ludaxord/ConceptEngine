@@ -79,19 +79,19 @@ Texture2D* TextureFactory::LoadFromFile(const std::string& Filepath, uint32 Crea
     }
     else
     {
-        LOG_ERROR("[TextureFactory]: Format not supported");
+        CE_LOG_ERROR("[TextureFactory]: Format not supported");
         return nullptr;
     }
 
     // Check if succeeded
     if (!Pixels)
     {
-        LOG_ERROR("[TextureFactory]: Failed to load image '" + Filepath + "'");
+        CE_LOG_ERROR("[TextureFactory]: Failed to load image '" + Filepath + "'");
         return nullptr;
     }
     else
     {
-        LOG_INFO("[TextureFactory]: Loaded image '" + Filepath + "'");
+        CE_LOG_INFO("[TextureFactory]: Loaded image '" + Filepath + "'");
     }
 
     return LoadFromMemory(Pixels.Get(), Width, Height, CreateFlags, Format);
@@ -101,7 +101,7 @@ Texture2D* TextureFactory::LoadFromMemory(const uint8* Pixels, uint32 Width, uin
 {
     if (Format != EFormat::R8_Unorm && Format != EFormat::R8G8B8A8_Unorm && Format != EFormat::R32G32B32A32_Float)
     {
-        LOG_ERROR("[TextureFactory]: Format not supported");
+        CE_LOG_ERROR("[TextureFactory]: Format not supported");
         return nullptr;
     }
 

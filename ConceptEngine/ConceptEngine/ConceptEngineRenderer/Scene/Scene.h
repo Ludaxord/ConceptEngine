@@ -6,7 +6,7 @@
 
 #include "../Rendering/MeshDrawCommand.h"
 
-#include "../Time/Timestamp.h"
+#include "../Time/CETimestamp.h"
 
 #include "../Core/Containers/Array.h"
 
@@ -16,7 +16,7 @@ public:
     Scene();
     ~Scene();
 
-    void Tick(Timestamp DeltaTime);
+    void Tick(CETimestamp DeltaTime);
 
     void AddCamera(Camera* InCamera);
     void AddActor(Actor* InActor);

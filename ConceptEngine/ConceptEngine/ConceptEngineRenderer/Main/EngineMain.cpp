@@ -2,13 +2,13 @@
 
 #include "../Core/Engine/EngineLoop.h"
 #include "../Core/Application/Application.h"
-#include "../Core/Application/Platform/PlatformMisc.h"
+#include "../Core/Application/Platform/CEPlatformMisc.h"
 
 int32 EngineMain()
 {
     if (!EngineLoop::Init())
     {
-        PlatformMisc::MessageBox("ERROR", "EngineLoop::Init Failed");
+        CEPlatformMisc::MessageBox("ERROR", "EngineLoop::Init Failed");
         return -1;
     }
 
@@ -16,7 +16,7 @@ int32 EngineMain()
 
     if (!EngineLoop::Release())
     {
-        PlatformMisc::MessageBox("ERROR", "EngineLoop::Release Failed");
+        CEPlatformMisc::MessageBox("ERROR", "EngineLoop::Release Failed");
         return -1;
     }
 

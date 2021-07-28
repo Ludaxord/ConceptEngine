@@ -1,4 +1,4 @@
-#include "Profiler.h"
+#include "CEProfiler.h"
 #include "Console/Console.h"
 
 #include "../Rendering/DebugUI.h"
@@ -590,21 +590,21 @@ static void DrawProfiler()
     {
         if (ImGui::Button("Start Profile"))
         {
-            Profiler::Enable();
+            CEProfiler::Enable();
         }
 
         ImGui::SameLine();
 
         if (ImGui::Button("Stop Profile"))
         {
-            Profiler::Disable();
+            CEProfiler::Disable();
         }
 
         ImGui::SameLine();
 
         if (ImGui::Button("Reset"))
         {
-            Profiler::Reset();
+            CEProfiler::Reset();
         }
 
         ImGuiTabBarFlags TabBarFlags = ImGuiTabBarFlags_None;
@@ -635,13 +635,13 @@ static void DrawProfiler()
     GDrawProfiler.SetBool(TempDrawProfiler);
 }
 
-void Profiler::Init()
+void CEProfiler::Create()
 {
     INIT_CONSOLE_VARIABLE("r.DrawFps", &GDrawFps);
     INIT_CONSOLE_VARIABLE("r.DrawProfiler", &GDrawProfiler);
 }
 
-void Profiler::Tick()
+void CEProfiler::Update()
 {
     Timer& Clock = gProfilerData.Clock;
     Clock.Tick();
@@ -681,17 +681,17 @@ void Profiler::Tick()
     }
 }
 
-void Profiler::Enable()
+void CEProfiler::Enable()
 {
     gProfilerData.EnableProfiler = true;
 }
 
-void Profiler::Disable()
+void CEProfiler::Disable()
 {
     gProfilerData.EnableProfiler = false;
 }
 
-void Profiler::Reset()
+void CEProfiler::Reset()
 {
     gProfilerData.CPUFrameTime.Reset();
     gProfilerData.GPUFrameTime.Reset();
@@ -707,7 +707,7 @@ void Profiler::Reset()
     }
 }
 
-void Profiler::BeginTraceScope(const char* Name)
+void CEProfiler::BeginTraceScope(const char* Name)
 {
     if (gProfilerData.EnableProfiler)
     {
@@ -726,7 +726,7 @@ void Profiler::BeginTraceScope(const char* Name)
     }
 }
 
-void Profiler::EndTraceScope(const char* Name)
+void CEProfiler::EndTraceScope(const char* Name)
 {
     if (gProfilerData.EnableProfiler)
     {
@@ -744,7 +744,7 @@ void Profiler::EndTraceScope(const char* Name)
     }
 }
 
-void Profiler::BeginGPUFrame(CommandList& CmdList)
+void CEProfiler::BeginGPUFrame(CommandList& CmdList)
 {
     if (gProfilerData.GPUProfiler && gProfilerData.EnableProfiler)
     {
@@ -752,7 +752,7 @@ void Profiler::BeginGPUFrame(CommandList& CmdList)
     }
 }
 
-void Profiler::BeginGPUTrace(CommandList& CmdList, const char* Name)
+void CEProfiler::BeginGPUTrace(CommandList& CmdList, const char* Name)
 {
     if (gProfilerData.GPUProfiler && gProfilerData.EnableProfiler)
     {
@@ -779,7 +779,7 @@ void Profiler::BeginGPUTrace(CommandList& CmdList, const char* Name)
     }
 }
 
-void Profiler::EndGPUTrace(CommandList& CmdList, const char* Name)
+void CEProfiler::EndGPUTrace(CommandList& CmdList, const char* Name)
 {
     if (gProfilerData.GPUProfiler && gProfilerData.EnableProfiler)
     {
@@ -805,12 +805,12 @@ void Profiler::EndGPUTrace(CommandList& CmdList, const char* Name)
     }
 }
 
-void Profiler::SetGPUProfiler(GPUProfiler* Profiler)
+void CEProfiler::SetGPUProfiler(GPUProfiler* Profiler)
 {
     gProfilerData.GPUProfiler = MakeSharedRef<GPUProfiler>(Profiler);
 }
 
-void Profiler::EndGPUFrame(CommandList& CmdList)
+void CEProfiler::EndGPUFrame(CommandList& CmdList)
 {
     if (gProfilerData.GPUProfiler && gProfilerData.EnableProfiler)
     {

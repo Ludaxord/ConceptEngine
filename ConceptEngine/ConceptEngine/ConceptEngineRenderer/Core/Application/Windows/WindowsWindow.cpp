@@ -74,7 +74,7 @@ bool WindowsWindow::Init(const std::wstring& InTitle, uint32 InWidth, uint32 InH
     Window = CreateWindowEx(0, WindowClassName, InTitle.c_str(), dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, nWidth, nHeight, NULL, NULL, Instance, NULL);
     if (Window == NULL)
     {
-        LOG_ERROR("[WindowsWindow]: FAILED to create window\n");
+        CE_LOG_ERROR("[WindowsWindow]: FAILED to create window\n");
         return false;
     }
     else
@@ -99,7 +99,7 @@ bool WindowsWindow::Init(const std::wstring& InTitle, uint32 InWidth, uint32 InH
         DWORD LastError = GetLastError();
         if (Result == 0 && LastError != 0)
         {
-            LOG_ERROR("[WindowsWindow]: FAILED to Setup window-data\n");
+            CE_LOG_ERROR("[WindowsWindow]: FAILED to Setup window-data\n");
             return false;
         }
 

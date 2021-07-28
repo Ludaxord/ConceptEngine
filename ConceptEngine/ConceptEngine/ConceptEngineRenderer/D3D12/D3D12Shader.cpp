@@ -76,7 +76,7 @@ bool D3D12BaseShader::GetShaderResourceBindings(TD3D12ReflectionInterface* Refle
 
         if (!IsLegalRegisterSpace(ShaderBindDesc))
         {
-            LOG_ERROR("Shader Parameter '" + std::string(ShaderBindDesc.Name) + "' has register space '" + std::to_string(ShaderBindDesc.Space) + "' specified, which is invalid.");
+            CE_LOG_ERROR("Shader Parameter '" + std::string(ShaderBindDesc.Name) + "' has register space '" + std::to_string(ShaderBindDesc.Space) + "' specified, which is invalid.");
             return false;
         }
 
@@ -190,7 +190,7 @@ bool D3D12BaseShader::GetShaderReflection(D3D12BaseShader* Shader)
 
     if (!GetShaderResourceBindings(Reflection.Get(), Shader, ShaderDesc.BoundResources))
     {
-        LOG_ERROR("[D3D12BaseShader]: Error when analysing shader parameters");
+        CE_LOG_ERROR("[D3D12BaseShader]: Error when analysing shader parameters");
         return false;
     }
 
@@ -237,7 +237,7 @@ bool D3D12BaseRayTracingShader::GetRayTracingShaderReflection(D3D12BaseRayTracin
 
     if (!GetShaderResourceBindings(Function, Shader, FuncDesc.BoundResources))
     {
-        LOG_ERROR("[D3D12BaseRayTracingShader]: Error when analysing shader parameters");
+        CE_LOG_ERROR("[D3D12BaseRayTracingShader]: Error when analysing shader parameters");
         return false;
     }
 
@@ -272,7 +272,7 @@ bool D3D12BaseComputeShader::Init()
 
     if (!GetShaderResourceBindings(Reflection.Get(), this, ShaderDesc.BoundResources))
     {
-        LOG_ERROR("[D3D12BaseComputeShader]: Error when analysing shader parameters");
+        CE_LOG_ERROR("[D3D12BaseComputeShader]: Error when analysing shader parameters");
         return false;
     }
 

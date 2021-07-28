@@ -1,5 +1,6 @@
 #pragma once
 #include "Config/CEGlobalConfigs.h"
+#include "Exception/CEException.h"
 
 class CECore;
 class CEPlatform;
@@ -20,7 +21,7 @@ public:
 
 	CECore* GetCore() const;
 
-	 CEEngineConfig GetEngineConfig() const;
+	CEEngineConfig GetEngineConfig() const;
 
 protected:
 	bool CreateEditor();
@@ -69,7 +70,7 @@ inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, 
 		Engine->CreateDebugRuntime();
 		break;
 	default:
-		throw new CEException();
+		throw CEEngineBootException();
 	}
 
 	return EngineExec(Engine);

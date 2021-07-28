@@ -323,7 +323,7 @@ bool Sandbox::Init()
     return true;
 }
 
-void Sandbox::Tick(Timestamp DeltaTime)
+void Sandbox::Tick(CETimestamp DeltaTime)
 {
     Application::Tick(DeltaTime);
 

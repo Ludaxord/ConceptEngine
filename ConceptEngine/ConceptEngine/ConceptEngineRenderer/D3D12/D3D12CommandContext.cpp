@@ -258,7 +258,7 @@ bool D3D12CommandContext::Init()
     TArray<uint8> Code;
     if (!gD3D12ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTex2D.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
-        LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTex2D Shader");
+        CE_LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTex2D Shader");
         
         CEDebug::DebugBreak();
         return false;
@@ -274,7 +274,7 @@ bool D3D12CommandContext::Init()
     GenerateMipsTex2D_PSO = DBG_NEW D3D12ComputePipelineState(GetDevice(), Shader);
     if (!GenerateMipsTex2D_PSO->Init())
     {
-        LOG_ERROR("[D3D12CommandContext]: Failed to create GenerateMipsTex2D PipelineState");
+        CE_LOG_ERROR("[D3D12CommandContext]: Failed to create GenerateMipsTex2D PipelineState");
         return false;
     }
     else
@@ -284,7 +284,7 @@ bool D3D12CommandContext::Init()
 
     if (!gD3D12ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
-        LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTexCube Shader");
+        CE_LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTexCube Shader");
         CEDebug::DebugBreak();
     }
 
@@ -298,7 +298,7 @@ bool D3D12CommandContext::Init()
     GenerateMipsTexCube_PSO = DBG_NEW D3D12ComputePipelineState(GetDevice(), Shader);
     if (!GenerateMipsTexCube_PSO->Init())
     {
-        LOG_ERROR("[D3D12CommandContext]: Failed to create GenerateMipsTexCube PipelineState");
+        CE_LOG_ERROR("[D3D12CommandContext]: Failed to create GenerateMipsTexCube PipelineState");
         return false;
     }
     else
@@ -966,7 +966,7 @@ void D3D12CommandContext::SetRayTracingBindings(
 
     if (!DxScene->BuildBindingTable(*this, DxPipelineState, ResourceHeap, SamplerHeap, RayGenLocalResources, MissLocalResources, HitGroupResources, NumHitGroupResources))
     {
-        LOG_ERROR("[D3D12CommandContext]: FAILED to Build Shader Binding Table");
+        CE_LOG_ERROR("[D3D12CommandContext]: FAILED to Build Shader Binding Table");
     }
 
     Assert(GlobalResource != nullptr);
@@ -1027,7 +1027,7 @@ void D3D12CommandContext::GenerateMips(Texture* Texture)
     TRef<D3D12Resource> StagingTexture = DBG_NEW D3D12Resource(GetDevice(), Desc, DxTexture->GetResource()->GetHeapType());
     if (!StagingTexture->Init(D3D12_RESOURCE_STATE_COMMON, nullptr))
     {
-        LOG_ERROR("[D3D12CommandContext] Failed to create StagingTexture for GenerateMips");
+        CE_LOG_ERROR("[D3D12CommandContext] Failed to create StagingTexture for GenerateMips");
         return;
     }
     else

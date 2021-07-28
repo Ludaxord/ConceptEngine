@@ -1,6 +1,6 @@
 #include "DebugUI.h"
 
-#include "../Debug/Profiler.h"
+#include "../Debug/CEProfiler.h"
 
 #include "../Core/Engine/Engine.h"
 #include "../Core/Application/Generic/GenericCursor.h"
@@ -530,7 +530,7 @@ void DebugUI::Render(CommandList& CmdList)
     WindowShape CurrentWindowShape;
     Window->GetWindowShape(CurrentWindowShape);
 
-    Timestamp Delta = GlobalImGuiState.FrameClock.GetDeltaTime();
+    CETimestamp Delta = GlobalImGuiState.FrameClock.GetDeltaTime();
     IO.DeltaTime               = static_cast<float>(Delta.AsSeconds());
     IO.DisplaySize             = ImVec2(float(CurrentWindowShape.Width), float(CurrentWindowShape.Height));
     IO.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);

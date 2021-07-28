@@ -1,7 +1,7 @@
 #pragma once
 #include "Generic/GenericOutputConsole.h"
 
-#define LOG_ERROR(Message) \
+#define CE_LOG_ERROR(Message) \
     { \
         Assert(GConsoleOutput != nullptr); \
         GConsoleOutput->SetColor(EConsoleColor::Red); \
@@ -9,7 +9,7 @@
         GConsoleOutput->SetColor(EConsoleColor::White); \
     }
 
-#define LOG_WARNING(Message) \
+#define CE_LOG_WARNING(Message) \
     { \
         Assert(GConsoleOutput != nullptr); \
         GConsoleOutput->SetColor(EConsoleColor::Yellow); \
@@ -17,10 +17,34 @@
         GConsoleOutput->SetColor(EConsoleColor::White); \
     }
 
-#define LOG_INFO(Message) \
+#define CE_LOG_INFO(Message) \
     {\
         Assert(GConsoleOutput != nullptr); \
         GConsoleOutput->SetColor(EConsoleColor::Green); \
+        GConsoleOutput->Print(std::string(Message) + "\n"); \
+        GConsoleOutput->SetColor(EConsoleColor::White); \
+    }
+
+#define CE_LOG_VERBOSE(Message) \
+    {\
+        Assert(GConsoleOutput != nullptr); \
+        GConsoleOutput->SetColor(EConsoleColor::Blue); \
+        GConsoleOutput->Print(std::string(Message) + "\n"); \
+        GConsoleOutput->SetColor(EConsoleColor::White); \
+    }
+
+#define CE_LOG_DEBUG(Message) \
+    {\
+        Assert(GConsoleOutput != nullptr); \
+        GConsoleOutput->SetColor(EConsoleColor::Magenta); \
+        GConsoleOutput->Print(std::string(Message) + "\n"); \
+        GConsoleOutput->SetColor(EConsoleColor::White); \
+    }
+
+#define CE_LOG_MESSAGE(Message) \
+    {\
+        Assert(GConsoleOutput != nullptr); \
+        GConsoleOutput->SetColor(EConsoleColor::Cyan); \
         GConsoleOutput->Print(std::string(Message) + "\n"); \
         GConsoleOutput->SetColor(EConsoleColor::White); \
     }

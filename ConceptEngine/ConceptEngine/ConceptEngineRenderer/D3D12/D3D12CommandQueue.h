@@ -26,12 +26,12 @@ public:
         HRESULT Result = GetDevice()->GetDevice()->CreateCommandQueue(&QueueDesc, IID_PPV_ARGS(&Queue));
         if (SUCCEEDED(Result))
         {
-            LOG_INFO("[D3D12CommandQueueHandle]: Created CommandQueue");
+            CE_LOG_INFO("[D3D12CommandQueueHandle]: Created CommandQueue");
             return true;
         }
         else
         {
-            LOG_ERROR("[D3D12CommandQueueHandle]: FAILED to create CommandQueue");
+            CE_LOG_ERROR("[D3D12CommandQueueHandle]: FAILED to create CommandQueue");
             return false;
         }
     }

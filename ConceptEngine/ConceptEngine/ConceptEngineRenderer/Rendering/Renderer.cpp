@@ -12,7 +12,7 @@
 
 #include "../RenderLayer/ShaderCompiler.h"
 
-#include "../Debug/Profiler.h"
+#include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
 
 #include <algorithm>
@@ -344,7 +344,7 @@ void Renderer::Tick(const Scene& Scene)
     CmdList.BeginExternalCapture();
     CmdList.Begin();
 
-    Profiler::BeginGPUFrame(CmdList);
+    CEProfiler::BeginGPUFrame(CmdList);
 
     INSERT_DEBUG_CMDLIST_MARKER(CmdList, "--BEGIN FRAME--");
 
@@ -573,7 +573,7 @@ void Renderer::Tick(const Scene& Scene)
     
     INSERT_DEBUG_CMDLIST_MARKER(CmdList, "--END FRAME--");
 
-    Profiler::EndGPUFrame(CmdList);
+    CEProfiler::EndGPUFrame(CmdList);
 
     CmdList.End();
     CmdList.EndExternalCapture();
@@ -621,7 +621,7 @@ bool Renderer::Init()
     Resources.CameraBuffer = CreateConstantBuffer<CameraBufferDesc>(BufferFlag_Default, EResourceState::Common, nullptr);
     if (!Resources.CameraBuffer)
     {
-        LOG_ERROR("[Renderer]: Failed to create camerabuffer");
+        CE_LOG_ERROR("[Renderer]: Failed to create camerabuffer");
         return false;
     }
     else
@@ -696,7 +696,7 @@ bool Renderer::Init()
         return false;
     }
 
-    Profiler::SetGPUProfiler(GPUProfiler.Get());
+    CEProfiler::SetGPUProfiler(GPUProfiler.Get());
 
     if (!InitAA())
     {
@@ -803,7 +803,7 @@ void Renderer::Release()
     ShadingRateShader.Reset();
 
     GPUProfiler.Reset();
-    Profiler::SetGPUProfiler(nullptr);
+    CEProfiler::SetGPUProfiler(nullptr);
 
     LastFrameNumDrawCalls     = 0;
     LastFrameNumDispatchCalls = 0;

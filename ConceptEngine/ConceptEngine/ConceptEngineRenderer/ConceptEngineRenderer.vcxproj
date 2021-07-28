@@ -19,22 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boot\Callbacks\CEEngineController.h" />
+    <ClInclude Include="Boot\Callbacks\CEPlatformCallbacks.h" />
+    <ClInclude Include="Boot\CECore.h" />
+    <ClInclude Include="Boot\CECoreRuntime.h" />
+    <ClInclude Include="Boot\CEDebugRuntime.h" />
+    <ClInclude Include="Boot\CEEditor.h" />
+    <ClInclude Include="Boot\CERuntime.h" />
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="Config\CEGlobalConfigs.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
     <ClInclude Include="Core\Application\Generic\GenericCursor.h" />
-    <ClInclude Include="Core\Application\Generic\GenericMisc.h" />
+    <ClInclude Include="Core\Application\Generic\CEGenericMisc.h" />
     <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h" />
     <ClInclude Include="Core\Application\Generic\GenericPlatform.h" />
     <ClInclude Include="Core\Application\Generic\GenericWindow.h" />
     <ClInclude Include="Core\Application\Log.h" />
     <ClInclude Include="Core\Application\Platform\Platform.h" />
     <ClInclude Include="Core\Application\Platform\PlatformCallbacks.h" />
-    <ClInclude Include="Core\Application\Platform\PlatformMisc.h" />
+    <ClInclude Include="Core\Application\Platform\CEPlatformMisc.h" />
     <ClInclude Include="Core\Application\Windows\WindowsCursor.h" />
-    <ClInclude Include="Core\Application\Windows\WindowsMisc.h" />
+    <ClInclude Include="Core\Application\Windows\CEWindowsMisc.h" />
     <ClInclude Include="Core\Application\Windows\WindowsOutputConsole.h" />
     <ClInclude Include="Core\Application\Windows\WindowsPlatform.h" />
     <ClInclude Include="Core\Application\Windows\WindowsWindow.h" />
@@ -69,7 +76,7 @@
     <ClInclude Include="Core\Threading\Platform\PlatformAtomic.h" />
     <ClInclude Include="Core\Threading\Platform\PlatformProcess.h" />
     <ClInclude Include="Core\Threading\ScopedLock.h" />
-    <ClInclude Include="Core\Threading\TaskManager.h" />
+    <ClInclude Include="Core\Threading\CETaskManager.h" />
     <ClInclude Include="Core\Threading\ThreadSafeInt.h" />
     <ClInclude Include="Core\Threading\Windows\WindowsAtomic.h" />
     <ClInclude Include="Core\Threading\Windows\WindowsConditionVariable.h" />
@@ -106,8 +113,9 @@
     <ClInclude Include="Debug\Console\ConsoleObject.h" />
     <ClInclude Include="Debug\Console\ConsoleVariable.h" />
     <ClInclude Include="Debug\CEDebug.h" />
-    <ClInclude Include="Debug\Profiler.h" />
+    <ClInclude Include="Debug\CEProfiler.h" />
     <ClInclude Include="Editor\Editor.h" />
+    <ClInclude Include="Exception\CEException.h" />
     <ClInclude Include="Main\EngineMain.h" />
     <ClInclude Include="Math\Color.h" />
     <ClInclude Include="Math\Float.h" />
@@ -116,6 +124,7 @@
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Memory\New.h" />
     <ClInclude Include="PreCompiled.h" />
+    <ClInclude Include="Project\CEPlayground.h" />
     <ClInclude Include="Rendering\DebugUI.h" />
     <ClInclude Include="Rendering\DeferredRenderer.h" />
     <ClInclude Include="Rendering\ForwardRenderer.h" />
@@ -163,7 +172,7 @@
     <ClInclude Include="Time\Generic\GenericTime.h" />
     <ClInclude Include="Time\Platform\PlatformTime.h" />
     <ClInclude Include="Time\Timer.h" />
-    <ClInclude Include="Time\Timestamp.h" />
+    <ClInclude Include="Time\CETimestamp.h" />
     <ClInclude Include="Time\Windows\WindowsTime.h" />
     <ClInclude Include="Utilities\DirectoryUtilities.h" />
     <ClInclude Include="Utilities\HashUtilities.h" />
@@ -175,6 +184,12 @@
     <None Include="Windows\Windows.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Boot\Callbacks\CEEngineController.cpp" />
+    <ClCompile Include="Boot\CECore.cpp" />
+    <ClCompile Include="Boot\CECoreRuntime.cpp" />
+    <ClCompile Include="Boot\CEDebugRuntime.cpp" />
+    <ClCompile Include="Boot\CEEditor.cpp" />
+    <ClCompile Include="Boot\CERuntime.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />
     <ClCompile Include="Config\CEGlobalConfigs.cpp" />
     <ClCompile Include="Core\Application\Application.cpp" />
@@ -191,7 +206,7 @@
     <ClCompile Include="Core\Engine\EngineLoop.cpp" />
     <ClCompile Include="Core\Input\InputManager.cpp" />
     <ClCompile Include="Core\RefCountedObject.cpp" />
-    <ClCompile Include="Core\Threading\TaskManager.cpp" />
+    <ClCompile Include="Core\Threading\CETaskManager.cpp" />
     <ClCompile Include="Core\Threading\Windows\WindowsThread.cpp" />
     <ClCompile Include="D3D12\D3D12CommandContext.cpp" />
     <ClCompile Include="D3D12\D3D12DescriptorCache.cpp" />
@@ -208,7 +223,7 @@
     <ClCompile Include="D3D12\D3D12Viewport.cpp" />
     <ClCompile Include="D3D12\D3D12Views.cpp" />
     <ClCompile Include="Debug\Console\Console.cpp" />
-    <ClCompile Include="Debug\Profiler.cpp" />
+    <ClCompile Include="Debug\CEProfiler.cpp" />
     <ClCompile Include="Editor\Editor.cpp" />
     <ClCompile Include="Main\EngineMain.cpp" />
     <ClCompile Include="Main\Windows\WindowsMain.cpp" />
@@ -220,6 +235,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Project\CEPlayground.cpp" />
     <ClCompile Include="Rendering\DebugUI.cpp" />
     <ClCompile Include="Rendering\DeferredRenderer.cpp" />
     <ClCompile Include="Rendering\ForwardRenderer.cpp" />

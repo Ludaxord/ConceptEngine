@@ -35,7 +35,7 @@ Scene::~Scene()
     SafeDelete(CurrentCamera);
 }
 
-void Scene::Tick(Timestamp DeltaTime)
+void Scene::Tick(CETimestamp DeltaTime)
 {
     UNREFERENCED_VARIABLE(DeltaTime);
 }
@@ -91,12 +91,12 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
     std::string MTLFiledir = std::string(Filepath.begin(), Filepath.begin() + Filepath.find_last_of('/'));
     if (!tinyobj::LoadObj(&Attributes, &Shapes, &Materials, &Warning, &Error, Filepath.c_str(), MTLFiledir.c_str(), true, false))
     {
-        LOG_WARNING("[Scene]: Failed to load Scene '" + Filepath + "'." + " Warning: " + Warning + " Error: " + Error);
+        CE_LOG_WARNING("[Scene]: Failed to load Scene '" + Filepath + "'." + " Warning: " + Warning + " Error: " + Error);
         return nullptr;
     }
     else
     {
-        LOG_INFO("[Scene]: Loaded Scene'" + Filepath + "'");
+        CE_LOG_INFO("[Scene]: Loaded Scene'" + Filepath + "'");
     }
 
     // Create standard textures
@@ -152,7 +152,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
         MatProps.Roughness = 1.0f;
 
         TSharedPtr<Material>& NewMaterial = LoadedMaterials.EmplaceBack(MakeShared<Material>(MatProps));
-        LOG_INFO("Loaded materialID=" + std::to_string(LoadedMaterials.Size() - 1));
+        CE_LOG_INFO("Loaded materialID=" + std::to_string(LoadedMaterials.Size() - 1));
 
         NewMaterial->AlbedoMap    = WhiteTexture;
         NewMaterial->AOMap        = WhiteTexture;
@@ -360,7 +360,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
             NewComponent->Mesh = NewMesh;
             if (MaterialID >= 0)
             {
-                LOG_INFO(Shape.name + " got materialID=" + std::to_string(MaterialID));
+                CE_LOG_INFO(Shape.name + " got materialID=" + std::to_string(MaterialID));
                 NewComponent->Material = LoadedMaterials[MaterialID];
             }
             else

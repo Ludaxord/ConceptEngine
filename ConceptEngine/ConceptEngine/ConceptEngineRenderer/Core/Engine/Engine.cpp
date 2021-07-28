@@ -1,6 +1,6 @@
 #include "Engine.h"
 
-#include "../../Core/Application/Platform/PlatformMisc.h"
+#include "../../Core/Application/Platform/CEPlatformMisc.h"
 #include "../../Core/Application/Platform/Platform.h"
 
 #include "../../Debug/Console/Console.h"
@@ -29,7 +29,7 @@ bool Engine::Init()
     }
     else
     {
-        PlatformMisc::MessageBox("ERROR", "Failed to create Engine");
+        CEPlatformMisc::MessageBox("ERROR", "Failed to create Engine");
         return false;
     }
 
@@ -143,7 +143,7 @@ void Engine::OnWindowClosed(const TRef<GenericWindow>& InWindow)
 
     if (InWindow == MainWindow)
     {
-        PlatformMisc::RequestExit(0);
+        CEPlatformMisc::RequestExit(0);
     }
 }
 

@@ -24,7 +24,7 @@
     <ClInclude Include="Core\Application\Generic\GenericCursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Generic\GenericMisc.h">
+    <ClInclude Include="Core\Application\Generic\CEGenericMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h">
@@ -42,13 +42,13 @@
     <ClInclude Include="Core\Application\Platform\PlatformCallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Platform\PlatformMisc.h">
+    <ClInclude Include="Core\Application\Platform\CEPlatformMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\WindowsCursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Windows\WindowsMisc.h">
+    <ClInclude Include="Core\Application\Windows\CEWindowsMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\WindowsOutputConsole.h">
@@ -171,7 +171,7 @@
     <ClInclude Include="Core\Threading\ScopedLock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Threading\TaskManager.h">
+    <ClInclude Include="Core\Threading\CETaskManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Threading\ThreadSafeInt.h">
@@ -273,7 +273,7 @@
     <ClInclude Include="Debug\CEDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Debug\Profiler.h">
+    <ClInclude Include="Debug\CEProfiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Editor.h">
@@ -441,7 +441,7 @@
     <ClInclude Include="Time\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Time\Timestamp.h">
+    <ClInclude Include="Time\CETimestamp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\HashUtilities.h">
@@ -463,6 +463,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config\CEGlobalConfigs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\CECore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\CECoreRuntime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\CERuntime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\CEEditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\CEDebugRuntime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\CEPlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception\CEException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\Callbacks\CEEngineController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boot\Callbacks\CEPlatformCallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -515,7 +542,7 @@
     <ClCompile Include="Core\Threading\Windows\WindowsThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Threading\TaskManager.cpp">
+    <ClCompile Include="Core\Threading\CETaskManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\RefCountedObject.cpp">
@@ -566,7 +593,7 @@
     <ClCompile Include="Debug\Console\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\Profiler.cpp">
+    <ClCompile Include="Debug\CEProfiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor\Editor.cpp">
@@ -672,6 +699,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Config\CEGlobalConfigs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boot\CECore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boot\CECoreRuntime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boot\CERuntime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boot\CEEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boot\CEDebugRuntime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\CEPlayground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boot\Callbacks\CEEngineController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

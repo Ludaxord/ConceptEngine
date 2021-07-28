@@ -253,7 +253,7 @@ bool D3D12RootSignature::Init(const void* BlobWithRootSignature, uint64 BlobLeng
     HRESULT Result = D3D12CreateRootSignatureDeserializerFunc(BlobWithRootSignature, BlobLengthInBytes, IID_PPV_ARGS(&Deserializer));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12RootSignature]: FAILED to Retrive Root Signature Desc");
+        CE_LOG_ERROR("[D3D12RootSignature]: FAILED to Retrive Root Signature Desc");
 
         CEDebug::DebugBreak();
         return false;
@@ -274,7 +274,7 @@ bool D3D12RootSignature::Init(const void* BlobWithRootSignature, uint64 BlobLeng
     Result = GetDevice()->CreateRootSignature(1, Blob->GetBufferPointer(), Blob->GetBufferSize(), IID_PPV_ARGS(&RootSignature));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12RootSignature]: FAILED to Create RootSignature");
+        CE_LOG_ERROR("[D3D12RootSignature]: FAILED to Create RootSignature");
 
         CEDebug::DebugBreak();
         return false;
@@ -312,7 +312,7 @@ bool D3D12RootSignature::InternalInit(const void* BlobWithRootSignature, uint64 
     HRESULT Result = GetDevice()->CreateRootSignature(1, BlobWithRootSignature, BlobLengthInBytes, IID_PPV_ARGS(&RootSignature));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12RootSignature]: FAILED to Create RootSignature");
+        CE_LOG_ERROR("[D3D12RootSignature]: FAILED to Create RootSignature");
 
         CEDebug::DebugBreak();
         return false;
@@ -328,8 +328,8 @@ bool D3D12RootSignature::Serialize(const D3D12_ROOT_SIGNATURE_DESC& Desc, ID3DBl
     HRESULT Result = D3D12SerializeRootSignatureFunc(&Desc, D3D_ROOT_SIGNATURE_VERSION_1, OutBlob, &ErrorBlob);
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12RootSignature]: FAILED to Serialize RootSignature");
-        LOG_ERROR(reinterpret_cast<const char*>(ErrorBlob->GetBufferPointer()));
+        CE_LOG_ERROR("[D3D12RootSignature]: FAILED to Serialize RootSignature");
+        CE_LOG_ERROR(reinterpret_cast<const char*>(ErrorBlob->GetBufferPointer()));
 
         CEDebug::DebugBreak();
         return false;
@@ -467,12 +467,12 @@ D3D12RootSignature* D3D12RootSignatureCache::GetOrCreateRootSignature(const D3D1
     {
         if (ResourceCount.IsCompatible(ResourceCounts[i]))
         {
-			LOG_INFO("Root Signature '" + RootSignatures[i].Get()->GetName() + "' Compatible... " + std::to_string(i));
+			CE_LOG_INFO("Root Signature '" + RootSignatures[i].Get()->GetName() + "' Compatible... " + std::to_string(i));
             return RootSignatures[i].Get();
         }
     }
 
-    LOG_WARNING("Compatible Root Signature not Found...")
+    CE_LOG_WARNING("Compatible Root Signature not Found...")
 	
     // Make sure that this rootsignature can be used by more than one pipeline
     D3D12RootSignatureResourceCount NewResourceCount = ResourceCount;
@@ -514,7 +514,7 @@ D3D12RootSignature* D3D12RootSignatureCache::CreateRootSignature(const D3D12Root
         return nullptr;
     }
 
-    LOG_INFO("Created new root signature");
+    CE_LOG_INFO("Created new root signature");
 
     RootSignatures.EmplaceBack(NewRootSignature);
     ResourceCounts.EmplaceBack(ResourceCount);

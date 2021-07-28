@@ -1,6 +1,6 @@
 #include "RayTracer.h"
 
-#include "../Debug/Profiler.h"
+#include "../Debug/CEProfiler.h"
 
 #include "../RenderLayer/RenderLayer.h"
 #include "../RenderLayer/ShaderCompiler.h"

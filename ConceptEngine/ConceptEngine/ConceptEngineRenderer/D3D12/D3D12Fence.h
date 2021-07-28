@@ -21,14 +21,14 @@ public:
         HRESULT Result = GetDevice()->GetDevice()->CreateFence(InitalValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&Fence));
         if (FAILED(Result))
         {
-            LOG_INFO("[D3D12FenceHandle]: FAILED to create Fence");
+            CE_LOG_INFO("[D3D12FenceHandle]: FAILED to create Fence");
             return false;
         }
 
         Event = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
         if (Event == NULL)
         {
-            LOG_ERROR("[D3D12FenceHandle]: FAILED to create Event for Fence");
+            CE_LOG_ERROR("[D3D12FenceHandle]: FAILED to create Event for Fence");
             return false;
         }
 

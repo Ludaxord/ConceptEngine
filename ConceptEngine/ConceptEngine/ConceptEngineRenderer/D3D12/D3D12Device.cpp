@@ -1,4 +1,4 @@
-#include "../Core/Application/Platform/PlatformMisc.h"
+#include "../Core/Application/Platform/CEPlatformMisc.h"
 
 #include "D3D12Device.h"
 #include "D3D12ShaderCompiler.h"
@@ -82,7 +82,7 @@ void DeviceRemovedHandler(D3D12Device* Device)
     Assert(Device != nullptr);
 
     std::string Message = "[D3D12] Device Removed";
-    LOG_ERROR(Message);
+    CE_LOG_ERROR(Message);
 
     ID3D12Device* DxDevice = Device->GetDevice();
     
@@ -122,11 +122,11 @@ void DeviceRemovedHandler(D3D12Device* Device)
             fputc('\n', File);
         }
 
-        LOG_ERROR(Message);
+        CE_LOG_ERROR(Message);
         for (uint32 i = 0; i < CurrentNode->BreadcrumbCount; i++)
         {
             Message = "    " + std::string(ToString(CurrentNode->pCommandHistory[i]));
-            LOG_ERROR(Message);
+            CE_LOG_ERROR(Message);
             if (File)
             {
                 fwrite(Message.data(), 1, Message.size(), File);
@@ -143,7 +143,7 @@ void DeviceRemovedHandler(D3D12Device* Device)
         fclose(File);
     }
 
-    PlatformMisc::MessageBox("Error", " [D3D12] Device Removed");
+    CEPlatformMisc::MessageBox("Error", " [D3D12] Device Removed");
 }
 
 D3D12Device::D3D12Device(bool InEnableDebugLayer, bool InEnableGPUValidation, bool InEnableDRED)
@@ -193,23 +193,23 @@ bool D3D12Device::Init()
     DXGILib = ::LoadLibrary(L"dxgi.dll");
     if (DXGILib == NULL)
     {
-        PlatformMisc::MessageBox("ERROR", "FAILED to load dxgi.dll");
+        CEPlatformMisc::MessageBox("ERROR", "FAILED to load dxgi.dll");
         return false;
     }
     else
     {
-        LOG_INFO("Loaded dxgi.dll");
+        CE_LOG_INFO("Loaded dxgi.dll");
     }
 
     D3D12Lib = ::LoadLibrary(L"d3d12.dll");
     if (D3D12Lib == NULL)
     {
-        PlatformMisc::MessageBox("ERROR", "FAILED to load d3d12.dll");
+        CEPlatformMisc::MessageBox("ERROR", "FAILED to load d3d12.dll");
         return false;
     }
     else
     {
-        LOG_INFO("Loaded d3d12.dll");
+        CE_LOG_INFO("Loaded d3d12.dll");
     }
 
     CreateDXGIFactory2Func = GetTypedProcAddress<PFN_CREATE_DXGI_FACTORY_2>(DXGILib, "CreateDXGIFactory2");
@@ -237,18 +237,18 @@ bool D3D12Device::Init()
         PIXLib = LoadLibrary(L"WinPixEventRuntime.dll");
         if (PIXLib != NULL)
         {
-            LOG_INFO("Loaded WinPixEventRuntime.dll");
+            CE_LOG_INFO("Loaded WinPixEventRuntime.dll");
             SetMarkerOnCommandListFunc = GetTypedProcAddress<PFN_SetMarkerOnCommandList>(PIXLib, "PIXSetMarkerOnCommandList");
         }
         else
         {
-            LOG_INFO("PIX Runtime NOT found");
+            CE_LOG_INFO("PIX Runtime NOT found");
         }
 
         TComPtr<ID3D12Debug> DebugInterface;
         if (FAILED(D3D12GetDebugInterfaceFunc(IID_PPV_ARGS(&DebugInterface))))
         {
-            LOG_ERROR("[D3D12Device]: FAILED to enable DebugLayer");
+            CE_LOG_ERROR("[D3D12Device]: FAILED to enable DebugLayer");
             return false;
         }
         else
@@ -266,7 +266,7 @@ bool D3D12Device::Init()
             }
             else
             {
-                LOG_ERROR("[D3D12Device]: FAILED to enable DRED");
+                CE_LOG_ERROR("[D3D12Device]: FAILED to enable DRED");
             }
         }
 
@@ -275,7 +275,7 @@ bool D3D12Device::Init()
             TComPtr<ID3D12Debug1> DebugInterface1;
             if (FAILED(DebugInterface.As(&DebugInterface1)))
             {
-                LOG_ERROR("[D3D12Device]: FAILED to enable GPU- Validation");
+                CE_LOG_ERROR("[D3D12Device]: FAILED to enable GPU- Validation");
                 return false;
             }
             else
@@ -292,7 +292,7 @@ bool D3D12Device::Init()
         }
         else
         {
-            LOG_ERROR("[D3D12Device]: FAILED to retrive InfoQueue");
+            CE_LOG_ERROR("[D3D12Device]: FAILED to retrive InfoQueue");
         }
 
         TComPtr<IDXGraphicsAnalysis> TempPIXCaptureInterface;
@@ -302,14 +302,14 @@ bool D3D12Device::Init()
         }
         else
         {
-            LOG_INFO("[D3D12Device]: PIX is not connected to the application");
+            CE_LOG_INFO("[D3D12Device]: PIX is not connected to the application");
         }
     }
 
     // Create factory
     if (FAILED(CreateDXGIFactory2Func(0, IID_PPV_ARGS(&Factory))))
     {
-        LOG_ERROR("[D3D12Device]: FAILED to create factory");
+        CE_LOG_ERROR("[D3D12Device]: FAILED to create factory");
         return false;
     }
     else
@@ -318,7 +318,7 @@ bool D3D12Device::Init()
         TComPtr<IDXGIFactory5> Factory5;
         if (FAILED(Factory.As(&Factory5)))
         {
-            LOG_ERROR("[D3D12Device]: FAILED to retrive IDXGIFactory5");
+            CE_LOG_ERROR("[D3D12Device]: FAILED to retrive IDXGIFactory5");
             return false;
         }
         else
@@ -328,11 +328,11 @@ bool D3D12Device::Init()
             {
                 if (AllowTearing)
                 {
-                    LOG_INFO("[D3D12Device]: Tearing is supported");
+                    CE_LOG_INFO("[D3D12Device]: Tearing is supported");
                 }
                 else
                 {
-                    LOG_INFO("[D3D12Device]: Tearing is NOT supported");
+                    CE_LOG_INFO("[D3D12Device]: Tearing is NOT supported");
                 }
             }
         }
@@ -345,7 +345,7 @@ bool D3D12Device::Init()
         DXGI_ADAPTER_DESC1 Desc;
         if (FAILED(TempAdapter->GetDesc1(&Desc)))
         {
-            LOG_ERROR("[D3D12Device]: FAILED to retrive DXGI_ADAPTER_DESC1");
+            CE_LOG_ERROR("[D3D12Device]: FAILED to retrive DXGI_ADAPTER_DESC1");
             return false;
         }
 
@@ -362,7 +362,7 @@ bool D3D12Device::Init()
 
             char Buff[256] = {};
             sprintf_s(Buff, "[D3D12Device]: Direct3D Adapter (%u): %ls", AdapterID, Desc.Description);
-            LOG_INFO(Buff);
+            CE_LOG_INFO(Buff);
 
             break;
         }
@@ -370,7 +370,7 @@ bool D3D12Device::Init()
 
     if (!TempAdapter)
     {
-        LOG_ERROR("[D3D12Device]: FAILED to retrive adapter");
+        CE_LOG_ERROR("[D3D12Device]: FAILED to retrive adapter");
         return false;
     }
     else
@@ -381,12 +381,12 @@ bool D3D12Device::Init()
     // Create Device
     if (FAILED(D3D12CreateDeviceFunc(Adapter.Get(), MinFeatureLevel, IID_PPV_ARGS(&Device))))
     {
-        PlatformMisc::MessageBox("ERROR", "FAILED to create device");
+        CEPlatformMisc::MessageBox("ERROR", "FAILED to create device");
         return false;
     }
     else
     {
-        LOG_INFO("[D3D12Device]: Created Device");
+        CE_LOG_INFO("[D3D12Device]: Created Device");
     }
 
     // Configure debug device (if active).
@@ -416,7 +416,7 @@ bool D3D12Device::Init()
     // Get DXR Interfaces
     if (FAILED(Device.As<ID3D12Device5>(&DXRDevice)))
     {
-        LOG_ERROR("[D3D12Device]: Failed to retrive DXR-Device");
+        CE_LOG_ERROR("[D3D12Device]: Failed to retrive DXR-Device");
         return false;
     }
 
@@ -497,7 +497,7 @@ int32 D3D12Device::GetMultisampleQuality(DXGI_FORMAT Format, uint32 SampleCount)
     HRESULT hr = Device->CheckFeatureSupport(D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS, &Data, sizeof(D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS));
     if (FAILED(hr))
     {
-        LOG_ERROR("[D3D12Device] CheckFeatureSupport failed");
+        CE_LOG_ERROR("[D3D12Device] CheckFeatureSupport failed");
         return 0;
     }
 

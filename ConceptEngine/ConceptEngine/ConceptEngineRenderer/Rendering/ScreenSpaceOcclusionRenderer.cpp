@@ -3,7 +3,7 @@
 #include "../RenderLayer/RenderLayer.h"
 #include "../RenderLayer/ShaderCompiler.h"
 
-#include "../Debug/Profiler.h"
+#include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
 
 TConsoleVariable<float> GSSAORadius(0.3f);

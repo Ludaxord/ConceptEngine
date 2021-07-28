@@ -5,9 +5,9 @@
 #include "../../Core/Application/Application.h"
 #include "../../Core/Application/Generic/GenericOutputConsole.h"
 #include "../../Core/Application/Platform/Platform.h"
-#include "../../Core/Application/Platform/PlatformMisc.h"
+#include "../../Core/Application/Platform/CEPlatformMisc.h"
 #include "../../Core/Input/InputManager.h"
-#include "../../Core/Threading/TaskManager.h"
+#include "../../Core/Threading/CETaskManager.h"
 
 #include "../../Rendering/DebugUI.h"
 #include "../../Rendering/Renderer.h"
@@ -15,7 +15,7 @@
 
 #include "../../Editor/Editor.h"
 
-#include "../../Debug/Profiler.h"
+#include "../../Debug/CEProfiler.h"
 #include "../../Debug/Console/Console.h"
 
 #include "../../Memory/Memory.h"
@@ -38,15 +38,15 @@ bool EngineLoop::Init()
         GConsoleOutput->SetTitle("ConceptEngine Error Console");
     }
 
-    Profiler::Init();
+    CEProfiler::Create();
 
     if (!Platform::Init())
     {
-        PlatformMisc::MessageBox("ERROR", "Failed to init Platform");
+        CEPlatformMisc::MessageBox("ERROR", "Failed to init Platform");
         return false;
     }
 
-    if (!TaskManager::Get().Init())
+    if (!CETaskManager::Get().Create())
     {
         return false;
     }
@@ -85,7 +85,7 @@ bool EngineLoop::Init()
 
     if (!GRenderer.Init())
     {
-        PlatformMisc::MessageBox("ERROR", "FAILED to create Renderer");
+        CEPlatformMisc::MessageBox("ERROR", "FAILED to create Renderer");
         return false;
     }
 
@@ -93,7 +93,7 @@ bool EngineLoop::Init()
 
     if (!DebugUI::Init())
     {
-        PlatformMisc::MessageBox("ERROR", "FAILED to create ImGuiContext");
+        CEPlatformMisc::MessageBox("ERROR", "FAILED to create ImGuiContext");
         return false;
     }
 
@@ -102,7 +102,7 @@ bool EngineLoop::Init()
     return true;
 }
 
-void EngineLoop::Tick(Timestamp Deltatime)
+void EngineLoop::Tick(CETimestamp Deltatime)
 {
     TRACE_FUNCTION_SCOPE();
 
@@ -114,7 +114,7 @@ void EngineLoop::Tick(Timestamp Deltatime)
 
     Editor::Tick();
 
-    Profiler::Tick();
+    CEProfiler::Update();
 
     GRenderer.Tick(*GApplication->Scene);
 }
@@ -162,7 +162,7 @@ bool EngineLoop::Release()
 
     RenderLayer::Release();
 
-    TaskManager::Get().Release();
+    CETaskManager::Get().Release();
 
     if (!Platform::Release())
     {

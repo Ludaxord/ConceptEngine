@@ -88,7 +88,7 @@ void D3D12GPUProfiler::ResolveQueries(class D3D12CommandContext& CmdContext)
     HRESULT Result = CmdQueue->GetTimestampFrequency(&Frequency);
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12GPUProfiler] FAILED to query ClockCalibration");
+        CE_LOG_ERROR("[D3D12GPUProfiler] FAILED to query ClockCalibration");
     }
 }
 
@@ -109,7 +109,7 @@ D3D12GPUProfiler* D3D12GPUProfiler::Create(D3D12Device* InDevice)
     HRESULT Result = DxDevice->CreateQueryHeap(&QueryHeap, IID_PPV_ARGS(&Heap));
     if (FAILED(Result))
     {
-        LOG_ERROR("[D3D12GPUProfiler]: FAILED to create Query Heap");
+        CE_LOG_ERROR("[D3D12GPUProfiler]: FAILED to create Query Heap");
         return nullptr;
     }
 

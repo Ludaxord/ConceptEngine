@@ -45,7 +45,7 @@ bool WindowsPlatform::RegisterWindowClass()
     ATOM ClassAtom = RegisterClass(&WindowClass);
     if (ClassAtom == 0)
     {
-        LOG_ERROR("[WindowsPlatform]: FAILED to register WindowClass\n");
+        CE_LOG_ERROR("[WindowsPlatform]: FAILED to register WindowClass\n");
         return false;
     }
 

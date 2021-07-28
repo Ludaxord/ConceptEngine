@@ -3,7 +3,7 @@
 
 #include "../../../Core/RefCountedObject.h"
 
-#include "../../../Time/Timestamp.h"
+#include "../../../Time/CETimestamp.h"
 
 typedef void(*ThreadFunction)();
 typedef uint64 ThreadID;

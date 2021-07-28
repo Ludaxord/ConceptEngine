@@ -20,7 +20,7 @@ public:
         return (ThreadID)CurrentID;
     }
 
-    FORCEINLINE static void Sleep(Timestamp Time) 
+    FORCEINLINE static void Sleep(CETimestamp Time) 
     {
         DWORD Milliseconds = (DWORD)Time.AsMilliSeconds();
         ::Sleep(Milliseconds);
