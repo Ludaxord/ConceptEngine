@@ -116,6 +116,13 @@
     <ClInclude Include="Debug\CEProfiler.h" />
     <ClInclude Include="Editor\Editor.h" />
     <ClInclude Include="Exception\CEException.h" />
+    <ClInclude Include="Graphics\CEGraphics.h" />
+    <ClInclude Include="Graphics\D3D11\CEDirectX11.h" />
+    <ClInclude Include="Graphics\D3D12\CEDirectX12.h" />
+    <ClInclude Include="Graphics\Metal\CEMetal.h" />
+    <ClInclude Include="Graphics\OpenGL\CEOpenGL.h" />
+    <ClInclude Include="Graphics\Vulkan\CEVulkan.h" />
+    <ClInclude Include="Graphics\WebGL\CEWebGL.h" />
     <ClInclude Include="Main\EngineMain.h" />
     <ClInclude Include="Math\Color.h" />
     <ClInclude Include="Math\Float.h" />
@@ -123,6 +130,12 @@
     <ClInclude Include="Memory\LinearAllocator.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Memory\New.h" />
+    <ClInclude Include="Platform\Android\CEAndroid.h" />
+    <ClInclude Include="Platform\CEPlatform.h" />
+    <ClInclude Include="Platform\iOS\CEiOS.h" />
+    <ClInclude Include="Platform\Linux\CELinux.h" />
+    <ClInclude Include="Platform\Mac\CEMac.h" />
+    <ClInclude Include="Platform\Windows\CEWindows.h" />
     <ClInclude Include="PreCompiled.h" />
     <ClInclude Include="Project\CEPlayground.h" />
     <ClInclude Include="Rendering\DebugUI.h" />
@@ -225,11 +238,24 @@
     <ClCompile Include="Debug\Console\Console.cpp" />
     <ClCompile Include="Debug\CEProfiler.cpp" />
     <ClCompile Include="Editor\Editor.cpp" />
+    <ClCompile Include="Graphics\CEGraphics.cpp" />
+    <ClCompile Include="Graphics\D3D11\CEDirectX11.cpp" />
+    <ClCompile Include="Graphics\D3D12\CEDirectX12.cpp" />
+    <ClCompile Include="Graphics\Metal\CEMetal.cpp" />
+    <ClCompile Include="Graphics\OpenGL\CEOpenGL.cpp" />
+    <ClCompile Include="Graphics\Vulkan\CEVulkan.cpp" />
+    <ClCompile Include="Graphics\WebGL\CEWebGL.cpp" />
     <ClCompile Include="Main\EngineMain.cpp" />
     <ClCompile Include="Main\Windows\WindowsMain.cpp" />
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\Memory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="Platform\Android\CEAndroid.cpp" />
+    <ClCompile Include="Platform\CEPlatform.cpp" />
+    <ClCompile Include="Platform\iOS\CEiOS.cpp" />
+    <ClCompile Include="Platform\Linux\CELinux.cpp" />
+    <ClCompile Include="Platform\Mac\CEMac.cpp" />
+    <ClCompile Include="Platform\Windows\CEWindows.cpp" />
     <ClCompile Include="PreCompiled.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PreCompiled.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
