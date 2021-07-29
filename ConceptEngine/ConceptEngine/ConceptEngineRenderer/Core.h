@@ -1,4 +1,5 @@
 #pragma once
+//TODO: Rename file to CEDefinitions
 #include "Core/Engine/EngineGlobals.h"
 
 #include "Memory/New.h"
