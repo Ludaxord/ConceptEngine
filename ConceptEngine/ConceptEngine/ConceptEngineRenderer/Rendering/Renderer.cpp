@@ -553,7 +553,7 @@ void Renderer::Tick(const Scene& Scene)
     {
         TRACE_SCOPE("Render UI");
 
-        DebugUI::DrawUI([]()
+        CEDebugUI::DrawUI([]()
         {
             GRenderer.RenderDebugInterface();
         });
@@ -564,7 +564,7 @@ void Renderer::Tick(const Scene& Scene)
             CmdList.SetShadingRateImage(nullptr);
         }
 
-        DebugUI::Render(CmdList);
+        CEDebugUI::Render(CmdList);
     }
 
     INSERT_DEBUG_CMDLIST_MARKER(CmdList, "End UI Render");
@@ -817,7 +817,7 @@ void Renderer::OnWindowResize(const WindowResizeEvent& Event)
 
 bool Renderer::InitBoundingBoxDebugPass()
 {
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
@@ -934,7 +934,7 @@ bool Renderer::InitBoundingBoxDebugPass()
         AABBDebugPipelineState->SetName("Debug PipelineState");
     }
 
-    TStaticArray<XMFLOAT3, 8> Vertices =
+    CEStaticArray<XMFLOAT3, 8> Vertices =
     {
         XMFLOAT3(-0.5f, -0.5f,  0.5f),
         XMFLOAT3( 0.5f, -0.5f,  0.5f),
@@ -961,7 +961,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     }
 
     // Create IndexBuffer
-    TStaticArray<uint16, 24> Indices =
+    CEStaticArray<uint16, 24> Indices =
     {
         0, 1,
         1, 3,
@@ -995,7 +995,7 @@ bool Renderer::InitBoundingBoxDebugPass()
 
 bool Renderer::InitAA()
 {
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
@@ -1141,7 +1141,7 @@ bool Renderer::InitAA()
         FXAAPSO->SetName("FXAA PipelineState");
     }
 
-    TArray<ShaderDefine> Defines =
+    CEArray<ShaderDefine> Defines =
     {
         ShaderDefine("ENABLE_DEBUG", "1")
     };
@@ -1202,7 +1202,7 @@ bool Renderer::InitShadingImage()
         ShadingImage->SetName("Shading Rate Image");
     }
 
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadingImage.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();

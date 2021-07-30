@@ -82,7 +82,7 @@ struct ProfileSample
         Clock.Reset();
     }
 
-    TStaticArray<float, NUM_PROFILER_SAMPLES> Samples;
+    CEStaticArray<float, NUM_PROFILER_SAMPLES> Samples;
     Timer Clock;
     float Max           = -FLT_MAX;
     float Min           = FLT_MAX;
@@ -134,7 +134,7 @@ struct GPUProfileSample
         Min           = FLT_MAX;
     }
 
-    TStaticArray<float, NUM_PROFILER_SAMPLES> Samples;
+    CEStaticArray<float, NUM_PROFILER_SAMPLES> Samples;
     float  Max            = -FLT_MAX;
     float  Min            = FLT_MAX;
     int32  SampleCount    = 0;
@@ -657,7 +657,7 @@ void CEProfiler::Update()
 
     if (GDrawFps.GetBool())
     {
-        DebugUI::DrawUI(DrawFPS);
+        CEDebugUI::DrawUI(DrawFPS);
     }
 
     if (GDrawProfiler.GetBool())
@@ -677,7 +677,7 @@ void CEProfiler::Update()
             }
         }
 
-        DebugUI::DrawUI(DrawProfiler);
+        CEDebugUI::DrawUI(DrawProfiler);
     }
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Core.h"
+#include "../../CEDefinitions.h"
 
 #include "../../Core/Threading/Platform/PlatformAtomic.h"
 

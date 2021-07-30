@@ -1,13 +1,13 @@
 #pragma once
-#include "../../Core.h"
+#include "../../CEDefinitions.h"
 
 #include "../../Core/Input/InputCodes.h"
-#include "../../Core/Application/Generic/GenericPlatform.h"
+#include "../../Core/Application/Generic/CEGenericPlatform.h"
 #include "../../Core/Application/Generic/GenericWindow.h"
 
 struct KeyPressedEvent
 {
-    KeyPressedEvent(EKey InKey, bool InIsRepeat, const ModifierKeyState& InModifiers)
+    KeyPressedEvent(EKey InKey, bool InIsRepeat, const CEModifierKeyState& InModifiers)
         : Key(InKey)
         , IsRepeat(InIsRepeat)
         , Modifiers(InModifiers)
@@ -16,19 +16,19 @@ struct KeyPressedEvent
 
     EKey Key;
     bool IsRepeat;
-    ModifierKeyState Modifiers;
+    CEModifierKeyState Modifiers;
 };
 
 struct KeyReleasedEvent
 {
-    KeyReleasedEvent(EKey InKey, const ModifierKeyState& InModifiers)
+    KeyReleasedEvent(EKey InKey, const CEModifierKeyState& InModifiers)
         : Key(InKey)
         , Modifiers(InModifiers)
     {
     }
 
     EKey             Key;
-    ModifierKeyState Modifiers;
+    CEModifierKeyState Modifiers;
 };
 
 struct KeyTypedEvent
@@ -60,26 +60,26 @@ struct MouseMovedEvent
 
 struct MousePressedEvent
 {
-    MousePressedEvent(EMouseButton InButton, const ModifierKeyState& InModifiers)
+    MousePressedEvent(EMouseButton InButton, const CEModifierKeyState& InModifiers)
         : Button(InButton)
         , Modifiers(InModifiers)
     {
     }
 
     EMouseButton     Button;
-    ModifierKeyState Modifiers;
+    CEModifierKeyState Modifiers;
 };
 
 struct MouseReleasedEvent
 {
-    MouseReleasedEvent(EMouseButton InButton, const ModifierKeyState& InModifiers)
+    MouseReleasedEvent(EMouseButton InButton, const CEModifierKeyState& InModifiers)
         : Button(InButton)
         , Modifiers(InModifiers)
     {
     }
 
     EMouseButton     Button;
-    ModifierKeyState Modifiers;
+    CEModifierKeyState Modifiers;
 };
 
 struct MouseScrolledEvent

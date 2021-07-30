@@ -51,13 +51,13 @@ void Engine::Exit()
     IsRunning = false;
 }
 
-void Engine::OnKeyReleased(EKey KeyCode, const ModifierKeyState& ModfierKeyState)
+void Engine::OnKeyReleased(EKey KeyCode, const CEModifierKeyState& ModfierKeyState)
 {
     KeyReleasedEvent Event(KeyCode, ModfierKeyState);
     OnKeyReleasedEvent.Broadcast(Event);
 }
 
-void Engine::OnKeyPressed(EKey KeyCode, bool IsRepeat, const ModifierKeyState& ModfierKeyState)
+void Engine::OnKeyPressed(EKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModfierKeyState)
 {
     KeyPressedEvent Event(KeyCode, IsRepeat, ModfierKeyState);
     OnKeyPressedEvent.Broadcast(Event);
@@ -75,7 +75,7 @@ void Engine::OnMouseMove(int32 x, int32 y)
     OnMouseMoveEvent.Broadcast(Event);
 }
 
-void Engine::OnMouseReleased(EMouseButton Button, const ModifierKeyState& ModfierKeyState)
+void Engine::OnMouseReleased(EMouseButton Button, const CEModifierKeyState& ModfierKeyState)
 {
     GenericWindow* CaptureWindow = Platform::GetCapture();
     if (CaptureWindow)
@@ -87,7 +87,7 @@ void Engine::OnMouseReleased(EMouseButton Button, const ModifierKeyState& Modfie
     OnMouseReleasedEvent.Broadcast(Event);
 }
 
-void Engine::OnMousePressed(EMouseButton Button, const ModifierKeyState& ModfierKeyState)
+void Engine::OnMousePressed(EMouseButton Button, const CEModifierKeyState& ModfierKeyState)
 {
     GenericWindow* CaptureWindow = Platform::GetCapture();
     if (!CaptureWindow)

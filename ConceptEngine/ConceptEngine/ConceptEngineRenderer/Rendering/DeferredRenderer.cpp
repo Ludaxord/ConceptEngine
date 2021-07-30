@@ -35,9 +35,9 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         }
     }
 
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     {
-        TArray<ShaderDefine> Defines =
+        CEArray<ShaderDefine> Defines =
         {
             { "ENABLE_PARALLAX_MAPPING", "1" },
             { "ENABLE_NORMAL_MAPPING",   "1" },
@@ -373,7 +373,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     }
 
     {
-        TArray<ShaderDefine> Defines =
+        CEArray<ShaderDefine> Defines =
         {
             ShaderDefine("DRAW_TILE_DEBUG", "1")
         };

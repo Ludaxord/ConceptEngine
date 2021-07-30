@@ -21,7 +21,7 @@ void D3D12ResourceBarrierBatcher::AddTransitionBarrier(ID3D12Resource* Resource,
     if (BeforeState != AfterState)
     {
         // Make sure we are not already have transition for this resource
-        for (TArray<D3D12_RESOURCE_BARRIER>::Iterator It = Barriers.Begin(); It != Barriers.End(); It++)
+        for (CEArray<D3D12_RESOURCE_BARRIER>::Iterator It = Barriers.Begin(); It != Barriers.End(); It++)
         {
             if ((*It).Type == D3D12_RESOURCE_BARRIER_TYPE_TRANSITION)
             {
@@ -255,7 +255,7 @@ bool D3D12CommandContext::Init()
         return false;
     }
 
-    TArray<uint8> Code;
+    CEArray<uint8> Code;
     if (!gD3D12ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTex2D.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         CE_LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTex2D Shader");

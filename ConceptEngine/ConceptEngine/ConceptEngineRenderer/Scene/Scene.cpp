@@ -141,7 +141,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
     BaseMaterial->Init();
 
     // Create All Materials in scene
-    TArray<TSharedPtr<Material>> LoadedMaterials;
+    CEArray<TSharedPtr<Material>> LoadedMaterials;
     std::unordered_map<std::string, TRef<Texture2D>> MaterialTextures;
     for (tinyobj::material_t& Mat : Materials)
     {

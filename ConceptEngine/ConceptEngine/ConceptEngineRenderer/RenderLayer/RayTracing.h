@@ -116,8 +116,8 @@ struct RayTracingShaderResources
     }
 
     std::string Identifier;
-    TArray<ConstantBuffer*>      ConstantBuffers;
-    TArray<ShaderResourceView*>  ShaderResourceViews;
-    TArray<UnorderedAccessView*> UnorderedAccessViews;
-    TArray<SamplerState*>        SamplerStates;
+    CEArray<ConstantBuffer*>      ConstantBuffers;
+    CEArray<ShaderResourceView*>  ShaderResourceViews;
+    CEArray<UnorderedAccessView*> UnorderedAccessViews;
+    CEArray<SamplerState*>        SamplerStates;
 };

@@ -28,10 +28,17 @@ ConceptEngine::ConceptEngine(const std::wstring& Name, ::GraphicsAPI GApi, ::Pla
 ConceptEngine::ConceptEngine(CEEngineConfig& EConfig) : EngineConfig(EConfig) {
 }
 
-void ConceptEngine::Run() {
+void ConceptEngine::Run() const {
+	Core->Run();
 }
 
-bool ConceptEngine::Release() {
+bool ConceptEngine::Release() const {
+	if (!Core->Release()) {
+		CEPlatformMisc::MessageBox("Error", "Failed to Release Concept Engine");
+		return false;
+	}
+
+	return true;
 }
 
 CECore* ConceptEngine::GetCore() const {
@@ -42,11 +49,17 @@ CEEngineConfig ConceptEngine::GetEngineConfig() const {
 	return EngineConfig;
 }
 
-bool ConceptEngine::Create() {
+bool ConceptEngine::Create() const {
+	if (!Core->Create()) {
+		CEPlatformMisc::MessageBox("Error", "Failed to Create Concept Engine");
+		return false;
+	}
+
+	return true;
 }
 
 bool ConceptEngine::CreateEditor() {
-	Core = new CEEditor();
+	Core = new CEEditor(EngineConfig);
 	if (!Core) {
 		CEDebug::DebugBreak();
 		return false;
@@ -56,7 +69,7 @@ bool ConceptEngine::CreateEditor() {
 }
 
 bool ConceptEngine::CreateRuntime() {
-	Core = new CERuntime();
+	Core = new CERuntime(EngineConfig);
 	if (!Core) {
 		CEDebug::DebugBreak();
 		return false;
@@ -66,7 +79,7 @@ bool ConceptEngine::CreateRuntime() {
 }
 
 bool ConceptEngine::CreateDebugRuntime() {
-	Core = new CEDebugRuntime();
+	Core = new CEDebugRuntime(EngineConfig);
 	if (!Core) {
 		CEDebug::DebugBreak();
 		return false;

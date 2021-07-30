@@ -35,7 +35,7 @@ namespace ConceptEngine::Graphics::Main {
 		Managers::CERendererManager* RendererManager;
 		CEMeshManager* MeshManager;
 
-		inline static std::unique_ptr<Rendering::CEDebugUI> DebugUI;
+		inline static std::unique_ptr<Rendering::CEDebugUI> DebugUI;	
 	private:
 		virtual bool CreateGraphicsManager() = 0;
 		virtual bool CreateShaderCompiler() = 0;

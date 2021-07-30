@@ -1,4 +1,4 @@
 #pragma once
-#include "../Core.h"
+#include "../CEDefinitions.h"
 
 int32 EngineMain();

@@ -114,7 +114,7 @@ public:
     D3D12Resource* GetBindingTable()  const { return BindingTable.Get(); }
 
 private:
-    TArray<RayTracingGeometryInstance> Instances;
+    CEArray<RayTracingGeometryInstance> Instances;
     TRef<D3D12ShaderResourceView>      View;
     
     TRef<D3D12Resource> ResultBuffer;

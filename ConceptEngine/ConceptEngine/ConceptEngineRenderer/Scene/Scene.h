@@ -25,11 +25,11 @@ public:
     void OnAddedComponent(Component* NewComponent);
 
     template<typename TComponent>
-    FORCEINLINE const TArray<TComponent> GetAllComponentsOfType() const
+    FORCEINLINE const CEArray<TComponent> GetAllComponentsOfType() const
     {
         // TODO: Cache this result
 
-        TArray<TComponent> Components;
+        CEArray<TComponent> Components;
         for (Actor* Actor : Actors)
         {
             TComponent* Component = Actor->GetComponentOfType<TComponent>();
@@ -42,10 +42,10 @@ public:
         return Move(Components);
     }
 
-    const TArray<Actor*>& GetActors() const { return Actors; }
-    const TArray<Light*>& GetLights() const { return Lights; }
+    const CEArray<Actor*>& GetActors() const { return Actors; }
+    const CEArray<Light*>& GetLights() const { return Lights; }
 
-    const TArray<MeshDrawCommand>& GetMeshDrawCommands() const { return MeshDrawCommands; }
+    const CEArray<MeshDrawCommand>& GetMeshDrawCommands() const { return MeshDrawCommands; }
      
     Camera* GetCamera() const { return CurrentCamera; }
 
@@ -54,9 +54,9 @@ public:
 private:
     void AddMeshComponent(class MeshComponent* Component);
 
-    TArray<Actor*> Actors;
-    TArray<Light*> Lights;
-    TArray<MeshDrawCommand> MeshDrawCommands;
+    CEArray<Actor*> Actors;
+    CEArray<Light*> Lights;
+    CEArray<MeshDrawCommand> MeshDrawCommands;
 
     Camera* CurrentCamera = nullptr;
 };

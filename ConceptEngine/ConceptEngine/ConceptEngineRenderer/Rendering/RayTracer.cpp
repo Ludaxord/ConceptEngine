@@ -10,7 +10,7 @@
 
 bool RayTracer::Init(FrameResources& Resources)
 {
-    TArray<uint8> Code;
+    CEArray<uint8> Code;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/RayGen.hlsl", "RayGen", nullptr, EShaderStage::RayGen, EShaderModel::SM_6_3, Code))
     {
         CEDebug::DebugBreak();

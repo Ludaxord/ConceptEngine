@@ -40,18 +40,18 @@ public:
     virtual bool CompileFromFile(
         const std::string& FilePath,
         const std::string& EntryPoint,
-        const TArray<ShaderDefine>* Defines,
+        const CEArray<ShaderDefine>* Defines,
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        TArray<uint8>& Code) = 0;
+        CEArray<uint8>& Code) = 0;
 
     virtual bool CompileShader(
         const std::string& ShaderSource,
         const std::string& EntryPoint,
-        const TArray<ShaderDefine>* Defines,
+        const CEArray<ShaderDefine>* Defines,
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        TArray<uint8>& Code) = 0;
+        CEArray<uint8>& Code) = 0;
 };
 
 class ShaderCompiler
@@ -60,10 +60,10 @@ public:
     FORCEINLINE static bool CompileFromFile(
         const std::string& FilePath,
         const std::string& EntryPoint,
-        const TArray<ShaderDefine>* Defines,
+        const CEArray<ShaderDefine>* Defines,
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        TArray<uint8>& Code)
+        CEArray<uint8>& Code)
     {
         return gShaderCompiler->CompileFromFile(FilePath, EntryPoint, Defines, ShaderStage, ShaderModel, Code);
     }
@@ -71,10 +71,10 @@ public:
     FORCEINLINE static bool CompileShader(
         const std::string& ShaderSource,
         const std::string& EntryPoint,
-        const TArray<ShaderDefine>* Defines,
+        const CEArray<ShaderDefine>* Defines,
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        TArray<uint8>& Code)
+        CEArray<uint8>& Code)
     {
         return gShaderCompiler->CompileShader(ShaderSource, EntryPoint, Defines, ShaderStage, ShaderModel, Code);
     }

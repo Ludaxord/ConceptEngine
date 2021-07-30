@@ -10,7 +10,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
         return false;
     }
 
-    TArray<uint8> Code;
+    CEArray<uint8> Code;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         CE_LOG_ERROR("Failed to compile IrradianceGen Shader");

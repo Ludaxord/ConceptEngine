@@ -6,7 +6,7 @@
 #include "../../Core/Application/Generic/GenericOutputConsole.h"
 #include "../../Core/Application/Platform/Platform.h"
 #include "../../Core/Application/Platform/CEPlatformMisc.h"
-#include "../../Core/Input/InputManager.h"
+#include "../../Core/Input/CEInputManager.h"
 #include "../../Core/Threading/CETaskManager.h"
 
 #include "../../Rendering/DebugUI.h"
@@ -78,7 +78,7 @@ bool EngineLoop::Init()
         return false;
     }
 
-    if (!InputManager::Get().Init())
+    if (!CEInputManager::Get().Create())
     {
         return false;
     }
@@ -91,7 +91,7 @@ bool EngineLoop::Init()
 
     GConsole.Init();
 
-    if (!DebugUI::Init())
+    if (!CEDebugUI::Create())
     {
         CEPlatformMisc::MessageBox("ERROR", "FAILED to create ImGuiContext");
         return false;
@@ -156,7 +156,7 @@ bool EngineLoop::Release()
         return false;
     }
 
-    DebugUI::Release();
+    CEDebugUI::Release();
 
     GRenderer.Release();
 

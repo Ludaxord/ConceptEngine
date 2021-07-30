@@ -93,8 +93,8 @@ bool D3D12GraphicsPipelineState::Init(const GraphicsPipelineStateCreateInfo& Cre
         InputLayoutDesc = DxInputLayoutState->GetDesc();
     }
 
-    TArray<D3D12BaseShader*> ShadersWithRootSignature;
-    TArray<D3D12BaseShader*> BaseShaders;
+    CEArray<D3D12BaseShader*> ShadersWithRootSignature;
+    CEArray<D3D12BaseShader*> BaseShaders;
 
     // VertexShader
     D3D12VertexShader* DxVertexShader = static_cast<D3D12VertexShader*>(CreateInfo.ShaderState.VertexShader);
@@ -307,7 +307,7 @@ bool D3D12ComputePipelineState::Init()
 
 struct D3D12RootSignatureAssociation
 {
-    D3D12RootSignatureAssociation(ID3D12RootSignature* InRootSignature, const TArray<std::wstring>& InShaderExportNames)
+    D3D12RootSignatureAssociation(ID3D12RootSignature* InRootSignature, const CEArray<std::wstring>& InShaderExportNames)
         : ExportAssociation()
         , RootSignature(InRootSignature)
         , ShaderExportNames(InShaderExportNames)
@@ -321,8 +321,8 @@ struct D3D12RootSignatureAssociation
 
     D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION ExportAssociation;
     ID3D12RootSignature* RootSignature;
-    TArray<std::wstring> ShaderExportNames;
-    TArray<LPCWSTR>      ShaderExportNamesRef;
+    CEArray<std::wstring> ShaderExportNames;
+    CEArray<LPCWSTR>      ShaderExportNamesRef;
 };
 
 struct D3D12HitGroup
@@ -360,7 +360,7 @@ struct D3D12HitGroup
 
 struct D3D12Library
 {
-    D3D12Library(D3D12_SHADER_BYTECODE ByteCode, const TArray<std::wstring>& InExportNames)
+    D3D12Library(D3D12_SHADER_BYTECODE ByteCode, const CEArray<std::wstring>& InExportNames)
         : ExportNames(InExportNames)
         , ExportDescs(InExportNames.Size())
         , Desc()
@@ -378,14 +378,14 @@ struct D3D12Library
         Desc.NumExports  = ExportDescs.Size();
     }
 
-    TArray<std::wstring>      ExportNames;
-    TArray<D3D12_EXPORT_DESC> ExportDescs;
+    CEArray<std::wstring>      ExportNames;
+    CEArray<D3D12_EXPORT_DESC> ExportDescs;
     D3D12_DXIL_LIBRARY_DESC   Desc;
 };
 
 struct D3D12RayTracingPipelineStateStream
 {
-    void AddLibrary(D3D12_SHADER_BYTECODE ByteCode, const TArray<std::wstring>& ExportNames)
+    void AddLibrary(D3D12_SHADER_BYTECODE ByteCode, const CEArray<std::wstring>& ExportNames)
     {
         Libraries.EmplaceBack(ByteCode, ExportNames);
     }
@@ -395,7 +395,7 @@ struct D3D12RayTracingPipelineStateStream
         HitGroups.EmplaceBack(HitGroupName, ClosestHit, AnyHit, Intersection);
     }
 
-    void AddRootSignatureAssociation(ID3D12RootSignature* RootSignature, const TArray<std::wstring>& ShaderExportNames)
+    void AddRootSignatureAssociation(ID3D12RootSignature* RootSignature, const CEArray<std::wstring>& ShaderExportNames)
     {
         RootSignatureAssociations.EmplaceBack(RootSignature, ShaderExportNames);
     }
@@ -462,19 +462,19 @@ struct D3D12RayTracingPipelineStateStream
         ShaderConfigAssociationSubObject.pDesc = &ShaderConfigAssociation;
     }
 
-    TArray<D3D12Library>  Libraries;
-    TArray<D3D12HitGroup> HitGroups;
-    TArray<D3D12RootSignatureAssociation> RootSignatureAssociations;
+    CEArray<D3D12Library>  Libraries;
+    CEArray<D3D12HitGroup> HitGroups;
+    CEArray<D3D12RootSignatureAssociation> RootSignatureAssociations;
 
     D3D12_RAYTRACING_PIPELINE_CONFIG       PipelineConfig;
     D3D12_RAYTRACING_SHADER_CONFIG         ShaderConfig;
     D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION ShaderConfigAssociation;
 
-    TArray<std::wstring> PayLoadExportNames;
-    TArray<LPCWSTR>      PayLoadExportNamesRef;
+    CEArray<std::wstring> PayLoadExportNames;
+    CEArray<LPCWSTR>      PayLoadExportNamesRef;
 
     ID3D12RootSignature* GlobalRootSignature;
-    TArray<D3D12_STATE_SUBOBJECT> SubObjects;
+    CEArray<D3D12_STATE_SUBOBJECT> SubObjects;
 };
 
 D3D12RayTracingPipelineState::D3D12RayTracingPipelineState(D3D12Device* InDevice)
@@ -487,7 +487,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
 {
     D3D12RayTracingPipelineStateStream PipelineStream;
 
-    TArray<D3D12BaseShader*> Shaders;
+    CEArray<D3D12BaseShader*> Shaders;
     D3D12RayGenShader* RayGen = static_cast<D3D12RayGenShader*>(CreateInfo.RayGen);
     Shaders.EmplaceBack(RayGen);
 

@@ -2,10 +2,10 @@
 #include "Utilities.h"
 #include "Iterator.h"
 
-// TArrayView - View of an array similar to std::span
+// CEArrayView - View of an array similar to std::span
 
 template<typename T>
-class TArrayView
+class CEArrayView
 {
 public:
     typedef T*                        Iterator;
@@ -14,40 +14,40 @@ public:
     typedef TReverseIterator<const T> ConstReverseIterator;
     typedef uint32                    SizeType;
 
-    TArrayView() noexcept
+    CEArrayView() noexcept
         : View(nullptr)
         , ViewSize(0)
     {
     }
 
-    template<typename TArrayType>
-    explicit TArrayView(TArrayType& Array) noexcept
+    template<typename CEArrayType>
+    explicit CEArrayView(CEArrayType& Array) noexcept
         : View(Array.Data())
         , ViewSize(Array.Size())
     {
     }
     
     template<const SizeType N>
-    explicit TArrayView(T(&Array)[N]) noexcept
+    explicit CEArrayView(T(&Array)[N]) noexcept
         : View(Array)
         , ViewSize(N)
     {
     }
 
     template<typename TInputIterator>
-    explicit TArrayView(TInputIterator Begin, TInputIterator End) noexcept
+    explicit CEArrayView(TInputIterator Begin, TInputIterator End) noexcept
         : View(Begin)
         , ViewSize(SizeType(End - Begin))
     {
     }
 
-    TArrayView(const TArrayView& Other) noexcept
+    CEArrayView(const CEArrayView& Other) noexcept
         : View(Other.View)
         , ViewSize(Other.ViewSize)
     {
     }
 
-    TArrayView(TArrayView&& Other) noexcept
+    CEArrayView(CEArrayView&& Other) noexcept
         : View(Other.View)
         , ViewSize(Other.ViewSize)
     {
@@ -75,9 +75,9 @@ public:
         return View[Index];
     }
 
-    void Swap(TArrayView& Other) noexcept
+    void Swap(CEArrayView& Other) noexcept
     {
-        TArrayView TempView(::Move(*this));
+        CEArrayView TempView(::Move(*this));
         *this = ::Move(Other);
         Other = ::Move(TempView);
     }
@@ -98,14 +98,14 @@ public:
     T& operator[](SizeType Index) noexcept { return At(Index); }
     const T& operator[](SizeType Index) const noexcept { return At(Index); }
 
-    TArrayView& operator=(const TArrayView& Other) noexcept
+    CEArrayView& operator=(const CEArrayView& Other) noexcept
     {
         View = Other.View;
         ViewSize = Other.ViewSize;
         return *this;
     }
 
-    TArrayView& operator=(TArrayView&& Other) noexcept
+    CEArrayView& operator=(CEArrayView&& Other) noexcept
     {
         if (this != &Other)
         {

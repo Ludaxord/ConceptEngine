@@ -40,9 +40,9 @@ private:
     static void WorkThread();
 
 private:
-    TArray<TRef<GenericThread>> WorkThreads;
+    CEArray<TRef<GenericThread>> WorkThreads;
 
-    TArray<Task> Tasks;
+    CEArray<Task> Tasks;
     Mutex TaskMutex;
 
     Mutex WakeMutex;

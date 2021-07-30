@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Core.h"
+#include "../../CEDefinitions.h"
 
 #include "../../Core/Input/InputCodes.h"
 #include "../../Core/Application/Events.h"
@@ -20,13 +20,13 @@ public:
     void Exit();
 
 public:
-    virtual void OnKeyReleased(EKey KeyCode, const ModifierKeyState& ModierKeyState) override final;
-    virtual void OnKeyPressed(EKey KeyCode, bool IsRepeat, const ModifierKeyState& ModierKeyState) override final;
+    virtual void OnKeyReleased(EKey KeyCode, const CEModifierKeyState& ModierKeyState) override final;
+    virtual void OnKeyPressed(EKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModierKeyState) override final;
     virtual void OnKeyTyped(uint32 Character) override final;
 
     virtual void OnMouseMove(int32 x, int32 y) override final;
-    virtual void OnMouseReleased(EMouseButton Button, const ModifierKeyState& ModierKeyState) override final;
-    virtual void OnMousePressed(EMouseButton Button, const ModifierKeyState& ModierKeyState) override final;
+    virtual void OnMouseReleased(EMouseButton Button, const CEModifierKeyState& ModierKeyState) override final;
+    virtual void OnMousePressed(EMouseButton Button, const CEModifierKeyState& ModierKeyState) override final;
     virtual void OnMouseScrolled(float HorizontalDelta, float VerticalDelta) override final;
 
     virtual void OnWindowResized(const TRef<GenericWindow>& Window, uint16 Width, uint16 Height) override final;

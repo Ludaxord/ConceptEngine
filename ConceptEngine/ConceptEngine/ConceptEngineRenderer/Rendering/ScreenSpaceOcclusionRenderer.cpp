@@ -21,7 +21,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
         return false;
     }
 
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SSAO.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
@@ -59,7 +59,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
 
     XMVECTOR Normal = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
-    TArray<XMFLOAT3> SSAOKernel;
+    CEArray<XMFLOAT3> SSAOKernel;
     for (uint32 i = 0; i < 256 && SSAOKernel.Size() < 64; ++i)
     {
         XMVECTOR XmSample = XMVectorSet(RandomFloats(Generator) * 2.0f - 1.0f, RandomFloats(Generator) * 2.0f - 1.0f, RandomFloats(Generator), 0.0f);
@@ -84,7 +84,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
     }
 
     // Generate noise
-    TArray<Float16> SSAONoise;
+    CEArray<Float16> SSAONoise;
     for (uint32 i = 0; i < 16; i++)
     {
         const float x = RandomFloats(Generator) * 2.0f - 1.0f;
@@ -143,7 +143,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
         SSAOSamplesSRV->SetName("SSAO Samples SRV");
     }
 
-    TArray<ShaderDefine> Defines;
+    CEArray<ShaderDefine> Defines;
     Defines.EmplaceBack("HORIZONTAL_PASS", "1");
 
     // Load shader

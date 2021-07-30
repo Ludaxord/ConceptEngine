@@ -40,7 +40,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     }
 
     // Linear Shadow Maps
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     {
         if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
@@ -458,7 +458,7 @@ bool ShadowMapRenderer::CreateShadowMaps(LightSetup& LightSetup)
         {
             for (uint32 Face = 0; Face < 6; Face++)
             {
-                TStaticArray<TRef<DepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];
+                CEStaticArray<TRef<DepthStencilView>, 6>& DepthCube = LightSetup.PointLightShadowMapDSVs[i];
                 DepthCube[Face] = CreateDepthStencilView(
                     LightSetup.PointLightShadowMaps.Get(), 
                     LightSetup.ShadowMapFormat, 

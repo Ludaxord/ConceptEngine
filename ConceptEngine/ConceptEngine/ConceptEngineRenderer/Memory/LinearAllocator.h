@@ -100,7 +100,7 @@ public:
 
 private:
     MemoryArena* CurrentArena;
-    TArray<MemoryArena> Arenas;
+    CEArray<MemoryArena> Arenas;
 };
 
 void* operator new  (size_t Size, LinearAllocator& Allocator);

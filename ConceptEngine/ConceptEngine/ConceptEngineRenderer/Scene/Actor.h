@@ -124,6 +124,6 @@ public:
 private:
     Scene*    Scene = nullptr;
     Transform Transform;
-    TArray<Component*> Components;
+    CEArray<Component*> Components;
     std::string        Name;
 };

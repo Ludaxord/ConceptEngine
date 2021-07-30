@@ -54,6 +54,6 @@ private:
     uint32 NumBackBuffers  = 0;
     uint32 BackBufferIndex = 0;
 
-    TArray<TRef<D3D12Texture2D>>        BackBuffers;
-    TArray<TRef<D3D12RenderTargetView>> BackBufferViews;
+    CEArray<TRef<D3D12Texture2D>>        BackBuffers;
+    CEArray<TRef<D3D12RenderTargetView>> BackBufferViews;
 };

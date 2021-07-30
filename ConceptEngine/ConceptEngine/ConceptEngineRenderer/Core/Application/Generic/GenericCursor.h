@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Core.h"
+#include "../../../CEDefinitions.h"
 
 #include "../../../Core/RefCountedObject.h"
 #include "../../../Core/Ref.h"

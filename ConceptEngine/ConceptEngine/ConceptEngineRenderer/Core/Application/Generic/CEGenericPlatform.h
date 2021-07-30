@@ -11,12 +11,12 @@ class PlatformCallbacks;
 class GenericWindow;
 class GenericCursor;
 
-struct ModifierKeyState
+struct CEModifierKeyState
 {
 public:
-    ModifierKeyState() = default;
+    CEModifierKeyState() = default;
 
-    ModifierKeyState(uint32 InModifierMask)
+    CEModifierKeyState(uint32 InModifierMask)
         : ModifierMask(InModifierMask)
     {
     }
@@ -31,7 +31,7 @@ public:
     uint32 ModifierMask = 0;
 };
 
-class GenericPlatform
+class CEGenericPlatform
 {
 public:
     static bool Init() { return false; }
@@ -40,7 +40,7 @@ public:
 
     static bool Release() { return false; }
 
-    static ModifierKeyState GetModifierKeyState() { return ModifierKeyState(); }
+    static CEModifierKeyState GetModifierKeyState() { return CEModifierKeyState(); }
 
     static void SetCapture(GenericWindow* Window) {}
     static void SetActiveWindow(GenericWindow* Window) {}

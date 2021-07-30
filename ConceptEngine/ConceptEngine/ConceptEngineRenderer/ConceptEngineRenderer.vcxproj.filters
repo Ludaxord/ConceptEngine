@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core.h">
+    <ClInclude Include="CEDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Windows\Windows.h">
@@ -30,7 +30,7 @@
     <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Generic\GenericPlatform.h">
+    <ClInclude Include="Core\Application\Generic\CEGenericPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Generic\GenericWindow.h">
@@ -129,7 +129,7 @@
     <ClInclude Include="Core\Input\InputCodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Input\InputManager.h">
+    <ClInclude Include="Core\Input\CEInputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Threading\Generic\GenericAtomic.h">
@@ -531,6 +531,36 @@
     <ClInclude Include="Graphics\WebGL\CEWebGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Managers\CEManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CECompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CEPyCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CECSharpCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CEJSCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CEGraphsCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CECppCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Generic\Managers\CEGraphicsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Generic\Managers\CETextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Generic\Managers\CEMeshManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -545,7 +575,7 @@
     <ClCompile Include="Core\Application\Generic\GenericOutputConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Application\Generic\GenericPlatform.cpp">
+    <ClCompile Include="Core\Application\Generic\CEGenericPlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Windows\WindowsCursor.cpp">
@@ -575,7 +605,7 @@
     <ClCompile Include="Core\Engine\EngineLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Input\InputManager.cpp">
+    <ClCompile Include="Core\Input\CEInputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Threading\Windows\WindowsThread.cpp">

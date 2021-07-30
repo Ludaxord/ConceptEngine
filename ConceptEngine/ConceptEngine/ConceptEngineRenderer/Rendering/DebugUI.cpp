@@ -39,7 +39,7 @@ struct ImGuiState
     TRef<VertexBuffer>          VertexBuffer;
     TRef<IndexBuffer>           IndexBuffer;
     TRef<SamplerState>          PointSampler;
-    TArray<ImGuiImage*>         Images;
+    CEArray<ImGuiImage*>         Images;
     
     ImGuiContext* Context = nullptr;
 };
@@ -59,10 +59,10 @@ static uint32 GetMouseButtonIndex(EMouseButton Button)
     }
 }
 
-static TArray<DebugUI::UIDrawFunc> GlobalDrawFuncs;
-static TArray<std::string>         GlobalDebugStrings;
+static CEArray<CEDebugUI::UIDrawFunc> GlobalDrawFuncs;
+static CEArray<std::string>         GlobalDebugStrings;
 
-bool DebugUI::Init()
+bool CEDebugUI::Create()
 {
     // Create context
     IMGUI_CHECKVERSION();
@@ -260,7 +260,7 @@ bool DebugUI::Init()
         return Output;
     })*";
 
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileShader(VSSource, "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
@@ -448,74 +448,74 @@ bool DebugUI::Init()
         return false;
     }
 
-    GEngine.OnKeyPressedEvent.AddFunction(DebugUI::OnKeyPressed);
-    GEngine.OnKeyReleasedEvent.AddFunction(DebugUI::OnKeyReleased);
-    GEngine.OnKeyTypedEvent.AddFunction(DebugUI::OnKeyTyped);
+    GEngine.OnKeyPressedEvent.AddFunction(CEDebugUI::OnKeyPressed);
+    GEngine.OnKeyReleasedEvent.AddFunction(CEDebugUI::OnKeyReleased);
+    GEngine.OnKeyTypedEvent.AddFunction(CEDebugUI::OnKeyTyped);
 
-    GEngine.OnMousePressedEvent.AddFunction(DebugUI::OnMousePressed);
-    GEngine.OnMouseReleasedEvent.AddFunction(DebugUI::OnMouseReleased);
-    GEngine.OnMouseScrolledEvent.AddFunction(DebugUI::OnMouseScrolled);
+    GEngine.OnMousePressedEvent.AddFunction(CEDebugUI::OnMousePressed);
+    GEngine.OnMouseReleasedEvent.AddFunction(CEDebugUI::OnMouseReleased);
+    GEngine.OnMouseScrolledEvent.AddFunction(CEDebugUI::OnMouseScrolled);
 
     return true;
 }
 
-void DebugUI::Release()
+void CEDebugUI::Release()
 {
     GlobalImGuiState.Reset();
 
     ImGui::DestroyContext(GlobalImGuiState.Context);
 }
 
-void DebugUI::DrawUI(UIDrawFunc DrawFunc)
+void CEDebugUI::DrawUI(UIDrawFunc DrawFunc)
 {
     GlobalDrawFuncs.EmplaceBack(DrawFunc);
 }
 
-void DebugUI::DrawDebugString(const std::string& DebugString)
+void CEDebugUI::DrawDebugString(const std::string& DebugString)
 {
     GlobalDebugStrings.EmplaceBack(DebugString);
 }
 
-void DebugUI::OnKeyPressed(const KeyPressedEvent& Event)
+void CEDebugUI::OnKeyPressed(const KeyPressedEvent& Event)
 {
     ImGuiIO& IO = ImGui::GetIO();
     IO.KeysDown[Event.Key] = true;
 }
 
-void DebugUI::OnKeyReleased(const KeyReleasedEvent& Event)
+void CEDebugUI::OnKeyReleased(const KeyReleasedEvent& Event)
 {
     ImGuiIO& IO = ImGui::GetIO();
     IO.KeysDown[Event.Key] = false;
 }
 
-void DebugUI::OnKeyTyped(const KeyTypedEvent& Event)
+void CEDebugUI::OnKeyTyped(const KeyTypedEvent& Event)
 {
     ImGuiIO& IO = ImGui::GetIO();
     IO.AddInputCharacter(Event.Character);
 }
 
-void DebugUI::OnMousePressed(const MousePressedEvent& Event)
+void CEDebugUI::OnMousePressed(const MousePressedEvent& Event)
 {
     ImGuiIO& IO = ImGui::GetIO();
     const uint32 ButtonIndex  = GetMouseButtonIndex(Event.Button);
     IO.MouseDown[ButtonIndex] = true;
 }
 
-void DebugUI::OnMouseReleased(const MouseReleasedEvent& Event)
+void CEDebugUI::OnMouseReleased(const MouseReleasedEvent& Event)
 {
     ImGuiIO& IO = ImGui::GetIO();
     const uint32 ButtonIndex  = GetMouseButtonIndex(Event.Button);
     IO.MouseDown[ButtonIndex] = false;
 }
 
-void DebugUI::OnMouseScrolled(const MouseScrolledEvent& Event)
+void CEDebugUI::OnMouseScrolled(const MouseScrolledEvent& Event)
 {
     ImGuiIO& IO = ImGui::GetIO();
     IO.MouseWheel  += Event.VerticalDelta;
     IO.MouseWheelH += Event.HorizontalDelta;
 }
 
-void DebugUI::Render(CommandList& CmdList)
+void CEDebugUI::Render(CommandList& CmdList)
 {
     GlobalImGuiState.FrameClock.Tick();
 
@@ -541,7 +541,7 @@ void DebugUI::Render(CommandList& CmdList)
     
     IO.MousePos = ImVec2(static_cast<float>(x), static_cast<float>(y));
 
-    ModifierKeyState KeyState = Platform::GetModifierKeyState();
+    CEModifierKeyState KeyState = Platform::GetModifierKeyState();
     IO.KeyCtrl  = KeyState.IsCtrlDown();
     IO.KeyShift = KeyState.IsShiftDown();
     IO.KeyAlt   = KeyState.IsAltDown();
@@ -727,7 +727,7 @@ void DebugUI::Render(CommandList& CmdList)
     GlobalImGuiState.Images.Clear();
 }
 
-ImGuiContext* DebugUI::GetCurrentContext()
+ImGuiContext* CEDebugUI::GetCurrentContext()
 {
     return GlobalImGuiState.Context;
 }

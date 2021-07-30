@@ -2,20 +2,20 @@
 #include "MulticastBase.h"
 
 template<typename... TArgs>
-class TMulticastDelegateBase : public TMulticastBase<TArgs...>
+class CEMulticastDelegateBase : public CEMulticastBase<TArgs...>
 {
 protected:
-    typedef TMulticastBase<TArgs...> Base;
+    typedef CEMulticastBase<TArgs...> Base;
 
     typedef typename Base::IDelegate IDelegate;
 
 public:
-    TMulticastDelegateBase()
+    CEMulticastDelegateBase()
         : Base()
     {
     }
 
-    TMulticastDelegateBase(const TMulticastDelegateBase& Other)
+    CEMulticastDelegateBase(const CEMulticastDelegateBase& Other)
         : Base()
     {
         for (IDelegate* Delegate : Other.Delegates)
@@ -25,13 +25,13 @@ public:
         }
     }
 
-    TMulticastDelegateBase(TMulticastDelegateBase&& Other)
+    CEMulticastDelegateBase(CEMulticastDelegateBase&& Other)
         : Base()
     {
         Base::Delegates = Move(Other.Delegates);
     }
 
-    ~TMulticastDelegateBase()
+    ~CEMulticastDelegateBase()
     {
         UnbindAll();
     }
@@ -47,30 +47,30 @@ public:
         Base::Delegates.Clear();
     }
 
-    void Swap(TMulticastDelegateBase& Other)
+    void Swap(CEMulticastDelegateBase& Other)
     {
-        TMulticastDelegateBase Temp(Move(*this));
+        CEMulticastDelegateBase Temp(Move(*this));
         Base::Delegates = Move(Other.Delegates);
         Other.Delegates  = Move(Temp.Delegates);
     }
 
-    TMulticastDelegateBase& operator=(const TMulticastDelegateBase& RHS)
+    CEMulticastDelegateBase& operator=(const CEMulticastDelegateBase& RHS)
     {
-        TMulticastDelegateBase(RHS).Swap(*this);
+        CEMulticastDelegateBase(RHS).Swap(*this);
         return *this;
     }
 
-    TMulticastDelegateBase& operator=(TMulticastDelegateBase&& RHS)
+    CEMulticastDelegateBase& operator=(CEMulticastDelegateBase&& RHS)
     {
-        TMulticastDelegateBase(Move(RHS)).Swap(*this);
+        CEMulticastDelegateBase(Move(RHS)).Swap(*this);
         return *this;
     }
 };
 
 template<typename... TArgs>
-class TMulticastDelegate : public TMulticastDelegateBase<TArgs...>
+class TMulticastDelegate : public CEMulticastDelegateBase<TArgs...>
 {
-    typedef TMulticastDelegateBase<TArgs...> Base;
+    typedef CEMulticastDelegateBase<TArgs...> Base;
 
     typedef typename Base::IDelegate IDelegate;
 
@@ -91,9 +91,9 @@ public:
 };
 
 template<>
-class TMulticastDelegate<void> : public TMulticastDelegateBase<void>
+class TMulticastDelegate<void> : public CEMulticastDelegateBase<void>
 {
-    typedef TMulticastDelegateBase<void> Base;
+    typedef CEMulticastDelegateBase<void> Base;
 
     typedef typename Base::IDelegate IDelegate;
 

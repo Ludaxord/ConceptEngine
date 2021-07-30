@@ -2,7 +2,7 @@
 #include "D3D12ShaderCompiler.h"
 #include "D3D12RootSignature.h"
 
-D3D12BaseShader::D3D12BaseShader(D3D12Device* InDevice, const TArray<uint8>& InCode, EShaderVisibility InVisibility)
+D3D12BaseShader::D3D12BaseShader(D3D12Device* InDevice, const CEArray<uint8>& InCode, EShaderVisibility InVisibility)
     : D3D12DeviceChild(InDevice)
     , ByteCode()
     , Visibility(InVisibility)
@@ -59,10 +59,10 @@ bool D3D12BaseShader::GetShaderResourceBindings(TD3D12ReflectionInterface* Refle
 {
     ShaderResourceCount          ResourceCount;
     ShaderResourceCount          RTLocalResourceCount;
-    TArray<D3D12ShaderParameter> ConstantBufferParameters;
-    TArray<D3D12ShaderParameter> SamplerParameters;
-    TArray<D3D12ShaderParameter> ShaderResourceParameters;
-    TArray<D3D12ShaderParameter> UnorderedAccessParameters;
+    CEArray<D3D12ShaderParameter> ConstantBufferParameters;
+    CEArray<D3D12ShaderParameter> SamplerParameters;
+    CEArray<D3D12ShaderParameter> ShaderResourceParameters;
+    CEArray<D3D12ShaderParameter> UnorderedAccessParameters;
 
     D3D12_SHADER_INPUT_BIND_DESC ShaderBindDesc;
     for (uint32 i = 0; i < NumBoundResources; i++)

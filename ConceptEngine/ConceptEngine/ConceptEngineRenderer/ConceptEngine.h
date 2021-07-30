@@ -15,9 +15,9 @@ public:
 	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, EngineBoot EBoot);
 	ConceptEngine(CEEngineConfig& EConfig);
 
-	bool Create();
-	void Run();
-	bool Release();
+	bool Create() const;
+	void Run() const;
+	bool Release() const;
 
 	CECore* GetCore() const;
 
@@ -58,16 +58,25 @@ inline int EngineExec(ConceptEngine* Engine) {
 
 inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
                 EngineBoot EBoot) {
-	ConceptEngine* Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot);
+	auto Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot);
 	switch (Engine->EngineConfig.EngineBoot) {
 	case EngineBoot::Runtime:
-		Engine->CreateRuntime();
+		if (!Engine->CreateRuntime()) {
+			CE_LOG_ERROR("[ConceptEngine]: Failed to create Runtime");
+			return false;
+		}
 		break;
 	case EngineBoot::Editor:
-		Engine->CreateEditor();
+		if (!Engine->CreateEditor()) {
+			CE_LOG_ERROR("[ConceptEngine]: Failed to create Editor");
+			return false;
+		}
 		break;
 	case EngineBoot::DebugRuntime:
-		Engine->CreateDebugRuntime();
+		if (!Engine->CreateDebugRuntime()) {
+			CE_LOG_ERROR("[ConceptEngine]: Failed to create Debug Runtime");
+			return false;
+		}
 		break;
 	default:
 		throw CEEngineBootException();

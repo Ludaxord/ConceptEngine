@@ -75,7 +75,7 @@ class D3D12OfflineDescriptorHeap : public D3D12DeviceChild, public RefCountedObj
             FreeList.EmplaceBack(WholeRange);
         }
 
-        TArray<DescriptorRange>   FreeList;
+        CEArray<DescriptorRange>   FreeList;
         TRef<D3D12DescriptorHeap> Heap;
     };
 
@@ -104,7 +104,7 @@ private:
     bool AllocateHeap();
 
     D3D12_DESCRIPTOR_HEAP_TYPE Type;
-    TArray<DescriptorHeap> Heaps;
+    CEArray<DescriptorHeap> Heaps;
     std::string Name;
     uint32 DescriptorSize = 0;
 };
@@ -150,8 +150,8 @@ public:
 private:
     TRef<D3D12DescriptorHeap> Heap;
 
-    TArray<TRef<D3D12DescriptorHeap>> HeapPool;
-    TArray<TRef<D3D12DescriptorHeap>> DiscardedHeaps;
+    CEArray<TRef<D3D12DescriptorHeap>> HeapPool;
+    CEArray<TRef<D3D12DescriptorHeap>> DiscardedHeaps;
     
     D3D12_DESCRIPTOR_HEAP_TYPE Type;
     uint32 CurrentHandle   = 0;

@@ -28,7 +28,8 @@ enum class GraphicsAPI {
 	DirectX11,
 	Vulkan,
 	OpenGL,
-	Metal
+	Metal,
+	WebGL
 };
 
 struct CEEngineConfig {
@@ -70,4 +71,8 @@ struct CEEngineConfig {
 	std::wstring InstanceName;
 
 	bool ShowConsole = false;
+};
+
+struct CEProjectConfig {
+	std::wstring Title;
 };

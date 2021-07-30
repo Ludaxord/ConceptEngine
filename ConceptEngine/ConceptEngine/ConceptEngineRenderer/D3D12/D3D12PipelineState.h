@@ -44,8 +44,8 @@ public:
     const D3D12_INPUT_LAYOUT_DESC& GetDesc() const { return Desc; }
 
 private:
-    TArray<std::string> SemanticNames;
-    TArray<D3D12_INPUT_ELEMENT_DESC> ElementDesc;
+    CEArray<std::string> SemanticNames;
+    CEArray<D3D12_INPUT_ELEMENT_DESC> ElementDesc;
     D3D12_INPUT_LAYOUT_DESC Desc;
 };
 

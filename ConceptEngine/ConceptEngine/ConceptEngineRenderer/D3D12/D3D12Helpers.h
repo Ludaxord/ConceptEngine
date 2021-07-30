@@ -8,7 +8,7 @@
 
 #include <wrl/client.h>
 
-#include "../Core.h"
+#include "../CEDefinitions.h"
 
 #define D3D12_DESCRIPTOR_HANDLE_INCREMENT(DescriptorHandle, Value) { (DescriptorHandle.ptr + Value) }
 

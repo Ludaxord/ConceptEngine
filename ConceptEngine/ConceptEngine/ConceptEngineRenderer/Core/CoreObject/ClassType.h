@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Core.h"
+#include "../../CEDefinitions.h"
 
 // ClassType stores info about a class, for now inheritance
 class ClassType

@@ -1,8 +1,25 @@
 #include "CECore.h"
 
 #include "Callbacks/CEEngineController.h"
+#include "Compiler/CECppCompiler.h"
+#include "Compiler/CECSharpCompiler.h"
+#include "Compiler/CEGraphsCompiler.h"
+#include "Compiler/CEJSCompiler.h"
+#include "Compiler/CEPyCompiler.h"
 #include "Core/Threading/CETaskManager.h"
 #include "Debug/CEProfiler.h"
+#include "Graphics/D3D11/CEDirectX11.h"
+#include "Graphics/D3D12/CEDirectX12.h"
+#include "Graphics/Metal/CEMetal.h"
+#include "Graphics/OpenGL/CEOpenGL.h"
+#include "Graphics/Vulkan/CEVulkan.h"
+#include "Graphics/WebGL/CEWebGL.h"
+#include "Platform/CEPlatform.h"
+#include "Platform/Android/CEAndroid.h"
+#include "Platform/iOS/CEiOS.h"
+#include "Platform/Linux/CELinux.h"
+#include "Platform/Mac/CEMac.h"
+#include "Platform/Windows/CEWindows.h"
 #include "Project/CEPlayground.h"
 
 CETypedConsole Console;
@@ -91,6 +108,8 @@ CEGraphics* CECore::SetGraphicsAPI(GraphicsAPI GApi) {
 		return new CEOpenGL();
 	case GraphicsAPI::Vulkan:
 		return new CEVulkan();
+	case GraphicsAPI::WebGL:
+		return new CEWebGL();
 	default:
 		return nullptr;
 	}
@@ -99,7 +118,7 @@ CEGraphics* CECore::SetGraphicsAPI(GraphicsAPI GApi) {
 CECompiler* CECore::SetLanguageCompiler(ScriptingLanguage SLanguage) {
 	switch (SLanguage) {
 	case ScriptingLanguage::CSharp:
-		return new CSharpCompiler();
+		return new CECSharpCompiler();
 	case ScriptingLanguage::Cpp:
 		return new CECppCompiler();
 	case ScriptingLanguage::Graphs:

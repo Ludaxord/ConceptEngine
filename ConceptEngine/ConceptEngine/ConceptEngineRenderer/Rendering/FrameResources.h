@@ -50,7 +50,7 @@ public:
     }
 
 private:
-    TArray<TResource*>                    Resources;
+    CEArray<TResource*>                    Resources;
     std::unordered_map<TResource*, int32> ResourceIndices;
 };
 
@@ -99,16 +99,16 @@ struct FrameResources
     RayTracingShaderResources   GlobalResources;
     RayTracingShaderResources   RayGenLocalResources;
     RayTracingShaderResources   MissLocalResources;
-    TArray<RayTracingGeometryInstance> RTGeometryInstances;
+    CEArray<RayTracingGeometryInstance> RTGeometryInstances;
 
-    TArray<RayTracingShaderResources>       RTHitGroupResources;
+    CEArray<RayTracingShaderResources>       RTHitGroupResources;
     std::unordered_map<class Mesh*, uint32> RTMeshToHitGroupIndex;
     PtrResourceCache<ShaderResourceView>    RTMaterialTextureCache;
 
-    TArray<MeshDrawCommand> DeferredVisibleCommands;
-    TArray<MeshDrawCommand> ForwardVisibleCommands;
+    CEArray<MeshDrawCommand> DeferredVisibleCommands;
+    CEArray<MeshDrawCommand> ForwardVisibleCommands;
 
-    TArray<ImGuiImage> DebugTextures;
+    CEArray<ImGuiImage> DebugTextures;
 
     TRef<Viewport> MainWindowViewport;
 };

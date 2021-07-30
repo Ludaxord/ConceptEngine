@@ -5,9 +5,9 @@ template<typename TInvokable>
 class TDelegate;
 
 template<typename TReturn, typename... TArgs>
-class TDelegate<TReturn(TArgs...)> : private TDelegateBase<TReturn(TArgs...)>
+class TDelegate<TReturn(TArgs...)> : private CEDelegateBase<TReturn(TArgs...)>
 {
-    typedef TDelegateBase<TReturn(TArgs...)> Base;
+    typedef CEDelegateBase<TReturn(TArgs...)> Base;
 
     typedef typename Base::IDelegate        IDelegate;
     typedef typename Base::FunctionType     FunctionType;
@@ -25,7 +25,7 @@ class TDelegate<TReturn(TArgs...)> : private TDelegateBase<TReturn(TArgs...)>
     using LambdaDelegate = typename Base::template LambdaDelegate<F>;
 
     template<typename... TArgs>
-    friend class TMulticastBase;
+    friend class CEMulticastBase;
 
 public:
     TDelegate()

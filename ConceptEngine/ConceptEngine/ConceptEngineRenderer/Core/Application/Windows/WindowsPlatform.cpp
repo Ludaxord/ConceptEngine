@@ -1,9 +1,9 @@
 #include "WindowsPlatform.h"
 #include "WindowsCursor.h"
 
-#include "../../../Core/Input/InputManager.h"
+#include "../../../Core/Input/CEInputManager.h"
 
-TArray<WindowsEvent> WindowsPlatform::Messages;
+CEArray<WindowsEvent> WindowsPlatform::Messages;
 
 TRef<WindowsCursor> WindowsPlatform::CurrentCursor;
 
@@ -149,7 +149,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         case WM_KEYUP:
         {
             const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-            const EKey Key = InputManager::Get().ConvertFromScanCode(ScanCode);
+            const EKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
             Callbacks->OnKeyReleased(Key, GetModifierKeyState());
             break;
         }
@@ -159,7 +159,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         {
             const bool IsRepeat   = !!(lParam & KEY_REPEAT_MASK);
             const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-            const EKey Key = InputManager::Get().ConvertFromScanCode(ScanCode);
+            const EKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
             Callbacks->OnKeyPressed(Key, IsRepeat, GetModifierKeyState());
             break;
         }
@@ -443,7 +443,7 @@ void WindowsPlatform::GetCursorPos(GenericWindow* RelativeWindow, int32& OutX, i
     }
 }
 
-ModifierKeyState WindowsPlatform::GetModifierKeyState()
+CEModifierKeyState WindowsPlatform::GetModifierKeyState()
 {
     uint32 ModifierMask = 0;
     if (GetKeyState(VK_CONTROL) & 0x8000)
@@ -471,7 +471,7 @@ ModifierKeyState WindowsPlatform::GetModifierKeyState()
         ModifierMask |= EModifierFlag::ModifierFlag_NumLock;
     }
 
-    return ModifierKeyState(ModifierMask);
+    return CEModifierKeyState(ModifierMask);
 }
 
 LRESULT WindowsPlatform::MessageProc(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)

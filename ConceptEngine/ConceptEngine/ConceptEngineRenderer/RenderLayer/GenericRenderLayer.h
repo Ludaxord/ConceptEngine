@@ -132,20 +132,20 @@ public:
     virtual RenderTargetView* CreateRenderTargetView(const RenderTargetViewCreateInfo& CreateInfo) = 0;
     virtual DepthStencilView* CreateDepthStencilView(const DepthStencilViewCreateInfo& CreateInfo) = 0;
 
-    virtual class ComputeShader* CreateComputeShader(const TArray<uint8>& ShaderCode) = 0;
+    virtual class ComputeShader* CreateComputeShader(const CEArray<uint8>& ShaderCode) = 0;
 
-    virtual class VertexShader* CreateVertexShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class HullShader* CreateHullShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class DomainShader* CreateDomainShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class GeometryShader* CreateGeometryShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class MeshShader* CreateMeshShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class AmplificationShader* CreateAmplificationShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class PixelShader* CreatePixelShader(const TArray<uint8>& ShaderCode) = 0;
+    virtual class VertexShader* CreateVertexShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class HullShader* CreateHullShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class DomainShader* CreateDomainShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class GeometryShader* CreateGeometryShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class MeshShader* CreateMeshShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class AmplificationShader* CreateAmplificationShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class PixelShader* CreatePixelShader(const CEArray<uint8>& ShaderCode) = 0;
     
-    virtual class RayGenShader* CreateRayGenShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class RayAnyHitShader* CreateRayAnyHitShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class RayClosestHitShader* CreateRayClosestHitShader(const TArray<uint8>& ShaderCode) = 0;
-    virtual class RayMissShader* CreateRayMissShader(const TArray<uint8>& ShaderCode) = 0;
+    virtual class RayGenShader* CreateRayGenShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class RayAnyHitShader* CreateRayAnyHitShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class RayClosestHitShader* CreateRayClosestHitShader(const CEArray<uint8>& ShaderCode) = 0;
+    virtual class RayMissShader* CreateRayMissShader(const CEArray<uint8>& ShaderCode) = 0;
 
     virtual class DepthStencilState* CreateDepthStencilState(const DepthStencilStateCreateInfo& CreateInfo) = 0;
 
@@ -614,62 +614,62 @@ FORCEINLINE DepthStencilView* CreateDepthStencilView(TextureCubeArray* Texture, 
     return CreateDepthStencilView(CreateInfo);
 }
 
-FORCEINLINE ComputeShader* CreateComputeShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE ComputeShader* CreateComputeShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateComputeShader(ShaderCode);
 }
 
-FORCEINLINE VertexShader* CreateVertexShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE VertexShader* CreateVertexShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateVertexShader(ShaderCode);
 }
 
-FORCEINLINE HullShader* CreateHullShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE HullShader* CreateHullShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateHullShader(ShaderCode);
 }
 
-FORCEINLINE DomainShader* CreateDomainShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE DomainShader* CreateDomainShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateDomainShader(ShaderCode);
 }
 
-FORCEINLINE GeometryShader* CreateGeometryShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE GeometryShader* CreateGeometryShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateGeometryShader(ShaderCode);
 }
 
-FORCEINLINE MeshShader* CreateMeshShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE MeshShader* CreateMeshShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateMeshShader(ShaderCode);
 }
 
-FORCEINLINE AmplificationShader* CreateAmplificationShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE AmplificationShader* CreateAmplificationShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateAmplificationShader(ShaderCode);
 }
 
-FORCEINLINE PixelShader* CreatePixelShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE PixelShader* CreatePixelShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreatePixelShader(ShaderCode);
 }
 
-FORCEINLINE RayGenShader* CreateRayGenShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE RayGenShader* CreateRayGenShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateRayGenShader(ShaderCode);
 }
 
-FORCEINLINE RayAnyHitShader* CreateRayAnyHitShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE RayAnyHitShader* CreateRayAnyHitShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateRayAnyHitShader(ShaderCode);
 }
 
-FORCEINLINE RayClosestHitShader* CreateRayClosestHitShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE RayClosestHitShader* CreateRayClosestHitShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateRayClosestHitShader(ShaderCode);
 }
 
-FORCEINLINE RayMissShader* CreateRayMissShader(const TArray<uint8>& ShaderCode)
+FORCEINLINE RayMissShader* CreateRayMissShader(const CEArray<uint8>& ShaderCode)
 {
     return gRenderLayer->CreateRayMissShader(ShaderCode);
 }

@@ -3,13 +3,13 @@
 
 #include "../../Core/Containers/Array.h"
 
-class DelegateHandle
+class CEDelegateHandle
 {
     template<typename... TArgs>
-    friend class TMulticastBase;
+    friend class CEMulticastBase;
 
 public:
-    DelegateHandle()
+    CEDelegateHandle()
         : Handle(nullptr)
     {
     }
@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    DelegateHandle(void* InHandle)
+    CEDelegateHandle(void* InHandle)
         : Handle(InHandle)
     {
     }
@@ -34,10 +34,10 @@ private:
 };
 
 template<typename... TArgs>
-class TMulticastBase : public TDelegateBase<void(TArgs...)>
+class CEMulticastBase : public CEDelegateBase<void(TArgs...)>
 {
 protected:
-    typedef TDelegateBase<void(TArgs...)> Base;
+    typedef CEDelegateBase<void(TArgs...)> Base;
 
     typedef typename Base::FunctionType     FunctionType;
     typedef typename Base::IDelegate        IDelegate;
@@ -55,39 +55,39 @@ protected:
     using LambdaDelegate = typename Base::template LambdaDelegate<F>;
 
 public:
-    DelegateHandle AddFunction(FunctionType Fn)
+    CEDelegateHandle AddFunction(FunctionType Fn)
     {
         return InternalAddNewDelegate(new FunctionDelegate(Fn));
     }
 
     template<typename T>
-    DelegateHandle AddObject(T* This, MemberFunctionType<T> Fn)
+    CEDelegateHandle AddObject(T* This, MemberFunctionType<T> Fn)
     {
         return InternalAddNewDelegate(new ObjectDelegate<T>(This, Fn));
     }
 
     template<typename T>
-    DelegateHandle AddObject(const T* This, ConstMemberFunctionType<T> Fn)
+    CEDelegateHandle AddObject(const T* This, ConstMemberFunctionType<T> Fn)
     {
         return InternalAddNewDelegate(new ConstObjectDelegate<T>(This, Fn));
     }
 
     template<typename F>
-    DelegateHandle AddLambda(F Functor)
+    CEDelegateHandle AddLambda(F Functor)
     {
         return InternalAddNewDelegate(new LambdaDelegate<F>(Forward<F>(Functor)));
     }
 
-    DelegateHandle AddDelegate(const TDelegate<void(TArgs...)>& Delegate)
+    CEDelegateHandle AddDelegate(const TDelegate<void(TArgs...)>& Delegate)
     {
         IDelegate* NewDelegate = Delegate.Delegate;
         return InternalAddNewDelegate(NewDelegate->Clone());
     }
 
-    void Unbind(DelegateHandle Handle)
+    void Unbind(CEDelegateHandle Handle)
     {
         IDelegate* DelegateHandle = reinterpret_cast<IDelegate*>(Handle.Handle);
-        for (typename TArray<IDelegate*>::Iterator It = Delegates.Begin(); It != Delegates.End(); It++)
+        for (typename CEArray<IDelegate*>::Iterator It = Delegates.Begin(); It != Delegates.End(); It++)
         {
             if (DelegateHandle == *It)
             {
@@ -109,12 +109,12 @@ public:
 
 protected:
     // TODO: Maybe use a list instead?
-    TArray<IDelegate*> Delegates;
+    CEArray<IDelegate*> Delegates;
 
 private:
-    DelegateHandle InternalAddNewDelegate(IDelegate* NewDelegate)
+    CEDelegateHandle InternalAddNewDelegate(IDelegate* NewDelegate)
     {
         Delegates.EmplaceBack(NewDelegate);
-        return DelegateHandle(NewDelegate);
+        return CEDelegateHandle(NewDelegate);
     }
 };

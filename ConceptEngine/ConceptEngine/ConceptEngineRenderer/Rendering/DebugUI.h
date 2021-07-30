@@ -29,12 +29,12 @@ struct ImGuiImage
     bool AllowBlending = false;
 };
 
-class DebugUI
+class CEDebugUI
 {
 public:
     typedef void(*UIDrawFunc)();
 
-    static bool Init();
+    static bool Create();
     static void Release();
 
     static void DrawUI(UIDrawFunc DrawFunc);

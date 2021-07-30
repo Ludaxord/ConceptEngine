@@ -1208,7 +1208,7 @@ DepthStencilView* D3D12RenderLayer::CreateDepthStencilView(const DepthStencilVie
     }
 }
 
-ComputeShader* D3D12RenderLayer::CreateComputeShader(const TArray<uint8>& ShaderCode)
+ComputeShader* D3D12RenderLayer::CreateComputeShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12ComputeShader> Shader = DBG_NEW D3D12ComputeShader(Device, ShaderCode);
     if (!Shader->Init())
@@ -1219,7 +1219,7 @@ ComputeShader* D3D12RenderLayer::CreateComputeShader(const TArray<uint8>& Shader
     return Shader.ReleaseOwnership();
 }
 
-VertexShader* D3D12RenderLayer::CreateVertexShader(const TArray<uint8>& ShaderCode)
+VertexShader* D3D12RenderLayer::CreateVertexShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12VertexShader> Shader = DBG_NEW D3D12VertexShader(Device, ShaderCode);
     if (!D3D12BaseShader::GetShaderReflection(Shader.Get()))
@@ -1230,42 +1230,42 @@ VertexShader* D3D12RenderLayer::CreateVertexShader(const TArray<uint8>& ShaderCo
     return Shader.ReleaseOwnership();
 }
 
-HullShader* D3D12RenderLayer::CreateHullShader(const TArray<uint8>& ShaderCode)
+HullShader* D3D12RenderLayer::CreateHullShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-DomainShader* D3D12RenderLayer::CreateDomainShader(const TArray<uint8>& ShaderCode)
+DomainShader* D3D12RenderLayer::CreateDomainShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-GeometryShader* D3D12RenderLayer::CreateGeometryShader(const TArray<uint8>& ShaderCode)
+GeometryShader* D3D12RenderLayer::CreateGeometryShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-MeshShader* D3D12RenderLayer::CreateMeshShader(const TArray<uint8>& ShaderCode)
+MeshShader* D3D12RenderLayer::CreateMeshShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-AmplificationShader* D3D12RenderLayer::CreateAmplificationShader(const TArray<uint8>& ShaderCode)
+AmplificationShader* D3D12RenderLayer::CreateAmplificationShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-PixelShader* D3D12RenderLayer::CreatePixelShader(const TArray<uint8>& ShaderCode)
+PixelShader* D3D12RenderLayer::CreatePixelShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12PixelShader> Shader = DBG_NEW D3D12PixelShader(Device, ShaderCode);
     if (!D3D12BaseShader::GetShaderReflection(Shader.Get()))
@@ -1276,7 +1276,7 @@ PixelShader* D3D12RenderLayer::CreatePixelShader(const TArray<uint8>& ShaderCode
     return Shader.ReleaseOwnership();
 }
 
-RayGenShader* D3D12RenderLayer::CreateRayGenShader(const TArray<uint8>& ShaderCode)
+RayGenShader* D3D12RenderLayer::CreateRayGenShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12RayGenShader> Shader = DBG_NEW D3D12RayGenShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1290,7 +1290,7 @@ RayGenShader* D3D12RenderLayer::CreateRayGenShader(const TArray<uint8>& ShaderCo
     }
 }
 
-RayAnyHitShader* D3D12RenderLayer::CreateRayAnyHitShader(const TArray<uint8>& ShaderCode)
+RayAnyHitShader* D3D12RenderLayer::CreateRayAnyHitShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12RayAnyHitShader> Shader = DBG_NEW D3D12RayAnyHitShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1304,7 +1304,7 @@ RayAnyHitShader* D3D12RenderLayer::CreateRayAnyHitShader(const TArray<uint8>& Sh
     }
 }
 
-RayClosestHitShader* D3D12RenderLayer::CreateRayClosestHitShader(const TArray<uint8>& ShaderCode)
+RayClosestHitShader* D3D12RenderLayer::CreateRayClosestHitShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12RayClosestHitShader> Shader = DBG_NEW D3D12RayClosestHitShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1318,7 +1318,7 @@ RayClosestHitShader* D3D12RenderLayer::CreateRayClosestHitShader(const TArray<ui
     }
 }
 
-RayMissShader* D3D12RenderLayer::CreateRayMissShader(const TArray<uint8>& ShaderCode)
+RayMissShader* D3D12RenderLayer::CreateRayMissShader(const CEArray<uint8>& ShaderCode)
 {
     TRef<D3D12RayMissShader> Shader = DBG_NEW D3D12RayMissShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))

@@ -68,7 +68,7 @@ struct D3D12ShaderParameter
 class D3D12BaseShader : public D3D12DeviceChild
 {
 public:
-    D3D12BaseShader(D3D12Device* InDevice, const TArray<uint8>& InCode, EShaderVisibility ShaderVisibility);
+    D3D12BaseShader(D3D12Device* InDevice, const CEArray<uint8>& InCode, EShaderVisibility ShaderVisibility);
     ~D3D12BaseShader();
 
     D3D12_SHADER_BYTECODE GetByteCode() const { return ByteCode; }
@@ -102,10 +102,10 @@ protected:
     static bool GetShaderResourceBindings(TD3D12ReflectionInterface* Reflection, D3D12BaseShader* Shader, uint32 NumBoundResources);
 
     D3D12_SHADER_BYTECODE        ByteCode;
-    TArray<D3D12ShaderParameter> ConstantBufferParameters;
-    TArray<D3D12ShaderParameter> ShaderResourceParameters;
-    TArray<D3D12ShaderParameter> UnorderedAccessParameters;
-    TArray<D3D12ShaderParameter> SamplerParameters;
+    CEArray<D3D12ShaderParameter> ConstantBufferParameters;
+    CEArray<D3D12ShaderParameter> ShaderResourceParameters;
+    CEArray<D3D12ShaderParameter> UnorderedAccessParameters;
+    CEArray<D3D12ShaderParameter> SamplerParameters;
     EShaderVisibility            Visibility;
     ShaderResourceCount          ResourceCount;
     ShaderResourceCount          RTLocalResourceCount;
@@ -116,7 +116,7 @@ protected:
 class D3D12BaseVertexShader : public VertexShader, public D3D12BaseShader
 {
 public:
-    D3D12BaseVertexShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseVertexShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : VertexShader()
         , D3D12BaseShader(InDevice, InCode, ShaderVisibility_Vertex)
     {
@@ -126,7 +126,7 @@ public:
 class D3D12BasePixelShader : public PixelShader, public D3D12BaseShader
 {
 public:
-    D3D12BasePixelShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BasePixelShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : PixelShader()
         , D3D12BaseShader(InDevice, InCode, ShaderVisibility_Pixel)
     {
@@ -136,7 +136,7 @@ public:
 class D3D12BaseRayTracingShader : public D3D12BaseShader
 {
 public:
-    D3D12BaseRayTracingShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseRayTracingShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : D3D12BaseShader(InDevice, InCode, ShaderVisibility_All)
     {
     }
@@ -152,7 +152,7 @@ protected:
 class D3D12BaseRayGenShader : public RayGenShader, public D3D12BaseRayTracingShader
 {
 public:
-    D3D12BaseRayGenShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseRayGenShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : RayGenShader()
         , D3D12BaseRayTracingShader(InDevice, InCode)
     {
@@ -162,7 +162,7 @@ public:
 class D3D12BaseRayAnyhitShader : public RayAnyHitShader, public D3D12BaseRayTracingShader
 {
 public:
-    D3D12BaseRayAnyhitShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseRayAnyhitShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : RayAnyHitShader()
         , D3D12BaseRayTracingShader(InDevice, InCode)
     {
@@ -172,7 +172,7 @@ public:
 class D3D12BaseRayClosestHitShader : public RayClosestHitShader, public D3D12BaseRayTracingShader
 {
 public:
-    D3D12BaseRayClosestHitShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseRayClosestHitShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : RayClosestHitShader()
         , D3D12BaseRayTracingShader(InDevice, InCode)
     {
@@ -182,7 +182,7 @@ public:
 class D3D12BaseRayMissShader : public RayMissShader, public D3D12BaseRayTracingShader
 {
 public:
-    D3D12BaseRayMissShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseRayMissShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : RayMissShader()
         , D3D12BaseRayTracingShader(InDevice, InCode)
     {
@@ -192,7 +192,7 @@ public:
 class D3D12BaseComputeShader : public ComputeShader, public D3D12BaseShader
 {
 public:
-    D3D12BaseComputeShader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    D3D12BaseComputeShader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : ComputeShader()
         , D3D12BaseShader(InDevice, InCode, ShaderVisibility_All)
         , ThreadGroupXYZ(0, 0, 0)
@@ -211,7 +211,7 @@ template<typename TBaseShader>
 class TD3D12Shader : public TBaseShader
 {
 public:
-    TD3D12Shader(D3D12Device* InDevice, const TArray<uint8>& InCode)
+    TD3D12Shader(D3D12Device* InDevice, const CEArray<uint8>& InCode)
         : TBaseShader(InDevice, InCode)
     {
     }
@@ -250,7 +250,7 @@ public:
     }
 
 private:
-    bool InternalFindParameterIndexByName(const TArray<D3D12ShaderParameter>& Parameters, const std::string& InName, uint32& OutIndex) const
+    bool InternalFindParameterIndexByName(const CEArray<D3D12ShaderParameter>& Parameters, const std::string& InName, uint32& OutIndex) const
     {
         for (uint32 i = 0; i < Parameters.Size(); i++)
         {

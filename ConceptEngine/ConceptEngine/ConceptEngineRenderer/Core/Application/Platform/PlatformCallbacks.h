@@ -7,18 +7,18 @@
 #endif
 
 class GenericWindow;
-struct ModifierKeyState;
+struct CEModifierKeyState;
 
 class PlatformCallbacks
 {
 public:
     virtual ~PlatformCallbacks() = default;
 
-    virtual void OnKeyReleased(EKey KeyCode, const ModifierKeyState& ModierKeyState)
+    virtual void OnKeyReleased(EKey KeyCode, const CEModifierKeyState& ModierKeyState)
     {
     }
 
-    virtual void OnKeyPressed(EKey KeyCode, bool IsRepeat, const ModifierKeyState& ModierKeyState)
+    virtual void OnKeyPressed(EKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModierKeyState)
     {
     }
 
@@ -30,11 +30,11 @@ public:
     {
     }
 
-    virtual void OnMouseReleased(EMouseButton Button, const ModifierKeyState& ModierKeyState)
+    virtual void OnMouseReleased(EMouseButton Button, const CEModifierKeyState& ModierKeyState)
     {
     }
 
-    virtual void OnMousePressed(EMouseButton Button, const ModifierKeyState& ModierKeyState)
+    virtual void OnMousePressed(EMouseButton Button, const CEModifierKeyState& ModierKeyState)
     {
     }
 

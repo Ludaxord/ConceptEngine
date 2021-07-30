@@ -22,7 +22,7 @@
 #include "Debug/CEDebug.h"
 
 // Core
-#include "Core.h"
+#include "CEDefinitions.h"
 #include "Core/Types.h"
 #include "Core/CoreObject/ClassType.h"
 #include "Core/CoreObject/CoreObject.h"

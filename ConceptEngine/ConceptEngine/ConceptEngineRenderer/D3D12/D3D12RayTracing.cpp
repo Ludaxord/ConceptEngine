@@ -254,7 +254,7 @@ bool D3D12RayTracingScene::Build(D3D12CommandContext& CmdContext, const RayTraci
         CmdContext.TransitionResource(ScratchBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
     }
 
-    TArray<D3D12_RAYTRACING_INSTANCE_DESC> InstanceDescs(NumInstances);
+    CEArray<D3D12_RAYTRACING_INSTANCE_DESC> InstanceDescs(NumInstances);
     for (uint32 i = 0; i < InstanceDescs.Size(); i++)
     {
         D3D12RayTracingGeometry* DxGeometry = static_cast<D3D12RayTracingGeometry*>(InInstances[i].Instance.Get());
@@ -324,7 +324,7 @@ bool D3D12RayTracingScene::Build(D3D12CommandContext& CmdContext, const RayTraci
     CmdContext.UnorderedAccessBarrier(ResultBuffer.Get());
 
     // Copy the instances
-    Instances = TArray<RayTracingGeometryInstance>(InInstances, InInstances + NumInstances);
+    Instances = CEArray<RayTracingGeometryInstance>(InInstances, InInstances + NumInstances);
     return true;
 }
 

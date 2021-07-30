@@ -19,18 +19,18 @@ public:
     virtual bool CompileFromFile(
         const std::string& FilePath,
         const std::string& EntryPoint,
-        const TArray<ShaderDefine>* Defines,
+        const CEArray<ShaderDefine>* Defines,
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        TArray<uint8>& Code) override final;
+        CEArray<uint8>& Code) override final;
 
     virtual bool CompileShader(
         const std::string& ShaderSource,
         const std::string& EntryPoint,
-        const TArray<ShaderDefine>* Defines,
+        const CEArray<ShaderDefine>* Defines,
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        TArray<uint8>& Code) override final;
+        CEArray<uint8>& Code) override final;
 
     bool GetReflection(D3D12BaseShader* Shader, ID3D12ShaderReflection** Reflection);
     bool GetLibraryReflection(D3D12BaseShader* Shader, ID3D12LibraryReflection** Reflection);
@@ -44,8 +44,8 @@ private:
         LPCWSTR Entrypoint, 
         EShaderStage ShaderStage,
         EShaderModel ShaderModel,
-        const TArray<ShaderDefine>* Defines,
-        TArray<uint8>& Code);
+        const CEArray<ShaderDefine>* Defines,
+        CEArray<uint8>& Code);
 
     bool InternalGetReflection(const TComPtr<IDxcBlob>& ShaderBlob, REFIID iid, void** ppvObject);
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Core/Input/InputCodes.h"
-#include "../../../Core/Application/Generic/GenericPlatform.h"
+#include "../../../Core/Application/Generic/CEGenericPlatform.h"
 #include "../../../Core/Application/Platform/PlatformCallbacks.h"
 #include "../../../Core/Containers/Array.h"
 
@@ -47,7 +47,7 @@ struct WindowHandle
     HWND Handle;
 };
 
-class WindowsPlatform : public GenericPlatform
+class WindowsPlatform : public CEGenericPlatform
 {
 public:
     static void PreMainInit(HINSTANCE InInstance);
@@ -58,7 +58,7 @@ public:
 
     static bool Release();
 
-    static ModifierKeyState GetModifierKeyState();
+    static CEModifierKeyState GetModifierKeyState();
 
     static void SetCapture(GenericWindow* Window);
     static void SetActiveWindow(GenericWindow* Window);
@@ -86,7 +86,7 @@ private:
     static void HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam);
 
 private:
-    static TArray<WindowsEvent> Messages;
+    static CEArray<WindowsEvent> Messages;
     
     static TRef<WindowsCursor> CurrentCursor;
 

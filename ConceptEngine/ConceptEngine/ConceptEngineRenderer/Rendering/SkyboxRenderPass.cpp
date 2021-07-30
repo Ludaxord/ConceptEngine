@@ -68,7 +68,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
         return false;
     }
 
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();

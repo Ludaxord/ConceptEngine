@@ -83,14 +83,14 @@ private:
 
     String PopupSelectedText;
 
-    TArray<Candidate> Candidates;
+    CEArray<Candidate> Candidates;
     int32 CandidatesIndex = -1;
 
-    TStaticArray<char, 256> TextBuffer;
+    CEStaticArray<char, 256> TextBuffer;
 
-    TArray<Line> Lines;
+    CEArray<Line> Lines;
 
-    TArray<String> History;
+    CEArray<String> History;
     uint32 HistoryLength = 50;
     int32  HistoryIndex   = -1;
 

@@ -328,7 +328,7 @@ struct InputLayoutStateCreateInfo
 {
     InputLayoutStateCreateInfo() = default;
 
-    InputLayoutStateCreateInfo(const TArray<InputElement>& InElements)
+    InputLayoutStateCreateInfo(const CEArray<InputElement>& InElements)
         : Elements(InElements)
     {
     }
@@ -338,7 +338,7 @@ struct InputLayoutStateCreateInfo
     {
     }
 
-    TArray<InputElement> Elements;
+    CEArray<InputElement> Elements;
 };
 
 class InputLayoutState : public Resource
@@ -446,10 +446,10 @@ struct RayTracingHitGroup
 struct RayTracingPipelineStateCreateInfo
 {
     RayGenShader*                RayGen = nullptr;
-    TArray<RayAnyHitShader*>     AnyHitShaders;
-    TArray<RayClosestHitShader*> ClosestHitShaders;
-    TArray<RayMissShader*>       MissShaders;
-    TArray<RayTracingHitGroup>   HitGroups;
+    CEArray<RayAnyHitShader*>     AnyHitShaders;
+    CEArray<RayClosestHitShader*> ClosestHitShaders;
+    CEArray<RayMissShader*>       MissShaders;
+    CEArray<RayTracingHitGroup>   HitGroups;
     uint32 MaxAttributeSizeInBytes = 0;
     uint32 MaxPayloadSizeInBytes   = 0;
     uint32 MaxRecursionDepth       = 1;

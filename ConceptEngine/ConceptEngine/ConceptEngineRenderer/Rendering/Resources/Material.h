@@ -68,5 +68,5 @@ private:
     TRef<ConstantBuffer> MaterialBuffer;
     TRef<SamplerState>   Sampler;
 
-    mutable TStaticArray<ShaderResourceView*, 7> ShaderResourceViews;
+    mutable CEStaticArray<ShaderResourceView*, 7> ShaderResourceViews;
 };

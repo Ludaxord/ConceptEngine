@@ -26,7 +26,7 @@ static TextureFactoryData GlobalFactoryData;
 bool TextureFactory::Init()
 {
     // Compile and create shader
-    TArray<uint8> Code;
+    CEArray<uint8> Code;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/CubeMapGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         return false;

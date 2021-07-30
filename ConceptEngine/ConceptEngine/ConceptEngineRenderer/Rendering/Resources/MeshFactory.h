@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Core.h"
+#include "../../CEDefinitions.h"
 
 #include "../../Utilities/HashUtilities.h"
 
@@ -37,8 +37,8 @@ struct VertexHasher
 
 struct MeshData
 {
-    TArray<Vertex> Vertices;
-    TArray<uint32> Indices;
+    CEArray<Vertex> Vertices;
+    CEArray<uint32> Indices;
 };
 
 class MeshFactory

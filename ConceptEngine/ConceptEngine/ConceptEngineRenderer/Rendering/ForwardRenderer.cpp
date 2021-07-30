@@ -13,13 +13,13 @@
 
 bool ForwardRenderer::Init(FrameResources& FrameResources)
 {
-    TArray<ShaderDefine> Defines =
+    CEArray<ShaderDefine> Defines =
     {
         { "ENABLE_PARALLAX_MAPPING", "1" },
         { "ENABLE_NORMAL_MAPPING",   "1" },
     };
 
-    TArray<uint8> ShaderCode;
+    CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();

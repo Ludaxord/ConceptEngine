@@ -100,7 +100,7 @@ static void DrawFloat3Control(const std::string& Label, XMFLOAT3& Value, float R
 
 static void DrawMenu()
 {
-    DebugUI::DrawUI([]
+    CEDebugUI::DrawUI([]
     {
         if (ImGui::BeginMainMenuBar())
         {
@@ -140,7 +140,7 @@ static void DrawMenu()
 
 static void DrawSideWindow()
 {
-    DebugUI::DrawUI([]
+    CEDebugUI::DrawUI([]
     {
         const uint32 WindowWidth  = GEngine.MainWindow->GetWidth();
         const uint32 WindowHeight = GEngine.MainWindow->GetHeight();

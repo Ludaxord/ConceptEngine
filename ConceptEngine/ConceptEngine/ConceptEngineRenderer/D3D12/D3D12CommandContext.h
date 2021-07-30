@@ -49,7 +49,7 @@ private:
     uint32 SizeInBytes   = 0;
     uint32 OffsetInBytes = 0;
     TComPtr<ID3D12Resource> Resource;
-    TArray<TComPtr<ID3D12Resource>> GarbageResources;
+    CEArray<TComPtr<ID3D12Resource>> GarbageResources;
 };
 
 class D3D12CommandBatch
@@ -136,9 +136,9 @@ public:
     TRef<D3D12OnlineDescriptorHeap> OnlineRayTracingResourceDescriptorHeap;
     TRef<D3D12OnlineDescriptorHeap> OnlineRayTracingSamplerDescriptorHeap;
     
-    TArray<TRef<D3D12Resource>>     DxResources;
-    TArray<TRef<Resource>>          Resources;
-    TArray<TComPtr<ID3D12Resource>> NativeResources;
+    CEArray<TRef<D3D12Resource>>     DxResources;
+    CEArray<TRef<Resource>>          Resources;
+    CEArray<TComPtr<ID3D12Resource>> NativeResources;
 };
 
 class D3D12ResourceBarrierBatcher
@@ -182,7 +182,7 @@ public:
     }
 
 private:
-    TArray<D3D12_RESOURCE_BARRIER> Barriers;
+    CEArray<D3D12_RESOURCE_BARRIER> Barriers;
 };
 
 class D3D12CommandContext : public ICommandContext, public D3D12DeviceChild
@@ -338,10 +338,10 @@ private:
     uint64 FenceValue   = 0;
     uint32 NextCmdBatch = 0;
 
-    TArray<D3D12CommandBatch> CmdBatches;
+    CEArray<D3D12CommandBatch> CmdBatches;
     D3D12CommandBatch*        CmdBatch = nullptr;
 
-    TArray<TRef<D3D12GPUProfiler>> ResolveProfilers;
+    CEArray<TRef<D3D12GPUProfiler>> ResolveProfilers;
 
     TRef<D3D12ComputePipelineState> GenerateMipsTex2D_PSO;
     TRef<D3D12ComputePipelineState> GenerateMipsTexCube_PSO;

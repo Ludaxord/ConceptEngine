@@ -2,19 +2,19 @@
 #include "MulticastBase.h"
 
 template<typename... TArgs>
-class TEventBase : public TMulticastBase<TArgs...>
+class CEEventBase : public CEMulticastBase<TArgs...>
 {
 protected:
-    typedef TMulticastBase<TArgs...> Base;
+    typedef CEMulticastBase<TArgs...> Base;
 
     typedef typename Base::IDelegate IDelegate;
 
-    TEventBase()
+    CEEventBase()
         : Base()
     {
     }
 
-    TEventBase(const TEventBase& Other)
+    CEEventBase(const CEEventBase& Other)
         : Base()
     {
         for (IDelegate* Delegate : Other.Delegates)
@@ -24,13 +24,13 @@ protected:
         }
     }
 
-    TEventBase(TEventBase&& Other)
+    CEEventBase(CEEventBase&& Other)
         : Base()
     {
         Base::Delegates = Move(Other.Delegates);
     }
 
-    ~TEventBase()
+    ~CEEventBase()
     {
         UnbindAll();
     }
@@ -46,31 +46,31 @@ protected:
         Base::Delegates.Clear();
     }
 
-    void Swap(TEventBase& Other)
+    void Swap(CEEventBase& Other)
     {
-        TEventBase Temp(Move(*this));
+        CEEventBase Temp(Move(*this));
         Base::Delegates = Move(Other.Delegates);
         Other.Delegates  = Move(Temp.Delegates);
     }
 
-    TEventBase& operator=(const TEventBase& RHS)
+    CEEventBase& operator=(const CEEventBase& RHS)
     {
-        TEventBase(RHS).Swap(*this);
+        CEEventBase(RHS).Swap(*this);
         return *this;
     }
 
-    TEventBase& operator=(TEventBase&& RHS)
+    CEEventBase& operator=(CEEventBase&& RHS)
     {
-        TEventBase(Move(RHS)).Swap(*this);
+        CEEventBase(Move(RHS)).Swap(*this);
         return *this;
     }
 };
 
 template<typename... TArgs>
-class TEvent : public TEventBase<TArgs...>
+class CEEvent : public CEEventBase<TArgs...>
 {
 protected:
-    typedef TEventBase<TArgs...> Base;
+    typedef CEEventBase<TArgs...> Base;
 
     typedef typename Base::IDelegate IDelegate;
 
@@ -90,10 +90,10 @@ protected:
 };
 
 template<>
-class TEvent<void> : public TEventBase<void>
+class CEEvent<void> : public CEEventBase<void>
 {
 protected:
-    typedef TEventBase<void> Base;
+    typedef CEEventBase<void> Base;
 
     typedef typename Base::IDelegate IDelegate;
 
@@ -113,7 +113,7 @@ protected:
 };
 
 #define DECLARE_EVENT(EventType, EventDispatcherType, ...) \
-    class EventType : public TEvent<__VA_ARGS__> \
+    class EventType : public CEEvent<__VA_ARGS__> \
     { \
         friend class EventDispatcherType; \
     }; \

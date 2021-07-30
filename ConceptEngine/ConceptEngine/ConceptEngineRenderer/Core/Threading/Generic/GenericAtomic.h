@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Core.h"
+#include "../../../CEDefinitions.h"
 
 #ifdef InterlockedAdd
     #undef InterlockedAdd

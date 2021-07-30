@@ -2,10 +2,10 @@
 #include "../../Core/Containers/Utilities.h"
 
 template<typename TInvokable>
-class TDelegateBase;
+class CEDelegateBase;
 
 template<typename TReturn, typename... TArgs>
-class TDelegateBase<TReturn(TArgs...)>
+class CEDelegateBase<TReturn(TArgs...)>
 {
 protected:
     typedef TReturn(*FunctionType)(TArgs...);

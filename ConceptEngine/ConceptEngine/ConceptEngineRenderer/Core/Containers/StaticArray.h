@@ -5,7 +5,7 @@
 // TStaticArray - Static Array similar to std::array
 
 template<typename T, int32 N>
-struct TStaticArray
+struct CEStaticArray
 {
 public:
     typedef T*                        Iterator;
@@ -40,9 +40,9 @@ public:
         }
     }
         
-    void Swap(TStaticArray& Other) noexcept
+    void Swap(CEStaticArray& Other) noexcept
     {
-        TStaticArray TempArray(::Move(*this));
+        CEStaticArray TempArray(::Move(*this));
         *this = ::Move(Other);
         Other = ::Move(TempArray);
     }

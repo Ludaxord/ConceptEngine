@@ -22,7 +22,7 @@ class RenderTargetView : public Resource
 {
 };
 
-using DepthStencilViewCube = TStaticArray<TRef<DepthStencilView>, 6>;
+using DepthStencilViewCube = CEStaticArray<TRef<DepthStencilView>, 6>;
 
 struct ShaderResourceViewCreateInfo
 {

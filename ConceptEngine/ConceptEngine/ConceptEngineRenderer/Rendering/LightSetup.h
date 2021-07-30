@@ -23,9 +23,9 @@ struct ShadowCastingPointLightData
 
 struct PointLightShadowMapGenerationData
 {
-    TStaticArray<XMFLOAT4X4, 6> Matrix;
-    TStaticArray<XMFLOAT4X4, 6> ViewMatrix;
-    TStaticArray<XMFLOAT4X4, 6> ProjMatrix;
+    CEStaticArray<XMFLOAT4X4, 6> Matrix;
+    CEStaticArray<XMFLOAT4X4, 6> ViewMatrix;
+    CEStaticArray<XMFLOAT4X4, 6> ProjMatrix;
     float    FarPlane;
     XMFLOAT3 Position;
 };
@@ -65,21 +65,21 @@ struct LightSetup
     void BeginFrame(CommandList& CmdList, const Scene& Scene);
     void Release();
 
-    TArray<XMFLOAT4>           PointLightsPosRad;
-    TArray<PointLightData>     PointLightsData;
+    CEArray<XMFLOAT4>           PointLightsPosRad;
+    CEArray<PointLightData>     PointLightsData;
     TRef<ConstantBuffer> PointLightsBuffer;
     TRef<ConstantBuffer> PointLightsPosRadBuffer;
 
-    TArray<PointLightShadowMapGenerationData> PointLightShadowMapsGenerationData;
-    TArray<XMFLOAT4>                    ShadowCastingPointLightsPosRad;
-    TArray<ShadowCastingPointLightData> ShadowCastingPointLightsData;
+    CEArray<PointLightShadowMapGenerationData> PointLightShadowMapsGenerationData;
+    CEArray<XMFLOAT4>                    ShadowCastingPointLightsPosRad;
+    CEArray<ShadowCastingPointLightData> ShadowCastingPointLightsData;
     TRef<ConstantBuffer>          ShadowCastingPointLightsBuffer;
     TRef<ConstantBuffer>          ShadowCastingPointLightsPosRadBuffer;
     TRef<TextureCubeArray>        PointLightShadowMaps;
-    TArray<DepthStencilViewCube>        PointLightShadowMapDSVs;
+    CEArray<DepthStencilViewCube>        PointLightShadowMapDSVs;
 
-    TArray<DirLightShadowMapGenerationData> DirLightShadowMapsGenerationData;
-    TArray<DirectionalLightData> DirectionalLightsData;
+    CEArray<DirLightShadowMapGenerationData> DirLightShadowMapsGenerationData;
+    CEArray<DirectionalLightData> DirectionalLightsData;
     TRef<ConstantBuffer>   DirectionalLightsBuffer;
     TRef<Texture2D>        DirLightShadowMaps;
 
@@ -87,6 +87,6 @@ struct LightSetup
     TRef<UnorderedAccessView> IrradianceMapUAV;
 
     TRef<TextureCube>                 SpecularIrradianceMap;
-    TArray<TRef<UnorderedAccessView>> SpecularIrradianceMapUAVs;
-    TArray<UnorderedAccessView*>            WeakSpecularIrradianceMapUAVs;
+    CEArray<TRef<UnorderedAccessView>> SpecularIrradianceMapUAVs;
+    CEArray<UnorderedAccessView*>            WeakSpecularIrradianceMapUAVs;
 };

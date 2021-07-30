@@ -252,10 +252,10 @@ D3D12ShaderCompiler::~D3D12ShaderCompiler() {
 bool D3D12ShaderCompiler::CompileFromFile(
 	const std::string& FilePath,
 	const std::string& EntryPoint,
-	const TArray<ShaderDefine>* Defines,
+	const CEArray<ShaderDefine>* Defines,
 	EShaderStage ShaderStage,
 	EShaderModel ShaderModel,
-	TArray<uint8>& Code) {
+	CEArray<uint8>& Code) {
 	std::wstring WideFilePath = ConvertToWide(FilePath);
 	std::wstring WideEntrypoint = ConvertToWide(EntryPoint);
 
@@ -275,10 +275,10 @@ bool D3D12ShaderCompiler::CompileFromFile(
 bool D3D12ShaderCompiler::CompileShader(
 	const std::string& ShaderSource,
 	const std::string& EntryPoint,
-	const TArray<ShaderDefine>* Defines,
+	const CEArray<ShaderDefine>* Defines,
 	EShaderStage ShaderStage,
 	EShaderModel ShaderModel,
-	TArray<uint8>& Code) {
+	CEArray<uint8>& Code) {
 	std::wstring WideEntrypoint = ConvertToWide(EntryPoint);
 
 	TComPtr<IDxcBlobEncoding> SourceBlob;
@@ -392,9 +392,9 @@ bool D3D12ShaderCompiler::InternalCompileFromSource(
 	LPCWSTR Entrypoint,
 	EShaderStage ShaderStage,
 	EShaderModel ShaderModel,
-	const TArray<ShaderDefine>* Defines,
-	TArray<uint8>& Code) {
-	TArray<LPCWSTR> Args =
+	const CEArray<ShaderDefine>* Defines,
+	CEArray<uint8>& Code) {
+	CEArray<LPCWSTR> Args =
 	{
 		L"-O3", // Optimization level 3
 	};
@@ -405,8 +405,8 @@ bool D3D12ShaderCompiler::InternalCompileFromSource(
 	}
 
 	// Convert defines
-	TArray<DxcDefine> DxDefines;
-	TArray<std::wstring> StrBuff;
+	CEArray<DxcDefine> DxDefines;
+	CEArray<std::wstring> StrBuff;
 	if (Defines) {
 		StrBuff.Reserve(Defines->Size() * 2);
 		DxDefines.Reserve(Defines->Size());

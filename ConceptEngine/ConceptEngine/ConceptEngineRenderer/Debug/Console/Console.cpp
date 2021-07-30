@@ -25,7 +25,7 @@ void Console::Tick()
 {
     if (IsActive)
     {
-        DebugUI::DrawUI([]()
+        CEDebugUI::DrawUI([]()
         {
             GConsole.DrawInterface();
         });
