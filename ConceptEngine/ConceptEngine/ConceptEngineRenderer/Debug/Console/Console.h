@@ -14,7 +14,7 @@
 #define INIT_CONSOLE_VARIABLE(Name, Variable) GConsole.RegisterVariable(Name, Variable)
 #define INIT_CONSOLE_COMMAND(Name, Command)   GConsole.RegisterCommand(Name, Command)
 
-class Console
+class CEActionConsole
 {
     struct Line
     {
@@ -50,8 +50,8 @@ class Console
     };
 
 public:
-    void Init();
-    void Tick();
+    void Create();
+    void Update();
 
     void RegisterCommand(const String& Name, ConsoleCommand* Object);
     void RegisterVariable(const String& Name, ConsoleVariable* Variable);
@@ -100,7 +100,7 @@ private:
     bool IsActive                  = false;
 };
 
-extern Console GConsole;
+extern CEActionConsole GConsole;
 
 #ifdef COMPILER_VISUAL_STUDIO
     #pragma warning(pop)

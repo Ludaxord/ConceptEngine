@@ -1,7 +1,7 @@
 #include "Editor.h"
 
 #include "../Rendering/DebugUI.h"
-#include "../Rendering/Renderer.h"
+#include "../Rendering/CERenderer.h"
 
 #include "../Core/Engine/Engine.h"
 #include "../Core/Engine/EngineLoop.h"

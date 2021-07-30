@@ -10,7 +10,7 @@
 #include "../../Core/Threading/CETaskManager.h"
 
 #include "../../Rendering/DebugUI.h"
-#include "../../Rendering/Renderer.h"
+#include "../../Rendering/CERenderer.h"
 #include "../../Rendering/Resources/TextureFactory.h"
 
 #include "../../Editor/Editor.h"
@@ -83,13 +83,13 @@ bool EngineLoop::Init()
         return false;
     }
 
-    if (!GRenderer.Init())
+    if (!GRenderer.Create())
     {
         CEPlatformMisc::MessageBox("ERROR", "FAILED to create Renderer");
         return false;
     }
 
-    GConsole.Init();
+    GConsole.Create();
 
     if (!CEDebugUI::Create())
     {
@@ -110,13 +110,13 @@ void EngineLoop::Tick(CETimestamp Deltatime)
 
     GApplication->Tick(Deltatime);
 
-    GConsole.Tick();
+    GConsole.Update();
 
     Editor::Tick();
 
     CEProfiler::Update();
 
-    GRenderer.Tick(*GApplication->Scene);
+    GRenderer.Update(*GApplication->Scene);
 }
 
 void EngineLoop::Run()

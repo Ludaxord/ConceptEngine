@@ -1,6 +1,6 @@
 #include "PointLight.h"
 
-#include "../../Rendering/Renderer.h"
+#include "../../Rendering/CERenderer.h"
 
 PointLight::PointLight()
 	: Light()

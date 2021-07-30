@@ -142,10 +142,12 @@
     <ClInclude Include="Memory\New.h" />
     <ClInclude Include="Platform\Android\CEAndroid.h" />
     <ClInclude Include="Platform\CEPlatform.h" />
+    <ClInclude Include="Platform\Generic\Console\CETypedConsole.h" />
     <ClInclude Include="Platform\iOS\CEiOS.h" />
     <ClInclude Include="Platform\Linux\CELinux.h" />
     <ClInclude Include="Platform\Mac\CEMac.h" />
     <ClInclude Include="Platform\Windows\CEWindows.h" />
+    <ClInclude Include="Platform\Windows\Console\CEWindowsCommandConsole.h" />
     <ClInclude Include="PreCompiled.h" />
     <ClInclude Include="Project\CEPlayground.h" />
     <ClInclude Include="Rendering\DebugUI.h" />
@@ -156,7 +158,7 @@
     <ClInclude Include="Rendering\LightSetup.h" />
     <ClInclude Include="Rendering\MeshDrawCommand.h" />
     <ClInclude Include="Rendering\RayTracer.h" />
-    <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Rendering\CERenderer.h" />
     <ClInclude Include="Rendering\Resources\Material.h" />
     <ClInclude Include="Rendering\Resources\Mesh.h" />
     <ClInclude Include="Rendering\Resources\MeshFactory.h" />
@@ -279,7 +281,7 @@
     <ClCompile Include="Rendering\LightProbeRenderer.cpp" />
     <ClCompile Include="Rendering\LightSetup.cpp" />
     <ClCompile Include="Rendering\RayTracer.cpp" />
-    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Rendering\CERenderer.cpp" />
     <ClCompile Include="Rendering\Resources\Material.cpp" />
     <ClCompile Include="Rendering\Resources\Mesh.cpp" />
     <ClCompile Include="Rendering\Resources\MeshFactory.cpp" />

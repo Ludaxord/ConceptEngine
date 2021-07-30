@@ -9,7 +9,7 @@
 #include "../Time/Timer.h"
 
 #include "../Rendering/Resources/TextureFactory.h"
-#include "../Rendering/Renderer.h"
+#include "../Rendering/CERenderer.h"
 
 #include "../RenderLayer/Resources.h"
 #include "../RenderLayer/RenderLayer.h"

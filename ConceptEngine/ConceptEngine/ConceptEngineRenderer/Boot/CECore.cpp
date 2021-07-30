@@ -16,11 +16,13 @@
 #include "Graphics/WebGL/CEWebGL.h"
 #include "Platform/CEPlatform.h"
 #include "Platform/Android/CEAndroid.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 #include "Platform/iOS/CEiOS.h"
 #include "Platform/Linux/CELinux.h"
 #include "Platform/Mac/CEMac.h"
 #include "Platform/Windows/CEWindows.h"
 #include "Project/CEPlayground.h"
+#include "Rendering/CERenderer.h"
 
 CETypedConsole Console;
 

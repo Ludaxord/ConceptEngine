@@ -9,19 +9,19 @@
 
 #include <regex>
 
-Console GConsole;
+CEActionConsole GConsole;
 
 ConsoleCommand GClearHistory;
 
-void Console::Init()
+void CEActionConsole::Create()
 {
-    GClearHistory.OnExecute.AddObject(this, &Console::ClearHistory);
+    GClearHistory.OnExecute.AddObject(this, &CEActionConsole::ClearHistory);
     INIT_CONSOLE_COMMAND("ClearHistory", &GClearHistory);
     
-    GEngine.OnKeyPressedEvent.AddObject(this, &Console::OnKeyPressedEvent);
+    GEngine.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
 }
 
-void Console::Tick()
+void CEActionConsole::Update()
 {
     if (IsActive)
     {
@@ -32,7 +32,7 @@ void Console::Tick()
     }
 }
 
-void Console::RegisterCommand(const String& Name, ConsoleCommand* Command)
+void CEActionConsole::RegisterCommand(const String& Name, ConsoleCommand* Command)
 {
     if (!RegisterObject(Name, Command))
     {
@@ -40,7 +40,7 @@ void Console::RegisterCommand(const String& Name, ConsoleCommand* Command)
     }
 }
 
-void Console::RegisterVariable(const String& Name, ConsoleVariable* Variable)
+void CEActionConsole::RegisterVariable(const String& Name, ConsoleVariable* Variable)
 {
     if (!RegisterObject(Name, Variable))
     {
@@ -48,7 +48,7 @@ void Console::RegisterVariable(const String& Name, ConsoleVariable* Variable)
     }
 }
 
-ConsoleCommand* Console::FindCommand(const String& Name)
+ConsoleCommand* CEActionConsole::FindCommand(const String& Name)
 {
     ConsoleObject* Object = FindConsoleObject(Name);
     if (!Object)
@@ -69,7 +69,7 @@ ConsoleCommand* Console::FindCommand(const String& Name)
     }
 }
 
-ConsoleVariable* Console::FindVariable(const String& Name)
+ConsoleVariable* CEActionConsole::FindVariable(const String& Name)
 {
     ConsoleObject* Object = FindConsoleObject(Name);
     if (!Object)
@@ -90,28 +90,28 @@ ConsoleVariable* Console::FindVariable(const String& Name)
     }
 }
 
-void Console::PrintMessage(const String& Message)
+void CEActionConsole::PrintMessage(const String& Message)
 {
     Lines.EmplaceBack(Message, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
-void Console::PrintWarning(const String& Message)
+void CEActionConsole::PrintWarning(const String& Message)
 {
     Lines.EmplaceBack(Message, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
 }
 
-void Console::PrintError(const String& Message)
+void CEActionConsole::PrintError(const String& Message)
 {
     Lines.EmplaceBack(Message, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
-void Console::ClearHistory()
+void CEActionConsole::ClearHistory()
 {
     History.Clear();
     HistoryIndex = -1;
 }
 
-void Console::OnKeyPressedEvent(const KeyPressedEvent& Event)
+void CEActionConsole::OnKeyPressedEvent(const KeyPressedEvent& Event)
 {
     if (!Event.IsRepeat && Event.Key == EKey::Key_GraveAccent)
     {
@@ -119,7 +119,7 @@ void Console::OnKeyPressedEvent(const KeyPressedEvent& Event)
     }
 }
 
-void Console::DrawInterface()
+void CEActionConsole::DrawInterface()
 {
     const uint32 WindowWidth  = GEngine.MainWindow->GetWidth();
     const uint32 WindowHeight = GEngine.MainWindow->GetHeight();
@@ -282,7 +282,7 @@ void Console::DrawInterface()
 
     auto Callback = [](ImGuiInputTextCallbackData* Data)->int32
     {
-        Console* This = reinterpret_cast<Console*>(Data->UserData);
+        CEActionConsole* This = reinterpret_cast<CEActionConsole*>(Data->UserData);
         return This->TextCallback(Data);
     };
 
@@ -327,7 +327,7 @@ void Console::DrawInterface()
     ImGui::End();
 }
 
-int32 Console::TextCallback(ImGuiInputTextCallbackData* Data)
+int32 CEActionConsole::TextCallback(ImGuiInputTextCallbackData* Data)
 {
     if (UpdateCursorPosition)
     {
@@ -535,7 +535,7 @@ int32 Console::TextCallback(ImGuiInputTextCallbackData* Data)
     return 0;
 }
 
-void Console::Execute(const String& CmdString)
+void CEActionConsole::Execute(const String& CmdString)
 {
     PrintMessage(CmdString);
 
@@ -601,7 +601,7 @@ void Console::Execute(const String& CmdString)
     }
 }
 
-bool Console::RegisterObject(const String& Name, ConsoleObject* Object)
+bool CEActionConsole::RegisterObject(const String& Name, ConsoleObject* Object)
 {
     auto ExistingObject = ConsoleObjects.find(Name);
     if (ExistingObject == ConsoleObjects.end())
@@ -615,7 +615,7 @@ bool Console::RegisterObject(const String& Name, ConsoleObject* Object)
     }
 }
 
-ConsoleObject* Console::FindConsoleObject(const String& Name)
+ConsoleObject* CEActionConsole::FindConsoleObject(const String& Name)
 {
     auto ExisitingObject = ConsoleObjects.find(Name);
     if (ExisitingObject != ConsoleObjects.end())

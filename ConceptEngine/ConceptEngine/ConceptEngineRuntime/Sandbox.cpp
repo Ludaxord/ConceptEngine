@@ -2,7 +2,7 @@
 
 #include "../ConceptEngineRenderer/Math/Math.h"
 
-#include "../ConceptEngineRenderer/Rendering/Renderer.h"
+#include "../ConceptEngineRenderer/Rendering/CERenderer.h"
 #include "../ConceptEngineRenderer/Rendering/DebugUI.h"
 #include "../ConceptEngineRenderer/Rendering/Resources/TextureFactory.h"
 

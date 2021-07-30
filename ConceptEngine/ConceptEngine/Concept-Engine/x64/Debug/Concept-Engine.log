@@ -1,1643 +1,202 @@
 ﻿  CECore.cpp
   CEGameCore.cpp
   CEEditor.cpp
-  CEGameDebug.cpp
-  CEGame.cpp
-  CEProfiler.cpp
-  CEEngineController.cpp
-  CEActionConsole.cpp
   CEDirectX12.cpp
-  CEDXMaterial.cpp
-  CEDXTextureManager.cpp
-  CEDXDescriptorCache.cpp
-  CEDXRayTracing.cpp
-  CEDXViewport.cpp
   CEDXRenderer.cpp
   CEDirectXRenderer.cpp
-  CEDXBaseDebugUI.cpp
-  CEDXBaseDeferredRenderer.cpp
-  CEDXBaseForwardRenderer.cpp
-  CEDXBaseLightProbeRenderer.cpp
-  CEDXBaseRayTracer.cpp
-  CEDXBaseScreenSpaceOcclusionRenderer.cpp
-  CEDXBaseShadowMapRenderer.cpp
-  CEDXBaseSkyBoxRenderPass.cpp
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Math\CEOperators.h(264): warning C4172: returning address of local variable or temporary
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-  CEDXDeferredRenderer.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\Game\CEGame.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\GameDebug\CEGameDebug.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXViewport.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Application\CECore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXDescriptorCache.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-  CEDXForwardRenderer.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Debug\CEProfiler.cpp)
-  CEDXLightProbeRenderer.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Platform\Generic\Callbacks\CEEngineController.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseForwardRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-  CEDXRayTracer.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\RenderLayer\CEDXRayTracing.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Platform\Generic\Debug\CEActionConsole.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Managers\CEDXTextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Application\CECore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CECore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CECore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CECore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CECore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\CECore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\CECore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseScreenSpaceOcclusionRenderer.cpp)
-  CEDXScreenSpaceOcclusionRenderer.cpp
-  CEDXShadowMapRenderer.cpp
-  CEDXSkyBoxRenderPass.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseDebugUI.cpp)
-  CEGraphics.cpp
-  CEMaterial.cpp
-  CEMesh.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseSkyBoxRenderPass.cpp)
-  CETextureManager.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Core\Application\CEGameCore.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Math\CEOperators.h(122): warning C4172: returning address of local variable or temporary
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Render\CEDXRenderer.cpp(929): warning C4172: returning address of local variable or temporary: InputLayout
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Render\CEDirectXRenderer.cpp(1242): warning C4172: returning address of local variable or temporary: InputLayout
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\Base\CEDXBaseShadowMapRenderer.cpp)
-  CEBaseLightSetup.cpp
-  CEDeferredRenderer.cpp
-  CEForwardRenderer.cpp
-  CELightProbeRenderer.cpp
-  CELightSetup.cpp
-  CEShadowMapRenderer.cpp
-  CEMetal.cpp
-  CEOpenGL.cpp
-  CEVulkan.cpp
   CERenderer.cpp
-  CEScene.cpp
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
           with
           [
               T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
           with
           [
               T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
+          ] (compiling source file Core\Application\CECore.cpp)
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
           with
           [
               T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXForwardRenderer.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
           with
           [
               T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXDeferredRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXLightProbeRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Common\CEMesh.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXRayTracer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Common\CEMaterial.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Managers\CETextureManager.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXSkyBoxRenderPass.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Rendering\CEBaseLightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXScreenSpaceOcclusionRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\Main\Rendering\CELightSetup.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=char
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
-          with
-          [
-              _Iter=const wchar_t *
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
-          with
-          [
-              _Elem=wchar_t,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
-              _Alloc=std::allocator<char>
-          ] (compiling source file Graphics\DirectX12\Rendering\CEDXShadowMapRenderer.cpp)
-F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
-          with
-          [
-              T=uint32
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
           with
           [
               T=uint32
           ] (compiling source file Render\CERenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
+          with
+          [
+              T=uint32
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\RenderLayer\CEDXCommandContext.h(189,54): warning C4244: 'argument': conversion from 'uint64' to 'T', possible loss of data
+          with
+          [
+              T=uint32
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
 C:\src\vcpkg\installed\x64-windows-static\include\boost\bind.hpp(41): message : The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
           with
           [
               _Elem=char
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
           with
           [
               _Iter=const wchar_t *
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
           with
           [
               _Iter=const wchar_t *
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
           with
           [
               _Iter=const wchar_t *
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
           with
           [
               _Iter=const wchar_t *
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
           with
           [
               _Elem=wchar_t,
               _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
-          ] (compiling source file Render\Scene\CEScene.cpp)
+          ] (compiling source file Core\Application\CEGameCore.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Graphics\DirectX12\CEDirectX12.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ] (compiling source file Core\Application\CECore.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\CECore.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\CECore.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\CECore.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\CECore.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Core\Application\CECore.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Core\Application\CECore.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Core\Application\Editor\CEEditor.cpp)
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
           with
           [
@@ -1677,6 +236,86 @@ F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\C
               _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
               _Alloc=std::allocator<char>
           ] (compiling source file Render\CERenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Graphics\DirectX12\Render\CEDXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2468,23): warning C4244: 'argument': conversion from 'const wchar_t' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2479): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(_Iter,const _Iter,std::input_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\xstring(2459): message : see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<const wchar_t*>(const _Iter,const _Iter,std::forward_iterator_tag)' being compiled
+          with
+          [
+              _Iter=const wchar_t *
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Utilities\CEStringUtilities.h(12): message : see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+              _Alloc=std::allocator<char>
+          ] (compiling source file Graphics\DirectX12\Render\CEDirectXRenderer.cpp)
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Render\CEDXRenderer.cpp(929): warning C4172: returning address of local variable or temporary: InputLayout
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Concept-Engine\Graphics\DirectX12\Render\CEDirectXRenderer.cpp(1242): warning C4172: returning address of local variable or temporary: InputLayout
 dxgi.lib(dxgi.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 D3DCompiler.lib(D3DCOMPILER_47.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored
 Shlwapi.lib(SHLWAPI.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3d12.lib(d3d12.dll); second definition ignored

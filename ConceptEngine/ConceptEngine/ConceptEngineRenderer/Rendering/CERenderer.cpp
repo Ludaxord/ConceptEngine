@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "CERenderer.h"
 #include "DebugUI.h"
 
 #include "Resources/TextureFactory.h"
@@ -19,8 +19,6 @@
 #include <imgui_internal.h>
 
 static const uint32 ShadowMapSampleCount = 2;
-
-Renderer GRenderer;
 
 TConsoleVariable<bool> GDrawTextureDebugger(false);
 TConsoleVariable<bool> GDrawRendererInfo(true);
@@ -54,7 +52,7 @@ struct CameraBufferDesc
     float      AspectRatio;
 };
 
-void Renderer::PerformFrustumCulling(const Scene& Scene)
+void CERenderer::PerformFrustumCulling(const Scene& Scene)
 {
     TRACE_SCOPE("Frustum Culling");
 
@@ -86,7 +84,7 @@ void Renderer::PerformFrustumCulling(const Scene& Scene)
     }
 }
 
-void Renderer::PerformFXAA(CommandList& InCmdList)
+void CERenderer::PerformFXAA(CommandList& InCmdList)
 {
     INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin FXAA");
 
@@ -125,7 +123,7 @@ void Renderer::PerformFXAA(CommandList& InCmdList)
     INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End FXAA");
 }
 
-void Renderer::PerformBackBufferBlit(CommandList& InCmdList)
+void CERenderer::PerformBackBufferBlit(CommandList& InCmdList)
 {
     INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin Draw BackBuffer");
 
@@ -144,7 +142,7 @@ void Renderer::PerformBackBufferBlit(CommandList& InCmdList)
     INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End Draw BackBuffer");
 }
 
-void Renderer::PerformAABBDebugPass(CommandList& InCmdList)
+void CERenderer::PerformAABBDebugPass(CommandList& InCmdList)
 {
     INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin DebugPass");
 
@@ -180,7 +178,7 @@ void Renderer::PerformAABBDebugPass(CommandList& InCmdList)
     INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End DebugPass");
 }
 
-void Renderer::RenderDebugInterface()
+void CERenderer::RenderDebugInterface()
 {
     if (GDrawTextureDebugger.GetBool())
     {
@@ -313,7 +311,7 @@ void Renderer::RenderDebugInterface()
     }
 }
 
-void Renderer::Tick(const Scene& Scene)
+void CERenderer::Update(const Scene& Scene)
 {
     // Perform frustum culling
     Resources.DeferredVisibleCommands.Clear();
@@ -593,7 +591,7 @@ void Renderer::Tick(const Scene& Scene)
     }
 }
 
-bool Renderer::Init()
+bool CERenderer::Create()
 {
     INIT_CONSOLE_VARIABLE("r.DrawTextureDebugger", &GDrawTextureDebugger);
     INIT_CONSOLE_VARIABLE("r.DrawRendererInfo", &GDrawRendererInfo);
@@ -698,17 +696,17 @@ bool Renderer::Init()
 
     CEProfiler::SetGPUProfiler(GPUProfiler.Get());
 
-    if (!InitAA())
+    if (!CreateAA())
     {
         return false;
     }
 
-    if (!InitBoundingBoxDebugPass())
+    if (!CreateBoundingBoxDebugPass())
     {
         return false;
     }
 
-    if (!InitShadingImage())
+    if (!CreateShadingImage())
     {
         return false;
     }
@@ -764,11 +762,11 @@ bool Renderer::Init()
     GCmdListExecutor.ExecuteCommandList(CmdList);
 
     // Register EventFunc
-    GEngine.OnWindowResizedEvent.AddObject(this, &Renderer::OnWindowResize);
+    GEngine.OnWindowResizedEvent.AddObject(this, &CERenderer::OnWindowResize);
     return true;
 }
 
-void Renderer::Release()
+void CERenderer::Release()
 {
     GCmdListExecutor.WaitForGPU();
 
@@ -810,12 +808,12 @@ void Renderer::Release()
     LastFrameNumCommands      = 0;
 }
 
-void Renderer::OnWindowResize(const WindowResizeEvent& Event)
+void CERenderer::OnWindowResize(const WindowResizeEvent& Event)
 {
     ResizeResources(Event.Width, Event.Height);
 }
 
-bool Renderer::InitBoundingBoxDebugPass()
+bool CERenderer::CreateBoundingBoxDebugPass()
 {
     CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
@@ -993,7 +991,7 @@ bool Renderer::InitBoundingBoxDebugPass()
     return true;
 }
 
-bool Renderer::InitAA()
+bool CERenderer::CreateAA()
 {
     CEArray<uint8> ShaderCode;
     if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
@@ -1179,7 +1177,7 @@ bool Renderer::InitAA()
     return true;
 }
 
-bool Renderer::InitShadingImage()
+bool CERenderer::CreateShadingImage()
 {
     ShadingRateSupport Support;
     CheckShadingRateSupport(Support);
@@ -1235,7 +1233,7 @@ bool Renderer::InitShadingImage()
     return true;
 }
 
-void Renderer::ResizeResources(uint32 Width, uint32 Height)
+void CERenderer::ResizeResources(uint32 Width, uint32 Height)
 {
     if (!Resources.MainWindowViewport->Resize(Width, Height))
     {

@@ -1,0 +1,87 @@
+#pragma once
+#include "../Time/Timer.h"
+
+#include "../Scene/Actor.h"
+#include "../Scene/Scene.h"
+#include "../Scene/Camera.h"
+
+#include "Resources/Mesh.h"
+#include "Resources/Material.h"
+#include "Resources/MeshFactory.h"
+
+#include "DeferredRenderer.h"
+#include "ShadowMapRenderer.h"
+#include "ScreenSpaceOcclusionRenderer.h"
+#include "LightProbeRenderer.h"
+#include "SkyboxRenderPass.h"
+#include "ForwardRenderer.h"
+#include "RayTracer.h"
+
+#include "../RenderLayer/RenderLayer.h"
+#include "../RenderLayer/CommandList.h"
+#include "../RenderLayer/Viewport.h"
+
+#include "DebugUI.h"
+
+class CERenderer {
+public:
+	virtual bool Create() = 0;
+	virtual void Release() = 0;
+
+	virtual void PerformFrustumCulling(const Scene& Scene) = 0;
+	virtual void PerformFXAA(CommandList& InCmdList) = 0;
+	virtual void PerformBackBufferBlit(CommandList& InCmdList) = 0;
+
+	virtual void PerformAABBDebugPass(CommandList& InCmdList) = 0;
+
+	virtual void RenderDebugInterface() = 0;
+
+	virtual void Update(const Scene& Scene) = 0;
+
+private:
+	void OnWindowResize(const WindowResizeEvent& Event);
+
+	virtual bool CreateBoundingBoxDebugPass() = 0;
+	virtual bool CreateAA() = 0;
+	virtual bool CreateShadingImage() = 0;
+
+	virtual void ResizeResources(uint32 Width, uint32 Height) = 0;
+
+	CommandList CmdList;
+
+	DeferredRenderer DeferredRenderer;
+	ShadowMapRenderer ShadowMapRenderer;
+	ScreenSpaceOcclusionRenderer SSAORenderer;
+	LightProbeRenderer LightProbeRenderer;
+	SkyboxRenderPass SkyboxRenderPass;
+	ForwardRenderer ForwardRenderer;
+	RayTracer RayTracer;
+
+	FrameResources Resources;
+	LightSetup LightSetup;
+
+	TRef<Texture2D> ShadingImage;
+	TRef<ComputePipelineState> ShadingRatePipeline;
+	TRef<ComputeShader> ShadingRateShader;
+
+	TRef<VertexBuffer> AABBVertexBuffer;
+	TRef<IndexBuffer> AABBIndexBuffer;
+	TRef<GraphicsPipelineState> AABBDebugPipelineState;
+	TRef<VertexShader> AABBVertexShader;
+	TRef<PixelShader> AABBPixelShader;
+
+	TRef<GraphicsPipelineState> PostPSO;
+	TRef<PixelShader> PostShader;
+	TRef<GraphicsPipelineState> FXAAPSO;
+	TRef<PixelShader> FXAAShader;
+	TRef<GraphicsPipelineState> FXAADebugPSO;
+	TRef<PixelShader> FXAADebugShader;
+
+	TRef<GPUProfiler> GPUProfiler;
+
+	uint32 LastFrameNumDrawCalls = 0;
+	uint32 LastFrameNumDispatchCalls = 0;
+	uint32 LastFrameNumCommands = 0;
+};
+
+extern CERenderer* Renderer;

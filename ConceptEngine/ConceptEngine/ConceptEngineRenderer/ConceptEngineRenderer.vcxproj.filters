@@ -333,7 +333,7 @@
     <ClInclude Include="Rendering\RayTracer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Renderer.h">
+    <ClInclude Include="Rendering\CERenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\ScreenSpaceOcclusionRenderer.h">
@@ -561,6 +561,12 @@
     <ClInclude Include="Graphics\Generic\Managers\CEMeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Platform\Generic\Console\CETypedConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\Console\CEWindowsCommandConsole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -710,7 +716,7 @@
     <ClCompile Include="Rendering\RayTracer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Renderer.cpp">
+    <ClCompile Include="Rendering\CERenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\ScreenSpaceOcclusionRenderer.cpp">
