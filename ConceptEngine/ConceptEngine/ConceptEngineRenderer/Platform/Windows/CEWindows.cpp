@@ -1,6 +1,10 @@
 #include "CEWindows.h"
 
+#include "Core/Application/Windows/CEWindowsConsole.h"
+#include "Core/Application/Windows/CEWindowsCursor.h"
+#include "Core/Application/Windows/CEWindowsInputManager.h"
 #include "Core/Application/Windows/CEWindowsWindow.h"
+#include "Core/Application/Windows/WindowsPlatform.h"
 
 CEWindows::CEWindows(): CEPlatform() {
 }
@@ -19,7 +23,7 @@ bool CEWindows::Create() {
 
 bool CEWindows::CreateSystemWindow() {
 	Window = new CEWindowsWindow();
-	if (!Window->Create(ProjectConfig.GetStringTitle(), CEWindowSize::GetWidth(), CEWindowSize::GetHeight(),
+	if (!Window->Create(ProjectConfig.Title, CEWindowSize::GetWidth(), CEWindowSize::GetHeight(),
 	                    DefaultStyle)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -74,7 +78,7 @@ bool CEWindows::CreateCursor() {
 	return true;
 }
 
-bool CEWindows::Update() {
+void CEWindows::Update() {
 	switch (GEngineConfig.EngineBoot) {
 
 	case EngineBoot::Runtime:
@@ -92,9 +96,9 @@ bool CEWindows::Release() {
 	return true;
 }
 
-void CEWindows::SetCapture(CEWindow* Window) {
+void CEWindows::SetCapture(CEWindow* ActiveWindow) {
 	if (Window) {
-		CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(Window);
+		CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(ActiveWindow);
 		HWND hCapture = WinWindow->GetHandle();
 		if (WinWindow->IsValid()) {
 			::SetCapture(hCapture);
@@ -105,8 +109,8 @@ void CEWindows::SetCapture(CEWindow* Window) {
 	}
 }
 
-void CEWindows::SetActiveWindow(CEWindow* Window) {
-	CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(Window);
+void CEWindows::SetActiveWindow(CEWindow* ActiveWindow) {
+	CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(ActiveWindow);
 	HWND hActiveWindow = WinWindow->GetHandle();
 	if (WinWindow->IsValid()) {
 		::SetActiveWindow(hActiveWindow);
@@ -263,12 +267,12 @@ LRESULT CEWindows::MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(window, message, wParam, lParam);
 }
 
-void CEWindows::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam) {
+void CEWindows::HandleStoredMessage(HWND ActiveWindow, UINT Message, WPARAM wParam, LPARAM lParam) {
 	constexpr uint16 SCAN_CODE_MASK = 0x01ff;
 	constexpr uint32 KEY_REPEAT_MASK = 0x40000000;
 	constexpr uint16 BACK_BUTTON_MASK = 0x0001;
 
-	CERef<CEWindowsWindow> MessageWindow = CEWindowsWindowHandle(Window).GetWindow();
+	CERef<CEWindowsWindow> MessageWindow = CEWindowsWindowHandle(ActiveWindow).GetWindow();
 	switch (Message) {
 
 	case WM_CLOSE: {
@@ -317,7 +321,7 @@ void CEWindows::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LP
 	case WM_SYSKEYUP:
 	case WM_KEYUP: {
 		const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-		const CEKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
+		const CEKey Key = InputManager->ConvertFromScanCode(ScanCode);
 		Callbacks->OnKeyReleased(Key, GetModifierKeyState());
 		break;
 	}
@@ -326,7 +330,7 @@ void CEWindows::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LP
 	case WM_KEYDOWN: {
 		const bool IsRepeat = !!(lParam & KEY_REPEAT_MASK);
 		const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-		const CEKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
+		const CEKey Key = InputManager->ConvertFromScanCode(ScanCode);
 		Callbacks->OnKeyPressed(Key, IsRepeat, GetModifierKeyState());
 		break;
 	}
@@ -347,7 +351,7 @@ void CEWindows::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LP
 
 			TrackEvent.cbSize = sizeof(TRACKMOUSEEVENT);
 			TrackEvent.dwFlags = TME_LEAVE;
-			TrackEvent.hwndTrack = Window;
+			TrackEvent.hwndTrack = ActiveWindow;
 			::TrackMouseEvent(&TrackEvent);
 
 			Callbacks->OnWindowMouseEntered(MessageWindow);
@@ -439,6 +443,6 @@ void CEWindows::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LP
 }
 
 
-void CEWindows::StoreMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam) {
-	Messages.EmplaceBack(CEWindowsEvent(Window, Message, wParam, lParam));
+void CEWindows::StoreMessage(HWND ActiveWindow, UINT Message, WPARAM wParam, LPARAM lParam) {
+	Messages.EmplaceBack(CEWindowsEvent(ActiveWindow, Message, wParam, lParam));
 }

@@ -1,8 +1,8 @@
-#include "WindowsCursor.h"
+#include "CEWindowsCursor.h"
 
-GenericCursor* WindowsCursor::Create(LPCWSTR CursorName)
+CECursor* CEWindowsCursor::Create(LPCWSTR CursorName)
 {
-    CERef<WindowsCursor> NewCursor = DBG_NEW WindowsCursor();
+    CERef<CEWindowsCursor> NewCursor = DBG_NEW CEWindowsCursor();
     if (!NewCursor->Init(CursorName))
     {
         return nullptr;
@@ -13,14 +13,14 @@ GenericCursor* WindowsCursor::Create(LPCWSTR CursorName)
     }
 }
 
-WindowsCursor::WindowsCursor()
-    : GenericCursor()
+CEWindowsCursor::CEWindowsCursor()
+    : CECursor()
     , Cursor(0)
     , CursorName(nullptr)
 {
 }
 
-WindowsCursor::~WindowsCursor()
+CEWindowsCursor::~CEWindowsCursor()
 {
     if (!CursorName)
     {
@@ -28,7 +28,7 @@ WindowsCursor::~WindowsCursor()
     }
 }
 
-bool WindowsCursor::Init(LPCWSTR InCursorName)
+bool CEWindowsCursor::Init(LPCWSTR InCursorName)
 {
     CursorName = InCursorName;
     if (CursorName)

@@ -9,7 +9,7 @@ public:
 	bool CreateSystemWindow() override;
 	bool CreateSystemConsole() override;
 	bool CreateCursor() override;
-	bool Update() override;
+	void Update() override;
 	bool Release() override;
 	void SetCapture(CEWindow* Window) override;
 	void SetActiveWindow(CEWindow* Window) override;

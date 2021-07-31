@@ -1,5 +1,5 @@
 #pragma once
-#include "Generic/GenericOutputConsole.h"
+#include "Generic/CEConsole.h"
 
 #define CE_LOG_ERROR(Message) \
     { \

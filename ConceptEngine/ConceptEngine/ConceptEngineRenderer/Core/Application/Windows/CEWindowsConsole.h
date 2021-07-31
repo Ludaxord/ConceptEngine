@@ -1,14 +1,14 @@
 #pragma once
-#include "../../../Core/Application/Generic/GenericOutputConsole.h"
+#include "../../../Core/Application/Generic/CEConsole.h"
 #include "../../../Core/Threading/Platform/Mutex.h"
 
 #include "../../../Windows/Windows.h"
 
-class WindowsOutputConsole : public GenericOutputConsole
+class CEWindowsConsole : public CEConsole
 {
 public:
-    WindowsOutputConsole();
-    ~WindowsOutputConsole();
+    CEWindowsConsole();
+    ~CEWindowsConsole();
 
     virtual void Print(const std::string& Message) override final;
     

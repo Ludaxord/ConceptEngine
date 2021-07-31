@@ -5,7 +5,7 @@
 #include "../RenderLayer/Resources.h"
 #include "../RenderLayer/ResourceViews.h"
 
-#include "../Core/Ref.h"
+#include "../Core/CERef.h"
 
 #include "../Dependencies/imgui/imgui.h"
 

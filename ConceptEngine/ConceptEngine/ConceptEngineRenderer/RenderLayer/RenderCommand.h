@@ -4,7 +4,7 @@
 #include "Resources.h"
 #include "ResourceViews.h"
 
-#include "../Memory/Memory.h"
+#include "../Memory/CEMemory.h"
 
 #include "../Debug/CEDebug.h"
 

@@ -1,4 +1,4 @@
-#include "../Core/Application/Windows/WindowsWindow.h"
+#include "../Core/Application/Windows/CEWindowsWindow.h"
 
 #include "D3D12RenderLayer.h"
 #include "D3D12Texture.h"
@@ -1447,7 +1447,7 @@ Viewport* D3D12RenderLayer::CreateViewport(CEWindow* Window, uint32 Width, uint3
 
     // TODO: Take DepthFormat into account
 
-    CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(Window);
+    CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(Window);
     if (Width == 0)
     {
         Width = WinWindow->GetWidth();

@@ -1,6 +1,6 @@
 #pragma once
-#include "Config/CEGlobalConfigs.h"
-#include "Time/CETimestamp.h"
+#include "../Config/CEGlobalConfigs.h"
+#include "../Time/CETimestamp.h"
 
 class CEPlatform;
 class CEGraphics;

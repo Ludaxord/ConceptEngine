@@ -1,11 +1,13 @@
 #include "WindowsPlatform.h"
-#include "WindowsCursor.h"
+#include "CEWindowsCursor.h"
 
 #include "../../../Core/Input/CEInputManager.h"
+#include "Boot/CECore.h"
+#include "Platform/CEPlatform.h"
 
-CEArray<WindowsEvent> WindowsPlatform::Messages;
+CEArray<CEWindowsEvent> WindowsPlatform::Messages;
 
-CERef<WindowsCursor> WindowsPlatform::CurrentCursor;
+CERef<CEWindowsCursor> WindowsPlatform::CurrentCursor;
 
 bool WindowsPlatform::IsTrackingMouse = false;
 
@@ -71,7 +73,7 @@ void WindowsPlatform::Tick()
         }
     }
 
-    for (const WindowsEvent& Event : Messages)
+    for (const CEWindowsEvent& Event : Messages)
     {
         HandleStoredMessage(Event.Window, Event.Message, Event.wParam, Event.lParam);
     }
@@ -85,7 +87,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
     constexpr uint32 KEY_REPEAT_MASK  = 0x40000000;
     constexpr uint16 BACK_BUTTON_MASK = 0x0001;
 
-    CERef<WindowsWindow> MessageWindow = WindowHandle(Window).GetWindow();
+    CERef<CEWindowsWindow> MessageWindow = CEWindowsWindowHandle(Window).GetWindow();
     switch (Message)
     {
         case WM_CLOSE:
@@ -149,7 +151,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         case WM_KEYUP:
         {
             const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-            const CEKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
+            const CEKey Key = CECore::GetPlatform()->GetInputManager()->ConvertFromScanCode(ScanCode);
             Callbacks->OnKeyReleased(Key, GetModifierKeyState());
             break;
         }
@@ -159,7 +161,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         {
             const bool IsRepeat   = !!(lParam & KEY_REPEAT_MASK);
             const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-            const CEKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
+            const CEKey Key = CECore::GetPlatform()->GetInputManager()->ConvertFromScanCode(ScanCode);
             Callbacks->OnKeyPressed(Key, IsRepeat, GetModifierKeyState());
             break;
         }
@@ -293,7 +295,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
 
 void WindowsPlatform::SetActiveWindow(CEWindow* Window)
 {
-    CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(Window);
+    CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(Window);
     HWND hActiveWindow = WinWindow->GetHandle();
     if (WinWindow->IsValid())
     {
@@ -305,7 +307,7 @@ void WindowsPlatform::SetCapture(CEWindow* CaptureWindow)
 {
     if (CaptureWindow)
     {
-        CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(CaptureWindow);
+        CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(CaptureWindow);
         HWND hCapture = WinWindow->GetHandle();
         if (WinWindow->IsValid())
         {
@@ -321,50 +323,50 @@ void WindowsPlatform::SetCapture(CEWindow* CaptureWindow)
 CEWindow* WindowsPlatform::GetActiveWindow()
 {
     HWND hActiveWindow = GetForegroundWindow();
-    return WindowHandle(hActiveWindow).GetWindow();
+    return CEWindowsWindowHandle(hActiveWindow).GetWindow();
 }
 
 CEWindow* WindowsPlatform::GetCapture()
 {
     HWND hCapture = ::GetCapture();
-    return WindowHandle(hCapture).GetWindow();
+    return CEWindowsWindowHandle(hCapture).GetWindow();
 }
 
 bool WindowsPlatform::InitCursors()
 {
-    if (!(GenericCursor::Arrow = WindowsCursor::Create(IDC_ARROW)))
+    if (!(CECursor::Arrow = CEWindowsCursor::Create(IDC_ARROW)))
     {
         return false;
     }
-    if (!(GenericCursor::TextInput = WindowsCursor::Create(IDC_IBEAM)))
+    if (!(CECursor::TextInput = CEWindowsCursor::Create(IDC_IBEAM)))
     {
         return false;
     }
-    if (!(GenericCursor::ResizeAll = WindowsCursor::Create(IDC_SIZEALL)))
+    if (!(CECursor::ResizeAll = CEWindowsCursor::Create(IDC_SIZEALL)))
     {
         return false;
     }
-    if (!(GenericCursor::ResizeEW = WindowsCursor::Create(IDC_SIZEWE)))
+    if (!(CECursor::ResizeEW = CEWindowsCursor::Create(IDC_SIZEWE)))
     {
         return false;
     }
-    if (!(GenericCursor::ResizeNS = WindowsCursor::Create(IDC_SIZENS)))
+    if (!(CECursor::ResizeNS = CEWindowsCursor::Create(IDC_SIZENS)))
     {
         return false;
     }
-    if (!(GenericCursor::ResizeNESW = WindowsCursor::Create(IDC_SIZENESW)))
+    if (!(CECursor::ResizeNESW = CEWindowsCursor::Create(IDC_SIZENESW)))
     {
         return false;
     }
-    if (!(GenericCursor::ResizeNWSE = WindowsCursor::Create(IDC_SIZENWSE)))
+    if (!(CECursor::ResizeNWSE = CEWindowsCursor::Create(IDC_SIZENWSE)))
     {
         return false;
     }
-    if (!(GenericCursor::Hand = WindowsCursor::Create(IDC_HAND)))
+    if (!(CECursor::Hand = CEWindowsCursor::Create(IDC_HAND)))
     {
         return false;
     }
-    if (!(GenericCursor::NotAllowed = WindowsCursor::Create(IDC_NO)))
+    if (!(CECursor::NotAllowed = CEWindowsCursor::Create(IDC_NO)))
     {
         return false;
     }
@@ -372,11 +374,11 @@ bool WindowsPlatform::InitCursors()
     return true;
 }
 
-void WindowsPlatform::SetCursor(GenericCursor* Cursor)
+void WindowsPlatform::SetCursor(CECursor* Cursor)
 {
     if (Cursor)
     {
-        CERef<WindowsCursor> WinCursor = MakeSharedRef<WindowsCursor>(Cursor);
+        CERef<CEWindowsCursor> WinCursor = MakeSharedRef<CEWindowsCursor>(Cursor);
         CurrentCursor = WinCursor;
 
         HCURSOR Cursorhandle = WinCursor->GetHandle();
@@ -388,12 +390,12 @@ void WindowsPlatform::SetCursor(GenericCursor* Cursor)
     }
 }
 
-GenericCursor* WindowsPlatform::GetCursor()
+CECursor* WindowsPlatform::GetCursor()
 {
     HCURSOR Cursor = ::GetCursor();
     if (CurrentCursor)
     {
-        WindowsCursor* WinCursor = static_cast<WindowsCursor*>(CurrentCursor.Get());
+        CEWindowsCursor* WinCursor = static_cast<CEWindowsCursor*>(CurrentCursor.Get());
         if (WinCursor->GetHandle() == Cursor)
         {
             CurrentCursor->AddRef();
@@ -412,7 +414,7 @@ void WindowsPlatform::SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y)
 {
     if (RelativeWindow)
     {
-        CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(RelativeWindow);
+        CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(RelativeWindow);
         HWND hRelative = WinWindow->GetHandle();
 
         POINT CursorPos = { x, y };
@@ -431,7 +433,7 @@ void WindowsPlatform::GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32&
         return;
     }
 
-    CERef<WindowsWindow> WinRelative = MakeSharedRef<WindowsWindow>(RelativeWindow);
+    CERef<CEWindowsWindow> WinRelative = MakeSharedRef<CEWindowsWindow>(RelativeWindow);
     if (WinRelative)
     {
         HWND Relative = WinRelative->GetHandle();

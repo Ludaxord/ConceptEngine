@@ -21,13 +21,13 @@
     <ClInclude Include="Windows\Windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Generic\GenericCursor.h">
+    <ClInclude Include="Core\Application\Generic\CECursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Generic\CEGenericMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h">
+    <ClInclude Include="Core\Application\Generic\CEConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Generic\CEGenericPlatform.h">
@@ -39,25 +39,25 @@
     <ClInclude Include="Core\Application\Platform\Platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Platform\PlatformCallbacks.h">
+    <ClInclude Include="Core\Application\Platform\CEPlatformCallbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Platform\CEPlatformMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Windows\WindowsCursor.h">
+    <ClInclude Include="Core\Application\Windows\CEWindowsCursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\CEWindowsMisc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Windows\WindowsOutputConsole.h">
+    <ClInclude Include="Core\Application\Windows\CEWindowsConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\WindowsPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Windows\WindowsWindow.h">
+    <ClInclude Include="Core\Application\Windows\CEWindowsWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Application.h">
@@ -489,9 +489,6 @@
     <ClInclude Include="Boot\Callbacks\CEEngineController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Boot\Callbacks\CEPlatformCallbacks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\CEGraphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -570,6 +567,9 @@
     <ClInclude Include="Graphics\D3D12\Rendering\CEDXRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Application\Windows\CEWindowsInputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -578,25 +578,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Application\Generic\GenericCursor.cpp">
+    <ClCompile Include="Core\Application\Generic\CECursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Application\Generic\GenericOutputConsole.cpp">
+    <ClCompile Include="Core\Application\Generic\CEConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Generic\CEGenericPlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Application\Windows\WindowsCursor.cpp">
+    <ClCompile Include="Core\Application\Windows\CEWindowsCursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Application\Windows\WindowsOutputConsole.cpp">
+    <ClCompile Include="Core\Application\Windows\CEWindowsConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Windows\WindowsPlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Application\Windows\WindowsWindow.cpp">
+    <ClCompile Include="Core\Application\Windows\CEWindowsWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Application.cpp">
@@ -840,6 +840,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\D3D12\Rendering\CEDXRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Application\Windows\CEWindowsInputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

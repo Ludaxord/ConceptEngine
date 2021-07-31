@@ -7,9 +7,9 @@
     #pragma warning(disable : 4100) // Disable unreferenced variable
 #endif
 
-class PlatformCallbacks;
+class CEPlatformCallbacks;
 class CEWindow;
-class GenericCursor;
+class CECursor;
 
 struct CEModifierKeyState
 {
@@ -48,17 +48,17 @@ public:
     static CEWindow* GetCapture() { return nullptr; }
     static CEWindow* GetActiveWindow() { return nullptr; }
 
-    static void SetCursor(GenericCursor* Cursor) {}
-    static GenericCursor* GetCursor() { return nullptr; }
+    static void SetCursor(CECursor* Cursor) {}
+    static CECursor* GetCursor() { return nullptr; }
 
     static void SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y) {}
     static void GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY) {}
 
-    static void SetCallbacks(PlatformCallbacks* InCallbacks);
-    static PlatformCallbacks* GetCallbacks();
+    static void SetCallbacks(CEPlatformCallbacks* InCallbacks);
+    static CEPlatformCallbacks* GetCallbacks();
 
 protected:
-    static PlatformCallbacks* Callbacks;
+    static CEPlatformCallbacks* Callbacks;
 };
 
 #ifdef COMPILER_VISUAL_STUDIO

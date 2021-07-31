@@ -3,7 +3,7 @@
 
 #include "../../Core/Engine/EngineGlobals.h"
 #include "../../Core/Application/Application.h"
-#include "../../Core/Application/Generic/GenericOutputConsole.h"
+#include "../../Core/Application/Generic/CEConsole.h"
 #include "../../Core/Application/Platform/Platform.h"
 #include "../../Core/Application/Platform/CEPlatformMisc.h"
 #include "../../Core/Input/CEInputManager.h"
@@ -18,17 +18,19 @@
 #include "../../Debug/CEProfiler.h"
 #include "../../Debug/Console/Console.h"
 
-#include "../../Memory/Memory.h"
+#include "../../Memory/CEMemory.h"
 
 #include "../../Core/Threading/ScopedLock.h"
 #include "../../Core/Threading/ThreadSafeInt.h"
 #include "../../Core/Threading/Platform/PlatformProcess.h"
+#include "Boot/CECore.h"
+#include "Platform/CEPlatform.h"
 
 bool EngineLoop::Init()
 {
     TRACE_FUNCTION_SCOPE();
 
-    GConsoleOutput = GenericOutputConsole::Create();
+    GConsoleOutput = CEConsole::Create();
     if (!GConsoleOutput)
     {
         return false;
@@ -78,7 +80,7 @@ bool EngineLoop::Init()
         return false;
     }
 
-    if (!CEInputManager::Get().Create())
+    if (!CECore::GetPlatform()->GetInputManager()->Create())
     {
         return false;
     }

@@ -1,9 +1,8 @@
 #pragma once
-#include "Boot/Callbacks/CEPlatformCallbacks.h"
-#include "Config/CEGlobalConfigs.h"
-#include "Core/Application/Generic/CEGenericPlatform.h"
-#include "Core/Delegates/Event.h"
-#include "Core/Input/CEInputManager.h"
+#include "../Config/CEGlobalConfigs.h"
+#include "../Core/Application/Generic/CEGenericPlatform.h"
+#include "../Core/Delegates/Event.h"
+#include "../Core/Input/CEInputManager.h"
 
 class CEWindow;
 class CECursor;
@@ -30,7 +29,7 @@ public:
 		return true;
 	}
 
-	virtual bool Update() = 0;
+	virtual void Update() = 0;
 	virtual bool Release() = 0;
 
 	virtual void SetCapture(CEWindow* Window) = 0;
@@ -43,7 +42,7 @@ public:
 	virtual CEWindow* GetActiveWindow() = 0;
 	virtual CECursor* GetCursor() = 0;
 	virtual void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) = 0;
-	virtual CEModifierKeyState GetModifierKeyState() {
+	static CEModifierKeyState GetModifierKeyState() {
 		return CEModifierKeyState();
 	}
 	virtual CEPlatformCallbacks* GetCallbacks();

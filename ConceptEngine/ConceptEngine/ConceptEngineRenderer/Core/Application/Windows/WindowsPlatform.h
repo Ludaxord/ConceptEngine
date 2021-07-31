@@ -1,16 +1,16 @@
 #pragma once
 #include "../../../Core/Input/InputCodes.h"
 #include "../../../Core/Application/Generic/CEGenericPlatform.h"
-#include "../../../Core/Application/Platform/PlatformCallbacks.h"
+#include "../../../Core/Application/Platform/CEPlatformCallbacks.h"
 #include "../../../Core/Containers/Array.h"
 
-#include "WindowsWindow.h"
+#include "CEWindowsWindow.h"
 
-class WindowsCursor;
+class CEWindowsCursor;
 
-struct WindowsEvent
+struct CEWindowsEvent
 {
-    WindowsEvent(HWND InWindow, uint32 InMessage, WPARAM InwParam, LPARAM InlParam)
+    CEWindowsEvent(HWND InWindow, uint32 InMessage, WPARAM InwParam, LPARAM InlParam)
         : Window(InWindow)
         , Message(InMessage)
         , wParam(InwParam)
@@ -24,18 +24,18 @@ struct WindowsEvent
     LPARAM lParam;
 };
 
-struct WindowHandle
+struct CEWindowsWindowHandle
 {
-    WindowHandle() = default;
+    CEWindowsWindowHandle() = default;
 
-    WindowHandle(HWND InHandle)
+    CEWindowsWindowHandle(HWND InHandle)
         : Handle(InHandle)
     {
     }
 
-    WindowsWindow* GetWindow() const
+    CEWindowsWindow* GetWindow() const
     {
-        WindowsWindow* Window = (WindowsWindow*)GetWindowLongPtrA(Handle, GWLP_USERDATA);
+        CEWindowsWindow* Window = (CEWindowsWindow*)GetWindowLongPtrA(Handle, GWLP_USERDATA);
         if (Window)
         {
             Window->AddRef();
@@ -66,8 +66,8 @@ public:
     static CEWindow* GetCapture();
     static CEWindow* GetActiveWindow();
 
-    static void SetCursor(GenericCursor* Cursor);
-    static GenericCursor* GetCursor();
+    static void SetCursor(CECursor* Cursor);
+    static CECursor* GetCursor();
 
     static void SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y);
     static void GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY);
@@ -86,9 +86,9 @@ private:
     static void HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam);
 
 private:
-    static CEArray<WindowsEvent> Messages;
+    static CEArray<CEWindowsEvent> Messages;
     
-    static CERef<WindowsCursor> CurrentCursor;
+    static CERef<CEWindowsCursor> CurrentCursor;
 
     static bool IsTrackingMouse;
 

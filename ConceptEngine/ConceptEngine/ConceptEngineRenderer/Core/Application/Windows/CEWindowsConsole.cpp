@@ -1,13 +1,13 @@
-#include "WindowsOutputConsole.h"
+#include "CEWindowsConsole.h"
 
 #include "../../../Core/Threading/ScopedLock.h"
 
-GenericOutputConsole* GenericOutputConsole::Create()
+CEConsole* CEConsole::Create()
 {
-    return DBG_NEW WindowsOutputConsole();
+    return DBG_NEW CEWindowsConsole();
 }
 
-WindowsOutputConsole::WindowsOutputConsole()
+CEWindowsConsole::CEWindowsConsole()
     : ConsoleHandle(0)
 {
     if (AllocConsole())
@@ -17,7 +17,7 @@ WindowsOutputConsole::WindowsOutputConsole()
     }
 }
 
-WindowsOutputConsole::~WindowsOutputConsole()
+CEWindowsConsole::~CEWindowsConsole()
 {
     if (ConsoleHandle)
     {
@@ -26,7 +26,7 @@ WindowsOutputConsole::~WindowsOutputConsole()
     }
 }
 
-void WindowsOutputConsole::Print(const std::string& Message)
+void CEWindowsConsole::Print(const std::string& Message)
 {
     if (ConsoleHandle)
     {
@@ -36,7 +36,7 @@ void WindowsOutputConsole::Print(const std::string& Message)
     }
 }
 
-void WindowsOutputConsole::Clear()
+void CEWindowsConsole::Clear()
 {
     if (ConsoleHandle)
     {
@@ -57,7 +57,7 @@ void WindowsOutputConsole::Clear()
     }
 }
 
-void WindowsOutputConsole::SetTitle(const std::string& Title)
+void CEWindowsConsole::SetTitle(const std::string& Title)
 {
     if (ConsoleHandle)
     {
@@ -67,7 +67,7 @@ void WindowsOutputConsole::SetTitle(const std::string& Title)
     }
 }
 
-void WindowsOutputConsole::SetColor(EConsoleColor Color)
+void CEWindowsConsole::SetColor(EConsoleColor Color)
 {
     if (ConsoleHandle)
     {

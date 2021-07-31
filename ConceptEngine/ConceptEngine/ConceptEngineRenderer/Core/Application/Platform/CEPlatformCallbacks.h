@@ -9,10 +9,10 @@
 class CEWindow;
 struct CEModifierKeyState;
 
-class PlatformCallbacks
+class CEPlatformCallbacks
 {
 public:
-    virtual ~PlatformCallbacks() = default;
+    virtual ~CEPlatformCallbacks() = default;
 
     virtual void OnKeyReleased(CEKey KeyCode, const CEModifierKeyState& ModierKeyState)
     {

@@ -3,14 +3,14 @@
 
 #include "../../Core/Input/InputCodes.h"
 #include "../../Core/Application/Events.h"
-#include "../../Core/Application/Platform/PlatformCallbacks.h"
+#include "../../Core/Application/Platform/CEPlatformCallbacks.h"
 #include "../../Core/Delegates/Event.h"
 
 #include "../../RenderLayer/Viewport.h"
 
 #include "../../Core/Delegates/Event.h"
 
-class Engine : public PlatformCallbacks
+class Engine : public CEPlatformCallbacks
 {
 public:
     bool Init();

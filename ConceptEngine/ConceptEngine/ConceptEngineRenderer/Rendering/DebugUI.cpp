@@ -3,7 +3,7 @@
 #include "../Debug/CEProfiler.h"
 
 #include "../Core/Engine/Engine.h"
-#include "../Core/Application/Generic/GenericCursor.h"
+#include "../Core/Application/Generic/CECursor.h"
 #include "../Core/Application/Platform/Platform.h"
 
 #include "../Time/Timer.h"
@@ -556,18 +556,18 @@ void CEDebugUI::Render(CommandList& CmdList)
         }
         else
         {
-            CERef<GenericCursor> Cursor = Platform::GetCursor();
+            CERef<CECursor> Cursor = Platform::GetCursor();
             switch (ImguiCursor)
             {
-            case ImGuiMouseCursor_Arrow:      Cursor = GenericCursor::Arrow;      break;
-            case ImGuiMouseCursor_TextInput:  Cursor = GenericCursor::TextInput;  break;
-            case ImGuiMouseCursor_ResizeAll:  Cursor = GenericCursor::ResizeAll;  break;
-            case ImGuiMouseCursor_ResizeEW:   Cursor = GenericCursor::ResizeEW;   break;
-            case ImGuiMouseCursor_ResizeNS:   Cursor = GenericCursor::ResizeNS;   break;
-            case ImGuiMouseCursor_ResizeNESW: Cursor = GenericCursor::ResizeNESW; break;
-            case ImGuiMouseCursor_ResizeNWSE: Cursor = GenericCursor::ResizeNWSE; break;
-            case ImGuiMouseCursor_Hand:       Cursor = GenericCursor::Hand;       break;
-            case ImGuiMouseCursor_NotAllowed: Cursor = GenericCursor::NotAllowed; break;
+            case ImGuiMouseCursor_Arrow:      Cursor = CECursor::Arrow;      break;
+            case ImGuiMouseCursor_TextInput:  Cursor = CECursor::TextInput;  break;
+            case ImGuiMouseCursor_ResizeAll:  Cursor = CECursor::ResizeAll;  break;
+            case ImGuiMouseCursor_ResizeEW:   Cursor = CECursor::ResizeEW;   break;
+            case ImGuiMouseCursor_ResizeNS:   Cursor = CECursor::ResizeNS;   break;
+            case ImGuiMouseCursor_ResizeNESW: Cursor = CECursor::ResizeNESW; break;
+            case ImGuiMouseCursor_ResizeNWSE: Cursor = CECursor::ResizeNWSE; break;
+            case ImGuiMouseCursor_Hand:       Cursor = CECursor::Hand;       break;
+            case ImGuiMouseCursor_NotAllowed: Cursor = CECursor::NotAllowed; break;
             }
             
             Platform::SetCursor(Cursor.Get());

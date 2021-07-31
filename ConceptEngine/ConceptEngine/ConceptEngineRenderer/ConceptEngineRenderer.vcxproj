@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boot\Callbacks\CEEngineController.h" />
-    <ClInclude Include="Boot\Callbacks\CEPlatformCallbacks.h" />
     <ClInclude Include="Boot\CECore.h" />
     <ClInclude Include="Boot\CECoreRuntime.h" />
     <ClInclude Include="Boot\CEDebugRuntime.h" />
@@ -37,20 +36,21 @@
     <ClInclude Include="CEDefinitions.h" />
     <ClInclude Include="Core\Application\Application.h" />
     <ClInclude Include="Core\Application\Events.h" />
-    <ClInclude Include="Core\Application\Generic\GenericCursor.h" />
+    <ClInclude Include="Core\Application\Generic\CECursor.h" />
     <ClInclude Include="Core\Application\Generic\CEGenericMisc.h" />
-    <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h" />
+    <ClInclude Include="Core\Application\Generic\CEConsole.h" />
     <ClInclude Include="Core\Application\Generic\CEGenericPlatform.h" />
     <ClInclude Include="Core\Application\Generic\CEWindow.h" />
     <ClInclude Include="Core\Application\Log.h" />
     <ClInclude Include="Core\Application\Platform\Platform.h" />
-    <ClInclude Include="Core\Application\Platform\PlatformCallbacks.h" />
+    <ClInclude Include="Core\Application\Platform\CEPlatformCallbacks.h" />
     <ClInclude Include="Core\Application\Platform\CEPlatformMisc.h" />
-    <ClInclude Include="Core\Application\Windows\WindowsCursor.h" />
+    <ClInclude Include="Core\Application\Windows\CEWindowsCursor.h" />
+    <ClInclude Include="Core\Application\Windows\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Application\Windows\CEWindowsMisc.h" />
-    <ClInclude Include="Core\Application\Windows\WindowsOutputConsole.h" />
+    <ClInclude Include="Core\Application\Windows\CEWindowsConsole.h" />
     <ClInclude Include="Core\Application\Windows\WindowsPlatform.h" />
-    <ClInclude Include="Core\Application\Windows\WindowsWindow.h" />
+    <ClInclude Include="Core\Application\Windows\CEWindowsWindow.h" />
     <ClInclude Include="Core\Containers\Allocator.h" />
     <ClInclude Include="Core\Containers\Array.h" />
     <ClInclude Include="Core\Containers\ArrayView.h" />
@@ -219,13 +219,14 @@
     <ClCompile Include="ConceptEngine.cpp" />
     <ClCompile Include="Config\CEGlobalConfigs.cpp" />
     <ClCompile Include="Core\Application\Application.cpp" />
-    <ClCompile Include="Core\Application\Generic\GenericCursor.cpp" />
-    <ClCompile Include="Core\Application\Generic\GenericOutputConsole.cpp" />
+    <ClCompile Include="Core\Application\Generic\CECursor.cpp" />
+    <ClCompile Include="Core\Application\Generic\CEConsole.cpp" />
     <ClCompile Include="Core\Application\Generic\CEGenericPlatform.cpp" />
-    <ClCompile Include="Core\Application\Windows\WindowsCursor.cpp" />
-    <ClCompile Include="Core\Application\Windows\WindowsOutputConsole.cpp" />
+    <ClCompile Include="Core\Application\Windows\CEWindowsCursor.cpp" />
+    <ClCompile Include="Core\Application\Windows\CEWindowsConsole.cpp" />
+    <ClCompile Include="Core\Application\Windows\CEWindowsInputManager.cpp" />
     <ClCompile Include="Core\Application\Windows\WindowsPlatform.cpp" />
-    <ClCompile Include="Core\Application\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Core\Application\Windows\CEWindowsWindow.cpp" />
     <ClCompile Include="Core\CoreObject\ClassType.cpp" />
     <ClCompile Include="Core\Engine\Engine.cpp" />
     <ClCompile Include="Core\Engine\EngineGlobals.cpp" />

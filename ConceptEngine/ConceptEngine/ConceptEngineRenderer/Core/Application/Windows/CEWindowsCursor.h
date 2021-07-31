@@ -1,14 +1,14 @@
 #pragma once
-#include "../../../Core/Application/Generic/GenericCursor.h"
+#include "../../../Core/Application/Generic/CECursor.h"
 
 #include "Windows.h"
 
 class CEWindow;
 
-class WindowsCursor : public GenericCursor {
+class CEWindowsCursor : public CECursor {
 public:
-	WindowsCursor();
-	~WindowsCursor();
+	CEWindowsCursor();
+	~CEWindowsCursor();
 
 	bool Init(LPCWSTR InCursorName);
 
@@ -20,7 +20,7 @@ public:
 		return Cursor;
 	}
 
-	static GenericCursor* Create(LPCWSTR CursorName);
+	static CECursor* Create(LPCWSTR CursorName);
 
 private:
 	HCURSOR Cursor;

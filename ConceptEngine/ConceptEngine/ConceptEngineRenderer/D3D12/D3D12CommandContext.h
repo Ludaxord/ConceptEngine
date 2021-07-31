@@ -1,7 +1,7 @@
 #pragma once
 #include "../RenderLayer/ICommandContext.h"
 
-#include "../Core/Ref.h"
+#include "../Core/CERef.h"
 
 #include "D3D12DeviceChild.h"
 #include "D3D12RootSignature.h"

@@ -1,13 +1,13 @@
 #include "CEGenericPlatform.h"
 
-PlatformCallbacks* CEGenericPlatform::Callbacks = nullptr;
+CEPlatformCallbacks* CEGenericPlatform::Callbacks = nullptr;
 
-void CEGenericPlatform::SetCallbacks(PlatformCallbacks* InCallbacks)
+void CEGenericPlatform::SetCallbacks(CEPlatformCallbacks* InCallbacks)
 {
     Callbacks = InCallbacks;
 }
 
-PlatformCallbacks* CEGenericPlatform::GetCallbacks()
+CEPlatformCallbacks* CEGenericPlatform::GetCallbacks()
 {
     return nullptr;
 }
