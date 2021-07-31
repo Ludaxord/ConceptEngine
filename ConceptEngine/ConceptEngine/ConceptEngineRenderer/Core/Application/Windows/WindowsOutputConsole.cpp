@@ -43,7 +43,7 @@ void WindowsOutputConsole::Clear()
         TScopedLock<Mutex> Lock(ConsoleMutex);
 
         CONSOLE_SCREEN_BUFFER_INFO CSBI;
-        Memory::Memzero(&CSBI);
+        CEMemory::Memzero(&CSBI);
 
         if (GetConsoleScreenBufferInfo(ConsoleHandle, &CSBI))
         {

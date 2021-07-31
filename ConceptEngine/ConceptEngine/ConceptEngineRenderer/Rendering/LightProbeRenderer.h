@@ -19,8 +19,8 @@ public:
 private:
     bool CreateSkyLightResources(LightSetup& LightSetup);
 
-    TRef<ComputePipelineState> IrradianceGenPSO;
-    TRef<ComputeShader>        IrradianceGenShader;
-    TRef<ComputePipelineState> SpecularIrradianceGenPSO;
-    TRef<ComputeShader>        SpecularIrradianceGenShader;
+    CERef<ComputePipelineState> IrradianceGenPSO;
+    CERef<ComputeShader>        IrradianceGenShader;
+    CERef<ComputePipelineState> SpecularIrradianceGenPSO;
+    CERef<ComputeShader>        SpecularIrradianceGenShader;
 };

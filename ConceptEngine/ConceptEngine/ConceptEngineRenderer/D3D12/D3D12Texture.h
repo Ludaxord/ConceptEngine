@@ -28,8 +28,8 @@ public:
     D3D12Resource* GetResource() { return Resource.Get(); }
 
 protected:
-    TRef<D3D12Resource>           Resource;
-    TRef<D3D12ShaderResourceView> ShaderResourceView;
+    CERef<D3D12Resource>           Resource;
+    CERef<D3D12ShaderResourceView> ShaderResourceView;
 };
 
 class D3D12BaseTexture2D : public Texture2D, public D3D12BaseTexture
@@ -60,9 +60,9 @@ public:
     void SetUnorderedAccessView(D3D12UnorderedAccessView* InUnorderedAccessView) { UnorderedAccessView = InUnorderedAccessView; }
 
 private:
-    TRef<D3D12RenderTargetView> RenderTargetView;
-    TRef<D3D12DepthStencilView> DepthStencilView;
-    TRef<D3D12UnorderedAccessView> UnorderedAccessView;
+    CERef<D3D12RenderTargetView> RenderTargetView;
+    CERef<D3D12DepthStencilView> DepthStencilView;
+    CERef<D3D12UnorderedAccessView> UnorderedAccessView;
 };
 
 class D3D12BaseTexture2DArray : public Texture2DArray, public D3D12BaseTexture

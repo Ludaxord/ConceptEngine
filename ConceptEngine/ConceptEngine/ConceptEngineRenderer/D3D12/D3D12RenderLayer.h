@@ -161,7 +161,7 @@ public:
 
     virtual class GPUProfiler* CreateProfiler() override final;
 
-    virtual class Viewport* CreateViewport(GenericWindow* Window, uint32 Width, uint32 Height, EFormat ColorFormat, EFormat DepthFormat) override final;
+    virtual class Viewport* CreateViewport(CEWindow* Window, uint32 Width, uint32 Height, EFormat ColorFormat, EFormat DepthFormat) override final;
 
     // TODO: Create functions like "CheckRayTracingSupport(RayTracingSupportInfo& OutInfo)" instead
     virtual bool UAVSupportsFormat(EFormat Format) override final;
@@ -196,7 +196,7 @@ private:
 
 private:
     D3D12Device*              Device;
-    TRef<D3D12CommandContext> DirectCmdContext;
+    CERef<D3D12CommandContext> DirectCmdContext;
     D3D12RootSignatureCache*  RootSignatureCache;
 
     D3D12OfflineDescriptorHeap* ResourceOfflineDescriptorHeap     = nullptr;

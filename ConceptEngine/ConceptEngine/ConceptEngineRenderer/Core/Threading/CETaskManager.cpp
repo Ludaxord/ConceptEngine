@@ -79,7 +79,7 @@ bool CETaskManager::Create()
     
     for (uint32 i = 0; i < ThreadCount; i++)
     {
-        TRef<GenericThread> NewThread = GenericThread::Create(CETaskManager::WorkThread);
+        CERef<GenericThread> NewThread = GenericThread::Create(CETaskManager::WorkThread);
         if (NewThread)
         {
             WorkThreads[i] = NewThread;
@@ -131,7 +131,7 @@ void CETaskManager::Release()
 {
     KillWorkers();
 
-    for (TRef<GenericThread> Thread : WorkThreads)
+    for (CERef<GenericThread> Thread : WorkThreads)
     {
         Thread->Wait();
     }

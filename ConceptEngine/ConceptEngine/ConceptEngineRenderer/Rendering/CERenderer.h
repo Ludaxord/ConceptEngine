@@ -60,24 +60,24 @@ private:
 	FrameResources Resources;
 	LightSetup LightSetup;
 
-	TRef<Texture2D> ShadingImage;
-	TRef<ComputePipelineState> ShadingRatePipeline;
-	TRef<ComputeShader> ShadingRateShader;
+	CERef<Texture2D> ShadingImage;
+	CERef<ComputePipelineState> ShadingRatePipeline;
+	CERef<ComputeShader> ShadingRateShader;
 
-	TRef<VertexBuffer> AABBVertexBuffer;
-	TRef<IndexBuffer> AABBIndexBuffer;
-	TRef<GraphicsPipelineState> AABBDebugPipelineState;
-	TRef<VertexShader> AABBVertexShader;
-	TRef<PixelShader> AABBPixelShader;
+	CERef<VertexBuffer> AABBVertexBuffer;
+	CERef<IndexBuffer> AABBIndexBuffer;
+	CERef<GraphicsPipelineState> AABBDebugPipelineState;
+	CERef<VertexShader> AABBVertexShader;
+	CERef<PixelShader> AABBPixelShader;
 
-	TRef<GraphicsPipelineState> PostPSO;
-	TRef<PixelShader> PostShader;
-	TRef<GraphicsPipelineState> FXAAPSO;
-	TRef<PixelShader> FXAAShader;
-	TRef<GraphicsPipelineState> FXAADebugPSO;
-	TRef<PixelShader> FXAADebugShader;
+	CERef<GraphicsPipelineState> PostPSO;
+	CERef<PixelShader> PostShader;
+	CERef<GraphicsPipelineState> FXAAPSO;
+	CERef<PixelShader> FXAAShader;
+	CERef<GraphicsPipelineState> FXAADebugPSO;
+	CERef<PixelShader> FXAADebugShader;
 
-	TRef<GPUProfiler> GPUProfiler;
+	CERef<GPUProfiler> GPUProfiler;
 
 	uint32 LastFrameNumDrawCalls = 0;
 	uint32 LastFrameNumDispatchCalls = 0;

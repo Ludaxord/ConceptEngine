@@ -19,12 +19,12 @@ bool Engine::Init()
         WindowStyleFlag_Maximizable |
         WindowStyleFlag_Resizeable;
 
-    MainWindow = GenericWindow::Create(L"Concept Engine", 1920, 1080, Style);
+    MainWindow = CEWindow::Create(L"Concept Engine", 1920, 1080, Style);
     if (MainWindow)
     {
         MainWindow->Show(false);
 
-        GToggleFullscreen.OnExecute.AddObject(MainWindow.Get(), &GenericWindow::ToggleFullscreen);
+        GToggleFullscreen.OnExecute.AddObject(MainWindow.Get(), &CEWindow::ToggleFullscreen);
         INIT_CONSOLE_COMMAND("a.ToggleFullscreen", &GToggleFullscreen);
     }
     else
@@ -51,13 +51,13 @@ void Engine::Exit()
     IsRunning = false;
 }
 
-void Engine::OnKeyReleased(EKey KeyCode, const CEModifierKeyState& ModfierKeyState)
+void Engine::OnKeyReleased(CEKey KeyCode, const CEModifierKeyState& ModfierKeyState)
 {
     KeyReleasedEvent Event(KeyCode, ModfierKeyState);
     OnKeyReleasedEvent.Broadcast(Event);
 }
 
-void Engine::OnKeyPressed(EKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModfierKeyState)
+void Engine::OnKeyPressed(CEKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModfierKeyState)
 {
     KeyPressedEvent Event(KeyCode, IsRepeat, ModfierKeyState);
     OnKeyPressedEvent.Broadcast(Event);
@@ -75,9 +75,9 @@ void Engine::OnMouseMove(int32 x, int32 y)
     OnMouseMoveEvent.Broadcast(Event);
 }
 
-void Engine::OnMouseReleased(EMouseButton Button, const CEModifierKeyState& ModfierKeyState)
+void Engine::OnMouseReleased(CEMouseButton Button, const CEModifierKeyState& ModfierKeyState)
 {
-    GenericWindow* CaptureWindow = Platform::GetCapture();
+    CEWindow* CaptureWindow = Platform::GetCapture();
     if (CaptureWindow)
     {
         Platform::SetCapture(nullptr);
@@ -87,12 +87,12 @@ void Engine::OnMouseReleased(EMouseButton Button, const CEModifierKeyState& Modf
     OnMouseReleasedEvent.Broadcast(Event);
 }
 
-void Engine::OnMousePressed(EMouseButton Button, const CEModifierKeyState& ModfierKeyState)
+void Engine::OnMousePressed(CEMouseButton Button, const CEModifierKeyState& ModfierKeyState)
 {
-    GenericWindow* CaptureWindow = Platform::GetCapture();
+    CEWindow* CaptureWindow = Platform::GetCapture();
     if (!CaptureWindow)
     {
-        GenericWindow* ActiveWindow = Platform::GetActiveWindow();
+        CEWindow* ActiveWindow = Platform::GetActiveWindow();
         Platform::SetCapture(ActiveWindow);
     }
 
@@ -106,37 +106,37 @@ void Engine::OnMouseScrolled(float HorizontalDelta, float VerticalDelta)
     OnMouseScrolledEvent.Broadcast(Event);
 }
 
-void Engine::OnWindowResized(const TRef<GenericWindow>& InWindow, uint16 Width, uint16 Height)
+void Engine::OnWindowResized(const CERef<CEWindow>& InWindow, uint16 Width, uint16 Height)
 {
     WindowResizeEvent Event(InWindow, Width, Height);
     OnWindowResizedEvent.Broadcast(Event);
 }
 
-void Engine::OnWindowMoved(const TRef<GenericWindow>& InWindow, int16 x, int16 y)
+void Engine::OnWindowMoved(const CERef<CEWindow>& InWindow, int16 x, int16 y)
 {
     WindowMovedEvent Event(InWindow, x, y);
     OnWindowMovedEvent.Broadcast(Event);
 }
 
-void Engine::OnWindowFocusChanged(const TRef<GenericWindow>& InWindow, bool HasFocus)
+void Engine::OnWindowFocusChanged(const CERef<CEWindow>& InWindow, bool HasFocus)
 {
     WindowFocusChangedEvent Event(InWindow, HasFocus);
     OnWindowFocusChangedEvent.Broadcast(Event);
 }
 
-void Engine::OnWindowMouseLeft(const TRef<GenericWindow>& InWindow)
+void Engine::OnWindowMouseLeft(const CERef<CEWindow>& InWindow)
 {
     WindowMouseLeftEvent Event(InWindow);
     OnWindowMouseLeftEvent.Broadcast(Event);
 }
 
-void Engine::OnWindowMouseEntered(const TRef<GenericWindow>& InWindow)
+void Engine::OnWindowMouseEntered(const CERef<CEWindow>& InWindow)
 {
     WindowMouseEnteredEvent Event(InWindow);
     OnWindowMouseEnteredEvent.Broadcast(Event);
 }
 
-void Engine::OnWindowClosed(const TRef<GenericWindow>& InWindow)
+void Engine::OnWindowClosed(const CERef<CEWindow>& InWindow)
 {
     WindowClosedEvent Event(InWindow);
     OnWindowClosedEvent.Broadcast(Event);

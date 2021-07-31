@@ -2,14 +2,14 @@
 #include "../../../CEDefinitions.h"
 
 #include "../../../Core/RefCountedObject.h"
-#include "../../../Core/Ref.h"
+#include "../../../Core/CERef.h"
 
 #ifdef COMPILER_VISUAL_STUDIO
     #pragma warning(push)
     #pragma warning(disable : 4100) // Disable unreferenced variable
 #endif
 
-class GenericWindow;
+class CEWindow;
 
 class GenericCursor : public RefCountedObject
 {
@@ -19,15 +19,15 @@ public:
     virtual void* GetNativeHandle() const { return nullptr; }
 
 public:
-    static TRef<GenericCursor> Arrow;
-    static TRef<GenericCursor> TextInput;
-    static TRef<GenericCursor> ResizeAll;
-    static TRef<GenericCursor> ResizeEW;
-    static TRef<GenericCursor> ResizeNS;
-    static TRef<GenericCursor> ResizeNESW;
-    static TRef<GenericCursor> ResizeNWSE;
-    static TRef<GenericCursor> Hand;
-    static TRef<GenericCursor> NotAllowed;
+    static CERef<GenericCursor> Arrow;
+    static CERef<GenericCursor> TextInput;
+    static CERef<GenericCursor> ResizeAll;
+    static CERef<GenericCursor> ResizeEW;
+    static CERef<GenericCursor> ResizeNS;
+    static CERef<GenericCursor> ResizeNESW;
+    static CERef<GenericCursor> ResizeNWSE;
+    static CERef<GenericCursor> Hand;
+    static CERef<GenericCursor> NotAllowed;
 };
 
 #ifdef COMPILER_VISUAL_STUDIO

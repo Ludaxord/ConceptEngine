@@ -405,7 +405,7 @@ bool D3D12Device::Init()
             };
 
             D3D12_INFO_QUEUE_FILTER Filter;
-            Memory::Memzero(&Filter);
+            CEMemory::Memzero(&Filter);
 
             Filter.DenyList.NumIDs    = _countof(Hide);
             Filter.DenyList.pIDList = Hide;
@@ -447,7 +447,7 @@ bool D3D12Device::Init()
     // Check for Ray-Tracing support
     {
         D3D12_FEATURE_DATA_D3D12_OPTIONS5 Features5;
-        Memory::Memzero(&Features5, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS5));
+        CEMemory::Memzero(&Features5, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS5));
 
         Result = Device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS5, &Features5, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS5));
         if (SUCCEEDED(Result))
@@ -459,7 +459,7 @@ bool D3D12Device::Init()
     // Checking for Variable Shading Rate
     {
         D3D12_FEATURE_DATA_D3D12_OPTIONS6 Features6;
-        Memory::Memzero(&Features6, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS6));
+        CEMemory::Memzero(&Features6, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS6));
 
         Result = Device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS6, &Features6, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS6));
         if (SUCCEEDED(Result))
@@ -472,7 +472,7 @@ bool D3D12Device::Init()
     // Check for Mesh-Shaders support
     {
         D3D12_FEATURE_DATA_D3D12_OPTIONS7 Features7;
-        Memory::Memzero(&Features7, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS7));
+        CEMemory::Memzero(&Features7, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS7));
 
         Result = Device->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS7, &Features7, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS7));
         if (SUCCEEDED(Result))
@@ -488,7 +488,7 @@ bool D3D12Device::Init()
 int32 D3D12Device::GetMultisampleQuality(DXGI_FORMAT Format, uint32 SampleCount)
 {
     D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS Data;
-    Memory::Memzero(&Data);
+    CEMemory::Memzero(&Data);
 
     Data.Flags       = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
     Data.Format      = Format;

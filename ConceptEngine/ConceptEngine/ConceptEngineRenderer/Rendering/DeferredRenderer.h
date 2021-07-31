@@ -24,13 +24,13 @@ public:
 private:
     bool CreateGBuffer(FrameResources& FrameResources);
 
-    TRef<GraphicsPipelineState> PipelineState;
-    TRef<VertexShader>          BaseVertexShader;
-    TRef<PixelShader>           BasePixelShader;
-    TRef<GraphicsPipelineState> PrePassPipelineState;
-    TRef<VertexShader>          PrePassVertexShader;
-    TRef<ComputePipelineState>  TiledLightPassPSO;
-    TRef<ComputeShader>         TiledLightShader;
-    TRef<ComputePipelineState>  TiledLightPassPSODebug;
-    TRef<ComputeShader>         TiledLightDebugShader;
+    CERef<GraphicsPipelineState> PipelineState;
+    CERef<VertexShader>          BaseVertexShader;
+    CERef<PixelShader>           BasePixelShader;
+    CERef<GraphicsPipelineState> PrePassPipelineState;
+    CERef<VertexShader>          PrePassVertexShader;
+    CERef<ComputePipelineState>  TiledLightPassPSO;
+    CERef<ComputeShader>         TiledLightShader;
+    CERef<ComputePipelineState>  TiledLightPassPSODebug;
+    CERef<ComputeShader>         TiledLightDebugShader;
 };

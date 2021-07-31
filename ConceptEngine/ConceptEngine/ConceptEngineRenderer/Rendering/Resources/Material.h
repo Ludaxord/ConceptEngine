@@ -52,21 +52,21 @@ public:
     const MaterialProperties& GetMaterialProperties() const { return Properties; }
 
 public:
-    TRef<Texture2D> AlbedoMap;
-    TRef<Texture2D> NormalMap;
-    TRef<Texture2D> RoughnessMap;
-    TRef<Texture2D> HeightMap;
-    TRef<Texture2D> AOMap;
-    TRef<Texture2D> MetallicMap;
-    TRef<Texture2D> AlphaMask;
+    CERef<Texture2D> AlbedoMap;
+    CERef<Texture2D> NormalMap;
+    CERef<Texture2D> RoughnessMap;
+    CERef<Texture2D> HeightMap;
+    CERef<Texture2D> AOMap;
+    CERef<Texture2D> MetallicMap;
+    CERef<Texture2D> AlphaMask;
 
 private:
     std::string	DebugName;
     bool MaterialBufferIsDirty = true;
     
     MaterialProperties         Properties;
-    TRef<ConstantBuffer> MaterialBuffer;
-    TRef<SamplerState>   Sampler;
+    CERef<ConstantBuffer> MaterialBuffer;
+    CERef<SamplerState>   Sampler;
 
     mutable CEStaticArray<ShaderResourceView*, 7> ShaderResourceViews;
 };

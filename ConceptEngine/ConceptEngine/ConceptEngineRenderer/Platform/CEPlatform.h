@@ -36,13 +36,13 @@ public:
 	virtual void SetCapture(CEWindow* Window) = 0;
 	virtual void SetActiveWindow(CEWindow* Window) = 0;
 	virtual void SetCursor(CECursor* Cursor) = 0;
-	virtual void SetCursorPosition() = 0;
+	virtual void SetCursorPosition(CEWindow* RelativeWindow, int32 X, int32 Y) = 0;
 	virtual void SetCallbacks(CEPlatformCallbacks* Callbacks);
 	
 	virtual CEWindow* GetCapture() = 0;
 	virtual CEWindow* GetActiveWindow() = 0;
 	virtual CECursor* GetCursor() = 0;
-	virtual void GetCursorPosition() = 0;
+	virtual void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) = 0;
 	virtual CEModifierKeyState GetModifierKeyState() {
 		return CEModifierKeyState();
 	}

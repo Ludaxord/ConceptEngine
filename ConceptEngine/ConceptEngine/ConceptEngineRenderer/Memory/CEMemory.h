@@ -1,7 +1,7 @@
 #pragma once
 #include "../CEDefinitions.h"
 
-class Memory
+class CEMemory
 {
 public:
     static void* Malloc(uint64 Size);

@@ -21,8 +21,6 @@ public:
 
 	CECore* GetCore() const;
 
-	CEEngineConfig GetEngineConfig() const;
-
 protected:
 	bool CreateEditor();
 	bool CreateRuntime();
@@ -36,7 +34,6 @@ private:
 	                EngineBoot EBoot);
 	CECore* Core;
 
-	CEEngineConfig EngineConfig;
 	std::time_t StartTime;
 };
 
@@ -59,7 +56,7 @@ inline int EngineExec(ConceptEngine* Engine) {
 inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
                 EngineBoot EBoot) {
 	auto Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot);
-	switch (Engine->EngineConfig.EngineBoot) {
+	switch (GEngineConfig.EngineBoot) {
 	case EngineBoot::Runtime:
 		if (!Engine->CreateRuntime()) {
 			CE_LOG_ERROR("[ConceptEngine]: Failed to create Runtime");

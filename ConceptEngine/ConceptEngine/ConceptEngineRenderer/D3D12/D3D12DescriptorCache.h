@@ -40,10 +40,10 @@ struct TD3D12DescriptorViewCache
 
     void Reset()
     {
-        Memory::Memzero(DescriptorViews, sizeof(DescriptorViews));
-        Memory::Memzero(Descriptors, sizeof(Descriptors));
-        Memory::Memzero(CopyDescriptors, sizeof(CopyDescriptors));
-        Memory::Memzero(DescriptorRangeLengths, sizeof(DescriptorRangeLengths));
+        CEMemory::Memzero(DescriptorViews, sizeof(DescriptorViews));
+        CEMemory::Memzero(Descriptors, sizeof(Descriptors));
+        CEMemory::Memzero(CopyDescriptors, sizeof(CopyDescriptors));
+        CEMemory::Memzero(DescriptorRangeLengths, sizeof(DescriptorRangeLengths));
 
         for (uint32 i = 0; i < ShaderVisibility_Count; i++)
         {
@@ -210,7 +210,7 @@ public:
 
     FORCEINLINE void Reset()
     {
-        Memory::Memzero(VertexBuffers, sizeof(VertexBuffers));
+        CEMemory::Memzero(VertexBuffers, sizeof(VertexBuffers));
         NumVertexBuffers   = 0;
         VertexBuffersDirty = true;
 
@@ -277,7 +277,7 @@ public:
 
     FORCEINLINE void Reset()
     {
-        Memory::Memzero(RenderTargetViewHandles, sizeof(RenderTargetViewHandles));
+        CEMemory::Memzero(RenderTargetViewHandles, sizeof(RenderTargetViewHandles));
         DepthStencilViewHandle = { 0 };
         NumRenderTargets = 0;
     }
@@ -405,7 +405,7 @@ public:
     {
         Assert(InNumConstants <= D3D12_MAX_32BIT_SHADER_CONSTANTS_COUNT);
 
-        Memory::Memcpy(Constants, InConstants, sizeof(uint32) * InNumConstants);
+        CEMemory::Memcpy(Constants, InConstants, sizeof(uint32) * InNumConstants);
         NumConstants = InNumConstants;
     }
 
@@ -431,7 +431,7 @@ public:
 
     void Reset()
     {
-        Memory::Memzero(Constants, sizeof(Constants));
+        CEMemory::Memzero(Constants, sizeof(Constants));
         NumConstants = 0;
     }
 

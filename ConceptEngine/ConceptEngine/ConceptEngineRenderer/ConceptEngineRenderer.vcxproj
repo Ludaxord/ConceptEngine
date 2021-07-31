@@ -41,7 +41,7 @@
     <ClInclude Include="Core\Application\Generic\CEGenericMisc.h" />
     <ClInclude Include="Core\Application\Generic\GenericOutputConsole.h" />
     <ClInclude Include="Core\Application\Generic\CEGenericPlatform.h" />
-    <ClInclude Include="Core\Application\Generic\GenericWindow.h" />
+    <ClInclude Include="Core\Application\Generic\CEWindow.h" />
     <ClInclude Include="Core\Application\Log.h" />
     <ClInclude Include="Core\Application\Platform\Platform.h" />
     <ClInclude Include="Core\Application\Platform\PlatformCallbacks.h" />
@@ -72,7 +72,7 @@
     <ClInclude Include="Core\Engine\EngineLoop.h" />
     <ClInclude Include="Core\Input\InputCodes.h" />
     <ClInclude Include="Core\Input\CEInputManager.h" />
-    <ClInclude Include="Core\Ref.h" />
+    <ClInclude Include="Core\CERef.h" />
     <ClInclude Include="Core\RefCountedObject.h" />
     <ClInclude Include="Core\Threading\Generic\GenericAtomic.h" />
     <ClInclude Include="Core\Threading\Generic\GenericProcess.h" />
@@ -139,7 +139,7 @@
     <ClInclude Include="Math\Float.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Memory\LinearAllocator.h" />
-    <ClInclude Include="Memory\Memory.h" />
+    <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Memory\New.h" />
     <ClInclude Include="Platform\Android\CEAndroid.h" />
     <ClInclude Include="Platform\CEPlatform.h" />
@@ -262,7 +262,7 @@
     <ClCompile Include="Main\EngineMain.cpp" />
     <ClCompile Include="Main\Windows\WindowsMain.cpp" />
     <ClCompile Include="Memory\LinearAllocator.cpp" />
-    <ClCompile Include="Memory\Memory.cpp" />
+    <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
     <ClCompile Include="Platform\Android\CEAndroid.cpp" />
     <ClCompile Include="Platform\CEPlatform.cpp" />

@@ -101,7 +101,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
 
     // Create standard textures
     uint8 Pixels[] = { 255, 255, 255, 255 };
-    TRef<Texture2D> WhiteTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> WhiteTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!WhiteTexture)
     {
         return nullptr;
@@ -115,7 +115,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
     Pixels[1] = 127;
     Pixels[2] = 255;
 
-    TRef<Texture2D> NormalMap = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> NormalMap = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!NormalMap)
     {
         return nullptr;
@@ -142,7 +142,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
 
     // Create All Materials in scene
     CEArray<TSharedPtr<Material>> LoadedMaterials;
-    std::unordered_map<std::string, TRef<Texture2D>> MaterialTextures;
+    std::unordered_map<std::string, CERef<Texture2D>> MaterialTextures;
     for (tinyobj::material_t& Mat : Materials)
     {
         // Create new material with default properties
@@ -168,7 +168,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.ambient_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.ambient_texname;
-                TRef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.ambient_texname);
@@ -190,7 +190,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.diffuse_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.diffuse_texname;
-                TRef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm); 
+                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm); 
                 if (Texture)
                 {
                     Texture->SetName(Mat.diffuse_texname);
@@ -212,7 +212,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.specular_highlight_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.specular_highlight_texname;
-                TRef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.specular_highlight_texname);
@@ -234,7 +234,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.bump_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.bump_texname;
-                TRef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
+                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.bump_texname);
@@ -256,7 +256,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.alpha_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.alpha_texname;
-                TRef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.alpha_texname);

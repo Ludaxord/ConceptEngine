@@ -9,11 +9,11 @@ public:
 	
 	bool Create() override;
 
-	bool IsKeyUp(EKey KeyCode);
-	bool IsKeyDown(EKey KeyCode);
+	bool IsKeyUp(CEKey KeyCode);
+	bool IsKeyDown(CEKey KeyCode);
 
-	EKey ConvertFromScanCode(uint32 ScanCode);
-	uint32 ConvertToScanCode(EKey Key);
+	CEKey ConvertFromScanCode(uint32 ScanCode);
+	uint32 ConvertToScanCode(CEKey Key);
 
 	static CEInputManager& Get();
 
@@ -25,7 +25,7 @@ private:
 
 	void OnWindowFocusChanged(const WindowFocusChangedEvent& Event);
 
-	CEStaticArray<bool, EKey::Key_Count> KeyStates;
-	CEStaticArray<EKey, 512> ScanCodeTable;
+	CEStaticArray<bool, CEKey::Key_Count> KeyStates;
+	CEStaticArray<CEKey, 512> ScanCodeTable;
 	CEStaticArray<uint16, 512> KeyTable;
 };

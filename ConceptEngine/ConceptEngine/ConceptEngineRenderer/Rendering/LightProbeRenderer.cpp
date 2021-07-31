@@ -190,7 +190,7 @@ bool LightProbeRenderer::CreateSkyLightResources(LightSetup& LightSetup)
 
     for (uint32 MipLevel = 0; MipLevel < SpecularIrradianceMiplevels; MipLevel++)
     {
-        TRef<UnorderedAccessView> Uav = CreateUnorderedAccessView(LightSetup.SpecularIrradianceMap.Get(), EFormat::R16G16B16A16_Float, MipLevel);
+        CERef<UnorderedAccessView> Uav = CreateUnorderedAccessView(LightSetup.SpecularIrradianceMap.Get(), EFormat::R16G16B16A16_Float, MipLevel);
         if (Uav)
         {
             LightSetup.SpecularIrradianceMapUAVs.EmplaceBack(Uav);

@@ -20,21 +20,21 @@ public:
     void Exit();
 
 public:
-    virtual void OnKeyReleased(EKey KeyCode, const CEModifierKeyState& ModierKeyState) override final;
-    virtual void OnKeyPressed(EKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModierKeyState) override final;
+    virtual void OnKeyReleased(CEKey KeyCode, const CEModifierKeyState& ModierKeyState) override final;
+    virtual void OnKeyPressed(CEKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModierKeyState) override final;
     virtual void OnKeyTyped(uint32 Character) override final;
 
     virtual void OnMouseMove(int32 x, int32 y) override final;
-    virtual void OnMouseReleased(EMouseButton Button, const CEModifierKeyState& ModierKeyState) override final;
-    virtual void OnMousePressed(EMouseButton Button, const CEModifierKeyState& ModierKeyState) override final;
+    virtual void OnMouseReleased(CEMouseButton Button, const CEModifierKeyState& ModierKeyState) override final;
+    virtual void OnMousePressed(CEMouseButton Button, const CEModifierKeyState& ModierKeyState) override final;
     virtual void OnMouseScrolled(float HorizontalDelta, float VerticalDelta) override final;
 
-    virtual void OnWindowResized(const TRef<GenericWindow>& Window, uint16 Width, uint16 Height) override final;
-    virtual void OnWindowMoved(const TRef<GenericWindow>& Window, int16 x, int16 y) override final;
-    virtual void OnWindowFocusChanged(const TRef<GenericWindow>& Window, bool HasFocus) override final;
-    virtual void OnWindowMouseLeft(const TRef<GenericWindow>& Window) override final;
-    virtual void OnWindowMouseEntered(const TRef<GenericWindow>& Window) override final;
-    virtual void OnWindowClosed(const TRef<GenericWindow>& Window) override final;
+    virtual void OnWindowResized(const CERef<CEWindow>& Window, uint16 Width, uint16 Height) override final;
+    virtual void OnWindowMoved(const CERef<CEWindow>& Window, int16 x, int16 y) override final;
+    virtual void OnWindowFocusChanged(const CERef<CEWindow>& Window, bool HasFocus) override final;
+    virtual void OnWindowMouseLeft(const CERef<CEWindow>& Window) override final;
+    virtual void OnWindowMouseEntered(const CERef<CEWindow>& Window) override final;
+    virtual void OnWindowClosed(const CERef<CEWindow>& Window) override final;
 
     virtual void OnApplicationExit(int32 ExitCode) override final;
 
@@ -76,8 +76,8 @@ public:
     OnApplicationExitEvent OnApplicationExitEvent;
 
 public:
-    TRef<GenericWindow>   MainWindow;
-    TRef<Viewport> MainViewport;
+    CERef<CEWindow>   MainWindow;
+    CERef<Viewport> MainViewport;
 
     bool IsRunning = false;
 };

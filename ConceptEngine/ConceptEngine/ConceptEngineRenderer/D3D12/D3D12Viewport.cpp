@@ -39,7 +39,7 @@ bool D3D12Viewport::Init()
     Assert(Width > 0 && Height > 0);
 
     DXGI_SWAP_CHAIN_DESC1 SwapChainDesc;
-    Memory::Memzero(&SwapChainDesc);
+    CEMemory::Memzero(&SwapChainDesc);
 
     SwapChainDesc.Width              = Width;
     SwapChainDesc.Height             = Height;
@@ -54,7 +54,7 @@ bool D3D12Viewport::Init()
     SwapChainDesc.Flags              = Flags;
 
     DXGI_SWAP_CHAIN_FULLSCREEN_DESC FullscreenDesc;
-    Memory::Memzero(&FullscreenDesc);
+    CEMemory::Memzero(&FullscreenDesc);
 
     FullscreenDesc.RefreshRate.Numerator   = 0;
     FullscreenDesc.RefreshRate.Denominator = 1;
@@ -160,7 +160,7 @@ void D3D12Viewport::SetName(const std::string& InName)
     SwapChain->SetPrivateData(WKPDID_D3DDebugObjectName, static_cast<UINT>(InName.size()), InName.data());
     
     uint32 Index = 0;
-    for (TRef<D3D12Texture2D>& Buffer : BackBuffers)
+    for (CERef<D3D12Texture2D>& Buffer : BackBuffers)
     {
         Buffer->SetName(InName + "Buffer [" + std::to_string(Index) + "]");
         Index++;
@@ -178,7 +178,7 @@ bool D3D12Viewport::RetriveBackBuffers()
     {
         D3D12OfflineDescriptorHeap* RenderTargetOfflineHeap = gD3D12RenderLayer->GetRenderTargetOfflineDescriptorHeap();
         BackBufferViews.Resize(NumBackBuffers);
-        for (TRef<D3D12RenderTargetView>& View : BackBufferViews)
+        for (CERef<D3D12RenderTargetView>& View : BackBufferViews)
         {
             if (!View)
             {
@@ -205,7 +205,7 @@ bool D3D12Viewport::RetriveBackBuffers()
         BackBuffers[i]->SetResource(DBG_NEW D3D12Resource(GetDevice(), BackBufferResource));
 
         D3D12_RENDER_TARGET_VIEW_DESC Desc;
-        Memory::Memzero(&Desc);
+        CEMemory::Memzero(&Desc);
 
         Desc.ViewDimension        = D3D12_RTV_DIMENSION_TEXTURE2D;
         Desc.Format               = BackBuffers[i]->GetNativeFormat();

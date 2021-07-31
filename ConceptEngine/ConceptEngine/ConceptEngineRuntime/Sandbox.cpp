@@ -48,7 +48,7 @@ bool Sandbox::Init()
         255
     };
 
-    TRef<Texture2D> BaseTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> BaseTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!BaseTexture)
     {
         return false;
@@ -62,7 +62,7 @@ bool Sandbox::Init()
     Pixels[1] = 127;
     Pixels[2] = 255;
 
-    TRef<Texture2D> BaseNormal = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> BaseNormal = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!BaseNormal)
     {
         return false;
@@ -76,7 +76,7 @@ bool Sandbox::Init()
     Pixels[1] = 255;
     Pixels[2] = 255;
 
-    TRef<Texture2D> WhiteTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> WhiteTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!WhiteTexture)
     {
         return false;
@@ -149,7 +149,7 @@ bool Sandbox::Init()
     NewComponent->Mesh     = Mesh::Make(CubeMeshData);
     NewComponent->Material = MakeShared<Material>(MatProperties);
 
-    TRef<Texture2D> AlbedoMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png", TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> AlbedoMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png", TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
     if (!AlbedoMap)
     {
         return false;
@@ -159,7 +159,7 @@ bool Sandbox::Init()
         AlbedoMap->SetName("AlbedoMap");
     }
 
-    TRef<Texture2D> NormalMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Normal.png", TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> NormalMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Normal.png", TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
     if (!NormalMap)
     {
         return false;
@@ -169,7 +169,7 @@ bool Sandbox::Init()
         NormalMap->SetName("NormalMap");
     }
 
-    TRef<Texture2D> AOMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_AO.png", TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+    CERef<Texture2D> AOMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_AO.png", TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
     if (!AOMap)
     {
         return false;
@@ -179,7 +179,7 @@ bool Sandbox::Init()
         AOMap->SetName("AOMap");
     }
 
-    TRef<Texture2D> RoughnessMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Roughness.png", TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+    CERef<Texture2D> RoughnessMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Roughness.png", TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
     if (!RoughnessMap)
     {
         return false;
@@ -189,7 +189,7 @@ bool Sandbox::Init()
         RoughnessMap->SetName("RoughnessMap");
     }
 
-    TRef<Texture2D> HeightMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Height.png", TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+    CERef<Texture2D> HeightMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Height.png", TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
     if (!HeightMap)
     {
         return false;
@@ -199,7 +199,7 @@ bool Sandbox::Init()
         HeightMap->SetName("HeightMap");
     }
 
-    TRef<Texture2D> MetallicMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Metallic.png" , TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+    CERef<Texture2D> MetallicMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Metallic.png" , TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
     if (!MetallicMap)
     {
         return false;
@@ -330,54 +330,54 @@ void Sandbox::Tick(CETimestamp DeltaTime)
     const float Delta = static_cast<float>(DeltaTime.AsSeconds());
     const float RotationSpeed = 45.0f;
 
-    if (CEInputManager::Get().IsKeyDown(EKey::Key_Right))
+    if (CEInputManager::Get().IsKeyDown(CEKey::Key_Right))
     {
         CurrentCamera->Rotate(0.0f, XMConvertToRadians(RotationSpeed * Delta), 0.0f);
     }
-    else if (CEInputManager::Get().IsKeyDown(EKey::Key_Left))
+    else if (CEInputManager::Get().IsKeyDown(CEKey::Key_Left))
     {
         CurrentCamera->Rotate(0.0f, XMConvertToRadians(-RotationSpeed * Delta), 0.0f);
     }
 
-    if (CEInputManager::Get().IsKeyDown(EKey::Key_Up))
+    if (CEInputManager::Get().IsKeyDown(CEKey::Key_Up))
     {
         CurrentCamera->Rotate(XMConvertToRadians(-RotationSpeed * Delta), 0.0f, 0.0f);
     }
-    else if (CEInputManager::Get().IsKeyDown(EKey::Key_Down))
+    else if (CEInputManager::Get().IsKeyDown(CEKey::Key_Down))
     {
         CurrentCamera->Rotate(XMConvertToRadians(RotationSpeed * Delta), 0.0f, 0.0f);
     }
 
     float Acceleration = 15.0f;
-    if (CEInputManager::Get().IsKeyDown(EKey::Key_LeftShift))
+    if (CEInputManager::Get().IsKeyDown(CEKey::Key_LeftShift))
     {
         Acceleration = Acceleration * 3;
     }
 
     XMFLOAT3 CameraAcceleration = XMFLOAT3(0.0f, 0.0f, 0.0f);
-    if (CEInputManager::Get().IsKeyDown(EKey::Key_W))
+    if (CEInputManager::Get().IsKeyDown(CEKey::Key_W))
     {
         CameraAcceleration.z = Acceleration;
     }
-    else if (CEInputManager::Get().IsKeyDown(EKey::Key_S))
+    else if (CEInputManager::Get().IsKeyDown(CEKey::Key_S))
     {
         CameraAcceleration.z = -Acceleration;
     }
 
-    if (CEInputManager::Get().IsKeyDown(EKey::Key_A))
+    if (CEInputManager::Get().IsKeyDown(CEKey::Key_A))
     {
         CameraAcceleration.x = Acceleration;
     }
-    else if (CEInputManager::Get().IsKeyDown(EKey::Key_D))
+    else if (CEInputManager::Get().IsKeyDown(CEKey::Key_D))
     {
         CameraAcceleration.x = -Acceleration;
     }
 
-    if (CEInputManager::Get().IsKeyDown(EKey::Key_Q))
+    if (CEInputManager::Get().IsKeyDown(CEKey::Key_Q))
     {
         CameraAcceleration.y = Acceleration;
     }
-    else if (CEInputManager::Get().IsKeyDown(EKey::Key_E))
+    else if (CEInputManager::Get().IsKeyDown(CEKey::Key_E))
     {
         CameraAcceleration.y = -Acceleration;
     }

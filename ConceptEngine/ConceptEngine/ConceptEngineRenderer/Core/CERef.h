@@ -3,61 +3,61 @@
 
 #include "Containers/Utilities.h"
 
-// TRef - Helper class when using objects with RefCountedObject as a base
+// CERef - Helper class when using objects with RefCountedObject as a base
 
 template<typename T>
-class TRef
+class CERef
 {
 public:
     template<typename TOther>
-    friend class TRef;
+    friend class CERef;
 
-    FORCEINLINE TRef() noexcept
+    FORCEINLINE CERef() noexcept
         : RefPtr(nullptr)
     {
     }
 
-    FORCEINLINE TRef(const TRef& Other) noexcept
+    FORCEINLINE CERef(const CERef& Other) noexcept
         : RefPtr(Other.RefPtr)
     {
         AddRef();
     }
 
     template<typename TOther>
-    FORCEINLINE TRef(const TRef<TOther>& Other) noexcept
+    FORCEINLINE CERef(const CERef<TOther>& Other) noexcept
         : RefPtr(Other.RefPtr)
     {
         static_assert(std::is_convertible<TOther*, T*>());
         AddRef();
     }
 
-    FORCEINLINE TRef(TRef&& Other) noexcept
+    FORCEINLINE CERef(CERef&& Other) noexcept
         : RefPtr(Other.RefPtr)
     {
         Other.RefPtr = nullptr;
     }
 
     template<typename TOther>
-    FORCEINLINE TRef(TRef<TOther>&& Other) noexcept
+    FORCEINLINE CERef(CERef<TOther>&& Other) noexcept
         : RefPtr(Other.RefPtr)
     {
         static_assert(std::is_convertible<TOther*, T*>());
         Other.RefPtr = nullptr;
     }
 
-    FORCEINLINE TRef(T* InPtr) noexcept
+    FORCEINLINE CERef(T* InPtr) noexcept
         : RefPtr(InPtr)
     {
     }
 
     template<typename TOther>
-    FORCEINLINE TRef(TOther* InPtr) noexcept
+    FORCEINLINE CERef(TOther* InPtr) noexcept
         : RefPtr(InPtr)
     {
         static_assert(std::is_convertible<TOther*, T*>());
     }
 
-    FORCEINLINE ~TRef()
+    FORCEINLINE ~CERef()
     {
         Release();
     }
@@ -152,7 +152,7 @@ public:
         return (RefPtr == InPtr);
     }
 
-    FORCEINLINE bool operator==(const TRef& Other) const noexcept
+    FORCEINLINE bool operator==(const CERef& Other) const noexcept
     {
         return (RefPtr == Other.RefPtr);
     }
@@ -162,7 +162,7 @@ public:
         return (RefPtr != InPtr);
     }
 
-    FORCEINLINE bool operator!=(const TRef& Other) const noexcept
+    FORCEINLINE bool operator!=(const CERef& Other) const noexcept
     {
         return (RefPtr != Other.RefPtr);
     }
@@ -184,13 +184,13 @@ public:
     }
 
     template<typename TOther>
-    friend FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator==(TOther* LHS, const TRef& RHS) noexcept
+    friend FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator==(TOther* LHS, const CERef& RHS) noexcept
     {
         return (RHS == LHS);
     }
 
     template<typename TOther>
-    FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator==(const TRef<TOther>& RHS) const noexcept
+    FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator==(const CERef<TOther>& RHS) const noexcept
     {
         return (RefPtr == RHS.RefPtr);
     }
@@ -202,13 +202,13 @@ public:
     }
 
     template<typename TOther>
-    friend FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator!=(TOther* LHS, const TRef& RHS) noexcept
+    friend FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator!=(TOther* LHS, const CERef& RHS) noexcept
     {
         return (RHS != LHS);
     }
 
     template<typename TOther>
-    FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator!=(const TRef<TOther>& RHS) const noexcept
+    FORCEINLINE TEnableIf<std::is_convertible_v<TOther*, T*>, bool> operator!=(const CERef<TOther>& RHS) const noexcept
     {
         return (RefPtr != RHS.RefPtr);
     }
@@ -218,7 +218,7 @@ public:
         return (RefPtr != nullptr);
     }
 
-    FORCEINLINE TRef& operator=(const TRef& Other) noexcept
+    FORCEINLINE CERef& operator=(const CERef& Other) noexcept
     {
         if (this != std::addressof(Other))
         {
@@ -232,7 +232,7 @@ public:
     }
 
     template<typename TOther>
-    FORCEINLINE TRef& operator=(const TRef<TOther>& Other) noexcept
+    FORCEINLINE CERef& operator=(const CERef<TOther>& Other) noexcept
     {
         static_assert(std::is_convertible<TOther*, T*>());
 
@@ -247,7 +247,7 @@ public:
         return *this;
     }
 
-    FORCEINLINE TRef& operator=(TRef&& Other) noexcept
+    FORCEINLINE CERef& operator=(CERef&& Other) noexcept
     {
         if (this != std::addressof(Other))
         {
@@ -261,7 +261,7 @@ public:
     }
 
     template<typename TOther>
-    FORCEINLINE TRef& operator=(TRef<TOther>&& Other) noexcept
+    FORCEINLINE CERef& operator=(CERef<TOther>&& Other) noexcept
     {
         static_assert(std::is_convertible<TOther*, T*>());
 
@@ -276,7 +276,7 @@ public:
         return *this;
     }
 
-    FORCEINLINE TRef& operator=(T* InPtr) noexcept
+    FORCEINLINE CERef& operator=(T* InPtr) noexcept
     {
         if (RefPtr != InPtr)
         {
@@ -288,7 +288,7 @@ public:
     }
 
     template<typename TOther>
-    FORCEINLINE TRef& operator=(TOther* InPtr) noexcept
+    FORCEINLINE CERef& operator=(TOther* InPtr) noexcept
     {
         static_assert(std::is_convertible<TOther*, T*>());
 
@@ -301,7 +301,7 @@ public:
         return *this;
     }
 
-    FORCEINLINE TRef& operator=(std::nullptr_t) noexcept
+    FORCEINLINE CERef& operator=(std::nullptr_t) noexcept
     {
         Release();
         return *this;
@@ -322,77 +322,77 @@ private:
 
 // static_cast
 template<typename T, typename U>
-TRef<T> StaticCast(const TRef<U>& Pointer)
+CERef<T> StaticCast(const CERef<U>& Pointer)
 {
     T* RawPointer = static_cast<T*>(Pointer.Get());
     RawPointer->AddRef();
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 template<typename T, typename U>
-TRef<T> StaticCast(TRef<U>&& Pointer)
+CERef<T> StaticCast(CERef<U>&& Pointer)
 {
     T* RawPointer = static_cast<T*>(Pointer.Get());
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 // const_cast
 template<typename T, typename U>
-TRef<T> ConstCast(const TRef<U>& Pointer)
+CERef<T> ConstCast(const CERef<U>& Pointer)
 {
     T* RawPointer = const_cast<T*>(Pointer.Get());
     RawPointer->AddRef();
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 template<typename T, typename U>
-TRef<T> ConstCast(TRef<U>&& Pointer)
+CERef<T> ConstCast(CERef<U>&& Pointer)
 {
     T* RawPointer = const_cast<T*>(Pointer.Get());
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 // reinterpret_cast
 template<typename T, typename U>
-TRef<T> ReinterpretCast(const TRef<U>& Pointer)
+CERef<T> ReinterpretCast(const CERef<U>& Pointer)
 {
     T* RawPointer = reinterpret_cast<T*>(Pointer.Get());
     RawPointer->AddRef();
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 template<typename T, typename U>
-TRef<T> ReinterpretCast(TRef<U>&& Pointer)
+CERef<T> ReinterpretCast(CERef<U>&& Pointer)
 {
     T* RawPointer = reinterpret_cast<T*>(Pointer.Get());
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 // dynamic_cast
 template<typename T, typename U>
-TRef<T> DynamicCast(const TRef<U>& Pointer)
+CERef<T> DynamicCast(const CERef<U>& Pointer)
 {
     T* RawPointer = dynamic_cast<T*>(Pointer.Get());
     RawPointer->AddRef();
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
 template<typename T, typename U>
-TRef<T> DynamicCast(TRef<U>&& Pointer)
+CERef<T> DynamicCast(CERef<U>&& Pointer)
 {
     T* RawPointer = dynamic_cast<T*>(Pointer.Get());
-    return TRef<T>(RawPointer);
+    return CERef<T>(RawPointer);
 }
 
-// Converts a raw pointer into a TRef
+// Converts a raw pointer into a CERef
 template<typename T, typename U>
-TRef<T> MakeSharedRef(U* InRefCountedObject)
+CERef<T> MakeSharedRef(U* InRefCountedObject)
 {
     if (InRefCountedObject)
     {
         InRefCountedObject->AddRef();
-        return TRef<T>(static_cast<T*>(InRefCountedObject));
+        return CERef<T>(static_cast<T*>(InRefCountedObject));
     }
 
-    return TRef<T>();
+    return CERef<T>();
 }

@@ -113,7 +113,7 @@ void CEActionConsole::ClearHistory()
 
 void CEActionConsole::OnKeyPressedEvent(const KeyPressedEvent& Event)
 {
-    if (!Event.IsRepeat && Event.Key == EKey::Key_GraveAccent)
+    if (!Event.IsRepeat && Event.Key == CEKey::Key_GraveAccent)
     {
         IsActive = !IsActive;
     }

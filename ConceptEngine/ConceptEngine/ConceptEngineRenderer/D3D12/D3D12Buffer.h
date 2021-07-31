@@ -20,7 +20,7 @@ public:
     D3D12Resource* GetResource() { return Resource.Get(); }
 
 protected:
-    TRef<D3D12Resource> Resource;
+    CERef<D3D12Resource> Resource;
 };
 
 class D3D12BaseVertexBuffer : public VertexBuffer, public D3D12BaseBuffer
@@ -37,7 +37,7 @@ public:
     {
         D3D12BaseBuffer::SetResource(InResource);
 
-        Memory::Memzero(&View);
+        CEMemory::Memzero(&View);
         View.StrideInBytes  = GetStride();
         View.SizeInBytes    = GetNumVertices() * View.StrideInBytes;
         View.BufferLocation = D3D12BaseBuffer::Resource->GetGPUVirtualAddress();
@@ -63,7 +63,7 @@ public:
     {
         D3D12BaseBuffer::SetResource(InResource);
 
-        Memory::Memzero(&View);
+        CEMemory::Memzero(&View);
 
         EIndexFormat IndexFormat = GetFormat();
         if (IndexFormat != EIndexFormat::Unknown)
@@ -95,7 +95,7 @@ public:
         D3D12BaseBuffer::SetResource(InResource);
 
         D3D12_CONSTANT_BUFFER_VIEW_DESC ViewDesc;
-        Memory::Memzero(&ViewDesc);
+        CEMemory::Memzero(&ViewDesc);
 
         ViewDesc.BufferLocation = D3D12BaseBuffer::Resource->GetGPUVirtualAddress();
         ViewDesc.SizeInBytes    = (uint32)D3D12BaseBuffer::GetSizeInBytes();

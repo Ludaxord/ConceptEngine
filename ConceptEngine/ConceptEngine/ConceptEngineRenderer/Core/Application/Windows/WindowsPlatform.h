@@ -60,17 +60,17 @@ public:
 
     static CEModifierKeyState GetModifierKeyState();
 
-    static void SetCapture(GenericWindow* Window);
-    static void SetActiveWindow(GenericWindow* Window);
+    static void SetCapture(CEWindow* Window);
+    static void SetActiveWindow(CEWindow* Window);
 
-    static GenericWindow* GetCapture();
-    static GenericWindow* GetActiveWindow();
+    static CEWindow* GetCapture();
+    static CEWindow* GetActiveWindow();
 
     static void SetCursor(GenericCursor* Cursor);
     static GenericCursor* GetCursor();
 
-    static void SetCursorPos(GenericWindow* RelativeWindow, int32 x, int32 y);
-    static void GetCursorPos(GenericWindow* RelativeWindow, int32& OutX, int32& OutY);
+    static void SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y);
+    static void GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY);
 
     static LPCWSTR GetWindowClassName() { return L"WindowClass"; }
     static HINSTANCE GetInstance()     { return Instance; }
@@ -88,7 +88,7 @@ private:
 private:
     static CEArray<WindowsEvent> Messages;
     
-    static TRef<WindowsCursor> CurrentCursor;
+    static CERef<WindowsCursor> CurrentCursor;
 
     static bool IsTrackingMouse;
 

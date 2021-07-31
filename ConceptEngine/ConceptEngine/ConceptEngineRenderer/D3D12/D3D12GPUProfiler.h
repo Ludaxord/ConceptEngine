@@ -29,9 +29,9 @@ private:
     bool AllocateReadResource();
 
     TComPtr<ID3D12QueryHeap> QueryHeap;
-    TRef<D3D12Resource>      WriteResource;
+    CERef<D3D12Resource>      WriteResource;
     
-    CEArray<TRef<D3D12Resource>> ReadResources;
+    CEArray<CERef<D3D12Resource>> ReadResources;
     CEArray<TimeQuery> TimeQueries;
     
     UINT64 Frequency;

@@ -5,7 +5,7 @@ class CEMac : public CEPlatform {
 public:
 	CEMac();
 	~CEMac();
-	
+
 	bool CreateSystemWindow() override;
 	bool CreateSystemConsole() override;
 	bool CreateCursor() override;
@@ -14,11 +14,12 @@ public:
 	void SetCapture(CEWindow* Window) override;
 	void SetActiveWindow(CEWindow* Window) override;
 	void SetCursor(CECursor* Cursor) override;
-	void SetCursorPosition() override;
 	CEWindow* GetCapture() override;
 	CEWindow* GetActiveWindow() override;
 	CECursor* GetCursor() override;
-	void GetCursorPosition() override;
+	void SetCursorPosition(CEWindow* RelativeWindow, int32 X, int32 Y) override;
+	void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) override;
 private:
 	bool CreateInputManager() override;
+
 };

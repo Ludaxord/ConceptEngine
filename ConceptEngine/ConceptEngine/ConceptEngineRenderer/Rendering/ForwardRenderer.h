@@ -16,7 +16,7 @@ public:
     void Render(CommandList& CmdList, const FrameResources& FrameResources, const LightSetup& LightSetup);
 
 private:
-    TRef<GraphicsPipelineState> PipelineState;
-    TRef<VertexShader>          VShader;
-    TRef<PixelShader>           PShader;
+    CERef<GraphicsPipelineState> PipelineState;
+    CERef<VertexShader>          VShader;
+    CERef<PixelShader>           PShader;
 };

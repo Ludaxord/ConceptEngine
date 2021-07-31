@@ -28,7 +28,7 @@ D3D12DescriptorCache::~D3D12DescriptorCache()
 bool D3D12DescriptorCache::Init()
 {
     D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc;
-    Memory::Memzero(&CBVDesc);
+    CEMemory::Memzero(&CBVDesc);
 
     CBVDesc.BufferLocation = 0;
     CBVDesc.SizeInBytes    = 0;
@@ -45,7 +45,7 @@ bool D3D12DescriptorCache::Init()
     }
 
     D3D12_UNORDERED_ACCESS_VIEW_DESC UAVDesc;
-    Memory::Memzero(&UAVDesc);
+    CEMemory::Memzero(&UAVDesc);
 
     UAVDesc.ViewDimension        = D3D12_UAV_DIMENSION_TEXTURE2D;
     UAVDesc.Format               = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -64,7 +64,7 @@ bool D3D12DescriptorCache::Init()
     }
 
     D3D12_SHADER_RESOURCE_VIEW_DESC SRVDesc;
-    Memory::Memzero(&SRVDesc);
+    CEMemory::Memzero(&SRVDesc);
 
     SRVDesc.ViewDimension                 = D3D12_SRV_DIMENSION_TEXTURE2D;
     SRVDesc.Format                        = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -86,7 +86,7 @@ bool D3D12DescriptorCache::Init()
     }
 
     D3D12_SAMPLER_DESC SamplerDesc;
-    Memory::Memzero(&SamplerDesc);
+    CEMemory::Memzero(&SamplerDesc);
 
     SamplerDesc.AddressU       = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
     SamplerDesc.AddressV       = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;

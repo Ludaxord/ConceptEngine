@@ -17,8 +17,8 @@ public:
     void PreRender(CommandList& CmdList, FrameResources& Resources, const Scene& Scene);
 
 private:
-    TRef<RayTracingPipelineState> Pipeline;
-    TRef<RayGenShader>        RayGenShader;
-    TRef<RayMissShader>       RayMissShader;
-    TRef<RayClosestHitShader> RayClosestHitShader;
+    CERef<RayTracingPipelineState> Pipeline;
+    CERef<RayGenShader>        RayGenShader;
+    CERef<RayMissShader>       RayMissShader;
+    CERef<RayClosestHitShader> RayClosestHitShader;
 };

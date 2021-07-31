@@ -5,7 +5,7 @@
 
 CEArray<WindowsEvent> WindowsPlatform::Messages;
 
-TRef<WindowsCursor> WindowsPlatform::CurrentCursor;
+CERef<WindowsCursor> WindowsPlatform::CurrentCursor;
 
 bool WindowsPlatform::IsTrackingMouse = false;
 
@@ -34,7 +34,7 @@ bool WindowsPlatform::Init()
 bool WindowsPlatform::RegisterWindowClass()
 {
     WNDCLASS WindowClass;
-    Memory::Memzero(&WindowClass);
+    CEMemory::Memzero(&WindowClass);
 
     WindowClass.hInstance     = Instance;
     WindowClass.lpszClassName = WindowsPlatform::GetWindowClassName();
@@ -85,7 +85,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
     constexpr uint32 KEY_REPEAT_MASK  = 0x40000000;
     constexpr uint16 BACK_BUTTON_MASK = 0x0001;
 
-    TRef<WindowsWindow> MessageWindow = WindowHandle(Window).GetWindow();
+    CERef<WindowsWindow> MessageWindow = WindowHandle(Window).GetWindow();
     switch (Message)
     {
         case WM_CLOSE:
@@ -149,7 +149,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         case WM_KEYUP:
         {
             const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-            const EKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
+            const CEKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
             Callbacks->OnKeyReleased(Key, GetModifierKeyState());
             break;
         }
@@ -159,7 +159,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         {
             const bool IsRepeat   = !!(lParam & KEY_REPEAT_MASK);
             const uint32 ScanCode = static_cast<uint32>(HIWORD(lParam) & SCAN_CODE_MASK);
-            const EKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
+            const CEKey Key = CEInputManager::Get().ConvertFromScanCode(ScanCode);
             Callbacks->OnKeyPressed(Key, IsRepeat, GetModifierKeyState());
             break;
         }
@@ -180,7 +180,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
             if (!IsTrackingMouse)
             {
                 TRACKMOUSEEVENT TrackEvent;
-                Memory::Memzero(&TrackEvent);
+                CEMemory::Memzero(&TrackEvent);
 
                 TrackEvent.cbSize    = sizeof(TRACKMOUSEEVENT);
                 TrackEvent.dwFlags   = TME_LEAVE;
@@ -205,26 +205,26 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         case WM_RBUTTONDBLCLK:
         case WM_XBUTTONDBLCLK:
         {
-            EMouseButton Button = EMouseButton::MouseButton_Unknown;
+            CEMouseButton Button = CEMouseButton::MouseButton_Unknown;
             if (Message == WM_LBUTTONDOWN || Message == WM_LBUTTONDBLCLK)
             {
-                Button = EMouseButton::MouseButton_Left;
+                Button = CEMouseButton::MouseButton_Left;
             }
             else if (Message == WM_MBUTTONDOWN || Message == WM_MBUTTONDBLCLK)
             {
-                Button = EMouseButton::MouseButton_Middle;
+                Button = CEMouseButton::MouseButton_Middle;
             }
             else if (Message == WM_RBUTTONDOWN || Message == WM_RBUTTONDBLCLK)
             {
-                Button = EMouseButton::MouseButton_Right;
+                Button = CEMouseButton::MouseButton_Right;
             }
             else if (GET_XBUTTON_WPARAM(wParam) == BACK_BUTTON_MASK)
             {
-                Button = EMouseButton::MouseButton_Back;
+                Button = CEMouseButton::MouseButton_Back;
             }
             else
             {
-                Button = EMouseButton::MouseButton_Forward;
+                Button = CEMouseButton::MouseButton_Forward;
             }
 
             Callbacks->OnMousePressed(Button, GetModifierKeyState());
@@ -236,26 +236,26 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
         case WM_RBUTTONUP:
         case WM_XBUTTONUP:
         {
-            EMouseButton Button = EMouseButton::MouseButton_Unknown;
+            CEMouseButton Button = CEMouseButton::MouseButton_Unknown;
             if (Message == WM_LBUTTONUP)
             {
-                Button = EMouseButton::MouseButton_Left;
+                Button = CEMouseButton::MouseButton_Left;
             }
             else if (Message == WM_MBUTTONUP)
             {
-                Button = EMouseButton::MouseButton_Middle;
+                Button = CEMouseButton::MouseButton_Middle;
             }
             else if (Message == WM_RBUTTONUP)
             {
-                Button = EMouseButton::MouseButton_Right;
+                Button = CEMouseButton::MouseButton_Right;
             }
             else if (GET_XBUTTON_WPARAM(wParam) == BACK_BUTTON_MASK)
             {
-                Button = EMouseButton::MouseButton_Back;
+                Button = CEMouseButton::MouseButton_Back;
             }
             else
             {
-                Button = EMouseButton::MouseButton_Forward;
+                Button = CEMouseButton::MouseButton_Forward;
             }
 
             Callbacks->OnMouseReleased(Button, GetModifierKeyState());
@@ -291,9 +291,9 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
     }
 }
 
-void WindowsPlatform::SetActiveWindow(GenericWindow* Window)
+void WindowsPlatform::SetActiveWindow(CEWindow* Window)
 {
-    TRef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(Window);
+    CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(Window);
     HWND hActiveWindow = WinWindow->GetHandle();
     if (WinWindow->IsValid())
     {
@@ -301,11 +301,11 @@ void WindowsPlatform::SetActiveWindow(GenericWindow* Window)
     }
 }
 
-void WindowsPlatform::SetCapture(GenericWindow* CaptureWindow)
+void WindowsPlatform::SetCapture(CEWindow* CaptureWindow)
 {
     if (CaptureWindow)
     {
-        TRef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(CaptureWindow);
+        CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(CaptureWindow);
         HWND hCapture = WinWindow->GetHandle();
         if (WinWindow->IsValid())
         {
@@ -318,13 +318,13 @@ void WindowsPlatform::SetCapture(GenericWindow* CaptureWindow)
     }
 }
 
-GenericWindow* WindowsPlatform::GetActiveWindow()
+CEWindow* WindowsPlatform::GetActiveWindow()
 {
     HWND hActiveWindow = GetForegroundWindow();
     return WindowHandle(hActiveWindow).GetWindow();
 }
 
-GenericWindow* WindowsPlatform::GetCapture()
+CEWindow* WindowsPlatform::GetCapture()
 {
     HWND hCapture = ::GetCapture();
     return WindowHandle(hCapture).GetWindow();
@@ -376,7 +376,7 @@ void WindowsPlatform::SetCursor(GenericCursor* Cursor)
 {
     if (Cursor)
     {
-        TRef<WindowsCursor> WinCursor = MakeSharedRef<WindowsCursor>(Cursor);
+        CERef<WindowsCursor> WinCursor = MakeSharedRef<WindowsCursor>(Cursor);
         CurrentCursor = WinCursor;
 
         HCURSOR Cursorhandle = WinCursor->GetHandle();
@@ -408,11 +408,11 @@ GenericCursor* WindowsPlatform::GetCursor()
     return nullptr;
 }
 
-void WindowsPlatform::SetCursorPos(GenericWindow* RelativeWindow, int32 x, int32 y)
+void WindowsPlatform::SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y)
 {
     if (RelativeWindow)
     {
-        TRef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(RelativeWindow);
+        CERef<WindowsWindow> WinWindow = MakeSharedRef<WindowsWindow>(RelativeWindow);
         HWND hRelative = WinWindow->GetHandle();
 
         POINT CursorPos = { x, y };
@@ -423,7 +423,7 @@ void WindowsPlatform::SetCursorPos(GenericWindow* RelativeWindow, int32 x, int32
     }
 }
 
-void WindowsPlatform::GetCursorPos(GenericWindow* RelativeWindow, int32& OutX, int32& OutY)
+void WindowsPlatform::GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY)
 {
     POINT CursorPos = { };
     if (!::GetCursorPos(&CursorPos))
@@ -431,7 +431,7 @@ void WindowsPlatform::GetCursorPos(GenericWindow* RelativeWindow, int32& OutX, i
         return;
     }
 
-    TRef<WindowsWindow> WinRelative = MakeSharedRef<WindowsWindow>(RelativeWindow);
+    CERef<WindowsWindow> WinRelative = MakeSharedRef<WindowsWindow>(RelativeWindow);
     if (WinRelative)
     {
         HWND Relative = WinRelative->GetHandle();
@@ -448,27 +448,27 @@ CEModifierKeyState WindowsPlatform::GetModifierKeyState()
     uint32 ModifierMask = 0;
     if (GetKeyState(VK_CONTROL) & 0x8000)
     {
-        ModifierMask |= EModifierFlag::ModifierFlag_Ctrl;
+        ModifierMask |= CEModifierFlag::ModifierFlag_Ctrl;
     }
     if (GetKeyState(VK_MENU) & 0x8000)
     {
-        ModifierMask |= EModifierFlag::ModifierFlag_Alt;
+        ModifierMask |= CEModifierFlag::ModifierFlag_Alt;
     }
     if (GetKeyState(VK_SHIFT) & 0x8000)
     {
-        ModifierMask |= EModifierFlag::ModifierFlag_Shift;
+        ModifierMask |= CEModifierFlag::ModifierFlag_Shift;
     }
     if (GetKeyState(VK_CAPITAL) & 1)
     {
-        ModifierMask |= EModifierFlag::ModifierFlag_CapsLock;
+        ModifierMask |= CEModifierFlag::ModifierFlag_CapsLock;
     }
     if ((GetKeyState(VK_LWIN) | GetKeyState(VK_RWIN)) & 0x8000)
     {
-        ModifierMask |= EModifierFlag::ModifierFlag_Super;
+        ModifierMask |= CEModifierFlag::ModifierFlag_Super;
     }
     if (GetKeyState(VK_NUMLOCK) & 1)
     {
-        ModifierMask |= EModifierFlag::ModifierFlag_NumLock;
+        ModifierMask |= CEModifierFlag::ModifierFlag_NumLock;
     }
 
     return CEModifierKeyState(ModifierMask);

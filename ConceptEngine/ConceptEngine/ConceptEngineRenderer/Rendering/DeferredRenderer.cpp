@@ -82,7 +82,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         DepthStencilStateInfo.DepthEnable    = true;
         DepthStencilStateInfo.DepthWriteMask = EDepthWriteMask::All;
 
-        TRef<DepthStencilState> GeometryDepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
+        CERef<DepthStencilState> GeometryDepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
         if (!GeometryDepthStencilState)
         {
             CEDebug::DebugBreak();
@@ -96,7 +96,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         RasterizerStateCreateInfo RasterizerStateInfo;
         RasterizerStateInfo.CullMode = ECullMode::Back;
 
-        TRef<RasterizerState> GeometryRasterizerState = CreateRasterizerState(RasterizerStateInfo);
+        CERef<RasterizerState> GeometryRasterizerState = CreateRasterizerState(RasterizerStateInfo);
         if (!GeometryRasterizerState)
         {
             CEDebug::DebugBreak();
@@ -111,7 +111,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         BlendStateInfo.IndependentBlendEnable      = false;
         BlendStateInfo.RenderTarget[0].BlendEnable = false;
 
-        TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
+        CERef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
         if (!BlendState)
         {
             CEDebug::DebugBreak();
@@ -172,7 +172,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         DepthStencilStateInfo.DepthEnable    = true;
         DepthStencilStateInfo.DepthWriteMask = EDepthWriteMask::All;
 
-        TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
+        CERef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
         if (!DepthStencilState)
         {
             CEDebug::DebugBreak();
@@ -186,7 +186,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         RasterizerStateCreateInfo RasterizerStateInfo;
         RasterizerStateInfo.CullMode = ECullMode::Back;
 
-        TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
+        CERef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
         if (!RasterizerState)
         {
             CEDebug::DebugBreak();
@@ -201,7 +201,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         BlendStateInfo.IndependentBlendEnable      = false;
         BlendStateInfo.RenderTarget[0].BlendEnable = false;
 
-        TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
+        CERef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
         if (!BlendState)
         {
             CEDebug::DebugBreak();
@@ -242,7 +242,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         return false;
     }
 
-    TRef<Texture2D> StagingTexture = CreateTexture2D(LUTFormat, LUTSize, LUTSize, 1, 1, TextureFlag_UAV, EResourceState::Common, nullptr);
+    CERef<Texture2D> StagingTexture = CreateTexture2D(LUTFormat, LUTSize, LUTSize, 1, 1, TextureFlag_UAV, EResourceState::Common, nullptr);
     if (!StagingTexture)
     {
         CEDebug::DebugBreak();
@@ -287,7 +287,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         return false;
     }
 
-    TRef<ComputeShader> CShader = CreateComputeShader(ShaderCode);
+    CERef<ComputeShader> CShader = CreateComputeShader(ShaderCode);
     if (!CShader)
     {
         CEDebug::DebugBreak();
@@ -301,7 +301,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     ComputePipelineStateCreateInfo PipelineStateInfo;
     PipelineStateInfo.Shader = CShader.Get();
 
-    TRef<ComputePipelineState> BRDF_PipelineState = CreateComputePipelineState(PipelineStateInfo);
+    CERef<ComputePipelineState> BRDF_PipelineState = CreateComputePipelineState(PipelineStateInfo);
     if (!BRDF_PipelineState)
     {
         CEDebug::DebugBreak();

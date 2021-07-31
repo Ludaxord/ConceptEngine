@@ -32,13 +32,13 @@ struct ImGuiState
 
     Timer FrameClock;
 
-    TRef<Texture2D>             FontTexture;
-    TRef<GraphicsPipelineState> PipelineState;
-    TRef<GraphicsPipelineState> PipelineStateNoBlending;
-    TRef<PixelShader>           PShader;
-    TRef<VertexBuffer>          VertexBuffer;
-    TRef<IndexBuffer>           IndexBuffer;
-    TRef<SamplerState>          PointSampler;
+    CERef<Texture2D>             FontTexture;
+    CERef<GraphicsPipelineState> PipelineState;
+    CERef<GraphicsPipelineState> PipelineStateNoBlending;
+    CERef<PixelShader>           PShader;
+    CERef<VertexBuffer>          VertexBuffer;
+    CERef<IndexBuffer>           IndexBuffer;
+    CERef<SamplerState>          PointSampler;
     CEArray<ImGuiImage*>         Images;
     
     ImGuiContext* Context = nullptr;
@@ -46,7 +46,7 @@ struct ImGuiState
 
 static ImGuiState GlobalImGuiState;
 
-static uint32 GetMouseButtonIndex(EMouseButton Button)
+static uint32 GetMouseButtonIndex(CEMouseButton Button)
 {
     switch (Button)
     {
@@ -81,28 +81,28 @@ bool CEDebugUI::Create()
     IO.ImeWindowHandle     = GEngine.MainWindow->GetNativeHandle();
 
     // Keyboard mapping. ImGui will use those indices to peek into the IO.KeysDown[] array that we will update during the application lifetime.
-    IO.KeyMap[ImGuiKey_Tab]         = EKey::Key_Tab;
-    IO.KeyMap[ImGuiKey_LeftArrow]   = EKey::Key_Left;
-    IO.KeyMap[ImGuiKey_RightArrow]  = EKey::Key_Right;
-    IO.KeyMap[ImGuiKey_UpArrow]     = EKey::Key_Up;
-    IO.KeyMap[ImGuiKey_DownArrow]   = EKey::Key_Down;
-    IO.KeyMap[ImGuiKey_PageUp]      = EKey::Key_PageUp;
-    IO.KeyMap[ImGuiKey_PageDown]    = EKey::Key_PageDown;
-    IO.KeyMap[ImGuiKey_Home]        = EKey::Key_Home;
-    IO.KeyMap[ImGuiKey_End]         = EKey::Key_End;
-    IO.KeyMap[ImGuiKey_Insert]      = EKey::Key_Insert;
-    IO.KeyMap[ImGuiKey_Delete]      = EKey::Key_Delete;
-    IO.KeyMap[ImGuiKey_Backspace]   = EKey::Key_Backspace;
-    IO.KeyMap[ImGuiKey_Space]       = EKey::Key_Space;
-    IO.KeyMap[ImGuiKey_Enter]       = EKey::Key_Enter;
-    IO.KeyMap[ImGuiKey_Escape]      = EKey::Key_Escape;
-    IO.KeyMap[ImGuiKey_KeyPadEnter] = EKey::Key_KeypadEnter;
-    IO.KeyMap[ImGuiKey_A]           = EKey::Key_A;
-    IO.KeyMap[ImGuiKey_C]           = EKey::Key_C;
-    IO.KeyMap[ImGuiKey_V]           = EKey::Key_V;
-    IO.KeyMap[ImGuiKey_X]           = EKey::Key_X;
-    IO.KeyMap[ImGuiKey_Y]           = EKey::Key_Y;
-    IO.KeyMap[ImGuiKey_Z]           = EKey::Key_Z;
+    IO.KeyMap[ImGuiKey_Tab]         = CEKey::Key_Tab;
+    IO.KeyMap[ImGuiKey_LeftArrow]   = CEKey::Key_Left;
+    IO.KeyMap[ImGuiKey_RightArrow]  = CEKey::Key_Right;
+    IO.KeyMap[ImGuiKey_UpArrow]     = CEKey::Key_Up;
+    IO.KeyMap[ImGuiKey_DownArrow]   = CEKey::Key_Down;
+    IO.KeyMap[ImGuiKey_PageUp]      = CEKey::Key_PageUp;
+    IO.KeyMap[ImGuiKey_PageDown]    = CEKey::Key_PageDown;
+    IO.KeyMap[ImGuiKey_Home]        = CEKey::Key_Home;
+    IO.KeyMap[ImGuiKey_End]         = CEKey::Key_End;
+    IO.KeyMap[ImGuiKey_Insert]      = CEKey::Key_Insert;
+    IO.KeyMap[ImGuiKey_Delete]      = CEKey::Key_Delete;
+    IO.KeyMap[ImGuiKey_Backspace]   = CEKey::Key_Backspace;
+    IO.KeyMap[ImGuiKey_Space]       = CEKey::Key_Space;
+    IO.KeyMap[ImGuiKey_Enter]       = CEKey::Key_Enter;
+    IO.KeyMap[ImGuiKey_Escape]      = CEKey::Key_Escape;
+    IO.KeyMap[ImGuiKey_KeyPadEnter] = CEKey::Key_KeypadEnter;
+    IO.KeyMap[ImGuiKey_A]           = CEKey::Key_A;
+    IO.KeyMap[ImGuiKey_C]           = CEKey::Key_C;
+    IO.KeyMap[ImGuiKey_V]           = CEKey::Key_V;
+    IO.KeyMap[ImGuiKey_X]           = CEKey::Key_X;
+    IO.KeyMap[ImGuiKey_Y]           = CEKey::Key_Y;
+    IO.KeyMap[ImGuiKey_Z]           = CEKey::Key_Z;
 
     // Setup style
     ImGui::StyleColorsDark();
@@ -267,7 +267,7 @@ bool CEDebugUI::Create()
         return false;
     }
 
-    TRef<VertexShader> VShader = CreateVertexShader(ShaderCode);
+    CERef<VertexShader> VShader = CreateVertexShader(ShaderCode);
     if (!VShader)
     {
         CEDebug::DebugBreak();
@@ -310,7 +310,7 @@ bool CEDebugUI::Create()
         { "COLOR",    0, EFormat::R8G8B8A8_Unorm, 0, static_cast<UINT>(IM_OFFSETOF(ImDrawVert, col)), EInputClassification::Vertex, 0 },
     };
 
-    TRef<InputLayoutState> InputLayout = CreateInputLayout(InputLayoutInfo);
+    CERef<InputLayoutState> InputLayout = CreateInputLayout(InputLayoutInfo);
     if (!InputLayout)
     {
         CEDebug::DebugBreak();
@@ -325,7 +325,7 @@ bool CEDebugUI::Create()
     DepthStencilStateInfo.DepthEnable    = false;
     DepthStencilStateInfo.DepthWriteMask = EDepthWriteMask::Zero;
 
-    TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
+    CERef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
     if (!DepthStencilState)
     {
         CEDebug::DebugBreak();
@@ -339,7 +339,7 @@ bool CEDebugUI::Create()
     RasterizerStateCreateInfo RasterizerStateInfo;
     RasterizerStateInfo.CullMode = ECullMode::None;
 
-    TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
+    CERef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
     if (!RasterizerState)
     {
         CEDebug::DebugBreak();
@@ -360,7 +360,7 @@ bool CEDebugUI::Create()
     BlendStateInfo.RenderTarget[0].BlendOpAlpha   = EBlendOp::Add;
     BlendStateInfo.RenderTarget[0].BlendOp        = EBlendOp::Add;
 
-    TRef<BlendState> BlendStateBlending = CreateBlendState(BlendStateInfo);
+    CERef<BlendState> BlendStateBlending = CreateBlendState(BlendStateInfo);
     if (!BlendStateBlending)
     {
         CEDebug::DebugBreak();
@@ -373,7 +373,7 @@ bool CEDebugUI::Create()
 
     BlendStateInfo.RenderTarget[0].BlendEnable = false;
 
-    TRef<BlendState> BlendStateNoBlending = CreateBlendState(BlendStateInfo);
+    CERef<BlendState> BlendStateNoBlending = CreateBlendState(BlendStateInfo);
     if (!BlendStateBlending)
     {
         CEDebug::DebugBreak();
@@ -521,13 +521,13 @@ void CEDebugUI::Render(CommandList& CmdList)
 
     ImGuiIO& IO = ImGui::GetIO();
 
-    GenericWindow* Window = GEngine.MainWindow.Get();
+    CEWindow* Window = GEngine.MainWindow.Get();
     if (IO.WantSetMousePos)
     {
         Platform::SetCursorPos(Window, static_cast<int32>(IO.MousePos.x), static_cast<int32>(IO.MousePos.y));
     }
 
-    WindowShape CurrentWindowShape;
+    CEWindowShape CurrentWindowShape;
     Window->GetWindowShape(CurrentWindowShape);
 
     CETimestamp Delta = GlobalImGuiState.FrameClock.GetDeltaTime();
@@ -556,7 +556,7 @@ void CEDebugUI::Render(CommandList& CmdList)
         }
         else
         {
-            TRef<GenericCursor> Cursor = Platform::GetCursor();
+            CERef<GenericCursor> Cursor = Platform::GetCursor();
             switch (ImguiCursor)
             {
             case ImGuiMouseCursor_Arrow:      Cursor = GenericCursor::Arrow;      break;

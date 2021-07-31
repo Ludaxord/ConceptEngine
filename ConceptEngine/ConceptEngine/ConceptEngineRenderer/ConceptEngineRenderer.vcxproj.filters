@@ -33,7 +33,7 @@
     <ClInclude Include="Core\Application\Generic\CEGenericPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Generic\GenericWindow.h">
+    <ClInclude Include="Core\Application\Generic\CEWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Platform\Platform.h">
@@ -177,7 +177,7 @@
     <ClInclude Include="Core\Threading\ThreadSafeInt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Ref.h">
+    <ClInclude Include="Core\CERef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\RefCountedObject.h">
@@ -291,7 +291,7 @@
     <ClInclude Include="Memory\LinearAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Memory\Memory.h">
+    <ClInclude Include="Memory\CEMemory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Memory\New.h">
@@ -680,7 +680,7 @@
     <ClCompile Include="Memory\LinearAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Memory\Memory.cpp">
+    <ClCompile Include="Memory\CEMemory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Memory\New.cpp">

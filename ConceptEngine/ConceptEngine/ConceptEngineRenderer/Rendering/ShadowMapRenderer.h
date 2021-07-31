@@ -22,13 +22,13 @@ public:
 private:
     bool CreateShadowMaps(LightSetup& FrameResources);
 
-    TRef<ConstantBuffer> PerShadowMapBuffer;
+    CERef<ConstantBuffer> PerShadowMapBuffer;
 
-    TRef<GraphicsPipelineState> DirLightPipelineState;
-    TRef<VertexShader>          DirLightShader;
-    TRef<GraphicsPipelineState> PointLightPipelineState;
-    TRef<VertexShader>          PointLightVertexShader;
-    TRef<PixelShader>           PointLightPixelShader;
+    CERef<GraphicsPipelineState> DirLightPipelineState;
+    CERef<VertexShader>          DirLightShader;
+    CERef<GraphicsPipelineState> PointLightPipelineState;
+    CERef<VertexShader>          PointLightVertexShader;
+    CERef<PixelShader>           PointLightPixelShader;
 
     bool   UpdateDirLight   = true;
     bool   UpdatePointLight = true;

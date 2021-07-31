@@ -73,28 +73,28 @@ struct FrameResources
 
     Texture2D* BackBuffer = nullptr;
 
-    TRef<ConstantBuffer> CameraBuffer;
-    TRef<ConstantBuffer> TransformBuffer;
+    CERef<ConstantBuffer> CameraBuffer;
+    CERef<ConstantBuffer> TransformBuffer;
 
-    TRef<SamplerState> DirectionalShadowSampler;
-    TRef<SamplerState> PointShadowSampler;
-    TRef<SamplerState> IrradianceSampler;
+    CERef<SamplerState> DirectionalShadowSampler;
+    CERef<SamplerState> PointShadowSampler;
+    CERef<SamplerState> IrradianceSampler;
 
-    TRef<TextureCube> Skybox;
+    CERef<TextureCube> Skybox;
 
-    TRef<Texture2D>    IntegrationLUT;
-    TRef<SamplerState> IntegrationLUTSampler;
+    CERef<Texture2D>    IntegrationLUT;
+    CERef<SamplerState> IntegrationLUTSampler;
 
-    TRef<Texture2D>    SSAOBuffer;
-    TRef<Texture2D>    FinalTarget;
-    TRef<Texture2D>    GBuffer[5];
-    TRef<SamplerState> GBufferSampler;
-    TRef<SamplerState> FXAASampler;
+    CERef<Texture2D>    SSAOBuffer;
+    CERef<Texture2D>    FinalTarget;
+    CERef<Texture2D>    GBuffer[5];
+    CERef<SamplerState> GBufferSampler;
+    CERef<SamplerState> FXAASampler;
 
-    TRef<InputLayoutState> StdInputLayout;
+    CERef<InputLayoutState> StdInputLayout;
 
-    TRef<Texture2D>       RTOutput;
-    TRef<RayTracingScene> RTScene;
+    CERef<Texture2D>       RTOutput;
+    CERef<RayTracingScene> RTScene;
 
     RayTracingShaderResources   GlobalResources;
     RayTracingShaderResources   RayGenLocalResources;
@@ -110,6 +110,6 @@ struct FrameResources
 
     CEArray<ImGuiImage> DebugTextures;
 
-    TRef<Viewport> MainWindowViewport;
+    CERef<Viewport> MainWindowViewport;
 };
 

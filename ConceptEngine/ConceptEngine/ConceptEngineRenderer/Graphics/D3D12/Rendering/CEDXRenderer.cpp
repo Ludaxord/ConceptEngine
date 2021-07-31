@@ -819,7 +819,7 @@ bool CERenderer::CreateBoundingBoxDebugPass() {
 		{"POSITION", 0, EFormat::R32G32B32_Float, 0, 0, EInputClassification::Vertex, 0},
 	};
 
-	TRef<InputLayoutState> InputLayoutState = CreateInputLayout(InputLayout);
+	CERef<InputLayoutState> InputLayoutState = CreateInputLayout(InputLayout);
 	if (!InputLayoutState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -833,7 +833,7 @@ bool CERenderer::CreateBoundingBoxDebugPass() {
 	DepthStencilStateInfo.DepthEnable = false;
 	DepthStencilStateInfo.DepthWriteMask = EDepthWriteMask::Zero;
 
-	TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
+	CERef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
 	if (!DepthStencilState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -845,7 +845,7 @@ bool CERenderer::CreateBoundingBoxDebugPass() {
 	RasterizerStateCreateInfo RasterizerStateInfo;
 	RasterizerStateInfo.CullMode = ECullMode::None;
 
-	TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
+	CERef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
 	if (!RasterizerState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -856,7 +856,7 @@ bool CERenderer::CreateBoundingBoxDebugPass() {
 
 	BlendStateCreateInfo BlendStateInfo;
 
-	TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
+	CERef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
 	if (!BlendState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -951,7 +951,7 @@ bool CERenderer::CreateAA() {
 		return false;
 	}
 
-	TRef<VertexShader> VShader = CreateVertexShader(ShaderCode);
+	CERef<VertexShader> VShader = CreateVertexShader(ShaderCode);
 	if (!VShader) {
 		CEDebug::DebugBreak();
 		return false;
@@ -980,7 +980,7 @@ bool CERenderer::CreateAA() {
 	DepthStencilStateInfo.DepthEnable = false;
 	DepthStencilStateInfo.DepthWriteMask = EDepthWriteMask::Zero;
 
-	TRef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
+	CERef<DepthStencilState> DepthStencilState = CreateDepthStencilState(DepthStencilStateInfo);
 	if (!DepthStencilState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -992,7 +992,7 @@ bool CERenderer::CreateAA() {
 	RasterizerStateCreateInfo RasterizerStateInfo;
 	RasterizerStateInfo.CullMode = ECullMode::None;
 
-	TRef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
+	CERef<RasterizerState> RasterizerState = CreateRasterizerState(RasterizerStateInfo);
 	if (!RasterizerState) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1005,7 +1005,7 @@ bool CERenderer::CreateAA() {
 	BlendStateInfo.IndependentBlendEnable = false;
 	BlendStateInfo.RenderTarget[0].BlendEnable = false;
 
-	TRef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
+	CERef<BlendState> BlendState = CreateBlendState(BlendStateInfo);
 	if (!BlendState) {
 		CEDebug::DebugBreak();
 		return false;

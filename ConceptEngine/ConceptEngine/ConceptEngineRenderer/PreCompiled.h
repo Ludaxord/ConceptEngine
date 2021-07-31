@@ -27,7 +27,7 @@
 #include "Core/CoreObject/ClassType.h"
 #include "Core/CoreObject/CoreObject.h"
 #include "Core/RefCountedObject.h"
-#include "Core/Ref.h"
+#include "Core/CERef.h"
 
 // Containers
 #include "Core/Containers/Array.h"
@@ -49,5 +49,5 @@
 #include "Math/Math.h"
 
 // Memory
-#include "Memory/Memory.h"
+#include "Memory/CEMemory.h"
 #include "Memory/New.h"

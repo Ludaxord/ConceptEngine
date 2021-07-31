@@ -8,14 +8,14 @@ D3D12BaseShader::D3D12BaseShader(D3D12Device* InDevice, const CEArray<uint8>& In
     , Visibility(InVisibility)
 {
     ByteCode.BytecodeLength  = InCode.SizeInBytes();
-    ByteCode.pShaderBytecode = Memory::Malloc(ByteCode.BytecodeLength);
+    ByteCode.pShaderBytecode = CEMemory::Malloc(ByteCode.BytecodeLength);
     
-    Memory::Memcpy((void*)ByteCode.pShaderBytecode, InCode.Data(), ByteCode.BytecodeLength);
+    CEMemory::Memcpy((void*)ByteCode.pShaderBytecode, InCode.Data(), ByteCode.BytecodeLength);
 }
 
 D3D12BaseShader::~D3D12BaseShader()
 {
-    Memory::Free((void*)ByteCode.pShaderBytecode);
+    CEMemory::Free((void*)ByteCode.pShaderBytecode);
     
     ByteCode.pShaderBytecode = nullptr;
     ByteCode.BytecodeLength  = 0;
@@ -67,7 +67,7 @@ bool D3D12BaseShader::GetShaderResourceBindings(TD3D12ReflectionInterface* Refle
     D3D12_SHADER_INPUT_BIND_DESC ShaderBindDesc;
     for (uint32 i = 0; i < NumBoundResources; i++)
     {
-        Memory::Memzero(&ShaderBindDesc);
+        CEMemory::Memzero(&ShaderBindDesc);
 
         if (FAILED(Reflection->GetResourceBindingDesc(i, &ShaderBindDesc)))
         {
@@ -213,7 +213,7 @@ bool D3D12BaseRayTracingShader::GetRayTracingShaderReflection(D3D12BaseRayTracin
     }
 
     D3D12_LIBRARY_DESC LibDesc;
-    Memory::Memzero(&LibDesc);
+    CEMemory::Memzero(&LibDesc);
 
     HRESULT Result = Reflection->GetDesc(&LibDesc);
     if (FAILED(Result))
@@ -227,7 +227,7 @@ bool D3D12BaseRayTracingShader::GetRayTracingShaderReflection(D3D12BaseRayTracin
     ID3D12FunctionReflection* Function = Reflection->GetFunctionByIndex(0);
 
     D3D12_FUNCTION_DESC FuncDesc;
-    Memory::Memzero(&FuncDesc);
+    CEMemory::Memzero(&FuncDesc);
 
     Function->GetDesc(&FuncDesc);
     if (FAILED(Result))

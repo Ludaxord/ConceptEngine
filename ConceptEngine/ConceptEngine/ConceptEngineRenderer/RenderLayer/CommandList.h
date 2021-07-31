@@ -197,7 +197,7 @@ public:
     {
         const uint32 Num32BitConstantsInBytes = Num32BitConstants * 4;
         void* Shader32BitConstantsMemory = CmdAllocator.Allocate(Num32BitConstantsInBytes, 1);
-        Memory::Memcpy(Shader32BitConstantsMemory, Shader32BitConstants, Num32BitConstantsInBytes);
+        CEMemory::Memcpy(Shader32BitConstantsMemory, Shader32BitConstants, Num32BitConstantsInBytes);
 
         SafeAddRef(Shader);
         InsertCommand<Set32BitShaderConstantsRenderCommand>(Shader, Shader32BitConstantsMemory, Num32BitConstants);
@@ -294,7 +294,7 @@ public:
     void UpdateBuffer(Buffer* Destination, uint64 DestinationOffsetInBytes, uint64 SizeInBytes, const void* SourceData)
     {
         void* TempSourceData = CmdAllocator.Allocate(SizeInBytes, 1);
-        Memory::Memcpy(TempSourceData, SourceData, SizeInBytes);
+        CEMemory::Memcpy(TempSourceData, SourceData, SizeInBytes);
 
         SafeAddRef(Destination);
         InsertCommand<UpdateBufferRenderCommand>(Destination, DestinationOffsetInBytes, SizeInBytes, TempSourceData);
@@ -307,7 +307,7 @@ public:
         const uint32 SizeInBytes = Width * Height * GetByteStrideFromFormat(Destination->GetFormat());
 
         void* TempSourceData = CmdAllocator.Allocate(SizeInBytes, 1);
-        Memory::Memcpy(TempSourceData, SourceData, SizeInBytes);
+        CEMemory::Memcpy(TempSourceData, SourceData, SizeInBytes);
 
         Destination->AddRef();
         InsertCommand<UpdateTexture2DRenderCommand>(Destination, Width, Height, MipLevel, TempSourceData);

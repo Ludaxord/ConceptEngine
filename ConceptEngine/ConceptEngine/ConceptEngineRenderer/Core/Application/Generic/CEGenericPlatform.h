@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Core/Ref.h"
+#include "../../../Core/CERef.h"
 #include "../../../Core/Input/InputCodes.h"
 
 #ifdef COMPILER_VISUAL_STUDIO
@@ -8,7 +8,7 @@
 #endif
 
 class PlatformCallbacks;
-class GenericWindow;
+class CEWindow;
 class GenericCursor;
 
 struct CEModifierKeyState
@@ -42,17 +42,17 @@ public:
 
     static CEModifierKeyState GetModifierKeyState() { return CEModifierKeyState(); }
 
-    static void SetCapture(GenericWindow* Window) {}
-    static void SetActiveWindow(GenericWindow* Window) {}
+    static void SetCapture(CEWindow* Window) {}
+    static void SetActiveWindow(CEWindow* Window) {}
 
-    static GenericWindow* GetCapture() { return nullptr; }
-    static GenericWindow* GetActiveWindow() { return nullptr; }
+    static CEWindow* GetCapture() { return nullptr; }
+    static CEWindow* GetActiveWindow() { return nullptr; }
 
     static void SetCursor(GenericCursor* Cursor) {}
     static GenericCursor* GetCursor() { return nullptr; }
 
-    static void SetCursorPos(GenericWindow* RelativeWindow, int32 x, int32 y) {}
-    static void GetCursorPos(GenericWindow* RelativeWindow, int32& OutX, int32& OutY) {}
+    static void SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y) {}
+    static void GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY) {}
 
     static void SetCallbacks(PlatformCallbacks* InCallbacks);
     static PlatformCallbacks* GetCallbacks();

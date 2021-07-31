@@ -20,11 +20,11 @@ bool CEInputManager::Create() {
 	return true;
 }
 
-bool CEInputManager::IsKeyUp(EKey KeyCode) {
+bool CEInputManager::IsKeyUp(CEKey KeyCode) {
 	return !KeyStates[KeyCode];
 }
 
-bool CEInputManager::IsKeyDown(EKey KeyCode) {
+bool CEInputManager::IsKeyDown(CEKey KeyCode) {
 	return KeyStates[KeyCode];
 }
 
@@ -32,144 +32,144 @@ CEInputManager& CEInputManager::Get() {
 	return GInputManager;
 }
 
-EKey CEInputManager::ConvertFromScanCode(uint32 ScanCode) {
+CEKey CEInputManager::ConvertFromScanCode(uint32 ScanCode) {
 	return ScanCodeTable[ScanCode];
 }
 
-uint32 CEInputManager::ConvertToScanCode(EKey KeyCode) {
+uint32 CEInputManager::ConvertToScanCode(CEKey KeyCode) {
 	return KeyTable[KeyCode];
 }
 
 void CEInputManager::InitKeyTable() {
-	Memory::Memzero(KeyStates.Data(), KeyStates.SizeInBytes());
-	Memory::Memzero(ScanCodeTable.Data(), ScanCodeTable.SizeInBytes());
-	Memory::Memzero(KeyTable.Data(), KeyTable.SizeInBytes());
+	CEMemory::Memzero(KeyStates.Data(), KeyStates.SizeInBytes());
+	CEMemory::Memzero(ScanCodeTable.Data(), ScanCodeTable.SizeInBytes());
+	CEMemory::Memzero(KeyTable.Data(), KeyTable.SizeInBytes());
 
-	ScanCodeTable[0x00B] = EKey::Key_0;
-	ScanCodeTable[0x002] = EKey::Key_1;
-	ScanCodeTable[0x003] = EKey::Key_2;
-	ScanCodeTable[0x004] = EKey::Key_3;
-	ScanCodeTable[0x005] = EKey::Key_4;
-	ScanCodeTable[0x006] = EKey::Key_5;
-	ScanCodeTable[0x007] = EKey::Key_6;
-	ScanCodeTable[0x008] = EKey::Key_7;
-	ScanCodeTable[0x009] = EKey::Key_8;
-	ScanCodeTable[0x00A] = EKey::Key_9;
+	ScanCodeTable[0x00B] = CEKey::Key_0;
+	ScanCodeTable[0x002] = CEKey::Key_1;
+	ScanCodeTable[0x003] = CEKey::Key_2;
+	ScanCodeTable[0x004] = CEKey::Key_3;
+	ScanCodeTable[0x005] = CEKey::Key_4;
+	ScanCodeTable[0x006] = CEKey::Key_5;
+	ScanCodeTable[0x007] = CEKey::Key_6;
+	ScanCodeTable[0x008] = CEKey::Key_7;
+	ScanCodeTable[0x009] = CEKey::Key_8;
+	ScanCodeTable[0x00A] = CEKey::Key_9;
 
-	ScanCodeTable[0x01E] = EKey::Key_A;
-	ScanCodeTable[0x030] = EKey::Key_B;
-	ScanCodeTable[0x02E] = EKey::Key_C;
-	ScanCodeTable[0x020] = EKey::Key_D;
-	ScanCodeTable[0x012] = EKey::Key_E;
-	ScanCodeTable[0x021] = EKey::Key_F;
-	ScanCodeTable[0x022] = EKey::Key_G;
-	ScanCodeTable[0x023] = EKey::Key_H;
-	ScanCodeTable[0x017] = EKey::Key_I;
-	ScanCodeTable[0x024] = EKey::Key_J;
-	ScanCodeTable[0x025] = EKey::Key_K;
-	ScanCodeTable[0x026] = EKey::Key_L;
-	ScanCodeTable[0x032] = EKey::Key_M;
-	ScanCodeTable[0x031] = EKey::Key_N;
-	ScanCodeTable[0x018] = EKey::Key_O;
-	ScanCodeTable[0x019] = EKey::Key_P;
-	ScanCodeTable[0x010] = EKey::Key_Q;
-	ScanCodeTable[0x013] = EKey::Key_R;
-	ScanCodeTable[0x01F] = EKey::Key_S;
-	ScanCodeTable[0x014] = EKey::Key_T;
-	ScanCodeTable[0x016] = EKey::Key_U;
-	ScanCodeTable[0x02F] = EKey::Key_V;
-	ScanCodeTable[0x011] = EKey::Key_W;
-	ScanCodeTable[0x02D] = EKey::Key_X;
-	ScanCodeTable[0x015] = EKey::Key_Y;
-	ScanCodeTable[0x02C] = EKey::Key_Z;
+	ScanCodeTable[0x01E] = CEKey::Key_A;
+	ScanCodeTable[0x030] = CEKey::Key_B;
+	ScanCodeTable[0x02E] = CEKey::Key_C;
+	ScanCodeTable[0x020] = CEKey::Key_D;
+	ScanCodeTable[0x012] = CEKey::Key_E;
+	ScanCodeTable[0x021] = CEKey::Key_F;
+	ScanCodeTable[0x022] = CEKey::Key_G;
+	ScanCodeTable[0x023] = CEKey::Key_H;
+	ScanCodeTable[0x017] = CEKey::Key_I;
+	ScanCodeTable[0x024] = CEKey::Key_J;
+	ScanCodeTable[0x025] = CEKey::Key_K;
+	ScanCodeTable[0x026] = CEKey::Key_L;
+	ScanCodeTable[0x032] = CEKey::Key_M;
+	ScanCodeTable[0x031] = CEKey::Key_N;
+	ScanCodeTable[0x018] = CEKey::Key_O;
+	ScanCodeTable[0x019] = CEKey::Key_P;
+	ScanCodeTable[0x010] = CEKey::Key_Q;
+	ScanCodeTable[0x013] = CEKey::Key_R;
+	ScanCodeTable[0x01F] = CEKey::Key_S;
+	ScanCodeTable[0x014] = CEKey::Key_T;
+	ScanCodeTable[0x016] = CEKey::Key_U;
+	ScanCodeTable[0x02F] = CEKey::Key_V;
+	ScanCodeTable[0x011] = CEKey::Key_W;
+	ScanCodeTable[0x02D] = CEKey::Key_X;
+	ScanCodeTable[0x015] = CEKey::Key_Y;
+	ScanCodeTable[0x02C] = CEKey::Key_Z;
 
-	ScanCodeTable[0x03B] = EKey::Key_F1;
-	ScanCodeTable[0x03C] = EKey::Key_F2;
-	ScanCodeTable[0x03D] = EKey::Key_F3;
-	ScanCodeTable[0x03E] = EKey::Key_F4;
-	ScanCodeTable[0x03F] = EKey::Key_F5;
-	ScanCodeTable[0x040] = EKey::Key_F6;
-	ScanCodeTable[0x041] = EKey::Key_F7;
-	ScanCodeTable[0x042] = EKey::Key_F8;
-	ScanCodeTable[0x043] = EKey::Key_F9;
-	ScanCodeTable[0x044] = EKey::Key_F10;
-	ScanCodeTable[0x057] = EKey::Key_F11;
-	ScanCodeTable[0x058] = EKey::Key_F12;
-	ScanCodeTable[0x064] = EKey::Key_F13;
-	ScanCodeTable[0x065] = EKey::Key_F14;
-	ScanCodeTable[0x066] = EKey::Key_F15;
-	ScanCodeTable[0x067] = EKey::Key_F16;
-	ScanCodeTable[0x068] = EKey::Key_F17;
-	ScanCodeTable[0x069] = EKey::Key_F18;
-	ScanCodeTable[0x06A] = EKey::Key_F19;
-	ScanCodeTable[0x06B] = EKey::Key_F20;
-	ScanCodeTable[0x06C] = EKey::Key_F21;
-	ScanCodeTable[0x06D] = EKey::Key_F22;
-	ScanCodeTable[0x06E] = EKey::Key_F23;
-	ScanCodeTable[0x076] = EKey::Key_F24;
+	ScanCodeTable[0x03B] = CEKey::Key_F1;
+	ScanCodeTable[0x03C] = CEKey::Key_F2;
+	ScanCodeTable[0x03D] = CEKey::Key_F3;
+	ScanCodeTable[0x03E] = CEKey::Key_F4;
+	ScanCodeTable[0x03F] = CEKey::Key_F5;
+	ScanCodeTable[0x040] = CEKey::Key_F6;
+	ScanCodeTable[0x041] = CEKey::Key_F7;
+	ScanCodeTable[0x042] = CEKey::Key_F8;
+	ScanCodeTable[0x043] = CEKey::Key_F9;
+	ScanCodeTable[0x044] = CEKey::Key_F10;
+	ScanCodeTable[0x057] = CEKey::Key_F11;
+	ScanCodeTable[0x058] = CEKey::Key_F12;
+	ScanCodeTable[0x064] = CEKey::Key_F13;
+	ScanCodeTable[0x065] = CEKey::Key_F14;
+	ScanCodeTable[0x066] = CEKey::Key_F15;
+	ScanCodeTable[0x067] = CEKey::Key_F16;
+	ScanCodeTable[0x068] = CEKey::Key_F17;
+	ScanCodeTable[0x069] = CEKey::Key_F18;
+	ScanCodeTable[0x06A] = CEKey::Key_F19;
+	ScanCodeTable[0x06B] = CEKey::Key_F20;
+	ScanCodeTable[0x06C] = CEKey::Key_F21;
+	ScanCodeTable[0x06D] = CEKey::Key_F22;
+	ScanCodeTable[0x06E] = CEKey::Key_F23;
+	ScanCodeTable[0x076] = CEKey::Key_F24;
 
-	ScanCodeTable[0x052] = EKey::Key_Keypad0;
-	ScanCodeTable[0x04F] = EKey::Key_Keypad1;
-	ScanCodeTable[0x050] = EKey::Key_Keypad2;
-	ScanCodeTable[0x051] = EKey::Key_Keypad3;
-	ScanCodeTable[0x04B] = EKey::Key_Keypad4;
-	ScanCodeTable[0x04C] = EKey::Key_Keypad5;
-	ScanCodeTable[0x04D] = EKey::Key_Keypad6;
-	ScanCodeTable[0x047] = EKey::Key_Keypad7;
-	ScanCodeTable[0x048] = EKey::Key_Keypad8;
-	ScanCodeTable[0x049] = EKey::Key_Keypad9;
-	ScanCodeTable[0x04E] = EKey::Key_KeypadAdd;
-	ScanCodeTable[0x053] = EKey::Key_KeypadDecimal;
-	ScanCodeTable[0x135] = EKey::Key_KeypadDivide;
-	ScanCodeTable[0x11C] = EKey::Key_KeypadEnter;
-	ScanCodeTable[0x059] = EKey::Key_KeypadEqual;
-	ScanCodeTable[0x037] = EKey::Key_KeypadMultiply;
-	ScanCodeTable[0x04A] = EKey::Key_KeypadSubtract;
+	ScanCodeTable[0x052] = CEKey::Key_Keypad0;
+	ScanCodeTable[0x04F] = CEKey::Key_Keypad1;
+	ScanCodeTable[0x050] = CEKey::Key_Keypad2;
+	ScanCodeTable[0x051] = CEKey::Key_Keypad3;
+	ScanCodeTable[0x04B] = CEKey::Key_Keypad4;
+	ScanCodeTable[0x04C] = CEKey::Key_Keypad5;
+	ScanCodeTable[0x04D] = CEKey::Key_Keypad6;
+	ScanCodeTable[0x047] = CEKey::Key_Keypad7;
+	ScanCodeTable[0x048] = CEKey::Key_Keypad8;
+	ScanCodeTable[0x049] = CEKey::Key_Keypad9;
+	ScanCodeTable[0x04E] = CEKey::Key_KeypadAdd;
+	ScanCodeTable[0x053] = CEKey::Key_KeypadDecimal;
+	ScanCodeTable[0x135] = CEKey::Key_KeypadDivide;
+	ScanCodeTable[0x11C] = CEKey::Key_KeypadEnter;
+	ScanCodeTable[0x059] = CEKey::Key_KeypadEqual;
+	ScanCodeTable[0x037] = CEKey::Key_KeypadMultiply;
+	ScanCodeTable[0x04A] = CEKey::Key_KeypadSubtract;
 
-	ScanCodeTable[0x02A] = EKey::Key_LeftShift;
-	ScanCodeTable[0x036] = EKey::Key_RightShift;
-	ScanCodeTable[0x01D] = EKey::Key_LeftControl;
-	ScanCodeTable[0x11D] = EKey::Key_RightControl;
-	ScanCodeTable[0x038] = EKey::Key_LeftAlt;
-	ScanCodeTable[0x138] = EKey::Key_RightAlt;
-	ScanCodeTable[0x15B] = EKey::Key_LeftSuper;
-	ScanCodeTable[0x15C] = EKey::Key_RightSuper;
-	ScanCodeTable[0x15D] = EKey::Key_Menu;
-	ScanCodeTable[0x039] = EKey::Key_Space;
-	ScanCodeTable[0x028] = EKey::Key_Apostrophe;
-	ScanCodeTable[0x033] = EKey::Key_Comma;
-	ScanCodeTable[0x00C] = EKey::Key_Minus;
-	ScanCodeTable[0x034] = EKey::Key_Period;
-	ScanCodeTable[0x035] = EKey::Key_Slash;
-	ScanCodeTable[0x027] = EKey::Key_Semicolon;
-	ScanCodeTable[0x00D] = EKey::Key_Equal;
-	ScanCodeTable[0x01A] = EKey::Key_LeftBracket;
-	ScanCodeTable[0x02B] = EKey::Key_Backslash;
-	ScanCodeTable[0x01B] = EKey::Key_RightBracket;
-	ScanCodeTable[0x029] = EKey::Key_GraveAccent;
-	ScanCodeTable[0x056] = EKey::Key_World2;
-	ScanCodeTable[0x001] = EKey::Key_Escape;
-	ScanCodeTable[0x01C] = EKey::Key_Enter;
-	ScanCodeTable[0x00F] = EKey::Key_Tab;
-	ScanCodeTable[0x00E] = EKey::Key_Backspace;
-	ScanCodeTable[0x152] = EKey::Key_Insert;
-	ScanCodeTable[0x153] = EKey::Key_Delete;
-	ScanCodeTable[0x14D] = EKey::Key_Right;
-	ScanCodeTable[0x14B] = EKey::Key_Left;
-	ScanCodeTable[0x150] = EKey::Key_Down;
-	ScanCodeTable[0x148] = EKey::Key_Up;
-	ScanCodeTable[0x149] = EKey::Key_PageUp;
-	ScanCodeTable[0x151] = EKey::Key_PageDown;
-	ScanCodeTable[0x147] = EKey::Key_Home;
-	ScanCodeTable[0x14F] = EKey::Key_End;
-	ScanCodeTable[0x03A] = EKey::Key_CapsLock;
-	ScanCodeTable[0x046] = EKey::Key_ScrollLock;
-	ScanCodeTable[0x145] = EKey::Key_NumLock;
-	ScanCodeTable[0x137] = EKey::Key_PrintScreen;
-	ScanCodeTable[0x146] = EKey::Key_Pause;
+	ScanCodeTable[0x02A] = CEKey::Key_LeftShift;
+	ScanCodeTable[0x036] = CEKey::Key_RightShift;
+	ScanCodeTable[0x01D] = CEKey::Key_LeftControl;
+	ScanCodeTable[0x11D] = CEKey::Key_RightControl;
+	ScanCodeTable[0x038] = CEKey::Key_LeftAlt;
+	ScanCodeTable[0x138] = CEKey::Key_RightAlt;
+	ScanCodeTable[0x15B] = CEKey::Key_LeftSuper;
+	ScanCodeTable[0x15C] = CEKey::Key_RightSuper;
+	ScanCodeTable[0x15D] = CEKey::Key_Menu;
+	ScanCodeTable[0x039] = CEKey::Key_Space;
+	ScanCodeTable[0x028] = CEKey::Key_Apostrophe;
+	ScanCodeTable[0x033] = CEKey::Key_Comma;
+	ScanCodeTable[0x00C] = CEKey::Key_Minus;
+	ScanCodeTable[0x034] = CEKey::Key_Period;
+	ScanCodeTable[0x035] = CEKey::Key_Slash;
+	ScanCodeTable[0x027] = CEKey::Key_Semicolon;
+	ScanCodeTable[0x00D] = CEKey::Key_Equal;
+	ScanCodeTable[0x01A] = CEKey::Key_LeftBracket;
+	ScanCodeTable[0x02B] = CEKey::Key_Backslash;
+	ScanCodeTable[0x01B] = CEKey::Key_RightBracket;
+	ScanCodeTable[0x029] = CEKey::Key_GraveAccent;
+	ScanCodeTable[0x056] = CEKey::Key_World2;
+	ScanCodeTable[0x001] = CEKey::Key_Escape;
+	ScanCodeTable[0x01C] = CEKey::Key_Enter;
+	ScanCodeTable[0x00F] = CEKey::Key_Tab;
+	ScanCodeTable[0x00E] = CEKey::Key_Backspace;
+	ScanCodeTable[0x152] = CEKey::Key_Insert;
+	ScanCodeTable[0x153] = CEKey::Key_Delete;
+	ScanCodeTable[0x14D] = CEKey::Key_Right;
+	ScanCodeTable[0x14B] = CEKey::Key_Left;
+	ScanCodeTable[0x150] = CEKey::Key_Down;
+	ScanCodeTable[0x148] = CEKey::Key_Up;
+	ScanCodeTable[0x149] = CEKey::Key_PageUp;
+	ScanCodeTable[0x151] = CEKey::Key_PageDown;
+	ScanCodeTable[0x147] = CEKey::Key_Home;
+	ScanCodeTable[0x14F] = CEKey::Key_End;
+	ScanCodeTable[0x03A] = CEKey::Key_CapsLock;
+	ScanCodeTable[0x046] = CEKey::Key_ScrollLock;
+	ScanCodeTable[0x145] = CEKey::Key_NumLock;
+	ScanCodeTable[0x137] = CEKey::Key_PrintScreen;
+	ScanCodeTable[0x146] = CEKey::Key_Pause;
 
 	for (uint16 Index = 0; Index < 512; Index++) {
-		if (ScanCodeTable[Index] != EKey::Key_Unknown) {
+		if (ScanCodeTable[Index] != CEKey::Key_Unknown) {
 			KeyTable[ScanCodeTable[Index]] = Index;
 		}
 	}

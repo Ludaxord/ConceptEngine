@@ -3,31 +3,31 @@
 
 #include "../../Core/Input/InputCodes.h"
 #include "../../Core/Application/Generic/CEGenericPlatform.h"
-#include "../../Core/Application/Generic/GenericWindow.h"
+#include "../../Core/Application/Generic/CEWindow.h"
 
 struct KeyPressedEvent
 {
-    KeyPressedEvent(EKey InKey, bool InIsRepeat, const CEModifierKeyState& InModifiers)
+    KeyPressedEvent(CEKey InKey, bool InIsRepeat, const CEModifierKeyState& InModifiers)
         : Key(InKey)
         , IsRepeat(InIsRepeat)
         , Modifiers(InModifiers)
     {
     }
 
-    EKey Key;
+    CEKey Key;
     bool IsRepeat;
     CEModifierKeyState Modifiers;
 };
 
 struct KeyReleasedEvent
 {
-    KeyReleasedEvent(EKey InKey, const CEModifierKeyState& InModifiers)
+    KeyReleasedEvent(CEKey InKey, const CEModifierKeyState& InModifiers)
         : Key(InKey)
         , Modifiers(InModifiers)
     {
     }
 
-    EKey             Key;
+    CEKey             Key;
     CEModifierKeyState Modifiers;
 };
 
@@ -60,25 +60,25 @@ struct MouseMovedEvent
 
 struct MousePressedEvent
 {
-    MousePressedEvent(EMouseButton InButton, const CEModifierKeyState& InModifiers)
+    MousePressedEvent(CEMouseButton InButton, const CEModifierKeyState& InModifiers)
         : Button(InButton)
         , Modifiers(InModifiers)
     {
     }
 
-    EMouseButton     Button;
+    CEMouseButton     Button;
     CEModifierKeyState Modifiers;
 };
 
 struct MouseReleasedEvent
 {
-    MouseReleasedEvent(EMouseButton InButton, const CEModifierKeyState& InModifiers)
+    MouseReleasedEvent(CEMouseButton InButton, const CEModifierKeyState& InModifiers)
         : Button(InButton)
         , Modifiers(InModifiers)
     {
     }
 
-    EMouseButton     Button;
+    CEMouseButton     Button;
     CEModifierKeyState Modifiers;
 };
 
@@ -96,39 +96,39 @@ struct MouseScrolledEvent
 
 struct WindowResizeEvent
 {
-    WindowResizeEvent(const TRef<GenericWindow>& InWindow, uint16 InWidth, uint16 InHeight)
+    WindowResizeEvent(const CERef<CEWindow>& InWindow, uint16 InWidth, uint16 InHeight)
         : Window(InWindow)
         , Width(InWidth)
         , Height(InHeight)
     {
     }
 
-    TRef<GenericWindow> Window;
+    CERef<CEWindow> Window;
     uint16 Width;
     uint16 Height;
 };
 
 struct WindowFocusChangedEvent
 {
-    WindowFocusChangedEvent(const TRef<GenericWindow>& InWindow, bool hasFocus)
+    WindowFocusChangedEvent(const CERef<CEWindow>& InWindow, bool hasFocus)
         : Window(InWindow)
         , HasFocus(hasFocus)
     {
     }
 
-    TRef<GenericWindow> Window;
+    CERef<CEWindow> Window;
     bool HasFocus;
 };
 
 struct WindowMovedEvent
 {
-    WindowMovedEvent(const TRef<GenericWindow>& InWindow, int16 x, int16 y)
+    WindowMovedEvent(const CERef<CEWindow>& InWindow, int16 x, int16 y)
         : Window(InWindow)
         , Position({ x, y })
     {
     }
 
-    TRef<GenericWindow> Window;
+    CERef<CEWindow> Window;
     struct
     {
         int16 x;
@@ -138,30 +138,30 @@ struct WindowMovedEvent
 
 struct WindowMouseLeftEvent
 {
-    WindowMouseLeftEvent(const TRef<GenericWindow>& InWindow)
+    WindowMouseLeftEvent(const CERef<CEWindow>& InWindow)
         : Window(InWindow)
     {
     }
 
-    TRef<GenericWindow> Window;
+    CERef<CEWindow> Window;
 };
 
 struct WindowMouseEnteredEvent
 {
-    WindowMouseEnteredEvent(const TRef<GenericWindow>& InWindow)
+    WindowMouseEnteredEvent(const CERef<CEWindow>& InWindow)
         : Window(InWindow)
     {
     }
 
-    TRef<GenericWindow> Window;
+    CERef<CEWindow> Window;
 };
 
 struct WindowClosedEvent
 {
-    WindowClosedEvent(const TRef<GenericWindow>& InWindow)
+    WindowClosedEvent(const CERef<CEWindow>& InWindow)
         : Window(InWindow)
     {
     }
 
-    TRef<GenericWindow> Window;
+    CERef<CEWindow> Window;
 };

@@ -145,7 +145,7 @@ struct GPUProfileSample
 
 struct ProfilerData
 {
-    TRef<GPUProfiler> GPUProfiler;
+    CERef<GPUProfiler> GPUProfiler;
     uint32 CurrentTimeQueryIndex = 0;
 
     ProfileSample    CPUFrameTime;

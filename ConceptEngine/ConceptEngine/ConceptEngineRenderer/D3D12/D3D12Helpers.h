@@ -19,7 +19,7 @@ using TComPtr = Microsoft::WRL::ComPtr<T>;
 inline D3D12_HEAP_PROPERTIES GetUploadHeapProperties()
 {
     D3D12_HEAP_PROPERTIES HeapProperties;
-    Memory::Memzero(&HeapProperties);
+    CEMemory::Memzero(&HeapProperties);
 
     HeapProperties.Type                 = D3D12_HEAP_TYPE_UPLOAD;
     HeapProperties.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
@@ -34,7 +34,7 @@ inline D3D12_HEAP_PROPERTIES GetUploadHeapProperties()
 inline D3D12_HEAP_PROPERTIES GetDefaultHeapProperties()
 {
     D3D12_HEAP_PROPERTIES HeapProperties;
-    Memory::Memzero(&HeapProperties);
+    CEMemory::Memzero(&HeapProperties);
 
     HeapProperties.Type                 = D3D12_HEAP_TYPE_UPLOAD;
     HeapProperties.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;

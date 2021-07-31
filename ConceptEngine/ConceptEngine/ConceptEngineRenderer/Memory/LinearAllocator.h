@@ -10,7 +10,7 @@ struct MemoryArena
         , Offset(0)
         , SizeInBytes(InSizeInBytes)
     {
-        Mem = reinterpret_cast<uint8*>(Memory::Malloc(SizeInBytes));
+        Mem = reinterpret_cast<uint8*>(CEMemory::Malloc(SizeInBytes));
         Reset();
     }
 
@@ -28,7 +28,7 @@ struct MemoryArena
 
     ~MemoryArena()
     {
-        Memory::Free(Mem);
+        CEMemory::Free(Mem);
     }
 
     void* Allocate(uint64 InSizeInBytes)
@@ -58,7 +58,7 @@ struct MemoryArena
     {
         if (Mem)
         {
-            Memory::Free(Mem);
+            CEMemory::Free(Mem);
         }
 
         Mem         = Other.Mem;

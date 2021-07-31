@@ -3,7 +3,7 @@
 
 #include <string>
 
-enum EWindowStyleFlag : uint32
+enum CEWindowStyleFlag : uint32
 {
     WindowStyleFlag_None        = 0x0,
     WindowStyleFlag_Titled      = FLAG(1),
@@ -13,11 +13,11 @@ enum EWindowStyleFlag : uint32
     WindowStyleFlag_Resizeable  = FLAG(5),
 };
 
-struct WindowStyle
+struct CEWindowStyle
 {
-    WindowStyle() = default;
+    CEWindowStyle() = default;
 
-    WindowStyle(uint32 InStyle)
+    CEWindowStyle(uint32 InStyle)
         : Style(InStyle)
     {
     }
@@ -31,11 +31,11 @@ struct WindowStyle
     uint32 Style = 0;
 };
 
-struct WindowShape
+struct CEWindowShape
 {
-    WindowShape() = default;
+    CEWindowShape() = default;
 
-    WindowShape(uint32 InWidth, uint32 InHeight, int32 x, int32 y)
+    CEWindowShape(uint32 InWidth, uint32 InHeight, int32 x, int32 y)
         : Width(InWidth)
         , Height(InHeight)
         , Position({ x, y })
@@ -51,7 +51,7 @@ struct WindowShape
     } Position;
 };
 
-class GenericWindow : public RefCountedObject
+class CEWindow : public RefCountedObject
 {
 public:
     virtual void Show(bool Maximized) = 0;
@@ -67,18 +67,18 @@ public:
     virtual void SetTitle(const std::string& Title) = 0;
     virtual void GetTitle(std::string& OutTitle) = 0;
 
-    virtual void SetWindowShape(const WindowShape& Shape, bool Move) = 0;
-    virtual void GetWindowShape(WindowShape& OutWindowShape) const = 0;
+    virtual void SetWindowShape(const CEWindowShape& Shape, bool Move) = 0;
+    virtual void GetWindowShape(CEWindowShape& OutWindowShape) const = 0;
 
     virtual uint32 GetWidth()  const = 0;
     virtual uint32 GetHeight() const = 0;
 
     virtual void* GetNativeHandle() const { return nullptr; }
 
-    WindowStyle GetStyle() const { return WndStyle; }
+    CEWindowStyle GetStyle() const { return WndStyle; }
 
-    static GenericWindow* Create(const std::wstring& Title, uint32 Width, uint32 Height, WindowStyle Style);
+    static CEWindow* Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style);
 
 protected:
-    WindowStyle WndStyle;
+    CEWindowStyle WndStyle;
 };

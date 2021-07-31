@@ -17,7 +17,7 @@ D3D12DescriptorHeap::D3D12DescriptorHeap(D3D12Device* InDevice, D3D12_DESCRIPTOR
 bool D3D12DescriptorHeap::Init()
 {
     D3D12_DESCRIPTOR_HEAP_DESC Desc;
-    Memory::Memzero(&Desc);
+    CEMemory::Memzero(&Desc);
 
     Desc.Type           = Type;
     Desc.Flags          = Flags;
@@ -151,7 +151,7 @@ bool D3D12OfflineDescriptorHeap::AllocateHeap()
 {
     constexpr uint32 DescriptorCount = D3D12_MAX_OFFLINE_DESCRIPTOR_COUNT;
 
-    TRef<D3D12DescriptorHeap> Heap = DBG_NEW D3D12DescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+    CERef<D3D12DescriptorHeap> Heap = DBG_NEW D3D12DescriptorHeap(GetDevice(), Type, DescriptorCount, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
     if (Heap->Init())
     {
         if (!Name.empty())
@@ -194,7 +194,7 @@ void D3D12OnlineDescriptorHeap::Reset()
 {
     if (!HeapPool.IsEmpty())
     {
-        for (TRef<D3D12DescriptorHeap>& CurrentHeap : DiscardedHeaps)
+        for (CERef<D3D12DescriptorHeap>& CurrentHeap : DiscardedHeaps)
         {
             HeapPool.EmplaceBack(CurrentHeap);
         }

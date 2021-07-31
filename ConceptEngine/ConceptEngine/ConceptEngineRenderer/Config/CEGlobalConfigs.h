@@ -3,7 +3,8 @@
 enum class EngineBoot {
 	Runtime,
 	DebugRuntime,
-	Editor
+	Editor,
+	None
 };
 
 enum class PlatformBoot {
@@ -11,7 +12,8 @@ enum class PlatformBoot {
 	Mac,
 	Linux,
 	Android,
-	iOS
+	iOS,
+	None
 };
 
 enum class ScriptingLanguage {
@@ -29,10 +31,18 @@ enum class GraphicsAPI {
 	Vulkan,
 	OpenGL,
 	Metal,
-	WebGL
+	WebGL,
+	None
 };
 
 struct CEEngineConfig {
+	CEEngineConfig(): GraphicsAPI(GraphicsAPI::None),
+	                  ScriptingLanguage(ScriptingLanguage::None),
+	                  PlatformBoot(PlatformBoot::None),
+	                  EngineBoot(EngineBoot::None) {
+
+	}
+
 	CEEngineConfig(GraphicsAPI GApi, ScriptingLanguage SLanguage, PlatformBoot PBoot, EngineBoot EBoot,
 	               const std::wstring& InstName,
 	               bool bShowConsole = false):
@@ -74,5 +84,16 @@ struct CEEngineConfig {
 };
 
 struct CEProjectConfig {
+
 	std::wstring Title;
+	HINSTANCE Instance;
+	LPSTR CmdLine;
+	HWND HWnd;
+	int CmdShow;
+
+	std::string GetStringTitle() {
+		return std::string(Title.begin(), Title.end());
+	}
 };
+
+inline CEEngineConfig GEngineConfig;

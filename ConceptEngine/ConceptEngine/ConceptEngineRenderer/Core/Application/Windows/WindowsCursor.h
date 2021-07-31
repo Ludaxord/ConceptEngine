@@ -3,7 +3,7 @@
 
 #include "Windows.h"
 
-class GenericWindow;
+class CEWindow;
 
 class WindowsCursor : public GenericCursor {
 public:

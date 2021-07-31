@@ -67,26 +67,26 @@ struct LightSetup
 
     CEArray<XMFLOAT4>           PointLightsPosRad;
     CEArray<PointLightData>     PointLightsData;
-    TRef<ConstantBuffer> PointLightsBuffer;
-    TRef<ConstantBuffer> PointLightsPosRadBuffer;
+    CERef<ConstantBuffer> PointLightsBuffer;
+    CERef<ConstantBuffer> PointLightsPosRadBuffer;
 
     CEArray<PointLightShadowMapGenerationData> PointLightShadowMapsGenerationData;
     CEArray<XMFLOAT4>                    ShadowCastingPointLightsPosRad;
     CEArray<ShadowCastingPointLightData> ShadowCastingPointLightsData;
-    TRef<ConstantBuffer>          ShadowCastingPointLightsBuffer;
-    TRef<ConstantBuffer>          ShadowCastingPointLightsPosRadBuffer;
-    TRef<TextureCubeArray>        PointLightShadowMaps;
+    CERef<ConstantBuffer>          ShadowCastingPointLightsBuffer;
+    CERef<ConstantBuffer>          ShadowCastingPointLightsPosRadBuffer;
+    CERef<TextureCubeArray>        PointLightShadowMaps;
     CEArray<DepthStencilViewCube>        PointLightShadowMapDSVs;
 
     CEArray<DirLightShadowMapGenerationData> DirLightShadowMapsGenerationData;
     CEArray<DirectionalLightData> DirectionalLightsData;
-    TRef<ConstantBuffer>   DirectionalLightsBuffer;
-    TRef<Texture2D>        DirLightShadowMaps;
+    CERef<ConstantBuffer>   DirectionalLightsBuffer;
+    CERef<Texture2D>        DirLightShadowMaps;
 
-    TRef<TextureCube>         IrradianceMap;
-    TRef<UnorderedAccessView> IrradianceMapUAV;
+    CERef<TextureCube>         IrradianceMap;
+    CERef<UnorderedAccessView> IrradianceMapUAV;
 
-    TRef<TextureCube>                 SpecularIrradianceMap;
-    CEArray<TRef<UnorderedAccessView>> SpecularIrradianceMapUAVs;
+    CERef<TextureCube>                 SpecularIrradianceMap;
+    CEArray<CERef<UnorderedAccessView>> SpecularIrradianceMapUAVs;
     CEArray<UnorderedAccessView*>            WeakSpecularIrradianceMapUAVs;
 };

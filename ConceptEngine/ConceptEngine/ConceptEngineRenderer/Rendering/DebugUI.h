@@ -14,7 +14,7 @@ struct ImGuiImage
 {
     ImGuiImage() = default;
 
-    ImGuiImage(const TRef<ShaderResourceView>& InImageView, const TRef<Texture>& InImage, EResourceState InBefore, EResourceState InAfter)
+    ImGuiImage(const CERef<ShaderResourceView>& InImageView, const CERef<Texture>& InImage, EResourceState InBefore, EResourceState InAfter)
         : ImageView(InImageView)
         , Image(InImage)
         , BeforeState(InBefore)
@@ -22,8 +22,8 @@ struct ImGuiImage
     {
     }
 
-    TRef<ShaderResourceView> ImageView;
-    TRef<Texture>  Image;
+    CERef<ShaderResourceView> ImageView;
+    CERef<Texture>  Image;
     EResourceState BeforeState;
     EResourceState AfterState;
     bool AllowBlending = false;

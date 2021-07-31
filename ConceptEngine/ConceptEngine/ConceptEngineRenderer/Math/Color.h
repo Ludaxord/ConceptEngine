@@ -1,7 +1,7 @@
 #pragma once
 #include "../CEDefinitions.h"
 
-#include "../Memory/Memory.h"
+#include "../Memory/CEMemory.h"
 
 struct ColorF
 {
@@ -23,7 +23,7 @@ struct ColorF
 
     ColorF(const ColorF& Other)
     {
-        Memory::Memcpy(Elements, Other.Elements, sizeof(Elements));
+        CEMemory::Memcpy(Elements, Other.Elements, sizeof(Elements));
     }
 
     void Set(float InR, float InG, float InB, float InA)
@@ -36,7 +36,7 @@ struct ColorF
 
     ColorF& operator=(const ColorF& Other)
     {
-        Memory::Memcpy(Elements, Other.Elements, sizeof(Elements));
+        CEMemory::Memcpy(Elements, Other.Elements, sizeof(Elements));
         return *this;
     }
 

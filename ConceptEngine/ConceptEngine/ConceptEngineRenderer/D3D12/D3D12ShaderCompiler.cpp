@@ -173,12 +173,12 @@ public:
 		: Data(nullptr)
 		  , SizeInBytes(InSizeInBytes)
 		  , References(0) {
-		Data = Memory::Malloc(SizeInBytes);
-		Memory::Memcpy(Data, InData, SizeInBytes);
+		Data = CEMemory::Malloc(SizeInBytes);
+		CEMemory::Memcpy(Data, InData, SizeInBytes);
 	}
 
 	~ExistingBlob() {
-		Memory::Free(Data);
+		CEMemory::Free(Data);
 	}
 
 	virtual LPVOID GetBufferPointer(void) override {
@@ -480,7 +480,7 @@ bool D3D12ShaderCompiler::InternalCompileFromSource(
 
 	CE_LOG_INFO("[D3D12ShaderCompiler]: Compiled Size: " + std::to_string(BlobSize) + " Bytes");
 
-	Memory::Memcpy(Code.Data(), CompiledBlob->GetBufferPointer(), BlobSize);
+	CEMemory::Memcpy(Code.Data(), CompiledBlob->GetBufferPointer(), BlobSize);
 
 	if (ShaderStageIsRayTracing(ShaderStage)) {
 		return ValidateRayTracingShader(CompiledBlob, Entrypoint);
@@ -520,7 +520,7 @@ bool D3D12ShaderCompiler::ValidateRayTracingShader(const TComPtr<IDxcBlob>& Shad
 	}
 
 	D3D12_LIBRARY_DESC LibDesc;
-	Memory::Memzero(&LibDesc);
+	CEMemory::Memzero(&LibDesc);
 
 	HRESULT Result = LibaryReflection->GetDesc(&LibDesc);
 	if (FAILED(Result)) {
@@ -534,7 +534,7 @@ bool D3D12ShaderCompiler::ValidateRayTracingShader(const TComPtr<IDxcBlob>& Shad
 	ID3D12FunctionReflection* Function = LibaryReflection->GetFunctionByIndex(0);
 
 	D3D12_FUNCTION_DESC FuncDesc;
-	Memory::Memzero(&FuncDesc);
+	CEMemory::Memzero(&FuncDesc);
 
 	Result = Function->GetDesc(&FuncDesc);
 	if (FAILED(Result)) {
@@ -543,7 +543,7 @@ bool D3D12ShaderCompiler::ValidateRayTracingShader(const TComPtr<IDxcBlob>& Shad
 	}
 
 	char Buffer[256];
-	Memory::Memzero(Buffer, sizeof(Buffer));
+	CEMemory::Memzero(Buffer, sizeof(Buffer));
 
 	size_t ConvertedChars;
 	wcstombs_s(&ConvertedChars, Buffer, 256, Entrypoint, _TRUNCATE);

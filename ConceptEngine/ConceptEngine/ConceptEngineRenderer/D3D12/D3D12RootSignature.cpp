@@ -450,7 +450,7 @@ bool D3D12RootSignatureCache::Init()
 
 void D3D12RootSignatureCache::ReleaseAll()
 {
-    for (TRef<D3D12RootSignature> RootSignature : RootSignatures)
+    for (CERef<D3D12RootSignature> RootSignature : RootSignatures)
     {
         RootSignature.Reset();
     }
@@ -508,7 +508,7 @@ D3D12RootSignatureCache& D3D12RootSignatureCache::Get()
 
 D3D12RootSignature* D3D12RootSignatureCache::CreateRootSignature(const D3D12RootSignatureResourceCount& ResourceCount)
 {
-    TRef<D3D12RootSignature> NewRootSignature = DBG_NEW D3D12RootSignature(GetDevice());
+    CERef<D3D12RootSignature> NewRootSignature = DBG_NEW D3D12RootSignature(GetDevice());
     if (!NewRootSignature->Init(ResourceCount))
     {
         return nullptr;

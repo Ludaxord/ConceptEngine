@@ -40,7 +40,7 @@ private:
     static void WorkThread();
 
 private:
-    CEArray<TRef<GenericThread>> WorkThreads;
+    CEArray<CERef<GenericThread>> WorkThreads;
 
     CEArray<Task> Tasks;
     Mutex TaskMutex;

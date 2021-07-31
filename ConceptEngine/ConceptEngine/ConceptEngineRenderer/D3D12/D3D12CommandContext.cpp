@@ -43,7 +43,7 @@ void D3D12ResourceBarrierBatcher::AddTransitionBarrier(ID3D12Resource* Resource,
 
         // Add new resource barrier
         D3D12_RESOURCE_BARRIER Barrier;
-        Memory::Memzero(&Barrier);
+        CEMemory::Memzero(&Barrier);
 
         Barrier.Type                   = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
         Barrier.Transition.pResource   = Resource;
@@ -80,14 +80,14 @@ bool D3D12GPUResourceUploader::Reserve(uint32 InSizeInBytes)
     }
 
     D3D12_HEAP_PROPERTIES HeapProperties;
-    Memory::Memzero(&HeapProperties);
+    CEMemory::Memzero(&HeapProperties);
 
     HeapProperties.Type                 = D3D12_HEAP_TYPE_UPLOAD;
     HeapProperties.CPUPageProperty      = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
     HeapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 
     D3D12_RESOURCE_DESC Desc;
-    Memory::Memzero(&Desc);
+    CEMemory::Memzero(&Desc);
 
     Desc.Dimension          = D3D12_RESOURCE_DIMENSION_BUFFER;
     Desc.Flags              = D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE;
@@ -264,7 +264,7 @@ bool D3D12CommandContext::Init()
         return false;
     }
 
-    TRef<D3D12ComputeShader> Shader = DBG_NEW D3D12ComputeShader(GetDevice(), Code);
+    CERef<D3D12ComputeShader> Shader = DBG_NEW D3D12ComputeShader(GetDevice(), Code);
     if (!Shader->Init())
     {
         CEDebug::DebugBreak();
@@ -318,7 +318,7 @@ void D3D12CommandContext::UpdateBuffer(D3D12Resource* Resource, uint64 OffsetInB
         D3D12GPUResourceUploader& GpuResourceUploader = CmdBatch->GetGpuResourceUploader();
 
         D3D12UploadAllocation Allocation = GpuResourceUploader.LinearAllocate((uint32)SizeInBytes);
-        Memory::Memcpy(Allocation.MappedPtr, SourceData, SizeInBytes);
+        CEMemory::Memcpy(Allocation.MappedPtr, SourceData, SizeInBytes);
 
         CmdList.CopyBufferRegion(Resource->GetResource(), OffsetInBytes, GpuResourceUploader.GetGpuResource(), Allocation.ResourceOffset, SizeInBytes);
 
@@ -790,12 +790,12 @@ void D3D12CommandContext::UpdateTexture2D(Texture2D* Destination, uint32 Width, 
         const uint8* Source = reinterpret_cast<const uint8*>(SourceData);
         for (uint32 y = 0; y < Height; y++)
         {
-            Memory::Memcpy(Allocation.MappedPtr + (y * RowPitch), Source + (y * Width * Stride), Width * Stride);
+            CEMemory::Memcpy(Allocation.MappedPtr + (y * RowPitch), Source + (y * Width * Stride), Width * Stride);
         }
 
         // Copy to Dest
         D3D12_TEXTURE_COPY_LOCATION SourceLocation;
-        Memory::Memzero(&SourceLocation);
+        CEMemory::Memzero(&SourceLocation);
 
         SourceLocation.pResource                          = GpuResourceUploader.GetGpuResource();
         SourceLocation.Type                               = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
@@ -808,7 +808,7 @@ void D3D12CommandContext::UpdateTexture2D(Texture2D* Destination, uint32 Width, 
 
         // TODO: Miplevel may not be the correct subresource
         D3D12_TEXTURE_COPY_LOCATION DestLocation;
-        Memory::Memzero(&DestLocation);
+        CEMemory::Memzero(&DestLocation);
 
         DestLocation.pResource        = DxDestination->GetResource()->GetResource();
         DestLocation.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
@@ -851,7 +851,7 @@ void D3D12CommandContext::CopyTextureRegion(Texture* Destination, Texture* Sourc
 
     // Source
     D3D12_TEXTURE_COPY_LOCATION SourceLocation;
-    Memory::Memzero(&SourceLocation);
+    CEMemory::Memzero(&SourceLocation);
 
     SourceLocation.pResource        = DxSource->GetResource()->GetResource();
     SourceLocation.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
@@ -867,7 +867,7 @@ void D3D12CommandContext::CopyTextureRegion(Texture* Destination, Texture* Sourc
 
     // Destination
     D3D12_TEXTURE_COPY_LOCATION DestinationLocation;
-    Memory::Memzero(&DestinationLocation);
+    CEMemory::Memzero(&DestinationLocation);
 
     DestinationLocation.pResource        = DxDestination->GetResource()->GetResource();
     DestinationLocation.Type             = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
@@ -1024,7 +1024,7 @@ void D3D12CommandContext::GenerateMips(Texture* Texture)
     Assert(Desc.MipLevels > 1);
 
     // TODO: Create this placed from a Heap? See what performance is 
-    TRef<D3D12Resource> StagingTexture = DBG_NEW D3D12Resource(GetDevice(), Desc, DxTexture->GetResource()->GetHeapType());
+    CERef<D3D12Resource> StagingTexture = DBG_NEW D3D12Resource(GetDevice(), Desc, DxTexture->GetResource()->GetHeapType());
     if (!StagingTexture->Init(D3D12_RESOURCE_STATE_COMMON, nullptr))
     {
         CE_LOG_ERROR("[D3D12CommandContext] Failed to create StagingTexture for GenerateMips");
@@ -1039,7 +1039,7 @@ void D3D12CommandContext::GenerateMips(Texture* Texture)
     const bool IsTextureCube = Texture->AsTextureCube();
 
     D3D12_SHADER_RESOURCE_VIEW_DESC SrvDesc;
-    Memory::Memzero(&SrvDesc);
+    CEMemory::Memzero(&SrvDesc);
 
     SrvDesc.Format                  = Desc.Format;
     SrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -1058,7 +1058,7 @@ void D3D12CommandContext::GenerateMips(Texture* Texture)
     }
 
     D3D12_UNORDERED_ACCESS_VIEW_DESC UavDesc;
-    Memory::Memzero(&UavDesc);
+    CEMemory::Memzero(&UavDesc);
 
     UavDesc.Format = Desc.Format;
     if (IsTextureCube)
@@ -1311,7 +1311,7 @@ void D3D12CommandContext::DispatchRays(
     FlushResourceBarriers();
 
     D3D12_DISPATCH_RAYS_DESC RayDispatchDesc;
-    Memory::Memzero(&RayDispatchDesc);
+    CEMemory::Memzero(&RayDispatchDesc);
 
     RayDispatchDesc.RayGenerationShaderRecord = DxScene->GetRayGenShaderRecord();
     RayDispatchDesc.MissShaderTable           = DxScene->GetMissShaderTable();

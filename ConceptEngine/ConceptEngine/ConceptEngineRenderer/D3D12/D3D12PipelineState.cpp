@@ -215,7 +215,7 @@ bool D3D12GraphicsPipelineState::Init(const GraphicsPipelineStateCreateInfo& Cre
     
     // Create PipelineState
     D3D12_PIPELINE_STATE_STREAM_DESC PipelineStreamDesc;
-    Memory::Memzero(&PipelineStreamDesc);
+    CEMemory::Memzero(&PipelineStreamDesc);
 
     PipelineStreamDesc.pPipelineStateSubobjectStream = &PipelineStream;
     PipelineStreamDesc.SizeInBytes                   = sizeof(GraphicsPipelineStream);
@@ -232,7 +232,7 @@ bool D3D12GraphicsPipelineState::Init(const GraphicsPipelineStateCreateInfo& Cre
     return true;
 }
 
-D3D12ComputePipelineState::D3D12ComputePipelineState(D3D12Device* InDevice, const TRef<D3D12ComputeShader>& InShader)
+D3D12ComputePipelineState::D3D12ComputePipelineState(D3D12Device* InDevice, const CERef<D3D12ComputeShader>& InShader)
     : ComputePipelineState()
     , D3D12DeviceChild(InDevice)
     , PipelineState(nullptr)
@@ -290,7 +290,7 @@ bool D3D12ComputePipelineState::Init()
 
     // Create PipelineState
     D3D12_PIPELINE_STATE_STREAM_DESC PipelineStreamDesc;
-    Memory::Memzero(&PipelineStreamDesc, sizeof(D3D12_PIPELINE_STATE_STREAM_DESC));
+    CEMemory::Memzero(&PipelineStreamDesc, sizeof(D3D12_PIPELINE_STATE_STREAM_DESC));
 
     PipelineStreamDesc.pPipelineStateSubobjectStream = &PipelineStream;
     PipelineStreamDesc.SizeInBytes                   = sizeof(ComputePipelineStream);
@@ -334,7 +334,7 @@ struct D3D12HitGroup
         , AnyHit(InAnyHit)
         , Intersection(InIntersection)
     {
-        Memory::Memzero(&Desc);
+        CEMemory::Memzero(&Desc);
 
         Desc.Type                   = D3D12_HIT_GROUP_TYPE_TRIANGLES;
         Desc.HitGroupExport         = HitGroupName.c_str();
@@ -626,7 +626,7 @@ bool D3D12RayTracingPipelineState::Init(const RayTracingPipelineStateCreateInfo&
     PipelineStream.Generate();
 
     D3D12_STATE_OBJECT_DESC RayTracingPipeline;
-    Memory::Memzero(&RayTracingPipeline);
+    CEMemory::Memzero(&RayTracingPipeline);
 
     RayTracingPipeline.Type          = D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE;
     RayTracingPipeline.pSubobjects   = PipelineStream.SubObjects.Data();
@@ -668,7 +668,7 @@ void* D3D12RayTracingPipelineState::GetShaderIdentifer(const std::string& Export
         }
 
         RayTracingShaderIdentifer Identifier;
-        Memory::Memcpy(Identifier.ShaderIdentifier, Result, D3D12_SHADER_IDENTIFIER_SIZE_IN_BYTES);
+        CEMemory::Memcpy(Identifier.ShaderIdentifier, Result, D3D12_SHADER_IDENTIFIER_SIZE_IN_BYTES);
 
         auto NewIdentifier = ShaderIdentifers.insert(std::make_pair(ExportName, Identifier));
         return NewIdentifier.first->second.ShaderIdentifier;

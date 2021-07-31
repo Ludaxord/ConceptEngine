@@ -10,14 +10,16 @@ ConceptEngine::ConceptEngine(const std::wstring& Name,
                              ::GraphicsAPI GApi,
                              ::PlatformBoot PBoot,
                              ::ScriptingLanguage SLanguage, EngineBoot EBoot,
-                             bool ShowConsole) : EngineConfig(GApi, SLanguage, PBoot, EBoot, Name, ShowConsole) {
+                             bool ShowConsole): Core(nullptr), StartTime(0) {
+	GEngineConfig = {GApi, SLanguage, PBoot, EBoot, Name, ShowConsole};
 	SetStartTime();
 }
 
 ConceptEngine::ConceptEngine(const std::wstring& Name,
                              ::GraphicsAPI GApi,
                              ::PlatformBoot PBoot,
-                             ::ScriptingLanguage SLanguage, EngineBoot EBoot) : ConceptEngine(
+                             ::ScriptingLanguage SLanguage, 
+	EngineBoot EBoot) : ConceptEngine(
 	Name, GApi, PBoot, SLanguage, EBoot, false) {
 }
 
@@ -25,7 +27,8 @@ ConceptEngine::ConceptEngine(const std::wstring& Name, ::GraphicsAPI GApi, ::Pla
                              EngineBoot EBoot) : ConceptEngine(Name, GApi, PBoot, ScriptingLanguage::None, EBoot) {
 }
 
-ConceptEngine::ConceptEngine(CEEngineConfig& EConfig) : EngineConfig(EConfig) {
+ConceptEngine::ConceptEngine(CEEngineConfig& EConfig): Core(nullptr), StartTime(0) {
+	GEngineConfig = EConfig;
 }
 
 void ConceptEngine::Run() const {
@@ -45,10 +48,6 @@ CECore* ConceptEngine::GetCore() const {
 	return Core;
 }
 
-CEEngineConfig ConceptEngine::GetEngineConfig() const {
-	return EngineConfig;
-}
-
 bool ConceptEngine::Create() const {
 	if (!Core->Create()) {
 		CEPlatformMisc::MessageBox("Error", "Failed to Create Concept Engine");
@@ -59,7 +58,7 @@ bool ConceptEngine::Create() const {
 }
 
 bool ConceptEngine::CreateEditor() {
-	Core = new CEEditor(EngineConfig);
+	Core = new CEEditor(GEngineConfig);
 	if (!Core) {
 		CEDebug::DebugBreak();
 		return false;
@@ -69,7 +68,7 @@ bool ConceptEngine::CreateEditor() {
 }
 
 bool ConceptEngine::CreateRuntime() {
-	Core = new CERuntime(EngineConfig);
+	Core = new CERuntime(GEngineConfig);
 	if (!Core) {
 		CEDebug::DebugBreak();
 		return false;
@@ -79,7 +78,7 @@ bool ConceptEngine::CreateRuntime() {
 }
 
 bool ConceptEngine::CreateDebugRuntime() {
-	Core = new CEDebugRuntime(EngineConfig);
+	Core = new CEDebugRuntime(GEngineConfig);
 	if (!Core) {
 		CEDebug::DebugBreak();
 		return false;

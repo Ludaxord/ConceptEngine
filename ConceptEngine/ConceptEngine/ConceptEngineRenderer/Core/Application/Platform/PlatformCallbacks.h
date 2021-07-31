@@ -6,7 +6,7 @@
     #pragma warning(disable : 4100) // Disable unreferenced variable
 #endif
 
-class GenericWindow;
+class CEWindow;
 struct CEModifierKeyState;
 
 class PlatformCallbacks
@@ -14,11 +14,11 @@ class PlatformCallbacks
 public:
     virtual ~PlatformCallbacks() = default;
 
-    virtual void OnKeyReleased(EKey KeyCode, const CEModifierKeyState& ModierKeyState)
+    virtual void OnKeyReleased(CEKey KeyCode, const CEModifierKeyState& ModierKeyState)
     {
     }
 
-    virtual void OnKeyPressed(EKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModierKeyState)
+    virtual void OnKeyPressed(CEKey KeyCode, bool IsRepeat, const CEModifierKeyState& ModierKeyState)
     {
     }
 
@@ -30,11 +30,11 @@ public:
     {
     }
 
-    virtual void OnMouseReleased(EMouseButton Button, const CEModifierKeyState& ModierKeyState)
+    virtual void OnMouseReleased(CEMouseButton Button, const CEModifierKeyState& ModierKeyState)
     {
     }
 
-    virtual void OnMousePressed(EMouseButton Button, const CEModifierKeyState& ModierKeyState)
+    virtual void OnMousePressed(CEMouseButton Button, const CEModifierKeyState& ModierKeyState)
     {
     }
 
@@ -42,27 +42,27 @@ public:
     {
     }
 
-    virtual void OnWindowResized(const TRef<GenericWindow>& Window, uint16 Width, uint16 Height)
+    virtual void OnWindowResized(const CERef<CEWindow>& Window, uint16 Width, uint16 Height)
     {
     }
 
-    virtual void OnWindowMoved(const TRef<GenericWindow>& Window, int16 x, int16 y)
+    virtual void OnWindowMoved(const CERef<CEWindow>& Window, int16 x, int16 y)
     {
     }
     
-    virtual void OnWindowFocusChanged(const TRef<GenericWindow>& Window, bool HasFocus)
+    virtual void OnWindowFocusChanged(const CERef<CEWindow>& Window, bool HasFocus)
     {
     }
     
-    virtual void OnWindowMouseLeft(const TRef<GenericWindow>& Window)
+    virtual void OnWindowMouseLeft(const CERef<CEWindow>& Window)
     {
     }
     
-    virtual void OnWindowMouseEntered(const TRef<GenericWindow>& Window)
+    virtual void OnWindowMouseEntered(const CERef<CEWindow>& Window)
     {
     }
     
-    virtual void OnWindowClosed(const TRef<GenericWindow>& Window)
+    virtual void OnWindowClosed(const CERef<CEWindow>& Window)
     {
     }
 

@@ -1,9 +1,9 @@
 #pragma once
 #include "Resources.h"
 
-#include "../Memory/Memory.h"
+#include "../Memory/CEMemory.h"
 
-#include "../Core/Ref.h"
+#include "../Core/CERef.h"
 #include "../Core/Containers/StaticArray.h"
 
 class ShaderResourceView : public Resource
@@ -22,7 +22,7 @@ class RenderTargetView : public Resource
 {
 };
 
-using DepthStencilViewCube = CEStaticArray<TRef<DepthStencilView>, 6>;
+using DepthStencilViewCube = CEStaticArray<CERef<DepthStencilView>, 6>;
 
 struct ShaderResourceViewCreateInfo
 {

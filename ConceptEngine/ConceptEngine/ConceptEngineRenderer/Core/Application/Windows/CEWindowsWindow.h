@@ -1,15 +1,15 @@
 #pragma once
 #include "Windows.h"
 
-#include "../../../Core/Application/Generic/GenericWindow.h"
+#include "../../../Core/Application/Generic/CEWindow.h"
 
-class WindowsWindow : public GenericWindow
+class CEWindowsWindow : public CEWindow
 {
 public:
-    WindowsWindow();
-    ~WindowsWindow();
+    CEWindowsWindow();
+    ~CEWindowsWindow();
 
-    bool Init(const std::wstring& Title, uint32 Width, uint32 Height, WindowStyle Style);
+    bool Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style);
 
     virtual void Show(bool Maximized) override final;
     virtual void Close() override final;
@@ -24,8 +24,8 @@ public:
     virtual void SetTitle(const std::string& Title) override final;
     virtual void GetTitle(std::string& OutTitle) override final;
     
-    virtual void SetWindowShape(const WindowShape& Shape, bool Move) override final;
-    virtual void GetWindowShape(WindowShape& OutWindowShape) const override final;
+    virtual void SetWindowShape(const CEWindowShape& Shape, bool Move) override final;
+    virtual void GetWindowShape(CEWindowShape& OutWindowShape) const override final;
 
     virtual uint32 GetWidth()  const override final;
     virtual uint32 GetHeight() const override final;

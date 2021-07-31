@@ -130,14 +130,14 @@ public:
     D3D12CommandAllocatorHandle CmdAllocator;
     D3D12GPUResourceUploader    GpuResourceUploader;
     
-    TRef<D3D12OnlineDescriptorHeap> OnlineResourceDescriptorHeap;
-    TRef<D3D12OnlineDescriptorHeap> OnlineSamplerDescriptorHeap;
+    CERef<D3D12OnlineDescriptorHeap> OnlineResourceDescriptorHeap;
+    CERef<D3D12OnlineDescriptorHeap> OnlineSamplerDescriptorHeap;
     
-    TRef<D3D12OnlineDescriptorHeap> OnlineRayTracingResourceDescriptorHeap;
-    TRef<D3D12OnlineDescriptorHeap> OnlineRayTracingSamplerDescriptorHeap;
+    CERef<D3D12OnlineDescriptorHeap> OnlineRayTracingResourceDescriptorHeap;
+    CERef<D3D12OnlineDescriptorHeap> OnlineRayTracingSamplerDescriptorHeap;
     
-    CEArray<TRef<D3D12Resource>>     DxResources;
-    CEArray<TRef<Resource>>          Resources;
+    CEArray<CERef<D3D12Resource>>     DxResources;
+    CEArray<CERef<Resource>>          Resources;
     CEArray<TComPtr<ID3D12Resource>> NativeResources;
 };
 
@@ -154,7 +154,7 @@ public:
         Assert(Resource != nullptr);
 
         D3D12_RESOURCE_BARRIER Barrier;
-        Memory::Memzero(&Barrier);
+        CEMemory::Memzero(&Barrier);
 
         Barrier.Type          = D3D12_RESOURCE_BARRIER_TYPE_UAV;
         Barrier.UAV.pResource = Resource;
@@ -341,14 +341,14 @@ private:
     CEArray<D3D12CommandBatch> CmdBatches;
     D3D12CommandBatch*        CmdBatch = nullptr;
 
-    CEArray<TRef<D3D12GPUProfiler>> ResolveProfilers;
+    CEArray<CERef<D3D12GPUProfiler>> ResolveProfilers;
 
-    TRef<D3D12ComputePipelineState> GenerateMipsTex2D_PSO;
-    TRef<D3D12ComputePipelineState> GenerateMipsTexCube_PSO;
+    CERef<D3D12ComputePipelineState> GenerateMipsTex2D_PSO;
+    CERef<D3D12ComputePipelineState> GenerateMipsTexCube_PSO;
 
-    TRef<D3D12GraphicsPipelineState> CurrentGraphicsPipelineState;
-    TRef<D3D12ComputePipelineState>  CurrentComputePipelineState;
-    TRef<D3D12RootSignature>         CurrentRootSignature;
+    CERef<D3D12GraphicsPipelineState> CurrentGraphicsPipelineState;
+    CERef<D3D12ComputePipelineState>  CurrentComputePipelineState;
+    CERef<D3D12RootSignature>         CurrentRootSignature;
 
     D3D12ShaderConstantsCache   ShaderConstantsCache;
     D3D12DescriptorCache        DescriptorCache;

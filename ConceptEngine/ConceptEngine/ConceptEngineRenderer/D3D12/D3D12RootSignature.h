@@ -131,7 +131,7 @@ private:
     D3D12RootSignature* CreateRootSignature(const D3D12RootSignatureResourceCount& ResourceCount);
 
     // TODO: Use a hash instead, this is beacuse == operator does not make sense, use it anyway?
-    CEArray<TRef<D3D12RootSignature>>        RootSignatures;
+    CEArray<CERef<D3D12RootSignature>>        RootSignatures;
     CEArray<D3D12RootSignatureResourceCount> ResourceCounts;
 
     static D3D12RootSignatureCache* Instance;

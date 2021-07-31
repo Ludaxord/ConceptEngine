@@ -1,7 +1,7 @@
 #pragma once
 #include "../../CEDefinitions.h"
 
-enum EKey : uint8
+enum CEKey : uint8
 {
     Key_Unknown = 0,
 
@@ -141,7 +141,7 @@ enum EKey : uint8
     Key_Count = Key_Last + 1
 };
 
-enum EMouseButton : uint8
+enum CEMouseButton : uint8
 {
     MouseButton_Unknown = 0,
     MouseButton_Left    = 1,
@@ -154,7 +154,7 @@ enum EMouseButton : uint8
     MouseButton_Count = MouseButton_Last + 1
 };
 
-enum EModifierFlag
+enum CEModifierFlag
 {
     ModifierFlag_None     = 0,
     ModifierFlag_Ctrl     = FLAG(1),
@@ -165,7 +165,7 @@ enum EModifierFlag
     ModifierFlag_NumLock  = FLAG(6),
 };
 
-inline const char* ToString(EMouseButton Button)
+inline const char* ToString(CEMouseButton Button)
 {
     switch (Button)
     {
@@ -178,7 +178,7 @@ inline const char* ToString(EMouseButton Button)
     }
 }
 
-inline const char* ToString(EKey key)
+inline const char* ToString(CEKey key)
 {
     switch (key)
     {
