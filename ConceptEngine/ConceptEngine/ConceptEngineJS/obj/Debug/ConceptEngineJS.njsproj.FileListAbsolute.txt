@@ -1,2 +1,3 @@
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineJS\obj\Debug\ConceptEngineJS.njsproj.CoreCompileInputs.cache
 F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineJS\bin\Microsoft.NodejsTools.WebRole.dll
+F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineJS\obj\Debug\ConceptEngineJS.njsprojAssemblyReference.cache

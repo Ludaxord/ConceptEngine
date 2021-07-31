@@ -83,11 +83,11 @@ bool EngineLoop::Init()
         return false;
     }
 
-    if (!GRenderer.Create())
-    {
-        CEPlatformMisc::MessageBox("ERROR", "FAILED to create Renderer");
-        return false;
-    }
+    // if (!GRenderer.Create())
+    // {
+    //     CEPlatformMisc::MessageBox("ERROR", "FAILED to create Renderer");
+    //     return false;
+    // }
 
     GConsole.Create();
 
@@ -116,7 +116,7 @@ void EngineLoop::Tick(CETimestamp Deltatime)
 
     CEProfiler::Update();
 
-    GRenderer.Update(*GApplication->Scene);
+    // GRenderer.Update(*GApplication->Scene);
 }
 
 void EngineLoop::Run()
@@ -158,7 +158,7 @@ bool EngineLoop::Release()
 
     CEDebugUI::Release();
 
-    GRenderer.Release();
+    // GRenderer.Release();
 
     RenderLayer::Release();
 
