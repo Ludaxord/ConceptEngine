@@ -62,7 +62,7 @@ public:
 
     virtual ~GenericRenderLayer() = default;
 
-    virtual bool Init(bool EnableDebug) = 0;
+    virtual bool Create(bool EnableDebug) = 0;
 
     virtual Texture2D* CreateTexture2D(
         EFormat Format,

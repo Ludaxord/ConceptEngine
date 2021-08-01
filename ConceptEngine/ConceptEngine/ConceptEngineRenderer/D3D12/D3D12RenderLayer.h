@@ -43,7 +43,7 @@ public:
         return SamplerOfflineDescriptorHeap;
     }
 
-    virtual bool Init(bool EnableDebug) override final;
+    virtual bool Create(bool EnableDebug) override final;
 
     virtual Texture2D* CreateTexture2D(
         EFormat Format,

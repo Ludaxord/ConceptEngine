@@ -95,7 +95,7 @@ D3D12RenderLayer::~D3D12RenderLayer()
     gD3D12RenderLayer = nullptr;
 }
 
-bool D3D12RenderLayer::Init(bool EnableDebug)
+bool D3D12RenderLayer::Create(bool EnableDebug)
 {
     // NOTE: GPUBasedValidation does not work with ray tracing since it causes Device Removed (2021-02-25)
     bool GPUBasedValidationOn =

@@ -36,7 +36,7 @@ bool RenderLayer::Init(ERenderLayerApi InRenderApi)
 #endif
 
     // Init
-    if (gRenderLayer->Init(EnableDebug))
+    if (gRenderLayer->Create(EnableDebug))
     {
         ICommandContext* CmdContext = gRenderLayer->GetDefaultCommandContext();
         GCmdListExecutor.SetContext(CmdContext);
