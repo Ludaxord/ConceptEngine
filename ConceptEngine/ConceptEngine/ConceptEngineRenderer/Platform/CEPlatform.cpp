@@ -13,10 +13,6 @@ CEPlatformCallbacks* CEPlatform::GetCallbacks() {
 	return Callbacks;
 }
 
-CEWindow* CEPlatform::GetWindow() {
-	return Window;
-}
-
 CEConsole* CEPlatform::GetConsole() {
 	return Console;
 }

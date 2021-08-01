@@ -1,6 +1,8 @@
 #pragma once
 #include "Platform/CEPlatform.h"
 
+#include "../Core/Application/Windows/CEWindowsCursor.h"
+
 class CEWindows final : public CEPlatform {
 public:
 	CEWindows();
@@ -39,4 +41,11 @@ private:
 	static LRESULT MessageProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 	static void HandleStoredMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 	static void StoreMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
+
+public:
+	CEWindow* GetWindow() override;
+private:
+	inline static CEArray<CEWindowsEvent> Messages;
+	inline static CERef<CEWindowsCursor> Cursor;
+	inline static CERef<CEWindow> Window;
 };

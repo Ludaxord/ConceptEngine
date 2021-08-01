@@ -3,6 +3,7 @@
 #include "../Core/Application/Generic/CEGenericPlatform.h"
 #include "../Core/Delegates/Event.h"
 #include "../Core/Input/CEInputManager.h"
+#include "../Core/Application/Windows/CEWindowsPlatform.h"
 
 class CEWindow;
 class CECursor;
@@ -42,11 +43,12 @@ public:
 	virtual CEWindow* GetActiveWindow() = 0;
 	virtual CECursor* GetCursor() = 0;
 	virtual void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) = 0;
+	virtual CEWindow* GetWindow() = 0;
+
 	static CEModifierKeyState GetModifierKeyState() {
 		return CEModifierKeyState();
 	}
 	virtual CEPlatformCallbacks* GetCallbacks();
-	virtual CEWindow* GetWindow();
 	virtual CEConsole* GetConsole();
 	virtual CEInputManager* GetInputManager();
 
@@ -55,12 +57,9 @@ private:
 
 public:
 	inline static CEProjectConfig ProjectConfig;
-
-	inline static CECursor* Cursor;
-	inline static CEWindow* Window;
+	
 	inline static CEConsole* Console;
 	inline static CEInputManager* InputManager;
 	inline static CEPlatformCallbacks* Callbacks;
-	inline static CEArray<CEEvent<void>> Messages;
 	inline static bool bIsMouseTracking;
 };

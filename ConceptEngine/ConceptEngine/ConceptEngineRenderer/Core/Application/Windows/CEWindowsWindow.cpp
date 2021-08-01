@@ -1,5 +1,5 @@
 #include "CEWindowsWindow.h"
-#include "WindowsPlatform.h"
+#include "CEWindowsPlatform.h"
 
 CEWindow* CEWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, CEWindowStyle InStyle) {
 	CERef<CEWindowsWindow> NewWindow = DBG_NEW CEWindowsWindow();
@@ -56,8 +56,8 @@ bool CEWindowsWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32
 	INT nWidth = ClientRect.right - ClientRect.left;
 	INT nHeight = ClientRect.bottom - ClientRect.top;
 
-	HINSTANCE Instance = WindowsPlatform::GetInstance();
-	LPCWSTR WindowClassName = WindowsPlatform::GetWindowClassName();
+	HINSTANCE Instance = CEWindowsPlatform::GetInstance();
+	LPCWSTR WindowClassName = CEWindowsPlatform::GetWindowClassName();
 	Window = CreateWindowEx(0, WindowClassName, InTitle.c_str(), dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, nWidth, nHeight,
 	                        NULL, NULL, Instance, NULL);
 	if (Window == NULL) {

@@ -47,7 +47,7 @@ struct CEWindowsWindowHandle
     HWND Handle;
 };
 
-class WindowsPlatform : public CEGenericPlatform
+class CEWindowsPlatform : public CEGenericPlatform
 {
 public:
     static void PreMainInit(HINSTANCE InInstance);

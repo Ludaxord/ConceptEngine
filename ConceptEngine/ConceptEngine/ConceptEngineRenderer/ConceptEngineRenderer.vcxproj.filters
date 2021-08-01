@@ -54,7 +54,7 @@
     <ClInclude Include="Core\Application\Windows\CEWindowsConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Application\Windows\WindowsPlatform.h">
+    <ClInclude Include="Core\Application\Windows\CEWindowsPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\CEWindowsWindow.h">
@@ -593,7 +593,7 @@
     <ClCompile Include="Core\Application\Windows\CEWindowsConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Application\Windows\WindowsPlatform.cpp">
+    <ClCompile Include="Core\Application\Windows\CEWindowsPlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Windows\CEWindowsWindow.cpp">

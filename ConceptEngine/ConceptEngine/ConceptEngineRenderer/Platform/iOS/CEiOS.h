@@ -22,4 +22,5 @@ private:
 public:
 	void SetCursorPosition(CEWindow* RelativeWindow, int32 X, int32 Y) override;
 	void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) override;
+	CEWindow* GetWindow() override;
 };

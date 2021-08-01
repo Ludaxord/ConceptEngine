@@ -1,24 +1,24 @@
-#include "WindowsPlatform.h"
+#include "CEWindowsPlatform.h"
 #include "CEWindowsCursor.h"
 
 #include "../../../Core/Input/CEInputManager.h"
 #include "Boot/CECore.h"
 #include "Platform/CEPlatform.h"
 
-CEArray<CEWindowsEvent> WindowsPlatform::Messages;
+CEArray<CEWindowsEvent> CEWindowsPlatform::Messages;
 
-CERef<CEWindowsCursor> WindowsPlatform::CurrentCursor;
+CERef<CEWindowsCursor> CEWindowsPlatform::CurrentCursor;
 
-bool WindowsPlatform::IsTrackingMouse = false;
+bool CEWindowsPlatform::IsTrackingMouse = false;
 
-HINSTANCE WindowsPlatform::Instance = 0;
+HINSTANCE CEWindowsPlatform::Instance = 0;
 
-void WindowsPlatform::PreMainInit(HINSTANCE InInstance)
+void CEWindowsPlatform::PreMainInit(HINSTANCE InInstance)
 {
     Instance = InInstance;
 }
 
-bool WindowsPlatform::Init()
+bool CEWindowsPlatform::Init()
 {
     if (!RegisterWindowClass())
     {
@@ -33,16 +33,16 @@ bool WindowsPlatform::Init()
     return true;
 }
 
-bool WindowsPlatform::RegisterWindowClass()
+bool CEWindowsPlatform::RegisterWindowClass()
 {
     WNDCLASS WindowClass;
     CEMemory::Memzero(&WindowClass);
 
     WindowClass.hInstance     = Instance;
-    WindowClass.lpszClassName = WindowsPlatform::GetWindowClassName();
+    WindowClass.lpszClassName = CEWindowsPlatform::GetWindowClassName();
     WindowClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
     WindowClass.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    WindowClass.lpfnWndProc   = WindowsPlatform::MessageProc;
+    WindowClass.lpfnWndProc   = CEWindowsPlatform::MessageProc;
 
     ATOM ClassAtom = RegisterClass(&WindowClass);
     if (ClassAtom == 0)
@@ -54,12 +54,12 @@ bool WindowsPlatform::RegisterWindowClass()
     return true;
 }
 
-bool WindowsPlatform::Release()
+bool CEWindowsPlatform::Release()
 {
     return true;
 }
 
-void WindowsPlatform::Tick()
+void CEWindowsPlatform::Tick()
 {
     MSG Message;
     while (PeekMessage(&Message, 0, 0, 0, PM_REMOVE))
@@ -81,7 +81,7 @@ void WindowsPlatform::Tick()
     Messages.Clear();
 }
 
-void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
+void CEWindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     constexpr uint16 SCAN_CODE_MASK   = 0x01ff;
     constexpr uint32 KEY_REPEAT_MASK  = 0x40000000;
@@ -293,7 +293,7 @@ void WindowsPlatform::HandleStoredMessage(HWND Window, UINT Message, WPARAM wPar
     }
 }
 
-void WindowsPlatform::SetActiveWindow(CEWindow* Window)
+void CEWindowsPlatform::SetActiveWindow(CEWindow* Window)
 {
     CERef<CEWindowsWindow> WinWindow = MakeSharedRef<CEWindowsWindow>(Window);
     HWND hActiveWindow = WinWindow->GetHandle();
@@ -303,7 +303,7 @@ void WindowsPlatform::SetActiveWindow(CEWindow* Window)
     }
 }
 
-void WindowsPlatform::SetCapture(CEWindow* CaptureWindow)
+void CEWindowsPlatform::SetCapture(CEWindow* CaptureWindow)
 {
     if (CaptureWindow)
     {
@@ -320,19 +320,19 @@ void WindowsPlatform::SetCapture(CEWindow* CaptureWindow)
     }
 }
 
-CEWindow* WindowsPlatform::GetActiveWindow()
+CEWindow* CEWindowsPlatform::GetActiveWindow()
 {
     HWND hActiveWindow = GetForegroundWindow();
     return CEWindowsWindowHandle(hActiveWindow).GetWindow();
 }
 
-CEWindow* WindowsPlatform::GetCapture()
+CEWindow* CEWindowsPlatform::GetCapture()
 {
     HWND hCapture = ::GetCapture();
     return CEWindowsWindowHandle(hCapture).GetWindow();
 }
 
-bool WindowsPlatform::InitCursors()
+bool CEWindowsPlatform::InitCursors()
 {
     if (!(CECursor::Arrow = CEWindowsCursor::Create(IDC_ARROW)))
     {
@@ -374,7 +374,7 @@ bool WindowsPlatform::InitCursors()
     return true;
 }
 
-void WindowsPlatform::SetCursor(CECursor* Cursor)
+void CEWindowsPlatform::SetCursor(CECursor* Cursor)
 {
     if (Cursor)
     {
@@ -390,7 +390,7 @@ void WindowsPlatform::SetCursor(CECursor* Cursor)
     }
 }
 
-CECursor* WindowsPlatform::GetCursor()
+CECursor* CEWindowsPlatform::GetCursor()
 {
     HCURSOR Cursor = ::GetCursor();
     if (CurrentCursor)
@@ -410,7 +410,7 @@ CECursor* WindowsPlatform::GetCursor()
     return nullptr;
 }
 
-void WindowsPlatform::SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y)
+void CEWindowsPlatform::SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y)
 {
     if (RelativeWindow)
     {
@@ -425,7 +425,7 @@ void WindowsPlatform::SetCursorPos(CEWindow* RelativeWindow, int32 x, int32 y)
     }
 }
 
-void WindowsPlatform::GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY)
+void CEWindowsPlatform::GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32& OutY)
 {
     POINT CursorPos = { };
     if (!::GetCursorPos(&CursorPos))
@@ -445,7 +445,7 @@ void WindowsPlatform::GetCursorPos(CEWindow* RelativeWindow, int32& OutX, int32&
     }
 }
 
-CEModifierKeyState WindowsPlatform::GetModifierKeyState()
+CEModifierKeyState CEWindowsPlatform::GetModifierKeyState()
 {
     uint32 ModifierMask = 0;
     if (GetKeyState(VK_CONTROL) & 0x8000)
@@ -476,7 +476,7 @@ CEModifierKeyState WindowsPlatform::GetModifierKeyState()
     return CEModifierKeyState(ModifierMask);
 }
 
-LRESULT WindowsPlatform::MessageProc(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
+LRESULT CEWindowsPlatform::MessageProc(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     switch (Message)
     {
@@ -516,7 +516,7 @@ LRESULT WindowsPlatform::MessageProc(HWND Window, UINT Message, WPARAM wParam, L
     return DefWindowProc(Window, Message, wParam, lParam);
 }
 
-void WindowsPlatform::StoreMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
+void CEWindowsPlatform::StoreMessage(HWND Window, UINT Message, WPARAM wParam, LPARAM lParam)
 {
     Messages.EmplaceBack(Window, Message, wParam, lParam);
 }

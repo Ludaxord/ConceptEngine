@@ -4,7 +4,11 @@
 #include "Core/Application/Windows/CEWindowsCursor.h"
 #include "Core/Application/Windows/CEWindowsInputManager.h"
 #include "Core/Application/Windows/CEWindowsWindow.h"
-#include "Core/Application/Windows/WindowsPlatform.h"
+#include "Core/Application/Windows/CEWindowsPlatform.h"
+
+// CEArray<CEWindowsEvent> CEWindows::Messages;
+
+// CERef<CEWindowsCursor> CEWindows::Cursor;
 
 CEWindows::CEWindows(): CEPlatform() {
 }
@@ -118,10 +122,11 @@ void CEWindows::SetActiveWindow(CEWindow* ActiveWindow) {
 }
 
 void CEWindows::SetCursor(CECursor* InCursor) {
-	if (InCursor) {
-		Cursor = InCursor;
-		HCURSOR CursorHandle = reinterpret_cast<CEWindowsCursor*>(InCursor)->GetHandle();
-		::SetCursor(CursorHandle);
+	if (Cursor) {
+		CERef<CEWindowsCursor> WinCursor = MakeSharedRef<CEWindowsCursor>(InCursor);
+		Cursor = WinCursor;
+		HCURSOR Cursorhandle = WinCursor->GetHandle();
+		::SetCursor(Cursorhandle);
 	}
 	else {
 		::SetCursor(NULL);
@@ -150,6 +155,19 @@ CEWindow* CEWindows::GetActiveWindow() {
 }
 
 CECursor* CEWindows::GetCursor() {
+	HCURSOR cursor = ::GetCursor();
+	if (Cursor) {
+		CEWindowsCursor* WinCursor = static_cast<CEWindowsCursor*>(Cursor.Get());
+		if (WinCursor->GetHandle() == cursor) {
+			Cursor->AddRef();
+			return Cursor.Get();
+		}
+		else {
+			Cursor.Reset();
+		}
+	}
+
+	return nullptr;
 }
 
 void CEWindows::GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) {
@@ -223,7 +241,7 @@ void CEWindows::UpdatePeekMessage() {
 }
 
 void CEWindows::UpdateStoredMessage() {
-	for (const CEEvent<void>& MessageEvent : Messages) {
+	for (const CEWindowsEvent& MessageEvent : Messages) {
 		auto TempEvent = reinterpret_cast<const CEWindowsEvent&>(MessageEvent);
 		HandleStoredMessage(TempEvent.Window, TempEvent.Message, TempEvent.wParam, TempEvent.lParam);
 	}
@@ -445,4 +463,9 @@ void CEWindows::HandleStoredMessage(HWND ActiveWindow, UINT Message, WPARAM wPar
 
 void CEWindows::StoreMessage(HWND ActiveWindow, UINT Message, WPARAM wParam, LPARAM lParam) {
 	Messages.EmplaceBack(CEWindowsEvent(ActiveWindow, Message, wParam, lParam));
+}
+
+
+CEWindow* CEWindows::GetWindow() {
+	return Window.Get();
 }

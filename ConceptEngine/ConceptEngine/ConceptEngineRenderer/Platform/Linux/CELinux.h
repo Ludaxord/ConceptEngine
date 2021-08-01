@@ -20,5 +20,6 @@ public:
 	void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) override;
 private:
 	bool CreateInputManager() override;
-
+public:
+	CEWindow* GetWindow() override;
 };

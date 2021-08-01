@@ -49,7 +49,7 @@
     <ClInclude Include="Core\Application\Windows\CEWindowsInputManager.h" />
     <ClInclude Include="Core\Application\Windows\CEWindowsMisc.h" />
     <ClInclude Include="Core\Application\Windows\CEWindowsConsole.h" />
-    <ClInclude Include="Core\Application\Windows\WindowsPlatform.h" />
+    <ClInclude Include="Core\Application\Windows\CEWindowsPlatform.h" />
     <ClInclude Include="Core\Application\Windows\CEWindowsWindow.h" />
     <ClInclude Include="Core\Containers\Allocator.h" />
     <ClInclude Include="Core\Containers\Array.h" />
@@ -225,7 +225,7 @@
     <ClCompile Include="Core\Application\Windows\CEWindowsCursor.cpp" />
     <ClCompile Include="Core\Application\Windows\CEWindowsConsole.cpp" />
     <ClCompile Include="Core\Application\Windows\CEWindowsInputManager.cpp" />
-    <ClCompile Include="Core\Application\Windows\WindowsPlatform.cpp" />
+    <ClCompile Include="Core\Application\Windows\CEWindowsPlatform.cpp" />
     <ClCompile Include="Core\Application\Windows\CEWindowsWindow.cpp" />
     <ClCompile Include="Core\CoreObject\ClassType.cpp" />
     <ClCompile Include="Core\Engine\Engine.cpp" />
