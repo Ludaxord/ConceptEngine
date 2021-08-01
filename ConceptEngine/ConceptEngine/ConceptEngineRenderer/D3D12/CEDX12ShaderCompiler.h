@@ -8,13 +8,13 @@
 
 #include <d3d12shader.h>
 
-class D3D12ShaderCompiler : public ICEShaderCompiler
+class CEDX12ShaderCompiler : public ICEShaderCompiler
 {
 public:
-    D3D12ShaderCompiler();
-    ~D3D12ShaderCompiler();
+    CEDX12ShaderCompiler();
+    ~CEDX12ShaderCompiler();
 
-    bool Init();
+    bool Create();
     
     virtual bool CompileFromFile(
         const std::string& FilePath,
@@ -60,5 +60,5 @@ private:
     HMODULE DxCompilerDLL;
 };
 
-extern D3D12ShaderCompiler*  gD3D12ShaderCompiler;
+extern CEDX12ShaderCompiler*  gD3D12ShaderCompiler;
 extern DxcCreateInstanceProc DxcCreateInstanceFunc;

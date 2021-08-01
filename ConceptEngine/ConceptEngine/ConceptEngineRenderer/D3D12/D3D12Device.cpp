@@ -1,7 +1,7 @@
 #include "../Core/Application/Platform/CEPlatformMisc.h"
 
 #include "D3D12Device.h"
-#include "D3D12ShaderCompiler.h"
+#include "CEShaderCompiler.h"
 #include "D3D12DescriptorHeap.h"
 #include "D3D12PipelineState.h"
 #include "D3D12RootSignature.h"

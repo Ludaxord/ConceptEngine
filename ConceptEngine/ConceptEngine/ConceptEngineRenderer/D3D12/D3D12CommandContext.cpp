@@ -6,7 +6,7 @@
 #include "D3D12Buffer.h"
 #include "D3D12Texture.h"
 #include "D3D12PipelineState.h"
-#include "D3D12ShaderCompiler.h"
+#include "CEShaderCompiler.h"
 #include "D3D12Shader.h"
 #include "D3D12RayTracing.h"
 #include "D3D12RenderLayer.h"

@@ -1,5 +1,7 @@
 #include "CEDirectX12.h"
 
+#include "D3D12/CEDX12DebugUI.h"
+#include "D3D12/CEDX12ShaderCompiler.h"
 #include "Managers/CEDX12Manager.h"
 #include "Managers/CEDX12MeshManager.h"
 #include "Managers/CEDX12TextureManager.h"
@@ -57,7 +59,7 @@ bool CEDirectX12::CreateMeshManager() {
 	return true;}
 
 bool CEDirectX12::CreateShaderCompiler() {
-	if (auto shaderCompiler = new CEDX12ShaderCompiler(); !shaderCompiler->Create(false)) {
+	if (auto shaderCompiler = new CEDX12ShaderCompiler(); !shaderCompiler->Create()) {
 		CEDebug::DebugBreak();
 		return false;
 	}
@@ -66,6 +68,6 @@ bool CEDirectX12::CreateShaderCompiler() {
 }
 
 bool CEDirectX12::CreateDebugUI() {
-	DebugUI = std::make_unique<CEDX12DebugUI>();
+	DebugUI = new CEDX12DebugUI();
 	return true;
 }

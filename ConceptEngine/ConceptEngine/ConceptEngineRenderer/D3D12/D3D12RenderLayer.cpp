@@ -13,7 +13,7 @@
 #include "D3D12RootSignature.h"
 #include "D3D12Views.h"
 #include "D3D12Helpers.h"
-#include "D3D12ShaderCompiler.h"
+#include "CEShaderCompiler.h"
 #include "D3D12Shader.h"
 #include "D3D12SamplerState.h"
 #include "D3D12Viewport.h"

@@ -1,4 +1,4 @@
-#include "D3D12ShaderCompiler.h"
+#include "CEDX12ShaderCompiler.h"
 
 #include "../Utilities/StringUtilities.h"
 
@@ -225,9 +225,9 @@ private:
 	ULONG References;
 };
 
-D3D12ShaderCompiler* gD3D12ShaderCompiler = nullptr;
+CEDX12ShaderCompiler* gD3D12ShaderCompiler = nullptr;
 
-D3D12ShaderCompiler::D3D12ShaderCompiler()
+CEDX12ShaderCompiler::CEDX12ShaderCompiler()
 	: ICEShaderCompiler()
 	  , DxCompiler(nullptr)
 	  , DxLibrary(nullptr)
@@ -237,7 +237,7 @@ D3D12ShaderCompiler::D3D12ShaderCompiler()
 	gD3D12ShaderCompiler = this;
 }
 
-D3D12ShaderCompiler::~D3D12ShaderCompiler() {
+CEDX12ShaderCompiler::~CEDX12ShaderCompiler() {
 	gD3D12ShaderCompiler = nullptr;
 
 	DxCompiler.Reset();
@@ -249,7 +249,7 @@ D3D12ShaderCompiler::~D3D12ShaderCompiler() {
 	::FreeLibrary(DxCompilerDLL);
 }
 
-bool D3D12ShaderCompiler::CompileFromFile(
+bool CEDX12ShaderCompiler::CompileFromFile(
 	const std::string& FilePath,
 	const std::string& EntryPoint,
 	const CEArray<ShaderDefine>* Defines,
@@ -272,7 +272,7 @@ bool D3D12ShaderCompiler::CompileFromFile(
 	                                 ShaderModel, Defines, Code);
 }
 
-bool D3D12ShaderCompiler::CompileShader(
+bool CEDX12ShaderCompiler::CompileShader(
 	const std::string& ShaderSource,
 	const std::string& EntryPoint,
 	const CEArray<ShaderDefine>* Defines,
@@ -298,17 +298,17 @@ bool D3D12ShaderCompiler::CompileShader(
 	                                 Defines, Code);
 }
 
-bool D3D12ShaderCompiler::GetReflection(D3D12BaseShader* Shader, ID3D12ShaderReflection** Reflection) {
+bool CEDX12ShaderCompiler::GetReflection(D3D12BaseShader* Shader, ID3D12ShaderReflection** Reflection) {
 	TComPtr<IDxcBlob> ShaderBlob = DBG_NEW ExistingBlob((LPVOID)Shader->GetCode(), Shader->GetCodeSize());
 	return InternalGetReflection(ShaderBlob, IID_PPV_ARGS(Reflection));
 }
 
-bool D3D12ShaderCompiler::GetLibraryReflection(D3D12BaseShader* Shader, ID3D12LibraryReflection** Reflection) {
+bool CEDX12ShaderCompiler::GetLibraryReflection(D3D12BaseShader* Shader, ID3D12LibraryReflection** Reflection) {
 	TComPtr<IDxcBlob> ShaderBlob = DBG_NEW ExistingBlob((LPVOID)Shader->GetCode(), Shader->GetCodeSize());
 	return InternalGetReflection(ShaderBlob, IID_PPV_ARGS(Reflection));
 }
 
-bool D3D12ShaderCompiler::HasRootSignature(D3D12BaseShader* Shader) {
+bool CEDX12ShaderCompiler::HasRootSignature(D3D12BaseShader* Shader) {
 	TComPtr<IDxcContainerReflection> Reflection;
 	HRESULT Result = DxcCreateInstanceFunc(CLSID_DxcContainerReflection, IID_PPV_ARGS(&Reflection));
 	if (FAILED(Result)) {
@@ -332,7 +332,7 @@ bool D3D12ShaderCompiler::HasRootSignature(D3D12BaseShader* Shader) {
 	return true;
 }
 
-bool D3D12ShaderCompiler::Init() {
+bool CEDX12ShaderCompiler::Create() {
 
 	HMODULE DxilDLL = ::LoadLibraryA("../Dependencies/dx/dxcompiler.dll");
 
@@ -386,7 +386,7 @@ bool D3D12ShaderCompiler::Init() {
 	return true;
 }
 
-bool D3D12ShaderCompiler::InternalCompileFromSource(
+bool CEDX12ShaderCompiler::InternalCompileFromSource(
 	IDxcBlob* SourceBlob,
 	LPCWSTR FilePath,
 	LPCWSTR Entrypoint,
@@ -490,7 +490,7 @@ bool D3D12ShaderCompiler::InternalCompileFromSource(
 	}
 }
 
-bool D3D12ShaderCompiler::InternalGetReflection(const TComPtr<IDxcBlob>& ShaderBlob, REFIID iid, void** ppvObject) {
+bool CEDX12ShaderCompiler::InternalGetReflection(const TComPtr<IDxcBlob>& ShaderBlob, REFIID iid, void** ppvObject) {
 	HRESULT Result = DxReflection->Load(ShaderBlob.Get());
 	if (FAILED(Result)) {
 		CE_LOG_ERROR("[D3D12ShaderCompiler]: Were not able to validate ray tracing shader");
@@ -513,7 +513,7 @@ bool D3D12ShaderCompiler::InternalGetReflection(const TComPtr<IDxcBlob>& ShaderB
 	return true;
 }
 
-bool D3D12ShaderCompiler::ValidateRayTracingShader(const TComPtr<IDxcBlob>& ShaderBlob, LPCWSTR Entrypoint) {
+bool CEDX12ShaderCompiler::ValidateRayTracingShader(const TComPtr<IDxcBlob>& ShaderBlob, LPCWSTR Entrypoint) {
 	TComPtr<ID3D12LibraryReflection> LibaryReflection;
 	if (!InternalGetReflection(ShaderBlob, IID_PPV_ARGS(&LibaryReflection))) {
 		return false;

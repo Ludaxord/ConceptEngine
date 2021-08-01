@@ -1,5 +1,5 @@
 #include "D3D12Shader.h"
-#include "D3D12ShaderCompiler.h"
+#include "CEShaderCompiler.h"
 #include "D3D12RootSignature.h"
 
 D3D12BaseShader::D3D12BaseShader(D3D12Device* InDevice, const CEArray<uint8>& InCode, EShaderVisibility InVisibility)
