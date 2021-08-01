@@ -16,4 +16,6 @@ private:
 	bool CreateAA() override;
 	bool CreateShadingImage() override;
 	void ResizeResources(uint32 Width, uint32 Height) override;
+protected:
+	void OnWindowResize(const WindowResizeEvent& Event) override;
 };

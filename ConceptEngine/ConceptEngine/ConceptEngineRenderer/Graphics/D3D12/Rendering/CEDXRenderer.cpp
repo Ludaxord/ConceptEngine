@@ -53,7 +53,7 @@ struct CameraBufferDesc {
 	float AspectRatio;
 };
 
-void CERenderer::PerformFrustumCulling(const Scene& Scene) {
+void CEDXRenderer::PerformFrustumCulling(const Scene& Scene) {
 	TRACE_SCOPE("Frustum Culling");
 
 	Camera* Camera = Scene.GetCamera();
@@ -80,7 +80,7 @@ void CERenderer::PerformFrustumCulling(const Scene& Scene) {
 	}
 }
 
-void CERenderer::PerformFXAA(CommandList& InCmdList) {
+void CEDXRenderer::PerformFXAA(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin FXAA");
 
 	TRACE_SCOPE("FXAA");
@@ -115,7 +115,7 @@ void CERenderer::PerformFXAA(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End FXAA");
 }
 
-void CERenderer::PerformBackBufferBlit(CommandList& InCmdList) {
+void CEDXRenderer::PerformBackBufferBlit(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin Draw BackBuffer");
 
 	TRACE_SCOPE("Draw to BackBuffer");
@@ -133,7 +133,7 @@ void CERenderer::PerformBackBufferBlit(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End Draw BackBuffer");
 }
 
-void CERenderer::PerformAABBDebugPass(CommandList& InCmdList) {
+void CEDXRenderer::PerformAABBDebugPass(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin DebugPass");
 
 	TRACE_SCOPE("DebugPass");
@@ -167,7 +167,7 @@ void CERenderer::PerformAABBDebugPass(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End DebugPass");
 }
 
-void CERenderer::RenderDebugInterface() {
+void CEDXRenderer::RenderDebugInterface() {
 	if (GDrawTextureDebugger.GetBool()) {
 		constexpr float InvAspectRatio = 16.0f / 9.0f;
 		constexpr float AspectRatio = 9.0f / 16.0f;
@@ -293,7 +293,7 @@ void CERenderer::RenderDebugInterface() {
 	}
 }
 
-void CERenderer::Update(const Scene& Scene) {
+void CEDXRenderer::Update(const Scene& Scene) {
 	// Perform frustum culling
 	Resources.DeferredVisibleCommands.Clear();
 	Resources.ForwardVisibleCommands.Clear();
@@ -587,7 +587,7 @@ void CERenderer::Update(const Scene& Scene) {
 	}
 }
 
-bool CERenderer::Create() {
+bool CEDXRenderer::Create() {
 	INIT_CONSOLE_VARIABLE("r.DrawTextureDebugger", &GDrawTextureDebugger);
 	INIT_CONSOLE_VARIABLE("r.DrawRendererInfo", &GDrawRendererInfo);
 	INIT_CONSOLE_VARIABLE("r.EnableSSAO", &GEnableSSAO);
@@ -736,11 +736,11 @@ bool CERenderer::Create() {
 	GCmdListExecutor.ExecuteCommandList(CmdList);
 
 	// Register EventFunc
-	GEngine.OnWindowResizedEvent.AddObject(this, &CERenderer::OnWindowResize);
+	GEngine.OnWindowResizedEvent.AddObject(this, &CEDXRenderer::OnWindowResize);
 	return true;
 }
 
-void CERenderer::Release() {
+void CEDXRenderer::Release() {
 	GCmdListExecutor.WaitForGPU();
 
 	CmdList.Reset();
@@ -782,7 +782,7 @@ void CERenderer::Release() {
 }
 
 
-bool CERenderer::CreateBoundingBoxDebugPass() {
+bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> ShaderCode;
 	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr,
 	                                     EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode)) {
@@ -943,7 +943,7 @@ bool CERenderer::CreateBoundingBoxDebugPass() {
 	return true;
 }
 
-bool CERenderer::CreateAA() {
+bool CEDXRenderer::CreateAA() {
 	CEArray<uint8> ShaderCode;
 	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr,
 	                                     EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode)) {
@@ -1107,7 +1107,7 @@ bool CERenderer::CreateAA() {
 	return true;
 }
 
-bool CERenderer::CreateShadingImage() {
+bool CEDXRenderer::CreateShadingImage() {
 	ShadingRateSupport Support;
 	CheckShadingRateSupport(Support);
 
@@ -1156,7 +1156,7 @@ bool CERenderer::CreateShadingImage() {
 	return true;
 }
 
-void CERenderer::ResizeResources(uint32 Width, uint32 Height) {
+void CEDXRenderer::ResizeResources(uint32 Width, uint32 Height) {
 	if (!Resources.MainWindowViewport->Resize(Width, Height)) {
 		CEDebug::DebugBreak();
 		return;
@@ -1171,4 +1171,8 @@ void CERenderer::ResizeResources(uint32 Width, uint32 Height) {
 		CEDebug::DebugBreak();
 		return;
 	}
+}
+
+void CEDXRenderer::OnWindowResize(const WindowResizeEvent& Event) {
+	CERenderer::OnWindowResize(Event);
 }

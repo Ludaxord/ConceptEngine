@@ -25,6 +25,7 @@
 
 class CERenderer {
 public:
+	virtual ~CERenderer() = default;
 	virtual bool Create() = 0;
 	virtual void Release() = 0;
 
@@ -38,8 +39,8 @@ public:
 
 	virtual void Update(const Scene& Scene) = 0;
 
-private:
-	void OnWindowResize(const WindowResizeEvent& Event);
+protected:
+	virtual void OnWindowResize(const WindowResizeEvent& Event);
 
 	virtual bool CreateBoundingBoxDebugPass() = 0;
 	virtual bool CreateAA() = 0;

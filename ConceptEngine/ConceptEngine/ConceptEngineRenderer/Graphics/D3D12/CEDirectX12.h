@@ -3,7 +3,7 @@
 
 class CEDirectX12 : public CEGraphics {
 public:
-	bool Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) override;
+	void Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) override;
 	bool Resize() override;
 private:
 	bool CreateGraphicsManager() override;

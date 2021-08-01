@@ -17,7 +17,7 @@ public:
 	virtual bool CreateManagers();
 	virtual bool Release();
 
-	virtual bool Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) = 0;
+	virtual void Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) = 0;
 	virtual bool Resize() = 0;
 
 	static CEDebugUI GetDebugUI();

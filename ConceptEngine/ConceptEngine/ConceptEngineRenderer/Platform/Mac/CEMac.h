@@ -1,7 +1,7 @@
 #pragma once
 #include "Platform/CEPlatform.h"
 
-class CEMac : public CEPlatform {
+class CEMac final : public CEPlatform {
 public:
 	CEMac();
 	~CEMac();
