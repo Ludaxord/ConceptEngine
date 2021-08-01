@@ -1,5 +1,5 @@
 #include "D3D12PipelineState.h"
-#include "CEShaderCompiler.h"
+#include "CEDX12ShaderCompiler.h"
 
 D3D12GraphicsPipelineState::D3D12GraphicsPipelineState(D3D12Device* InDevice)
     : D3D12DeviceChild(InDevice)

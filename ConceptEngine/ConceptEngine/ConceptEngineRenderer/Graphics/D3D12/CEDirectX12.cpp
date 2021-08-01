@@ -32,6 +32,7 @@ bool CEDirectX12::CreateManagers() {
 }
 
 bool CEDirectX12::Release() {
+	return true;
 }
 
 void CEDirectX12::Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) {

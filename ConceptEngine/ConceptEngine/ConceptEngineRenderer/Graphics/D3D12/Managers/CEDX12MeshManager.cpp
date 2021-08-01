@@ -7,6 +7,7 @@ CEDX12MeshManager::~CEDX12MeshManager() {
 }
 
 bool CEDX12MeshManager::Create() {
+	return false;
 }
 
 void CEDX12MeshManager::Release() {

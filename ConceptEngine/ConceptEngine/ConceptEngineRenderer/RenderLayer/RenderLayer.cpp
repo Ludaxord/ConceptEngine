@@ -2,7 +2,7 @@
 #include "CommandList.h"
 
 #include "../D3D12/D3D12RenderLayer.h"
-#include "../D3D12/CEShaderCompiler.h"
+#include "../D3D12/CEDX12ShaderCompiler.h"
 
 bool RenderLayer::Init(ERenderLayerApi InRenderApi)
 {
@@ -11,8 +11,8 @@ bool RenderLayer::Init(ERenderLayerApi InRenderApi)
     {
         gRenderLayer = DBG_NEW D3D12RenderLayer();
         
-        CEShaderCompiler* Compiler = DBG_NEW CEShaderCompiler();
-        if (!Compiler->Init())
+        CEDX12ShaderCompiler* Compiler = DBG_NEW CEDX12ShaderCompiler();
+        if (!Compiler->Create())
         {
             return false;
         }
