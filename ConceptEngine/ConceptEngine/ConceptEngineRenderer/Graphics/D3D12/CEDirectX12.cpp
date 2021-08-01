@@ -35,7 +35,7 @@ bool CEDirectX12::Release() {
 }
 
 void CEDirectX12::Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) {
-		GPlayground->Update(DeltaTime);
+	GPlayground->Update(DeltaTime);
 	ExecuteFunction();
 	Renderer->Update(*GPlayground->Scene);
 }
@@ -56,7 +56,8 @@ bool CEDirectX12::CreateTextureManager() {
 
 bool CEDirectX12::CreateMeshManager() {
 	MeshManager = new CEDX12MeshManager();
-	return true;}
+	return true;
+}
 
 bool CEDirectX12::CreateShaderCompiler() {
 	if (auto shaderCompiler = new CEDX12ShaderCompiler(); !shaderCompiler->Create()) {

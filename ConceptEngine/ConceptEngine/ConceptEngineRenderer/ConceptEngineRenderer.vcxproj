@@ -90,6 +90,7 @@
     <ClInclude Include="Core\Threading\Windows\WindowsProcess.h" />
     <ClInclude Include="Core\Threading\Windows\WindowsThread.h" />
     <ClInclude Include="Core\Types.h" />
+    <ClInclude Include="D3D12\CEDX12DebugUI.h" />
     <ClInclude Include="D3D12\D3D12Buffer.h" />
     <ClInclude Include="D3D12\D3D12CommandAllocator.h" />
     <ClInclude Include="D3D12\D3D12CommandContext.h" />
@@ -110,7 +111,7 @@
     <ClInclude Include="D3D12\D3D12RootSignature.h" />
     <ClInclude Include="D3D12\D3D12SamplerState.h" />
     <ClInclude Include="D3D12\D3D12Shader.h" />
-    <ClInclude Include="D3D12\D3D12ShaderCompiler.h" />
+    <ClInclude Include="D3D12\CEDX12ShaderCompiler.h" />
     <ClInclude Include="D3D12\D3D12Texture.h" />
     <ClInclude Include="D3D12\D3D12Viewport.h" />
     <ClInclude Include="D3D12\D3D12Views.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="Core\RefCountedObject.cpp" />
     <ClCompile Include="Core\Threading\CETaskManager.cpp" />
     <ClCompile Include="Core\Threading\Windows\WindowsThread.cpp" />
+    <ClCompile Include="D3D12\CEDX12DebugUI.cpp" />
     <ClCompile Include="D3D12\D3D12CommandContext.cpp" />
     <ClCompile Include="D3D12\D3D12DescriptorCache.cpp" />
     <ClCompile Include="D3D12\D3D12DescriptorHeap.cpp" />
@@ -249,7 +251,7 @@
     <ClCompile Include="D3D12\D3D12Resource.cpp" />
     <ClCompile Include="D3D12\D3D12RootSignature.cpp" />
     <ClCompile Include="D3D12\D3D12Shader.cpp" />
-    <ClCompile Include="D3D12\D3D12ShaderCompiler.cpp" />
+    <ClCompile Include="D3D12\CEDX12ShaderCompiler.cpp" />
     <ClCompile Include="D3D12\D3D12Viewport.cpp" />
     <ClCompile Include="D3D12\D3D12Views.cpp" />
     <ClCompile Include="Debug\Console\Console.cpp" />

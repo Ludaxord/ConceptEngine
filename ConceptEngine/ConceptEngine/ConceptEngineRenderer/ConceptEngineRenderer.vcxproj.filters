@@ -246,7 +246,7 @@
     <ClInclude Include="D3D12\D3D12Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D3D12\D3D12ShaderCompiler.h">
+    <ClInclude Include="D3D12\CEDX12ShaderCompiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D12\D3D12Texture.h">
@@ -579,6 +579,9 @@
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D3D12\CEDX12DebugUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -668,7 +671,7 @@
     <ClCompile Include="D3D12\D3D12Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D3D12\D3D12ShaderCompiler.cpp">
+    <ClCompile Include="D3D12\CEDX12ShaderCompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D12\D3D12Viewport.cpp">
@@ -861,6 +864,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\D3D12\Managers\CEDX12MeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D12\CEDX12DebugUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
