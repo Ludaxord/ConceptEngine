@@ -87,7 +87,7 @@ void CETimer::Stop() {
 	}
 }
 
-void CETimer::Tick() {
+void CETimer::Update() {
 	if (mStopped) {
 		mDeltaTime = 0.0;
 		return;

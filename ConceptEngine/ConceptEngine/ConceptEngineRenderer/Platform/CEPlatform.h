@@ -48,9 +48,9 @@ public:
 	static CEModifierKeyState GetModifierKeyState() {
 		return CEModifierKeyState();
 	}
-	virtual CEPlatformCallbacks* GetCallbacks();
-	virtual CEConsole* GetConsole();
-	virtual CEInputManager* GetInputManager();
+	static CEPlatformCallbacks* GetCallbacks();
+	static CEConsole* GetConsole();
+	static CEInputManager* GetInputManager();
 
 private:
 	virtual bool CreateInputManager() = 0;

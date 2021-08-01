@@ -27,12 +27,15 @@ public:
 	inline static bool bIsRunning = false;
 	inline static bool bEnableDebug = false;
 
+protected:
+	inline static CEGraphics* GGraphics;
+	inline static CECompiler* GCompiler;
+	inline static CEPlatform* GPlatform;
+
 private:
 	CEGraphics* SetGraphicsAPI(GraphicsAPI GApi);
 	CECompiler* SetLanguageCompiler(ScriptingLanguage SLanguage);
 	CEPlatform* SetPlatform(PlatformBoot PBoot);
 
-	inline static CEGraphics* GGraphics;
-	inline static CECompiler* GCompiler;
-	inline static CEPlatform* GPlatform;
+
 };

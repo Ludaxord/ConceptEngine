@@ -27,12 +27,12 @@ struct ProfileSample
 {
     FORCEINLINE void Begin()
     {
-        Clock.Tick();
+        Clock.Update();
     }
 
     FORCEINLINE void End()
     {
-        Clock.Tick();
+        Clock.Update();
 
         float Delta = (float)Clock.GetDeltaTime().AsNanoSeconds();
         AddSample(Delta);
@@ -83,7 +83,7 @@ struct ProfileSample
     }
 
     CEStaticArray<float, NUM_PROFILER_SAMPLES> Samples;
-    Timer Clock;
+    CETimer Clock;
     float Max           = -FLT_MAX;
     float Min           = FLT_MAX;
     int32 SampleCount   = 0;
@@ -151,7 +151,7 @@ struct ProfilerData
     ProfileSample    CPUFrameTime;
     GPUProfileSample GPUFrameTime;
 
-    Timer Clock;
+    CETimer Clock;
     int32 Fps        = 0;
     int32 CurrentFps = 0;
     
@@ -643,8 +643,8 @@ void CEProfiler::Create()
 
 void CEProfiler::Update()
 {
-    Timer& Clock = gProfilerData.Clock;
-    Clock.Tick();
+    CETimer& Clock = gProfilerData.Clock;
+    Clock.Update();
 
     gProfilerData.CurrentFps++;
     if (Clock.GetTotalTime().AsSeconds() > 1.0f)

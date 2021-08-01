@@ -123,7 +123,7 @@ CETimer ConceptEngineFramework::Game::CEGame::GetTimer() const {
 }
 
 void ConceptEngineFramework::Game::CEGame::EditorUpdateTimer() {
-	m_timer.Tick();
+	m_timer.Update();
 	CalculateFPS(false);
 }
 
@@ -361,7 +361,7 @@ uint32_t GameEngine::CEGame::Run() {
 		}
 			// Otherwise, do animation/game stuff.
 		else {
-			m_timer.Tick();
+			m_timer.Update();
 
 			if (!m_paused) {
 				CalculateFPS(true);

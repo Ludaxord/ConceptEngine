@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CECore.h"
+#include "Time/CETimer.h"
 
 class CEEditor : public CECore {
 public:
@@ -11,4 +12,7 @@ public:
 	void Run() override;
 	void Update(CETimestamp DeltaTime) override;
 	bool Release() override;
+
+private:
+	CETimer Timer;
 };

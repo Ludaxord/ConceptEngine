@@ -123,7 +123,7 @@ void EngineLoop::Tick(CETimestamp Deltatime)
 
 void EngineLoop::Run()
 {
-    Timer Timer;
+    CETimer CETimer;
 
     while (GEngine.IsRunning)
     {

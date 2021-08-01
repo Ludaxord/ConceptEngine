@@ -12,7 +12,7 @@ public:
 	void Reset(); // Call before message loop.
 	void Start(); // Call when unpaused.
 	void Stop(); // Call when paused.
-	void Tick(); // Call every frame.
+	void Update(); // Call every frame.
 
 private:
 	double mSecondsPerCount;

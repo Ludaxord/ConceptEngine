@@ -17,6 +17,8 @@ public:
     virtual void SetTitle(const std::string& Title) override final;
     virtual void SetColor(EConsoleColor Color)      override final;
 
+	virtual void Update() override final;
+
 private:
     HANDLE ConsoleHandle;
 

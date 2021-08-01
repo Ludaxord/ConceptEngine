@@ -438,7 +438,7 @@
     <ClInclude Include="Time\Windows\WindowsTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Time\Timer.h">
+    <ClInclude Include="Time\CETimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Time\CETimestamp.h">
@@ -761,7 +761,7 @@
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Time\Timer.cpp">
+    <ClCompile Include="Time\CETimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main\Windows\WindowsMain.cpp">

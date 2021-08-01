@@ -197,7 +197,7 @@
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Time\Generic\GenericTime.h" />
     <ClInclude Include="Time\Platform\PlatformTime.h" />
-    <ClInclude Include="Time\Timer.h" />
+    <ClInclude Include="Time\CETimer.h" />
     <ClInclude Include="Time\CETimestamp.h" />
     <ClInclude Include="Time\Windows\WindowsTime.h" />
     <ClInclude Include="Utilities\DirectoryUtilities.h" />
@@ -302,7 +302,7 @@
     <ClCompile Include="Scene\Lights\PointLight.cpp" />
     <ClCompile Include="Scene\Lights\SpotLight.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
-    <ClCompile Include="Time\Timer.cpp" />
+    <ClCompile Include="Time\CETimer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

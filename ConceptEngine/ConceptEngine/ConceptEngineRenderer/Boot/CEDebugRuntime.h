@@ -7,7 +7,5 @@ public:
 	CEDebugRuntime(CEEngineConfig& EConfig, CEPlayground* InPlayground);
 
 	bool Create() override;
-	void Run() override;
 	void Update(CETimestamp DeltaTime) override;
-	bool Release() override;
 };

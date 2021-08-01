@@ -6,7 +6,7 @@
 #include "../Core/Application/Generic/CECursor.h"
 #include "../Core/Application/Platform/Platform.h"
 
-#include "../Time/Timer.h"
+#include "../Time/CETimer.h"
 
 #include "../Rendering/Resources/TextureFactory.h"
 #include "../Rendering/CERenderer.h"
@@ -30,7 +30,7 @@ struct ImGuiState
         PShader.Reset();
     }
 
-    Timer FrameClock;
+    CETimer FrameClock;
 
     CERef<Texture2D>             FontTexture;
     CERef<GraphicsPipelineState> PipelineState;
@@ -517,7 +517,7 @@ void CEDebugUI::OnMouseScrolled(const MouseScrolledEvent& Event)
 
 void CEDebugUI::Render(CommandList& CmdList)
 {
-    GlobalImGuiState.FrameClock.Tick();
+    GlobalImGuiState.FrameClock.Update();
 
     ImGuiIO& IO = ImGui::GetIO();
 

@@ -67,6 +67,11 @@ void CEWindowsConsole::SetTitle(const std::string& Title)
     }
 }
 
+void CEWindowsConsole::Update() {
+	
+}
+
+
 void CEWindowsConsole::SetColor(EConsoleColor Color)
 {
     if (ConsoleHandle)

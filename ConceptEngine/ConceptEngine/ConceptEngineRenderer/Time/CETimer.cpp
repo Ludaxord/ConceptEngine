@@ -1,14 +1,14 @@
-#include "Timer.h"
+#include "CETimer.h"
 
 #include "Platform/PlatformTime.h"
 
-Timer::Timer()
+CETimer::CETimer()
 {
     Frequency = PlatformTime::QueryPerformanceFrequency();
-    Tick();
+    Update();
 }
 
-void Timer::Tick()
+void CETimer::Update()
 {
     const uint64 Now = PlatformTime::QueryPerformanceCounter();	
     constexpr uint64 NANOSECONDS = 1000 * 1000 * 1000;
