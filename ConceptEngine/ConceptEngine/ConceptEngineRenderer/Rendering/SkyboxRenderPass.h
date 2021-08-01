@@ -5,7 +5,7 @@
 
 #include "../RenderLayer/CommandList.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 
 class SkyboxRenderPass final
 {
@@ -15,7 +15,7 @@ public:
 
     bool Init(FrameResources& FrameResources);
 
-    void Render(CommandList& CmdList, const FrameResources& FrameResources, const Scene& Scene);
+    void Render(CommandList& CmdList, const FrameResources& FrameResources, const CEScene& Scene);
 
     void Release();
 

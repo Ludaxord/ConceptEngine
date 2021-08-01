@@ -2,7 +2,7 @@
 #include "FrameResources.h"
 #include "LightSetup.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 
 #include "../RenderLayer/CommandList.h"
 

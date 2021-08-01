@@ -1,5 +1,5 @@
 #include "Actor.h"
-#include "Scene.h"
+#include "CEScene.h"
 
 Component::Component(Actor* InOwningActor)
     : CoreObject()

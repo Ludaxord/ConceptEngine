@@ -32,10 +32,10 @@ struct ShaderDefine
     std::string Value;
 };
 
-class IShaderCompiler
+class ICEShaderCompiler
 {
 public:
-    virtual ~IShaderCompiler() = default;
+    virtual ~ICEShaderCompiler() = default;
 
     virtual bool CompileFromFile(
         const std::string& FilePath,

@@ -261,13 +261,13 @@
     <ClInclude Include="Debug\Console\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Debug\Console\ConsoleCommand.h">
+    <ClInclude Include="Debug\Console\CEConsoleCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Debug\Console\ConsoleObject.h">
+    <ClInclude Include="Debug\Console\CEConsoleObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Debug\Console\ConsoleVariable.h">
+    <ClInclude Include="Debug\Console\CEConsoleVariable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Debug\CEDebug.h">
@@ -426,7 +426,7 @@
     <ClInclude Include="Scene\Frustum.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
+    <ClInclude Include="Scene\CEScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Time\Generic\GenericTime.h">
@@ -564,10 +564,19 @@
     <ClInclude Include="Platform\Windows\Console\CEWindowsCommandConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\D3D12\Rendering\CEDXRenderer.h">
+    <ClInclude Include="Graphics\D3D12\Rendering\CEDX12Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\CEWindowsInputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\D3D12\Managers\CEDX12Manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\D3D12\Managers\CEDX12TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\D3D12\Managers\CEDX12MeshManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -758,7 +767,7 @@
     <ClCompile Include="Scene\Frustum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
+    <ClCompile Include="Scene\CEScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Time\CETimer.cpp">
@@ -839,10 +848,19 @@
     <ClCompile Include="Graphics\WebGL\CEWebGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\D3D12\Rendering\CEDXRenderer.cpp">
+    <ClCompile Include="Graphics\D3D12\Rendering\CEDX12Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Windows\CEWindowsInputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\D3D12\Managers\CEDX12Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\D3D12\Managers\CEDX12TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\D3D12\Managers\CEDX12MeshManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

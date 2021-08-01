@@ -3,7 +3,7 @@
 
 #include "../RenderLayer/CommandList.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 
 class RayTracer
 {
@@ -14,7 +14,7 @@ public:
     bool Init(FrameResources& Resources);
     void Release();
 
-    void PreRender(CommandList& CmdList, FrameResources& Resources, const Scene& Scene);
+    void PreRender(CommandList& CmdList, FrameResources& Resources, const CEScene& Scene);
 
 private:
     CERef<RayTracingPipelineState> Pipeline;

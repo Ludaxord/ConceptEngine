@@ -1,6 +1,41 @@
 #include "CEDirectX12.h"
 
+#include "Managers/CEDX12Manager.h"
+#include "Managers/CEDX12MeshManager.h"
+#include "Managers/CEDX12TextureManager.h"
+#include "Project/CEPlayground.h"
+#include "Rendering/CERenderer.h"
+
+CEDirectX12::CEDirectX12() : CEGraphics() {
+}
+
+CEDirectX12::~CEDirectX12() {
+}
+
+bool CEDirectX12::Create() {
+	if (!CEGraphics::Create()) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	return true;
+}
+
+bool CEDirectX12::CreateManagers() {
+	if (!CEGraphics::CreateManagers()) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+	return true;
+}
+
+bool CEDirectX12::Release() {
+}
+
 void CEDirectX12::Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) {
+		GPlayground->Update(DeltaTime);
+	ExecuteFunction();
+	Renderer->Update(*GPlayground->Scene);
 }
 
 bool CEDirectX12::Resize() {
@@ -8,21 +43,29 @@ bool CEDirectX12::Resize() {
 }
 
 bool CEDirectX12::CreateGraphicsManager() {
-	return false;
+	GraphicsManager = new CEDX12Manager();
+	return true;
 }
 
 bool CEDirectX12::CreateTextureManager() {
-	return false;
+	TextureManager = new CEDX12TextureManager();
+	return true;
 }
 
 bool CEDirectX12::CreateMeshManager() {
-	return false;
-}
+	MeshManager = new CEDX12MeshManager();
+	return true;}
 
 bool CEDirectX12::CreateShaderCompiler() {
-	return false;
+	if (auto shaderCompiler = new CEDX12ShaderCompiler(); !shaderCompiler->Create(false)) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	return true;
 }
 
 bool CEDirectX12::CreateDebugUI() {
-	return false;
+	DebugUI = std::make_unique<CEDX12DebugUI>();
+	return true;
 }

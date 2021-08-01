@@ -20,8 +20,8 @@ constexpr float INV_SECONDS      = 1.0f / SECONDS;
 
 constexpr float MAX_FRAMETIME_MS = 1000.0f / 30.0f;
 
-TConsoleVariable<bool> GDrawProfiler(false);
-TConsoleVariable<bool> GDrawFps(true);
+TCEConsoleVariable<bool> GDrawProfiler(false);
+TCEConsoleVariable<bool> GDrawFps(true);
 
 struct ProfileSample
 {

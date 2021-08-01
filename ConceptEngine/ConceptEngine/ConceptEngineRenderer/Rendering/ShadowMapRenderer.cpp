@@ -236,7 +236,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     return true;
 }
 
-void ShadowMapRenderer::RenderPointLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const Scene& Scene)
+void ShadowMapRenderer::RenderPointLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const CEScene& Scene)
 {
     PointLightFrame++;
     if (PointLightFrame > 6)
@@ -292,7 +292,7 @@ void ShadowMapRenderer::RenderPointLightShadows(CommandList& CmdList, const Ligh
                 CmdList.SetConstantBuffer(PointLightPixelShader.Get(), PerShadowMapBuffer.Get(), 0);
 
                 // Draw all objects to depthbuffer
-                ConsoleVariable* GlobalFrustumCullEnabled = GConsole.FindVariable("r.EnableFrustumCulling");
+                CEConsoleVariable* GlobalFrustumCullEnabled = GConsole.FindVariable("r.EnableFrustumCulling");
                 if (GlobalFrustumCullEnabled->GetBool())
                 {
                     Frustum CameraFrustum = Frustum(Data.FarPlane, Data.ViewMatrix[Face], Data.ProjMatrix[Face]);
@@ -348,7 +348,7 @@ void ShadowMapRenderer::RenderPointLightShadows(CommandList& CmdList, const Ligh
     CmdList.TransitionTexture(LightSetup.PointLightShadowMaps.Get(), EResourceState::DepthWrite, EResourceState::NonPixelShaderResource);
 }
 
-void ShadowMapRenderer::RenderDirectionalLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const Scene& Scene)
+void ShadowMapRenderer::RenderDirectionalLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const CEScene& Scene)
 {
     //DirLightFrame++;
     //if (DirLightFrame > 6)

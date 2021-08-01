@@ -23,6 +23,8 @@ private:
 
 	void OnWindowFocusChanged(const WindowFocusChangedEvent& Event);
 
+public:
+	void Release() override;
 protected:
 	CEStaticArray<bool, CEKey::Key_Count> KeyStates;
 	CEStaticArray<CEKey, 512> ScanCodeTable;

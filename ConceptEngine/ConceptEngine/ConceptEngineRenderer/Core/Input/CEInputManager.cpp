@@ -51,3 +51,6 @@ void CEInputManager::OnWindowFocusChanged(const WindowFocusChangedEvent& Event) 
 		KeyStates.Fill(false);
 	}
 }
+
+void CEInputManager::Release() {
+}

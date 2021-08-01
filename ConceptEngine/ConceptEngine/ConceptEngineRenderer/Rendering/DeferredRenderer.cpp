@@ -10,7 +10,7 @@
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
 
-TConsoleVariable<bool> GDrawTileDebug(false);
+TCEConsoleVariable<bool> GDrawTileDebug(false);
 
 bool DeferredRenderer::Init(FrameResources& FrameResources)
 {

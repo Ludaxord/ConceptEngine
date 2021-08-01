@@ -1,15 +1,15 @@
 #pragma once
-#include "ConsoleObject.h"
+#include "CEConsoleObject.h"
 
 #include "../../Core/Delegates/MulticastDelegate.h"
 
 #include <cstdlib>
 #include <sstream>
 
-class ConsoleVariable : public ConsoleObject
+class CEConsoleVariable : public CEConsoleObject
 {
 public:
-    virtual ConsoleVariable* AsVariable() override { return this; }
+    virtual CEConsoleVariable* AsVariable() override { return this; }
 
     virtual void SetInt(int32 InValue) = 0;
     virtual void SetFloat(float InValue) = 0;
@@ -26,21 +26,21 @@ public:
     virtual bool IsBool() const = 0;
     virtual bool IsString() const = 0;
     
-    TMulticastDelegate<ConsoleVariable*> OnChangedDelegate;
+    TMulticastDelegate<CEConsoleVariable*> OnChangedDelegate;
 };
 
 template<typename T>
-class TConsoleVariable : public ConsoleVariable
+class TCEConsoleVariable : public CEConsoleVariable
 {
 public:
-    TConsoleVariable()
-        : ConsoleVariable()
+    TCEConsoleVariable()
+        : CEConsoleVariable()
         , Value()
     {
     }
 
-    TConsoleVariable(T StartValue)
-        : ConsoleVariable()
+    TCEConsoleVariable(T StartValue)
+        : CEConsoleVariable()
         , Value(StartValue)
     {
     }
@@ -103,31 +103,31 @@ private:
 };
 
 // int32
-template<> inline void TConsoleVariable<int32>::SetString(const String& InValue)
+template<> inline void TCEConsoleVariable<int32>::SetString(const String& InValue)
 {
     Value = atoi(InValue.c_str());
     OnChanged();
 }
 
-template<> inline bool TConsoleVariable<int32>::IsInt() const
+template<> inline bool TCEConsoleVariable<int32>::IsInt() const
 { 
     return true; 
 }
 
 // float
-template<> inline void TConsoleVariable<float>::SetString(const String& InValue)
+template<> inline void TCEConsoleVariable<float>::SetString(const String& InValue)
 {
     Value = (float)atof(InValue.c_str());
     OnChanged();
 }
 
-template<> inline bool TConsoleVariable<float>::IsFloat() const
+template<> inline bool TCEConsoleVariable<float>::IsFloat() const
 {
     return true;
 }
 
 // bool
-template<> inline void TConsoleVariable<bool>::SetString(const String& InValue)
+template<> inline void TCEConsoleVariable<bool>::SetString(const String& InValue)
 {
     String Lower = InValue;
     for (char& c : Lower)
@@ -155,60 +155,60 @@ template<> inline void TConsoleVariable<bool>::SetString(const String& InValue)
     }
 }
 
-template<> inline String TConsoleVariable<bool>::GetString() const
+template<> inline String TCEConsoleVariable<bool>::GetString() const
 {
     return Value ? "true" : "false";
 }
 
-template<> inline bool TConsoleVariable<bool>::IsBool() const
+template<> inline bool TCEConsoleVariable<bool>::IsBool() const
 {
     return true;
 }
 
 // String
-template<> inline void TConsoleVariable<String>::SetInt(int32 InValue)
+template<> inline void TCEConsoleVariable<String>::SetInt(int32 InValue)
 {
     Value = std::to_string(InValue);
 }
 
-template<> inline void TConsoleVariable<String>::SetFloat(float InValue)
+template<> inline void TCEConsoleVariable<String>::SetFloat(float InValue)
 {
     Value = std::to_string(InValue);
 }
 
-template<> inline void TConsoleVariable<String>::SetBool(bool InValue)
+template<> inline void TCEConsoleVariable<String>::SetBool(bool InValue)
 {
     std::stringstream Stream;
     Stream << std::boolalpha << InValue;
     Value = Stream.str();
 }
 
-template<> inline void TConsoleVariable<String>::SetString(const String& InValue)
+template<> inline void TCEConsoleVariable<String>::SetString(const String& InValue)
 {
     Value = InValue;
 }
 
-template<> inline bool TConsoleVariable<String>::IsString() const
+template<> inline bool TCEConsoleVariable<String>::IsString() const
 {
     return true;
 }
 
-template<> inline int32 TConsoleVariable<String>::GetInt() const
+template<> inline int32 TCEConsoleVariable<String>::GetInt() const
 {
     return 0;
 }
 
-template<> inline float TConsoleVariable<String>::GetFloat() const
+template<> inline float TCEConsoleVariable<String>::GetFloat() const
 {
     return 0.0f;
 }
 
-template<> inline bool TConsoleVariable<String>::GetBool() const
+template<> inline bool TCEConsoleVariable<String>::GetBool() const
 {
     return false;
 }
 
-template<> inline String TConsoleVariable<String>::GetString() const
+template<> inline String TCEConsoleVariable<String>::GetString() const
 {
     return Value;
 }

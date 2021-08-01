@@ -6,9 +6,9 @@
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
 
-TConsoleVariable<float> GSSAORadius(0.3f);
-TConsoleVariable<float> GSSAOBias(0.03f);
-TConsoleVariable<int32> GSSAOKernelSize(32);
+TCEConsoleVariable<float> GSSAORadius(0.3f);
+TCEConsoleVariable<float> GSSAOBias(0.03f);
+TCEConsoleVariable<int32> GSSAOKernelSize(32);
 
 bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
 {

@@ -228,7 +228,7 @@ private:
 D3D12ShaderCompiler* gD3D12ShaderCompiler = nullptr;
 
 D3D12ShaderCompiler::D3D12ShaderCompiler()
-	: IShaderCompiler()
+	: ICEShaderCompiler()
 	  , DxCompiler(nullptr)
 	  , DxLibrary(nullptr)
 	  , DxLinker(nullptr)

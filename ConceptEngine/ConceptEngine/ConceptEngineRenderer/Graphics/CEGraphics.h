@@ -20,7 +20,7 @@ public:
 	virtual void Update(CETimestamp DeltaTime, boost::function<void()> ExecuteFunction) = 0;
 	virtual bool Resize() = 0;
 
-	static CEDebugUI GetDebugUI();
+	static CEDebugUI* GetDebugUI();
 
 	CEManager* GetManager(ManagerType Type) const;
 

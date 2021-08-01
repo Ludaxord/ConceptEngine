@@ -61,7 +61,7 @@ private:
     XMFLOAT3   Rotation;
 };
 
-class Scene;
+class CEScene;
 
 class Actor : public CoreObject
 {
@@ -102,7 +102,7 @@ public:
         return nullptr;
     }
 
-    void OnAddedToScene(Scene* InScene)
+    void OnAddedToScene(CEScene* InScene)
     {
         Scene = InScene;
     }
@@ -116,13 +116,13 @@ public:
 
     const std::string& GetName() const { return Name; }
 
-    Scene* GetScene() const { return Scene; }
+    CEScene* GetScene() const { return Scene; }
 
     Transform& GetTransform() { return Transform; }
     const Transform& GetTransform() const { return Transform; }
 
 private:
-    Scene*    Scene = nullptr;
+    CEScene*    Scene = nullptr;
     Transform Transform;
     CEArray<Component*> Components;
     std::string        Name;

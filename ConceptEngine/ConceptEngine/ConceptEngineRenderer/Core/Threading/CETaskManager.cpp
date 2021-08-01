@@ -72,7 +72,7 @@ bool CETaskManager::Create()
     uint32 ThreadCount = Math::Max<int32>(PlatformProcess::GetNumProcessors() - 1, 1);
     WorkThreads.Resize(ThreadCount);
 
-    CE_LOG_INFO("[TaskManager]: Starting '" + std::to_string(ThreadCount) + "' Workers");
+    CE_LOG_INFO("[CETaskManager]: Starting '" + std::to_string(ThreadCount) + "' Workers");
 
     // Start so that workers now that they should be running
     IsRunning = true;

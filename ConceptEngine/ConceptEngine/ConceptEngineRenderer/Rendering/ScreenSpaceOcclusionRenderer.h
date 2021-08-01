@@ -3,7 +3,7 @@
 
 #include "../RenderLayer/CommandList.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 
 class ScreenSpaceOcclusionRenderer
 {

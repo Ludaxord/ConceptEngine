@@ -80,7 +80,7 @@ bool LightSetup::Init()
     return true;
 }
 
-void LightSetup::BeginFrame(CommandList& CmdList, const Scene& Scene)
+void LightSetup::BeginFrame(CommandList& CmdList, const CEScene& Scene)
 {
     PointLightsPosRad.Clear();
     PointLightsData.Clear();

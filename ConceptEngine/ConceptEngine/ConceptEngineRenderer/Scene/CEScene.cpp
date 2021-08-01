@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "CEScene.h"
 
 #include "Components/MeshComponent.h"
 
@@ -13,12 +13,12 @@
 
 #include <unordered_map>
 
-Scene::Scene()
+CEScene::CEScene()
     : Actors()
 {
 }
 
-Scene::~Scene()
+CEScene::~CEScene()
 {
     for (Actor* CurrentActor : Actors)
     {
@@ -35,12 +35,12 @@ Scene::~Scene()
     SafeDelete(CurrentCamera);
 }
 
-void Scene::Tick(CETimestamp DeltaTime)
+void CEScene::Tick(CETimestamp DeltaTime)
 {
     UNREFERENCED_VARIABLE(DeltaTime);
 }
 
-void Scene::AddCamera(Camera* InCamera)
+void CEScene::AddCamera(Camera* InCamera)
 {
     if (CurrentCamera)
     {
@@ -50,7 +50,7 @@ void Scene::AddCamera(Camera* InCamera)
     CurrentCamera = InCamera;
 }
 
-void Scene::AddActor(Actor* InActor)
+void CEScene::AddActor(Actor* InActor)
 {
     Assert(InActor != nullptr);
     Actors.EmplaceBack(InActor);
@@ -64,13 +64,13 @@ void Scene::AddActor(Actor* InActor)
     }
 }
 
-void Scene::AddLight(Light* InLight)
+void CEScene::AddLight(Light* InLight)
 {
     Assert(InLight != nullptr);
     Lights.EmplaceBack(InLight);
 }
 
-void Scene::OnAddedComponent(Component* NewComponent)
+void CEScene::OnAddedComponent(Component* NewComponent)
 {
     MeshComponent* Component = Cast<MeshComponent>(NewComponent);
     if (Component)
@@ -79,7 +79,7 @@ void Scene::OnAddedComponent(Component* NewComponent)
     }
 }
 
-Scene* Scene::LoadFromFile(const std::string& Filepath)
+CEScene* CEScene::LoadFromFile(const std::string& Filepath)
 {
     // Load Scene File
     std::string Warning;
@@ -276,7 +276,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
 
     // Construct Scene
     MeshData Data;
-    TUniquePtr<Scene> LoadedScene = MakeUnique<Scene>();
+    TUniquePtr<CEScene> LoadedScene = MakeUnique<CEScene>();
     std::unordered_map<Vertex, uint32, VertexHasher> UniqueVertices;
 
     for (const tinyobj::shape_t& Shape : Shapes)
@@ -376,7 +376,7 @@ Scene* Scene::LoadFromFile(const std::string& Filepath)
     return LoadedScene.Release();
 }
 
-void Scene::AddMeshComponent(MeshComponent* Component)
+void CEScene::AddMeshComponent(MeshComponent* Component)
 {
     MeshDrawCommand Command;
     Command.CurrentActor = Component->GetOwningActor();

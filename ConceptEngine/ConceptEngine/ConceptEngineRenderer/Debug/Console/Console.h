@@ -1,8 +1,8 @@
 #pragma once
 #include "../../Core/Application/Events.h"
 
-#include "ConsoleVariable.h"
-#include "ConsoleCommand.h"
+#include "CEConsoleVariable.h"
+#include "CEConsoleCommand.h"
 
 #include <unordered_map>
 
@@ -53,11 +53,11 @@ public:
     void Create();
     void Update();
 
-    void RegisterCommand(const String& Name, ConsoleCommand* Object);
-    void RegisterVariable(const String& Name, ConsoleVariable* Variable);
+    void RegisterCommand(const String& Name, CEConsoleCommand* Object);
+    void RegisterVariable(const String& Name, CEConsoleVariable* Variable);
 
-    ConsoleCommand* FindCommand(const String& Name);
-    ConsoleVariable* FindVariable(const String& Name);
+    CEConsoleCommand* FindCommand(const String& Name);
+    CEConsoleVariable* FindVariable(const String& Name);
 
     void PrintMessage(const String& Message);
     void PrintWarning(const String& Message);
@@ -70,16 +70,16 @@ private:
 
     void DrawInterface();
 
-    bool RegisterObject(const String& Name, ConsoleObject* Variable);
+    bool RegisterObject(const String& Name, CEConsoleObject* Variable);
 
-    ConsoleObject* FindConsoleObject(const String& Name);
+    CEConsoleObject* FindConsoleObject(const String& Name);
 
     int32 TextCallback(ImGuiInputTextCallbackData* Data);
 
     void Execute(const String& CmdString);
 
 private:
-    std::unordered_map<String, ConsoleObject*> ConsoleObjects;
+    std::unordered_map<String, CEConsoleObject*> ConsoleObjects;
 
     String PopupSelectedText;
 

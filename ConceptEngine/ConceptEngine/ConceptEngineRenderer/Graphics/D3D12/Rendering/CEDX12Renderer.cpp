@@ -1,6 +1,6 @@
-#include "CEDXRenderer.h"
+#include "CEDX12Renderer.h"
 
-CERenderer* Renderer = new CEDXRenderer();
+CERenderer* Renderer = new CEDX12Renderer();
 
 #include "Rendering/DebugUI.h"
 
@@ -23,21 +23,21 @@ CERenderer* Renderer = new CEDXRenderer();
 
 static const uint32 ShadowMapSampleCount = 2;
 
-TConsoleVariable<bool> GDrawTextureDebugger(false);
-TConsoleVariable<bool> GDrawRendererInfo(true);
+TCEConsoleVariable<bool> GDrawTextureDebugger(false);
+TCEConsoleVariable<bool> GDrawRendererInfo(true);
 
-TConsoleVariable<bool> GEnableSSAO(true);
+TCEConsoleVariable<bool> GEnableSSAO(true);
 
-TConsoleVariable<bool> GEnableFXAA(true);
-TConsoleVariable<bool> GFXAADebug(false);
+TCEConsoleVariable<bool> GEnableFXAA(true);
+TCEConsoleVariable<bool> GFXAADebug(false);
 
-TConsoleVariable<bool> GEnableVariableRateShading(false);
+TCEConsoleVariable<bool> GEnableVariableRateShading(false);
 
-TConsoleVariable<bool> GPrePassEnabled(true);
-TConsoleVariable<bool> GDrawAABBs(false);
-TConsoleVariable<bool> GVSyncEnabled(false);
-TConsoleVariable<bool> GFrustumCullEnabled(true);
-TConsoleVariable<bool> GRayTracingEnabled(false);
+TCEConsoleVariable<bool> GPrePassEnabled(true);
+TCEConsoleVariable<bool> GDrawAABBs(false);
+TCEConsoleVariable<bool> GVSyncEnabled(false);
+TCEConsoleVariable<bool> GFrustumCullEnabled(true);
+TCEConsoleVariable<bool> GRayTracingEnabled(false);
 
 struct CameraBufferDesc {
 	XMFLOAT4X4 ViewProjection;
@@ -53,7 +53,7 @@ struct CameraBufferDesc {
 	float AspectRatio;
 };
 
-void CEDXRenderer::PerformFrustumCulling(const Scene& Scene) {
+void CEDX12Renderer::PerformFrustumCulling(const CEScene& Scene) {
 	TRACE_SCOPE("Frustum Culling");
 
 	Camera* Camera = Scene.GetCamera();
@@ -80,7 +80,7 @@ void CEDXRenderer::PerformFrustumCulling(const Scene& Scene) {
 	}
 }
 
-void CEDXRenderer::PerformFXAA(CommandList& InCmdList) {
+void CEDX12Renderer::PerformFXAA(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin FXAA");
 
 	TRACE_SCOPE("FXAA");
@@ -115,7 +115,7 @@ void CEDXRenderer::PerformFXAA(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End FXAA");
 }
 
-void CEDXRenderer::PerformBackBufferBlit(CommandList& InCmdList) {
+void CEDX12Renderer::PerformBackBufferBlit(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin Draw BackBuffer");
 
 	TRACE_SCOPE("Draw to BackBuffer");
@@ -133,7 +133,7 @@ void CEDXRenderer::PerformBackBufferBlit(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End Draw BackBuffer");
 }
 
-void CEDXRenderer::PerformAABBDebugPass(CommandList& InCmdList) {
+void CEDX12Renderer::PerformAABBDebugPass(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "Begin DebugPass");
 
 	TRACE_SCOPE("DebugPass");
@@ -167,7 +167,7 @@ void CEDXRenderer::PerformAABBDebugPass(CommandList& InCmdList) {
 	INSERT_DEBUG_CMDLIST_MARKER(InCmdList, "End DebugPass");
 }
 
-void CEDXRenderer::RenderDebugInterface() {
+void CEDX12Renderer::RenderDebugInterface() {
 	if (GDrawTextureDebugger.GetBool()) {
 		constexpr float InvAspectRatio = 16.0f / 9.0f;
 		constexpr float AspectRatio = 9.0f / 16.0f;
@@ -293,7 +293,7 @@ void CEDXRenderer::RenderDebugInterface() {
 	}
 }
 
-void CEDXRenderer::Update(const Scene& Scene) {
+void CEDX12Renderer::Update(const CEScene& Scene) {
 	// Perform frustum culling
 	Resources.DeferredVisibleCommands.Clear();
 	Resources.ForwardVisibleCommands.Clear();
@@ -587,7 +587,7 @@ void CEDXRenderer::Update(const Scene& Scene) {
 	}
 }
 
-bool CEDXRenderer::Create() {
+bool CEDX12Renderer::Create() {
 	INIT_CONSOLE_VARIABLE("r.DrawTextureDebugger", &GDrawTextureDebugger);
 	INIT_CONSOLE_VARIABLE("r.DrawRendererInfo", &GDrawRendererInfo);
 	INIT_CONSOLE_VARIABLE("r.EnableSSAO", &GEnableSSAO);
@@ -736,11 +736,11 @@ bool CEDXRenderer::Create() {
 	GCmdListExecutor.ExecuteCommandList(CmdList);
 
 	// Register EventFunc
-	GEngine.OnWindowResizedEvent.AddObject(this, &CEDXRenderer::OnWindowResize);
+	GEngine.OnWindowResizedEvent.AddObject(this, &CEDX12Renderer::OnWindowResize);
 	return true;
 }
 
-void CEDXRenderer::Release() {
+void CEDX12Renderer::Release() {
 	GCmdListExecutor.WaitForGPU();
 
 	CmdList.Reset();
@@ -782,7 +782,7 @@ void CEDXRenderer::Release() {
 }
 
 
-bool CEDXRenderer::CreateBoundingBoxDebugPass() {
+bool CEDX12Renderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> ShaderCode;
 	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr,
 	                                     EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode)) {
@@ -943,7 +943,7 @@ bool CEDXRenderer::CreateBoundingBoxDebugPass() {
 	return true;
 }
 
-bool CEDXRenderer::CreateAA() {
+bool CEDX12Renderer::CreateAA() {
 	CEArray<uint8> ShaderCode;
 	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr,
 	                                     EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode)) {
@@ -1107,7 +1107,7 @@ bool CEDXRenderer::CreateAA() {
 	return true;
 }
 
-bool CEDXRenderer::CreateShadingImage() {
+bool CEDX12Renderer::CreateShadingImage() {
 	ShadingRateSupport Support;
 	CheckShadingRateSupport(Support);
 
@@ -1156,7 +1156,7 @@ bool CEDXRenderer::CreateShadingImage() {
 	return true;
 }
 
-void CEDXRenderer::ResizeResources(uint32 Width, uint32 Height) {
+void CEDX12Renderer::ResizeResources(uint32 Width, uint32 Height) {
 	if (!Resources.MainWindowViewport->Resize(Width, Height)) {
 		CEDebug::DebugBreak();
 		return;
@@ -1173,6 +1173,6 @@ void CEDXRenderer::ResizeResources(uint32 Width, uint32 Height) {
 	}
 }
 
-void CEDXRenderer::OnWindowResize(const WindowResizeEvent& Event) {
+void CEDX12Renderer::OnWindowResize(const WindowResizeEvent& Event) {
 	CERenderer::OnWindowResize(Event);
 }

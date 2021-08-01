@@ -11,7 +11,7 @@
 
 CEActionConsole GConsole;
 
-ConsoleCommand GClearHistory;
+CEConsoleCommand GClearHistory;
 
 void CEActionConsole::Create()
 {
@@ -32,7 +32,7 @@ void CEActionConsole::Update()
     }
 }
 
-void CEActionConsole::RegisterCommand(const String& Name, ConsoleCommand* Command)
+void CEActionConsole::RegisterCommand(const String& Name, CEConsoleCommand* Command)
 {
     if (!RegisterObject(Name, Command))
     {
@@ -40,7 +40,7 @@ void CEActionConsole::RegisterCommand(const String& Name, ConsoleCommand* Comman
     }
 }
 
-void CEActionConsole::RegisterVariable(const String& Name, ConsoleVariable* Variable)
+void CEActionConsole::RegisterVariable(const String& Name, CEConsoleVariable* Variable)
 {
     if (!RegisterObject(Name, Variable))
     {
@@ -48,16 +48,16 @@ void CEActionConsole::RegisterVariable(const String& Name, ConsoleVariable* Vari
     }
 }
 
-ConsoleCommand* CEActionConsole::FindCommand(const String& Name)
+CEConsoleCommand* CEActionConsole::FindCommand(const String& Name)
 {
-    ConsoleObject* Object = FindConsoleObject(Name);
+    CEConsoleObject* Object = FindConsoleObject(Name);
     if (!Object)
     {
         CE_LOG_ERROR("Could not find ConsoleCommand '" + Name + '\'');
         return nullptr;
     }
 
-    ConsoleCommand* Command = Object->AsCommand();
+    CEConsoleCommand* Command = Object->AsCommand();
     if (!Command)
     {
         CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleCommand'");
@@ -69,16 +69,16 @@ ConsoleCommand* CEActionConsole::FindCommand(const String& Name)
     }
 }
 
-ConsoleVariable* CEActionConsole::FindVariable(const String& Name)
+CEConsoleVariable* CEActionConsole::FindVariable(const String& Name)
 {
-    ConsoleObject* Object = FindConsoleObject(Name);
+    CEConsoleObject* Object = FindConsoleObject(Name);
     if (!Object)
     {
         CE_LOG_ERROR("Could not find ConsoleVariable '" + Name + '\'');
         return nullptr;
     }
 
-    ConsoleVariable* Variable = Object->AsVariable();
+    CEConsoleVariable* Variable = Object->AsVariable();
     if (!Variable)
     {
         CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleVariable'");
@@ -364,7 +364,7 @@ int32 CEActionConsole::TextCallback(ImGuiInputTextCallbackData* Data)
                 break;
             }
 
-            for (const std::pair<String, ConsoleObject*>& Object : ConsoleObjects)
+            for (const std::pair<String, CEConsoleObject*>& Object : ConsoleObjects)
             {
                 if (WordLength <= Object.first.size())
                 {
@@ -383,7 +383,7 @@ int32 CEActionConsole::TextCallback(ImGuiInputTextCallbackData* Data)
 
                     if (d == 0)
                     {
-                        ConsoleObject* ConsoleObject = Object.second;
+                        CEConsoleObject* ConsoleObject = Object.second;
                         Assert(ConsoleObject != nullptr);
 
                         if (ConsoleObject->AsCommand())
@@ -392,7 +392,7 @@ int32 CEActionConsole::TextCallback(ImGuiInputTextCallbackData* Data)
                         }
                         else
                         {
-                            ConsoleVariable* Variable = ConsoleObject->AsVariable();
+                            CEConsoleVariable* Variable = ConsoleObject->AsVariable();
                             if (Variable->IsBool())
                             {
                                 Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [Boolean]");
@@ -549,7 +549,7 @@ void CEActionConsole::Execute(const String& CmdString)
     size_t Pos = CmdString.find_first_of(" ");
     if (Pos == String::npos)
     {
-        ConsoleCommand* Command = FindCommand(CmdString);
+        CEConsoleCommand* Command = FindCommand(CmdString);
         if (!Command)
         {
             const String Message = "'" + CmdString + "' is not a registered command";
@@ -564,7 +564,7 @@ void CEActionConsole::Execute(const String& CmdString)
     {
         String VariableName(CmdString.c_str(), Pos);
 
-        ConsoleVariable* Variable = FindVariable(VariableName);
+        CEConsoleVariable* Variable = FindVariable(VariableName);
         if (!Variable)
         {
             PrintError("'" + CmdString + "' is not a registered variable");
@@ -601,7 +601,7 @@ void CEActionConsole::Execute(const String& CmdString)
     }
 }
 
-bool CEActionConsole::RegisterObject(const String& Name, ConsoleObject* Object)
+bool CEActionConsole::RegisterObject(const String& Name, CEConsoleObject* Object)
 {
     auto ExistingObject = ConsoleObjects.find(Name);
     if (ExistingObject == ConsoleObjects.end())
@@ -615,7 +615,7 @@ bool CEActionConsole::RegisterObject(const String& Name, ConsoleObject* Object)
     }
 }
 
-ConsoleObject* CEActionConsole::FindConsoleObject(const String& Name)
+CEConsoleObject* CEActionConsole::FindConsoleObject(const String& Name)
 {
     auto ExisitingObject = ConsoleObjects.find(Name);
     if (ExisitingObject != ConsoleObjects.end())

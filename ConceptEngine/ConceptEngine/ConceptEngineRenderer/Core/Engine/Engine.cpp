@@ -5,8 +5,8 @@
 
 #include "../../Debug/Console/Console.h"
 
-ConsoleCommand GToggleFullscreen;
-ConsoleCommand GExit;
+CEConsoleCommand GToggleFullscreen;
+CEConsoleCommand GExit;
 
 Engine GEngine;
 

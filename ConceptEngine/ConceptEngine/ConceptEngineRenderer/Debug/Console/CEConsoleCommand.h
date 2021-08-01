@@ -1,12 +1,12 @@
 #pragma once
-#include "ConsoleObject.h"
+#include "CEConsoleObject.h"
 
 #include "../../Core/Delegates/MulticastDelegate.h"
 
-class ConsoleCommand : public ConsoleObject
+class CEConsoleCommand : public CEConsoleObject
 {
 public:
-    virtual ConsoleCommand* AsCommand() override { return this; }
+    virtual CEConsoleCommand* AsCommand() override { return this; }
 
     void Execute()
     {

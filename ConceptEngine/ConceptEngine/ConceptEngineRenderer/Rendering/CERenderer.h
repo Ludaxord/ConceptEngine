@@ -2,7 +2,7 @@
 #include "../Time/CETimer.h"
 
 #include "../Scene/Actor.h"
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 #include "../Scene/Camera.h"
 
 #include "Resources/Mesh.h"
@@ -29,7 +29,7 @@ public:
 	virtual bool Create() = 0;
 	virtual void Release() = 0;
 
-	virtual void PerformFrustumCulling(const Scene& Scene) = 0;
+	virtual void PerformFrustumCulling(const CEScene& Scene) = 0;
 	virtual void PerformFXAA(CommandList& InCmdList) = 0;
 	virtual void PerformBackBufferBlit(CommandList& InCmdList) = 0;
 
@@ -37,7 +37,7 @@ public:
 
 	virtual void RenderDebugInterface() = 0;
 
-	virtual void Update(const Scene& Scene) = 0;
+	virtual void Update(const CEScene& Scene) = 0;
 
 protected:
 	virtual void OnWindowResize(const WindowResizeEvent& Event);

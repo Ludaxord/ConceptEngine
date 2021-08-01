@@ -6,7 +6,7 @@
 #include "../ConceptEngineRenderer/Rendering/DebugUI.h"
 #include "../ConceptEngineRenderer/Rendering/Resources/TextureFactory.h"
 
-#include "../ConceptEngineRenderer/Scene/Scene.h"
+#include "../ConceptEngineRenderer/Scene/CEScene.h"
 #include "../ConceptEngineRenderer/Scene/Lights/PointLight.h"
 #include "../ConceptEngineRenderer/Scene/Lights/DirectionalLight.h"
 #include "../ConceptEngineRenderer/Scene/Components/MeshComponent.h"
@@ -31,7 +31,7 @@ bool Sandbox::Init() {
 	// Initialize Scene
 	Actor* NewActor = nullptr;
 	MeshComponent* NewComponent = nullptr;
-	Scene = Scene::LoadFromFile("../Concept-Engine/Assets/Scenes/Sponza/Sponza.obj");
+	Scene = CEScene::LoadFromFile("../Concept-Engine/Assets/Scenes/Sponza/Sponza.obj");
 
 	// Create Spheres
 	MeshData SphereMeshData = MeshFactory::CreateSphere(3);

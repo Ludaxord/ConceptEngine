@@ -8,7 +8,7 @@
 
 #include <d3d12shader.h>
 
-class D3D12ShaderCompiler : public IShaderCompiler
+class D3D12ShaderCompiler : public ICEShaderCompiler
 {
 public:
     D3D12ShaderCompiler();

@@ -95,6 +95,5 @@ ConceptEngine::Core::Common::CEManager* CEGraphics::GetManager(Core::Common::CEM
 		return MeshManager;
 	default:
 		return nullptr;
-
 	}
 }

@@ -3,7 +3,7 @@
 #include "../RenderLayer/ResourceViews.h"
 #include "../RenderLayer/CommandList.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 
 struct PointLightData
 {
@@ -62,7 +62,7 @@ struct LightSetup
 
     bool Init();
 
-    void BeginFrame(CommandList& CmdList, const Scene& Scene);
+    void BeginFrame(CommandList& CmdList, const CEScene& Scene);
     void Release();
 
     CEArray<XMFLOAT4>           PointLightsPosRad;

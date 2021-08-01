@@ -4,7 +4,7 @@
 
 #include "../RenderLayer/CommandList.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 
 class ShadowMapRenderer
 {
@@ -14,8 +14,8 @@ public:
 
     bool Init(LightSetup& LightSetup, FrameResources& Resources);
 
-    void RenderPointLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const Scene& Scene);
-    void RenderDirectionalLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const Scene& Scene);
+    void RenderPointLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const CEScene& Scene);
+    void RenderDirectionalLightShadows(CommandList& CmdList, const LightSetup& LightSetup, const CEScene& Scene);
 
     void Release();
 

@@ -7,7 +7,7 @@
 #include "../Core/Engine/EngineLoop.h"
 #include "../Core/Engine/EngineGlobals.h"
 
-#include "../Scene/Scene.h"
+#include "../Scene/CEScene.h"
 #include "../Scene/Lights/DirectionalLight.h"
 #include "../Scene/Lights/PointLight.h"
 #include "../Scene/Components/MeshComponent.h"
@@ -22,7 +22,7 @@ static float MainMenuBarHeight = 0.0f;
 
 static bool ShowRenderSettings = false;
 
-TConsoleVariable<bool> GShowSceneGraph(true);
+TCEConsoleVariable<bool> GShowSceneGraph(true);
 
 static void DrawMenu();
 static void DrawSideWindow();

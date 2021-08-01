@@ -10,11 +10,11 @@
 
 #include "../Core/Containers/Array.h"
 
-class Scene
+class CEScene
 {
 public:
-    Scene();
-    ~Scene();
+    CEScene();
+    ~CEScene();
 
     void Tick(CETimestamp DeltaTime);
 
@@ -49,7 +49,7 @@ public:
      
     Camera* GetCamera() const { return CurrentCamera; }
 
-    static Scene* LoadFromFile(const std::string& Filepath);
+    static CEScene* LoadFromFile(const std::string& Filepath);
 
 private:
     void AddMeshComponent(class MeshComponent* Component);
