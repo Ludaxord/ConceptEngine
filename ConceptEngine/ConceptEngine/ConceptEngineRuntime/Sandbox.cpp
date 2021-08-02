@@ -19,12 +19,18 @@
 
 #define ENABLE_LIGHT_TEST 0
 
-Application* CreateApplication() {
+
+CEPlayground* CreatePlayground() {
 	return DBG_NEW Sandbox();
 }
 
-bool Sandbox::Init() {
-	if (!Application::Init()) {
+class Application;
+Application* CreateApplication() {
+	return nullptr;
+}
+
+bool Sandbox::Create() {
+	if (!CEPlayground::Create()) {
 		return false;
 	}
 
@@ -309,8 +315,8 @@ bool Sandbox::Init() {
 	return true;
 }
 
-void Sandbox::Tick(CETimestamp DeltaTime) {
-	Application::Tick(DeltaTime);
+void Sandbox::Update(CETimestamp DeltaTime) {
+	CEPlayground::Update(DeltaTime);
 
 	const float Delta = static_cast<float>(DeltaTime.AsSeconds());
 	const float RotationSpeed = 45.0f;

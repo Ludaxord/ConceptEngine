@@ -1,14 +1,13 @@
-#include <../ConceptEngineRenderer/Core/Application/Application.h>
+#include <../ConceptEngineRenderer/Project/CEPlayground.h>
 
 #include <../ConceptEngineRenderer/Scene/Camera.h>
 
-class Sandbox : public Application
+class Sandbox : public CEPlayground
 {
 public:
-    virtual bool Init() override;
+    virtual bool Create() override;
 
-    virtual void Tick(CETimestamp DeltaTime) override;
-
+    virtual void Update(CETimestamp DeltaTime) override;
 private:
     Camera* CurrentCamera = nullptr;
     XMFLOAT3 CameraSpeed = XMFLOAT3(0.0f, 0.0f, 0.0f);

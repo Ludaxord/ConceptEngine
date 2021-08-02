@@ -1,5 +1,7 @@
 #include "CEPlayground.h"
 
+CEPlayground* GPlayground;
+
 CEPlayground::CEPlayground() {
 }
 

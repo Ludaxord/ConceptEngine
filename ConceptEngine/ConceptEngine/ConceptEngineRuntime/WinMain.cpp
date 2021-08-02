@@ -28,6 +28,7 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE PrevInstance, LPSTR CmdLine, in
 
     CEWindowsPlatform::PreMainInit(Instance);
 
+	//TODO: Change to ConceptEngineRenderer
     return EngineMain();
 }
 
