@@ -60,5 +60,4 @@ private:
     HMODULE DxCompilerDLL;
 };
 
-extern CEDX12ShaderCompiler*  gD3D12ShaderCompiler;
 extern DxcCreateInstanceProc DxcCreateInstanceFunc;

@@ -256,7 +256,7 @@ bool D3D12CommandContext::Init()
     }
 
     CEArray<uint8> Code;
-    if (!gD3D12ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTex2D.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTex2D.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         CE_LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTex2D Shader");
         
@@ -282,7 +282,7 @@ bool D3D12CommandContext::Init()
         GenerateMipsTex2D_PSO->SetName("GenerateMipsTex2D Gen PSO");
     }
 
-    if (!gD3D12ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!ShaderCompiler->CompileFromFile("../ConceptEngineRenderer/Shaders/GenerateMipsTexCube.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         CE_LOG_ERROR("[D3D12CommandContext]: Failed to compile GenerateMipsTexCube Shader");
         CEDebug::DebugBreak();

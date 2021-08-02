@@ -225,8 +225,6 @@ private:
 	ULONG References;
 };
 
-CEDX12ShaderCompiler* gD3D12ShaderCompiler = nullptr;
-
 CEDX12ShaderCompiler::CEDX12ShaderCompiler()
 	: ICEShaderCompiler()
 	  , DxCompiler(nullptr)
@@ -234,11 +232,11 @@ CEDX12ShaderCompiler::CEDX12ShaderCompiler()
 	  , DxLinker(nullptr)
 	  , DxIncludeHandler(nullptr)
 	  , DxCompilerDLL() {
-	gD3D12ShaderCompiler = this;
+	ShaderCompiler = this;
 }
 
 CEDX12ShaderCompiler::~CEDX12ShaderCompiler() {
-	gD3D12ShaderCompiler = nullptr;
+	ShaderCompiler = nullptr;
 
 	DxCompiler.Reset();
 	DxLibrary.Reset();

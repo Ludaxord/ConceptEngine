@@ -1,5 +1,6 @@
 #pragma once
 #include "D3D12/CEDX12GraphicsManager.h"
+#include "D3D12/CEDX12ShaderCompiler.h"
 #include "RenderLayer/CEGraphicsManager.h"
 #include "Graphics/Generic/Managers/CETextureManager.h"
 #include "Graphics/Generic/Managers/CEMeshManager.h"
@@ -33,8 +34,16 @@ inline CEGraphicsManager* CastGraphicsManager() {
 	return CastManager<CEGraphicsManager>(ManagerType::Graphics);
 }
 
+inline ICEShaderCompiler* CastShaderCompiler() {
+	return ShaderCompiler;
+}
+
 #if PLATFORM_WINDOWS
 inline CEDX12GraphicsManager* CastDX12GraphicsManager() {
 	return CastManager<CEDX12GraphicsManager>(ManagerType::Graphics);
+}
+
+inline CEDX12ShaderCompiler* CastDX12ShaderCompiler() {
+	return dynamic_cast<CEDX12ShaderCompiler*>(ShaderCompiler);
 }
 #endif
