@@ -1,5 +1,5 @@
 #pragma once
-#include "GenericRenderLayer.h"
+#include "CEGraphicsManager.h"
 
 // TODO: Maybe should be in a config file
 #define ENABLE_API_DEBUGGING       0

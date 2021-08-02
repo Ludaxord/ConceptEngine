@@ -1,6 +1,6 @@
 #include "../Core/Application/Windows/CEWindowsWindow.h"
 
-#include "D3D12RenderLayer.h"
+#include "CEDX12GraphicsManager.h"
 #include "D3D12Texture.h"
 #include "D3D12Buffer.h"
 #include "D3D12CommandList.h"
@@ -21,7 +21,7 @@
 
 #include <algorithm>
 
-D3D12RenderLayer* gD3D12RenderLayer = nullptr;
+CEDX12GraphicsManager* gD3D12RenderLayer = nullptr;
 
 template<>
 inline D3D12_RESOURCE_DIMENSION GetD3D12TextureResourceDimension<D3D12Texture2D>()
@@ -71,15 +71,15 @@ inline bool IsTextureCube<D3D12TextureCubeArray>()
     return true;
 }
 
-D3D12RenderLayer::D3D12RenderLayer()
-    : GenericRenderLayer(ERenderLayerApi::D3D12)
+CEDX12GraphicsManager::CEDX12GraphicsManager()
+    : CEGraphicsManager(ERenderLayerApi::D3D12)
     , Device(nullptr)
     , DirectCmdContext(nullptr)
 {
     gD3D12RenderLayer = this;
 }
 
-D3D12RenderLayer::~D3D12RenderLayer()
+CEDX12GraphicsManager::~CEDX12GraphicsManager()
 {
     DirectCmdContext.Reset();
 
@@ -95,7 +95,7 @@ D3D12RenderLayer::~D3D12RenderLayer()
     gD3D12RenderLayer = nullptr;
 }
 
-bool D3D12RenderLayer::Create(bool EnableDebug)
+bool CEDX12GraphicsManager::Create(bool EnableDebug)
 {
     // NOTE: GPUBasedValidation does not work with ray tracing since it causes Device Removed (2021-02-25)
     bool GPUBasedValidationOn =
@@ -157,7 +157,7 @@ bool D3D12RenderLayer::Create(bool EnableDebug)
 }
 
 template<typename TD3D12Texture>
-TD3D12Texture* D3D12RenderLayer::CreateTexture(
+TD3D12Texture* CEDX12GraphicsManager::CreateTexture(
     EFormat Format,
     uint32 SizeX, uint32 SizeY, uint32 SizeZ,
     uint32 NumMips,
@@ -409,7 +409,7 @@ TD3D12Texture* D3D12RenderLayer::CreateTexture(
     return NewTexture.ReleaseOwnership();
 }
 
-Texture2D* D3D12RenderLayer::CreateTexture2D(
+Texture2D* CEDX12GraphicsManager::CreateTexture2D(
     EFormat Format, 
     uint32 Width, 
     uint32 Height, 
@@ -423,7 +423,7 @@ Texture2D* D3D12RenderLayer::CreateTexture2D(
     return CreateTexture<D3D12Texture2D>(Format, Width, Height, 1, NumMips, NumSamples, Flags, InitialState, InitialData, OptimalClearValue);
 }
 
-Texture2DArray* D3D12RenderLayer::CreateTexture2DArray(
+Texture2DArray* CEDX12GraphicsManager::CreateTexture2DArray(
     EFormat Format, 
     uint32 Width, 
     uint32 Height, 
@@ -438,7 +438,7 @@ Texture2DArray* D3D12RenderLayer::CreateTexture2DArray(
     return CreateTexture<D3D12Texture2DArray>(Format, Width, Height, NumArraySlices, NumMips, NumSamples, Flags, InitialState, InitialData, OptimalClearValue);
 }
 
-TextureCube* D3D12RenderLayer::CreateTextureCube(
+TextureCube* CEDX12GraphicsManager::CreateTextureCube(
     EFormat Format, 
     uint32 Size, 
     uint32 NumMips, 
@@ -450,7 +450,7 @@ TextureCube* D3D12RenderLayer::CreateTextureCube(
     return CreateTexture<D3D12TextureCube>(Format, Size, Size, TEXTURE_CUBE_FACE_COUNT, NumMips, 1, Flags, InitialState, InitialData, OptimalClearValue);
 }
 
-TextureCubeArray* D3D12RenderLayer::CreateTextureCubeArray(
+TextureCubeArray* CEDX12GraphicsManager::CreateTextureCubeArray(
     EFormat Format, 
     uint32 Size, 
     uint32 NumMips, 
@@ -464,7 +464,7 @@ TextureCubeArray* D3D12RenderLayer::CreateTextureCubeArray(
     return CreateTexture<D3D12TextureCubeArray>(Format, Size, Size, ArraySlices, NumMips, 1, Flags, InitialState, InitialData, OptimalClearValue);
 }
 
-Texture3D* D3D12RenderLayer::CreateTexture3D(
+Texture3D* CEDX12GraphicsManager::CreateTexture3D(
     EFormat Format, 
     uint32 Width, 
     uint32 Height, 
@@ -478,7 +478,7 @@ Texture3D* D3D12RenderLayer::CreateTexture3D(
     return CreateTexture<D3D12Texture3D>(Format, Width, Height, Depth, NumMips, 1, Flags, InitialState, InitialData, OptimalClearValue);
 }
 
-SamplerState* D3D12RenderLayer::CreateSamplerState(const SamplerStateCreateInfo& CreateInfo)
+SamplerState* CEDX12GraphicsManager::CreateSamplerState(const SamplerStateCreateInfo& CreateInfo)
 {
     D3D12_SAMPLER_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -507,7 +507,7 @@ SamplerState* D3D12RenderLayer::CreateSamplerState(const SamplerStateCreateInfo&
 }
 
 template<typename TD3D12Buffer>
-bool D3D12RenderLayer::FinalizeBufferResource(TD3D12Buffer* Buffer, uint32 SizeInBytes, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
+bool CEDX12GraphicsManager::FinalizeBufferResource(TD3D12Buffer* Buffer, uint32 SizeInBytes, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
 {
     D3D12_RESOURCE_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -583,7 +583,7 @@ bool D3D12RenderLayer::FinalizeBufferResource(TD3D12Buffer* Buffer, uint32 SizeI
     return true;
 }
 
-VertexBuffer* D3D12RenderLayer::CreateVertexBuffer(uint32 Stride, uint32 NumVertices, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
+VertexBuffer* CEDX12GraphicsManager::CreateVertexBuffer(uint32 Stride, uint32 NumVertices, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
 {
     const uint32 SizeInBytes = NumVertices * Stride;
 
@@ -599,7 +599,7 @@ VertexBuffer* D3D12RenderLayer::CreateVertexBuffer(uint32 Stride, uint32 NumVert
     }
 }
 
-IndexBuffer* D3D12RenderLayer::CreateIndexBuffer(EIndexFormat Format, uint32 NumIndices, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
+IndexBuffer* CEDX12GraphicsManager::CreateIndexBuffer(EIndexFormat Format, uint32 NumIndices, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
 {
     const uint32 SizeInBytes        = NumIndices * GetStrideFromIndexFormat(Format);
     const uint32 AlignedSizeInBytes = Math::AlignUp<uint32>(SizeInBytes, sizeof(uint32));
@@ -616,7 +616,7 @@ IndexBuffer* D3D12RenderLayer::CreateIndexBuffer(EIndexFormat Format, uint32 Num
     }
 }
 
-ConstantBuffer* D3D12RenderLayer::CreateConstantBuffer(uint32 Size, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
+ConstantBuffer* CEDX12GraphicsManager::CreateConstantBuffer(uint32 Size, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
 {
     Assert(!(Flags & BufferFlag_UAV) && !(Flags & BufferFlag_SRV));
 
@@ -634,7 +634,7 @@ ConstantBuffer* D3D12RenderLayer::CreateConstantBuffer(uint32 Size, uint32 Flags
     }
 }
 
-StructuredBuffer* D3D12RenderLayer::CreateStructuredBuffer(uint32 Stride, uint32 NumElements, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
+StructuredBuffer* CEDX12GraphicsManager::CreateStructuredBuffer(uint32 Stride, uint32 NumElements, uint32 Flags, EResourceState InitialState, const ResourceData* InitialData)
 {
     const uint32 SizeInBytes = NumElements * Stride;
 
@@ -650,7 +650,7 @@ StructuredBuffer* D3D12RenderLayer::CreateStructuredBuffer(uint32 Stride, uint32
     }
 }
 
-RayTracingGeometry* D3D12RenderLayer::CreateRayTracingGeometry(uint32 Flags, VertexBuffer* VertexBuffer, IndexBuffer* IndexBuffer)
+RayTracingGeometry* CEDX12GraphicsManager::CreateRayTracingGeometry(uint32 Flags, VertexBuffer* VertexBuffer, IndexBuffer* IndexBuffer)
 {
     D3D12VertexBuffer* DxVertexBuffer = static_cast<D3D12VertexBuffer*>(VertexBuffer);
     D3D12IndexBuffer*  DxIndexBuffer  = static_cast<D3D12IndexBuffer*>(IndexBuffer);
@@ -672,7 +672,7 @@ RayTracingGeometry* D3D12RenderLayer::CreateRayTracingGeometry(uint32 Flags, Ver
     return Geometry.ReleaseOwnership();
 }
 
-RayTracingScene* D3D12RenderLayer::CreateRayTracingScene(uint32 Flags, RayTracingGeometryInstance* Instances, uint32 NumInstances)
+RayTracingScene* CEDX12GraphicsManager::CreateRayTracingScene(uint32 Flags, RayTracingGeometryInstance* Instances, uint32 NumInstances)
 {
     CERef<D3D12RayTracingScene> Scene = DBG_NEW D3D12RayTracingScene(Device, Flags);
 
@@ -689,7 +689,7 @@ RayTracingScene* D3D12RenderLayer::CreateRayTracingScene(uint32 Flags, RayTracin
     return Scene.ReleaseOwnership();
 }
 
-ShaderResourceView* D3D12RenderLayer::CreateShaderResourceView(const ShaderResourceViewCreateInfo& CreateInfo)
+ShaderResourceView* CEDX12GraphicsManager::CreateShaderResourceView(const ShaderResourceViewCreateInfo& CreateInfo)
 {
     D3D12_SHADER_RESOURCE_VIEW_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -856,7 +856,7 @@ ShaderResourceView* D3D12RenderLayer::CreateShaderResourceView(const ShaderResou
     }
 }
 
-UnorderedAccessView* D3D12RenderLayer::CreateUnorderedAccessView(const UnorderedAccessViewCreateInfo& CreateInfo)
+UnorderedAccessView* CEDX12GraphicsManager::CreateUnorderedAccessView(const UnorderedAccessViewCreateInfo& CreateInfo)
 {
     D3D12_UNORDERED_ACCESS_VIEW_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -1003,7 +1003,7 @@ UnorderedAccessView* D3D12RenderLayer::CreateUnorderedAccessView(const Unordered
     }
 }
 
-RenderTargetView* D3D12RenderLayer::CreateRenderTargetView(const RenderTargetViewCreateInfo& CreateInfo)
+RenderTargetView* CEDX12GraphicsManager::CreateRenderTargetView(const RenderTargetViewCreateInfo& CreateInfo)
 {
     D3D12_RENDER_TARGET_VIEW_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -1115,7 +1115,7 @@ RenderTargetView* D3D12RenderLayer::CreateRenderTargetView(const RenderTargetVie
     }
 }
 
-DepthStencilView* D3D12RenderLayer::CreateDepthStencilView(const DepthStencilViewCreateInfo& CreateInfo)
+DepthStencilView* CEDX12GraphicsManager::CreateDepthStencilView(const DepthStencilViewCreateInfo& CreateInfo)
 {
     D3D12_DEPTH_STENCIL_VIEW_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -1208,7 +1208,7 @@ DepthStencilView* D3D12RenderLayer::CreateDepthStencilView(const DepthStencilVie
     }
 }
 
-ComputeShader* D3D12RenderLayer::CreateComputeShader(const CEArray<uint8>& ShaderCode)
+ComputeShader* CEDX12GraphicsManager::CreateComputeShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12ComputeShader> Shader = DBG_NEW D3D12ComputeShader(Device, ShaderCode);
     if (!Shader->Init())
@@ -1219,7 +1219,7 @@ ComputeShader* D3D12RenderLayer::CreateComputeShader(const CEArray<uint8>& Shade
     return Shader.ReleaseOwnership();
 }
 
-VertexShader* D3D12RenderLayer::CreateVertexShader(const CEArray<uint8>& ShaderCode)
+VertexShader* CEDX12GraphicsManager::CreateVertexShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12VertexShader> Shader = DBG_NEW D3D12VertexShader(Device, ShaderCode);
     if (!D3D12BaseShader::GetShaderReflection(Shader.Get()))
@@ -1230,42 +1230,42 @@ VertexShader* D3D12RenderLayer::CreateVertexShader(const CEArray<uint8>& ShaderC
     return Shader.ReleaseOwnership();
 }
 
-HullShader* D3D12RenderLayer::CreateHullShader(const CEArray<uint8>& ShaderCode)
+HullShader* CEDX12GraphicsManager::CreateHullShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-DomainShader* D3D12RenderLayer::CreateDomainShader(const CEArray<uint8>& ShaderCode)
+DomainShader* CEDX12GraphicsManager::CreateDomainShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-GeometryShader* D3D12RenderLayer::CreateGeometryShader(const CEArray<uint8>& ShaderCode)
+GeometryShader* CEDX12GraphicsManager::CreateGeometryShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-MeshShader* D3D12RenderLayer::CreateMeshShader(const CEArray<uint8>& ShaderCode)
+MeshShader* CEDX12GraphicsManager::CreateMeshShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-AmplificationShader* D3D12RenderLayer::CreateAmplificationShader(const CEArray<uint8>& ShaderCode)
+AmplificationShader* CEDX12GraphicsManager::CreateAmplificationShader(const CEArray<uint8>& ShaderCode)
 {
     // TODO: Finish this
     UNREFERENCED_VARIABLE(ShaderCode);
     return nullptr;
 }
 
-PixelShader* D3D12RenderLayer::CreatePixelShader(const CEArray<uint8>& ShaderCode)
+PixelShader* CEDX12GraphicsManager::CreatePixelShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12PixelShader> Shader = DBG_NEW D3D12PixelShader(Device, ShaderCode);
     if (!D3D12BaseShader::GetShaderReflection(Shader.Get()))
@@ -1276,7 +1276,7 @@ PixelShader* D3D12RenderLayer::CreatePixelShader(const CEArray<uint8>& ShaderCod
     return Shader.ReleaseOwnership();
 }
 
-RayGenShader* D3D12RenderLayer::CreateRayGenShader(const CEArray<uint8>& ShaderCode)
+RayGenShader* CEDX12GraphicsManager::CreateRayGenShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12RayGenShader> Shader = DBG_NEW D3D12RayGenShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1290,7 +1290,7 @@ RayGenShader* D3D12RenderLayer::CreateRayGenShader(const CEArray<uint8>& ShaderC
     }
 }
 
-RayAnyHitShader* D3D12RenderLayer::CreateRayAnyHitShader(const CEArray<uint8>& ShaderCode)
+RayAnyHitShader* CEDX12GraphicsManager::CreateRayAnyHitShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12RayAnyHitShader> Shader = DBG_NEW D3D12RayAnyHitShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1304,7 +1304,7 @@ RayAnyHitShader* D3D12RenderLayer::CreateRayAnyHitShader(const CEArray<uint8>& S
     }
 }
 
-RayClosestHitShader* D3D12RenderLayer::CreateRayClosestHitShader(const CEArray<uint8>& ShaderCode)
+RayClosestHitShader* CEDX12GraphicsManager::CreateRayClosestHitShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12RayClosestHitShader> Shader = DBG_NEW D3D12RayClosestHitShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1318,7 +1318,7 @@ RayClosestHitShader* D3D12RenderLayer::CreateRayClosestHitShader(const CEArray<u
     }
 }
 
-RayMissShader* D3D12RenderLayer::CreateRayMissShader(const CEArray<uint8>& ShaderCode)
+RayMissShader* CEDX12GraphicsManager::CreateRayMissShader(const CEArray<uint8>& ShaderCode)
 {
     CERef<D3D12RayMissShader> Shader = DBG_NEW D3D12RayMissShader(Device, ShaderCode);
     if (!D3D12BaseRayTracingShader::GetRayTracingShaderReflection(Shader.Get()))
@@ -1332,7 +1332,7 @@ RayMissShader* D3D12RenderLayer::CreateRayMissShader(const CEArray<uint8>& Shade
     }
 }
 
-DepthStencilState* D3D12RenderLayer::CreateDepthStencilState(const DepthStencilStateCreateInfo& CreateInfo)
+DepthStencilState* CEDX12GraphicsManager::CreateDepthStencilState(const DepthStencilStateCreateInfo& CreateInfo)
 {
     D3D12_DEPTH_STENCIL_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -1349,7 +1349,7 @@ DepthStencilState* D3D12RenderLayer::CreateDepthStencilState(const DepthStencilS
     return DBG_NEW D3D12DepthStencilState(Device, Desc);
 }
 
-RasterizerState* D3D12RenderLayer::CreateRasterizerState(const RasterizerStateCreateInfo& CreateInfo)
+RasterizerState* CEDX12GraphicsManager::CreateRasterizerState(const RasterizerStateCreateInfo& CreateInfo)
 {
     D3D12_RASTERIZER_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -1369,7 +1369,7 @@ RasterizerState* D3D12RenderLayer::CreateRasterizerState(const RasterizerStateCr
     return DBG_NEW D3D12RasterizerState(Device, Desc);
 }
 
-BlendState* D3D12RenderLayer::CreateBlendState(const BlendStateCreateInfo& CreateInfo)
+BlendState* CEDX12GraphicsManager::CreateBlendState(const BlendStateCreateInfo& CreateInfo)
 {
     D3D12_BLEND_DESC Desc;
     CEMemory::Memzero(&Desc);
@@ -1393,12 +1393,12 @@ BlendState* D3D12RenderLayer::CreateBlendState(const BlendStateCreateInfo& Creat
     return DBG_NEW D3D12BlendState(Device, Desc);
 }
 
-InputLayoutState* D3D12RenderLayer::CreateInputLayout(const InputLayoutStateCreateInfo& CreateInfo)
+InputLayoutState* CEDX12GraphicsManager::CreateInputLayout(const InputLayoutStateCreateInfo& CreateInfo)
 {
     return DBG_NEW D3D12InputLayoutState(Device, CreateInfo);
 }
 
-GraphicsPipelineState* D3D12RenderLayer::CreateGraphicsPipelineState(const GraphicsPipelineStateCreateInfo& CreateInfo)
+GraphicsPipelineState* CEDX12GraphicsManager::CreateGraphicsPipelineState(const GraphicsPipelineStateCreateInfo& CreateInfo)
 {
     CERef<D3D12GraphicsPipelineState> NewPipelineState = DBG_NEW D3D12GraphicsPipelineState(Device);
     if (!NewPipelineState->Init(CreateInfo))
@@ -1409,7 +1409,7 @@ GraphicsPipelineState* D3D12RenderLayer::CreateGraphicsPipelineState(const Graph
     return NewPipelineState.ReleaseOwnership();
 }
 
-ComputePipelineState* D3D12RenderLayer::CreateComputePipelineState(const ComputePipelineStateCreateInfo& Info)
+ComputePipelineState* CEDX12GraphicsManager::CreateComputePipelineState(const ComputePipelineStateCreateInfo& Info)
 {
     Assert(Info.Shader != nullptr);
     
@@ -1423,7 +1423,7 @@ ComputePipelineState* D3D12RenderLayer::CreateComputePipelineState(const Compute
     return NewPipelineState.ReleaseOwnership();
 }
 
-RayTracingPipelineState* D3D12RenderLayer::CreateRayTracingPipelineState(const RayTracingPipelineStateCreateInfo& CreateInfo)
+RayTracingPipelineState* CEDX12GraphicsManager::CreateRayTracingPipelineState(const RayTracingPipelineStateCreateInfo& CreateInfo)
 {
     CERef<D3D12RayTracingPipelineState> NewPipelineState = DBG_NEW D3D12RayTracingPipelineState(Device);
     if (NewPipelineState->Init(CreateInfo))
@@ -1436,12 +1436,12 @@ RayTracingPipelineState* D3D12RenderLayer::CreateRayTracingPipelineState(const R
     }
 }
 
-GPUProfiler* D3D12RenderLayer::CreateProfiler()
+GPUProfiler* CEDX12GraphicsManager::CreateProfiler()
 {
     return D3D12GPUProfiler::Create(Device);
 }
 
-Viewport* D3D12RenderLayer::CreateViewport(CEWindow* Window, uint32 Width, uint32 Height, EFormat ColorFormat, EFormat DepthFormat)
+Viewport* CEDX12GraphicsManager::CreateViewport(CEWindow* Window, uint32 Width, uint32 Height, EFormat ColorFormat, EFormat DepthFormat)
 {
     UNREFERENCED_VARIABLE(DepthFormat);
 
@@ -1469,7 +1469,7 @@ Viewport* D3D12RenderLayer::CreateViewport(CEWindow* Window, uint32 Width, uint3
     }
 }
 
-bool D3D12RenderLayer::UAVSupportsFormat(EFormat Format)
+bool CEDX12GraphicsManager::UAVSupportsFormat(EFormat Format)
 {
     D3D12_FEATURE_DATA_D3D12_OPTIONS FeatureData;
     CEMemory::Memzero(&FeatureData, sizeof(D3D12_FEATURE_DATA_D3D12_OPTIONS));
@@ -1497,7 +1497,7 @@ bool D3D12RenderLayer::UAVSupportsFormat(EFormat Format)
     return true;
 }
 
-void D3D12RenderLayer::CheckRayTracingSupport(RayTracingSupport& OutSupport)
+void CEDX12GraphicsManager::CheckRayTracingSupport(RayTracingSupport& OutSupport)
 {
     D3D12_RAYTRACING_TIER Tier = Device->GetRayTracingTier();
     if (Tier != D3D12_RAYTRACING_TIER_NOT_SUPPORTED)
@@ -1519,7 +1519,7 @@ void D3D12RenderLayer::CheckRayTracingSupport(RayTracingSupport& OutSupport)
     }
 }
 
-void D3D12RenderLayer::CheckShadingRateSupport(ShadingRateSupport& OutSupport)
+void CEDX12GraphicsManager::CheckShadingRateSupport(ShadingRateSupport& OutSupport)
 {
     D3D12_VARIABLE_SHADING_RATE_TIER Tier = Device->GetVariableRateShadingTier();
     if (Tier == D3D12_VARIABLE_SHADING_RATE_TIER_NOT_SUPPORTED)

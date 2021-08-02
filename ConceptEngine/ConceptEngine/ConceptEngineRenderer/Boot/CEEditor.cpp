@@ -52,7 +52,7 @@ bool CEEditor::Release() {
 		return false;
 	}
 
-	CEGraphics::GetDebugUI().Release();
+	CEGraphics::GetDebugUI()->Release();
 
 	GGraphics->Release();
 

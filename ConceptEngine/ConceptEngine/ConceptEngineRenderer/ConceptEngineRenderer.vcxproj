@@ -106,7 +106,7 @@
     <ClInclude Include="D3D12\D3D12Helpers.h" />
     <ClInclude Include="D3D12\D3D12PipelineState.h" />
     <ClInclude Include="D3D12\D3D12RayTracing.h" />
-    <ClInclude Include="D3D12\D3D12RenderLayer.h" />
+    <ClInclude Include="D3D12\CEDX12GraphicsManager.h" />
     <ClInclude Include="D3D12\D3D12Resource.h" />
     <ClInclude Include="D3D12\D3D12RootSignature.h" />
     <ClInclude Include="D3D12\D3D12SamplerState.h" />
@@ -126,11 +126,9 @@
     <ClInclude Include="Graphics\CEGraphics.h" />
     <ClInclude Include="Graphics\D3D11\CEDirectX11.h" />
     <ClInclude Include="Graphics\D3D12\CEDirectX12.h" />
-    <ClInclude Include="Graphics\D3D12\Managers\CEDX12Manager.h" />
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12MeshManager.h" />
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12TextureManager.h" />
     <ClInclude Include="Graphics\D3D12\Rendering\CEDX12Renderer.h" />
-    <ClInclude Include="Graphics\Generic\Managers\CEGraphicsManager.h" />
     <ClInclude Include="Graphics\Generic\Managers\CEMeshManager.h" />
     <ClInclude Include="Graphics\Generic\Managers\CETextureManager.h" />
     <ClInclude Include="Graphics\Metal\CEMetal.h" />
@@ -173,7 +171,7 @@
     <ClInclude Include="Rendering\SkyboxRenderPass.h" />
     <ClInclude Include="RenderLayer\Buffer.h" />
     <ClInclude Include="RenderLayer\CommandList.h" />
-    <ClInclude Include="RenderLayer\GenericRenderLayer.h" />
+    <ClInclude Include="RenderLayer\CEGraphicsManager.h" />
     <ClInclude Include="RenderLayer\GPUProfiler.h" />
     <ClInclude Include="RenderLayer\ICommandContext.h" />
     <ClInclude Include="RenderLayer\PipelineState.h" />
@@ -247,7 +245,7 @@
     <ClCompile Include="D3D12\D3D12GPUProfiler.cpp" />
     <ClCompile Include="D3D12\D3D12PipelineState.cpp" />
     <ClCompile Include="D3D12\D3D12RayTracing.cpp" />
-    <ClCompile Include="D3D12\D3D12RenderLayer.cpp" />
+    <ClCompile Include="D3D12\CEDX12GraphicsManager.cpp" />
     <ClCompile Include="D3D12\D3D12Resource.cpp" />
     <ClCompile Include="D3D12\D3D12RootSignature.cpp" />
     <ClCompile Include="D3D12\D3D12Shader.cpp" />
@@ -260,7 +258,6 @@
     <ClCompile Include="Graphics\CEGraphics.cpp" />
     <ClCompile Include="Graphics\D3D11\CEDirectX11.cpp" />
     <ClCompile Include="Graphics\D3D12\CEDirectX12.cpp" />
-    <ClCompile Include="Graphics\D3D12\Managers\CEDX12Manager.cpp" />
     <ClCompile Include="Graphics\D3D12\Managers\CEDX12MeshManager.cpp" />
     <ClCompile Include="Graphics\D3D12\Managers\CEDX12TextureManager.cpp" />
     <ClCompile Include="Graphics\D3D12\Rendering\CEDX12Renderer.cpp" />

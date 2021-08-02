@@ -231,7 +231,7 @@
     <ClInclude Include="D3D12\D3D12RayTracing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D3D12\D3D12RenderLayer.h">
+    <ClInclude Include="D3D12\CEDX12GraphicsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D12\D3D12Resource.h">
@@ -351,7 +351,7 @@
     <ClInclude Include="RenderLayer\CommandList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderLayer\GenericRenderLayer.h">
+    <ClInclude Include="RenderLayer\CEGraphicsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderLayer\GPUProfiler.h">
@@ -549,9 +549,6 @@
     <ClInclude Include="Compiler\CECppCompiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Generic\Managers\CEGraphicsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\Generic\Managers\CETextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -568,9 +565,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Application\Windows\CEWindowsInputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\D3D12\Managers\CEDX12Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12TextureManager.h">
@@ -659,7 +653,7 @@
     <ClCompile Include="D3D12\D3D12RayTracing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D3D12\D3D12RenderLayer.cpp">
+    <ClCompile Include="D3D12\CEDX12GraphicsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D12\D3D12Resource.cpp">
@@ -855,9 +849,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application\Windows\CEWindowsInputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\D3D12\Managers\CEDX12Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\D3D12\Managers\CEDX12TextureManager.cpp">

@@ -1,6 +1,6 @@
 #include "D3D12Viewport.h"
 #include "D3D12CommandQueue.h"
-#include "D3D12RenderLayer.h"
+#include "CEDX12GraphicsManager.h"
 
 D3D12Viewport::D3D12Viewport(D3D12Device* InDevice, D3D12CommandContext* InCmdContext, HWND InHwnd, EFormat InFormat, uint32 InWidth, uint32 InHeight)
     : D3D12DeviceChild(InDevice)

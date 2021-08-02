@@ -1,8 +1,8 @@
 #include "CEDirectX12.h"
 
 #include "D3D12/CEDX12DebugUI.h"
+#include "D3D12/CEDX12GraphicsManager.h"
 #include "D3D12/CEDX12ShaderCompiler.h"
-#include "Managers/CEDX12Manager.h"
 #include "Managers/CEDX12MeshManager.h"
 #include "Managers/CEDX12TextureManager.h"
 #include "Project/CEPlayground.h"
@@ -46,7 +46,7 @@ bool CEDirectX12::Resize() {
 }
 
 bool CEDirectX12::CreateGraphicsManager() {
-	GraphicsManager = new CEDX12Manager();
+	GraphicsManager = new CEDX12GraphicsManager();
 	return true;
 }
 

@@ -1,6 +1,6 @@
 #include "D3D12DescriptorCache.h"
 #include "D3D12DescriptorHeap.h"
-#include "D3D12RenderLayer.h"
+#include "CEDX12GraphicsManager.h"
 #include "D3D12CommandContext.h"
 
 D3D12DescriptorCache::D3D12DescriptorCache(D3D12Device* InDevice)

@@ -1,7 +1,7 @@
 #include "RenderLayer.h"
 #include "CommandList.h"
 
-#include "../D3D12/D3D12RenderLayer.h"
+#include "../D3D12/CEDX12GraphicsManager.h"
 #include "../D3D12/CEDX12ShaderCompiler.h"
 
 bool RenderLayer::Init(ERenderLayerApi InRenderApi)
@@ -9,7 +9,7 @@ bool RenderLayer::Init(ERenderLayerApi InRenderApi)
     // Select RenderLayer
     if (InRenderApi == ERenderLayerApi::D3D12)
     {
-        gRenderLayer = DBG_NEW D3D12RenderLayer();
+        gRenderLayer = DBG_NEW CEDX12GraphicsManager();
         
         CEDX12ShaderCompiler* Compiler = DBG_NEW CEDX12ShaderCompiler();
         if (!Compiler->Create())

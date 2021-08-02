@@ -64,7 +64,7 @@ bool CECoreRuntime::Release() {
 		return false;
 	}
 
-	CEGraphics::GetDebugUI().Release();
+	CEGraphics::GetDebugUI()->Release();
 
 	GGraphics->Release();
 

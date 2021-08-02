@@ -2,7 +2,7 @@
 
 #include "../Rendering/Resources/MeshFactory.h"
 
-#include "D3D12RenderLayer.h"
+#include "CEDX12GraphicsManager.h"
 #include "D3D12RayTracing.h"
 #include "D3D12Device.h"
 #include "D3D12CommandList.h"

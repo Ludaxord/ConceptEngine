@@ -127,8 +127,8 @@ void EngineLoop::Run()
 
     while (GEngine.IsRunning)
     {
-        Timer.Tick();
-        EngineLoop::Tick(Timer.GetDeltaTime());
+        // Timer.Tick();
+        // EngineLoop::Tick(Timer.GetDeltaTime());
     }
 }
 

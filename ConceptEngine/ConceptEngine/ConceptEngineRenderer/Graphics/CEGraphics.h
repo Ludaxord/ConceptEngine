@@ -1,7 +1,6 @@
 #pragma once
 #include <boost/function.hpp>
 
-#include "Generic/Managers/CEGraphicsManager.h"
 #include "Generic/Managers/CEMeshManager.h"
 #include "Generic/Managers/CETextureManager.h"
 #include "Managers/CEManager.h"

@@ -9,7 +9,7 @@
 #include "CEDX12ShaderCompiler.h"
 #include "D3D12Shader.h"
 #include "D3D12RayTracing.h"
-#include "D3D12RenderLayer.h"
+#include "CEDX12GraphicsManager.h"
 #include "D3D12GPUProfiler.h"
 
 #include <pix.h>

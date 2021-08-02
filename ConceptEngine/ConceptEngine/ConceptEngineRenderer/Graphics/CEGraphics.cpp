@@ -1,5 +1,6 @@
 #include "CEGraphics.h"
 
+#include "RenderLayer/CEGraphicsManager.h"
 #include "RenderLayer/CommandList.h"
 #include "RenderLayer/ICommandContext.h"
 
@@ -24,6 +25,7 @@ bool CEGraphics::CreateManagers() {
 		CEDebug::DebugBreak();
 		return false;
 	}
+
 
 	if (GraphicsManager->Create()) {
 		ICommandContext* commandContext = GraphicsManager->GetDefaultCommandContext();
