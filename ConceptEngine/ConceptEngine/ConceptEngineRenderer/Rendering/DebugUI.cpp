@@ -13,7 +13,7 @@
 
 #include "../RenderLayer/Resources.h"
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Core/Containers/Array.h"
 
@@ -261,7 +261,7 @@ bool CEDebugUI::Create()
     })*";
 
     CEArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileShader(VSSource, "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileShader(VSSource, "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;
@@ -290,7 +290,7 @@ bool CEDebugUI::Create()
             return OutColor;
         })*";
 
-    if (!ShaderCompiler::CompileShader(PSSource, "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileShader(PSSource, "Main", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;

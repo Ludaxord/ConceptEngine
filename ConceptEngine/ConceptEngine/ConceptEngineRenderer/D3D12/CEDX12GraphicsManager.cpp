@@ -21,7 +21,7 @@
 
 #include <algorithm>
 
-CEDX12GraphicsManager* gD3D12RenderLayer = nullptr;
+// CEDX12GraphicsManager* gD3D12RenderLayer = nullptr;
 
 template<>
 inline D3D12_RESOURCE_DIMENSION GetD3D12TextureResourceDimension<D3D12Texture2D>()
@@ -76,7 +76,7 @@ CEDX12GraphicsManager::CEDX12GraphicsManager()
     , Device(nullptr)
     , DirectCmdContext(nullptr)
 {
-    gD3D12RenderLayer = this;
+    // gD3D12RenderLayer = this;
 }
 
 CEDX12GraphicsManager::~CEDX12GraphicsManager()
@@ -92,7 +92,7 @@ CEDX12GraphicsManager::~CEDX12GraphicsManager()
     
     SafeDelete(Device);
 
-    gD3D12RenderLayer = nullptr;
+    // gD3D12RenderLayer = nullptr;
 }
 
 bool CEDX12GraphicsManager::Create(bool EnableDebug)

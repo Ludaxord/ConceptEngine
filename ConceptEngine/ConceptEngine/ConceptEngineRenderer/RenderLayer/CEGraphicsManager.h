@@ -210,8 +210,9 @@ FORCEINLINE Texture2D* CreateTexture2D(
 	EResourceState InitialState,
 	const ResourceData* InitialData,
 	const ClearValue& OptimizedClearValue = ClearValue()) {
-	return gRenderLayer->CreateTexture2D(Format, Width, Height, NumMips, NumSamples, Flags, InitialState, InitialData,
-	                                     OptimizedClearValue);
+	return GraphicsManager->CreateTexture2D(Format, Width, Height, NumMips, NumSamples, Flags, InitialState,
+	                                              InitialData,
+	                                              OptimizedClearValue);
 }
 
 FORCEINLINE Texture2DArray* CreateTexture2DArray(
@@ -225,8 +226,9 @@ FORCEINLINE Texture2DArray* CreateTexture2DArray(
 	EResourceState InitialState,
 	const ResourceData* InitialData,
 	const ClearValue& OptimizedClearValue = ClearValue()) {
-	return gRenderLayer->CreateTexture2DArray(Format, Width, Height, NumMips, NumSamples, NumArraySlices, Flags,
-	                                          InitialState, InitialData, OptimizedClearValue);
+	return GraphicsManager->CreateTexture2DArray(Format, Width, Height, NumMips, NumSamples, NumArraySlices,
+	                                                   Flags,
+	                                                   InitialState, InitialData, OptimizedClearValue);
 }
 
 FORCEINLINE TextureCube* CreateTextureCube(
@@ -237,8 +239,8 @@ FORCEINLINE TextureCube* CreateTextureCube(
 	EResourceState InitialState,
 	const ResourceData* InitialData,
 	const ClearValue& OptimizedClearValue = ClearValue()) {
-	return gRenderLayer->CreateTextureCube(Format, Size, NumMips, Flags, InitialState, InitialData,
-	                                       OptimizedClearValue);
+	return GraphicsManager->CreateTextureCube(Format, Size, NumMips, Flags, InitialState, InitialData,
+	                                                OptimizedClearValue);
 }
 
 FORCEINLINE TextureCubeArray* CreateTextureCubeArray(
@@ -250,8 +252,9 @@ FORCEINLINE TextureCubeArray* CreateTextureCubeArray(
 	EResourceState InitialState,
 	const ResourceData* InitialData,
 	const ClearValue& OptimizedClearValue = ClearValue()) {
-	return gRenderLayer->CreateTextureCubeArray(Format, Size, NumMips, NumArraySlices, Flags, InitialState, InitialData,
-	                                            OptimizedClearValue);
+	return GraphicsManager->CreateTextureCubeArray(Format, Size, NumMips, NumArraySlices, Flags, InitialState,
+	                                                     InitialData,
+	                                                     OptimizedClearValue);
 }
 
 FORCEINLINE Texture3D* CreateTexture3D(
@@ -264,12 +267,13 @@ FORCEINLINE Texture3D* CreateTexture3D(
 	EResourceState InitialState,
 	const ResourceData* InitialData,
 	const ClearValue& OptimizedClearValue = ClearValue()) {
-	return gRenderLayer->CreateTexture3D(Format, Width, Height, Depth, NumMips, Flags, InitialState, InitialData,
-	                                     OptimizedClearValue);
+	return GraphicsManager->CreateTexture3D(Format, Width, Height, Depth, NumMips, Flags, InitialState,
+	                                              InitialData,
+	                                              OptimizedClearValue);
 }
 
 FORCEINLINE class SamplerState* CreateSamplerState(const struct SamplerStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateSamplerState(CreateInfo);
+	return GraphicsManager->CreateSamplerState(CreateInfo);
 }
 
 FORCEINLINE VertexBuffer* CreateVertexBuffer(
@@ -278,7 +282,7 @@ FORCEINLINE VertexBuffer* CreateVertexBuffer(
 	uint32 Flags,
 	EResourceState InitialState,
 	const ResourceData* InitialData) {
-	return gRenderLayer->CreateVertexBuffer(Stride, NumVertices, Flags, InitialState, InitialData);
+	return GraphicsManager->CreateVertexBuffer(Stride, NumVertices, Flags, InitialState, InitialData);
 }
 
 template <typename T>
@@ -294,12 +298,12 @@ FORCEINLINE IndexBuffer* CreateIndexBuffer(
 	uint32 Flags,
 	EResourceState InitialState,
 	const ResourceData* InitialData) {
-	return gRenderLayer->CreateIndexBuffer(Format, NumIndices, Flags, InitialState, InitialData);
+	return GraphicsManager->CreateIndexBuffer(Format, NumIndices, Flags, InitialState, InitialData);
 }
 
 FORCEINLINE ConstantBuffer* CreateConstantBuffer(uint32 Size, uint32 Flags, EResourceState InitialState,
                                                  const ResourceData* InitialData) {
-	return gRenderLayer->CreateConstantBuffer(Size, Flags, InitialState, InitialData);
+	return GraphicsManager->CreateConstantBuffer(Size, Flags, InitialState, InitialData);
 }
 
 template <typename T>
@@ -315,21 +319,21 @@ FORCEINLINE StructuredBuffer* CreateStructuredBuffer(
 	uint32 Flags,
 	EResourceState InitialState,
 	const ResourceData* InitialData) {
-	return gRenderLayer->CreateStructuredBuffer(Stride, NumElements, Flags, InitialState, InitialData);
+	return GraphicsManager->CreateStructuredBuffer(Stride, NumElements, Flags, InitialState, InitialData);
 }
 
 FORCEINLINE RayTracingScene* CreateRayTracingScene(uint32 Flags, RayTracingGeometryInstance* Instances,
                                                    uint32 NumInstances) {
-	return gRenderLayer->CreateRayTracingScene(Flags, Instances, NumInstances);
+	return GraphicsManager->CreateRayTracingScene(Flags, Instances, NumInstances);
 }
 
 FORCEINLINE RayTracingGeometry* CreateRayTracingGeometry(uint32 Flags, VertexBuffer* VertexBuffer,
                                                          IndexBuffer* IndexBuffer) {
-	return gRenderLayer->CreateRayTracingGeometry(Flags, VertexBuffer, IndexBuffer);
+	return GraphicsManager->CreateRayTracingGeometry(Flags, VertexBuffer, IndexBuffer);
 }
 
 FORCEINLINE ShaderResourceView* CreateShaderResourceView(const ShaderResourceViewCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateShaderResourceView(CreateInfo);
+	return GraphicsManager->CreateShaderResourceView(CreateInfo);
 }
 
 FORCEINLINE ShaderResourceView* CreateShaderResourceView(Texture2D* Texture, EFormat Format, uint32 Mip, uint32 NumMips,
@@ -437,7 +441,7 @@ FORCEINLINE ShaderResourceView* CreateShaderResourceView(StructuredBuffer* Buffe
 }
 
 FORCEINLINE UnorderedAccessView* CreateUnorderedAccessView(const UnorderedAccessViewCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateUnorderedAccessView(CreateInfo);
+	return GraphicsManager->CreateUnorderedAccessView(CreateInfo);
 }
 
 FORCEINLINE UnorderedAccessView* CreateUnorderedAccessView(Texture2D* Texture, EFormat Format, uint32 Mip) {
@@ -516,7 +520,7 @@ FORCEINLINE UnorderedAccessView* CreateUnorderedAccessView(StructuredBuffer* Buf
 }
 
 FORCEINLINE RenderTargetView* CreateRenderTargetView(const RenderTargetViewCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateRenderTargetView(CreateInfo);
+	return GraphicsManager->CreateRenderTargetView(CreateInfo);
 }
 
 FORCEINLINE RenderTargetView* CreateRenderTargetView(Texture2D* Texture, EFormat Format, uint32 Mip) {
@@ -571,7 +575,7 @@ FORCEINLINE RenderTargetView* CreateRenderTargetView(Texture3D* Texture, EFormat
 }
 
 FORCEINLINE DepthStencilView* CreateDepthStencilView(const DepthStencilViewCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateDepthStencilView(CreateInfo);
+	return GraphicsManager->CreateDepthStencilView(CreateInfo);
 }
 
 FORCEINLINE DepthStencilView* CreateDepthStencilView(Texture2D* Texture, EFormat Format, uint32 Mip) {
@@ -615,109 +619,109 @@ FORCEINLINE DepthStencilView* CreateDepthStencilView(TextureCubeArray* Texture, 
 }
 
 FORCEINLINE ComputeShader* CreateComputeShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateComputeShader(ShaderCode);
+	return GraphicsManager->CreateComputeShader(ShaderCode);
 }
 
 FORCEINLINE VertexShader* CreateVertexShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateVertexShader(ShaderCode);
+	return GraphicsManager->CreateVertexShader(ShaderCode);
 }
 
 FORCEINLINE HullShader* CreateHullShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateHullShader(ShaderCode);
+	return GraphicsManager->CreateHullShader(ShaderCode);
 }
 
 FORCEINLINE DomainShader* CreateDomainShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateDomainShader(ShaderCode);
+	return GraphicsManager->CreateDomainShader(ShaderCode);
 }
 
 FORCEINLINE GeometryShader* CreateGeometryShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateGeometryShader(ShaderCode);
+	return GraphicsManager->CreateGeometryShader(ShaderCode);
 }
 
 FORCEINLINE MeshShader* CreateMeshShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateMeshShader(ShaderCode);
+	return GraphicsManager->CreateMeshShader(ShaderCode);
 }
 
 FORCEINLINE AmplificationShader* CreateAmplificationShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateAmplificationShader(ShaderCode);
+	return GraphicsManager->CreateAmplificationShader(ShaderCode);
 }
 
 FORCEINLINE PixelShader* CreatePixelShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreatePixelShader(ShaderCode);
+	return GraphicsManager->CreatePixelShader(ShaderCode);
 }
 
 FORCEINLINE RayGenShader* CreateRayGenShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateRayGenShader(ShaderCode);
+	return GraphicsManager->CreateRayGenShader(ShaderCode);
 }
 
 FORCEINLINE RayAnyHitShader* CreateRayAnyHitShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateRayAnyHitShader(ShaderCode);
+	return GraphicsManager->CreateRayAnyHitShader(ShaderCode);
 }
 
 FORCEINLINE RayClosestHitShader* CreateRayClosestHitShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateRayClosestHitShader(ShaderCode);
+	return GraphicsManager->CreateRayClosestHitShader(ShaderCode);
 }
 
 FORCEINLINE RayMissShader* CreateRayMissShader(const CEArray<uint8>& ShaderCode) {
-	return gRenderLayer->CreateRayMissShader(ShaderCode);
+	return GraphicsManager->CreateRayMissShader(ShaderCode);
 }
 
 FORCEINLINE InputLayoutState* CreateInputLayout(const InputLayoutStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateInputLayout(CreateInfo);
+	return GraphicsManager->CreateInputLayout(CreateInfo);
 }
 
 FORCEINLINE DepthStencilState* CreateDepthStencilState(const DepthStencilStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateDepthStencilState(CreateInfo);
+	return GraphicsManager->CreateDepthStencilState(CreateInfo);
 }
 
 FORCEINLINE RasterizerState* CreateRasterizerState(const RasterizerStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateRasterizerState(CreateInfo);
+	return GraphicsManager->CreateRasterizerState(CreateInfo);
 }
 
 FORCEINLINE BlendState* CreateBlendState(const BlendStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateBlendState(CreateInfo);
+	return GraphicsManager->CreateBlendState(CreateInfo);
 }
 
 FORCEINLINE ComputePipelineState* CreateComputePipelineState(const ComputePipelineStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateComputePipelineState(CreateInfo);
+	return GraphicsManager->CreateComputePipelineState(CreateInfo);
 }
 
 FORCEINLINE GraphicsPipelineState* CreateGraphicsPipelineState(const GraphicsPipelineStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateGraphicsPipelineState(CreateInfo);
+	return GraphicsManager->CreateGraphicsPipelineState(CreateInfo);
 }
 
 FORCEINLINE RayTracingPipelineState*
 CreateRayTracingPipelineState(const RayTracingPipelineStateCreateInfo& CreateInfo) {
-	return gRenderLayer->CreateRayTracingPipelineState(CreateInfo);
+	return GraphicsManager->CreateRayTracingPipelineState(CreateInfo);
 }
 
 FORCEINLINE class GPUProfiler* CreateProfiler() {
-	return gRenderLayer->CreateProfiler();
+	return GraphicsManager->CreateProfiler();
 }
 
 FORCEINLINE class Viewport* CreateViewport(CEWindow* Window, uint32 Width, uint32 Height, EFormat ColorFormat,
                                            EFormat DepthFormat) {
-	return gRenderLayer->CreateViewport(Window, Width, Height, ColorFormat, DepthFormat);
+	return GraphicsManager->CreateViewport(Window, Width, Height, ColorFormat, DepthFormat);
 }
 
 FORCEINLINE bool UAVSupportsFormat(EFormat Format) {
-	return gRenderLayer->UAVSupportsFormat(Format);
+	return GraphicsManager->UAVSupportsFormat(Format);
 }
 
 FORCEINLINE class ICommandContext* GetDefaultCommandContext() {
-	return gRenderLayer->GetDefaultCommandContext();
+	return GraphicsManager->GetDefaultCommandContext();
 }
 
 FORCEINLINE std::string GetAdapterName() {
-	return gRenderLayer->GetAdapterName();
+	return GraphicsManager->GetAdapterName();
 }
 
 FORCEINLINE void CheckShadingRateSupport(ShadingRateSupport& OutSupport) {
-	gRenderLayer->CheckShadingRateSupport(OutSupport);
+	GraphicsManager->CheckShadingRateSupport(OutSupport);
 }
 
 FORCEINLINE void CheckRayTracingSupport(RayTracingSupport& OutSupport) {
-	gRenderLayer->CheckRayTracingSupport(OutSupport);
+	GraphicsManager->CheckRayTracingSupport(OutSupport);
 }
 
 FORCEINLINE bool IsRayTracingSupported() {

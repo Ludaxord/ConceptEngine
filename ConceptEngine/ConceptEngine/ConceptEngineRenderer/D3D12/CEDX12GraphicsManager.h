@@ -8,6 +8,7 @@
 #include "D3D12Texture.h"
 #include "D3D12RootSignature.h"
 
+class CEDX12GraphicsManager;
 class D3D12CommandContext;
 class D3D12Buffer;
 
@@ -207,4 +208,4 @@ private:
 	D3D12OfflineDescriptorHeap* SamplerOfflineDescriptorHeap = nullptr;
 };
 
-extern CEDX12GraphicsManager* gD3D12RenderLayer;
+// extern CEDX12GraphicsManager* gD3D12RenderLayer;

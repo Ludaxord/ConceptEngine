@@ -1,6 +1,7 @@
 #pragma once
 #include "../Config/CEGlobalConfigs.h"
 #include "../Time/CETimestamp.h"
+#include "../Managers/CEManager.h"
 
 class CEPlatform;
 class CEGraphics;
@@ -23,7 +24,7 @@ public:
 	static CECompiler* GetCompiler();
 	static CEPlatform* GetPlatform();
 	static CEPlayground* GetPlayground();
-
+	
 	inline static bool bIsRunning = false;
 	inline static bool bEnableDebug = false;
 

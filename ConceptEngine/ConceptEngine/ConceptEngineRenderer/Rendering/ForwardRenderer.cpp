@@ -1,7 +1,7 @@
 #include "ForwardRenderer.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Rendering/MeshDrawCommand.h"
 #include "../Rendering/Resources/Mesh.h"
@@ -20,7 +20,7 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
     };
 
     CEArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;
@@ -37,7 +37,7 @@ bool ForwardRenderer::Init(FrameResources& FrameResources)
         VShader->SetName("ForwardPass VertexShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "PSMain", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ForwardPass.hlsl", "PSMain", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;

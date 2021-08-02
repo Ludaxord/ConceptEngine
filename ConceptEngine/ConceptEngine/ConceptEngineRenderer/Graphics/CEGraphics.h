@@ -21,12 +21,10 @@ public:
 
 	static CEDebugUI* GetDebugUI();
 
-	CEManager* GetManager(ManagerType Type) const;
-
 protected:
-	CEGraphicsManager* GraphicsManager;
-	CETextureManager* TextureManager;
-	CEMeshManager* MeshManager;
+	// CEGraphicsManager* GraphicsManager;
+	// CETextureManager* TextureManager;
+	// CEMeshManager* MeshManager;
 
 	inline static CEDebugUI* DebugUI;
 

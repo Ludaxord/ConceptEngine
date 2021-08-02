@@ -13,7 +13,7 @@ CERenderer* Renderer = new CEDX12Renderer();
 
 #include "../Core/Engine/Engine.h"
 
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
@@ -784,7 +784,7 @@ void CEDX12Renderer::Release() {
 
 bool CEDX12Renderer::CreateBoundingBoxDebugPass() {
 	CEArray<uint8> ShaderCode;
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "VSMain", nullptr,
 	                                     EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -799,7 +799,7 @@ bool CEDX12Renderer::CreateBoundingBoxDebugPass() {
 		AABBVertexShader->SetName("Debug VertexShader");
 	}
 
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "PSMain", nullptr,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Debug.hlsl", "PSMain", nullptr,
 	                                     EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -945,7 +945,7 @@ bool CEDX12Renderer::CreateBoundingBoxDebugPass() {
 
 bool CEDX12Renderer::CreateAA() {
 	CEArray<uint8> ShaderCode;
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FullscreenVS.hlsl", "Main", nullptr,
 	                                     EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -960,7 +960,7 @@ bool CEDX12Renderer::CreateAA() {
 		VShader->SetName("Fullscreen VertexShader");
 	}
 
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PostProcessPS.hlsl", "Main", nullptr,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PostProcessPS.hlsl", "Main", nullptr,
 	                                     EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1047,7 +1047,7 @@ bool CEDX12Renderer::CreateAA() {
 		return false;
 	}
 
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", nullptr,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", nullptr,
 	                                     EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1078,7 +1078,7 @@ bool CEDX12Renderer::CreateAA() {
 		ShaderDefine("ENABLE_DEBUG", "1")
 	};
 
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", &Defines,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/FXAA_PS.hlsl", "Main", &Defines,
 	                                     EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -1128,7 +1128,7 @@ bool CEDX12Renderer::CreateShadingImage() {
 	}
 
 	CEArray<uint8> ShaderCode;
-	if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadingImage.hlsl", "Main", nullptr,
+	if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadingImage.hlsl", "Main", nullptr,
 	                                     EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode)) {
 		CEDebug::DebugBreak();
 		return false;

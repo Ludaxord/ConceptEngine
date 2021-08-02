@@ -1,7 +1,7 @@
 #include "LightProbeRenderer.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResources)
 {
@@ -11,7 +11,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
     }
 
     CEArray<uint8> Code;
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/IrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         CE_LOG_ERROR("Failed to compile IrradianceGen Shader");
         CEDebug::DebugBreak();
@@ -39,7 +39,7 @@ bool LightProbeRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResou
         IrradianceGenPSO->SetName("IrradianceGen PSO");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SpecularIrradianceGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         CE_LOG_ERROR("Failed to compile SpecularIrradianceGen Shader");
         CEDebug::DebugBreak();

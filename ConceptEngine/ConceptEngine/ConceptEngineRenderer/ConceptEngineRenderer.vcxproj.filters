@@ -390,7 +390,7 @@
     <ClInclude Include="RenderLayer\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderLayer\ShaderCompiler.h">
+    <ClInclude Include="RenderLayer\CEShaderCompiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderLayer\Texture.h">
@@ -574,6 +574,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D3D12\CEDX12DebugUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Generic\Managers\CEManagers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

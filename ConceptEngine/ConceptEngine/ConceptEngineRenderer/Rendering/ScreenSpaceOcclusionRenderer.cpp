@@ -1,7 +1,7 @@
 #include "ScreenSpaceOcclusionRenderer.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
@@ -22,7 +22,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
     }
 
     CEArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SSAO.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/SSAO.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;
@@ -147,7 +147,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
     Defines.EmplaceBack("HORIZONTAL_PASS", "1");
 
     // Load shader
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Blur.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Blur.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;
@@ -181,7 +181,7 @@ bool ScreenSpaceOcclusionRenderer::Init(FrameResources& FrameResources)
     Defines.Clear();
     Defines.EmplaceBack("VERTICAL_PASS", "1");
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Blur.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Blur.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;

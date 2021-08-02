@@ -1,6 +1,7 @@
 #include "D3D12Viewport.h"
 #include "D3D12CommandQueue.h"
 #include "CEDX12GraphicsManager.h"
+#include "Graphics/Generic/Managers/CEManagers.h"
 
 D3D12Viewport::D3D12Viewport(D3D12Device* InDevice, D3D12CommandContext* InCmdContext, HWND InHwnd, EFormat InFormat, uint32 InWidth, uint32 InHeight)
     : D3D12DeviceChild(InDevice)
@@ -176,7 +177,7 @@ bool D3D12Viewport::RetriveBackBuffers()
 
     if (BackBufferViews.Size() < NumBackBuffers)
     {
-        D3D12OfflineDescriptorHeap* RenderTargetOfflineHeap = gD3D12RenderLayer->GetRenderTargetOfflineDescriptorHeap();
+        D3D12OfflineDescriptorHeap* RenderTargetOfflineHeap = CastDX12GraphicsManager()->GetRenderTargetOfflineDescriptorHeap();
         BackBufferViews.Resize(NumBackBuffers);
         for (CERef<D3D12RenderTargetView>& View : BackBufferViews)
         {

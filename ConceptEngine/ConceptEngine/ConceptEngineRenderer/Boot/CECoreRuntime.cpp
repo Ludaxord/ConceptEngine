@@ -4,6 +4,7 @@
 #include "Core/Threading/CETaskManager.h"
 #include "Debug/CEProfiler.h"
 #include "Graphics/CEGraphics.h"
+#include "Graphics/Generic/Managers/CEManagers.h"
 #include "Platform/CEPlatform.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
 #include "Project/CEPlayground.h"
@@ -51,7 +52,7 @@ bool CECoreRuntime::Release() {
 
 	GCmdListExecutor.WaitForGPU();
 
-	CastTextureManager()->Release();
+	TextureManager->Release();
 
 	if (!GPlayground->Release()) {
 		return false;

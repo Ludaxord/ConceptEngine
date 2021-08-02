@@ -1,7 +1,7 @@
 #include "DeferredRenderer.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Rendering/MeshDrawCommand.h"
 #include "../Rendering/Resources/Mesh.h"
@@ -43,7 +43,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
             { "ENABLE_NORMAL_MAPPING",   "1" },
         };
 
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/GeometryPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/GeometryPass.hlsl", "VSMain", &Defines, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
@@ -60,7 +60,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
             BaseVertexShader->SetName("GeometryPass VertexShader");
         }
 
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/GeometryPass.hlsl", "PSMain", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/GeometryPass.hlsl", "PSMain", &Defines, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
@@ -150,7 +150,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
 
     // PrePass
     {
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PrePass.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/PrePass.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
@@ -281,7 +281,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
         FrameResources.IntegrationLUTSampler->SetName("IntegrationLUT Sampler");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/BRDFIntegationGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/BRDFIntegationGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;
@@ -340,7 +340,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
     GCmdListExecutor.ExecuteCommandList(CmdList);
 
     {
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/DeferredLightPass.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/DeferredLightPass.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
@@ -378,7 +378,7 @@ bool DeferredRenderer::Init(FrameResources& FrameResources)
             ShaderDefine("DRAW_TILE_DEBUG", "1")
         };
 
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/DeferredLightPass.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/DeferredLightPass.hlsl", "Main", &Defines, EShaderStage::Compute, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;

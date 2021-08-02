@@ -3,7 +3,7 @@
 #include "../Debug/CEProfiler.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "Resources/Material.h"
 #include "Resources/Mesh.h"
@@ -11,7 +11,7 @@
 bool RayTracer::Init(FrameResources& Resources)
 {
     CEArray<uint8> Code;
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/RayGen.hlsl", "RayGen", nullptr, EShaderStage::RayGen, EShaderModel::SM_6_3, Code))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/RayGen.hlsl", "RayGen", nullptr, EShaderStage::RayGen, EShaderModel::SM_6_3, Code))
     {
         CEDebug::DebugBreak();
         return false;
@@ -28,7 +28,7 @@ bool RayTracer::Init(FrameResources& Resources)
         RayGenShader->SetName("RayGenShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ClosestHit.hlsl", "ClosestHit", nullptr, EShaderStage::RayClosestHit, EShaderModel::SM_6_3, Code))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ClosestHit.hlsl", "ClosestHit", nullptr, EShaderStage::RayClosestHit, EShaderModel::SM_6_3, Code))
     {
         CEDebug::DebugBreak();
         return false;
@@ -45,7 +45,7 @@ bool RayTracer::Init(FrameResources& Resources)
         RayClosestHitShader->SetName("RayClosestHitShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Miss.hlsl", "Miss", nullptr, EShaderStage::RayMiss, EShaderModel::SM_6_3, Code))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Miss.hlsl", "Miss", nullptr, EShaderStage::RayMiss, EShaderModel::SM_6_3, Code))
     {
         CEDebug::DebugBreak();
         return false;

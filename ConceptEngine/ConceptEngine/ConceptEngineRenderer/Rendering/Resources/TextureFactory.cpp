@@ -3,7 +3,7 @@
 #include "../../RenderLayer/CommandList.h"
 #include "../../RenderLayer/PipelineState.h"
 #include "../../RenderLayer/RenderLayer.h"
-#include "../../RenderLayer/ShaderCompiler.h"
+#include "../../RenderLayer/CEShaderCompiler.h"
 
 #ifdef min
     #undef min
@@ -27,7 +27,7 @@ bool TextureFactory::Init()
 {
     // Compile and create shader
     CEArray<uint8> Code;
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/CubeMapGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/CubeMapGen.hlsl", "Main", nullptr, EShaderStage::Compute, EShaderModel::SM_6_0, Code))
     {
         return false;
     }

@@ -5,8 +5,8 @@
 
 #include "../../Debug/Console/Console.h"
 
-CEConsoleCommand GToggleFullscreen;
-CEConsoleCommand GExit;
+// CEConsoleCommand GToggleFullscreen;
+// CEConsoleCommand GExit;
 
 Engine GEngine;
 
@@ -24,8 +24,8 @@ bool Engine::Init()
     {
         MainWindow->Show(false);
 
-        GToggleFullscreen.OnExecute.AddObject(MainWindow.Get(), &CEWindow::ToggleFullscreen);
-        INIT_CONSOLE_COMMAND("a.ToggleFullscreen", &GToggleFullscreen);
+        // GToggleFullscreen.OnExecute.AddObject(MainWindow.Get(), &CEWindow::ToggleFullscreen);
+        // INIT_CONSOLE_COMMAND("a.ToggleFullscreen", &GToggleFullscreen);
     }
     else
     {
@@ -33,8 +33,8 @@ bool Engine::Init()
         return false;
     }
 
-    GExit.OnExecute.AddObject(this, &Engine::Exit);
-    INIT_CONSOLE_COMMAND("a.Exit", &GExit);
+    // GExit.OnExecute.AddObject(this, &Engine::Exit);
+    // INIT_CONSOLE_COMMAND("a.Exit", &GExit);
 
     IsRunning = true;
     return true;

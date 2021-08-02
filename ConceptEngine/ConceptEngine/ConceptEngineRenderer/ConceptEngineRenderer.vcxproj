@@ -129,6 +129,7 @@
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12MeshManager.h" />
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12TextureManager.h" />
     <ClInclude Include="Graphics\D3D12\Rendering\CEDX12Renderer.h" />
+    <ClInclude Include="Graphics\Generic\Managers\CEManagers.h" />
     <ClInclude Include="Graphics\Generic\Managers\CEMeshManager.h" />
     <ClInclude Include="Graphics\Generic\Managers\CETextureManager.h" />
     <ClInclude Include="Graphics\Metal\CEMetal.h" />
@@ -184,7 +185,7 @@
     <ClInclude Include="RenderLayer\ResourceViews.h" />
     <ClInclude Include="RenderLayer\SamplerState.h" />
     <ClInclude Include="RenderLayer\Shader.h" />
-    <ClInclude Include="RenderLayer\ShaderCompiler.h" />
+    <ClInclude Include="RenderLayer\CEShaderCompiler.h" />
     <ClInclude Include="RenderLayer\Texture.h" />
     <ClInclude Include="RenderLayer\Viewport.h" />
     <ClInclude Include="Scene\AABB.h" />

@@ -1,7 +1,7 @@
 #include "SkyboxRenderPass.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 #include "../Rendering/Resources/TextureFactory.h"
 
 #include "../Debug/CEProfiler.h"
@@ -69,7 +69,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
     }
 
     CEArray<uint8> ShaderCode;
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;
@@ -86,7 +86,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
         SkyboxVertexShader->SetName("Skybox VertexShader");
     }
 
-    if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+    if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/Skybox.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
     {
         CEDebug::DebugBreak();
         return false;

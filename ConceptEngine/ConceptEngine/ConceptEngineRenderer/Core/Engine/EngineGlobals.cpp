@@ -1,4 +1,7 @@
 #include "EngineGlobals.h"
 
-// class GenericRenderLayer* gRenderLayer    = nullptr;
-class ICEShaderCompiler*    gShaderCompiler = nullptr;
+class CEGraphicsManager* GraphicsManager = nullptr;
+class CETextureManager* TextureManager = nullptr;
+class CEMeshManager* MeshManager = nullptr;
+class ICEShaderCompiler* ShaderCompiler = nullptr;
+

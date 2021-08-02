@@ -4,7 +4,7 @@
 #include "RenderLayer/CommandList.h"
 #include "RenderLayer/ICommandContext.h"
 
-CEGraphics::CEGraphics(): GraphicsManager(nullptr), TextureManager(nullptr), MeshManager(nullptr) {
+CEGraphics::CEGraphics() {
 }
 
 bool CEGraphics::Create() {
@@ -79,17 +79,4 @@ bool CEGraphics::Release() {
 
 CEDebugUI* CEGraphics::GetDebugUI() {
 	return DebugUI;
-}
-
-CEManager* CEGraphics::GetManager(ManagerType Type) const {
-	switch (Type) {
-	case ManagerType::Graphics:
-		return GraphicsManager;
-	case ManagerType::Texture:
-		return TextureManager;
-	case ManagerType::Mesh:
-		return MeshManager;
-	default:
-		return nullptr;
-	}
 }

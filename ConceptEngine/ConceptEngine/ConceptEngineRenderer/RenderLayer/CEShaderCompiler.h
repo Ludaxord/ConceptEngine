@@ -54,7 +54,7 @@ public:
         CEArray<uint8>& Code) = 0;
 };
 
-class ShaderCompiler
+class CEShaderCompiler
 {
 public:
     FORCEINLINE static bool CompileFromFile(
@@ -65,7 +65,7 @@ public:
         EShaderModel ShaderModel,
         CEArray<uint8>& Code)
     {
-        return gShaderCompiler->CompileFromFile(FilePath, EntryPoint, Defines, ShaderStage, ShaderModel, Code);
+        return ShaderCompiler->CompileFromFile(FilePath, EntryPoint, Defines, ShaderStage, ShaderModel, Code);
     }
 
     FORCEINLINE static bool CompileShader(
@@ -76,6 +76,6 @@ public:
         EShaderModel ShaderModel,
         CEArray<uint8>& Code)
     {
-        return gShaderCompiler->CompileShader(ShaderSource, EntryPoint, Defines, ShaderStage, ShaderModel, Code);
+        return ShaderCompiler->CompileShader(ShaderSource, EntryPoint, Defines, ShaderStage, ShaderModel, Code);
     }
 };

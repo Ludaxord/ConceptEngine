@@ -1,7 +1,7 @@
 #include "ShadowMapRenderer.h"
 
 #include "../RenderLayer/RenderLayer.h"
-#include "../RenderLayer/ShaderCompiler.h"
+#include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
@@ -42,7 +42,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     // Linear Shadow Maps
     CEArray<uint8> ShaderCode;
     {
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "VSMain", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
@@ -59,7 +59,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
             PointLightVertexShader->SetName("Linear ShadowMap VertexShader");
         }
 
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "PSMain", nullptr, EShaderStage::Pixel, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
@@ -147,7 +147,7 @@ bool ShadowMapRenderer::Init(LightSetup& LightSetup, FrameResources& FrameResour
     }
 
     {
-        if (!ShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
+        if (!CEShaderCompiler::CompileFromFile("../ConceptEngineRenderer/Shaders/ShadowMap.hlsl", "Main", nullptr, EShaderStage::Vertex, EShaderModel::SM_6_0, ShaderCode))
         {
             CEDebug::DebugBreak();
             return false;
