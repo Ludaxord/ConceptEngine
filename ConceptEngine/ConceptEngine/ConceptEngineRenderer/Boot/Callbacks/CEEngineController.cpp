@@ -14,7 +14,7 @@ CEConsoleCommand GExit;
 CEEngineController GEngineController;
 
 bool CEEngineController::Create() {
-	if (CECore::GetPlatform()->GetWindow()->GetNativeHandle()) {
+	if (CECore::GetPlatform()->GetWindow()) {
 		CECore::GetPlatform()->GetWindow()->Show(false);
 		GToggleFullscreen.OnExecute.AddObject(CECore::GetPlatform()->GetWindow().Get(), &CEWindow::ToggleFullscreen);
 		INIT_CONSOLE_COMMAND("CE.ToggleFullscreen", &GToggleFullscreen);

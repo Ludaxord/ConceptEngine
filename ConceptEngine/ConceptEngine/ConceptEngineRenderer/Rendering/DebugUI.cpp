@@ -16,6 +16,7 @@
 #include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Core/Containers/Array.h"
+#include "Boot/CECore.h"
 
 struct ImGuiState
 {
@@ -78,7 +79,7 @@ bool CEDebugUI::Create()
     IO.BackendFlags |= ImGuiBackendFlags_HasSetMousePos; 
     IO.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
     IO.BackendPlatformName = "Windows";
-    IO.ImeWindowHandle     = GEngine.MainWindow->GetNativeHandle();
+    IO.ImeWindowHandle     = CECore::GetPlatform()->GetWindow()->GetNativeHandle();
 
     // Keyboard mapping. ImGui will use those indices to peek into the IO.KeysDown[] array that we will update during the application lifetime.
     IO.KeyMap[ImGuiKey_Tab]         = CEKey::Key_Tab;

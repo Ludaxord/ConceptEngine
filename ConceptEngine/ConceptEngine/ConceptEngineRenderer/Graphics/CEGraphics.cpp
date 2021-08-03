@@ -63,6 +63,7 @@ bool CEGraphics::CreateManagers() {
 	}
 
 	if (!MeshManager->Create()) {
+		CE_LOG_ERROR("Failed to create Mesh Manager");
 		CEDebug::DebugBreak();
 		return false;
 	}
