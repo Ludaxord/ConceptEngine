@@ -16,7 +16,7 @@ struct TextureFactoryData {
 	CommandList CmdList;
 };
 
-static TextureFactoryData GlobalFactoryData;
+inline static TextureFactoryData GlobalFactoryData;
 
 class CETextureManager : public CEManager {
 

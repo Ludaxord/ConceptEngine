@@ -20,6 +20,7 @@ bool CEDX12TextureManager::Create() {
 
 	GlobalFactoryData.ComputeShader = CreateComputeShader(Code);
 	if (!GlobalFactoryData.ComputeShader) {
+		CE_LOG_ERROR("Failed to Create CubeMapGen from Compute Shader")
 		return false;
 	}
 
@@ -27,12 +28,11 @@ bool CEDX12TextureManager::Create() {
 	GlobalFactoryData.PanoramaPSO = CreateComputePipelineState(
 		ComputePipelineStateCreateInfo(GlobalFactoryData.ComputeShader.Get()));
 	if (GlobalFactoryData.PanoramaPSO) {
+		CE_LOG_VERBOSE("Create CubeMaps Panorama PSO")
 		GlobalFactoryData.PanoramaPSO->SetName("Generate CubeMap RootSignature");
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 void CEDX12TextureManager::Release() {

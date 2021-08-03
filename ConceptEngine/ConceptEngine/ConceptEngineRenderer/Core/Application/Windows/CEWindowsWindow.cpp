@@ -13,7 +13,7 @@
 
 CEWindowsWindow::CEWindowsWindow()
 	: CEWindow()
-	  , Window(0)
+	  // , Window(0)
 	  , Style(0)
 	  , StyleEx(0)
 	  , IsFullscreen(false) {

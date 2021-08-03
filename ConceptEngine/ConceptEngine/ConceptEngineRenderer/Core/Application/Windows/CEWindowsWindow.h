@@ -81,8 +81,8 @@ public:
 	bool Create();
 	bool RegisterWindowClass();
 
+	inline static HWND Window;
 private:
-	HWND Window;
 
 	DWORD Style;
 	DWORD StyleEx;
