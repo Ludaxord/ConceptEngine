@@ -128,6 +128,7 @@
     <ClInclude Include="Graphics\D3D12\CEDirectX12.h" />
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12MeshManager.h" />
     <ClInclude Include="Graphics\D3D12\Managers\CEDX12TextureManager.h" />
+    <ClInclude Include="Graphics\D3D12\Managers\CETextureData.h" />
     <ClInclude Include="Graphics\D3D12\Rendering\CEDX12Renderer.h" />
     <ClInclude Include="Graphics\Generic\Managers\CEManagers.h" />
     <ClInclude Include="Graphics\Generic\Managers\CEMeshManager.h" />

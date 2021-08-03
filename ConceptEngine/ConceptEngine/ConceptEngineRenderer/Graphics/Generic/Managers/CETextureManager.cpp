@@ -1,6 +1,5 @@
 #include "CETextureManager.h"
 
-
 #ifdef min
 #undef min
 #endif
@@ -11,6 +10,7 @@
 #include <stb_image.h>
 
 
+#include "Graphics/D3D12/Managers/CETextureData.h"
 #include "RenderLayer/CEGraphicsManager.h"
 #include "RenderLayer/CommandList.h"
 #include "RenderLayer/PipelineState.h"

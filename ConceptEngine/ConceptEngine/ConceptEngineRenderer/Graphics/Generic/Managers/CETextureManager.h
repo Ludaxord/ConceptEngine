@@ -1,7 +1,5 @@
 #pragma once
 #include "../../../Managers/CEManager.h"
-#include "../../../RenderLayer/CommandList.h"
-#include "../../../RenderLayer/PipelineState.h"
 #include "../../../RenderLayer/RenderingCore.h"
 
 
@@ -10,13 +8,6 @@ enum CETextureFactoryFlags : uint32 {
 	TextureFactoryFlag_GenerateMips = FLAG(1),
 };
 
-struct TextureFactoryData {
-	CERef<ComputePipelineState> PanoramaPSO;
-	CERef<ComputeShader> ComputeShader;
-	CommandList CmdList;
-};
-
-inline static TextureFactoryData GlobalFactoryData;
 
 class CETextureManager : public CEManager {
 

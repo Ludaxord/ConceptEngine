@@ -1,5 +1,6 @@
 #include "CEDX12TextureManager.h"
 
+#include "CETextureData.h"
 #include "RenderLayer/CEGraphicsManager.h"
 #include "RenderLayer/CEShaderCompiler.h"
 #include "RenderLayer/PipelineState.h"
