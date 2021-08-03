@@ -18,6 +18,9 @@
 
 #include <imgui_internal.h>
 
+#include "Debug/Console/CEConsoleVariable.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
+
 static float MainMenuBarHeight = 0.0f;
 
 static bool ShowRenderSettings = false;

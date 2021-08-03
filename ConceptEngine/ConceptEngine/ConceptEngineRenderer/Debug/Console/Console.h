@@ -1,7 +1,6 @@
 #pragma once
 #include "../../Core/Application/Events.h"
 
-#include "CEConsoleVariable.h"
 #include "CEConsoleCommand.h"
 
 #include <unordered_map>
@@ -10,9 +9,6 @@
     #pragma warning(push)
     #pragma warning(disable : 4100) // Disable unreferenced variable
 #endif
-
-#define INIT_CONSOLE_VARIABLE(Name, Variable) GConsole.RegisterVariable(Name, Variable)
-#define INIT_CONSOLE_COMMAND(Name, Command)   GConsole.RegisterCommand(Name, Command)
 
 class CEActionConsole
 {
@@ -100,7 +96,7 @@ private:
     bool IsActive                  = false;
 };
 
-extern CEActionConsole GConsole;
+// extern CEActionConsole GConsole;
 
 #ifdef COMPILER_VISUAL_STUDIO
     #pragma warning(pop)

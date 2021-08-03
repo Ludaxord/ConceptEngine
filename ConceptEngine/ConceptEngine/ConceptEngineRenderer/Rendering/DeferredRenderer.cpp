@@ -9,6 +9,8 @@
 
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
+#include "Debug/Console/CEConsoleVariable.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
 TCEConsoleVariable<bool> GDrawTileDebug(false);
 

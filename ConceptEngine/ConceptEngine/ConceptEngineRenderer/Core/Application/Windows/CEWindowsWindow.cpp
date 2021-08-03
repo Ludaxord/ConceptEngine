@@ -1,5 +1,6 @@
 #include "CEWindowsWindow.h"
 #include "CEWindowsPlatform.h"
+#include "Platform/Windows/CEWindows.h"
 
 CEWindow* CEWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, CEWindowStyle InStyle) {
 	CERef<CEWindowsWindow> NewWindow = DBG_NEW CEWindowsWindow();
@@ -24,7 +25,67 @@ CEWindowsWindow::~CEWindowsWindow() {
 	}
 }
 
+
+
+bool CEWindowsWindow::Create() {
+	if (!RegisterWindowClass()) {
+		CEDebug::DebugBreak();
+		return false;
+	}
+
+	return true;
+}
+
+bool CEWindowsWindow::RegisterWindowClass() {
+	// WNDCLASS windowClass;
+	// Memory::CEMemory::Memzero(&windowClass);
+	//
+	// windowClass.hInstance = CEWindows::Instance;
+	// windowClass.lpszClassName = CEEngine::GetName().c_str();
+	// windowClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+	// windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	// windowClass.lpfnWndProc = CEWindows::MessageProc;
+	//
+	// auto classAtm = RegisterClass(&windowClass);
+	// if (classAtm == 0) {
+	// 	CE_LOG_ERROR("[CEWindows]: Failed to register CEWindowsWindow Class\n");
+	// 	return false;
+	// }
+
+	HRESULT hr = CoInitialize(NULL);
+	if (FAILED(hr)) {
+		CE_LOG_ERROR("[CEWindowsWindow]: Failed to CoInitialize\n")
+		return false;
+	}
+
+	WNDCLASSEXW wndClass = {0};
+
+	wndClass.cbSize = sizeof(WNDCLASSEX);
+	wndClass.style = CS_HREDRAW | CS_VREDRAW;
+	wndClass.lpfnWndProc = &CEWindows::MessageProc;
+	wndClass.hInstance = CEPlatform::ProjectConfig.PInstance;
+	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wndClass.hIcon = static_cast<HICON>(LoadImage(CEPlatform::ProjectConfig.PInstance, nullptr, IMAGE_ICON, 32, 32, 0));
+	wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wndClass.lpszMenuName = nullptr;
+	wndClass.lpszClassName = CEWindows::GetWindowClassName();
+	wndClass.hIconSm = static_cast<HICON>(LoadImage(CEPlatform::ProjectConfig.PInstance, nullptr, IMAGE_ICON, 16, 16, 0));
+
+	if (!RegisterClassExW(&wndClass)) {
+		CE_LOG_ERROR("[CEWindowsWindow]: Unable to register window class.\n")
+		return false;
+	}
+
+	return true;
+}
+
 bool CEWindowsWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, CEWindowStyle InStyle) {
+	if (!Create()) {
+		CE_LOG_ERROR("Failed to Register Window class...")
+		CEDebug::DebugBreak();
+		return false;
+	}
+
 	// Determine the window style for WinAPI
 	DWORD dwStyle = 0;
 	if (InStyle.Style != 0) {
@@ -53,13 +114,33 @@ bool CEWindowsWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32
 	RECT ClientRect = {0, 0, static_cast<LONG>(InWidth), static_cast<LONG>(InHeight)};
 	AdjustWindowRect(&ClientRect, dwStyle, FALSE);
 
-	INT nWidth = ClientRect.right - ClientRect.left;
-	INT nHeight = ClientRect.bottom - ClientRect.top;
+	// INT nWidth = ClientRect.right - ClientRect.left;
+	// INT nHeight = ClientRect.bottom - ClientRect.top;
+	//
+	// HINSTANCE Instance = CEWindowsPlatform::GetInstance();
+	// LPCWSTR WindowClassName = CEWindowsPlatform::GetWindowClassName();
+	// Window = CreateWindowEx(0, WindowClassName, InTitle.c_str(), dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, nWidth, nHeight,
+	//                         NULL, NULL, Instance, NULL);
 
-	HINSTANCE Instance = CEWindowsPlatform::GetInstance();
-	LPCWSTR WindowClassName = CEWindowsPlatform::GetWindowClassName();
-	Window = CreateWindowEx(0, WindowClassName, InTitle.c_str(), dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, nWidth, nHeight,
-	                        NULL, NULL, Instance, NULL);
+
+	int screenWidth = ::GetSystemMetrics(SM_CXSCREEN);
+	int screenHeight = ::GetSystemMetrics(SM_CYSCREEN);
+	int windowX = std::max<int>(0, (screenWidth - (int)InWidth) / 2);
+	int windowY = std::max<int>(0, (screenHeight - (int)InHeight) / 2);
+
+	Window = ::CreateWindowExW(NULL,
+	                           CEWindows::GetWindowClassName(),
+	                           CEPlatform::ProjectConfig.PTitle.c_str(),
+	                           dwStyle,
+	                           windowX,
+	                           windowY,
+	                           InWidth,
+	                           InHeight,
+	                           NULL,
+	                           NULL,
+	                           CEPlatform::ProjectConfig.PInstance,
+	                           NULL);
+
 	if (Window == NULL) {
 		CE_LOG_ERROR("[WindowsWindow]: FAILED to create window\n");
 		return false;

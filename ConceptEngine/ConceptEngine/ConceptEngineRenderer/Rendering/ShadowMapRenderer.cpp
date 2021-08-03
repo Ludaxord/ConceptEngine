@@ -11,8 +11,8 @@
 #include "../Rendering/MeshDrawCommand.h"
 
 #include "../Scene/Frustum.h"
-#include "../Scene/Lights/PointLight.h"
-#include "../Scene/Lights/DirectionalLight.h"
+#include "Debug/Console/CEConsoleVariable.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
 struct PerShadowMap
 {
@@ -292,7 +292,7 @@ void ShadowMapRenderer::RenderPointLightShadows(CommandList& CmdList, const Ligh
                 CmdList.SetConstantBuffer(PointLightPixelShader.Get(), PerShadowMapBuffer.Get(), 0);
 
                 // Draw all objects to depthbuffer
-                CEConsoleVariable* GlobalFrustumCullEnabled = GConsole.FindVariable("r.EnableFrustumCulling");
+                CEConsoleVariable* GlobalFrustumCullEnabled = GTypedConsole.FindVariable("r.EnableFrustumCulling");
                 if (GlobalFrustumCullEnabled->GetBool())
                 {
                     Frustum CameraFrustum = Frustum(Data.FarPlane, Data.ViewMatrix[Face], Data.ProjMatrix[Face]);

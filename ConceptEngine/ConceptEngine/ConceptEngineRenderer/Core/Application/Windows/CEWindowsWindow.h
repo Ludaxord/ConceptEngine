@@ -78,6 +78,9 @@ public:
 		return Window;
 	}
 
+	bool Create();
+	bool RegisterWindowClass();
+
 private:
 	HWND Window;
 

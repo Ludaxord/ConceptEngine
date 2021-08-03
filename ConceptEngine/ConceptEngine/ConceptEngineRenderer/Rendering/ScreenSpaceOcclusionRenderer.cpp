@@ -5,6 +5,8 @@
 
 #include "../Debug/CEProfiler.h"
 #include "../Debug/Console/Console.h"
+#include "Debug/Console/CEConsoleVariable.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
 TCEConsoleVariable<float> GSSAORadius(0.3f);
 TCEConsoleVariable<float> GSSAOBias(0.03f);

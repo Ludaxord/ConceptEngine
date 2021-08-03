@@ -25,19 +25,20 @@
 #include "../../Core/Threading/Platform/PlatformProcess.h"
 #include "Boot/CECore.h"
 #include "Platform/CEPlatform.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
 bool EngineLoop::Init()
 {
     TRACE_FUNCTION_SCOPE();
 
-    GConsoleOutput = CEConsole::Create();
-    if (!GConsoleOutput)
+    CEPlatform::Console = CEConsole::Create();
+    if (!CEPlatform::Console)
     {
         return false;
     }
     else
     {
-        GConsoleOutput->SetTitle("ConceptEngine Error Console");
+        CEPlatform::Console->SetTitle("ConceptEngine Error Console");
     }
 
     CEProfiler::Create();
@@ -91,7 +92,7 @@ bool EngineLoop::Init()
     //     return false;
     // }
 
-    GConsole.Create();
+    GTypedConsole.Create();
 
     if (!CEDebugUI::Create())
     {
@@ -112,7 +113,7 @@ void EngineLoop::Tick(CETimestamp Deltatime)
 
     GApplication->Tick(Deltatime);
 
-    GConsole.Update();
+    GTypedConsole.Update();
 
     Editor::Tick();
 
@@ -171,7 +172,7 @@ bool EngineLoop::Release()
         return false;
     }
 
-    SafeDelete(GConsoleOutput);
+    SafeDelete(CEPlatform::Console);
 
     return true;
 }

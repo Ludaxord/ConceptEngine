@@ -27,7 +27,7 @@ bool CEWindows::Create() {
 
 bool CEWindows::CreateSystemWindow() {
 	Window = new CEWindowsWindow();
-	if (!Window->Create(ProjectConfig.Title, CEWindowSize::GetWidth(), CEWindowSize::GetHeight(),
+	if (!Window->Create(ProjectConfig.PTitle, CEWindowSize::GetWidth(), CEWindowSize::GetHeight(),
 	                    DefaultStyle)) {
 		CEDebug::DebugBreak();
 		return false;
@@ -211,10 +211,10 @@ CEModifierKeyState CEWindows::GetModifierKeyState() {
 }
 
 void CEWindows::PreInit(HINSTANCE hInstance, LPSTR lpCmdLine, HWND hWnd, int nCmdShow, int width, int height) {
-	ProjectConfig.Instance = hInstance;
-	ProjectConfig.CmdLine = lpCmdLine;
-	ProjectConfig.HWnd = hWnd;
-	ProjectConfig.CmdShow = nCmdShow;
+	ProjectConfig.PInstance = hInstance;
+	ProjectConfig.PCmdLine = lpCmdLine;
+	ProjectConfig.PHWnd = hWnd;
+	ProjectConfig.PCmdShow = nCmdShow;
 	CEWindowsWindowSize::Create(width, height);
 }
 

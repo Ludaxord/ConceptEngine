@@ -9,6 +9,8 @@
 #include "../Core/Engine/Engine.h"
 
 #include "../Math/Math.h"
+#include "Console/CEConsoleVariable.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
 
 constexpr float MICROSECONDS     = 1000.0f;

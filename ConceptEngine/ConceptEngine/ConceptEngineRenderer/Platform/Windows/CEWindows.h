@@ -1,7 +1,6 @@
 #pragma once
-#include "Platform/CEPlatform.h"
-
-#include "../Core/Application/Windows/CEWindowsCursor.h"
+#include "../../Platform/CEPlatform.h"
+#include "../../Core/Application/Windows/CEWindowsCursor.h"
 
 class CEWindows final : public CEPlatform {
 public:

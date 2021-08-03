@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 
 enum class EngineBoot {
 	Runtime,
@@ -84,15 +85,15 @@ struct CEEngineConfig {
 };
 
 struct CEProjectConfig {
-
-	std::wstring Title;
-	HINSTANCE Instance;
-	LPSTR CmdLine;
-	HWND HWnd;
-	int CmdShow;
+public:
+	std::wstring PTitle;
+	HINSTANCE PInstance = NULL;
+	LPSTR PCmdLine = NULL;
+	HWND PHWnd = NULL;
+	int PCmdShow = 0;
 
 	std::string GetStringTitle() {
-		return std::string(Title.begin(), Title.end());
+		return std::string(PTitle.begin(), PTitle.end());
 	}
 };
 

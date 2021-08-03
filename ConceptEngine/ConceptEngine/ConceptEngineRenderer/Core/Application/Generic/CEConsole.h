@@ -27,4 +27,4 @@ public:
 	static CEConsole* Create();
 };
 
-extern CEConsole* GConsoleOutput;
+// extern CEConsole* GConsoleOutput;

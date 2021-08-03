@@ -2,6 +2,8 @@
 #include "../../Core/Application/Events.h"
 #include "../../Managers/CEManager.h"
 
+#include "../../Core/Containers/StaticArray.h"
+
 class CEInputManager : public CEManager {
 public:
 	CEInputManager();
@@ -26,7 +28,7 @@ private:
 public:
 	void Release() override;
 protected:
-	CEStaticArray<bool, CEKey::Key_Count> KeyStates;
-	CEStaticArray<CEKey, 512> ScanCodeTable;
-	CEStaticArray<uint16, 512> KeyTable;
+	CEStaticArray<bool, CEKey::Key_Count> KeyStates{};
+	CEStaticArray<CEKey, 512> ScanCodeTable{};
+	CEStaticArray<uint16, 512> KeyTable{};
 };

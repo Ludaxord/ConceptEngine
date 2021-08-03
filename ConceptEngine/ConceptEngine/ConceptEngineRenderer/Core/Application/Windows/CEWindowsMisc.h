@@ -6,6 +6,9 @@
 #ifdef MessageBox
     #undef MessageBox
 #endif
+#ifdef OutputDebugString
+    #undef OutputDebugString
+#endif
 
 class CEWindowsMisc : public CEGenericMisc
 {

@@ -1,3 +1,3 @@
 #include "CEConsole.h"
 
-CEConsole* GConsoleOutput;
+// CEConsole* GConsoleOutput;

@@ -1,6 +1,11 @@
 #pragma once
 #include "Config/CEGlobalConfigs.h"
 #include "Exception/CEException.h"
+#include "Core/Application/Log.h"
+
+#include <memory>
+#include <string>
+#include <ctime>
 
 class CECore;
 class CEPlatform;
@@ -55,6 +60,7 @@ inline int EngineExec(ConceptEngine* Engine) {
 
 inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
                 EngineBoot EBoot) {
+
 	auto Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot);
 	switch (GEngineConfig.EngineBoot) {
 	case EngineBoot::Runtime:

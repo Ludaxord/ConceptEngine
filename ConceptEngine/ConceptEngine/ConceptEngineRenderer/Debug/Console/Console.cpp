@@ -2,15 +2,15 @@
 
 #include "../../Rendering/DebugUI.h"
 
-#include "../../Core/Engine/EngineLoop.h"
-#include "../../Core/Engine/Engine.h"
-
-#include "../../Core/Application/Application.h"
-
 #include <regex>
 
-CEActionConsole GConsole;
+#include "CEConsoleVariable.h"
+#include "Boot/CECore.h"
+#include "Boot/Callbacks/CEEngineController.h"
+#include "Platform/CEPlatform.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
+CETypedConsole GTypedConsole;
 CEConsoleCommand GClearHistory;
 
 void CEActionConsole::Create()
@@ -18,7 +18,7 @@ void CEActionConsole::Create()
     GClearHistory.OnExecute.AddObject(this, &CEActionConsole::ClearHistory);
     INIT_CONSOLE_COMMAND("ClearHistory", &GClearHistory);
     
-    GEngine.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
+    GEngineController.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
 }
 
 void CEActionConsole::Update()
@@ -27,7 +27,7 @@ void CEActionConsole::Update()
     {
         CEDebugUI::DrawUI([]()
         {
-            GConsole.DrawInterface();
+            GTypedConsole.DrawInterface();
         });
     }
 }
@@ -121,8 +121,8 @@ void CEActionConsole::OnKeyPressedEvent(const KeyPressedEvent& Event)
 
 void CEActionConsole::DrawInterface()
 {
-    const uint32 WindowWidth  = GEngine.MainWindow->GetWidth();
-    const uint32 WindowHeight = GEngine.MainWindow->GetHeight();
+    const uint32 WindowWidth  = CECore::GetPlatform()->GetWindow()->GetWidth();
+    const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
     const float Width  = 640;
     const float Height = 160;
     const ImVec2 Offset(8.0f, 8.0f);
@@ -235,11 +235,11 @@ void CEActionConsole::DrawInterface()
 
             ImGui::PopID();
 
-            if (IsActiveIndex && GConsole.CandidateSelectionChanged)
+            if (IsActiveIndex && GTypedConsole.CandidateSelectionChanged)
             {
                 ImGui::SetScrollHere();
-                GConsole.PopupSelectedText = Candidate.Text;
-                GConsole.CandidateSelectionChanged = false;
+                GTypedConsole.PopupSelectedText = Candidate.Text;
+                GTypedConsole.CandidateSelectionChanged = false;
             }
         }
 
@@ -286,7 +286,7 @@ void CEActionConsole::DrawInterface()
         return This->TextCallback(Data);
     };
 
-    const bool Result = ImGui::InputText("###Input", TextBuffer.Data(), TextBuffer.Size(), InputFlags, Callback, reinterpret_cast<void*>(&GConsole));
+    const bool Result = ImGui::InputText("###Input", TextBuffer.Data(), TextBuffer.Size(), InputFlags, Callback, reinterpret_cast<void*>(&GTypedConsole));
     if (Result && TextBuffer[0] != 0)
     {
         if (CandidatesIndex != -1)

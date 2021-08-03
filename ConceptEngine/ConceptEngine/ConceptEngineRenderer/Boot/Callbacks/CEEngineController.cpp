@@ -6,6 +6,7 @@
 #include "Platform/CEPlatform.h"
 #include "Core/Types.h"
 #include "Core/Delegates/Event.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
 
 CEConsoleCommand GToggleFullscreen;
 CEConsoleCommand GExit;

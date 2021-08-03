@@ -1,5 +1,8 @@
 #include "CEDX12Renderer.h"
 
+#include "Debug/Console/CEConsoleVariable.h"
+#include "Platform/Generic/Console/CETypedConsole.h"
+
 CERenderer* Renderer = new CEDX12Renderer();
 
 #include "Rendering/DebugUI.h"
@@ -8,15 +11,12 @@ CERenderer* Renderer = new CEDX12Renderer();
 #include "Rendering/Resources/Mesh.h"
 
 #include "../Scene/Frustum.h"
-#include "../Scene/Lights/PointLight.h"
-#include "../Scene/Lights/DirectionalLight.h"
 
 #include "../Core/Engine/Engine.h"
 
 #include "../RenderLayer/CEShaderCompiler.h"
 
 #include "../Debug/CEProfiler.h"
-#include "../Debug/Console/Console.h"
 
 #include <algorithm>
 #include <imgui_internal.h>
