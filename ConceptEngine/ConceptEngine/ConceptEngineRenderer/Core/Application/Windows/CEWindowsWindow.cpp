@@ -2,14 +2,14 @@
 #include "CEWindowsPlatform.h"
 #include "Platform/Windows/CEWindows.h"
 
-CEWindow* CEWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, CEWindowStyle InStyle) {
-	CERef<CEWindowsWindow> NewWindow = DBG_NEW CEWindowsWindow();
-	if (!NewWindow->Create(InTitle, InWidth, InHeight, InStyle)) {
-		return nullptr;
-	}
-
-	return NewWindow.ReleaseOwnership();
-}
+// CEWindow* CEWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32 InHeight, CEWindowStyle InStyle) {
+// 	CERef<CEWindowsWindow> NewWindow = DBG_NEW CEWindowsWindow();
+// 	if (!NewWindow->Create(InTitle, InWidth, InHeight, InStyle)) {
+// 		return nullptr;
+// 	}
+//
+// 	return NewWindow.ReleaseOwnership();
+// }
 
 CEWindowsWindow::CEWindowsWindow()
 	: CEWindow()
@@ -66,7 +66,7 @@ bool CEWindowsWindow::RegisterWindowClass() {
 	wndClass.hInstance = CEPlatform::ProjectConfig.PInstance;
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndClass.hIcon = static_cast<HICON>(LoadImage(CEPlatform::ProjectConfig.PInstance, nullptr, IMAGE_ICON, 32, 32, 0));
-	wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wndClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
 	wndClass.lpszMenuName = nullptr;
 	wndClass.lpszClassName = CEWindows::GetWindowClassName();
 	wndClass.hIconSm = static_cast<HICON>(LoadImage(CEPlatform::ProjectConfig.PInstance, nullptr, IMAGE_ICON, 16, 16, 0));
@@ -130,7 +130,7 @@ bool CEWindowsWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32
 
 	Window = ::CreateWindowExW(NULL,
 	                           CEWindows::GetWindowClassName(),
-	                           CEPlatform::ProjectConfig.PTitle.c_str(),
+	                           std::wstring(InTitle.begin(), InTitle.end()).c_str(),
 	                           dwStyle,
 	                           windowX,
 	                           windowY,

@@ -262,6 +262,7 @@
     <ClCompile Include="Graphics\D3D12\Managers\CEDX12MeshManager.cpp" />
     <ClCompile Include="Graphics\D3D12\Managers\CEDX12TextureManager.cpp" />
     <ClCompile Include="Graphics\D3D12\Rendering\CEDX12Renderer.cpp" />
+    <ClCompile Include="Graphics\Generic\Managers\CETextureManager.cpp" />
     <ClCompile Include="Graphics\Metal\CEMetal.cpp" />
     <ClCompile Include="Graphics\OpenGL\CEOpenGL.cpp" />
     <ClCompile Include="Graphics\Vulkan\CEVulkan.cpp" />

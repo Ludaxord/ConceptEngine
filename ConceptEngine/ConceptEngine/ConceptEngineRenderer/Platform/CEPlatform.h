@@ -43,7 +43,7 @@ public:
 	virtual CEWindow* GetActiveWindow() = 0;
 	virtual CECursor* GetCursor() = 0;
 	virtual void GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) = 0;
-	virtual CEWindow* GetWindow() = 0;
+	virtual CERef<CEWindow> GetWindow() = 0;
 
 	static CEModifierKeyState GetModifierKeyState() {
 		return CEModifierKeyState();

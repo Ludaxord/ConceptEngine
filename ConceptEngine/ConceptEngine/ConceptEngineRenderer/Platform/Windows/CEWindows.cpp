@@ -33,6 +33,8 @@ bool CEWindows::CreateSystemWindow() {
 		return false;
 	}
 
+	CE_LOG_DEBUG("CE Windows Window Created...")
+
 	return true;
 }
 
@@ -466,6 +468,6 @@ void CEWindows::StoreMessage(HWND ActiveWindow, UINT Message, WPARAM wParam, LPA
 }
 
 
-CEWindow* CEWindows::GetWindow() {
-	return Window.Get();
+CERef<CEWindow> CEWindows::GetWindow() {
+	return Window;
 }

@@ -56,6 +56,6 @@ void CEAndroid::SetCursorPosition(CEWindow* RelativeWindow, int32 X, int32 Y) {
 void CEAndroid::GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) {
 }
 
-CEWindow* CEAndroid::GetWindow() {
+CERef<CEWindow> CEAndroid::GetWindow() {
 	return nullptr;
 }

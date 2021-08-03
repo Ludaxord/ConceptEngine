@@ -56,6 +56,6 @@ bool CEMac::CreateInputManager() {
 	return false;
 }
 
-CEWindow* CEMac::GetWindow() {
+CERef<CEWindow> CEMac::GetWindow() {
 	return nullptr;
 }

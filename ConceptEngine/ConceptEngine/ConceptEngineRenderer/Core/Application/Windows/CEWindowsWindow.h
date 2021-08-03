@@ -49,7 +49,7 @@ public:
 	CEWindowsWindow();
 	~CEWindowsWindow();
 
-	bool Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style);
+	bool Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style) override;
 
 	virtual void Show(bool Maximized) override final;
 	virtual void Close() override final;

@@ -863,5 +863,8 @@
     <ClCompile Include="D3D12\CEDX12DebugUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Generic\Managers\CETextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -126,6 +126,8 @@ struct CEWindowShape {
 
 class CEWindow : public RefCountedObject {
 public:
+	virtual bool Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style) = 0;
+
 	virtual void Show(bool Maximized) = 0;
 	virtual void Minimize() = 0;
 	virtual void Maximize() = 0;
@@ -153,7 +155,7 @@ public:
 		return WndStyle;
 	}
 
-	static CEWindow* Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style);
+	// static CEWindow* Create(const std::wstring& Title, uint32 Width, uint32 Height, CEWindowStyle Style);
 
 protected:
 	CEWindowStyle WndStyle;

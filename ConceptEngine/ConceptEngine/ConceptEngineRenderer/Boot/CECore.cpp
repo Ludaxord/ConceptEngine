@@ -49,6 +49,7 @@ bool CECore::Create() {
 	}
 
 	if (!GEngineController.Create()) {
+		CE_LOG_ERROR("Failed to Create Engine Controller")
 		CEDebug::DebugBreak();
 		return false;
 	}

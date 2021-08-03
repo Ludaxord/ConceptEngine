@@ -56,6 +56,6 @@ bool CELinux::CreateInputManager() {
 	return false;
 }
 
-CEWindow* CELinux::GetWindow() {
+CERef<CEWindow> CELinux::GetWindow() {
 	return nullptr;
 }

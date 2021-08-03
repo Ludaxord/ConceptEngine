@@ -42,7 +42,7 @@ private:
 	static void StoreMessage(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
 public:
-	CEWindow* GetWindow() override;
+	CERef<CEWindow> GetWindow() override;
 private:
 	inline static CEArray<CEWindowsEvent> Messages;
 	inline static CERef<CEWindowsCursor> Cursor;

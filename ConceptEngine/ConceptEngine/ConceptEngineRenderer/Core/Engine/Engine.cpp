@@ -19,7 +19,7 @@ bool Engine::Init()
         WindowStyleFlag_Maximizable |
         WindowStyleFlag_Resizeable;
 
-    MainWindow = CEWindow::Create(L"Concept Engine", 1920, 1080, Style);
+    // MainWindow = CEWindow::Create(L"Concept Engine", 1920, 1080, Style);
     if (MainWindow)
     {
         MainWindow->Show(false);

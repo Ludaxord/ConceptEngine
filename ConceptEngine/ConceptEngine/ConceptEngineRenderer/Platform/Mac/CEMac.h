@@ -22,5 +22,5 @@ public:
 private:
 	bool CreateInputManager() override;
 public:
-	CEWindow* GetWindow() override;
+	CERef<CEWindow> GetWindow() override;
 };

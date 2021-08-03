@@ -63,7 +63,7 @@ bool CEWindowsWindow::RegisterWindowClass() {
 	wndClass.hInstance = CEWindows::Instance;
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndClass.hIcon = static_cast<HICON>(LoadImage(CEWindows::Instance, nullptr, IMAGE_ICON, 32, 32, 0));
-	wndClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wndClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
 	wndClass.lpszMenuName = nullptr;
 	wndClass.lpszClassName = CEWindows::GetWindowClassName();
 	wndClass.hIconSm = static_cast<HICON>(LoadImage(CEWindows::Instance, nullptr, IMAGE_ICON, 16, 16, 0));

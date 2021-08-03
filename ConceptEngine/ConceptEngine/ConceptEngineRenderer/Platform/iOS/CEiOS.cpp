@@ -56,6 +56,6 @@ void CEiOS::SetCursorPosition(CEWindow* RelativeWindow, int32 X, int32 Y) {
 void CEiOS::GetCursorPosition(CEWindow* RelativeWindow, int32& X, int32& Y) {
 }
 
-CEWindow* CEiOS::GetWindow() {
+CERef<CEWindow> CEiOS::GetWindow() {
 	return nullptr;
 }

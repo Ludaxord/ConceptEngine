@@ -17,21 +17,25 @@ CECoreRuntime::CECoreRuntime(CEEngineConfig& EConfig, CEPlayground* InPlayground
 
 bool CECoreRuntime::Create() {
 	if (!GPlatform->CreateSystemWindow()) {
+		CE_LOG_ERROR("Failed to Create System Window")
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!GPlatform->CreateCursor()) {
+		CE_LOG_ERROR("Failed to Create System Cursor")
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!CECore::Create()) {
+		CE_LOG_ERROR("Failed to Create Core")
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!GPlatform->CreateManagers()) {
+		CE_LOG_ERROR("Failed to Create Managers")
 		CEDebug::DebugBreak();
 		return false;
 	}
