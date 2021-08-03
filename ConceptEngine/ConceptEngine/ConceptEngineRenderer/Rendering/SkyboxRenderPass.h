@@ -1,11 +1,10 @@
 #pragma once
 #include "FrameResources.h"
 
-#include "../Rendering/Resources/MeshFactory.h"
-
 #include "../RenderLayer/CommandList.h"
 
 #include "../Scene/CEScene.h"
+#include "../Graphics/D3D12/Managers/CEDX12MeshManager.h"
 
 class SkyboxRenderPass final
 {

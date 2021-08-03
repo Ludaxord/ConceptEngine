@@ -65,10 +65,10 @@ bool EngineLoop::Init()
         return false;
     }
 
-    if (!TextureFactory::Init())
-    {
-        return false;
-    }
+    // if (!TextureFactory::Init())
+    // {
+    //     return false;
+    // }
 
     // Init Application
     GApplication = CreateApplication();
@@ -139,7 +139,7 @@ bool EngineLoop::Release()
 
     GCmdListExecutor.WaitForGPU();
 
-    TextureFactory::Release();
+    // TextureFactory::Release();
 
     if (GApplication->Release())
     {

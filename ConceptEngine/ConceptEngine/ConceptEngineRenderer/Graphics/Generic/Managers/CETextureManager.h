@@ -1,8 +1,8 @@
 #pragma once
-#include "Managers/CEManager.h"
-#include "RenderLayer/CommandList.h"
-#include "RenderLayer/PipelineState.h"
-#include "RenderLayer/RenderingCore.h"
+#include "../../../Managers/CEManager.h"
+#include "../../../RenderLayer/CommandList.h"
+#include "../../../RenderLayer/PipelineState.h"
+#include "../../../RenderLayer/RenderingCore.h"
 
 
 enum CETextureFactoryFlags : uint32 {

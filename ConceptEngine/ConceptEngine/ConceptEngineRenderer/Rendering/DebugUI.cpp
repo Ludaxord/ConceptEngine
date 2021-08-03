@@ -17,6 +17,7 @@
 
 #include "../Core/Containers/Array.h"
 #include "Boot/CECore.h"
+#include "Graphics/Generic/Managers/CEManagers.h"
 
 struct ImGuiState
 {
@@ -228,7 +229,7 @@ bool CEDebugUI::Create()
     int32 Height = 0;
     IO.Fonts->GetTexDataAsRGBA32(&Pixels, &Width, &Height);
 
-    GlobalImGuiState.FontTexture = TextureFactory::LoadFromMemory(Pixels, Width, Height, 0, EFormat::R8G8B8A8_Unorm);
+    GlobalImGuiState.FontTexture = CastTextureManager()->LoadFromMemory(Pixels, Width, Height, 0, EFormat::R8G8B8A8_Unorm);
     if (!GlobalImGuiState.FontTexture)
     {
         return false;

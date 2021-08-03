@@ -1,14 +1,14 @@
 #include "SkyboxRenderPass.h"
 
-#include "../RenderLayer/RenderLayer.h"
 #include "../RenderLayer/CEShaderCompiler.h"
 #include "../Rendering/Resources/TextureFactory.h"
 
 #include "../Debug/CEProfiler.h"
+#include "Graphics/Generic/Managers/CEManagers.h"
 
 bool SkyboxRenderPass::Init(FrameResources& FrameResources)
 {
-    SkyboxMesh = MeshFactory::CreateSphere(1);
+    SkyboxMesh = CastMeshManager()->CreateSphere(1);
 
     ResourceData VertexData = ResourceData(SkyboxMesh.Vertices.Data(), SkyboxMesh.Vertices.SizeInBytes());
     SkyboxVertexBuffer = CreateVertexBuffer<Vertex>(SkyboxMesh.Vertices.Size(), BufferFlag_Upload, EResourceState::VertexAndConstantBuffer, &VertexData);
@@ -34,7 +34,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
 
     // Create Texture Cube
     const std::string PanoramaSourceFilename = "../Concept-Engine/Assets/Textures/arches.hdr";
-    CERef<Texture2D> Panorama = TextureFactory::LoadFromFile(PanoramaSourceFilename, 0, EFormat::R32G32B32A32_Float);
+    CERef<Texture2D> Panorama = CastTextureManager()->LoadFromFile(PanoramaSourceFilename, 0, EFormat::R32G32B32A32_Float);
     if (!Panorama)
     {
         return false;
@@ -44,7 +44,7 @@ bool SkyboxRenderPass::Init(FrameResources& FrameResources)
         Panorama->SetName(PanoramaSourceFilename);
     }
 
-    FrameResources.Skybox = TextureFactory::CreateTextureCubeFromPanorma(Panorama.Get(), 1024, TextureFactoryFlag_GenerateMips, EFormat::R16G16B16A16_Float);
+    FrameResources.Skybox = CastTextureManager()->CreateTextureCubeFromPanorama(Panorama.Get(), 1024, TextureFactoryFlag_GenerateMips, EFormat::R16G16B16A16_Float);
     if (!FrameResources.Skybox)
     {
         return false;

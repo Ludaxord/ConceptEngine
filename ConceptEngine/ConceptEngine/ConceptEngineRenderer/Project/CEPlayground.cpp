@@ -6,7 +6,7 @@ CEPlayground::CEPlayground() {
 }
 
 bool CEPlayground::Create() {
-	return false;
+	return true;
 }
 
 void CEPlayground::Update(CETimestamp DeltaTime) {

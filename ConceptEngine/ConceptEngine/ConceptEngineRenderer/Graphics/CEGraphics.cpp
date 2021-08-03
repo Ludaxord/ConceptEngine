@@ -12,16 +12,18 @@ bool CEGraphics::Create() {
 		CEDebug::DebugBreak();
 		return false;
 	}
-	return false;
+	return true;
 }
 
 bool CEGraphics::CreateManagers() {
 	if (!CreateGraphicsManager()) {
+		CE_LOG_ERROR("Failed to Instance Graphics Manager")
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!CreateShaderCompiler()) {
+		CE_LOG_ERROR("Failed to Instance Shader Compiler")
 		CEDebug::DebugBreak();
 		return false;
 	}
@@ -32,17 +34,19 @@ bool CEGraphics::CreateManagers() {
 		GCmdListExecutor.SetContext(commandContext);
 	}
 	else {
-
+		CE_LOG_ERROR("Failed to Create Graphics Manager")
 		CEPlatformMisc::MessageBox("Error", "Failed to initialize Graphics Manager");
 		return false;
 	}
 
 	if (!CreateTextureManager()) {
+		CE_LOG_ERROR("Failed to Instance Texture Manager")
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!TextureManager->Create()) {
+		CE_LOG_ERROR("Failed to Create Texture Manager")
 		CEPlatformMisc::MessageBox("Error", "Failed to initialize Texture Manager");
 		return false;
 	}
@@ -58,12 +62,13 @@ bool CEGraphics::CreateManagers() {
 	}
 
 	if (!CreateMeshManager()) {
+		CE_LOG_ERROR("Failed to Instance Mesh Manager")
 		CEDebug::DebugBreak();
 		return false;
 	}
 
 	if (!MeshManager->Create()) {
-		CE_LOG_ERROR("Failed to create Mesh Manager");
+		CE_LOG_ERROR("Failed to Create Mesh Manager")
 		CEDebug::DebugBreak();
 		return false;
 	}

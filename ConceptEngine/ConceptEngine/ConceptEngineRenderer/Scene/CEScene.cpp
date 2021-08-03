@@ -13,6 +13,9 @@
 
 #include <unordered_map>
 
+#include "Graphics/D3D12/Managers/CEDX12MeshManager.h"
+#include "Graphics/Generic/Managers/CEManagers.h"
+
 CEScene::CEScene()
     : Actors()
 {
@@ -101,7 +104,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
 
     // Create standard textures
     uint8 Pixels[] = { 255, 255, 255, 255 };
-    CERef<Texture2D> WhiteTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> WhiteTexture = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!WhiteTexture)
     {
         return nullptr;
@@ -115,7 +118,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
     Pixels[1] = 127;
     Pixels[2] = 255;
 
-    CERef<Texture2D> NormalMap = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+    CERef<Texture2D> NormalMap = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
     if (!NormalMap)
     {
         return nullptr;
@@ -168,7 +171,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.ambient_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.ambient_texname;
-                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+                CERef<Texture2D> Texture = CastTextureManager()->LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.ambient_texname);
@@ -190,7 +193,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.diffuse_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.diffuse_texname;
-                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm); 
+                CERef<Texture2D> Texture = CastTextureManager()->LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm); 
                 if (Texture)
                 {
                     Texture->SetName(Mat.diffuse_texname);
@@ -212,7 +215,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.specular_highlight_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.specular_highlight_texname;
-                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+                CERef<Texture2D> Texture = CastTextureManager()->LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.specular_highlight_texname);
@@ -234,7 +237,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.bump_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.bump_texname;
-                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
+                CERef<Texture2D> Texture = CastTextureManager()->LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.bump_texname);
@@ -256,7 +259,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
             if (MaterialTextures.count(Mat.alpha_texname) == 0)
             {
                 std::string TexName = MTLFiledir + '/' + Mat.alpha_texname;
-                CERef<Texture2D> Texture = TextureFactory::LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+                CERef<Texture2D> Texture = CastTextureManager()->LoadFromFile(TexName, TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
                 if (Texture)
                 {
                     Texture->SetName(Mat.alpha_texname);
@@ -347,7 +350,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath)
             }
 
             // Calculate tangents and create mesh
-            MeshFactory::CalculateTangents(Data);
+            CastMeshManager()->CalculateTangents(Data);
             TSharedPtr<Mesh> NewMesh = Mesh::Make(Data);
 
             // Setup new actor for this shape

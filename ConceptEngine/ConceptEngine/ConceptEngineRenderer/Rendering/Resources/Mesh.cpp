@@ -2,6 +2,7 @@
 
 #include "../../RenderLayer/CommandList.h"
 #include "../../RenderLayer/RenderLayer.h"
+#include "Graphics/D3D12/Managers/CEDX12MeshManager.h"
 
 bool Mesh::Init(const MeshData& Data)
 {

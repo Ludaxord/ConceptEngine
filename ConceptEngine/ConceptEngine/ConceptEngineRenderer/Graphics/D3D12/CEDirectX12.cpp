@@ -16,6 +16,7 @@ CEDirectX12::~CEDirectX12() {
 
 bool CEDirectX12::Create() {
 	if (!CEGraphics::Create()) {
+		CE_LOG_ERROR("Failed to Create Graphics Object");
 		CEDebug::DebugBreak();
 		return false;
 	}

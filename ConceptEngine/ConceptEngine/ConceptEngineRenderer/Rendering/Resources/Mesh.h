@@ -8,6 +8,8 @@
 
 #include "../../Scene/AABB.h"
 
+struct MeshData;
+
 class Mesh
 {
 public:

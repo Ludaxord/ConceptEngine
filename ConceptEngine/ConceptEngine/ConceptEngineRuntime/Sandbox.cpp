@@ -15,6 +15,9 @@
 #include "../ConceptEngineRenderer/Boot/CECore.h"
 #include "../ConceptEngineRenderer/Platform/CEPlatform.h"
 
+#include "../ConceptEngineRenderer/Graphics/Generic/Managers/CEManagers.h"
+#include "../ConceptEngineRenderer/Graphics/Generic/Managers/CETextureManager.h"
+#include "../ConceptEngineRenderer/Graphics/Generic/Managers/CEMeshManager.h"
 #include <random>
 
 #define ENABLE_LIGHT_TEST 0
@@ -40,7 +43,7 @@ bool Sandbox::Create() {
 	Scene = CEScene::LoadFromFile("../Concept-Engine/Assets/Scenes/Sponza/Sponza.obj");
 
 	// Create Spheres
-	MeshData SphereMeshData = MeshFactory::CreateSphere(3);
+	MeshData SphereMeshData = CastMeshManager()->CreateSphere(3);
 	TSharedPtr<Mesh> SphereMesh = Mesh::Make(SphereMeshData);
 	SphereMesh->ShadowOffset = 0.05f;
 
@@ -53,7 +56,7 @@ bool Sandbox::Create() {
 		255
 	};
 
-	CERef<Texture2D> BaseTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+	CERef<Texture2D> BaseTexture = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
 	if (!BaseTexture) {
 		return false;
 	}
@@ -65,7 +68,7 @@ bool Sandbox::Create() {
 	Pixels[1] = 127;
 	Pixels[2] = 255;
 
-	CERef<Texture2D> BaseNormal = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+	CERef<Texture2D> BaseNormal = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
 	if (!BaseNormal) {
 		return false;
 	}
@@ -77,7 +80,7 @@ bool Sandbox::Create() {
 	Pixels[1] = 255;
 	Pixels[2] = 255;
 
-	CERef<Texture2D> WhiteTexture = TextureFactory::LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
+	CERef<Texture2D> WhiteTexture = CastTextureManager()->LoadFromMemory(Pixels, 1, 1, 0, EFormat::R8G8B8A8_Unorm);
 	if (!WhiteTexture) {
 		return false;
 	}
@@ -130,7 +133,7 @@ bool Sandbox::Create() {
 	}
 
 	// Create Other Meshes
-	MeshData CubeMeshData = MeshFactory::CreateCube();
+	MeshData CubeMeshData = CastMeshManager()->CreateCube();
 
 	NewActor = DBG_NEW Actor();
 	Scene->AddActor(NewActor);
@@ -147,7 +150,7 @@ bool Sandbox::Create() {
 	NewComponent->Mesh = Mesh::Make(CubeMeshData);
 	NewComponent->Material = MakeShared<Material>(MatProperties);
 
-	CERef<Texture2D> AlbedoMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png",
+	CERef<Texture2D> AlbedoMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png",
 	                                                          TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
 	if (!AlbedoMap) {
 		return false;
@@ -156,7 +159,7 @@ bool Sandbox::Create() {
 		AlbedoMap->SetName("AlbedoMap");
 	}
 
-	CERef<Texture2D> NormalMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Normal.png",
+	CERef<Texture2D> NormalMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Normal.png",
 	                                                          TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
 	if (!NormalMap) {
 		return false;
@@ -165,7 +168,7 @@ bool Sandbox::Create() {
 		NormalMap->SetName("NormalMap");
 	}
 
-	CERef<Texture2D> AOMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_AO.png",
+	CERef<Texture2D> AOMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_AO.png",
 	                                                      TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!AOMap) {
 		return false;
@@ -174,7 +177,7 @@ bool Sandbox::Create() {
 		AOMap->SetName("AOMap");
 	}
 
-	CERef<Texture2D> RoughnessMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Roughness.png",
+	CERef<Texture2D> RoughnessMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Roughness.png",
 	                                                             TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!RoughnessMap) {
 		return false;
@@ -183,7 +186,7 @@ bool Sandbox::Create() {
 		RoughnessMap->SetName("RoughnessMap");
 	}
 
-	CERef<Texture2D> HeightMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Height.png",
+	CERef<Texture2D> HeightMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Height.png",
 	                                                          TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!HeightMap) {
 		return false;
@@ -192,7 +195,7 @@ bool Sandbox::Create() {
 		HeightMap->SetName("HeightMap");
 	}
 
-	CERef<Texture2D> MetallicMap = TextureFactory::LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Metallic.png",
+	CERef<Texture2D> MetallicMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Metallic.png",
 	                                                            TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!MetallicMap) {
 		return false;
@@ -225,7 +228,7 @@ bool Sandbox::Create() {
 	MatProperties.Albedo = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
 	NewComponent = DBG_NEW MeshComponent(NewActor);
-	NewComponent->Mesh = Mesh::Make(MeshFactory::CreatePlane(10, 10));
+	NewComponent->Mesh = Mesh::Make(CastMeshManager()->CreatePlane(10, 10));
 	NewComponent->Material = MakeShared<Material>(MatProperties);
 	NewComponent->Material->AlbedoMap = BaseTexture;
 	NewComponent->Material->NormalMap = BaseNormal;

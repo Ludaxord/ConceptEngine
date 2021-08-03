@@ -1,9 +1,9 @@
 #pragma once
-#include "D3D12/CEDX12GraphicsManager.h"
-#include "D3D12/CEDX12ShaderCompiler.h"
-#include "RenderLayer/CEGraphicsManager.h"
-#include "Graphics/Generic/Managers/CETextureManager.h"
-#include "Graphics/Generic/Managers/CEMeshManager.h"
+#include "../../../D3D12/CEDX12GraphicsManager.h"
+#include "../../../D3D12/CEDX12ShaderCompiler.h"
+#include "../../../RenderLayer/CEGraphicsManager.h"
+#include "../../../Graphics/Generic/Managers/CETextureManager.h"
+#include "../../../Graphics/Generic/Managers/CEMeshManager.h"
 
 enum class ManagerType {
 	Graphics = 0,
@@ -32,6 +32,14 @@ inline T* CastManager(ManagerType Type) {
 
 inline CEGraphicsManager* CastGraphicsManager() {
 	return CastManager<CEGraphicsManager>(ManagerType::Graphics);
+}
+
+inline CEMeshManager* CastMeshManager() {
+	return CastManager<CEMeshManager>(ManagerType::Mesh);
+}
+
+inline CETextureManager* CastTextureManager() {
+	return CastManager<CETextureManager>(ManagerType::Texture);
 }
 
 inline ICEShaderCompiler* CastShaderCompiler() {
