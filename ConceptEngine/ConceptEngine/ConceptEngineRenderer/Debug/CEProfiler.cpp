@@ -9,6 +9,7 @@
 #include "../Core/Engine/Engine.h"
 
 #include "../Math/Math.h"
+#include "Boot/CECore.h"
 #include "Console/CEConsoleVariable.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
 
@@ -266,7 +267,7 @@ static float ImGui_GetMaxLimit(float Num)
 
 static void DrawFPS()
 {
-    const uint32 WindowWidth = GEngine.MainWindow->GetWidth();
+    const uint32 WindowWidth = CECore::GetPlatform()->GetWindow()->GetWidth();
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(5.0f, 5.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2.0f, 1.0f));

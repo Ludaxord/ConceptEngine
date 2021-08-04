@@ -523,7 +523,8 @@ void CEDebugUI::Render(CommandList& CmdList)
 
     ImGuiIO& IO = ImGui::GetIO();
 
-    CEWindow* Window = GEngine.MainWindow.Get();
+    // CEWindow* Window = GEngine.MainWindow.Get();
+    CEWindow* Window = CECore::GetPlatform()->GetWindow().Get();
     if (IO.WantSetMousePos)
     {
         Platform::SetCursorPos(Window, static_cast<int32>(IO.MousePos.x), static_cast<int32>(IO.MousePos.y));

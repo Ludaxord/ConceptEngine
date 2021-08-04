@@ -1,5 +1,6 @@
 #include "CEDX12Renderer.h"
 
+#include "Boot/CECore.h"
 #include "Debug/Console/CEConsoleVariable.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
 
@@ -241,8 +242,8 @@ void CEDX12Renderer::RenderDebugInterface() {
 	}
 
 	if (GDrawRendererInfo.GetBool()) {
-		const uint32 WindowWidth = GEngine.MainWindow->GetWidth();
-		const uint32 WindowHeight = GEngine.MainWindow->GetHeight();
+		const uint32 WindowWidth = CECore::GetPlatform()->GetWindow()->GetWidth();
+		const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
 		const float Width = 300.0f;
 		const float Height = WindowHeight * 0.8f;
 
