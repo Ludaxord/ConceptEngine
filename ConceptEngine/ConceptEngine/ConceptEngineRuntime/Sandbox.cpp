@@ -328,7 +328,7 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 
 	const float Delta = static_cast<float>(DeltaTime.AsSeconds());
 	const float RotationSpeed = 45.0f;
-	const float MouseRotationSpeed = 90.0f;
+	const float MouseRotationSpeed = 15.0f;
 
 	if (CECore::GetPlatform()->GetInputManager()->IsKeyDown(CEKey::Key_Right)) {
 		CurrentCamera->Rotate(0.0f, XMConvertToRadians(RotationSpeed * Delta), 0.0f);
@@ -344,25 +344,16 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 		CurrentCamera->Rotate(XMConvertToRadians(RotationSpeed * Delta), 0.0f, 0.0f);
 	}
 
+	auto Movement = CECore::GetPlatform()->GetInputManager()->IsMouseMovement();
 	if (CECore::GetPlatform()->GetInputManager()->IsMouseDown(CEMouseButton::MouseButton_Left)) {
-		auto Movement = CECore::GetPlatform()->GetInputManager()->IsMouseMovement();
-		if (Movement.first > MouseOffsetX) {
-			CurrentCamera->Rotate(0.0f, XMConvertToRadians(MouseRotationSpeed * Delta), 0.0f);
-		}
-		else if (Movement.first < MouseOffsetX) {
-			CurrentCamera->Rotate(0.0f, XMConvertToRadians(-MouseRotationSpeed * Delta), 0.0f);
-		}
-
-		if (Movement.second > MouseOffsetY) {
-			CurrentCamera->Rotate(XMConvertToRadians(-MouseRotationSpeed * Delta), 0.0f, 0.0f);
-		}
-		else if (Movement.second < MouseOffsetY) {
-			CurrentCamera->Rotate(XMConvertToRadians(MouseRotationSpeed * Delta), 0.0f, 0.0f);
-		}
-
-		MouseOffsetX = Movement.first;
-		MouseOffsetY = Movement.second;
+		CurrentCamera->Rotate(
+			XMConvertToRadians(-MouseRotationSpeed * Delta * static_cast<float>(Movement.second - MouseOffsetY)),
+			XMConvertToRadians(MouseRotationSpeed * Delta * static_cast<float>(Movement.first - MouseOffsetX)),
+			0.0f);
 	}
+
+	MouseOffsetX = Movement.first;
+	MouseOffsetY = Movement.second;
 
 	float Acceleration = 15.0f;
 	if (CECore::GetPlatform()->GetInputManager()->IsKeyDown(CEKey::Key_LeftShift)) {

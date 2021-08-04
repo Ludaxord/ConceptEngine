@@ -64,17 +64,14 @@ void CEInputManager::OnKeyReleased(const KeyReleasedEvent& Event) {
 }
 
 void CEInputManager::OnMousePressed(const MousePressedEvent& Event) {
-	CE_LOG_VERBOSE("INPUT MANAGER Mouse Event Pressed")
 	MouseButtonKeyStates[Event.Button] = true;
 }
 
 void CEInputManager::OnMouseReleased(const MouseReleasedEvent& Event) {
-	CE_LOG_VERBOSE("INPUT MANAGER Mouse Event Released")
 	MouseButtonKeyStates[Event.Button] = false;
 }
 
 void CEInputManager::OnMouseMoved(const MouseMovedEvent& Event) {
-	CE_LOG_VERBOSE("INPUT MANAGER Mouse Moved X: " + std::to_string(Event.x) + " Y: " + std::to_string(Event.y))
 	MouseXOffset = Event.x;
 	MouseYOffset = Event.y;
 }
