@@ -347,7 +347,7 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 	auto Movement = CECore::GetPlatform()->GetInputManager()->IsMouseMovement();
 	if (CECore::GetPlatform()->GetInputManager()->IsMouseDown(CEMouseButton::MouseButton_Left)) {
 		CurrentCamera->Rotate(
-			XMConvertToRadians(-MouseRotationSpeed * Delta * static_cast<float>(Movement.second - MouseOffsetY)),
+			XMConvertToRadians(MouseRotationSpeed * Delta * static_cast<float>(Movement.second - MouseOffsetY)),
 			XMConvertToRadians(MouseRotationSpeed * Delta * static_cast<float>(Movement.first - MouseOffsetX)),
 			0.0f);
 	}
