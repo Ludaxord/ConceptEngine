@@ -315,6 +315,9 @@ void CESandbox::Update(ConceptEngine::Time::CETimestamp DeltaTime) {
 	}
 
 	//TODO: Replace it with mouse movement!!!
+	if (CEPlatform::GetInputManager()->)
+
+
 	if (CEPlatform::GetInputManager()->IsKeyDown(Key_Right)) {
 		CurrentCamera->Rotate(0.0f, XMConvertToRadians(RotationSpeed * Delta), 0.0f);
 	}

@@ -63,6 +63,7 @@ void CEEngineController::OnMouseMove(int32 x, int32 y) {
 }
 
 void CEEngineController::OnMouseReleased(CEMouseButton Button, const CEModifierKeyState& ModfierKeyState) {
+	CE_LOG_DEBUG("Mouse Released")
 	CEWindow* CaptureWindow = CECore::GetPlatform()->GetCapture();
 	if (CaptureWindow) {
 		CECore::GetPlatform()->SetCapture(nullptr);
@@ -73,6 +74,7 @@ void CEEngineController::OnMouseReleased(CEMouseButton Button, const CEModifierK
 }
 
 void CEEngineController::OnMousePressed(CEMouseButton Button, const CEModifierKeyState& ModfierKeyState) {
+	CE_LOG_DEBUG("Mouse Pressed")
 	CEWindow* CaptureWindow = CECore::GetPlatform()->GetCapture();
 	if (!CaptureWindow) {
 		CEWindow* ActiveWindow = CECore::GetPlatform()->GetActiveWindow();

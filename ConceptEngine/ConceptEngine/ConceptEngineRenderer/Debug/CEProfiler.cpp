@@ -570,8 +570,8 @@ static void DrawGPUProfileData(float Width)
 static void DrawProfiler()
 {
     // Draw DebugWindow with DebugStrings
-    const uint32 WindowWidth  = GEngine.MainWindow->GetWidth();
-    const uint32 WindowHeight = GEngine.MainWindow->GetHeight();
+    const uint32 WindowWidth  = CECore::GetPlatform()->GetWindow()->GetWidth();
+    const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
     const float Width         = Math::Max(WindowWidth * 0.6f, 400.0f);
     const float Height        = WindowHeight * 0.75f;
 

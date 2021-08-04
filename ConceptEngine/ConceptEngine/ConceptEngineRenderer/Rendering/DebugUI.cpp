@@ -17,6 +17,7 @@
 
 #include "../Core/Containers/Array.h"
 #include "Boot/CECore.h"
+#include "Boot/Callbacks/CEEngineController.h"
 #include "Graphics/Generic/Managers/CEManagers.h"
 
 struct ImGuiState
@@ -450,13 +451,13 @@ bool CEDebugUI::Create()
         return false;
     }
 
-    GEngine.OnKeyPressedEvent.AddFunction(CEDebugUI::OnKeyPressed);
-    GEngine.OnKeyReleasedEvent.AddFunction(CEDebugUI::OnKeyReleased);
-    GEngine.OnKeyTypedEvent.AddFunction(CEDebugUI::OnKeyTyped);
+    GEngineController.OnKeyPressedEvent.AddFunction(CEDebugUI::OnKeyPressed);
+    GEngineController.OnKeyReleasedEvent.AddFunction(CEDebugUI::OnKeyReleased);
+    GEngineController.OnKeyTypedEvent.AddFunction(CEDebugUI::OnKeyTyped);
 
-    GEngine.OnMousePressedEvent.AddFunction(CEDebugUI::OnMousePressed);
-    GEngine.OnMouseReleasedEvent.AddFunction(CEDebugUI::OnMouseReleased);
-    GEngine.OnMouseScrolledEvent.AddFunction(CEDebugUI::OnMouseScrolled);
+    GEngineController.OnMousePressedEvent.AddFunction(CEDebugUI::OnMousePressed);
+    GEngineController.OnMouseReleasedEvent.AddFunction(CEDebugUI::OnMouseReleased);
+    GEngineController.OnMouseScrolledEvent.AddFunction(CEDebugUI::OnMouseScrolled);
 
     return true;
 }

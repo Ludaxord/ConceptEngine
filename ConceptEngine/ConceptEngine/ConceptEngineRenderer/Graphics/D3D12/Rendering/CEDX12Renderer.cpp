@@ -1,6 +1,7 @@
 #include "CEDX12Renderer.h"
 
 #include "Boot/CECore.h"
+#include "Boot/Callbacks/CEEngineController.h"
 #include "Debug/Console/CEConsoleVariable.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
 
@@ -173,8 +174,8 @@ void CEDX12Renderer::RenderDebugInterface() {
 		constexpr float InvAspectRatio = 16.0f / 9.0f;
 		constexpr float AspectRatio = 9.0f / 16.0f;
 
-		const uint32 WindowWidth = GEngine.MainWindow->GetWidth();
-		const uint32 WindowHeight = GEngine.MainWindow->GetHeight();
+		const uint32 WindowWidth = CECore::GetPlatform()->GetWindow()->GetWidth();
+		const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
 		const float Width = Math::Max(WindowWidth * 0.6f, 400.0f);
 		const float Height = WindowHeight * 0.75f;
 
@@ -601,7 +602,7 @@ bool CEDX12Renderer::Create() {
 	INIT_CONSOLE_VARIABLE("r.EnableRayTracing", &GRayTracingEnabled);
 	INIT_CONSOLE_VARIABLE("r.FXAADebug", &GFXAADebug);
 
-	Resources.MainWindowViewport = CreateViewport(GEngine.MainWindow.Get(), 0, 0, EFormat::R8G8B8A8_Unorm,
+	Resources.MainWindowViewport = CreateViewport(CECore::GetPlatform()->GetWindow().Get(), 0, 0, EFormat::R8G8B8A8_Unorm,
 	                                              EFormat::Unknown);
 	if (!Resources.MainWindowViewport) {
 		CEDebug::DebugBreak();
@@ -737,7 +738,7 @@ bool CEDX12Renderer::Create() {
 	GCmdListExecutor.ExecuteCommandList(CmdList);
 
 	// Register EventFunc
-	GEngine.OnWindowResizedEvent.AddObject(this, &CEDX12Renderer::OnWindowResize);
+	GEngineController.OnWindowResizedEvent.AddObject(this, &CEDX12Renderer::OnWindowResize);
 	return true;
 }
 

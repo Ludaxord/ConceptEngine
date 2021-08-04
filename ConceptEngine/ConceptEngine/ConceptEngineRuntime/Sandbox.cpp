@@ -28,6 +28,7 @@ CEPlayground* CreatePlayground() {
 }
 
 class Application;
+
 Application* CreateApplication() {
 	return nullptr;
 }
@@ -151,7 +152,8 @@ bool Sandbox::Create() {
 	NewComponent->Material = MakeShared<Material>(MatProperties);
 
 	CERef<Texture2D> AlbedoMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png",
-	                                                          TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
+	                                                                TextureFactoryFlag_GenerateMips,
+	                                                                EFormat::R8G8B8A8_Unorm);
 	if (!AlbedoMap) {
 		return false;
 	}
@@ -160,7 +162,8 @@ bool Sandbox::Create() {
 	}
 
 	CERef<Texture2D> NormalMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Normal.png",
-	                                                          TextureFactoryFlag_GenerateMips, EFormat::R8G8B8A8_Unorm);
+	                                                                TextureFactoryFlag_GenerateMips,
+	                                                                EFormat::R8G8B8A8_Unorm);
 	if (!NormalMap) {
 		return false;
 	}
@@ -169,7 +172,7 @@ bool Sandbox::Create() {
 	}
 
 	CERef<Texture2D> AOMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_AO.png",
-	                                                      TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+	                                                            TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!AOMap) {
 		return false;
 	}
@@ -177,8 +180,9 @@ bool Sandbox::Create() {
 		AOMap->SetName("AOMap");
 	}
 
-	CERef<Texture2D> RoughnessMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Roughness.png",
-	                                                             TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+	CERef<Texture2D> RoughnessMap = CastTextureManager()->LoadFromFile(
+		"../Concept-Engine/Assets/Textures/Gate_Roughness.png",
+		TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!RoughnessMap) {
 		return false;
 	}
@@ -187,7 +191,7 @@ bool Sandbox::Create() {
 	}
 
 	CERef<Texture2D> HeightMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Height.png",
-	                                                          TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+	                                                                TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!HeightMap) {
 		return false;
 	}
@@ -195,8 +199,9 @@ bool Sandbox::Create() {
 		HeightMap->SetName("HeightMap");
 	}
 
-	CERef<Texture2D> MetallicMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Metallic.png",
-	                                                            TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
+	CERef<Texture2D> MetallicMap = CastTextureManager()->LoadFromFile(
+		"../Concept-Engine/Assets/Textures/Gate_Metallic.png",
+		TextureFactoryFlag_GenerateMips, EFormat::R8_Unorm);
 	if (!MetallicMap) {
 		return false;
 	}
@@ -323,6 +328,7 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 
 	const float Delta = static_cast<float>(DeltaTime.AsSeconds());
 	const float RotationSpeed = 45.0f;
+	const float MouseRotationSpeed = 90.0f;
 
 	if (CECore::GetPlatform()->GetInputManager()->IsKeyDown(CEKey::Key_Right)) {
 		CurrentCamera->Rotate(0.0f, XMConvertToRadians(RotationSpeed * Delta), 0.0f);
@@ -336,6 +342,26 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 	}
 	else if (CECore::GetPlatform()->GetInputManager()->IsKeyDown(CEKey::Key_Down)) {
 		CurrentCamera->Rotate(XMConvertToRadians(RotationSpeed * Delta), 0.0f, 0.0f);
+	}
+
+	if (CECore::GetPlatform()->GetInputManager()->IsMouseDown(CEMouseButton::MouseButton_Left)) {
+		auto Movement = CECore::GetPlatform()->GetInputManager()->IsMouseMovement();
+		if (Movement.first > MouseOffsetX) {
+			CurrentCamera->Rotate(0.0f, XMConvertToRadians(MouseRotationSpeed * Delta), 0.0f);
+		}
+		else if (Movement.first < MouseOffsetX) {
+			CurrentCamera->Rotate(0.0f, XMConvertToRadians(-MouseRotationSpeed * Delta), 0.0f);
+		}
+
+		if (Movement.second > MouseOffsetY) {
+			CurrentCamera->Rotate(XMConvertToRadians(-MouseRotationSpeed * Delta), 0.0f, 0.0f);
+		}
+		else if (Movement.second < MouseOffsetY) {
+			CurrentCamera->Rotate(XMConvertToRadians(MouseRotationSpeed * Delta), 0.0f, 0.0f);
+		}
+
+		MouseOffsetX = Movement.first;
+		MouseOffsetY = Movement.second;
 	}
 
 	float Acceleration = 15.0f;

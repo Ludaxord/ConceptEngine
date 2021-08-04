@@ -44,8 +44,7 @@ void CEInputManager::OnKeyPressed(const Common::CEKeyPressedEvent& Event) {
 
 void CEInputManager::OnKeyReleased(const Common::CEKeyReleasedEvent& Event) {
 	KeyStates[Event.Key] = false;
-}
-
+}\
 void CEInputManager::OnWindowFocusChanged(const Common::CEWindowFocusChangedEvent& Event) {
 	if (!Event.HasFocus) {
 		KeyStates.Fill(false);

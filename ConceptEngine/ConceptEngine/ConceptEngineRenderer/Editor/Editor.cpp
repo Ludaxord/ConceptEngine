@@ -18,6 +18,8 @@
 
 #include <imgui_internal.h>
 
+#include "Boot/CECore.h"
+#include "Boot/Callbacks/CEEngineController.h"
 #include "Debug/Console/CEConsoleVariable.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
 
@@ -115,12 +117,12 @@ static void DrawMenu()
             {
                 if (ImGui::MenuItem("Toggle Fullscreen"))
                 {
-                    GEngine.MainWindow->ToggleFullscreen();
+                    CECore::GetPlatform()->GetWindow()->ToggleFullscreen();
                 }
 
                 if (ImGui::MenuItem("Quit"))
                 {
-                    GEngine.Exit();
+                    GEngineController.Exit();
                 }
 
                 ImGui::EndMenu();
@@ -145,8 +147,8 @@ static void DrawSideWindow()
 {
     CEDebugUI::DrawUI([]
     {
-        const uint32 WindowWidth  = GEngine.MainWindow->GetWidth();
-        const uint32 WindowHeight = GEngine.MainWindow->GetHeight();
+        const uint32 WindowWidth  = CECore::GetPlatform()->GetWindow()->GetWidth();
+        const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
         const float Width         = Math::Max(WindowWidth * 0.3f, 400.0f);
         const float Height        = WindowHeight * 0.7f;
 
@@ -193,7 +195,7 @@ static void DrawRenderSettings()
     ImGui::BeginChild("RendererInfo");
 
     CEWindowShape WindowShape;
-    GEngine.MainWindow->GetWindowShape(WindowShape);
+    CECore::GetPlatform()->GetWindow()->GetWindowShape(WindowShape);
 
     ImGui::Spacing();
     ImGui::Text("Renderer Info");
@@ -378,7 +380,7 @@ static void DrawSceneInfo()
     ImGui::Separator();
 
     CEWindowShape WindowShape;
-    GEngine.MainWindow->GetWindowShape(WindowShape);
+    CECore::GetPlatform()->GetWindow()->GetWindowShape(WindowShape);
 
     // Actors
     if (ImGui::TreeNode("Actors"))

@@ -11,4 +11,7 @@ public:
 private:
     Camera* CurrentCamera = nullptr;
     XMFLOAT3 CameraSpeed = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+    int32 MouseOffsetX = 0;
+    int32 MouseOffsetY = 0;
 };

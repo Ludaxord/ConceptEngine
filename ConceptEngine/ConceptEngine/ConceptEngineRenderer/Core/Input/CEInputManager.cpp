@@ -1,6 +1,7 @@
 #include "CEInputManager.h"
 
 #include "../../Core/Engine/Engine.h"
+#include "Boot/Callbacks/CEEngineController.h"
 
 CEInputManager::CEInputManager(): CEManager() {
 }
@@ -11,9 +12,17 @@ CEInputManager::~CEInputManager() {
 bool CEInputManager::Create() {
 	InitKeyTable();
 
-	GEngine.OnKeyPressedEvent.AddObject(this, &CEInputManager::OnKeyPressed);
-	GEngine.OnKeyReleasedEvent.AddObject(this, &CEInputManager::OnKeyReleased);
-	GEngine.OnWindowFocusChangedEvent.AddObject(this, &CEInputManager::OnWindowFocusChanged);
+	// GEngine.OnKeyPressedEvent.AddObject(this, &CEInputManager::OnKeyPressed);
+	// GEngine.OnKeyReleasedEvent.AddObject(this, &CEInputManager::OnKeyReleased);
+	// GEngine.OnWindowFocusChangedEvent.AddObject(this, &CEInputManager::OnWindowFocusChanged);
+
+	GEngineController.OnKeyPressedEvent.AddObject(this, &CEInputManager::OnKeyPressed);
+	GEngineController.OnKeyReleasedEvent.AddObject(this, &CEInputManager::OnKeyReleased);
+	GEngineController.OnWindowFocusChangedEvent.AddObject(this, &CEInputManager::OnWindowFocusChanged);
+
+	GEngineController.OnMousePressedEvent.AddObject(this, &CEInputManager::OnMousePressed);
+	GEngineController.OnMouseReleasedEvent.AddObject(this, &CEInputManager::OnMouseReleased);
+	GEngineController.OnMouseMoveEvent.AddObject(this, &CEInputManager::OnMouseMoved);
 
 	return true;
 }
@@ -24,6 +33,14 @@ bool CEInputManager::IsKeyUp(CEKey KeyCode) {
 
 bool CEInputManager::IsKeyDown(CEKey KeyCode) {
 	return KeyStates[KeyCode];
+}
+
+bool CEInputManager::IsMouseDown(CEMouseButton MouseButton) {
+	return MouseButtonKeyStates[MouseButton];
+}
+
+std::pair<int32, int32> CEInputManager::IsMouseMovement() {
+	return std::pair(MouseXOffset, MouseYOffset);
 }
 
 CEKey CEInputManager::ConvertFromScanCode(uint32 ScanCode) {
@@ -44,6 +61,22 @@ void CEInputManager::OnKeyPressed(const KeyPressedEvent& Event) {
 
 void CEInputManager::OnKeyReleased(const KeyReleasedEvent& Event) {
 	KeyStates[Event.Key] = false;
+}
+
+void CEInputManager::OnMousePressed(const MousePressedEvent& Event) {
+	CE_LOG_VERBOSE("INPUT MANAGER Mouse Event Pressed")
+	MouseButtonKeyStates[Event.Button] = true;
+}
+
+void CEInputManager::OnMouseReleased(const MouseReleasedEvent& Event) {
+	CE_LOG_VERBOSE("INPUT MANAGER Mouse Event Released")
+	MouseButtonKeyStates[Event.Button] = false;
+}
+
+void CEInputManager::OnMouseMoved(const MouseMovedEvent& Event) {
+	CE_LOG_VERBOSE("INPUT MANAGER Mouse Moved X: " + std::to_string(Event.x) + " Y: " + std::to_string(Event.y))
+	MouseXOffset = Event.x;
+	MouseYOffset = Event.y;
 }
 
 void CEInputManager::OnWindowFocusChanged(const WindowFocusChangedEvent& Event) {

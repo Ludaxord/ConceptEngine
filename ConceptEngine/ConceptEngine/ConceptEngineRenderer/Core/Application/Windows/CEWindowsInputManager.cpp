@@ -19,6 +19,7 @@ void CEWindowsInputManager::InitKeyTable() {
 	CEMemory::Memzero(KeyStates.Data(), KeyStates.SizeInBytes());
 	CEMemory::Memzero(ScanCodeTable.Data(), ScanCodeTable.SizeInBytes());
 	CEMemory::Memzero(KeyTable.Data(), KeyTable.SizeInBytes());
+	CEMemory::Memzero(MouseButtonKeyStates.Data(), MouseButtonKeyStates.SizeInBytes());
 
 	CreateNumScanCodeTableKeys();
 	CreateCharScanCodeTableKeys();
