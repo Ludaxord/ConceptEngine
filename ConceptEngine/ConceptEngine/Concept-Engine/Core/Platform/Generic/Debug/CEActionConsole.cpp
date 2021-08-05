@@ -294,6 +294,7 @@ void CEActionConsole::Execute(const std::string& cmdString) {
 	size_t position = cmdString.find_first_of(" ");
 	if (position == std::string::npos) {
 		CEConsoleCommand* command = FindCommand(cmdString);
+		CE_LOG_VERBOSE("Command Found " + cmdString)
 		if (!command) {
 			const std::string message = "'" + cmdString + "' is not a registered command";
 			PrintError(message);
@@ -305,6 +306,7 @@ void CEActionConsole::Execute(const std::string& cmdString) {
 	else {
 		std::string variableName(cmdString.c_str(), position);
 		CEConsoleVariable* variable = FindVariable(variableName);
+		CE_LOG_VERBOSE("Variable Found " + cmdString)
 		if (!variable) {
 			PrintError("'" + cmdString + "' is not a registered variable");
 			return;

@@ -33,6 +33,8 @@ struct CEWindowsWindowHandle
     {
     }
 
+
+    //TODO: FIX
     CEWindowsWindow* GetWindow() const
     {
         CEWindowsWindow* Window = (CEWindowsWindow*)GetWindowLongPtrA(Handle, GWLP_USERDATA);
