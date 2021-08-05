@@ -24,7 +24,7 @@
 #include "Project/CEPlayground.h"
 #include "Rendering/CERenderer.h"
 
-CETypedConsole Console;
+// CETypedConsole Console;
 
 CECore::CECore(CEEngineConfig& EConfig) : CECore(EConfig, nullptr) {
 }
@@ -76,7 +76,7 @@ bool CECore::Create() {
 		return false;
 	}
 
-	Console.Create();
+	GTypedConsole.Create();
 
 	bIsRunning = true;
 

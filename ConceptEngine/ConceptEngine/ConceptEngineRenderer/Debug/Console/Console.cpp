@@ -13,617 +13,523 @@
 CETypedConsole GTypedConsole;
 CEConsoleCommand GClearHistory;
 
-void CEActionConsole::Create()
-{
-    GClearHistory.OnExecute.AddObject(this, &CEActionConsole::ClearHistory);
-    INIT_CONSOLE_COMMAND("ClearHistory", &GClearHistory);
-    
-    GEngineController.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
+void CEActionConsole::Create() {
+	GClearHistory.OnExecute.AddObject(this, &CEActionConsole::ClearHistory);
+	INIT_CONSOLE_COMMAND("ClearHistory", &GClearHistory);
+
+	GEngineController.OnKeyPressedEvent.AddObject(this, &CEActionConsole::OnKeyPressedEvent);
 }
 
-void CEActionConsole::Update()
-{
-    if (IsActive)
-    {
-        CEDebugUI::DrawUI([]()
-        {
-            GTypedConsole.DrawInterface();
-        });
-    }
+void CEActionConsole::Update() {
+	if (IsActive) {
+		CEDebugUI::DrawUI([]() {
+			GTypedConsole.DrawInterface();
+		});
+	}
 }
 
-void CEActionConsole::RegisterCommand(const String& Name, CEConsoleCommand* Command)
-{
-    if (!RegisterObject(Name, Command))
-    {
-        CE_LOG_WARNING("ConsoleCommand '" + Name + "' is already registered");
-    }
+void CEActionConsole::RegisterCommand(const String& Name, CEConsoleCommand* Command) {
+	if (!RegisterObject(Name, Command)) {
+		CE_LOG_WARNING("ConsoleCommand '" + Name + "' is already registered");
+	}
 }
 
-void CEActionConsole::RegisterVariable(const String& Name, CEConsoleVariable* Variable)
-{
-    if (!RegisterObject(Name, Variable))
-    {
-        CE_LOG_WARNING("ConsoleVariable '" + Name + "' is already registered");
-    }
+void CEActionConsole::RegisterVariable(const String& Name, CEConsoleVariable* Variable) {
+	if (!RegisterObject(Name, Variable)) {
+		CE_LOG_WARNING("ConsoleVariable '" + Name + "' is already registered");
+	}
 }
 
-CEConsoleCommand* CEActionConsole::FindCommand(const String& Name)
-{
-    CEConsoleObject* Object = FindConsoleObject(Name);
-    if (!Object)
-    {
-        CE_LOG_ERROR("Could not find ConsoleCommand '" + Name + '\'');
-        return nullptr;
-    }
+CEConsoleCommand* CEActionConsole::FindCommand(const String& Name) {
+	CEConsoleObject* Object = FindConsoleObject(Name);
+	if (!Object) {
+		CE_LOG_ERROR("Could not find ConsoleCommand '" + Name + '\'');
+		return nullptr;
+	}
 
-    CEConsoleCommand* Command = Object->AsCommand();
-    if (!Command)
-    {
-        CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleCommand'");
-        return nullptr;
-    }
-    else
-    {
-        return Command;
-    }
+	CEConsoleCommand* Command = Object->AsCommand();
+	if (!Command) {
+		CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleCommand'");
+		return nullptr;
+	}
+	else {
+		return Command;
+	}
 }
 
-CEConsoleVariable* CEActionConsole::FindVariable(const String& Name)
-{
-    CEConsoleObject* Object = FindConsoleObject(Name);
-    if (!Object)
-    {
-        CE_LOG_ERROR("Could not find ConsoleVariable '" + Name + '\'');
-        return nullptr;
-    }
+CEConsoleVariable* CEActionConsole::FindVariable(const String& Name) {
+	CEConsoleObject* Object = FindConsoleObject(Name);
+	if (!Object) {
+		CE_LOG_ERROR("Could not find ConsoleVariable '" + Name + '\'');
+		return nullptr;
+	}
 
-    CEConsoleVariable* Variable = Object->AsVariable();
-    if (!Variable)
-    {
-        CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleVariable'");
-        return nullptr;
-    }
-    else
-    {
-        return Variable;
-    }
+	CEConsoleVariable* Variable = Object->AsVariable();
+	if (!Variable) {
+		CE_LOG_ERROR('\'' + Name + "'Is not a ConsoleVariable'");
+		return nullptr;
+	}
+	else {
+		return Variable;
+	}
 }
 
-void CEActionConsole::PrintMessage(const String& Message)
-{
-    Lines.EmplaceBack(Message, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+void CEActionConsole::PrintMessage(const String& Message) {
+	Lines.EmplaceBack(Message, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
-void CEActionConsole::PrintWarning(const String& Message)
-{
-    Lines.EmplaceBack(Message, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
+void CEActionConsole::PrintWarning(const String& Message) {
+	Lines.EmplaceBack(Message, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
 }
 
-void CEActionConsole::PrintError(const String& Message)
-{
-    Lines.EmplaceBack(Message, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+void CEActionConsole::PrintError(const String& Message) {
+	Lines.EmplaceBack(Message, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
 }
 
-void CEActionConsole::ClearHistory()
-{
-    History.Clear();
-    HistoryIndex = -1;
+void CEActionConsole::ClearHistory() {
+	History.Clear();
+	HistoryIndex = -1;
 }
 
-void CEActionConsole::OnKeyPressedEvent(const KeyPressedEvent& Event)
-{
-    if (!Event.IsRepeat && Event.Key == CEKey::Key_GraveAccent)
-    {
-        IsActive = !IsActive;
-    }
+void CEActionConsole::OnKeyPressedEvent(const KeyPressedEvent& Event) {
+	if (!Event.IsRepeat && Event.Key == CEKey::Key_GraveAccent) {
+		IsActive = !IsActive;
+	}
 }
 
-void CEActionConsole::DrawInterface()
-{
-    const uint32 WindowWidth  = CECore::GetPlatform()->GetWindow()->GetWidth();
-    const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
-    const float Width  = 640;
-    const float Height = 160;
-    const ImVec2 Offset(8.0f, 8.0f);
-    const ImVec2 WindowPadding(4.0f, 1.0f);
-    const ImVec2 ConsoleTextSize = ImGui::CalcTextSize("Console");
+void CEActionConsole::DrawInterface() {
+	const uint32 WindowWidth = CECore::GetPlatform()->GetWindow()->GetWidth();
+	const uint32 WindowHeight = CECore::GetPlatform()->GetWindow()->GetHeight();
+	const float Width = 640;
+	const float Height = 160;
+	const ImVec2 Offset(8.0f, 8.0f);
+	const ImVec2 WindowPadding(4.0f, 1.0f);
+	const ImVec2 ConsoleTextSize = ImGui::CalcTextSize("Console");
 
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(8.0f, 8.0f));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, WindowPadding);
-    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(8.0f, 8.0f));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, WindowPadding);
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-    const ImGuiWindowFlags Flags =
-        ImGuiWindowFlags_NoDecoration          |
-        ImGuiWindowFlags_NoInputs              |
-        ImGuiWindowFlags_AlwaysAutoResize      |
-        ImGuiWindowFlags_NoBringToFrontOnFocus |
-        ImGuiWindowFlags_NoFocusOnAppearing    |
-        ImGuiWindowFlags_NoSavedSettings;
+	const ImGuiWindowFlags Flags =
+		ImGuiWindowFlags_NoDecoration |
+		ImGuiWindowFlags_NoInputs |
+		ImGuiWindowFlags_AlwaysAutoResize |
+		ImGuiWindowFlags_NoBringToFrontOnFocus |
+		ImGuiWindowFlags_NoFocusOnAppearing |
+		ImGuiWindowFlags_NoSavedSettings;
 
-    ImGui::SetNextWindowPos(ImVec2(Offset.x + ConsoleTextSize.x + WindowPadding.x * 2.0f, Offset.y), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
-    
-    ImGui::Begin("Console Text Window", nullptr, Flags);
-    ImGui::Text("Console");
+	ImGui::SetNextWindowPos(ImVec2(Offset.x + ConsoleTextSize.x + WindowPadding.x * 2.0f, Offset.y), ImGuiCond_Always,
+	                        ImVec2(1.0f, 0.0f));
 
-    const ImVec2 TitleBarSize = ImGui::GetWindowSize();
-    
-    ImGui::End();
+	ImGui::Begin("Console Text Window", nullptr, Flags);
+	ImGui::Text("Console");
 
-    ImGui::PopStyleColor();
-    ImGui::PopStyleColor();
-    ImGui::PopStyleVar();
-    ImGui::PopStyleVar();
+	const ImVec2 TitleBarSize = ImGui::GetWindowSize();
 
-    ImGui::PushStyleColor(ImGuiCol_ResizeGrip, 0);
-    ImGui::PushStyleColor(ImGuiCol_ResizeGripHovered, 0);
-    ImGui::PushStyleColor(ImGuiCol_ResizeGripActive, 0);
+	ImGui::End();
 
-    ImGui::SetNextWindowPos(ImVec2(Offset.x + 0.0f, Offset.y + TitleBarSize.y), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
-    ImGui::SetNextWindowSize(ImVec2(Width, Height), ImGuiCond_Always);
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
+	ImGui::PopStyleVar();
 
-    const ImGuiWindowFlags StyleFlags =
-        ImGuiWindowFlags_NoMove            |
-        ImGuiWindowFlags_NoTitleBar        |
-        ImGuiWindowFlags_NoScrollbar       |
-        ImGuiWindowFlags_NoResize          |
-        ImGuiWindowFlags_NoCollapse        |
-        ImGuiWindowFlags_NoScrollWithMouse |
-        ImGuiWindowFlags_NoSavedSettings;
+	ImGui::PushStyleColor(ImGuiCol_ResizeGrip, 0);
+	ImGui::PushStyleColor(ImGuiCol_ResizeGripHovered, 0);
+	ImGui::PushStyleColor(ImGuiCol_ResizeGripActive, 0);
 
-    ImGui::Begin("Console Window", nullptr, StyleFlags);
+	ImGui::SetNextWindowPos(ImVec2(Offset.x + 0.0f, Offset.y + TitleBarSize.y), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
+	ImGui::SetNextWindowSize(ImVec2(Width, Height), ImGuiCond_Always);
 
-    ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImVec4(0.3f, 0.3f, 0.3f, 0.6f));
+	const ImGuiWindowFlags StyleFlags =
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoScrollbar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoCollapse |
+		ImGuiWindowFlags_NoScrollWithMouse |
+		ImGuiWindowFlags_NoSavedSettings;
 
-    const ImVec2 ParentSize = ImGui::GetWindowSize();
-    const float TextWindowWidth  = Width * 0.985f;
-    const float TextWindowHeight = ParentSize.y - 40.0f;
+	ImGui::Begin("Console Window", nullptr, StyleFlags);
 
-    const ImGuiWindowFlags PopupFlags =
-        ImGuiWindowFlags_NoTitleBar      |
-        ImGuiWindowFlags_NoResize        |
-        ImGuiWindowFlags_NoMove          |
-        ImGuiWindowFlags_NoSavedSettings |
-        ImGuiWindowFlags_NoFocusOnAppearing;
+	ImGui::PushStyleColor(ImGuiCol_ScrollbarBg, ImVec4(0.3f, 0.3f, 0.3f, 0.6f));
 
-    ImGui::BeginChild("##ChildWindow", ImVec2(TextWindowWidth, TextWindowHeight), false, PopupFlags);
-    if (!Candidates.IsEmpty())
-    {
-        bool IsActiveIndex = false;
+	const ImVec2 ParentSize = ImGui::GetWindowSize();
+	const float TextWindowWidth = Width * 0.985f;
+	const float TextWindowHeight = ParentSize.y - 40.0f;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 2));
-        ImGui::PushAllowKeyboardFocus(false);
+	const ImGuiWindowFlags PopupFlags =
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoFocusOnAppearing;
 
-        float ColumnWidth = 0.0f;
-        for (const Candidate& Candidate : Candidates)
-        {
-            if (Candidate.TextSize.x > ColumnWidth)
-            {
-                ColumnWidth = Candidate.TextSize.x;
-            }
-        }
+	ImGui::BeginChild("##ChildWindow", ImVec2(TextWindowWidth, TextWindowHeight), false, PopupFlags);
+	if (!Candidates.IsEmpty()) {
+		bool IsActiveIndex = false;
 
-        ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
-        ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 2));
+		ImGui::PushAllowKeyboardFocus(false);
 
-        for (int32 i = 0; i < (int32)Candidates.Size(); i++)
-        {
-            const Candidate& Candidate = Candidates[i];
-            IsActiveIndex = (CandidatesIndex == i);
+		float ColumnWidth = 0.0f;
+		for (const Candidate& Candidate : Candidates) {
+			if (Candidate.TextSize.x > ColumnWidth) {
+				ColumnWidth = Candidate.TextSize.x;
+			}
+		}
 
-            ImGui::PushID(i);
-            if (ImGui::Selectable(Candidate.Text.c_str(), &IsActiveIndex))
-            {
-                strcpy(TextBuffer.Data(), Candidate.Text.c_str());
-                PopupSelectedText = Candidate.Text;
+		ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
 
-                Candidates.Clear();
-                CandidatesIndex = -1;
+		for (int32 i = 0; i < (int32)Candidates.Size(); i++) {
+			const Candidate& Candidate = Candidates[i];
+			IsActiveIndex = (CandidatesIndex == i);
 
-                UpdateCursorPosition = true;
+			ImGui::PushID(i);
+			if (ImGui::Selectable(Candidate.Text.c_str(), &IsActiveIndex)) {
+				strcpy(TextBuffer.Data(), Candidate.Text.c_str());
+				PopupSelectedText = Candidate.Text;
 
-                ImGui::PopID();
-                break;
-            }
+				Candidates.Clear();
+				CandidatesIndex = -1;
 
-            ImGui::SameLine(ColumnWidth);
+				UpdateCursorPosition = true;
 
-            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
-            ImGui::Text(Candidate.PostFix.c_str());
-            ImGui::PopStyleColor();
+				ImGui::PopID();
+				break;
+			}
 
-            ImGui::PopID();
+			ImGui::SameLine(ColumnWidth);
 
-            if (IsActiveIndex && GTypedConsole.CandidateSelectionChanged)
-            {
-                ImGui::SetScrollHere();
-                GTypedConsole.PopupSelectedText = Candidate.Text;
-                GTypedConsole.CandidateSelectionChanged = false;
-            }
-        }
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));
+			ImGui::Text(Candidate.PostFix.c_str());
+			ImGui::PopStyleColor();
 
-        ImGui::PopStyleColor();
-        ImGui::PopStyleColor();
+			ImGui::PopID();
 
-        ImGui::PopAllowKeyboardFocus();
-        ImGui::PopStyleVar();
-        //ImGui::End();
-    }
-    else
-    {
-        for (const Line& Text : Lines)
-        {
-            ImGui::TextColored(Text.Color, "%s", Text.String.c_str());
-        }
+			if (IsActiveIndex && GTypedConsole.CandidateSelectionChanged) {
+				ImGui::SetScrollHere();
+				GTypedConsole.PopupSelectedText = Candidate.Text;
+				GTypedConsole.CandidateSelectionChanged = false;
+			}
+		}
 
-        if (ScrollDown)
-        {
-            ImGui::SetScrollHereY();
-            ScrollDown = false;
-        }
-    }
-    
-    ImGui::EndChild();
+		ImGui::PopStyleColor();
+		ImGui::PopStyleColor();
 
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+		ImGui::PopAllowKeyboardFocus();
+		ImGui::PopStyleVar();
+		//ImGui::End();
+	}
+	else {
+		for (const Line& Text : Lines) {
+			ImGui::TextColored(Text.Color, "%s", Text.String.c_str());
+		}
 
-    ImGui::Text(">");
-    ImGui::SameLine();
+		if (ScrollDown) {
+			ImGui::SetScrollHereY();
+			ScrollDown = false;
+		}
+	}
 
-    ImGui::PushItemWidth(TextWindowWidth - 25.0f);
+	ImGui::EndChild();
 
-    const ImGuiInputTextFlags InputFlags =
-        ImGuiInputTextFlags_EnterReturnsTrue   |
-        ImGuiInputTextFlags_CallbackCompletion |
-        ImGuiInputTextFlags_CallbackHistory    |
-        ImGuiInputTextFlags_CallbackAlways     |
-        ImGuiInputTextFlags_CallbackEdit;
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
-    auto Callback = [](ImGuiInputTextCallbackData* Data)->int32
-    {
-        CEActionConsole* This = reinterpret_cast<CEActionConsole*>(Data->UserData);
-        return This->TextCallback(Data);
-    };
+	ImGui::Text(">");
+	ImGui::SameLine();
 
-    const bool Result = ImGui::InputText("###Input", TextBuffer.Data(), TextBuffer.Size(), InputFlags, Callback, reinterpret_cast<void*>(&GTypedConsole));
-    if (Result && TextBuffer[0] != 0)
-    {
-        if (CandidatesIndex != -1)
-        {
-            strcpy(TextBuffer.Data(), PopupSelectedText.c_str());
-            
-            Candidates.Clear();
-            CandidatesIndex = -1;
+	ImGui::PushItemWidth(TextWindowWidth - 25.0f);
 
-            UpdateCursorPosition = true;
-        }
-        else
-        {
-            const String Text = String(TextBuffer.Data());
-            Execute(Text);
+	const ImGuiInputTextFlags InputFlags =
+		ImGuiInputTextFlags_EnterReturnsTrue |
+		ImGuiInputTextFlags_CallbackCompletion |
+		ImGuiInputTextFlags_CallbackHistory |
+		ImGuiInputTextFlags_CallbackAlways |
+		ImGuiInputTextFlags_CallbackEdit;
 
-            TextBuffer[0] = 0;
-            ScrollDown = true;
+	auto Callback = [](ImGuiInputTextCallbackData* Data)-> int32 {
+		CEActionConsole* This = reinterpret_cast<CEActionConsole*>(Data->UserData);
+		return This->TextCallback(Data);
+	};
 
-            ImGui::SetItemDefaultFocus();
-            ImGui::SetKeyboardFocusHere(-1);
-        }
-    }
+	const bool Result = ImGui::InputText("###Input", TextBuffer.Data(), TextBuffer.Size(), InputFlags, Callback,
+	                                     reinterpret_cast<void*>(&GTypedConsole));
+	if (Result && TextBuffer[0] != 0) {
+		if (CandidatesIndex != -1) {
+			strcpy(TextBuffer.Data(), PopupSelectedText.c_str());
 
-    if (ImGui::IsWindowFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
-    {
-        ImGui::SetKeyboardFocusHere(-1);
-    }
+			Candidates.Clear();
+			CandidatesIndex = -1;
 
-    ImGui::PopItemWidth();
+			UpdateCursorPosition = true;
+		}
+		else {
+			const String Text = String(TextBuffer.Data());
+			Execute(Text);
 
-    ImGui::PopStyleColor();
-    ImGui::PopStyleColor();
-    ImGui::PopStyleColor();
-    ImGui::PopStyleColor();
-    ImGui::PopStyleColor();
+			TextBuffer[0] = 0;
+			ScrollDown = true;
 
-    ImGui::End();
+			ImGui::SetItemDefaultFocus();
+			ImGui::SetKeyboardFocusHere(-1);
+		}
+	}
+
+	if (ImGui::IsWindowFocused() && !ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0)) {
+		ImGui::SetKeyboardFocusHere(-1);
+	}
+
+	ImGui::PopItemWidth();
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+
+	ImGui::End();
 }
 
-int32 CEActionConsole::TextCallback(ImGuiInputTextCallbackData* Data)
-{
-    if (UpdateCursorPosition)
-    {
-        Data->CursorPos = int32(PopupSelectedText.length());
-        PopupSelectedText.clear();
-        
-        UpdateCursorPosition = false;
-    }
+int32 CEActionConsole::TextCallback(ImGuiInputTextCallbackData* Data) {
+	if (UpdateCursorPosition) {
+		Data->CursorPos = int32(PopupSelectedText.length());
+		PopupSelectedText.clear();
 
-    switch (Data->EventFlag)
-    {
-        case ImGuiInputTextFlags_CallbackEdit:
-        {
-            const char* WordEnd   = Data->Buf + Data->CursorPos;
-            const char* WordStart = WordEnd;
-            while (WordStart > Data->Buf)
-            {
-                const char c = WordStart[-1];
-                if (c == ' ' || c == '\t' || c == ',' || c == ';')
-                {
-                    break;
-                }
+		UpdateCursorPosition = false;
+	}
 
-                WordStart--;
-            }
+	switch (Data->EventFlag) {
+	case ImGuiInputTextFlags_CallbackEdit: {
+		const char* WordEnd = Data->Buf + Data->CursorPos;
+		const char* WordStart = WordEnd;
+		while (WordStart > Data->Buf) {
+			const char c = WordStart[-1];
+			if (c == ' ' || c == '\t' || c == ',' || c == ';') {
+				break;
+			}
 
-            Candidates.Clear();
-            CandidateSelectionChanged = true;
-            CandidatesIndex           = -1;
+			WordStart--;
+		}
 
-            const int32 WordLength = static_cast<int32>(WordEnd - WordStart);
-            if (WordLength <= 0)
-            {
-                break;
-            }
+		Candidates.Clear();
+		CandidateSelectionChanged = true;
+		CandidatesIndex = -1;
 
-            for (const std::pair<String, CEConsoleObject*>& Object : ConsoleObjects)
-            {
-                if (WordLength <= Object.first.size())
-                {
-                    const char* Command = Object.first.c_str();
-                    int32 d = -1;
-                    int32 n = WordLength;
-                
-                    const char* CmdIt  = Command;
-                    const char* WordIt = WordStart;
-                    while (n > 0 && (d = toupper(*WordIt) - toupper(*CmdIt)) == 0)
-                    {
-                        CmdIt++;
-                        WordIt++;
-                        n--;
-                    }
+		const int32 WordLength = static_cast<int32>(WordEnd - WordStart);
+		if (WordLength <= 0) {
+			break;
+		}
 
-                    if (d == 0)
-                    {
-                        CEConsoleObject* ConsoleObject = Object.second;
-                        Assert(ConsoleObject != nullptr);
+		for (const std::pair<String, CEConsoleObject*>& Object : ConsoleObjects) {
+			if (WordLength <= Object.first.size()) {
+				const char* Command = Object.first.c_str();
+				int32 d = -1;
+				int32 n = WordLength;
 
-                        if (ConsoleObject->AsCommand())
-                        {
-                            Candidates.EmplaceBack(Object.first, "[Cmd]");
-                        }
-                        else
-                        {
-                            CEConsoleVariable* Variable = ConsoleObject->AsVariable();
-                            if (Variable->IsBool())
-                            {
-                                Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [Boolean]");
-                            }
-                            else if (Variable->IsInt())
-                            {
-                                Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [Integer]");
-                            }
-                            else if (Variable->IsFloat())
-                            {
-                                Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [float]");
-                            }
-                            else if (Variable->IsString())
-                            {
-                                Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [String]");
-                            }
-                        }
-                    }
-                }
-            }
+				const char* CmdIt = Command;
+				const char* WordIt = WordStart;
+				while (n > 0 && (d = toupper(*WordIt) - toupper(*CmdIt)) == 0) {
+					CmdIt++;
+					WordIt++;
+					n--;
+				}
 
-            break;
-        }
-        case ImGuiInputTextFlags_CallbackCompletion:
-        {
-            const char* WordEnd   = Data->Buf + Data->CursorPos;
-            const char* WordStart = WordEnd;
-            if (Data->BufTextLen > 0)
-            {
-                while (WordStart > Data->Buf)
-                {
-                    const char c = WordStart[-1];
-                    if (c == ' ' || c == '\t' || c == ',' || c == ';')
-                    {
-                        break;
-                    }
+				if (d == 0) {
+					CEConsoleObject* ConsoleObject = Object.second;
+					Assert(ConsoleObject != nullptr);
 
-                    WordStart--;
-                }
-            }
+					if (ConsoleObject->AsCommand()) {
+						Candidates.EmplaceBack(Object.first, "[Cmd]");
+					}
+					else {
+						CEConsoleVariable* Variable = ConsoleObject->AsVariable();
+						if (Variable->IsBool()) {
+							Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [Boolean]");
+						}
+						else if (Variable->IsInt()) {
+							Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [Integer]");
+						}
+						else if (Variable->IsFloat()) {
+							Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [float]");
+						}
+						else if (Variable->IsString()) {
+							Candidates.EmplaceBack(Object.first, "= " + Variable->GetString() + " [String]");
+						}
+					}
+				}
+			}
+		}
 
-            const int32 WordLength = static_cast<int32>(WordEnd - WordStart);
-            if (WordLength > 0)
-            {
-                if (Candidates.Size() == 1)
-                {
-                    const int32 Pos   = static_cast<int32>(WordStart - Data->Buf);
-                    const int32 Count = WordLength;
-                    Data->DeleteChars(Pos, Count);
-                    Data->InsertChars(Data->CursorPos, Candidates[0].Text.c_str());
+		break;
+	}
+	case ImGuiInputTextFlags_CallbackCompletion: {
+		const char* WordEnd = Data->Buf + Data->CursorPos;
+		const char* WordStart = WordEnd;
+		if (Data->BufTextLen > 0) {
+			while (WordStart > Data->Buf) {
+				const char c = WordStart[-1];
+				if (c == ' ' || c == '\t' || c == ',' || c == ';') {
+					break;
+				}
 
-                    CandidatesIndex           = -1;
-                    CandidateSelectionChanged = true;
-                    Candidates.Clear();
-                }
-                else if (!Candidates.IsEmpty() && CandidatesIndex != -1)
-                {
-                    const int32 Pos   = static_cast<int32>(WordStart - Data->Buf);
-                    const int32 Count = WordLength;
-                    Data->DeleteChars(Pos, Count);
-                    Data->InsertChars(Data->CursorPos, PopupSelectedText.c_str());
+				WordStart--;
+			}
+		}
 
-                    PopupSelectedText = "";
+		const int32 WordLength = static_cast<int32>(WordEnd - WordStart);
+		if (WordLength > 0) {
+			if (Candidates.Size() == 1) {
+				const int32 Pos = static_cast<int32>(WordStart - Data->Buf);
+				const int32 Count = WordLength;
+				Data->DeleteChars(Pos, Count);
+				Data->InsertChars(Data->CursorPos, Candidates[0].Text.c_str());
 
-                    Candidates.Clear();
-                    CandidatesIndex           = -1;
-                    CandidateSelectionChanged = true;
-                }
-            }
+				CandidatesIndex = -1;
+				CandidateSelectionChanged = true;
+				Candidates.Clear();
+			}
+			else if (!Candidates.IsEmpty() && CandidatesIndex != -1) {
+				const int32 Pos = static_cast<int32>(WordStart - Data->Buf);
+				const int32 Count = WordLength;
+				Data->DeleteChars(Pos, Count);
+				Data->InsertChars(Data->CursorPos, PopupSelectedText.c_str());
 
-            break;
-        }
-        case ImGuiInputTextFlags_CallbackHistory:
-        {
-            if (Candidates.IsEmpty())
-            {
-                const int32 PrevHistoryIndex = HistoryIndex;
-                if (Data->EventKey == ImGuiKey_UpArrow)
-                {
-                    if (HistoryIndex == -1)
-                    {
-                        HistoryIndex = History.Size() - 1;
-                    }
-                    else if (HistoryIndex > 0)
-                    {
-                        HistoryIndex--;
-                    }
-                }
-                else if (Data->EventKey == ImGuiKey_DownArrow)
-                {
-                    if (HistoryIndex != -1)
-                    {
-                        HistoryIndex++;
-                        if (HistoryIndex >= static_cast<int32>(History.Size()))
-                        {
-                            HistoryIndex = -1;
-                        }
-                    }
-                }
+				PopupSelectedText = "";
 
-                if (PrevHistoryIndex != HistoryIndex)
-                {
-                    const char* HistoryStr = (HistoryIndex >= 0) ? History[HistoryIndex].c_str() : "";
-                    Data->DeleteChars(0, Data->BufTextLen);
-                    Data->InsertChars(0, HistoryStr);
-                }
-            }
-            else
-            {
-                if (Data->EventKey == ImGuiKey_UpArrow)
-                {
-                    CandidateSelectionChanged = true;
-                    if (CandidatesIndex <= 0)
-                    {
-                        CandidatesIndex = Candidates.Size() - 1;
-                    }
-                    else
-                    {
-                        CandidatesIndex--;
-                    }
-                }
-                else if (Data->EventKey == ImGuiKey_DownArrow)
-                {
-                    CandidateSelectionChanged = true;
-                    if (CandidatesIndex >= int32(Candidates.Size()) - 1)
-                    {
-                        CandidatesIndex = 0;
-                    }
-                    else
-                    {
-                        CandidatesIndex++;
-                    }
-                }
-            }
+				Candidates.Clear();
+				CandidatesIndex = -1;
+				CandidateSelectionChanged = true;
+			}
+		}
 
-            break;
-        }
-    }
+		break;
+	}
+	case ImGuiInputTextFlags_CallbackHistory: {
+		if (Candidates.IsEmpty()) {
+			const int32 PrevHistoryIndex = HistoryIndex;
+			if (Data->EventKey == ImGuiKey_UpArrow) {
+				if (HistoryIndex == -1) {
+					HistoryIndex = History.Size() - 1;
+				}
+				else if (HistoryIndex > 0) {
+					HistoryIndex--;
+				}
+			}
+			else if (Data->EventKey == ImGuiKey_DownArrow) {
+				if (HistoryIndex != -1) {
+					HistoryIndex++;
+					if (HistoryIndex >= static_cast<int32>(History.Size())) {
+						HistoryIndex = -1;
+					}
+				}
+			}
 
-    return 0;
+			if (PrevHistoryIndex != HistoryIndex) {
+				const char* HistoryStr = (HistoryIndex >= 0) ? History[HistoryIndex].c_str() : "";
+				Data->DeleteChars(0, Data->BufTextLen);
+				Data->InsertChars(0, HistoryStr);
+			}
+		}
+		else {
+			if (Data->EventKey == ImGuiKey_UpArrow) {
+				CandidateSelectionChanged = true;
+				if (CandidatesIndex <= 0) {
+					CandidatesIndex = Candidates.Size() - 1;
+				}
+				else {
+					CandidatesIndex--;
+				}
+			}
+			else if (Data->EventKey == ImGuiKey_DownArrow) {
+				CandidateSelectionChanged = true;
+				if (CandidatesIndex >= int32(Candidates.Size()) - 1) {
+					CandidatesIndex = 0;
+				}
+				else {
+					CandidatesIndex++;
+				}
+			}
+		}
+
+		break;
+	}
+	}
+
+	return 0;
 }
 
-void CEActionConsole::Execute(const String& CmdString)
-{
-    PrintMessage(CmdString);
+void CEActionConsole::Execute(const String& CmdString) {
+	PrintMessage(CmdString);
 
-    // Erase history
-    History.EmplaceBack(CmdString);
-    if (History.Size() > HistoryLength)
-    {
-        History.Erase(History.Begin());
-    }
+	// Erase history
+	History.EmplaceBack(CmdString);
+	if (History.Size() > HistoryLength) {
+		History.Erase(History.Begin());
+	}
 
-    size_t Pos = CmdString.find_first_of(" ");
-    if (Pos == String::npos)
-    {
-        CEConsoleCommand* Command = FindCommand(CmdString);
-        if (!Command)
-        {
-            const String Message = "'" + CmdString + "' is not a registered command";
-            PrintError(Message);
-        }
-        else
-        {
-            Command->Execute();
-        }
-    }
-    else
-    {
-        String VariableName(CmdString.c_str(), Pos);
+	size_t Pos = CmdString.find_first_of(" ");
+	if (Pos == String::npos) {
+		CEConsoleCommand* Command = FindCommand(CmdString);
+		if (!Command) {
+			const String Message = "'" + CmdString + "' is not a registered command";
+			PrintError(Message);
+		}
+		else {
+			Command->Execute();
+		}
+	}
+	else {
+		String VariableName(CmdString.c_str(), Pos);
 
-        CEConsoleVariable* Variable = FindVariable(VariableName);
-        if (!Variable)
-        {
-            PrintError("'" + CmdString + "' is not a registered variable");
-            return;
-        }
+		CEConsoleVariable* Variable = FindVariable(VariableName);
+		if (!Variable) {
+			PrintError("'" + CmdString + "' is not a registered variable");
+			return;
+		}
 
-        Pos++;
+		Pos++;
 
-        String Value(CmdString.c_str() + Pos, CmdString.length() - Pos);
-        if (std::regex_match(Value, std::regex("[-]?[0-9]+")))
-        {
-            Variable->SetString(Value);
-        }
-        else if (std::regex_match(Value, std::regex("[-]?[0-9]*[.][0-9]+")) && Variable->IsFloat())
-        {
-            Variable->SetString(Value);
-        }
-        else if (std::regex_match(Value, std::regex("(false)|(true)")) && Variable->IsBool())
-        {
-            Variable->SetString(Value);
-        }
-        else
-        {
-            if (Variable->IsString())
-            {
-                Variable->SetString(Value);
-            }
-            else
-            {
-                const String Message = "'" + Value + "' Is an invalid value for '" + VariableName + "'";
-                PrintError(Message);
-            }
-        }
-    }
+		String Value(CmdString.c_str() + Pos, CmdString.length() - Pos);
+		if (std::regex_match(Value, std::regex("[-]?[0-9]+"))) {
+			Variable->SetString(Value);
+		}
+		else if (std::regex_match(Value, std::regex("[-]?[0-9]*[.][0-9]+")) && Variable->IsFloat()) {
+			Variable->SetString(Value);
+		}
+		else if (std::regex_match(Value, std::regex("(false)|(true)")) && Variable->IsBool()) {
+			Variable->SetString(Value);
+		}
+		else {
+			if (Variable->IsString()) {
+				Variable->SetString(Value);
+			}
+			else {
+				const String Message = "'" + Value + "' Is an invalid value for '" + VariableName + "'";
+				PrintError(Message);
+			}
+		}
+	}
 }
 
-bool CEActionConsole::RegisterObject(const String& Name, CEConsoleObject* Object)
-{
-    auto ExistingObject = ConsoleObjects.find(Name);
-    if (ExistingObject == ConsoleObjects.end())
-    {
-        ConsoleObjects.insert(std::make_pair(Name, Object));
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+bool CEActionConsole::RegisterObject(const String& Name, CEConsoleObject* Object) {
+	auto ExistingObject = ConsoleObjects.find(Name);
+	if (ExistingObject == ConsoleObjects.end()) {
+		ConsoleObjects.insert(std::make_pair(Name, Object));
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
-CEConsoleObject* CEActionConsole::FindConsoleObject(const String& Name)
-{
-    auto ExisitingObject = ConsoleObjects.find(Name);
-    if (ExisitingObject != ConsoleObjects.end())
-    {
-        return ExisitingObject->second;
-    }
-    else
-    {
-        return nullptr;
-    }
+CEConsoleObject* CEActionConsole::FindConsoleObject(const String& Name) {
+	auto ExisitingObject = ConsoleObjects.find(Name);
+	if (ExisitingObject != ConsoleObjects.end()) {
+		return ExisitingObject->second;
+	}
+	else {
+		return nullptr;
+	}
 }
