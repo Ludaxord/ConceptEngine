@@ -582,6 +582,12 @@
     <ClInclude Include="Graphics\D3D12\Managers\CETextureData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\CEPhysics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysX\CEPhysX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -867,6 +873,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Generic\Managers\CETextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysX\CEPhysX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

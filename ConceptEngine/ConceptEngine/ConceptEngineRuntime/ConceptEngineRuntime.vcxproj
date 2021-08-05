@@ -80,8 +80,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\Build\bin\Debug-windows-x86_64-x64\ConceptEngineRuntime\</OutDir>
     <IntDir>..\Build\bin-int\Debug-windows-x86_64-x64\ConceptEngineRuntime\</IntDir>
-    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineRuntime;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\ConceptEngineRuntime;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;C:\Program Files\Mono\include\mono-2.0;F:\Projects\libs\AftermathSDK\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;C:\Program Files\Mono\lib;F:\Projects\libs\AftermathSDK\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -130,7 +130,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;libmono-static-sgen.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;GFSDK_Aftermath_Lib.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

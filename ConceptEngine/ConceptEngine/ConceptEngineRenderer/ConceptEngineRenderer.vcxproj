@@ -145,6 +145,8 @@
     <ClInclude Include="Memory\LinearAllocator.h" />
     <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Memory\New.h" />
+    <ClInclude Include="Physics\CEPhysics.h" />
+    <ClInclude Include="Physics\PhysX\CEPhysX.h" />
     <ClInclude Include="Platform\Android\CEAndroid.h" />
     <ClInclude Include="Platform\CEPlatform.h" />
     <ClInclude Include="Platform\Generic\Console\CETypedConsole.h" />
@@ -273,6 +275,7 @@
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
     <ClCompile Include="Platform\Android\CEAndroid.cpp" />
     <ClCompile Include="Platform\CEPlatform.cpp" />
     <ClCompile Include="Platform\iOS\CEiOS.cpp" />
@@ -374,8 +377,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\Build\bin\Debug-windows-x86_64-x64\ConceptEngineRenderer\</OutDir>
     <IntDir>..\Build\bin-int\Debug-windows-x86_64-x64\ConceptEngineRenderer\</IntDir>
-    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;C:\Program Files\Mono\include\mono-2.0;F:\Projects\libs\AftermathSDK\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;C:\src\vcpkg\packages\physx_x64-windows-static\lib;F:\Projects\libs\AftermathSDK\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -440,10 +443,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>ImGui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ImGui.lib;d3d12.lib;dxgi.lib;dxguid.lib;D3DCompiler.lib;Shlwapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;shcore.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;libmono-static-sgen.lib;mono-2.0-sgen.lib;MonoPosixHelper.lib;GFSDK_Aftermath_Lib.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;C:\Program Files\Mono\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
