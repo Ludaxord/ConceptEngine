@@ -14,6 +14,7 @@
 #include "Graphics/OpenGL/CEOpenGL.h"
 #include "Graphics/Vulkan/CEVulkan.h"
 #include "Graphics/WebGL/CEWebGL.h"
+#include "Physics/CEPhysics.h"
 #include "Platform/CEPlatform.h"
 #include "Platform/Android/CEAndroid.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
@@ -46,6 +47,7 @@ bool CECore::Create() {
 
 	if (!CETaskManager::Get().Create()) {
 		CEDebug::DebugBreak();
+		return false;
 	}
 
 	if (!GEngineController.Create()) {
@@ -56,6 +58,7 @@ bool CECore::Create() {
 
 	if (!GGraphics->Create()) {
 		CEPlatformMisc::MessageBox("Error", "Failed to Create Graphics");
+		return false;
 	}
 
 	if (GPlayground == nullptr) {
@@ -72,7 +75,12 @@ bool CECore::Create() {
 	}
 
 	if (!Renderer->Create()) {
-		CEPlatformMisc::MessageBox("Error", "Failed to Create Graphics");
+		CEPlatformMisc::MessageBox("Error", "Failed to Create Renderer");
+		return false;
+	}
+
+	if (!GPhysics->Create()) {
+		CEPlatformMisc::MessageBox("Error", "Failed to Create Physics");
 		return false;
 	}
 

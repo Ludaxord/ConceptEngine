@@ -32,6 +32,7 @@ protected:
 	inline static CEGraphics* GGraphics;
 	inline static CECompiler* GCompiler;
 	inline static CEPlatform* GPlatform;
+	inline static CEPhysics* GPhysics;
 
 private:
 	CEGraphics* SetGraphicsAPI(GraphicsAPI GApi);
