@@ -8,6 +8,11 @@ enum class EngineBoot {
 	None
 };
 
+enum class PhysicsLibrary {
+	PhysX,
+	None
+};
+
 enum class PlatformBoot {
 	Windows,
 	Mac,
@@ -40,11 +45,13 @@ struct CEEngineConfig {
 	CEEngineConfig(): GraphicsAPI(GraphicsAPI::None),
 	                  ScriptingLanguage(ScriptingLanguage::None),
 	                  PlatformBoot(PlatformBoot::None),
-	                  EngineBoot(EngineBoot::None) {
+	                  EngineBoot(EngineBoot::None),
+	                  PhysicsLibrary(PhysicsLibrary::None) {
 
 	}
 
 	CEEngineConfig(GraphicsAPI GApi, ScriptingLanguage SLanguage, PlatformBoot PBoot, EngineBoot EBoot,
+	               PhysicsLibrary PLibrary,
 	               const std::wstring& InstName,
 	               bool bShowConsole = false):
 		GraphicsAPI(GApi),
@@ -52,32 +59,38 @@ struct CEEngineConfig {
 		PlatformBoot(PBoot),
 		EngineBoot(EBoot),
 		InstanceName(InstName),
-		ShowConsole(bShowConsole) {
+		ShowConsole(bShowConsole),
+		PhysicsLibrary(PLibrary) {
 	}
 
-	CEEngineConfig(GraphicsAPI GApi, PlatformBoot PBoot, EngineBoot EBoot, const std::wstring& InstName,
+	CEEngineConfig(GraphicsAPI GApi, PlatformBoot PBoot, EngineBoot EBoot,
+	               PhysicsLibrary PLibrary, const std::wstring& InstName,
 	               bool bShowConsole = false):
 		GraphicsAPI(GApi),
 		ScriptingLanguage(ScriptingLanguage::None),
 		PlatformBoot(PBoot),
 		EngineBoot(EBoot),
 		InstanceName(InstName),
-		ShowConsole(bShowConsole) {
+		ShowConsole(bShowConsole),
+		PhysicsLibrary(PLibrary) {
 	}
 
 	CEEngineConfig(GraphicsAPI GApi, ScriptingLanguage SLanguage, PlatformBoot PBoot, EngineBoot EBoot,
+	               PhysicsLibrary PLibrary,
 	               bool bShowConsole = false):
 		GraphicsAPI(GApi),
 		ScriptingLanguage(SLanguage),
 		PlatformBoot(PBoot),
 		EngineBoot(EBoot),
-		ShowConsole(bShowConsole) {
+		ShowConsole(bShowConsole),
+		PhysicsLibrary(PLibrary) {
 	}
 
 	GraphicsAPI GraphicsAPI;
 	ScriptingLanguage ScriptingLanguage;
 	PlatformBoot PlatformBoot;
 	EngineBoot EngineBoot;
+	PhysicsLibrary PhysicsLibrary;
 
 	std::wstring InstanceName;
 

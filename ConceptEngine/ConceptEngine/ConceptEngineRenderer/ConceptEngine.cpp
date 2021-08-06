@@ -9,22 +9,26 @@
 ConceptEngine::ConceptEngine(const std::wstring& Name,
                              ::GraphicsAPI GApi,
                              ::PlatformBoot PBoot,
-                             ::ScriptingLanguage SLanguage, EngineBoot EBoot,
+                             ::ScriptingLanguage SLanguage,
+                             EngineBoot EBoot,
+                             PhysicsLibrary PLibrary,
                              bool ShowConsole): Core(nullptr), StartTime(0) {
-	GEngineConfig = {GApi, SLanguage, PBoot, EBoot, Name, ShowConsole};
+	GEngineConfig = {GApi, SLanguage, PBoot, EBoot, PLibrary, Name, ShowConsole};
 	SetStartTime();
 }
 
 ConceptEngine::ConceptEngine(const std::wstring& Name,
                              ::GraphicsAPI GApi,
                              ::PlatformBoot PBoot,
-                             ::ScriptingLanguage SLanguage, 
-	EngineBoot EBoot) : ConceptEngine(
-	Name, GApi, PBoot, SLanguage, EBoot, false) {
+                             ::ScriptingLanguage SLanguage,
+                             EngineBoot EBoot,
+                             PhysicsLibrary PLibrary) : ConceptEngine(
+	Name, GApi, PBoot, SLanguage, EBoot, PLibrary, false) {
 }
 
 ConceptEngine::ConceptEngine(const std::wstring& Name, ::GraphicsAPI GApi, ::PlatformBoot PBoot,
-                             EngineBoot EBoot) : ConceptEngine(Name, GApi, PBoot, ScriptingLanguage::None, EBoot) {
+                             EngineBoot EBoot, PhysicsLibrary PLibrary) : ConceptEngine(
+	Name, GApi, PBoot, ScriptingLanguage::None, EBoot, PLibrary) {
 }
 
 ConceptEngine::ConceptEngine(CEEngineConfig& EConfig): Core(nullptr), StartTime(0) {

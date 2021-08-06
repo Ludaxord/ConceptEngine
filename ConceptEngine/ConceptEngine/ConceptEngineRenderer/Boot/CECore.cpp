@@ -15,6 +15,7 @@
 #include "Graphics/Vulkan/CEVulkan.h"
 #include "Graphics/WebGL/CEWebGL.h"
 #include "Physics/CEPhysics.h"
+#include "Physics/PhysX/CEPhysX.h"
 #include "Platform/CEPlatform.h"
 #include "Platform/Android/CEAndroid.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
@@ -34,6 +35,7 @@ CECore::CECore(CEEngineConfig& EConfig, CEPlayground* InPlayground) {
 	GGraphics = SetGraphicsAPI(EConfig.GraphicsAPI);
 	GCompiler = SetLanguageCompiler(EConfig.ScriptingLanguage);
 	GPlatform = SetPlatform(EConfig.PlatformBoot);
+	GPhysics = SetPhysics(EConfig.PhysicsLibrary);
 	GPlayground = InPlayground;
 }
 
@@ -141,8 +143,6 @@ CECompiler* CECore::SetLanguageCompiler(ScriptingLanguage SLanguage) {
 	case ScriptingLanguage::None:
 	default:
 		return nullptr;
-
-
 	}
 }
 
@@ -153,6 +153,14 @@ CEPlatform* CECore::SetPlatform(PlatformBoot PBoot) {
 	case PlatformBoot::Linux: return new CELinux();
 	case PlatformBoot::Android: return new CEAndroid();
 	case PlatformBoot::iOS: return new CEiOS();
+	default: return nullptr;
+	}
+}
+
+CEPhysics* CECore::SetPhysics(PhysicsLibrary PLibrary) {
+	switch (PLibrary) {
+	case PhysicsLibrary::PhysX: return new CEPhysX();
+	case PhysicsLibrary::None: return nullptr;
 	default: return nullptr;
 	}
 }

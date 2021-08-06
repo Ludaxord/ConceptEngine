@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE PrevInstance, LPSTR CmdLine, in
 	CEWindows::PreInit(Instance, CmdLine, NULL, CmdShow, 1920, 1080);
 
 	return Exec(L"Concept Engine Runtime", GraphicsAPI::DirectX12, PlatformBoot::Windows, ScriptingLanguage::None,
-	            EngineBoot::DebugRuntime);
+	            EngineBoot::DebugRuntime, PhysicsLibrary::PhysX);
 }
 
 #pragma warning(pop)

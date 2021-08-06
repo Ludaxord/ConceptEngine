@@ -14,10 +14,13 @@ class ConceptEngine {
 public:
 	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
 	              EngineBoot EBoot,
+	              PhysicsLibrary PLibrary,
 	              bool ShowConsole);
 	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
-	              EngineBoot EBoot);
-	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, EngineBoot EBoot);
+	              EngineBoot EBoot,
+	              PhysicsLibrary PLibrary);
+	ConceptEngine(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, EngineBoot EBoot,
+	              PhysicsLibrary PLibrary);
 	ConceptEngine(CEEngineConfig& EConfig);
 
 	bool Create() const;
@@ -27,6 +30,9 @@ public:
 	CECore* GetCore() const;
 
 protected:
+	friend class CEPlatform;
+	friend int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
+	                EngineBoot EBoot, PhysicsLibrary PLibrary);
 	bool CreateEditor();
 	bool CreateRuntime();
 	bool CreateDebugRuntime();
@@ -34,9 +40,6 @@ protected:
 	bool SetStartTime();
 
 private:
-	friend class CEPlatform;
-	friend int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
-	                EngineBoot EBoot);
 	CECore* Core;
 
 	std::time_t StartTime;
@@ -59,9 +62,9 @@ inline int EngineExec(ConceptEngine* Engine) {
 }
 
 inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
-                EngineBoot EBoot) {
+                EngineBoot EBoot, PhysicsLibrary PLibrary) {
 
-	auto Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot);
+	auto Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot, PLibrary);
 	switch (GEngineConfig.EngineBoot) {
 	case EngineBoot::Runtime:
 		if (!Engine->CreateRuntime()) {

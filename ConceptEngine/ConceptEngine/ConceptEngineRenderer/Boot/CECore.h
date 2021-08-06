@@ -3,6 +3,7 @@
 #include "../Time/CETimestamp.h"
 #include "../Managers/CEManager.h"
 
+class CEPhysics;
 class CEPlatform;
 class CEGraphics;
 class CEPlayground;
@@ -38,6 +39,7 @@ private:
 	CEGraphics* SetGraphicsAPI(GraphicsAPI GApi);
 	CECompiler* SetLanguageCompiler(ScriptingLanguage SLanguage);
 	CEPlatform* SetPlatform(PlatformBoot PBoot);
+	CEPhysics* SetPhysics(PhysicsLibrary PLibrary);
 
 
 };
