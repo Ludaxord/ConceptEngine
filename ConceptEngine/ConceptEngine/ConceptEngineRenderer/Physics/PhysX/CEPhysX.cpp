@@ -20,18 +20,18 @@
 
 #define MAX_NUM_ACTOR_SHAPES 128
 
-physx::PxDefaultAllocator		PhysXAllocator;				
-physx::PxDefaultErrorCallback	PhysXErrorCallback;			
+physx::PxDefaultAllocator PhysXAllocator;
+physx::PxDefaultErrorCallback PhysXErrorCallback;
 
-physx::PxFoundation* PhysXFoundation = nullptr;				
+physx::PxFoundation* PhysXFoundation = nullptr;
 physx::PxPhysics* PhysXPhysics = nullptr;
 
-physx::PxDefaultCpuDispatcher* PhysXDispatcher = nullptr;		
-physx::PxScene* PhysXScene = nullptr;							
+physx::PxDefaultCpuDispatcher* PhysXDispatcher = nullptr;
+physx::PxScene* PhysXScene = nullptr;
 
-physx::PxControllerManager* PhysXControllerManager = nullptr;	
+physx::PxControllerManager* PhysXControllerManager = nullptr;
 
-physx::PxPvd* PhysXPvd = nullptr;								
+physx::PxPvd* PhysXPvd = nullptr;
 
 std::unordered_map<std::string, physx::PxRigidDynamic*> PxRigidDynamicMap;
 std::unordered_map<std::string, physx::PxRigidStatic*> PxRigidStaticMap;
@@ -53,7 +53,7 @@ bool CEPhysX::Create() {
 
 	PhysXPvd = physx::PxCreatePvd(*PhysXFoundation);
 	if (!PhysXPvd) {
-		CE_LOG_ERROR("[CEPhysX]: Failed to Create PhysX Foundation");
+		CE_LOG_ERROR("[CEPhysX]: Failed to Create PhysX Pvd");
 	}
 	else {
 		physx::PxPvdTransport* Transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);

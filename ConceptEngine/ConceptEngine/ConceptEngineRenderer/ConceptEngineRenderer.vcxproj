@@ -377,7 +377,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\Build\bin\Debug-windows-x86_64-x64\ConceptEngineRenderer\</OutDir>
     <IntDir>..\Build\bin-int\Debug-windows-x86_64-x64\ConceptEngineRenderer\</IntDir>
-    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;C:\Program Files\Mono\include\mono-2.0;F:\Projects\libs\AftermathSDK\include;$(IncludePath)</IncludePath>
+    <IncludePath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\stb_image;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\tinyobjloader;C:\Program Files\Mono\include\mono-2.0;F:\Projects\libs\AftermathSDK\include;F:\Projects\Samples\physx-dx12\physx\d3d12-physx\PhysXSDK\include;$(IncludePath)</IncludePath>
     <LibraryPath>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;C:\src\vcpkg\packages\physx_x64-windows-static\lib;F:\Projects\libs\AftermathSDK\lib\x64;F:\Projects\Samples\physx-dx12\physx\d3d12-physx\bin\debug\lib;F:\Projects\Samples\physx-dx12\physx\d3d12-physx\bin\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -434,7 +434,7 @@
       <UndefinePreprocessorDefinitions>PreCompiled.h</UndefinePreprocessorDefinitions>
       <ForcedIncludeFiles>PreCompiled.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>.;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;Include;F:\Projects\Samples\physx-dx12\physx\d3d12-physx\PhysXSDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies>F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\imgui\bin\Debug-windows-x86_64-x64\ImGui;F:\Projects\ConceptEngine\ConceptEngine\ConceptEngine\Dependencies\dx;%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
     </ClCompile>
     <Link>
