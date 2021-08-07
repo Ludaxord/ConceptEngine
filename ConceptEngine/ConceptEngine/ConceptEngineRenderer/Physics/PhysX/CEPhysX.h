@@ -1,6 +1,17 @@
 #pragma once
+#include <characterkinematic/PxExtended.h>
+
 #include "Physics/CEPhysics.h"
 #include <foundation/PxVec3.h>
+
+enum class CEPhysXAxis {
+	Linear_X,
+	Linear_Y,
+	Linear_Z,
+	Angular_X,
+	Angular_Y,
+	Angular_Z
+};
 
 class CEPhysX : public CEPhysics {
 public:
@@ -17,19 +28,19 @@ public:
 
 	void AddForce(std::string Name, physx::PxVec3 Force);
 
-	void SetRigidDynamicLockFlag(std::string Name, int Axis, bool DynamicLockFlag);
+	void SetRigidDynamicLockFlag(std::string Name, CEPhysXAxis Axis, bool DynamicLockFlag);
 	void SetAngularDamping(std::string Name, float AngularDamping);
 	void SetLinearVelocity(std::string Name, physx::PxVec3 LinearVelocity);
 	void SetKinematicFlag(std::string Name, bool KinematicFlag);
-	void SetKinematicTarget(std::string Name, physx::PxVec3& Position, physx::PxVec4& Quat);
+	void SetKinematicTarget(std::string Name, physx::PxVec3& Position, physx::PxQuat& Quat);
 
 	void ReleasePXRigidStatic(std::string Name);
 	void ReleasePXRigidDynamic(std::string Name);
 
 	std::string AddCharacterController(void* Desc);
-	void ReleaseCharacterController(const std::string& Name);
-	int32 MoveCharacterController(const std::string& Name, const physx::PxVec3& Disp, float MinDist, float ElapsedTime);
-	physx::PxVec3 GetCharacterControllerTranslation(const std::string& Name);
+	void ReleaseCharacterController(std::string& Name);
+	int32 MoveCharacterController(std::string& Name, const physx::PxVec3& Disp, float MinDist, float ElapsedTime);
+	physx::PxExtendedVec3 GetCharacterControllerTranslation(std::string& Name);
 
 	void GetPXRigidDynamicTransform(std::string Name, physx::PxVec3& Position, physx::PxVec4& Quat);
 
@@ -39,4 +50,7 @@ private:
 	bool HasPXRigidStatic(std::string& Name);
 	bool HasPXRigidDynamic(std::string& Name);
 	bool HasPXController(std::string& Name);
+
+	CETimestamp Accumulator = 0.0f;
+	CETimestamp StepSize = 1.0f / 60.0f;
 };
