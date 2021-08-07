@@ -1,8 +1,14 @@
 #pragma once
+#include <characterkinematic/PxControllerManager.h>
 #include <characterkinematic/PxExtended.h>
+#include <extensions/PxDefaultAllocator.h>
+#include <extensions/PxDefaultCpuDispatcher.h>
+#include <extensions/PxDefaultErrorCallback.h>
 
 #include "Physics/CEPhysics.h"
 #include <foundation/PxVec3.h>
+#include <foundation/PxVec4.h>
+#include <pvd/PxPvd.h>
 
 enum class CEPhysXAxis {
 	Linear_X,
@@ -11,6 +17,41 @@ enum class CEPhysXAxis {
 	Angular_X,
 	Angular_Y,
 	Angular_Z
+};
+
+
+enum class PxGeometryEnum { PxSphereEnum, PxBoxEnum, PxCapsuleEnum, PxPlaneEnum };
+
+struct PxRigidDynamicDesc {
+	physx::PxVec3 Pos;
+	physx::PxVec4 Quat;
+
+	physx::PxVec3 Material;
+
+	PxGeometryEnum PxGeometry;
+	physx::PxVec4 Scale;
+
+	float Density;
+};
+
+struct PxRigidStaticDesc {
+	physx::PxVec3 Pos;
+	physx::PxVec4 Quat;
+
+	physx::PxVec3 Material;
+
+	PxGeometryEnum PxGeometry;
+	physx::PxVec4 Scale;
+};
+
+struct PxCapsuleControllerDesc {
+	physx::PxVec3 Position;
+	float ContactOffset;
+	float StepOffset;
+	float SlopeLimit;
+	float Radius;
+	float Height;
+	physx::PxVec3 UpDirection;
 };
 
 class CEPhysX : public CEPhysics {
@@ -54,3 +95,17 @@ private:
 	CETimestamp Accumulator = 0.0f;
 	CETimestamp StepSize = 1.0f / 60.0f;
 };
+
+
+extern physx::PxDefaultAllocator PhysXAllocator;
+extern physx::PxDefaultErrorCallback PhysXErrorCallback;
+
+extern physx::PxFoundation* PhysXFoundation;
+extern physx::PxPhysics* PhysXPhysics;
+
+extern physx::PxDefaultCpuDispatcher* PhysXDispatcher;
+extern physx::PxScene* PhysXScene;
+
+extern physx::PxControllerManager* PhysXControllerManager;
+
+extern physx::PxPvd* PhysXPvd;

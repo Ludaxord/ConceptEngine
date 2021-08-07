@@ -20,18 +20,18 @@
 
 #define MAX_NUM_ACTOR_SHAPES 128
 
-extern physx::PxDefaultAllocator PhysXAllocator;
-extern physx::PxDefaultErrorCallback PhysXErrorCallback;
+physx::PxDefaultAllocator		PhysXAllocator;				
+physx::PxDefaultErrorCallback	PhysXErrorCallback;			
 
-extern physx::PxFoundation* PhysXFoundation;
-extern physx::PxPhysics* PhysXPhysics;
+physx::PxFoundation* PhysXFoundation = nullptr;				
+physx::PxPhysics* PhysXPhysics = nullptr;
 
-extern physx::PxDefaultCpuDispatcher* PhysXDispatcher;
-extern physx::PxScene* PhysXScene;
+physx::PxDefaultCpuDispatcher* PhysXDispatcher = nullptr;		
+physx::PxScene* PhysXScene = nullptr;							
 
-extern physx::PxControllerManager* PhysXControllerManager;
+physx::PxControllerManager* PhysXControllerManager = nullptr;	
 
-extern physx::PxPvd* PhysXPvd;
+physx::PxPvd* PhysXPvd = nullptr;								
 
 std::unordered_map<std::string, physx::PxRigidDynamic*> PxRigidDynamicMap;
 std::unordered_map<std::string, physx::PxRigidStatic*> PxRigidStaticMap;
@@ -107,12 +107,106 @@ void CEPhysX::Update(CETimestamp DeltaTime) {
 	PhysXScene->fetchResults(true);
 }
 
-std::string CEPhysX::CreatePXRigidStatic(void* Desc) {
-	return {};
+std::string CEPhysX::CreatePXRigidStatic(void* pDesc) {
+	std::string Name = Math::RandStr();
+	while (HasPXRigidStatic(Name)) {
+		Name = Math::RandStr();
+	}
+
+	PxRigidStaticDesc Desc = *static_cast<PxRigidStaticDesc*>(pDesc);
+
+	physx::PxTransform Transform = physx::PxTransform(
+		physx::PxVec3(Desc.Pos.x, Desc.Pos.y, Desc.Pos.z),
+		physx::PxQuat(Desc.Quat.x, Desc.Quat.y, Desc.Quat.z, Desc.Quat.w)
+	);
+
+	physx::PxRigidStatic* Actor = PhysXPhysics->createRigidStatic(Transform);
+
+	physx::PxMaterial* Material = PhysXPhysics->createMaterial(Desc.Material.x, Desc.Material.y, Desc.Material.z);
+
+	physx::PxShape* Shape = nullptr;
+	switch (Desc.PxGeometry) {
+
+	case PxGeometryEnum::PxSphereEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxSphereGeometry(Desc.Scale.x), *Material);
+	}
+	break;
+	case PxGeometryEnum::PxBoxEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxBoxGeometry(Desc.Scale.x, Desc.Scale.y, Desc.Scale.z), *Material);
+	}
+	break;
+	case PxGeometryEnum::PxCapsuleEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxCapsuleGeometry(Desc.Scale.x, Desc.Scale.y), *Material);
+	}
+	break;
+	case PxGeometryEnum::PxPlaneEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxPlaneGeometry(), *Material);
+	}
+	break;
+	default: {
+		CE_LOG_ERROR("[CEPhysX]: Wrong Geometry");
+		CEDebug::DebugBreak();
+	}
+	}
+
+	Actor->attachShape(*Shape);
+	Shape->release();
+
+	PhysXScene->addActor(*Actor);
+	PxRigidStaticMap[Name] = Actor;
+
+	return Name;
 }
 
-std::string CEPhysX::CreatePXRigidDynamic(void* Desc) {
-	return {};
+std::string CEPhysX::CreatePXRigidDynamic(void* pDesc) {
+	std::string Name = Math::RandStr();
+	while (HasPXRigidStatic(Name)) {
+		Name = Math::RandStr();
+	}
+
+	PxRigidDynamicDesc Desc = *static_cast<PxRigidDynamicDesc*>(pDesc);
+
+	physx::PxTransform Transform = physx::PxTransform(
+		physx::PxVec3(Desc.Pos.x, Desc.Pos.y, Desc.Pos.z),
+		physx::PxQuat(Desc.Quat.x, Desc.Quat.y, Desc.Quat.z, Desc.Quat.w)
+	);
+
+	physx::PxRigidDynamic* Actor = PhysXPhysics->createRigidDynamic(Transform);
+
+	physx::PxMaterial* Material = PhysXPhysics->createMaterial(Desc.Material.x, Desc.Material.y, Desc.Material.z);
+
+	physx::PxShape* Shape = nullptr;
+	switch (Desc.PxGeometry) {
+
+	case PxGeometryEnum::PxSphereEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxSphereGeometry(Desc.Scale.x), *Material);
+	}
+	break;
+	case PxGeometryEnum::PxBoxEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxBoxGeometry(Desc.Scale.x, Desc.Scale.y, Desc.Scale.z), *Material);
+	}
+	break;
+	case PxGeometryEnum::PxCapsuleEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxCapsuleGeometry(Desc.Scale.x, Desc.Scale.y), *Material);
+	}
+	break;
+	case PxGeometryEnum::PxPlaneEnum: {
+		Shape = PhysXPhysics->createShape(physx::PxPlaneGeometry(), *Material);
+	}
+	break;
+	default: {
+		CE_LOG_ERROR("[CEPhysX]: Wrong Geometry");
+		CEDebug::DebugBreak();
+	}
+	}
+
+	Actor->attachShape(*Shape);
+	Shape->release();
+
+	PhysXScene->addActor(*Actor);
+	PxRigidDynamicMap[Name] = Actor;
+
+	return Name;
 }
 
 void CEPhysX::AddForce(std::string Name, physx::PxVec3 Force) {
@@ -239,23 +333,23 @@ std::string CEPhysX::AddCharacterController(void* pDesc) {
 		Name = Math::RandStr();
 	}
 
-	physx::PxCapsuleControllerDesc* CapsuleControllerDesc = static_cast<physx::PxCapsuleControllerDesc*>(pDesc);
+	PxCapsuleControllerDesc* CapsuleControllerDesc = static_cast<PxCapsuleControllerDesc*>(pDesc);
 
 	physx::PxCapsuleControllerDesc Desc;
 	Desc.position = physx::PxExtendedVec3(
-		CapsuleControllerDesc->position.x,
-		CapsuleControllerDesc->position.y,
-		CapsuleControllerDesc->position.z
+		CapsuleControllerDesc->Position.x,
+		CapsuleControllerDesc->Position.y,
+		CapsuleControllerDesc->Position.z
 	);
-	Desc.contactOffset = CapsuleControllerDesc->contactOffset;
-	Desc.stepOffset = CapsuleControllerDesc->stepOffset;
-	Desc.slopeLimit = CapsuleControllerDesc->slopeLimit;
-	Desc.radius = CapsuleControllerDesc->radius;
-	Desc.height = CapsuleControllerDesc->height;
+	Desc.contactOffset = CapsuleControllerDesc->ContactOffset;
+	Desc.stepOffset = CapsuleControllerDesc->StepOffset;
+	Desc.slopeLimit = CapsuleControllerDesc->SlopeLimit;
+	Desc.radius = CapsuleControllerDesc->Radius;
+	Desc.height = CapsuleControllerDesc->Height;
 	Desc.upDirection = physx::PxVec3(
-		CapsuleControllerDesc->upDirection.x,
-		CapsuleControllerDesc->upDirection.y,
-		CapsuleControllerDesc->upDirection.z
+		CapsuleControllerDesc->UpDirection.x,
+		CapsuleControllerDesc->UpDirection.y,
+		CapsuleControllerDesc->UpDirection.z
 	);
 	Desc.material = PhysXPhysics->createMaterial(0.0f, 0.0f, 0.0f);
 
