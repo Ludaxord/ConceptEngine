@@ -37,6 +37,13 @@ using namespace DirectX;
         (OutObject) = nullptr; \
     }
 
+#define SafePhysXRelease(OutObject) \
+    if ((OutObject)) \
+    { \
+        (OutObject)->release(); \
+        (OutObject) = nullptr; \
+    }
+
 #define SafeAddRef(OutObject) \
     if ((OutObject)) \
     { \
