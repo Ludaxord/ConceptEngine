@@ -16,6 +16,7 @@ public:
     CEScene();
     ~CEScene();
 
+    bool Create();
     void Tick(CETimestamp DeltaTime);
 
     void AddCamera(Camera* InCamera);

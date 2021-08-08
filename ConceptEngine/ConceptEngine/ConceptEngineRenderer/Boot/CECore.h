@@ -24,6 +24,7 @@ public:
 	static CEGraphics* GetGraphics();
 	static CECompiler* GetCompiler();
 	static CEPlatform* GetPlatform();
+	static CEPhysics* GetPhysics();
 	static CEPlayground* GetPlayground();
 	
 	inline static bool bIsRunning = false;

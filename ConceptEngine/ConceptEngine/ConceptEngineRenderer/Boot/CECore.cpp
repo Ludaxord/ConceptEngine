@@ -63,6 +63,11 @@ bool CECore::Create() {
 		return false;
 	}
 
+	if (!GPhysics->Create()) {
+		CEPlatformMisc::MessageBox("Error", "Failed to Create Physics");
+		return false;
+	}
+
 	if (GPlayground == nullptr) {
 		GPlayground = CreatePlayground();
 	}
@@ -78,11 +83,6 @@ bool CECore::Create() {
 
 	if (!Renderer->Create()) {
 		CEPlatformMisc::MessageBox("Error", "Failed to Create Renderer");
-		return false;
-	}
-
-	if (!GPhysics->Create()) {
-		CEPlatformMisc::MessageBox("Error", "Failed to Create Physics");
 		return false;
 	}
 
@@ -103,6 +103,10 @@ CECompiler* CECore::GetCompiler() {
 
 CEPlatform* CECore::GetPlatform() {
 	return GPlatform;
+}
+
+CEPhysics* CECore::GetPhysics() {
+	return GPhysics;
 }
 
 CEPlayground* CECore::GetPlayground() {
