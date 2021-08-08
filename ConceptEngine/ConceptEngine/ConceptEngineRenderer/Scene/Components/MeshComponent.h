@@ -9,7 +9,8 @@ public:
 		: Component(InOwningActor)
 		  , Material(nullptr)
 		  , Mesh(nullptr),
-		  RigidStatic(nullptr),
+		  RigidStatic(nullptr)
+	,
 		  RigidDynamic(nullptr) {
 		CORE_OBJECT_INIT();
 	}

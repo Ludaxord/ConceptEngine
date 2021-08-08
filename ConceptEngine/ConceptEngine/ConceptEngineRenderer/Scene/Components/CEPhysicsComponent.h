@@ -1,8 +1,11 @@
 #pragma once
-#include "RenderLayer/PipelineState.h"
-#include "Scene/Actor.h"
+#include "../Rendering/Resources/Material.h"
+#include "../RenderLayer/PipelineState.h"
+#include "../Scene/Actor.h"
 
 class CEPhysicsComponent : Component {
+	CORE_OBJECT(CEPhysicsComponent, Component);
+
 public:
 	CEPhysicsComponent() : CEPhysicsComponent(nullptr) {
 
@@ -15,7 +18,7 @@ public:
 		CORE_OBJECT_INIT();
 	}
 
-	TSharedPtr<class Material> Material;
+	TSharedPtr<Material> Material;
 	CERigidTransform MeshTransform;
 	DirectX::XMFLOAT4X4 TextureTransform;
 	EFillMode FillMode;

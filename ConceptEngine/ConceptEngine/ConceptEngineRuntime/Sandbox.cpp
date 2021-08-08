@@ -129,14 +129,14 @@ bool Sandbox::Create() {
 			NewComponent->Material->Init();
 
 			//TODO: Add RigidStatic
-			NewComponent->RigidStatic = MakeShared<CERigidStatic>();
-			NewComponent->RigidStatic->Scale;
-			NewComponent->RigidStatic->PxMaterial;
-			NewComponent->RigidStatic->PxGeometry;
-			NewComponent->RigidStatic->Create();
+			// NewComponent->RigidStatic = MakeShared<CERigidStatic>();
+			// NewComponent->RigidStatic->Scale;
+			// NewComponent->RigidStatic->PxMaterial;
+			// NewComponent->RigidStatic->PxGeometry;
+			// NewComponent->RigidStatic->Create();
 
 			//TODO: Add RigidStatic
-			NewComponent->RigidDynamic;
+			// NewComponent->RigidDynamic;
 
 			NewActor->AddComponent(NewComponent);
 
@@ -166,10 +166,10 @@ bool Sandbox::Create() {
 	NewComponent->Material = MakeShared<Material>(MatProperties);
 
 	//TODO: Add RigidStatic
-	NewComponent->RigidStatic;
+	// NewComponent->RigidStatic;
 
 	//TODO: Add RigidStatic
-	NewComponent->RigidDynamic;
+	// NewComponent->RigidDynamic;
 
 	CERef<Texture2D> AlbedoMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png",
 	                                                                TextureFactoryFlag_GenerateMips,
@@ -238,10 +238,11 @@ bool Sandbox::Create() {
 	NewComponent->Material->Init();
 
 	//TODO: Add RigidStatic
-	NewComponent->RigidStatic;
+	// NewComponent->RigidStatic;
 
 	//TODO: Add RigidStatic
-	NewComponent->RigidDynamic;
+	// NewComponent->RigidDynamic;
+
 	NewActor->AddComponent(NewComponent);
 
 	NewActor = DBG_NEW Actor();
@@ -270,10 +271,10 @@ bool Sandbox::Create() {
 	NewComponent->Material->Init();
 
 	//TODO: Add RigidStatic
-	NewComponent->RigidStatic;
+	// NewComponent->RigidStatic;
 
 	//TODO: Add RigidStatic
-	NewComponent->RigidDynamic;
+	// NewComponent->RigidDynamic;
 
 	NewActor->AddComponent(NewComponent);
 

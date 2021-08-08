@@ -146,7 +146,11 @@
     <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Memory\New.h" />
     <ClInclude Include="Physics\CEPhysics.h" />
+    <ClInclude Include="Physics\Collision\CERigid.h" />
+    <ClInclude Include="Physics\Collision\CERigidDynamic.h" />
+    <ClInclude Include="Physics\Collision\CERigidStatic.h" />
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
+    <ClInclude Include="Physics\Transform\CERigidTransform.h" />
     <ClInclude Include="Platform\Android\CEAndroid.h" />
     <ClInclude Include="Platform\CEPlatform.h" />
     <ClInclude Include="Platform\Generic\Console\CETypedConsole.h" />
@@ -194,6 +198,7 @@
     <ClInclude Include="Scene\AABB.h" />
     <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\Camera.h" />
+    <ClInclude Include="Scene\Components\CEPhysicsComponent.h" />
     <ClInclude Include="Scene\Components\MeshComponent.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Lights\DirectionalLight.h" />
@@ -275,6 +280,8 @@
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="Physics\Collision\CERigidDynamic.cpp" />
+    <ClCompile Include="Physics\Collision\CERigidStatic.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
     <ClCompile Include="Platform\Android\CEAndroid.cpp" />
     <ClCompile Include="Platform\CEPlatform.cpp" />

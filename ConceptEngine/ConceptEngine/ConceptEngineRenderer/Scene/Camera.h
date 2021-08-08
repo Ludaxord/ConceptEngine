@@ -1,5 +1,7 @@
 #pragma once
 #include "../CEDefinitions.h"
+#include "../Physics/Collision/CERigidDynamic.h"
+#include "../Physics/Collision/CERigidStatic.h"
 
 class Camera {
 public:
@@ -85,6 +87,7 @@ private:
 	XMFLOAT3 Right;
 	XMFLOAT3 Up;
 
-	TSharedPtr<class CERigidStatic> RigidStatic;
-	TSharedPtr<class CERigidDynamic> RigidDynamic;
+	//TODO: Create empty constructor for Rigid or Add forward declaration...
+	// TSharedPtr<CERigidStatic> RigidStatic;
+	// TSharedPtr<CERigidDynamic> RigidDynamic;
 };

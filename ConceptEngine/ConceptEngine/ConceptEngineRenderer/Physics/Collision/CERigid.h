@@ -1,7 +1,8 @@
 #pragma once
-#include "Physics/PhysX/CEPhysX.h"
-#include "Physics/Transform/CERigidTransform.h"
-#include "Scene/Components/CEPhysicsComponent.h"
+#include "../Physics/PhysX/CEPhysX.h"
+#include "../Physics/Transform/CERigidTransform.h"
+#include "../Rendering/Resources/Mesh.h"
+#include "../Scene/Components/CEPhysicsComponent.h"
 
 //TODO: Think about making Rigid an Actor...
 class CERigid {
@@ -38,7 +39,7 @@ public:
 	DirectX::XMFLOAT3 PxMaterial;
 	PxGeometryEnum PxGeometry;
 
-	TSharedPtr<class Mesh> Mesh;
+	TSharedPtr<Mesh> Mesh;
 
 	CEPhysicsComponent* PhysicsComponent;
 

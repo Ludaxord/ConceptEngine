@@ -5,7 +5,7 @@
 #include <extensions/PxDefaultCpuDispatcher.h>
 #include <extensions/PxDefaultErrorCallback.h>
 
-#include "Physics/CEPhysics.h"
+#include "../Physics/CEPhysics.h"
 #include <foundation/PxVec3.h>
 #include <foundation/PxVec4.h>
 #include <pvd/PxPvd.h>

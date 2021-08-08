@@ -1,6 +1,11 @@
 #include "CERigidDynamic.h"
 
-CERigidDynamic::CERigidDynamic() {
+CERigidDynamic::CERigidDynamic(
+	std::string& InParentName,
+	const CERigidTransform& InParentTransform,
+	const CERigidTransform& InLocalTransform
+): CERigid(InParentName, InParentTransform, InLocalTransform) {
+
 }
 
 CERigidDynamic::~CERigidDynamic() {

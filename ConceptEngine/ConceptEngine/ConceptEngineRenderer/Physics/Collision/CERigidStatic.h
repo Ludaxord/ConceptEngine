@@ -3,6 +3,8 @@
 
 class CERigidStatic : public CERigid {
 public:
+	CERigidStatic();
+
 	CERigidStatic(std::string& InParentName, const CERigidTransform& InParentTransform,
 	              const CERigidTransform& InLocalTransform);
 	~CERigidStatic();
