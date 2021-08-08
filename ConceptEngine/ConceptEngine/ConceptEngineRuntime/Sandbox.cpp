@@ -10,6 +10,8 @@
 #include "../ConceptEngineRenderer/Scene/Lights/PointLight.h"
 #include "../ConceptEngineRenderer/Scene/Lights/DirectionalLight.h"
 #include "../ConceptEngineRenderer/Scene/Components/MeshComponent.h"
+#include "../ConceptEngineRenderer/Physics/Collision/CERigidDynamic.h"
+#include "../ConceptEngineRenderer/Physics/Collision/CERigidStatic.h"
 
 #include "../ConceptEngineRenderer/Core/Input/CEInputManager.h"
 #include "../ConceptEngineRenderer/Boot/CECore.h"
@@ -18,6 +20,8 @@
 #include "../ConceptEngineRenderer/Graphics/Generic/Managers/CEManagers.h"
 #include "../ConceptEngineRenderer/Graphics/Generic/Managers/CETextureManager.h"
 #include "../ConceptEngineRenderer/Graphics/Generic/Managers/CEMeshManager.h"
+
+
 #include <random>
 
 #define ENABLE_LIGHT_TEST 0
@@ -124,6 +128,16 @@ bool Sandbox::Create() {
 			NewComponent->Material->MetallicMap = WhiteTexture;
 			NewComponent->Material->Init();
 
+			//TODO: Add RigidStatic
+			NewComponent->RigidStatic = MakeShared<CERigidStatic>();
+			NewComponent->RigidStatic->Scale;
+			NewComponent->RigidStatic->PxMaterial;
+			NewComponent->RigidStatic->PxGeometry;
+			NewComponent->RigidStatic->Create();
+
+			//TODO: Add RigidStatic
+			NewComponent->RigidDynamic;
+
 			NewActor->AddComponent(NewComponent);
 
 			MatProperties.Roughness += RoughnessDelta;
@@ -150,6 +164,12 @@ bool Sandbox::Create() {
 	NewComponent = DBG_NEW MeshComponent(NewActor);
 	NewComponent->Mesh = Mesh::Make(CubeMeshData);
 	NewComponent->Material = MakeShared<Material>(MatProperties);
+
+	//TODO: Add RigidStatic
+	NewComponent->RigidStatic;
+
+	//TODO: Add RigidStatic
+	NewComponent->RigidDynamic;
 
 	CERef<Texture2D> AlbedoMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png",
 	                                                                TextureFactoryFlag_GenerateMips,
@@ -216,6 +236,12 @@ bool Sandbox::Create() {
 	NewComponent->Material->AOMap = AOMap;
 	NewComponent->Material->MetallicMap = MetallicMap;
 	NewComponent->Material->Init();
+
+	//TODO: Add RigidStatic
+	NewComponent->RigidStatic;
+
+	//TODO: Add RigidStatic
+	NewComponent->RigidDynamic;
 	NewActor->AddComponent(NewComponent);
 
 	NewActor = DBG_NEW Actor();
@@ -242,8 +268,16 @@ bool Sandbox::Create() {
 	NewComponent->Material->AOMap = WhiteTexture;
 	NewComponent->Material->MetallicMap = WhiteTexture;
 	NewComponent->Material->Init();
+
+	//TODO: Add RigidStatic
+	NewComponent->RigidStatic;
+
+	//TODO: Add RigidStatic
+	NewComponent->RigidDynamic;
+
 	NewActor->AddComponent(NewComponent);
 
+	//TODO: For now add character collision to camera, later create Character class and add camera && collision as properties into it.
 	CurrentCamera = DBG_NEW Camera();
 	Scene->AddCamera(CurrentCamera);
 

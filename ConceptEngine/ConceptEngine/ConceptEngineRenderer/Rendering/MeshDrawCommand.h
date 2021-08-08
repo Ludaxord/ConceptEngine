@@ -11,4 +11,7 @@ struct MeshDrawCommand
     class IndexBuffer*  IndexBuffer  = nullptr;
 
     class RayTracingGeometry* Geometry = nullptr;
+
+    class CERigidStatic*     RigidStatic         = nullptr;
+    class CERigidDynamic*    RigidDynamic        = nullptr;
 };

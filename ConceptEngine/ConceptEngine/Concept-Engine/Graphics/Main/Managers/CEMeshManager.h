@@ -9,7 +9,7 @@
 
 namespace ConceptEngine::Graphics::Main {
 	struct CEVertex {
-		
+
 #if defined(WINDOWS_PLATFORM)
 		DirectX::XMFLOAT3 Position;
 		DirectX::XMFLOAT3 Normal;
@@ -67,6 +67,8 @@ namespace ConceptEngine::Graphics::Main {
 		virtual ~CEMeshManager() = default;
 		virtual CEMeshData CreateFromFile(const std::string& filename, bool mergeMeshes = true,
 		                                  bool leftHanded = true) noexcept = 0;
+
+		//TODO: Add Objects for Basics Meshes like Cube/Plane/Sphere etc.
 		virtual CEMeshData CreateCube(float width = 1.0f, float height = 1.0f, float depth = 1.0f) noexcept = 0;
 		virtual CEMeshData CreatePlane(uint32 width = 1, uint32 height = 1) noexcept = 0;
 		virtual CEMeshData CreateSphere(uint32 subdivisions = 0, float radius = 0.5f) noexcept = 0;

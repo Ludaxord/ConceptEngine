@@ -9,6 +9,7 @@ public:
 
     virtual void Update(CETimestamp DeltaTime) override;
 private:
+    //TODO: Add Character class to Camera.
     Camera* CurrentCamera = nullptr;
     XMFLOAT3 CameraSpeed = XMFLOAT3(0.0f, 0.0f, 0.0f);
 

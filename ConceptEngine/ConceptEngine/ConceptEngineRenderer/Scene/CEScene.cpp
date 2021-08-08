@@ -23,6 +23,8 @@ CEScene::CEScene()
 }
 
 CEScene::~CEScene() {
+	CECore::GetPhysics()->Release();
+
 	for (Actor* CurrentActor : Actors) {
 		SafeDelete(CurrentActor);
 	}
@@ -44,7 +46,8 @@ bool CEScene::Create() {
 }
 
 void CEScene::Tick(CETimestamp DeltaTime) {
-	UNREFERENCED_VARIABLE(DeltaTime);
+	// UNREFERENCED_VARIABLE(DeltaTime);
+	CECore::GetPhysics()->Update(DeltaTime);
 }
 
 void CEScene::AddCamera(Camera* InCamera) {
@@ -331,6 +334,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath) {
 			// Add a MeshComponent
 			MeshComponent* NewComponent = DBG_NEW MeshComponent(NewActor);
 			NewComponent->Mesh = NewMesh;
+			//TODO: In editor add collision usage for static Rigid and Dynamic Rigid
 			if (MaterialID >= 0) {
 				CE_LOG_INFO(Shape.name + " got materialID=" + std::to_string(MaterialID));
 				NewComponent->Material = LoadedMaterials[MaterialID];
@@ -359,5 +363,7 @@ void CEScene::AddMeshComponent(MeshComponent* Component) {
 	Command.IndexBuffer = Component->Mesh->IndexBuffer.Get();
 	Command.Material = Component->Material.Get();
 	Command.Mesh = Component->Mesh.Get();
+	Command.RigidDynamic = Component->RigidDynamic.Get();
+	Command.RigidStatic = Component->RigidStatic.Get();
 	MeshDrawCommands.PushBack(Command);
 }

@@ -63,9 +63,10 @@ public:
 	bool CreateScene() override;
 
 	void Update(CETimestamp DeltaTime) override;
+	void Release() override;
 
-	std::string CreatePXRigidStatic(void* Desc);
-	std::string CreatePXRigidDynamic(void* Desc);
+	std::string CreatePXRigidStatic(void* Desc) override;
+	std::string CreatePXRigidDynamic(void* Desc) override;
 
 	void AddForce(std::string Name, physx::PxVec3 Force);
 
@@ -85,7 +86,6 @@ public:
 
 	void GetPXRigidDynamicTransform(std::string Name, physx::PxVec3& Position, physx::PxVec4& Quat);
 
-	void Release();
 
 private:
 	bool HasPXRigidStatic(std::string& Name);
