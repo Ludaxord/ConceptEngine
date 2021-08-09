@@ -19,3 +19,9 @@ void CERigidDynamic::AddRigidDynamic() {
 void CERigidDynamic::Release() {
 	CERigid::Release();
 }
+
+void CERigidDynamic::Create() {
+}
+
+void CERigidDynamic::Create(Actor* InOwningActor) {
+}

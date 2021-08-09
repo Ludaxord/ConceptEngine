@@ -11,4 +11,6 @@ public:
 	~CERigidDynamic();
 	void AddRigidDynamic() override;
 	void Release() override;
+	void Create() override;
+	void Create(Actor* InOwningActor) override;
 };

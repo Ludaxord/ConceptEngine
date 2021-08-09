@@ -19,6 +19,7 @@ public:
 	};
 
 	virtual void Create() = 0;
+	virtual void Create(Actor* InOwningActor) = 0;
 
 	virtual void AddRigidStatic() {
 

@@ -40,6 +40,7 @@ CEScene::~CEScene() {
 
 bool CEScene::Create() {
 	if (!CECore::GetPhysics()->CreateScene()) {
+		CE_LOG_ERROR("[CEScene]: Failed to Create Scene Physics");
 		return false;
 	}
 	return true;
@@ -364,6 +365,7 @@ void CEScene::AddMeshComponent(MeshComponent* Component) {
 	Command.Material = Component->Material.Get();
 	Command.Mesh = Component->Mesh.Get();
 	Command.RigidDynamic = Component->RigidDynamic.Get();
+	//TODO: Add CreatePhysicsComponent for RigidDynamic
 	Command.RigidStatic = Component->RigidStatic.Get();
 	MeshDrawCommands.PushBack(Command);
 }

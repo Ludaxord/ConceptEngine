@@ -138,10 +138,10 @@ bool Sandbox::Create() {
 			NewComponent->RigidStatic = MakeShared<CERigidStatic>(ParentName,
 			                                                      NewActor->GetTransform().AsRigidTransform(),
 			                                                      RigidStaticLocal);
-			NewComponent->RigidStatic->Scale;
-			NewComponent->RigidStatic->PxMaterial;
-			NewComponent->RigidStatic->PxGeometry;
-			NewComponent->RigidStatic->Create();
+			NewComponent->RigidStatic->Scale = XMFLOAT4(0.48f, 0.48f, 0.48f, 0.48f);
+			NewComponent->RigidStatic->PxMaterial = XMFLOAT3(0.5f, 0.5f, 0.5f);
+			NewComponent->RigidStatic->PxGeometry = PxGeometryEnum::PxBoxEnum;
+			NewComponent->RigidStatic->Create(NewActor);
 
 			//TODO: Add RigidStatic
 			// NewComponent->RigidDynamic;

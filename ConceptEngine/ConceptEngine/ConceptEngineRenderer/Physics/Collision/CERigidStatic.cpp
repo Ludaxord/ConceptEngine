@@ -71,6 +71,11 @@ void CERigidStatic::Create() {
 	AddRigidStatic();
 }
 
+void CERigidStatic::Create(Actor* InOwningActor) {
+	Create();
+	CreatePhysicsComponent(InOwningActor);
+}
+
 void CERigidStatic::CreatePhysicsMesh() {
 
 	//TODO: Check if Mesh with RigidBodyName Does Not Exists...
@@ -101,14 +106,14 @@ void CERigidStatic::CreatePhysicsMesh() {
 	}
 }
 
-void CERigidStatic::CreatePhysicsComponent() {
+void CERigidStatic::CreatePhysicsComponent(Actor* InOwningActor) {
 	CERigidTransform MeshTransform = WorldTransform;
 	if (PxGeometry == PxGeometryEnum::PxCapsuleEnum) {
 		MeshTransform = RotateRigidTransformLocal(WorldTransform, WorldTransform.GetForward(), -XM_PIDIV2);
 	}
 
 	MaterialProperties MatProperties;
-	PhysicsComponent = DBG_NEW CEPhysicsComponent();
+	PhysicsComponent = DBG_NEW CEPhysicsComponent(InOwningActor);
 	PhysicsComponent->MeshTransform = MeshTransform;
 	PhysicsComponent->Material = MakeShared<Material>(MatProperties);
 	XMStoreFloat4x4(&PhysicsComponent->TextureTransform, XMMatrixScaling(1.0f, 1.0f, 1.0f));

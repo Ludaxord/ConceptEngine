@@ -11,7 +11,8 @@ public:
 	void AddRigidStatic() override;
 	void Release() override;
 	void Create() override;
+	void Create(Actor* InOwningActor) override;
 
 	void CreatePhysicsMesh();
-	void CreatePhysicsComponent();
+	void CreatePhysicsComponent(Actor* InOwningActor);
 };
