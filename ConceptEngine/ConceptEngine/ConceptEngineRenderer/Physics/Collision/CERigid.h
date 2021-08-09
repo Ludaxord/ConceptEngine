@@ -13,6 +13,7 @@ public:
 	                                                             LocalTransform(InLocalTransform),
 	                                                             Mesh(nullptr) {
 		RigidBodyName = ParentName + "_RigidBody";
+
 	};
 	virtual ~CERigid() {
 		

@@ -11,4 +11,5 @@ public:
 
 	virtual std::string CreatePXRigidStatic(void* Desc) = 0;
 	virtual std::string CreatePXRigidDynamic(void* Desc) = 0;
+	virtual void SetKinematicFlag(std::string InName, bool InIsKinematic) = 0;
 };

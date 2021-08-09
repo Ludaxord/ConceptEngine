@@ -73,7 +73,7 @@ public:
 	void SetRigidDynamicLockFlag(std::string Name, CEPhysXAxis Axis, bool DynamicLockFlag);
 	void SetAngularDamping(std::string Name, float AngularDamping);
 	void SetLinearVelocity(std::string Name, physx::PxVec3 LinearVelocity);
-	void SetKinematicFlag(std::string Name, bool KinematicFlag);
+	void SetKinematicFlag(std::string Name, bool KinematicFlag) override;
 	void SetKinematicTarget(std::string Name, physx::PxVec3& Position, physx::PxQuat& Quat);
 
 	void ReleasePXRigidStatic(std::string Name);

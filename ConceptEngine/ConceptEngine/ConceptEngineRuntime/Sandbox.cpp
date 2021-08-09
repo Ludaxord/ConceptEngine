@@ -369,6 +369,8 @@ bool Sandbox::Create() {
 void Sandbox::Update(CETimestamp DeltaTime) {
 	CEPlayground::Update(DeltaTime);
 
+	Scene->Tick(DeltaTime);
+
 	const float Delta = static_cast<float>(DeltaTime.AsSeconds());
 	const float RotationSpeed = 45.0f;
 	const float MouseRotationSpeed = 15.0f;

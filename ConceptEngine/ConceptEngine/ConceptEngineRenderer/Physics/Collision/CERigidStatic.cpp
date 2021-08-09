@@ -11,7 +11,6 @@ CERigidStatic::CERigidStatic(
 	const CERigidTransform& InParentTransform,
 	const CERigidTransform& InLocalTransform
 ): CERigid(InParentName, InParentTransform, InLocalTransform) {
-
 }
 
 
