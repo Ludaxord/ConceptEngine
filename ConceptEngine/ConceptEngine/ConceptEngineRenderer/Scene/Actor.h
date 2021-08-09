@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/CoreObject/CoreObject.h"
 #include "../Core/Containers/Array.h"
+#include "../Physics/Transform/CERigidTransform.h"
 
 class Actor;
 
@@ -49,6 +50,9 @@ public:
     const XMFLOAT4X4& GetMatrixInverse() const { return MatrixInv; }
 
     const XMFLOAT3X4& GetTinyMatrix() const { return TinyMatrix; }
+    CERigidTransform AsRigidTransform() const;
+
+    //TODO: Add mapping to CERigidTransform...
 
 private:
     void CalculateMatrix();

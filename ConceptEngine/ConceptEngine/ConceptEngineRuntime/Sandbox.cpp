@@ -129,11 +129,19 @@ bool Sandbox::Create() {
 			NewComponent->Material->Init();
 
 			//TODO: Add RigidStatic
-			// NewComponent->RigidStatic = MakeShared<CERigidStatic>();
-			// NewComponent->RigidStatic->Scale;
-			// NewComponent->RigidStatic->PxMaterial;
-			// NewComponent->RigidStatic->PxGeometry;
-			// NewComponent->RigidStatic->Create();
+			CERigidTransform RigidStaticLocal = CERigidTransform(
+				XMFLOAT3(0.0f, 0.0f, 0.0f),
+				XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
+			);
+
+			std::string ParentName = NewActor->GetName();
+			NewComponent->RigidStatic = MakeShared<CERigidStatic>(ParentName,
+			                                                      NewActor->GetTransform().AsRigidTransform(),
+			                                                      RigidStaticLocal);
+			NewComponent->RigidStatic->Scale;
+			NewComponent->RigidStatic->PxMaterial;
+			NewComponent->RigidStatic->PxGeometry;
+			NewComponent->RigidStatic->Create();
 
 			//TODO: Add RigidStatic
 			// NewComponent->RigidDynamic;

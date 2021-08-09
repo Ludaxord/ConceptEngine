@@ -14,7 +14,9 @@ public:
 	                                                             Mesh(nullptr) {
 		RigidBodyName = ParentName + "_RigidBody";
 	};
-	virtual ~CERigid();
+	virtual ~CERigid() {
+		
+	};
 
 	virtual void Create() = 0;
 
@@ -26,7 +28,9 @@ public:
 
 	};
 
-	virtual void Release();
+	virtual void Release() {
+		
+	};
 
 public:
 	std::string Name;
