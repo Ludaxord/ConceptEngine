@@ -13,6 +13,7 @@ public:
 	void AddRigidDynamic() override;
 	void Release() override;
 	void Create() override;
+	void CreatePhysicsComponent(Actor* InOwningActor);
 	void Create(Actor* InOwningActor) override;
 	void Update(CERigidTransform& ParentTransform);
 
