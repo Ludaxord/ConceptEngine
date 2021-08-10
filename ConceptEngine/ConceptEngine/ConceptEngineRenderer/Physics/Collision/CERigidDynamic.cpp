@@ -125,7 +125,14 @@ void CERigidDynamic::Create(Actor* InOwningActor) {
 
 void CERigidDynamic::Update(CERigidTransform& InParentTransform) {
 
-	//TODO: Add PXController
+	CE_LOG_VERBOSE("[CERigidDynamic]: Update Parent Name: "+ ParentName +" \n ParentTransform Scale{X:" +
+		std::to_string(InParentTransform.Scale.x) + " Y:" + std::to_string(InParentTransform.Scale.y) + " Z:" + std::
+		to_string(InParentTransform.Scale.z) + "} Translation{X:" + std::to_string(InParentTransform.Translation.x) +
+		"Y:" + std::to_string(InParentTransform.Translation.y) + " Z:" + std::to_string(InParentTransform.Translation.z)
+		+ "} Quaternion{X:" + std::to_string(InParentTransform.Quaternion.x) +
+		"Y:" + std::to_string(InParentTransform.Quaternion.y) + " Z:" + std::to_string(InParentTransform.Quaternion.z) +
+		" W:" + std::to_string(InParentTransform.Quaternion.w) + "}")
+
 	if (IsKinematic) {
 		PushTransform(InParentTransform);
 	}

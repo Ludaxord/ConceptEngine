@@ -44,6 +44,10 @@ void Actor::Update(CETimestamp DeltaTime) {
 	}
 }
 
+void Actor::Move() {
+
+}
+
 Transform::Transform()
 	: Matrix()
 	  , Translation(0.0f, 0.0f, 0.0f)
