@@ -71,7 +71,7 @@ void CERigidDynamic::AddRigidDynamic() {
 
 	Desc.Density = Density;
 
-	Name = CECore::GetPhysics()->CreatePXRigidStatic(&Desc);
+	Name = CECore::GetPhysics()->CreatePXRigidDynamic(&Desc);
 	CECore::GetPhysics()->SetKinematicFlag(Name, IsKinematic);
 
 	CreatePhysicsMesh();
@@ -123,15 +123,17 @@ void CERigidDynamic::Create(Actor* InOwningActor) {
 	CreatePhysicsComponent(InOwningActor);
 }
 
-void CERigidDynamic::Update(CERigidTransform& ParentTransform) {
+void CERigidDynamic::Update(CERigidTransform& InParentTransform) {
+
+	//TODO: Add PXController
 	if (IsKinematic) {
-		PushTransform(ParentTransform);
+		PushTransform(InParentTransform);
 	}
 	else {
 		PullTransform();
 
-		ParentTransform.Translation = ParentTransform.Translation;
-		ParentTransform.Quaternion = ParentTransform.Quaternion;
+		ParentTransform.Translation = InParentTransform.Translation;
+		ParentTransform.Quaternion = InParentTransform.Quaternion;
 	}
 
 
@@ -161,10 +163,41 @@ void CERigidDynamic::SetLinearVelocity(DirectX::XMFLOAT3 Velocity) {
 		Name, physx::PxVec3(Velocity.x, Velocity.y, Velocity.z));
 }
 
-//TODO: Implement
-void CERigidDynamic::PushTransform(const CERigidTransform& ParentTransform) {
+void CERigidDynamic::PushTransform(const CERigidTransform& InParentTransform) {
+	XMMATRIX LocalMatrix = RigidTransformToMatrix(LocalTransform);
+	XMMATRIX WorldMatrix = LocalMatrix * RigidTransformToMatrix(InParentTransform);
+	XMVECTOR WorldPositionVector;
+	XMVECTOR WorldQuaternionVector;
+	XMVECTOR WorldScaleVector;
+
+	XMMatrixDecompose(&WorldScaleVector, &WorldQuaternionVector, &WorldPositionVector, WorldMatrix);
+
+	XMStoreFloat3(&WorldTransform.Translation, WorldPositionVector);
+	XMStoreFloat4(&WorldTransform.Quaternion, WorldQuaternionVector);
+
+	physx::PxVec3 Pos = physx::PxVec3(WorldTransform.Translation.x, WorldTransform.Translation.y,
+	                                  WorldTransform.Translation.z);
+	physx::PxQuat Quat = physx::PxQuat(WorldTransform.Quaternion.x, WorldTransform.Quaternion.y,
+	                                   WorldTransform.Quaternion.z, WorldTransform.Quaternion.w);
+	dynamic_cast<CEPhysX*>(CECore::GetPhysics())->SetKinematicTarget(Name, Pos, Quat);
+
 }
 
-//TODO: Implement
 void CERigidDynamic::PullTransform() {
+	physx::PxVec3 Pos;
+	physx::PxQuat Quat;
+	dynamic_cast<CEPhysX*>(CECore::GetPhysics())->GetPXRigidDynamicTransform(Name, Pos, Quat);
+
+	WorldTransform.Translation = XMFLOAT3(Pos.x, Pos.y, Pos.z);
+	WorldTransform.Quaternion = XMFLOAT4(Quat.x, Quat.y, Quat.z, Quat.w);
+
+	XMMATRIX NewWorld = XMLoadFloat4x4(&LocalMatrixReverse) * RigidTransformToMatrix(WorldTransform);
+
+	XMVECTOR NewWorldPositionVector;
+	XMVECTOR NewWorldQuaternionVector;
+	XMVECTOR NewWorldScaleVector;
+	XMMatrixDecompose(&NewWorldScaleVector, &NewWorldPositionVector, &NewWorldQuaternionVector, NewWorld);
+
+	XMStoreFloat3(&ParentTransform.Translation, NewWorldPositionVector);
+	XMStoreFloat4(&ParentTransform.Quaternion, NewWorldQuaternionVector);
 }

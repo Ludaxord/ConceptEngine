@@ -8,11 +8,17 @@ public:
 	MeshComponent(Actor* InOwningActor)
 		: Component(InOwningActor)
 		  , Material(nullptr)
-		  , Mesh(nullptr),
-		  RigidStatic(nullptr)
-	,
-		  RigidDynamic(nullptr) {
+		  , Mesh(nullptr)
+	      , RigidStatic(nullptr)
+		  , RigidDynamic(nullptr) {
 		CORE_OBJECT_INIT();
+	}
+
+	virtual void Update(CETimestamp DeltaTime) override {
+		auto RigidTransform = OwningActor->GetTransform().AsRigidTransform();
+		if (RigidDynamic) {
+			RigidDynamic->Update(RigidTransform);
+		}
 	}
 
 	TSharedPtr<class Material> Material;

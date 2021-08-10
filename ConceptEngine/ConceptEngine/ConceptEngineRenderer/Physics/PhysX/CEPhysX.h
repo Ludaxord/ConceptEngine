@@ -84,7 +84,7 @@ public:
 	int32 MoveCharacterController(std::string& Name, const physx::PxVec3& Disp, float MinDist, float ElapsedTime);
 	physx::PxExtendedVec3 GetCharacterControllerTranslation(std::string& Name);
 
-	void GetPXRigidDynamicTransform(std::string Name, physx::PxVec3& Position, physx::PxVec4& Quat);
+	void GetPXRigidDynamicTransform(std::string Name, physx::PxVec3& Position, physx::PxQuat& Quat);
 
 
 private:

@@ -2,6 +2,7 @@
 #include "../Core/CoreObject/CoreObject.h"
 #include "../Core/Containers/Array.h"
 #include "../Physics/Transform/CERigidTransform.h"
+#include "../Time/CETimestamp.h"
 
 class Actor;
 
@@ -124,6 +125,7 @@ public:
 
     Transform& GetTransform() { return Transform; }
     const Transform& GetTransform() const { return Transform; }
+    void Update(CETimestamp DeltaTime) override;
 
 private:
     CEScene*    Scene = nullptr;

@@ -408,8 +408,8 @@ physx::PxExtendedVec3 CEPhysX::GetCharacterControllerTranslation(std::string& Na
 	return PxControllerMap[Name]->getPosition();
 }
 
-void CEPhysX::GetPXRigidDynamicTransform(std::string Name, physx::PxVec3& Position, physx::PxVec4& Quat) {
-	if (!HasPXController(Name)) {
+void CEPhysX::GetPXRigidDynamicTransform(std::string Name, physx::PxVec3& Position, physx::PxQuat& Quat) {
+	if (!HasPXRigidDynamic(Name)) {
 		CE_LOG_ERROR("[CEPhysX]: PxController does not exists");
 		CEDebug::DebugBreak();
 	}

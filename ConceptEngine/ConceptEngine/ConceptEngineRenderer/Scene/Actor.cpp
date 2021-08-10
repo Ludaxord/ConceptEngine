@@ -36,6 +36,14 @@ void Actor::SetName(const std::string& InName) {
 	Name = InName;
 }
 
+void Actor::Update(CETimestamp DeltaTime) {
+	CoreObject::Update(DeltaTime);
+
+	for (Component* CurrentComponent : Components) {
+		CurrentComponent->Update(DeltaTime);
+	}
+}
+
 Transform::Transform()
 	: Matrix()
 	  , Translation(0.0f, 0.0f, 0.0f)

@@ -1,5 +1,6 @@
 #pragma once
 #include "ClassType.h"
+#include "../Time/CETimestamp.h"
 
 #define CORE_OBJECT(TCoreObject, TSuperClass) \
 private: \
@@ -16,42 +17,40 @@ public: \
 #define CORE_OBJECT_INIT() \
     this->SetClass(This::GetStaticClass())
 
-class CoreObject
-{
+class CoreObject {
 public:
-    virtual ~CoreObject() = default;
+	virtual ~CoreObject() = default;
 
-    FORCEINLINE const ClassType* GetClass() const
-    {
-        return Class;
-    }
+	virtual void Update(CETimestamp DeltaTime) {
 
-    static const ClassType* GetStaticClass()
-    {
-        static ClassType ClassInfo("CoreObject", nullptr, sizeof(CoreObject));
-        return &ClassInfo;
-    }
+	};
+
+	FORCEINLINE const ClassType* GetClass() const {
+		return Class;
+	}
+
+	static const ClassType* GetStaticClass() {
+		static ClassType ClassInfo("CoreObject", nullptr, sizeof(CoreObject));
+		return &ClassInfo;
+	}
 
 protected:
-    FORCEINLINE void SetClass(const ClassType* InClass)
-    {
-        Class = InClass;
-    }
+	FORCEINLINE void SetClass(const ClassType* InClass) {
+		Class = InClass;
+	}
 
 private:
-    const ClassType* Class = nullptr;
+	const ClassType* Class = nullptr;
 };
 
-template<typename T>
-bool IsSubClassOf(CoreObject* Object)
-{
-    Assert(Object != nullptr);
-    Assert(Object->GetClass() != nullptr);
-    return Object->GetClass()->IsSubClassOf<T>();
+template <typename T>
+bool IsSubClassOf(CoreObject* Object) {
+	Assert(Object != nullptr);
+	Assert(Object->GetClass() != nullptr);
+	return Object->GetClass()->IsSubClassOf<T>();
 }
 
-template<typename T>
-T* Cast(CoreObject* Object)
-{
-    return IsSubClassOf<T>(Object) ? static_cast<T*>(Object) : nullptr; 
+template <typename T>
+T* Cast(CoreObject* Object) {
+	return IsSubClassOf<T>(Object) ? static_cast<T*>(Object) : nullptr;
 }
