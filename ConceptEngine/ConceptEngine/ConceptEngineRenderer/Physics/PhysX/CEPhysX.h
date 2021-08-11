@@ -54,6 +54,7 @@ struct PxCapsuleControllerDesc {
 	physx::PxVec3 UpDirection;
 };
 
+//TODO: change PhysX Implementation to more complex
 class CEPhysX : public CEPhysics {
 public:
 	CEPhysX();
