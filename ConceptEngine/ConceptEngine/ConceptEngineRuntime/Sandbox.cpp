@@ -451,6 +451,7 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 	CurrentCamera->Move(Speed.x, Speed.y, Speed.z);
 	CurrentCamera->UpdateMatrices();
 
+	//TODO: Implement physX when moving actors....
 	if (CECore::GetPlatform()->GetInputManager()->IsKeyDown(CEKey::Key_K)) {
 		uint32 SphereIndex = 0;
 		for (uint32 y = 0; y < 8; y++) {

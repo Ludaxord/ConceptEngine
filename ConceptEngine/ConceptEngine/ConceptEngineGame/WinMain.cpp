@@ -60,7 +60,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12TreesWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BlurWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12SobelWavesPlayground();
-	// Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
+	Graphics::CEPlayground* playground = new CEDX12ComputeWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12TessellationWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12BezierTessellationWavesPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12FPPCameraPlayground();
@@ -69,7 +69,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	// Graphics::CEPlayground* playground = new CEDX12CubeMapPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12DynamicCubePlayground(); 
 	// Graphics::CEPlayground* playground = new CEDX12NormalMapPlayground(); 
-	Graphics::CEPlayground* playground = new CEDX12ShadowsPlayground();
+	// Graphics::CEPlayground* playground = new CEDX12ShadowsPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12SSAOPlayground();
 	// Graphics::CEPlayground* playground = new CEDX12CharacterMeshPlayground();
 

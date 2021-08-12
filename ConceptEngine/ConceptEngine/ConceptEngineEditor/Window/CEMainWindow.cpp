@@ -23,6 +23,9 @@
 #include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/Shadows/CEDX12ShadowsPlayground.h"
 #include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/InitDirect3D/CEDX12InitDirect3DPlayground.h"
 #include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/BasicWaves/CEDX12LandscapePlayground.h"
+#include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/SSAO/CEDX12SSAOPlayground.h"
+#include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/LitShapes/CEDX12LitShapesPlayground.h"
+#include "../../ConceptEnginePlaygrounds/Playgrounds/DirectX12/Samples/SobelWaves/CEDX12SobelWavesPlayground.h"
 
 using namespace ConceptEngine::Editor::Widgets;
 
