@@ -127,7 +127,7 @@ public:
     const Transform& GetTransform() const { return Transform; }
     void Update(CETimestamp DeltaTime) override;
 
-	void Move();
+	void MoveByOffset(const Transform&  MoveTransformOffset);
 private:
     CEScene*    Scene = nullptr;
     Transform Transform;

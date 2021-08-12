@@ -451,6 +451,21 @@ void Sandbox::Update(CETimestamp DeltaTime) {
 	CurrentCamera->Move(Speed.x, Speed.y, Speed.z);
 	CurrentCamera->UpdateMatrices();
 
-	//TODO: Add Update for Physics...
-	
+	if (CECore::GetPlatform()->GetInputManager()->IsKeyDown(CEKey::Key_K)) {
+		uint32 SphereIndex = 0;
+		for (uint32 y = 0; y < 8; y++) {
+			for (uint32 x = 0; x < 8; x++) {
+				if (x % Math::Rand(1, 10) == 0) {
+					Transform MoveTransform = Transform();
+					MoveTransform.SetTranslation(Math::RandF(-10.0f, 10.0f), Math::RandF(-10.0f, 10.0f),
+					                             Math::RandF(-10.0f, 10.0f));
+					MoveTransform.SetRotation(Math::RandF(-10.0f, 10.0f), Math::RandF(-10.0f, 10.0f),
+					                          Math::RandF(-10.0f, 10.0f));
+					Scene->MoveActor(MoveTransform, "Sphere[" + std::to_string(SphereIndex) + "]");
+				}
+
+				SphereIndex++;
+			}
+		}
+	}
 }

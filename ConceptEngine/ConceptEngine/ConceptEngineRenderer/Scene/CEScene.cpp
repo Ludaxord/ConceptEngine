@@ -55,6 +55,20 @@ void CEScene::Tick(CETimestamp DeltaTime) {
 	}
 }
 
+void CEScene::MoveActor(const Transform& MoveTransform, std::string MoveActorName) {
+	for (Actor* Actor : Actors) {
+		if (Actor->GetName() == MoveActorName) {
+			CE_LOG_DEBUG(
+				"Moving Actor by X: " + std::to_string(MoveTransform.GetTranslation().x) + " Y: " + std::to_string(
+					MoveTransform.GetTranslation().y)
+				+ " Z: " + std::to_string(MoveTransform.GetTranslation().z)
+			)
+
+			Actor->MoveByOffset(MoveTransform);
+		}
+	}
+}
+
 void CEScene::AddCamera(Camera* InCamera) {
 	if (CurrentCamera) {
 		SafeDelete(CurrentCamera);

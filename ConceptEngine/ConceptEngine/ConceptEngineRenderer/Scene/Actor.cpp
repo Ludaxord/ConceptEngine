@@ -44,9 +44,21 @@ void Actor::Update(CETimestamp DeltaTime) {
 	}
 }
 
-void Actor::Move() {
-
+void Actor::MoveByOffset(const ::Transform& MoveTransformOffset) {
+	CE_LOG_VERBOSE("Move By Offset Actor By Name "+ Name);
+	::Transform TempTransform = Transform;
+	TempTransform.SetTranslation(Transform.GetTranslation().x + MoveTransformOffset.GetTranslation().x,
+	                             Transform.GetTranslation().x + MoveTransformOffset.GetTranslation().y,
+	                             Transform.GetTranslation().x + MoveTransformOffset.GetTranslation().z);
+	TempTransform.SetRotation(Transform.GetRotation().x + MoveTransformOffset.GetRotation().x,
+	                          Transform.GetRotation().x + MoveTransformOffset.GetRotation().y,
+	                          Transform.GetRotation().x + MoveTransformOffset.GetRotation().z);
+	TempTransform.SetScale(Transform.GetScale().x + MoveTransformOffset.GetScale().x,
+	                       Transform.GetScale().x + MoveTransformOffset.GetScale().y,
+	                       Transform.GetScale().x + MoveTransformOffset.GetScale().z);
+	Transform = TempTransform;
 }
+
 
 Transform::Transform()
 	: Matrix()
