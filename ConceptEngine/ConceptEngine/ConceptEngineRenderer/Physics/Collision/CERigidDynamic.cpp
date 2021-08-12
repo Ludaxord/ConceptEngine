@@ -123,8 +123,10 @@ void CERigidDynamic::Create(Actor* InOwningActor) {
 	CreatePhysicsComponent(InOwningActor);
 }
 
-void CERigidDynamic::Update(CERigidTransform& InParentTransform) {
 
+//TODO: Consider moving Rigid to Actor class...
+void CERigidDynamic::Update(CERigidTransform& InParentTransform) {
+	CE_LOG_INFO("Update RIGID DYNAMIC")
 	if (IsKinematic) {
 		PushTransform(InParentTransform);
 	}

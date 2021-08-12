@@ -156,7 +156,7 @@ bool Sandbox::Create() {
 			NewComponent->RigidDynamic->PxMaterial = XMFLOAT3(3.4e+38F, 3.4e+38F, 0.0f);
 			NewComponent->RigidDynamic->PxGeometry = PxGeometryEnum::PxBoxEnum;
 			NewComponent->RigidDynamic->Density = 1.0f;
-			NewComponent->RigidDynamic->IsKinematic = false;
+			NewComponent->RigidDynamic->IsKinematic = true;
 			NewComponent->RigidDynamic->Create(NewActor);
 
 			NewComponent->RigidDynamic->SetRigidDynamicLockFlag(3, true);
