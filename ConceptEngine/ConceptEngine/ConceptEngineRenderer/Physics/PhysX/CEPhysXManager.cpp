@@ -1,8 +1,1 @@
-
-struct CEPhysXRenderLayer {
-	
-};
-
-class CEPhysXManager {
-	
-};
+#include "CEPhysXManager.h"

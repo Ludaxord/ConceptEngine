@@ -110,4 +110,8 @@ public:
 	}
 };
 
+struct CEPhysicsConfig {
+	
+};
+
 inline CEEngineConfig GEngineConfig;

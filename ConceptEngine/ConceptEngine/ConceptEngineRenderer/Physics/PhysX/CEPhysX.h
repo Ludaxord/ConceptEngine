@@ -10,6 +10,7 @@
 #include <foundation/PxVec4.h>
 #include <pvd/PxPvd.h>
 
+//TODO: change PhysX Implementation to more complex
 enum class CEPhysXAxis {
 	Linear_X,
 	Linear_Y,
@@ -54,7 +55,6 @@ struct PxCapsuleControllerDesc {
 	physx::PxVec3 UpDirection;
 };
 
-//TODO: change PhysX Implementation to more complex
 class CEPhysX : public CEPhysics {
 public:
 	CEPhysX();
