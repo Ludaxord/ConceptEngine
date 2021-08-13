@@ -23,6 +23,6 @@ public:
 
 	TSharedPtr<class Material> Material;
 	TSharedPtr<class Mesh> Mesh;
-	TSharedPtr<class CERigidStatic> RigidStatic;
-	TSharedPtr<class CERigidDynamic> RigidDynamic;
+	// TSharedPtr<class CERigidStatic> RigidStatic;
+	// TSharedPtr<class CERigidDynamic> RigidDynamic;
 };

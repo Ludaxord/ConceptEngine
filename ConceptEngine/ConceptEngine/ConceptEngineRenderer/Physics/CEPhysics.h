@@ -6,10 +6,12 @@ public:
 	virtual bool Create() = 0;
 	virtual bool CreateScene() = 0;
 	virtual void Release() = 0;
+	virtual void ReleaseScene() = 0;
 
-	virtual void Update(CETimestamp DeltaTime) = 0;
+	virtual void CreateActors(class Scene* Scene) = 0;
+	virtual void CreateActor();
 
-	virtual std::string CreatePXRigidStatic(void* Desc) = 0;
-	virtual std::string CreatePXRigidDynamic(void* Desc) = 0;
-	virtual void SetKinematicFlag(std::string InName, bool InIsKinematic) = 0;
+protected:
+	CEPhysicsConfig PhysicsConfig;
+	class CEPhysicsScene* PScene = nullptr;
 };
