@@ -95,10 +95,6 @@ void Transform::SetRotation(const XMFLOAT3& InRotation) {
 	CalculateMatrix();
 }
 
-CERigidTransform Transform::AsRigidTransform() const {
-	return CERigidTransform(Translation, XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), Scale);
-}
-
 void Transform::CalculateMatrix() {
 	XMVECTOR XmTranslation = XMLoadFloat3(&Translation);
 	XMVECTOR XmScale = XMLoadFloat3(&Scale);

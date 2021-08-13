@@ -1,7 +1,5 @@
 #pragma once
 #include "../CEDefinitions.h"
-#include "../Physics/Collision/CERigidDynamic.h"
-#include "../Physics/Collision/CERigidStatic.h"
 
 class Camera {
 public:

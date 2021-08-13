@@ -20,6 +20,6 @@ public:
 	bool CreateScene() override;
 	void ReleaseScene() override;
 	void CreateActors(Scene* Scene) override;
-	CERef<CEPhysicsActor> CreateActor(Actor* InActor) override;
+	CEPhysicsActor* CreateActor(Actor* InActor) override;
 };
 

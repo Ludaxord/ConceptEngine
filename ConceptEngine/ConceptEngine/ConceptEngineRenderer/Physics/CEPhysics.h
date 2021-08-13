@@ -12,7 +12,7 @@ public:
 	virtual void ReleaseScene() = 0;
 
 	virtual void CreateActors(class Scene* Scene) = 0;
-	virtual CERef<class CEPhysicsActor> CreateActor(class Actor* InActor) = 0;
+	virtual class CEPhysicsActor* CreateActor(class Actor* InActor) = 0;
 
 	CEPhysicsScene* GetScene() {
 		return PScene;

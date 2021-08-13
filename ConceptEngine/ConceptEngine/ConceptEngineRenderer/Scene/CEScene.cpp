@@ -47,12 +47,7 @@ bool CEScene::Create() {
 }
 
 void CEScene::Tick(CETimestamp DeltaTime) {
-	// UNREFERENCED_VARIABLE(DeltaTime);
-	CECore::GetPhysics()->Update(DeltaTime);
-
-	for (Actor* Actor : Actors) {
-		Actor->Update(DeltaTime);
-	}
+	UNREFERENCED_VARIABLE(DeltaTime);
 }
 
 void CEScene::MoveActor(const Transform& MoveTransform, std::string MoveActorName) {
@@ -382,8 +377,5 @@ void CEScene::AddMeshComponent(MeshComponent* Component) {
 	Command.IndexBuffer = Component->Mesh->IndexBuffer.Get();
 	Command.Material = Component->Material.Get();
 	Command.Mesh = Component->Mesh.Get();
-	//TODO: Add CreatePhysicsComponent for RigidDynamic
-	Command.RigidDynamic = Component->RigidDynamic.Get();
-	Command.RigidStatic = Component->RigidStatic.Get();
 	MeshDrawCommands.PushBack(Command);
 }

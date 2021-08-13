@@ -37,7 +37,7 @@ void CEPhysX::ReleaseScene() {
 void CEPhysX::CreateActors(Scene* Scene) {
 }
 
-CERef<CEPhysicsActor> CEPhysX::CreateActor(Actor* InActor) {
+CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
 	return {};
 }
 

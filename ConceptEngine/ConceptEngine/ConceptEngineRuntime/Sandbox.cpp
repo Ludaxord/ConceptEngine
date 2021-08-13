@@ -10,8 +10,6 @@
 #include "../ConceptEngineRenderer/Scene/Lights/PointLight.h"
 #include "../ConceptEngineRenderer/Scene/Lights/DirectionalLight.h"
 #include "../ConceptEngineRenderer/Scene/Components/MeshComponent.h"
-#include "../ConceptEngineRenderer/Physics/Collision/CERigidDynamic.h"
-#include "../ConceptEngineRenderer/Physics/Collision/CERigidStatic.h"
 
 #include "../ConceptEngineRenderer/Core/Input/CEInputManager.h"
 #include "../ConceptEngineRenderer/Boot/CECore.h"
@@ -129,38 +127,7 @@ bool Sandbox::Create() {
 			NewComponent->Material->Init();
 
 			std::string ParentName = NewActor->GetName();
-
-			//TODO: Add RigidStatic
-			// CERigidTransform RigidStaticLocal = CERigidTransform(
-			// 	XMFLOAT3(0.0f, 0.0f, 0.0f),
-			// 	XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
-			// );
-			//
-			// NewComponent->RigidStatic = MakeShared<CERigidStatic>(ParentName,
-			//                                                       NewActor->GetTransform().AsRigidTransform(),
-			//                                                       RigidStaticLocal);
-			// NewComponent->RigidStatic->Scale = XMFLOAT4(0.48f, 0.48f, 0.48f, 0.48f);
-			// NewComponent->RigidStatic->PxMaterial = XMFLOAT3(0.5f, 0.5f, 0.5f);
-			// NewComponent->RigidStatic->PxGeometry = PxGeometryEnum::PxBoxEnum;
-			// NewComponent->RigidStatic->Create(NewActor);
-
-			//TODO: Add RigidDynamic
-			CERigidTransform RigidDynamicLocal = CERigidTransform(
-				XMFLOAT3(0.0f, 0.0f, 0.0f),
-				XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f)
-			);
-			NewComponent->RigidDynamic = MakeShared<CERigidDynamic>(ParentName,
-			                                                        NewActor->GetTransform().AsRigidTransform(),
-			                                                        RigidDynamicLocal);
-			NewComponent->RigidDynamic->Scale = XMFLOAT4(1.48f, 1.48f, 1.48f, 0.48f);
-			NewComponent->RigidDynamic->PxMaterial = XMFLOAT3(3.4e+38F, 3.4e+38F, 0.0f);
-			NewComponent->RigidDynamic->PxGeometry = PxGeometryEnum::PxBoxEnum;
-			NewComponent->RigidDynamic->Density = 1.0f;
-			NewComponent->RigidDynamic->IsKinematic = true;
-			NewComponent->RigidDynamic->Create(NewActor);
-
-			NewComponent->RigidDynamic->SetRigidDynamicLockFlag(3, true);
-			NewComponent->RigidDynamic->SetRigidDynamicLockFlag(5, true);
+			
 
 			NewActor->AddComponent(NewComponent);
 
@@ -188,12 +155,6 @@ bool Sandbox::Create() {
 	NewComponent = DBG_NEW MeshComponent(NewActor);
 	NewComponent->Mesh = Mesh::Make(CubeMeshData);
 	NewComponent->Material = MakeShared<Material>(MatProperties);
-
-	//TODO: Add RigidStatic
-	// NewComponent->RigidStatic;
-
-	//TODO: Add RigidStatic
-	// NewComponent->RigidDynamic;
 
 	CERef<Texture2D> AlbedoMap = CastTextureManager()->LoadFromFile("../Concept-Engine/Assets/Textures/Gate_Albedo.png",
 	                                                                TextureFactoryFlag_GenerateMips,
@@ -261,12 +222,6 @@ bool Sandbox::Create() {
 	NewComponent->Material->MetallicMap = MetallicMap;
 	NewComponent->Material->Init();
 
-	//TODO: Add RigidStatic
-	// NewComponent->RigidStatic;
-
-	//TODO: Add RigidStatic
-	// NewComponent->RigidDynamic;
-
 	NewActor->AddComponent(NewComponent);
 
 	NewActor = DBG_NEW Actor();
@@ -293,12 +248,6 @@ bool Sandbox::Create() {
 	NewComponent->Material->AOMap = WhiteTexture;
 	NewComponent->Material->MetallicMap = WhiteTexture;
 	NewComponent->Material->Init();
-
-	//TODO: Add RigidStatic
-	// NewComponent->RigidStatic;
-
-	//TODO: Add RigidStatic
-	// NewComponent->RigidDynamic;
 
 	NewActor->AddComponent(NewComponent);
 
