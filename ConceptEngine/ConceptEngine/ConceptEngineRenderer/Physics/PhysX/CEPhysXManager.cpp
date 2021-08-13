@@ -1,0 +1,8 @@
+
+struct CEPhysXRenderLayer {
+	
+};
+
+class CEPhysXManager {
+	
+};
