@@ -588,9 +588,6 @@
     <ClInclude Include="Physics\PhysX\CEPhysX.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Components\CEPhysicsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\D3D12\Rendering\FX\CEDX12BloomFX.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -10,6 +10,18 @@
 #include <foundation/PxVec4.h>
 #include <pvd/PxPvd.h>
 
+#include "CEPhysXManager.h"
+
+class CEPhysXErrorCallback : public physx::PxErrorCallback {
+public:
+	void reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) override;
+};
+
+class CEPhysXAssertHandler : public physx::PxAssertHandler {
+public:
+	void operator()(const char* exp, const char* file, int line, bool& ignore) override;
+};
+
 class CEPhysX : public CEPhysics {
 public:
 	CEPhysX();
@@ -21,5 +33,11 @@ public:
 	void ReleaseScene() override;
 	void CreateActors(Scene* Scene) override;
 	CEPhysicsActor* CreateActor(Actor* InActor) override;
+
+private:
+	bool CreatePhysXInternals();
+
+private:
+	CEPhysXManager* PhysicsManager;
 };
 

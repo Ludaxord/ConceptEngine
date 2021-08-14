@@ -220,7 +220,6 @@
     <ClInclude Include="Scene\AABB.h" />
     <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\Camera.h" />
-    <ClInclude Include="Scene\Components\CEPhysicsComponent.h" />
     <ClInclude Include="Scene\Components\MeshComponent.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Lights\DirectionalLight.h" />

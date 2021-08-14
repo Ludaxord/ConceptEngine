@@ -18,6 +18,15 @@
 #include <pvd/PxPvd.h>
 #include <pvd/PxPvdTransport.h>
 
+struct CEPhysXInternals {
+	physx::PxFoundation* PhysXFoundation;
+	physx::PxDefaultCpuDispatcher* PhysXCPUDispatcher;
+	physx::PxPhysics* PhysXSDK;
+	physx::PxDefaultAllocator* Allocator;
+	CEPhysXErrorCallback* ErrorCallback;
+	CEPhysXAssertHandler* AssertHandler;
+};
+
 CEPhysX::CEPhysX() {
 }
 
@@ -25,6 +34,9 @@ CEPhysX::~CEPhysX() {
 }
 
 bool CEPhysX::Create() {
+	PhysicsManager = new CEPhysXManager();
+
+
 	return true;
 }
 
@@ -42,6 +54,11 @@ CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
 }
 
 bool CEPhysX::CreateScene() {
-	
+
 	return true;
+}
+
+
+bool CEPhysX::CreatePhysXInternals() {
+
 }
