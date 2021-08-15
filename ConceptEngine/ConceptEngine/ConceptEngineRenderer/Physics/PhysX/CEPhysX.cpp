@@ -33,7 +33,7 @@ struct CEPhysXInternals {
 static CEPhysXInternals* PhysicsInternals;
 
 void CEPhysXErrorCallback::reportError(physx::PxErrorCode::Enum code, const char* message, const char* file, int line) {
-	std::string ErrMessage = "";
+	std::string ErrMessage;
 	switch (code) {
 	case physx::PxErrorCode::eNO_ERROR: ErrMessage = "No Error";
 		break;
@@ -109,6 +109,12 @@ bool CEPhysX::Create() {
 		CEDebug::DebugBreak();
 		return false;
 	}
+
+	std::string LayerName = "Default";
+	if (PhysicsManager->AddLayer(LayerName) != -1) {
+		CE_LOG_ERROR("[CEPhysX]: Failed to AddLayer by Name: " + LayerName)
+	}
+
 	return true;
 }
 

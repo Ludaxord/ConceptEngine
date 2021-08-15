@@ -11,6 +11,7 @@
 #include <pvd/PxPvd.h>
 #include <PxFiltering.h>
 #include <PxBroadPhase.h>
+#include <PxSceneDesc.h>
 
 #include "CECookingFactory.h"
 #include "CEPhysXDebugger.h"
@@ -43,18 +44,18 @@ public:
 	bool CreateDebugger();
 	bool CreateCookingFactory();
 
-	physx::PxFoundation& GetFoundation() ;
-	physx::PxPhysics& GetPhysXSDK();
-	physx::PxCpuDispatcher& GetCPUDispatcher();
-	physx::PxDefaultAllocator& GetAllocator();
+	static physx::PxFoundation& GetFoundation() ;
+	static physx::PxPhysics& GetPhysXSDK();
+	static physx::PxCpuDispatcher& GetCPUDispatcher();
+	static physx::PxDefaultAllocator& GetAllocator();
 
-	physx::PxFilterFlags FilterShader(physx::PxFilterObjectAttributes Attr0, physx::PxFilterData FilterData0,
-	                                  physx::PxFilterObjectAttributes Attr1, physx::PxFilterData FilterData1,
-	                                  physx::PxPairFlags& PairFlags,
-	                                  const void* ConstantBlock, physx::PxU32 ConstantBlockSize);
+	static physx::PxFilterFlags FilterShader(physx::PxFilterObjectAttributes Attr0, physx::PxFilterData FilterData0,
+	                                         physx::PxFilterObjectAttributes Attr1, physx::PxFilterData FilterData1,
+	                                         physx::PxPairFlags& PairFlags,
+	                                         const void* ConstantBlock, physx::PxU32 ConstantBlockSize);
 
-	physx::PxBroadPhaseType::Enum GetPhysXBroadPhaseType(PhysicsBroadPhaseType Type);
-	physx::PxBroadPhaseType::Enum GetPhysXFrictionType(PhysicsFrictionType Type);
+	static physx::PxBroadPhaseType::Enum GetPhysXBroadPhaseType(PhysicsBroadPhaseType Type);
+	static physx::PxFrictionType::Enum GetPhysXFrictionType(PhysicsFrictionType Type);
 
 private:
 	bool CreatePhysXInternals();
