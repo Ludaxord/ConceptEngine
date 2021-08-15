@@ -8,6 +8,7 @@ public:
 	virtual ~CEPhysics() = default;
 	virtual bool Create() = 0;
 	virtual bool CreateScene() = 0;
+	virtual bool CreateConfig() = 0;
 	virtual void Release() = 0;
 	virtual void ReleaseScene() = 0;
 
@@ -18,7 +19,7 @@ public:
 		return PScene;
 	}
 
-	CEPhysicsConfig& GetConfig() {
+	CEPhysicsConfig GetConfig() {
 		return PhysicsConfig;
 	}
 

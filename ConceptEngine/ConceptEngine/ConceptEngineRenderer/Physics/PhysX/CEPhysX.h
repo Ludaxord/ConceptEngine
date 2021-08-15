@@ -10,6 +10,8 @@
 #include <foundation/PxVec4.h>
 #include <pvd/PxPvd.h>
 
+#include "CECookingFactory.h"
+#include "CEPhysXDebugger.h"
 #include "CEPhysXManager.h"
 
 class CEPhysXErrorCallback : public physx::PxErrorCallback {
@@ -31,13 +33,17 @@ public:
 	void Release() override;
 	bool CreateScene() override;
 	void ReleaseScene() override;
+	bool CreateConfig() override;
 	void CreateActors(Scene* Scene) override;
 	CEPhysicsActor* CreateActor(Actor* InActor) override;
+
+	bool CreateDebugger();
 
 private:
 	bool CreatePhysXInternals();
 
 private:
 	CEPhysXManager* PhysicsManager;
+	CEPhysXDebugger* PhysicsDebugger;
+	CECookingFactory* CookingFactory;
 };
-
