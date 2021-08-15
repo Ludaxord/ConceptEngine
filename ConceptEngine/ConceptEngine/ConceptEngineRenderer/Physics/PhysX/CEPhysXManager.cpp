@@ -52,7 +52,7 @@ void CEPhysXManager::RemoveLayer(uint32 LayerID) {
 		return Name == LayerInfo.Name;
 	});
 	RemoveIfExists<CEPhysicsLayer>(Layers, [&](const CEPhysicsLayer& Layer) {
-		return Layer.LayerID== LayerID;
+		return Layer.LayerID == LayerID;
 	});
 }
 

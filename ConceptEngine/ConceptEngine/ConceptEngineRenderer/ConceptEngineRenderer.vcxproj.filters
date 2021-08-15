@@ -666,6 +666,12 @@
     <ClInclude Include="Physics\PhysX\CECookingFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Physics\PhysX\CEPhysXDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components\CERigidBodyComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -1032,6 +1038,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Physics\PhysX\CECookingFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysX\CEPhysXDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

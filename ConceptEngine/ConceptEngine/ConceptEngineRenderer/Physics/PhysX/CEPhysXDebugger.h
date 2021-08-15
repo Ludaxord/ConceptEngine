@@ -7,5 +7,8 @@ public:
 	bool Create();
 	physx::PxPvd* GetDebugger() {
 		
-	};
+	}
+
+	void StopDebugging();
+	void Release();;
 };

@@ -110,11 +110,6 @@ bool CEPhysX::Create() {
 		return false;
 	}
 
-	std::string LayerName = "Default";
-	if (PhysicsManager->AddLayer(LayerName) != -1) {
-		CE_LOG_ERROR("[CEPhysX]: Failed to AddLayer by Name: " + LayerName)
-	}
-
 	return true;
 }
 

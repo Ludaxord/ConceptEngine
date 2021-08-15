@@ -170,6 +170,7 @@
     <ClInclude Include="Physics\PhysX\CECookingFactory.h" />
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
     <ClInclude Include="Physics\PhysX\CEPhysXActor.h" />
+    <ClInclude Include="Physics\PhysX\CEPhysXDebugger.h" />
     <ClInclude Include="Physics\PhysX\CEPhysXManager.h" />
     <ClInclude Include="Physics\PhysX\CEPhysXScene.h" />
     <ClInclude Include="Physics\PhysX\CEPhysXShapes.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Scene\AABB.h" />
     <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\Camera.h" />
+    <ClInclude Include="Scene\Components\CERigidBodyComponent.h" />
     <ClInclude Include="Scene\Components\MeshComponent.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Lights\DirectionalLight.h" />
@@ -325,6 +327,7 @@
     <ClCompile Include="Physics\PhysX\CECookingFactory.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysXActor.cpp" />
+    <ClCompile Include="Physics\PhysX\CEPhysXDebugger.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysXManager.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysXScene.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysXShapes.cpp" />
