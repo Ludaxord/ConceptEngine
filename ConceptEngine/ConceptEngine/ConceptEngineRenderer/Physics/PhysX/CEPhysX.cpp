@@ -19,6 +19,8 @@
 #include <pvd/PxPvd.h>
 #include <pvd/PxPvdTransport.h>
 
+#include "Scene/Components/CERigidBodyComponent.h"
+
 struct CEPhysXInternals {
 	physx::PxFoundation* PhysXFoundation;
 	physx::PxDefaultCpuDispatcher* PhysXCPUDispatcher;
@@ -79,6 +81,7 @@ void CEPhysXErrorCallback::reportError(physx::PxErrorCode::Enum code, const char
 }
 
 void CEPhysXAssertHandler::operator()(const char* exp, const char* file, int line, bool& ignore) {
+	CE_LOG_ERROR("[CEPhysX]: "+ std::string(file) +":"+ std::to_string(line) +" - " + exp);
 }
 
 CEPhysX::CEPhysX() {
@@ -95,6 +98,12 @@ bool CEPhysX::Create() {
 		return false;
 	}
 
+	if (!CreatePhysXInternals()) {
+		CE_LOG_ERROR("[CEPhysX]: Failed to Create PhysX Internals");
+		CEDebug::DebugBreak();
+		return false;
+	}
+
 	if (!PhysicsManager->Create()) {
 		CE_LOG_ERROR("[CEPhysX]: Failed to Create PhysXManager");
 		CEDebug::DebugBreak();
@@ -104,12 +113,125 @@ bool CEPhysX::Create() {
 }
 
 void CEPhysX::Release() {
+
+	CookingFactory->Release();
+	PhysicsInternals->PhysXCPUDispatcher->release();
+	PhysicsInternals->PhysXCPUDispatcher = nullptr;
+
+	PxCloseExtensions();
+
+	PhysicsDebugger->StopDebugging();
+
+	PhysicsInternals->PhysXSDK->release();
+	PhysicsInternals->PhysXSDK = nullptr;
+
+	PhysicsDebugger->Release();
+
+	PhysicsInternals->PhysXFoundation->release();
+	PhysicsInternals->PhysXFoundation = nullptr;
+
+	delete PhysicsInternals;
+	PhysicsInternals = nullptr;
+
 }
 
 void CEPhysX::ReleaseScene() {
 }
 
 bool CEPhysX::CreateConfig() {
+
+	return true;
+}
+
+void CEPhysX::CreateActors(Scene* Scene) {
+}
+
+CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
+	return {};
+}
+
+bool CEPhysX::CreateDebugger() {
+	PhysicsDebugger = new CEPhysXDebugger();
+
+	return true;
+}
+
+bool CEPhysX::CreateCookingFactory() {
+	CookingFactory = new CECookingFactory();
+
+	return true;
+}
+
+physx::PxFoundation& CEPhysX::GetFoundation() {
+	return *PhysicsInternals->PhysXFoundation;
+}
+
+physx::PxPhysics& CEPhysX::GetPhysXSDK() {
+	return *PhysicsInternals->PhysXSDK;
+}
+
+physx::PxCpuDispatcher& CEPhysX::GetCPUDispatcher() {
+	return *PhysicsInternals->PhysXCPUDispatcher;
+}
+
+physx::PxDefaultAllocator& CEPhysX::GetAllocator() {
+	return PhysicsInternals->Allocator;
+}
+
+physx::PxFilterFlags CEPhysX::FilterShader(physx::PxFilterObjectAttributes Attr0, physx::PxFilterData FilterData0,
+                                           physx::PxFilterObjectAttributes Attr1, physx::PxFilterData FilterData1,
+                                           physx::PxPairFlags& PairFlags,
+                                           const void* ConstantBlock, physx::PxU32 ConstantBlockSize) {
+	if (physx::PxFilterObjectIsTrigger(Attr0) || physx::PxFilterObjectIsTrigger(Attr1)) {
+		PairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT;
+		return physx::PxFilterFlag::eDEFAULT;
+	}
+
+	PairFlags = physx::PxPairFlag::eCONTACT_DEFAULT;
+
+	if (FilterData0.word2 == (uint32)CERigidBodyComponent::CollisionDetectionType::Continuous ||
+		FilterData1.word2 == (uint32)CERigidBodyComponent::CollisionDetectionType::Continuous) {
+		PairFlags |= physx::PxPairFlag::eDETECT_DISCRETE_CONTACT;
+		PairFlags |= physx::PxPairFlag::eDETECT_CCD_CONTACT;
+	}
+
+	if ((FilterData0.word0 & FilterData1.word1) || (FilterData1.word0 & FilterData0.word1)) {
+
+		PairFlags |= physx::PxPairFlag::eNOTIFY_TOUCH_FOUND;
+		PairFlags |= physx::PxPairFlag::eNOTIFY_TOUCH_LOST;
+		return physx::PxFilterFlag::eDEFAULT;
+	}
+
+	return physx::PxFilterFlag::eSUPPRESS;
+}
+
+physx::PxBroadPhaseType::Enum CEPhysX::GetPhysXBroadPhaseType(PhysicsBroadPhaseType Type) {
+	switch (Type) {
+	case PhysicsBroadPhaseType::SweepAndPrune: return physx::PxBroadPhaseType::eSAP;
+	case PhysicsBroadPhaseType::MultiBoxPrune: return physx::PxBroadPhaseType::eMBP;
+	case PhysicsBroadPhaseType::AutomaticBoxPrune: return physx::PxBroadPhaseType::eABP;
+	}
+
+	return physx::PxBroadPhaseType::eABP;
+}
+
+physx::PxFrictionType::Enum CEPhysX::GetPhysXFrictionType(PhysicsFrictionType Type) {
+	switch (Type) {
+	case PhysicsFrictionType::Patch: return physx::PxFrictionType::ePATCH;
+	case PhysicsFrictionType::OneDirectional: return physx::PxFrictionType::eONE_DIRECTIONAL;
+	case PhysicsFrictionType::TwoDirectional: return physx::PxFrictionType::eTWO_DIRECTIONAL;
+	}
+
+	return physx::PxFrictionType::ePATCH;
+}
+
+bool CEPhysX::CreateScene() {
+
+	return true;
+}
+
+
+bool CEPhysX::CreatePhysXInternals() {
 	PhysicsInternals = new CEPhysXInternals();
 	PhysicsInternals->PhysXFoundation = PxCreateFoundation(
 		PX_PHYSICS_VERSION, PhysicsInternals->Allocator, PhysicsInternals->ErrorCallback);
@@ -118,7 +240,7 @@ bool CEPhysX::CreateConfig() {
 		return false;
 	}
 
-	physx::PxTolerancesScale Scale = physx::PxTolerancesScale();
+	physx::PxTolerancesScale Scale;
 	Scale.length = 1.0f;
 	Scale.speed = 9.81f;
 
@@ -151,33 +273,4 @@ bool CEPhysX::CreateConfig() {
 	physx::PxSetAssertHandler(PhysicsInternals->AssertHandler);
 
 	return true;
-}
-
-void CEPhysX::CreateActors(Scene* Scene) {
-}
-
-CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
-	return {};
-}
-
-bool CEPhysX::CreateDebugger() {
-	PhysicsDebugger = new CEPhysXDebugger();
-
-	return true;
-}
-
-bool CEPhysX::CreateCookingFactory() {
-	CookingFactory = new CECookingFactory();
-
-	return true;
-}
-
-bool CEPhysX::CreateScene() {
-
-	return true;
-}
-
-
-bool CEPhysX::CreatePhysXInternals() {
-
 }

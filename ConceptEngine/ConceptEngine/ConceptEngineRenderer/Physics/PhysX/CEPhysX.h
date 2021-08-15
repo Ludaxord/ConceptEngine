@@ -9,10 +9,13 @@
 #include <foundation/PxVec3.h>
 #include <foundation/PxVec4.h>
 #include <pvd/PxPvd.h>
+#include <PxFiltering.h>
+#include <PxBroadPhase.h>
 
 #include "CECookingFactory.h"
 #include "CEPhysXDebugger.h"
 #include "CEPhysXManager.h"
+#include "Config/CEGlobalConfigs.h"
 
 class CEPhysXErrorCallback : public physx::PxErrorCallback {
 public:
@@ -33,11 +36,25 @@ public:
 	void Release() override;
 	bool CreateScene() override;
 	void ReleaseScene() override;
-	bool CreateConfig() override;
 	void CreateActors(Scene* Scene) override;
 	CEPhysicsActor* CreateActor(Actor* InActor) override;
 
+	bool CreateConfig() override;
 	bool CreateDebugger();
+	bool CreateCookingFactory();
+
+	physx::PxFoundation& GetFoundation() ;
+	physx::PxPhysics& GetPhysXSDK();
+	physx::PxCpuDispatcher& GetCPUDispatcher();
+	physx::PxDefaultAllocator& GetAllocator();
+
+	physx::PxFilterFlags FilterShader(physx::PxFilterObjectAttributes Attr0, physx::PxFilterData FilterData0,
+	                                  physx::PxFilterObjectAttributes Attr1, physx::PxFilterData FilterData1,
+	                                  physx::PxPairFlags& PairFlags,
+	                                  const void* ConstantBlock, physx::PxU32 ConstantBlockSize);
+
+	physx::PxBroadPhaseType::Enum GetPhysXBroadPhaseType(PhysicsBroadPhaseType Type);
+	physx::PxBroadPhaseType::Enum GetPhysXFrictionType(PhysicsFrictionType Type);
 
 private:
 	bool CreatePhysXInternals();

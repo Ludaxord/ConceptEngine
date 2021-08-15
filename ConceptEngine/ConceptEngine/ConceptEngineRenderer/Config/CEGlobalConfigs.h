@@ -110,8 +110,25 @@ public:
 	}
 };
 
+enum class PhysicsFrictionType {
+	Patch,
+	OneDirectional,
+	TwoDirectional
+};
+
+enum class PhysicsBroadPhaseType {
+	SweepAndPrune,
+	MultiBoxPrune,
+	AutomaticBoxPrune
+};
+
+enum class PhysicsDebugType {
+	DebugToFile = 0,
+	LiveDebug = 1
+};
+
 struct CEPhysicsConfig {
-	
+
 };
 
 inline CEEngineConfig GEngineConfig;
