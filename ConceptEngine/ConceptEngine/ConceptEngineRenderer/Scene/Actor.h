@@ -1,5 +1,4 @@
 #pragma once
-#include "CEScene.h"
 #include "../Core/CoreObject/CoreObject.h"
 #include "../Core/Containers/Array.h"
 #include "../Time/CETimestamp.h"

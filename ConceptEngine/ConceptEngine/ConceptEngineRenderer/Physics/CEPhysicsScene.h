@@ -2,8 +2,9 @@
 
 class CEPhysicsScene {
 public:
-	CEPhysicsScene();
-	virtual ~CEPhysicsScene();
+	CEPhysicsScene() {
+	};
+	virtual ~CEPhysicsScene() = default;
 
 	virtual void Release() = 0;
 };

@@ -15,7 +15,7 @@ bool RemoveIfExists(CEArray<T>& Array, ConditionFunction Condition) {
 CEPhysXManager::CEPhysXManager() = default;
 
 bool CEPhysXManager::Create(const std::string& Name) {
-	if (AddLayer(Name) != -1) {
+	if (AddLayer(Name) == -1) {
 		CE_LOG_ERROR("[CEPhysXManager]: Failed to AddLayer by Name: " + Name)
 		return false;
 	}
@@ -25,6 +25,7 @@ bool CEPhysXManager::Create(const std::string& Name) {
 
 uint32 CEPhysXManager::AddLayer(const std::string& Name, bool SetCollisions) {
 	uint32 LayerID = GetNextLayerID();
+	CE_LOG_DEBUG("[CEPhysXManager]: Add Layer ID: " + std::to_string(LayerID));
 	CEPhysicsLayer Layer = {LayerID, Name, 1 << LayerID, 1 << LayerID};
 	Layers.Insert(Layers.Begin() + LayerID, Layer);
 	LayerNames.Insert(LayerNames.begin() + LayerID, Name);
