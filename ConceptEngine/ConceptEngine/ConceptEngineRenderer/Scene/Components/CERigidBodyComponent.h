@@ -10,13 +10,9 @@ public:
 		CORE_OBJECT_INIT();
 	}
 
-
 	enum class Type { Static, Dynamic };
 
 	enum class CollisionDetectionType { Discrete, Continuous, ContinuousSpeculative };
-
-	virtual void Update(CETimestamp DeltaTime) override {
-	}
 
 	CollisionDetectionType CollisionDetection = CollisionDetectionType::Discrete;
 };

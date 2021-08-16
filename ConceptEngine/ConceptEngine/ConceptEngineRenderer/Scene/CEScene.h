@@ -63,7 +63,7 @@ public:
 	static CEScene* LoadFromFile(const std::string& Filepath);
 
 private:
-	void AddMeshComponent(class MeshComponent* Component);
+	void AddMeshComponent(class CEMeshComponent* Component);
 
 	CEArray<Actor*> Actors;
 	CEArray<Light*> Lights;

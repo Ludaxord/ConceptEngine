@@ -166,6 +166,8 @@
     <ClInclude Include="Memory\CEMemory.h" />
     <ClInclude Include="Memory\New.h" />
     <ClInclude Include="Physics\CEPhysics.h" />
+    <ClInclude Include="Physics\CEPhysicsActor.h" />
+    <ClInclude Include="Physics\CEPhysicsScene.h" />
     <ClInclude Include="Physics\PhysX\CEContactCallback.h" />
     <ClInclude Include="Physics\PhysX\CECookingFactory.h" />
     <ClInclude Include="Physics\PhysX\CEPhysX.h" />
@@ -221,8 +223,13 @@
     <ClInclude Include="Scene\AABB.h" />
     <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\Camera.h" />
+    <ClInclude Include="Scene\Components\CEColliderBoxComponent.h" />
+    <ClInclude Include="Scene\Components\CEColliderCapsuleComponent.h" />
+    <ClInclude Include="Scene\Components\CEColliderMeshComponent.h" />
     <ClInclude Include="Scene\Components\CERigidBodyComponent.h" />
-    <ClInclude Include="Scene\Components\MeshComponent.h" />
+    <ClInclude Include="Scene\Components\CEColliderSphereComponent.h" />
+    <ClInclude Include="Scene\Components\CETransformComponent.h" />
+    <ClInclude Include="Scene\Components\CEMeshComponent.h" />
     <ClInclude Include="Scene\Frustum.h" />
     <ClInclude Include="Scene\Lights\DirectionalLight.h" />
     <ClInclude Include="Scene\Lights\Light.h" />
