@@ -399,7 +399,7 @@
     <ClInclude Include="RenderLayer\Viewport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Components\MeshComponent.h">
+    <ClInclude Include="Scene\Components\CEMeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Lights\DirectionalLight.h">
@@ -670,6 +670,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Components\CERigidBodyComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CEPhysicsScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CEPhysicsActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components\CETransformComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components\CEColliderBoxComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components\CEColliderSphereComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components\CEColliderCapsuleComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components\CEColliderMeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

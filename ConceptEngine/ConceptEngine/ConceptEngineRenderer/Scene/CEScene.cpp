@@ -1,6 +1,6 @@
 #include "CEScene.h"
 
-#include "Components/MeshComponent.h"
+#include "Components/CEMeshComponent.h"
 
 #include "../Rendering/Resources/TextureFactory.h"
 #include "../Rendering/Resources/MeshFactory.h"
@@ -23,8 +23,6 @@ CEScene::CEScene()
 }
 
 CEScene::~CEScene() {
-	CECore::GetPhysics()->Release();
-
 	for (Actor* CurrentActor : Actors) {
 		SafeDelete(CurrentActor);
 	}
@@ -78,10 +76,12 @@ void CEScene::AddActor(Actor* InActor) {
 
 	InActor->OnAddedToScene(this);
 
-	MeshComponent* Component = InActor->GetComponentOfType<MeshComponent>();
+	CEMeshComponent* Component = InActor->GetComponentOfType<CEMeshComponent>();
 	if (Component) {
 		AddMeshComponent(Component);
 	}
+
+	//TODO: Add RigidComponent
 }
 
 void CEScene::AddLight(Light* InLight) {
@@ -90,7 +90,7 @@ void CEScene::AddLight(Light* InLight) {
 }
 
 void CEScene::OnAddedComponent(Component* NewComponent) {
-	MeshComponent* Component = Cast<MeshComponent>(NewComponent);
+	CEMeshComponent* Component = Cast<CEMeshComponent>(NewComponent);
 	if (Component) {
 		AddMeshComponent(Component);
 	}
@@ -346,7 +346,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath) {
 			NewActor->GetTransform().SetScale(0.015f, 0.015f, 0.015f);
 
 			// Add a MeshComponent
-			MeshComponent* NewComponent = DBG_NEW MeshComponent(NewActor);
+			CEMeshComponent* NewComponent = DBG_NEW CEMeshComponent(NewActor);
 			NewComponent->Mesh = NewMesh;
 			//TODO: In editor add collision usage for static Rigid and Dynamic Rigid
 			if (MaterialID >= 0) {
@@ -369,7 +369,7 @@ CEScene* CEScene::LoadFromFile(const std::string& Filepath) {
 	return LoadedScene.Release();
 }
 
-void CEScene::AddMeshComponent(MeshComponent* Component) {
+void CEScene::AddMeshComponent(CEMeshComponent* Component) {
 	MeshDrawCommand Command;
 	Command.CurrentActor = Component->GetOwningActor();
 	Command.Geometry = Component->Mesh->RTGeometry.Get();

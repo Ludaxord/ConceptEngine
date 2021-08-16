@@ -1,5 +1,10 @@
 #pragma once
 
-class CEPhysicsScene : public RefCountedObject {
-	
+class CEPhysicsScene {
+public:
+	CEPhysicsScene() {
+	};
+	virtual ~CEPhysicsScene() = default;
+
+	virtual void Release() = 0;
 };

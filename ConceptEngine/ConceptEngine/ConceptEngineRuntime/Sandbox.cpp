@@ -9,7 +9,7 @@
 #include "../ConceptEngineRenderer/Scene/CEScene.h"
 #include "../ConceptEngineRenderer/Scene/Lights/PointLight.h"
 #include "../ConceptEngineRenderer/Scene/Lights/DirectionalLight.h"
-#include "../ConceptEngineRenderer/Scene/Components/MeshComponent.h"
+#include "../ConceptEngineRenderer/Scene/Components/CEMeshComponent.h"
 
 #include "../ConceptEngineRenderer/Core/Input/CEInputManager.h"
 #include "../ConceptEngineRenderer/Boot/CECore.h"
@@ -42,7 +42,7 @@ bool Sandbox::Create() {
 
 	// Initialize Scene
 	Actor* NewActor = nullptr;
-	MeshComponent* NewComponent = nullptr;
+	CEMeshComponent* NewComponent = nullptr;
 	Scene = CEScene::LoadFromFile("../Concept-Engine/Assets/Scenes/Sponza/Sponza.obj");
 
 	// Create Spheres
@@ -114,7 +114,7 @@ bool Sandbox::Create() {
 
 			Scene->AddActor(NewActor);
 
-			NewComponent = DBG_NEW MeshComponent(NewActor);
+			NewComponent = DBG_NEW CEMeshComponent(NewActor);
 			NewComponent->Mesh = SphereMesh;
 			NewComponent->Material = MakeShared<Material>(MatProperties);
 
@@ -127,7 +127,6 @@ bool Sandbox::Create() {
 			NewComponent->Material->Init();
 
 			std::string ParentName = NewActor->GetName();
-
 
 			NewActor->AddComponent(NewComponent);
 
@@ -152,7 +151,7 @@ bool Sandbox::Create() {
 	MatProperties.Roughness = 1.0f;
 	MatProperties.EnableHeight = 1;
 
-	NewComponent = DBG_NEW MeshComponent(NewActor);
+	NewComponent = DBG_NEW CEMeshComponent(NewActor);
 	NewComponent->Mesh = Mesh::Make(CubeMeshData);
 	NewComponent->Material = MakeShared<Material>(MatProperties);
 
@@ -238,7 +237,7 @@ bool Sandbox::Create() {
 	MatProperties.EnableHeight = 0;
 	MatProperties.Albedo = XMFLOAT3(1.0f, 1.0f, 1.0f);
 
-	NewComponent = DBG_NEW MeshComponent(NewActor);
+	NewComponent = DBG_NEW CEMeshComponent(NewActor);
 	NewComponent->Mesh = Mesh::Make(CastMeshManager()->CreatePlane(10, 10));
 	NewComponent->Material = MakeShared<Material>(MatProperties);
 	NewComponent->Material->AlbedoMap = BaseTexture;

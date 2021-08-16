@@ -10,7 +10,7 @@
 #include "../Scene/CEScene.h"
 #include "../Scene/Lights/DirectionalLight.h"
 #include "../Scene/Lights/PointLight.h"
-#include "../Scene/Components/MeshComponent.h"
+#include "../Scene/Components/CEMeshComponent.h"
 
 #include "../Core/Application/Application.h"
 
@@ -454,7 +454,7 @@ static void DrawSceneInfo()
                 }
 
                 // MeshComponent
-                MeshComponent* MComponent = Actor->GetComponentOfType<MeshComponent>();
+                CEMeshComponent* MComponent = Actor->GetComponentOfType<CEMeshComponent>();
                 if (MComponent)
                 {
                     if (ImGui::TreeNode("MeshComponent"))

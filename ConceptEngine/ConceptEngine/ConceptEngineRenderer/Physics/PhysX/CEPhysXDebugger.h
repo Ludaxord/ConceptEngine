@@ -1,14 +1,12 @@
 #pragma once
 #include <pvd/PxPvd.h>
 
-#include "CEPhysX.h"
-
 
 class CEPhysXDebugger {
 public:
 	bool Create();
 	physx::PxPvd* GetDebugger() {
-		
+		return nullptr;
 	}
 
 	void StopDebugging();

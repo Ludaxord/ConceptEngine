@@ -12,10 +12,10 @@ public:
 	virtual void Release() = 0;
 	virtual void ReleaseScene() = 0;
 
-	virtual void CreateActors(class Scene* Scene) = 0;
+	virtual void CreateActors(class CEScene* Scene) = 0;
 	virtual class CEPhysicsActor* CreateActor(class Actor* InActor) = 0;
 
-	CERef<CEPhysicsScene> GetScene() {
+	CEPhysicsScene* GetScene() {
 		return PScene;
 	}
 
@@ -26,5 +26,5 @@ public:
 protected:
 	CEPhysicsConfig PhysicsConfig;
 	//TODO: Change to CERef<> And initialize with MakeShared<>
-	CERef<CEPhysicsScene> PScene;;
+	CEPhysicsScene* PScene = nullptr;
 };

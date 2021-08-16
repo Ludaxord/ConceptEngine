@@ -20,6 +20,8 @@
 #include <pvd/PxPvdTransport.h>
 
 #include "CEPhysXScene.h"
+#include "Physics/CEPhysicsActor.h"
+#include "Scene/CEScene.h"
 #include "Scene/Components/CERigidBodyComponent.h"
 #include "Utilities/DirectoryUtilities.h"
 
@@ -88,6 +90,7 @@ void CEPhysXAssertHandler::operator()(const char* exp, const char* file, int lin
 
 CEPhysX::CEPhysX() {
 	PhysicsManager = new CEPhysXManager();
+	PhysicsDebugger = new CEPhysXDebugger();
 }
 
 CEPhysX::~CEPhysX() {
@@ -139,6 +142,11 @@ void CEPhysX::Release() {
 }
 
 void CEPhysX::ReleaseScene() {
+	if (PhysicsConfig.DebugOnPlay) {
+		PhysicsDebugger->StopDebugging();
+	}
+
+	PScene->Release();
 }
 
 bool CEPhysX::CreateScene() {
@@ -146,7 +154,8 @@ bool CEPhysX::CreateScene() {
 
 	//TODO: Check if debugging mode...
 	if (PhysicsConfig.DebugOnPlay && !PhysicsDebugger->IsDebugging()) {
-		PhysicsDebugger->StartDebugging(GetMainDirectory() + "/PhysXDebug", GetConfig().DebugType == PhysicsDebugType::LiveDebug);
+		PhysicsDebugger->StartDebugging(GetMainDirectory() + "/PhysXDebug",
+		                                PhysicsConfig.DebugType == PhysicsDebugType::LiveDebug);
 	}
 
 	return true;
@@ -158,7 +167,18 @@ bool CEPhysX::CreateConfig() {
 	return true;
 }
 
-void CEPhysX::CreateActors(Scene* Scene) {
+void CEPhysX::CreateActors(CEScene* Scene) {
+	{
+		// CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CERigidBodyComponent*>();
+		// for (auto* Actor : SceneComponents) {
+			// CEPhysicsActor* PhysicsActor = CreateActor(Actor);
+			// Scene->AddActor(PhysicsActor);
+		// }
+	}
+
+	{
+		
+	}
 }
 
 CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
