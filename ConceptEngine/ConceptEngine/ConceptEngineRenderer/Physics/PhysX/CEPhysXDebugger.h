@@ -1,6 +1,8 @@
 #pragma once
 #include <pvd/PxPvd.h>
 
+#include "CEPhysX.h"
+
 
 class CEPhysXDebugger {
 public:
@@ -10,5 +12,7 @@ public:
 	}
 
 	void StopDebugging();
-	void Release();;
+	void Release();
+	bool IsDebugging();
+	void StartDebugging(const std::string& Path, bool LiveDebugging);
 };

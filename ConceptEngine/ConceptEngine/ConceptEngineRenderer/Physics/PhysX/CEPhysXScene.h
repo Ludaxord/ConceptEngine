@@ -1,5 +1,6 @@
 #pragma once
+#include "Physics/CEPhysicsScene.h"
 
-class CEPhysXScene {
-	
+class CEPhysXScene : public CEPhysicsScene {
+
 };

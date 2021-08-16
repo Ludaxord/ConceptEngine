@@ -19,7 +19,9 @@
 #include <pvd/PxPvd.h>
 #include <pvd/PxPvdTransport.h>
 
+#include "CEPhysXScene.h"
 #include "Scene/Components/CERigidBodyComponent.h"
+#include "Utilities/DirectoryUtilities.h"
 
 struct CEPhysXInternals {
 	physx::PxFoundation* PhysXFoundation;
@@ -139,8 +141,20 @@ void CEPhysX::Release() {
 void CEPhysX::ReleaseScene() {
 }
 
-bool CEPhysX::CreateConfig() {
+bool CEPhysX::CreateScene() {
+	PScene = DBG_NEW CEPhysXScene();
 
+	//TODO: Check if debugging mode...
+	if (PhysicsConfig.DebugOnPlay && !PhysicsDebugger->IsDebugging()) {
+		PhysicsDebugger->StartDebugging(GetMainDirectory() + "/PhysXDebug", GetConfig().DebugType == PhysicsDebugType::LiveDebug);
+	}
+
+	return true;
+}
+
+
+bool CEPhysX::CreateConfig() {
+	PhysicsConfig = CEPhysicsConfig();
 	return true;
 }
 
@@ -225,12 +239,6 @@ physx::PxFrictionType::Enum CEPhysX::GetPhysXFrictionType(PhysicsFrictionType Ty
 
 	return physx::PxFrictionType::ePATCH;
 }
-
-bool CEPhysX::CreateScene() {
-
-	return true;
-}
-
 
 bool CEPhysX::CreatePhysXInternals() {
 	PhysicsInternals = new CEPhysXInternals();

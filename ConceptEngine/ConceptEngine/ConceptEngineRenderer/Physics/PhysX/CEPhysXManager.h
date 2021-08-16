@@ -13,6 +13,8 @@ struct CEPhysicsLayer {
 
 class CEPhysXManager {
 public:
+	CEPhysXManager();
+
 	bool Create(const std::string& Name = "Default");
 
 	uint32 AddLayer(const std::string& Name, bool SetCollisions = true);
@@ -43,7 +45,7 @@ private:
 	uint32 GetNextLayerID();
 
 private:
-	CEArray<CEPhysicsLayer> Layers;
-	CEArray<std::string> LayerNames;
-	CEPhysicsLayer NullLayer;
+	CEArray<CEPhysicsLayer> Layers{};
+	CEArray<std::string> LayerNames{};
+	CEPhysicsLayer NullLayer = {0, "NULL", 0, -1};
 };

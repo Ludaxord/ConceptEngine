@@ -128,7 +128,18 @@ enum class PhysicsDebugType {
 };
 
 struct CEPhysicsConfig {
-
+	float FixedTimeStep = 1.0f / 100.0f;
+	XMFLOAT3 Gravity = {0.0f, -9.81f, 0.0f};
+	PhysicsBroadPhaseType BroadPhaseAlgorithm = PhysicsBroadPhaseType::AutomaticBoxPrune;
+	XMFLOAT3 WorldBoundsMin = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 WorldBoundsMax = XMFLOAT3(1.0f, 1.0f, 1.0f);
+	uint32 WorldBoundsSubdivisions = 2;
+	PhysicsFrictionType FrctionModel = PhysicsFrictionType::Patch;
+	uint32 SolverIterations = 6;
+	uint32 SolverVelocityIterations = 1;
+	bool DebugOnPlay = true;
+	PhysicsDebugType DebugType = PhysicsDebugType::LiveDebug;
 };
 
 inline CEEngineConfig GEngineConfig;
+// inline CEPhysicsConfig GPhysicsConfig;
