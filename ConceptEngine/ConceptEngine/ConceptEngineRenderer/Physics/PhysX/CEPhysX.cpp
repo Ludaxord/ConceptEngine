@@ -215,7 +215,12 @@ void CEPhysX::CreateActors(CEScene* Scene) {
 }
 
 CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
-	return {};
+	auto* CurrentActor = PScene->GetActor(InActor);
+	if (CurrentActor)
+		return CurrentActor;
+
+	CEPhysicsActor* Actor = PScene->CreateActor(InActor);
+	//TODO: Finish implementation...
 }
 
 bool CEPhysX::CreateDebugger() {

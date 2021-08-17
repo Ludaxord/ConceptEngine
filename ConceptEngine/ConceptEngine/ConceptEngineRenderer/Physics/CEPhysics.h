@@ -25,6 +25,5 @@ public:
 
 protected:
 	CEPhysicsConfig PhysicsConfig;
-	//TODO: Change to CERef<> And initialize with MakeShared<>
 	CEPhysicsScene* PScene = nullptr;
 };
