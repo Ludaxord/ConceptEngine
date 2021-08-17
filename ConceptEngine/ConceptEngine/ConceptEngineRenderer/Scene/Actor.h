@@ -144,6 +144,7 @@ public:
 	void Update(CETimestamp DeltaTime) override;
 
 	void MoveByOffset(const Transform& MoveTransformOffset);
+	CEUUID GetParentUUID() const;
 private:
 	CEScene* Scene = nullptr;
 	//TODO: Move to TransformComponent
@@ -151,14 +152,3 @@ private:
 	CEArray<Component*> Components;
 	std::string Name;
 };
-
-template <typename ... T>
-bool Actor::HasAny() {
-	for (auto Component : T) {
-		if (HasComponentOfType<Component>()) {
-			return true;
-		}
-	}
-
-	return false;
-}

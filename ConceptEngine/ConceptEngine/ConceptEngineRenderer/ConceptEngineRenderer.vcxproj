@@ -226,6 +226,8 @@
     <ClInclude Include="Scene\Components\CEColliderBoxComponent.h" />
     <ClInclude Include="Scene\Components\CEColliderCapsuleComponent.h" />
     <ClInclude Include="Scene\Components\CEColliderMeshComponent.h" />
+    <ClInclude Include="Scene\Components\CEIDComponent.h" />
+    <ClInclude Include="Scene\Components\CELinkComponent.h" />
     <ClInclude Include="Scene\Components\CERigidBodyComponent.h" />
     <ClInclude Include="Scene\Components\CEColliderSphereComponent.h" />
     <ClInclude Include="Scene\Components\CETransformComponent.h" />
@@ -330,6 +332,7 @@
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="Physics\CEPhysicsScene.cpp" />
     <ClCompile Include="Physics\PhysX\CEContactCallback.cpp" />
     <ClCompile Include="Physics\PhysX\CECookingFactory.cpp" />
     <ClCompile Include="Physics\PhysX\CEPhysX.cpp" />

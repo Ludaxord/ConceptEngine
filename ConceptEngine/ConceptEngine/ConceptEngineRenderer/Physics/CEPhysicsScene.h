@@ -10,7 +10,7 @@ public:
 
 	virtual void Release() = 0;
 	CEPhysicsActor* GetActor(Actor* Actor);
-	CEPhysicsActor* CreateActor(Actor* actor);
+	CEPhysicsActor* CreateActor(Actor* Actor);
 
 private:
 	CEArray<CEPhysicsActor*> Actors;
