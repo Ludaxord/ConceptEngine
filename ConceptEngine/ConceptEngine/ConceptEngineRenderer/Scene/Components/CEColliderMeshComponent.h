@@ -6,5 +6,6 @@ class CEColliderMeshComponent : public Component {
 
 public:
 	CEColliderMeshComponent(Actor* InOwningActor): Component(InOwningActor) {
+				CORE_OBJECT_INIT();
 	}
 };

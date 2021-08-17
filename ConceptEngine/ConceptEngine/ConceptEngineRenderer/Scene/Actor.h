@@ -152,3 +152,13 @@ private:
 	std::string Name;
 };
 
+template <typename ... T>
+bool Actor::HasAny() {
+	for (auto Component : T) {
+		if (HasComponentOfType<Component>()) {
+			return true;
+		}
+	}
+
+	return false;
+}

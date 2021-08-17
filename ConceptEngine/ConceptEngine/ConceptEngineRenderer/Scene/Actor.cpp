@@ -59,6 +59,21 @@ void Actor::MoveByOffset(const ::Transform& MoveTransformOffset) {
 	Transform = TempTransform;
 }
 
+CEUUID Actor::GetParentUUID() const {
+	return GetComponentOfType<CELinkComponent>()->ParentUUID;
+}
+
+template <typename ... T>
+bool Actor::HasAny() {
+	for (auto Component : T) {
+		if (HasComponentOfType<Component>()) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 Transform::Transform()
 	: Matrix()

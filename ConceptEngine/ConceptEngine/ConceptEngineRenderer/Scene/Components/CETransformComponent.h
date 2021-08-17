@@ -6,5 +6,6 @@ class CETransformComponent : public Component {
 
 public:
 	CETransformComponent(Actor* InOwningActor): Component(InOwningActor) {
+		CORE_OBJECT_INIT();
 	}
 };

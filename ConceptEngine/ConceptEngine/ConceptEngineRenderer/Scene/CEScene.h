@@ -9,6 +9,8 @@
 #include "../Time/CETimestamp.h"
 
 #include "../Core/Containers/Array.h"
+#include "Components/CEIDComponent.h"
+#include "Components/CELinkComponent.h"
 
 class CEScene {
 public:
@@ -40,6 +42,19 @@ public:
 		return Move(Components);
 	}
 
+	template <typename TComponent>
+	FORCEINLINE const CEArray<Actor*> GetActorsWithComponentsOfType() const {
+		CEArray<Actor*> ActorsWithComponents;
+		for (Actor* Actor : Actors) {
+			TComponent* Component = Actor->GetComponentOfType<TComponent>();
+			if (Component) {
+				ActorsWithComponents.EmplaceBack(Actor);
+			}
+		}
+
+		return Move(ActorsWithComponents);
+	}
+
 	const CEArray<Actor*>& GetActors() const {
 		return Actors;
 	}
@@ -58,6 +73,16 @@ public:
 
 	Actor* GetActorByIndex(int32 Index) {
 		return Actors[Index];
+	}
+
+	Actor* GetActorByUUID(CEUUID Uuid) {
+		for (auto* Actor : Actors) {
+			if (Actor->GetComponentOfType<CEIDComponent>()->ID == Uuid) {
+				return Actor;
+			}
+		}
+
+		return nullptr;
 	}
 
 	static CEScene* LoadFromFile(const std::string& Filepath);

@@ -6,5 +6,6 @@ class CEColliderCapsuleComponent : public Component {
 
 public:
 	CEColliderCapsuleComponent(Actor* InOwningActor): Component(InOwningActor) {
+				CORE_OBJECT_INIT();
 	}
 };

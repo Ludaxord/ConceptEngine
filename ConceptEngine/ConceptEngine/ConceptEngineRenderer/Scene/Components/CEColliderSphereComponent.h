@@ -7,5 +7,7 @@ class CEColliderSphereComponent : public Component {
 
 public:
 	CEColliderSphereComponent(Actor* InOwningActor): Component(InOwningActor) {
+		CORE_OBJECT_INIT();
+
 	}
 };

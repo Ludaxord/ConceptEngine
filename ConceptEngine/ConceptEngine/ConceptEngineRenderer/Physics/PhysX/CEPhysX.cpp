@@ -22,7 +22,12 @@
 #include "CEPhysXScene.h"
 #include "Physics/CEPhysicsActor.h"
 #include "Scene/CEScene.h"
+#include "Scene/Components/CEColliderBoxComponent.h"
+#include "Scene/Components/CEColliderCapsuleComponent.h"
+#include "Scene/Components/CEColliderMeshComponent.h"
+#include "Scene/Components/CEColliderSphereComponent.h"
 #include "Scene/Components/CERigidBodyComponent.h"
+#include "Scene/Components/CETransformComponent.h"
 #include "Utilities/DirectoryUtilities.h"
 
 struct CEPhysXInternals {
@@ -169,15 +174,43 @@ bool CEPhysX::CreateConfig() {
 
 void CEPhysX::CreateActors(CEScene* Scene) {
 	{
-		// CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CERigidBodyComponent*>();
-		// for (auto* Actor : SceneComponents) {
-			// CEPhysicsActor* PhysicsActor = CreateActor(Actor);
-			// Scene->AddActor(PhysicsActor);
-		// }
+		CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CERigidBodyComponent*>();
+		for (auto* Actor : SceneComponents) {
+			CEPhysicsActor* PhysicsActor = CreateActor(Actor);
+			Scene->AddActor(PhysicsActor);
+		}
 	}
 
 	{
-		
+		CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CETransformComponent*>();
+		for (auto* Actor : SceneComponents) {
+			if (Actor->HasComponentOfType<CERigidBodyComponent>())
+				continue;
+
+			if (Actor->HasAny<CEColliderBoxComponent, CEColliderSphereComponent, CEColliderCapsuleComponent,
+			                  CEColliderMeshComponent>())
+				continue;
+
+			bool ParentWithRigidBody = false;
+
+			auto* CurrentActor = Actor;
+
+			while (auto* ParentActor = Scene->GetActorByUUID(CurrentActor->GetParentUUID())) {
+				if (ParentActor->HasComponentOfType<CERigidBodyComponent>()) {
+					ParentWithRigidBody = true;
+					break;
+				}
+
+				CurrentActor = ParentActor;
+			}
+
+			if (ParentWithRigidBody)
+				continue;
+
+			auto* RigidComponent = DBG_NEW CERigidBodyComponent(Actor);
+			Actor->AddComponent(RigidComponent);
+			CreateActor(Actor);
+		}
 	}
 }
 
