@@ -332,6 +332,7 @@
     <ClCompile Include="Memory\LinearAllocator.cpp" />
     <ClCompile Include="Memory\CEMemory.cpp" />
     <ClCompile Include="Memory\New.cpp" />
+    <ClCompile Include="Physics\CEPhysicsActor.cpp" />
     <ClCompile Include="Physics\CEPhysicsScene.cpp" />
     <ClCompile Include="Physics\PhysX\CEContactCallback.cpp" />
     <ClCompile Include="Physics\PhysX\CECookingFactory.cpp" />
