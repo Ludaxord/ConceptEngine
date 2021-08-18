@@ -6,6 +6,8 @@
 #include "Scene/Components/CEColliderSphereComponent.h"
 
 class CEPhysicsActor : public Actor {
+	CORE_OBJECT(CEPhysicsActor, CoreObject);
+
 public:
 	void AddCollider(CEColliderBoxComponent& Collider, Actor* Actor, const XMFLOAT3& Offset);
 	void AddCollider(CEColliderSphereComponent& Collider, Actor* Actor, const XMFLOAT3& Offset);

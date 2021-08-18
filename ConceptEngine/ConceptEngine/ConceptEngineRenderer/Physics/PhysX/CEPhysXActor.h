@@ -1,5 +1,7 @@
 #pragma once
+#include "Physics/CEPhysicsActor.h"
 
-class CEPhysXActor : public CoreObject {
+class CEPhysXActor : public CEPhysicsActor {
+	CORE_OBJECT(CEPhysXActor, CoreObject);
 
 };
