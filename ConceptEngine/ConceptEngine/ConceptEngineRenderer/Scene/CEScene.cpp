@@ -18,6 +18,8 @@
 #include "Graphics/Generic/Managers/CEManagers.h"
 #include "Physics/CEPhysics.h"
 
+std::unordered_map<CEUUID, CEScene*> LoadedScenes;
+
 CEScene::CEScene()
 	: Actors() {
 }
@@ -34,6 +36,8 @@ CEScene::~CEScene() {
 	Lights.Clear();
 
 	SafeDelete(CurrentCamera);
+
+	LoadedScenes.erase(UUID);
 }
 
 bool CEScene::Create() {
@@ -41,6 +45,9 @@ bool CEScene::Create() {
 		CE_LOG_ERROR("[CEScene]: Failed to Create Scene Physics");
 		return false;
 	}
+
+	LoadedScenes[UUID] = this;
+
 	return true;
 }
 
@@ -94,6 +101,14 @@ void CEScene::OnAddedComponent(Component* NewComponent) {
 	if (Component) {
 		AddMeshComponent(Component);
 	}
+}
+
+CEScene* CEScene::GetSceneByUUID(CEUUID UUID) {
+	if (LoadedScenes.find(UUID) != LoadedScenes.end()) {
+		return LoadedScenes.at(UUID);
+	}
+
+	return nullptr;
 }
 
 CEScene* CEScene::LoadFromFile(const std::string& Filepath) {

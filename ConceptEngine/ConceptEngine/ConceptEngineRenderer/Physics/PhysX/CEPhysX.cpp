@@ -159,8 +159,10 @@ bool CEPhysX::CreateScene() {
 
 	//TODO: Check if debugging mode...
 	if (PhysicsConfig.DebugOnPlay && !PhysicsDebugger->IsDebugging()) {
-		PhysicsDebugger->StartDebugging(GetMainDirectory() + "/PhysXDebug",
-		                                PhysicsConfig.DebugType == PhysicsDebugType::LiveDebug);
+		PhysicsDebugger->StartDebugging(
+			GetMainDirectory() + "/PhysXDebug",
+			PhysicsConfig.DebugType == PhysicsDebugType::LiveDebug
+		);
 	}
 
 	return true;
@@ -215,12 +217,49 @@ void CEPhysX::CreateActors(CEScene* Scene) {
 }
 
 CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
-	auto* CurrentActor = PScene->GetActor(InActor);
-	if (CurrentActor)
+	if (auto* CurrentActor = PScene->GetActor(InActor))
 		return CurrentActor;
 
-	CEPhysicsActor* Actor = PScene->CreateActor(InActor);
-	//TODO: Finish implementation...
+	CEPhysicsActor* PhysicsActor = PScene->CreateActor(InActor);
+	CEScene* Scene = CEScene::GetSceneByUUID(InActor->GetSceneUUID());
+	for (const auto ChildID : InActor->GetChildrenUUIDs()) {
+		Actor* ChildActor = Scene->GetActorByUUID(ChildID);
+
+		if (ChildActor->HasComponentOfType<CERigidBodyComponent>())
+			continue;
+
+		if (ChildActor->HasComponentOfType<CEColliderBoxComponent>())
+			PhysicsActor->AddCollider(
+				*(ChildActor->GetComponentOfType<CEColliderBoxComponent>()),
+				ChildActor,
+				ChildActor->GetTransform().GetTranslation()
+			);
+
+		if (ChildActor->HasComponentOfType<CEColliderSphereComponent>())
+			PhysicsActor->AddCollider(
+				*(ChildActor->GetComponentOfType<CEColliderSphereComponent>()),
+				ChildActor,
+				ChildActor->GetTransform().GetTranslation()
+			);
+
+		if (ChildActor->HasComponentOfType<CEColliderCapsuleComponent>())
+			PhysicsActor->AddCollider(
+				*(ChildActor->GetComponentOfType<CEColliderCapsuleComponent>()),
+				ChildActor,
+				ChildActor->GetTransform().GetTranslation()
+			);
+
+		if (ChildActor->HasComponentOfType<CEColliderMeshComponent>())
+			PhysicsActor->AddCollider(
+				*(ChildActor->GetComponentOfType<CEColliderMeshComponent>()),
+				ChildActor,
+				ChildActor->GetTransform().GetTranslation()
+			);
+	}
+
+	PhysicsActor->SetSimulation(InActor->GetComponentOfType<CERigidBodyComponent>()->Layer);
+
+	return PhysicsActor;
 }
 
 bool CEPhysX::CreateDebugger() {

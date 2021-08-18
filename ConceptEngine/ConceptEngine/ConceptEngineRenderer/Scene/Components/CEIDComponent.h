@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene/Actor.h"
+#include "../Scene/Actor.h"
 
 class CEIDComponent : public Component {
 	CORE_OBJECT(CEIDComponent, Component);

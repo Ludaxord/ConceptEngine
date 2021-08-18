@@ -10,6 +10,7 @@ public:
 	virtual void Update(CETimestamp DeltaTime);
 	virtual bool Release();
 
+	//TODO: Make Container With Scenes...
 	class CEScene* Scene = nullptr;
 };
 

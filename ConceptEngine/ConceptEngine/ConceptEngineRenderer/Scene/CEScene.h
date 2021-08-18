@@ -27,6 +27,8 @@ public:
 
 	void OnAddedComponent(Component* NewComponent);
 
+	static CEScene* GetSceneByUUID(CEUUID UUID);
+
 	template <typename TComponent>
 	FORCEINLINE const CEArray<TComponent> GetAllComponentsOfType() const {
 		// TODO: Cache this result
@@ -85,6 +87,10 @@ public:
 		return nullptr;
 	}
 
+	CEUUID GetUUID() const {
+		return UUID;
+	}
+
 	static CEScene* LoadFromFile(const std::string& Filepath);
 
 private:
@@ -95,4 +101,6 @@ private:
 	CEArray<MeshDrawCommand> MeshDrawCommands;
 
 	Camera* CurrentCamera = nullptr;
+
+	CEUUID UUID;
 };

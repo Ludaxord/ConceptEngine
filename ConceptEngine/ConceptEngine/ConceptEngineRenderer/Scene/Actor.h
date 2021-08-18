@@ -86,9 +86,10 @@ public:
 
 	void AddComponent(Component* InComponent);
 
-	template <typename... T>
+	template <class ...T>
 	bool HasAny();
 
+public:
 	template <typename TComponent>
 	FORCEINLINE bool HasComponentOfType() const noexcept {
 		TComponent* Result = nullptr;
@@ -144,7 +145,13 @@ public:
 	void Update(CETimestamp DeltaTime) override;
 
 	void MoveByOffset(const Transform& MoveTransformOffset);
+	void SetParentUUID(CEUUID ParentUUID) const;
 	CEUUID GetParentUUID() const;
+
+	CEUUID GetSceneUUID() const;
+
+	CEUUID GetUUID() const;
+	CEArray<CEUUID> GetChildrenUUIDs() const;
 private:
 	CEScene* Scene = nullptr;
 	//TODO: Move to TransformComponent

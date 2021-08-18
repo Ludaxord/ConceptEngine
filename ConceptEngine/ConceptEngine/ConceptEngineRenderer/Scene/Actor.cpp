@@ -1,4 +1,7 @@
 #include "Actor.h"
+
+#include <any>
+
 #include "CEScene.h"
 
 Component::Component(Actor* InOwningActor)
@@ -59,21 +62,37 @@ void Actor::MoveByOffset(const ::Transform& MoveTransformOffset) {
 	Transform = TempTransform;
 }
 
+void Actor::SetParentUUID(CEUUID ParentUUID) const {
+	GetComponentOfType<CELinkComponent>()->ParentUUID = ParentUUID;
+}
+
 CEUUID Actor::GetParentUUID() const {
 	return GetComponentOfType<CELinkComponent>()->ParentUUID;
 }
 
-template <typename ... T>
+CEUUID Actor::GetSceneUUID() const {
+	return Scene->GetUUID();
+}
+
+CEUUID Actor::GetUUID() const {
+	return GetComponentOfType<CEIDComponent>()->ID;
+}
+
+CEArray<CEUUID> Actor::GetChildrenUUIDs() const {
+	return GetComponentOfType<CELinkComponent>()->ChildrenUUIDs;
+}
+
+template <class ...T>
 bool Actor::HasAny() {
-	for (auto Component : T) {
-		if (HasComponentOfType<Component>()) {
+    auto Components = {T...};
+    for (unsigned i = 0; i < Components.size(); ++i) {
+		if (HasComponentOfType<Components[i]>()) {
 			return true;
 		}
 	}
 
 	return false;
 }
-
 
 Transform::Transform()
 	: Matrix()
