@@ -176,6 +176,7 @@
     <ClInclude Include="Physics\PhysX\CEPhysXManager.h" />
     <ClInclude Include="Physics\PhysX\CEPhysXScene.h" />
     <ClInclude Include="Physics\PhysX\CEPhysXShapes.h" />
+    <ClInclude Include="Physics\PhysX\CEPhysXUtils.h" />
     <ClInclude Include="Platform\Android\CEAndroid.h" />
     <ClInclude Include="Platform\CEPlatform.h" />
     <ClInclude Include="Platform\Generic\Console\CETypedConsole.h" />
