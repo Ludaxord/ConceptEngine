@@ -9,6 +9,8 @@
 #include "Scene/Components/CERigidBodyComponent.h"
 #include "Scene/Components/CETransformComponent.h"
 
+#include <PxPhysicsAPI.h>
+
 //TODO:  check which way is more suitable, Actor or CoreObject...
 class CEPhysicsActor : public Actor {
 	CORE_OBJECT(CEPhysicsActor, Actor);
@@ -18,6 +20,7 @@ public:
 	~CEPhysicsActor();
 
 	//TODO: Create container for all transformations of PhysicsActor.
+	//TODO: Move all PhysX specific functions to PhysXActor
 	XMFLOAT3& GetPhysicsTranslation() const;
 	void SetPhysicsTranslation(const XMFLOAT3& Translation, bool AutoWake = true);
 
@@ -82,4 +85,9 @@ protected:
 	uint32 LockFlags;
 
 	CEArray<CEColliderShape*> Colliders;
+
+	//TODO: Move to PhysXActor
+	physx::PxRigidActor* RigidActor;
+
+	friend class CEPhysicsScene;
 };
