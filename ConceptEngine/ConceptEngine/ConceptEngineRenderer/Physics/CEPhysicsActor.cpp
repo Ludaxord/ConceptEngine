@@ -273,7 +273,6 @@ void CEPhysicsActor::SetKinematic(bool IsKinematic) {
 	RigidActor->is<physx::PxRigidDynamic>()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, IsKinematic);
 }
 
-//TODO: Implement...
 bool CEPhysicsActor::IsGravityDisabled() const {
 	return RigidActor->getActorFlags().isSet(physx::PxActorFlag::eDISABLE_GRAVITY);
 }
@@ -282,9 +281,8 @@ void CEPhysicsActor::SetGravityDisabled(bool Disable) {
 	RigidActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, Disable);
 }
 
-//TODO: Implement...
 bool CEPhysicsActor::GetLockFlag(CEActorLockFlag Flag) const {
-	return false;
+	return (uint32)Flag & LockFlags;
 }
 
 void CEPhysicsActor::SetLockFlag(CEActorLockFlag Flag, bool FlagValue) {
@@ -303,9 +301,12 @@ void CEPhysicsActor::SetLockFlag(CEActorLockFlag Flag, bool FlagValue) {
 void CEPhysicsActor::OnFixedUpdate(CETimestamp FixedDeltaTime) {
 }
 
-//TODO: Implement...
 Actor* CEPhysicsActor::GetOwningActor() const {
-	return nullptr;
+	return OwningActor;
+}
+
+physx::PxRigidActor* CEPhysicsActor::GetPhysXActor() const {
+	return RigidActor;
 }
 
 //TODO: Implement...

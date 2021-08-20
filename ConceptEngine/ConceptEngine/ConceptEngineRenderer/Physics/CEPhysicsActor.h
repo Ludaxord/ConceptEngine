@@ -71,6 +71,7 @@ public:
 	void OnFixedUpdate(CETimestamp FixedDeltaTime);
 
 	Actor* GetOwningActor() const;
+	physx::PxRigidActor* GetPhysXActor() const;
 
 	const CETransformComponent& GetTransform() const;
 

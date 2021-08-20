@@ -62,7 +62,7 @@ inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT3& Translation,
 	);
 }
 
-physx::PxRigidDynamicLockFlag::Enum ToPhysXActorLockFlag(CEActorLockFlag Flag) {
+inline physx::PxRigidDynamicLockFlag::Enum ToPhysXActorLockFlag(CEActorLockFlag Flag) {
 	switch (Flag) {
 	case CEActorLockFlag::PositionX:
 		return physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X;
