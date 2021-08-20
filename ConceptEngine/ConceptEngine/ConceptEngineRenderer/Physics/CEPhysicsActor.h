@@ -21,10 +21,10 @@ public:
 
 	//TODO: Create container for all transformations of PhysicsActor.
 	//TODO: Move all PhysX specific functions to PhysXActor
-	XMFLOAT3& GetPhysicsTranslation() const;
+	XMFLOAT3 GetPhysicsTranslation() const;
 	void SetPhysicsTranslation(const XMFLOAT3& Translation, bool AutoWake = true);
 
-	XMFLOAT3& GetPhysicsRotation() const;
+	XMFLOAT3 GetPhysicsRotation() const;
 	void SetPhysicsRotation(const XMFLOAT3& Rotation, bool AutoWake = true);
 
 	void Rotate(const XMFLOAT3& Rotation, bool AutoWake = true);
@@ -81,7 +81,7 @@ public:
 
 protected:
 	Actor* OwningActor;
-	CERigidBodyComponent RigidBody;
+	CERigidBodyComponent* RigidBody;
 	uint32 LockFlags;
 
 	CEArray<CEColliderShape*> Colliders;

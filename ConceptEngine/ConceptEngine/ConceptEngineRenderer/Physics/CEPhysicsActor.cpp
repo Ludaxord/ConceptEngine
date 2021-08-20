@@ -5,7 +5,7 @@
 
 
 CEPhysicsActor::CEPhysicsActor(Actor* InActor): OwningActor(InActor),
-                                                RigidBody(*InActor->GetComponentOfType<CERigidBodyComponent>()),
+                                                RigidBody(InActor->GetComponentOfType<CERigidBodyComponent>()),
                                                 LockFlags(0) {
 
 }
@@ -15,7 +15,8 @@ CEPhysicsActor::~CEPhysicsActor() {
 	Colliders.Clear();
 }
 
-XMFLOAT3& CEPhysicsActor::GetPhysicsTranslation() const {
+XMFLOAT3 CEPhysicsActor::GetPhysicsTranslation() const {
+	return FromPhysXVector(RigidActor->getGlobalPose().p);
 }
 
 void CEPhysicsActor::SetPhysicsTranslation(const XMFLOAT3& Translation, bool AutoWake) {
@@ -24,7 +25,11 @@ void CEPhysicsActor::SetPhysicsTranslation(const XMFLOAT3& Translation, bool Aut
 	RigidActor->setGlobalPose(PhysicsTransform, AutoWake);
 }
 
-XMFLOAT3& CEPhysicsActor::GetPhysicsRotation() const {
+XMFLOAT3 CEPhysicsActor::GetPhysicsRotation() const {
+	auto Quat = FromPhysXQuat(RigidActor->getGlobalPose().q);
+	DirectX::XMFLOAT3 EulerFloat3;
+	XMStoreFloat3(&EulerFloat3, XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat4(&Quat)));
+	return EulerFloat3;
 }
 
 void CEPhysicsActor::SetPhysicsRotation(const XMFLOAT3& Rotation, bool AutoWake) {
@@ -48,7 +53,7 @@ void CEPhysicsActor::Hibernate() {
 }
 
 float CEPhysicsActor::GetMass() const {
-	return !IsDynamic() ? RigidBody.Mass : RigidActor->is<physx::PxRigidDynamic>()->getMass();
+	return !IsDynamic() ? RigidBody->Mass : RigidActor->is<physx::PxRigidDynamic>()->getMass();
 }
 
 void CEPhysicsActor::SetMass(float Mass) {
@@ -60,7 +65,7 @@ void CEPhysicsActor::SetMass(float Mass) {
 	physx::PxRigidDynamic* RigidDynamic = RigidActor->is<physx::PxRigidDynamic>();
 	Assert(RigidDynamic);
 	physx::PxRigidBodyExt::setMassAndUpdateInertia(*RigidDynamic, Mass);
-	RigidBody.Mass = Mass;
+	RigidBody->Mass = Mass;
 }
 
 void CEPhysicsActor::AddForce(const XMFLOAT3& Force, CEForceMode ForceMode) {
@@ -196,7 +201,6 @@ void CEPhysicsActor::SetAngularDrag(float Drag) const {
 	RigidDynamic->setAngularDamping(Drag);
 }
 
-//TODO: Implement...
 XMFLOAT3 CEPhysicsActor::GetKinematicTargetPosition() const {
 	if (!IsKinematic()) {
 		CE_LOG_WARNING("[CEPhysicsActor]: Cannot get kinematic target position for non-kinematic PhysicsActor");
@@ -210,7 +214,6 @@ XMFLOAT3 CEPhysicsActor::GetKinematicTargetPosition() const {
 	return FromPhysXVector(Target.p);
 }
 
-//TODO: Implement...
 XMFLOAT3 CEPhysicsActor::GetKinematicTargetRotation() const {
 	if (!IsKinematic()) {
 		CE_LOG_WARNING("[CEPhysicsActor]: Cannot get kinematic target rotation for non-kinematic PhysicsActor");
@@ -227,7 +230,6 @@ XMFLOAT3 CEPhysicsActor::GetKinematicTargetRotation() const {
 	return EulerFloat3;
 }
 
-//TODO: Implement...
 void CEPhysicsActor::SetKinematicTarget(const XMFLOAT3& TargetPosition, const XMFLOAT3& TargetRotation) const {
 	if (!IsKinematic()) {
 		CE_LOG_WARNING("[CEPhysicsActor]: Cannot set kinematic target for a non-kinematic PhysicsActor");
@@ -248,10 +250,12 @@ void CEPhysicsActor::SetSimulation(uint32 Layer) {
 
 //TODO: Implement...
 bool CEPhysicsActor::IsDynamic() const {
+	return false;
 }
 
 //TODO: Implement...
 bool CEPhysicsActor::IsKinematic() const {
+	return false;
 }
 
 //TODO: Implement...
@@ -260,6 +264,7 @@ void CEPhysicsActor::SetKinematic(bool IsKinematic) {
 
 //TODO: Implement...
 bool CEPhysicsActor::IsGravityDisabled() const {
+	return false;
 }
 
 //TODO: Implement...
@@ -268,6 +273,7 @@ void CEPhysicsActor::SetGravityDisabled(bool Disable) {
 
 //TODO: Implement...
 bool CEPhysicsActor::GetLockFlag(CEActorLockFlag Flag) const {
+	return false;
 }
 
 //TODO: Implement...
@@ -280,10 +286,12 @@ void CEPhysicsActor::OnFixedUpdate(CETimestamp FixedDeltaTime) {
 
 //TODO: Implement...
 Actor* CEPhysicsActor::GetOwningActor() const {
+	return nullptr;
 }
 
 //TODO: Implement...
 const CETransformComponent& CEPhysicsActor::GetTransform() const {
+	return CETransformComponent(nullptr);
 }
 
 //TODO: Implement...

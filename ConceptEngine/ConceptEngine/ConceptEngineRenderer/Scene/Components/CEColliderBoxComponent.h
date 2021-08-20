@@ -6,7 +6,6 @@ class CEColliderBoxComponent : public Component {
 
 public:
 	CEColliderBoxComponent(Actor* InOwningActor): Component(InOwningActor) {
-				CORE_OBJECT_INIT();
+		CORE_OBJECT_INIT();
 	}
 };
-

@@ -11,5 +11,5 @@ public:
 	}
 
 	CEUUID ParentUUID = 0;
-	CEArray<CEUUID> ChildrenUUIDs;
+	CEArray<CEUUID> ChildrenUUIDs{};
 };
