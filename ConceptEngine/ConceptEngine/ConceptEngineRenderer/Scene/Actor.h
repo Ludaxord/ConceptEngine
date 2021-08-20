@@ -2,6 +2,7 @@
 #include "../Core/CoreObject/CoreObject.h"
 #include "../Core/Containers/Array.h"
 #include "../Time/CETimestamp.h"
+#include "../Core/Containers/CEUUID.h"
 
 class Actor;
 

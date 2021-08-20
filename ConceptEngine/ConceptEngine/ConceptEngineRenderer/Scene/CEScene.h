@@ -11,6 +11,7 @@
 #include "../Core/Containers/Array.h"
 #include "Components/CEIDComponent.h"
 #include "Components/CELinkComponent.h"
+#include "../Core/Containers/CEUUID.h"
 
 class CEScene {
 public:

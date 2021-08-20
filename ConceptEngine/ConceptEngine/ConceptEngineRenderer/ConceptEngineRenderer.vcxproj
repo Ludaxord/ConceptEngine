@@ -54,6 +54,7 @@
     <ClInclude Include="Core\Containers\Allocator.h" />
     <ClInclude Include="Core\Containers\Array.h" />
     <ClInclude Include="Core\Containers\ArrayView.h" />
+    <ClInclude Include="Core\Containers\CEUUID.h" />
     <ClInclude Include="Core\Containers\Function.h" />
     <ClInclude Include="Core\Containers\Iterator.h" />
     <ClInclude Include="Core\Containers\SharedPtr.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="Core\Application\Windows\CEWindowsInputManager.cpp" />
     <ClCompile Include="Core\Application\Windows\CEWindowsPlatform.cpp" />
     <ClCompile Include="Core\Application\Windows\CEWindowsWindow.cpp" />
+    <ClCompile Include="Core\Containers\CEUUID.cpp" />
     <ClCompile Include="Core\CoreObject\ClassType.cpp" />
     <ClCompile Include="Core\Engine\Engine.cpp" />
     <ClCompile Include="Core\Engine\EngineGlobals.cpp" />
