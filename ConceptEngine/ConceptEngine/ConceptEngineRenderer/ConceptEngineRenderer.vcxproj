@@ -167,6 +167,7 @@
     <ClInclude Include="Memory\New.h" />
     <ClInclude Include="Physics\CEPhysics.h" />
     <ClInclude Include="Physics\CEPhysicsActor.h" />
+    <ClInclude Include="Physics\CEPhysicsManagers.h" />
     <ClInclude Include="Physics\CEPhysicsScene.h" />
     <ClInclude Include="Physics\PhysX\CEContactCallback.h" />
     <ClInclude Include="Physics\PhysX\CECookingFactory.h" />

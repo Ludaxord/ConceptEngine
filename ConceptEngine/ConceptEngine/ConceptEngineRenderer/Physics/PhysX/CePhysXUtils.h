@@ -42,3 +42,21 @@ inline physx::PxMat44 ToPhysXMatrix(const DirectX::XMFLOAT4X4& Matrix) {
 inline physx::PxQuat ToPhysXQuat(const DirectX::XMFLOAT4& Quat) {
 	return physx::PxQuat(Quat.x, Quat.y, Quat.z, Quat.w);
 }
+
+inline DirectX::XMFLOAT3 FromPhysXVector(const physx::PxVec3& Vector) {
+	return *(DirectX::XMFLOAT3*)&Vector;
+}
+
+inline DirectX::XMFLOAT4 FromPhysXVector(const physx::PxVec4& Vector) {
+	return *(DirectX::XMFLOAT4*)&Vector;
+}
+
+inline DirectX::XMFLOAT4 FromPhysXQuat(const physx::PxQuat& Quat) {
+	return XMFLOAT4(Quat.x, Quat.y, Quat.z, Quat.w);
+}
+
+inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT3& Translation, const DirectX::XMFLOAT3 Rotation) {
+	return physx::PxTransform(ToPhysXVector(Translation),
+	                          ToPhysXQuat(DirectX::XMFLOAT4(Rotation.x, Rotation.y, Rotation.z, 0.0f))
+	);
+}

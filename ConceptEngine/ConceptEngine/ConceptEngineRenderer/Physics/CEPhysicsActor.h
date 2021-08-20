@@ -38,22 +38,22 @@ public:
 	void AddForce(const XMFLOAT3& Force, CEForceMode ForceMode);
 	void AddTorque(const XMFLOAT3& Torque, CEForceMode ForceMode);
 
-	XMFLOAT3& GetLinearVelocity() const;
+	XMFLOAT3 GetLinearVelocity() const;
 	void SetLinearVelocity(const XMFLOAT3& Velocity);
-	XMFLOAT3& GetAngularVelocity() const;
+	XMFLOAT3 GetAngularVelocity() const;
 	void SetAngularVelocity(const XMFLOAT3& Velocity);
 
-	XMFLOAT3& GetMaxLinearVelocity() const;
-	void SetMaxLinearVelocity(const XMFLOAT3& MaxVelocity);
-	XMFLOAT3& GetMaxAngularVelocity() const;
-	void SetMaxAngularVelocity(const XMFLOAT3& MaxVelocity);
+	float GetMaxLinearVelocity() const;
+	void SetMaxLinearVelocity(float MaxVelocity);
+	float GetMaxAngularVelocity() const;
+	void SetMaxAngularVelocity(float MaxVelocity);
 
 	void SetLinearDrag(float Drag) const;
 	void SetAngularDrag(float Drag) const;
 
-	XMFLOAT3& GetKinematicTargetPosition() const;
-	XMFLOAT3& GetKinematicTargetRotation() const;
-	void SetKinematicTarget(const XMFLOAT3& TargetPosition, const XMFLOAT3* TargetRotation) const;
+	XMFLOAT3 GetKinematicTargetPosition() const;
+	XMFLOAT3 GetKinematicTargetRotation() const;
+	void SetKinematicTarget(const XMFLOAT3& TargetPosition, const XMFLOAT3& TargetRotation) const;
 
 	void SetSimulation(uint32 Layer);
 

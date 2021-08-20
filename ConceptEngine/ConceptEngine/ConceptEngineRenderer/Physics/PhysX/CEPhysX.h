@@ -60,8 +60,8 @@ public:
 private:
 	bool CreatePhysXInternals();
 
-private:
-	CEPhysXManager* PhysicsManager = nullptr;
-	CEPhysXDebugger* PhysicsDebugger = nullptr;
-	CECookingFactory* CookingFactory = nullptr;
+// private:
+	// CEPhysXManager* PhysicsManager = nullptr;
+	// CEPhysXDebugger* PhysicsDebugger = nullptr;
+	// CECookingFactory* CookingFactory = nullptr;
 };

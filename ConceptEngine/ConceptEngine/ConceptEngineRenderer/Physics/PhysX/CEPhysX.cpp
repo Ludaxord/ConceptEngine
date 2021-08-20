@@ -3,24 +3,17 @@
 #include <PxFoundation.h>
 #include <PxPhysics.h>
 #include <PxPhysicsVersion.h>
-#include <PxRigidDynamic.h>
-#include <PxRigidStatic.h>
 #include <PxScene.h>
-#include <characterkinematic/PxCapsuleController.h>
-#include <characterkinematic/PxControllerManager.h>
 #include <common/PxTolerancesScale.h>
 #include <extensions/PxDefaultAllocator.h>
 #include <extensions/PxDefaultCpuDispatcher.h>
-#include <extensions/PxDefaultErrorCallback.h>
 #include <extensions/PxDefaultSimulationFilterShader.h>
 #include <extensions/PxExtensionsAPI.h>
-#include <extensions/PxShapeExt.h>
-#include <foundation/PxVec4.h>
-#include <pvd/PxPvd.h>
 #include <pvd/PxPvdTransport.h>
 
 #include "CEPhysXScene.h"
 #include "Physics/CEPhysicsActor.h"
+#include "Physics/CEPhysicsManagers.h"
 #include "Scene/CEScene.h"
 #include "Scene/Components/CEColliderBoxComponent.h"
 #include "Scene/Components/CEColliderCapsuleComponent.h"

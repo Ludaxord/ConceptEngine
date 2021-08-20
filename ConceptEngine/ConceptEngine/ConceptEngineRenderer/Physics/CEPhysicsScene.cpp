@@ -11,4 +11,5 @@ CEPhysicsActor* CEPhysicsScene::GetActor(Actor* Actor) {
 }
 
 CEPhysicsActor* CEPhysicsScene::CreateActor(Actor* Actor) {
+	return nullptr;
 }
