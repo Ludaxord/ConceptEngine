@@ -1,4 +1,5 @@
 #pragma once
+#include <PxRigidDynamic.h>
 #include <foundation/PxMat44.h>
 #include <foundation/PxVec3.h>
 #include <foundation/PxVec4.h>
@@ -59,4 +60,24 @@ inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT3& Translation,
 	return physx::PxTransform(ToPhysXVector(Translation),
 	                          ToPhysXQuat(DirectX::XMFLOAT4(Rotation.x, Rotation.y, Rotation.z, 0.0f))
 	);
+}
+
+physx::PxRigidDynamicLockFlag::Enum ToPhysXActorLockFlag(CEActorLockFlag Flag) {
+	switch (Flag) {
+	case CEActorLockFlag::PositionX:
+		return physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X;
+	case CEActorLockFlag::PositionY:
+		return physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Y;
+	case CEActorLockFlag::PositionZ:
+		return physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_Z;
+	case CEActorLockFlag::RotationX:
+		return physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_X;
+	case CEActorLockFlag::RotationY:
+		return physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y;
+	case CEActorLockFlag::RotationZ:
+		return physx::PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z;
+	}
+
+	Assert(false);
+	return physx::PxRigidDynamicLockFlag::eLOCK_LINEAR_X;
 }

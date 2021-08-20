@@ -241,34 +241,45 @@ void CEPhysicsActor::SetKinematicTarget(const XMFLOAT3& TargetPosition, const XM
 	RigidDynamic->setKinematicTarget(ToPhysXTransform(TargetPosition, TargetRotation));
 }
 
-//TODO: Implement...
 void CEPhysicsActor::SetSimulation(uint32 Layer) {
 	const CEPhysicsLayer& LayerInfo = PhysicsManager->GetLayer(Layer);
 	if (LayerInfo.CollidesWith == 0)
 		return;
+
+	physx::PxFilterData FilterData;
+	FilterData.word0 = LayerInfo.BitValue;
+	FilterData.word1 = LayerInfo.CollidesWith;
+	FilterData.word2 = (uint32)RigidBody->CollisionDetection;
+
+	for (auto& Collider : Colliders)
+		Collider->SetFilter(FilterData);
 }
 
-//TODO: Implement...
 bool CEPhysicsActor::IsDynamic() const {
-	return false;
+	return RigidBody->BodyType == CERigidBodyComponent::Type::Dynamic;
 }
 
-//TODO: Implement...
 bool CEPhysicsActor::IsKinematic() const {
-	return false;
+	return IsDynamic() && RigidBody->IsKinematic;
 }
 
-//TODO: Implement...
 void CEPhysicsActor::SetKinematic(bool IsKinematic) {
+	if (!IsDynamic()) {
+		CE_LOG_WARNING("[CEPhysicsActor]: Cannot set kinematic for a static PhysicsActor ")
+		return;
+	}
+
+	RigidBody->IsKinematic = IsKinematic;
+	RigidActor->is<physx::PxRigidDynamic>()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, IsKinematic);
 }
 
 //TODO: Implement...
 bool CEPhysicsActor::IsGravityDisabled() const {
-	return false;
+	return RigidActor->getActorFlags().isSet(physx::PxActorFlag::eDISABLE_GRAVITY);
 }
 
-//TODO: Implement...
 void CEPhysicsActor::SetGravityDisabled(bool Disable) {
+	RigidActor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, Disable);
 }
 
 //TODO: Implement...
@@ -276,8 +287,16 @@ bool CEPhysicsActor::GetLockFlag(CEActorLockFlag Flag) const {
 	return false;
 }
 
-//TODO: Implement...
 void CEPhysicsActor::SetLockFlag(CEActorLockFlag Flag, bool FlagValue) {
+	if (FlagValue)
+		LockFlags |= (uint32)Flag;
+	else
+		LockFlags &= ~(uint32)Flag;
+
+	if (IsDynamic())
+		return;
+
+	RigidActor->is<physx::PxRigidDynamic>()->setRigidDynamicLockFlag(ToPhysXActorLockFlag(Flag), FlagValue);
 }
 
 //TODO: Implement...
@@ -296,16 +315,30 @@ const CETransformComponent& CEPhysicsActor::GetTransform() const {
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderBoxComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
+	Colliders.PushBack(CEBoxColliderShape::Instance());
 }
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderSphereComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
+	Colliders.PushBack(CESphereColliderShape::Instance());
 }
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderCapsuleComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
+	Colliders.PushBack(CECapsuleColliderShape::Instance());
 }
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderMeshComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
+	if (Collider.IsConvex) {
+		Colliders.PushBack(CECapsuleColliderShape::Instance());
+	}
+	else {
+		if (IsDynamic() && !IsKinematic()) {
+			CE_LOG_ERROR(
+				"[CEPhysicsActor]: Cannot have a non-convex MeshColliderComponent for a non-kinematic dynamic RigidBodyComponent!")
+		}
+
+		Colliders.PushBack(CETriangleMeshShape::Instance());
+	}
 }

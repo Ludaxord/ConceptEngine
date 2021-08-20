@@ -81,7 +81,7 @@ public:
 
 protected:
 	Actor* OwningActor;
-	CERigidBodyComponent* RigidBody;
+	CERigidBodyComponent* RigidBody = nullptr;
 	uint32 LockFlags;
 
 	CEArray<CEColliderShape*> Colliders;

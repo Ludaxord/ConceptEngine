@@ -8,4 +8,6 @@ public:
 	CEColliderMeshComponent(Actor* InOwningActor): Component(InOwningActor) {
 				CORE_OBJECT_INIT();
 	}
+
+	bool IsConvex = false;
 };

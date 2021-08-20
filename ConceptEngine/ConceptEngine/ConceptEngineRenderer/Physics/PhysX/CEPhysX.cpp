@@ -169,7 +169,7 @@ bool CEPhysX::CreateConfig() {
 
 void CEPhysX::CreateActors(CEScene* Scene) {
 	{
-		CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CERigidBodyComponent*>();
+		CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CERigidBodyComponent>();
 		for (auto* Actor : SceneComponents) {
 			CEPhysicsActor* PhysicsActor = CreateActor(Actor);
 			Scene->AddActor(PhysicsActor);
@@ -177,7 +177,7 @@ void CEPhysX::CreateActors(CEScene* Scene) {
 	}
 
 	{
-		CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CETransformComponent*>();
+		CEArray<Actor*> SceneComponents = Scene->GetActorsWithComponentsOfType<CETransformComponent>();
 		for (auto* Actor : SceneComponents) {
 			if (Actor->HasComponentOfType<CERigidBodyComponent>())
 				continue;
