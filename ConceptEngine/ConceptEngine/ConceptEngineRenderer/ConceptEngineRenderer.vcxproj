@@ -169,6 +169,7 @@
     <ClInclude Include="Physics\CEPhysics.h" />
     <ClInclude Include="Physics\CEPhysicsActor.h" />
     <ClInclude Include="Physics\CEPhysicsManagers.h" />
+    <ClInclude Include="Physics\CEPhysicsMaterial.h" />
     <ClInclude Include="Physics\CEPhysicsScene.h" />
     <ClInclude Include="Physics\PhysX\CEContactCallback.h" />
     <ClInclude Include="Physics\PhysX\CECookingFactory.h" />
@@ -233,6 +234,7 @@
     <ClInclude Include="Scene\Components\CELinkComponent.h" />
     <ClInclude Include="Scene\Components\CERigidBodyComponent.h" />
     <ClInclude Include="Scene\Components\CEColliderSphereComponent.h" />
+    <ClInclude Include="Scene\Components\CETagComponent.h" />
     <ClInclude Include="Scene\Components\CETransformComponent.h" />
     <ClInclude Include="Scene\Components\CEMeshComponent.h" />
     <ClInclude Include="Scene\Frustum.h" />
