@@ -75,10 +75,18 @@ public:
 
 	const CETransformComponent& GetTransform() const;
 
-	void AddCollider(CEColliderBoxComponent& Collider, Actor* Actor, const XMFLOAT3& Offset);
-	void AddCollider(CEColliderSphereComponent& Collider, Actor* Actor, const XMFLOAT3& Offset);
-	void AddCollider(CEColliderCapsuleComponent& Collider, Actor* Actor, const XMFLOAT3& Offset);
-	void AddCollider(CEColliderMeshComponent& Collider, Actor* Actor, const XMFLOAT3& Offset);
+	void AddCollider(CEColliderBoxComponent& Collider, Actor* Actor,
+	                 const XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f));
+	void AddCollider(CEColliderSphereComponent& Collider, Actor* Actor,
+	                 const XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f));
+	void AddCollider(CEColliderCapsuleComponent& Collider, Actor* Actor,
+	                 const XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f));
+	void AddCollider(CEColliderMeshComponent& Collider, Actor* Actor,
+	                 const XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f));
+
+protected:
+	void CreateRigidActor();
+	void SyncTransform();
 
 protected:
 	Actor* OwningActor;

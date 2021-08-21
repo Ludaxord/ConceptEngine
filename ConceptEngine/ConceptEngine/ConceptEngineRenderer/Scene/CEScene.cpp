@@ -103,6 +103,22 @@ void CEScene::OnAddedComponent(Component* NewComponent) {
 	}
 }
 
+DirectX::XMFLOAT4X4 CEScene::GetTransformRelativeToParent(Actor* InActor) {
+	XMFLOAT4X4 Transform;
+
+	Actor* ParentActor = GetActorByUUID(InActor->GetParentUUID());
+	if (ParentActor)
+		Transform = GetTransformRelativeToParent(ParentActor);
+	XMFLOAT4X4 RelativeTransform;
+	DirectX::XMStoreFloat4x4(&RelativeTransform,
+	                         XMMatrixMultiply(
+		                         XMLoadFloat4x4(&Transform),
+		                         XMLoadFloat4x4(&InActor->GetTransform().GetMatrix())
+	                         )
+	);
+	return RelativeTransform;
+}
+
 CEScene* CEScene::GetSceneByUUID(CEUUID UUID) {
 	if (LoadedScenes.find(UUID) != LoadedScenes.end()) {
 		return LoadedScenes.at(UUID);

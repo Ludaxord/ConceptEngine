@@ -4,6 +4,8 @@
 #include <foundation/PxVec3.h>
 #include <foundation/PxVec4.h>
 
+#include "Scene/Components/CETransformComponent.h"
+
 enum class CECookingResult {
 	Success,
 	ZeroAreaTestFailed,
@@ -60,6 +62,28 @@ inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT3& Translation,
 	return physx::PxTransform(ToPhysXVector(Translation),
 	                          ToPhysXQuat(DirectX::XMFLOAT4(Rotation.x, Rotation.y, Rotation.z, 0.0f))
 	);
+}
+
+inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT4X4& Transform) {
+	DirectX::XMVECTOR Translation;
+	DirectX::XMVECTOR Rotation;
+	DirectX::XMVECTOR Scale;
+	const auto MatTransform = DirectX::XMLoadFloat4x4(&Transform);
+	DirectX::XMMatrixDecompose(&Scale, &Rotation, &Translation, MatTransform);
+	DirectX::XMFLOAT4 FRotation;
+	DirectX::XMFLOAT3 FTranslation;
+	XMStoreFloat4(&FRotation, Rotation);
+	XMStoreFloat3(&FTranslation, Translation);
+	physx::PxQuat Rot = ToPhysXQuat(FRotation);
+	physx::PxVec3 Tran = ToPhysXVector(FTranslation);
+	return physx::PxTransform(Tran, Rot);
+
+}
+
+inline physx::PxTransform ToPhysXTransform(const CETransformComponent& Transform) {
+	physx::PxQuat Rot = ToPhysXQuat(XMFLOAT4(Transform.Rotation.x, Transform.Rotation.y, Transform.Rotation.z, 0.0f));
+	physx::PxVec3 Tran = ToPhysXVector(Transform.Translation);
+	return physx::PxTransform(Tran, Rot);
 }
 
 inline physx::PxRigidDynamicLockFlag::Enum ToPhysXActorLockFlag(CEActorLockFlag Flag) {

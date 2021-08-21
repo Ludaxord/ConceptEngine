@@ -2,6 +2,9 @@
 #include <PxFiltering.h>
 #include <PxMaterial.h>
 
+#include "Physics/CEPhysicsActor.h"
+#include "Scene/Components/CEColliderBoxComponent.h"
+
 enum class CECollisionType {
 	Box,
 	Sphere,
@@ -31,8 +34,23 @@ public:
 
 	void SetMaterial(CEPhysicsMaterial* Material);
 
+	virtual const DirectX::XMFLOAT3& GetOffset() const = 0;
+	virtual void SetOffset(const DirectX::XMFLOAT3& Offset) = 0;
+
+	virtual bool IsTrigger() const = 0;
+	virtual void SetTrigger(bool IsTrigger) = 0;
+
 	virtual void SetFilter(const physx::PxFilterData& filterData) = 0;
 
+	virtual void DetachFromActor(physx::PxRigidActor* Actor) = 0;
+
+	physx::PxMaterial& GetMaterial() const {
+		return *Material;
+	}
+
+	bool IsValid() const {
+		return Material != nullptr;
+	}
 
 protected:
 	CECollisionType Type;
@@ -43,33 +61,138 @@ protected:
 class CEBoxColliderShape : public CEColliderShape {
 	CORE_OBJECT(CEBoxColliderShape, CEColliderShape);
 public:
-	static CEBoxColliderShape* Instance();
+	CEBoxColliderShape(
+		CEColliderBoxComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	~CEBoxColliderShape();
+
+	static CEBoxColliderShape* Instance(
+		CEColliderBoxComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+
+	const DirectX::XMFLOAT3& GetOffset() const override;
+	void SetOffset(const DirectX::XMFLOAT3& Offset) override;
+
+	bool IsTrigger() const override;
+	void SetTrigger(bool IsTrigger) override;
+
+	void SetFilter(const physx::PxFilterData& filterData) override;
+	void DetachFromActor(physx::PxRigidActor* Actor) override;
+
+private:
+	CEColliderBoxComponent& Component;
+	physx::PxShape* Shape;
 };
 
 class CESphereColliderShape : public CEColliderShape {
 	CORE_OBJECT(CESphereColliderShape, CEColliderShape);
 public:
-	static CESphereColliderShape* Instance();
+	CESphereColliderShape(
+		CEColliderSphereComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	~CESphereColliderShape();
+
+	static CESphereColliderShape* Instance(
+		CEColliderSphereComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+
+	const DirectX::XMFLOAT3& GetOffset() const override;
+	void SetOffset(const DirectX::XMFLOAT3& Offset) override;
+
+	bool IsTrigger() const override;
+	void SetTrigger(bool IsTrigger) override;
+
+	void SetFilter(const physx::PxFilterData& filterData) override;
+	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 };
 
 class CECapsuleColliderShape : public CEColliderShape {
 	CORE_OBJECT(CECapsuleColliderShape, CEColliderShape);
 public:
-	static CECapsuleColliderShape* Instance();
+	CECapsuleColliderShape(
+		CEColliderCapsuleComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	~CECapsuleColliderShape();
+
+	static CECapsuleColliderShape* Instance(
+		CEColliderCapsuleComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	const DirectX::XMFLOAT3& GetOffset() const override;
+	void SetOffset(const DirectX::XMFLOAT3& Offset) override;
+	bool IsTrigger() const override;
+	void SetTrigger(bool IsTrigger) override;
+	void SetFilter(const physx::PxFilterData& filterData) override;
+	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 };
 
 class CEConvexMeshShape : public CEColliderShape {
 	CORE_OBJECT(CEConvexMeshShape, CEColliderShape);
 public:
-	static CEConvexMeshShape* Instance();
+	CEConvexMeshShape(
+		CEColliderMeshComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	~CEConvexMeshShape();
+
+	static CEConvexMeshShape* Instance(
+		CEColliderMeshComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	const DirectX::XMFLOAT3& GetOffset() const override;
+	void SetOffset(const DirectX::XMFLOAT3& Offset) override;
+	bool IsTrigger() const override;
+	void SetTrigger(bool IsTrigger) override;
+	void SetFilter(const physx::PxFilterData& filterData) override;
+	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 };
 
 class CETriangleMeshShape : public CEColliderShape {
 	CORE_OBJECT(CETriangleMeshShape, CEColliderShape);
 public:
-	static CETriangleMeshShape* Instance();
+	CETriangleMeshShape(
+		CEColliderMeshComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	~CETriangleMeshShape();
+
+	static CETriangleMeshShape* Instance(
+		CEColliderMeshComponent& Component,
+		const CEPhysicsActor& PActor,
+		Actor* OwningActor,
+		const DirectX::XMFLOAT3& Offset = XMFLOAT3(0.0f, 0.0f, 0.0f)
+	);
+	const DirectX::XMFLOAT3& GetOffset() const override;
+	void SetOffset(const DirectX::XMFLOAT3& Offset) override;
+	bool IsTrigger() const override;
+	void SetTrigger(bool IsTrigger) override;
+	void SetFilter(const physx::PxFilterData& filterData) override;
+	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 };

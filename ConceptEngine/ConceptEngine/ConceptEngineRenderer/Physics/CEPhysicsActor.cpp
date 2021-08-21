@@ -1,7 +1,11 @@
 #include "CEPhysicsActor.h"
 
 #include "CEPhysicsManagers.h"
+#include "Boot/CECore.h"
+#include "PhysX/CEPhysX.h"
 #include "PhysX/CEPhysXManager.h"
+#include "Scene/CEScene.h"
+#include "Scene/Components/CETagComponent.h"
 
 
 CEPhysicsActor::CEPhysicsActor(Actor* InActor): OwningActor(InActor),
@@ -309,9 +313,8 @@ physx::PxRigidActor* CEPhysicsActor::GetPhysXActor() const {
 	return RigidActor;
 }
 
-//TODO: Implement...
 const CETransformComponent& CEPhysicsActor::GetTransform() const {
-	return CETransformComponent(nullptr);
+	return *OwningActor->GetComponentOfType<CETransformComponent>();
 }
 
 //TODO: Implement...
@@ -342,4 +345,75 @@ void CEPhysicsActor::AddCollider(CEColliderMeshComponent& Collider, Actor* Actor
 
 		Colliders.PushBack(CETriangleMeshShape::Instance());
 	}
+}
+
+void CEPhysicsActor::CreateRigidActor() {
+	auto& SDK = CEPhysX::GetPhysXSDK();
+
+	auto Scene = CEScene::GetSceneByUUID(OwningActor->GetSceneUUID());
+	DirectX::XMFLOAT4X4 Transform = Scene->GetTransformRelativeToParent(OwningActor);
+	if (RigidBody->BodyType == CERigidBodyComponent::Type::Static) {
+		RigidActor = SDK.createRigidStatic(ToPhysXTransform(Transform));
+	}
+	else {
+		const CEPhysicsConfig& Config = CECore::GetPhysics()->GetConfig();
+		RigidActor = SDK.createRigidDynamic(ToPhysXTransform(Transform));
+
+		SetLinearDrag(RigidBody->LinearDrag);
+		SetAngularDrag(RigidBody->AngularDrag);
+
+		SetKinematic(RigidBody->IsKinematic);
+
+		SetLockFlag(CEActorLockFlag::PositionX, RigidBody->LockPositionX);
+		SetLockFlag(CEActorLockFlag::PositionY, RigidBody->LockPositionY);
+		SetLockFlag(CEActorLockFlag::PositionZ, RigidBody->LockPositionZ);
+
+		SetLockFlag(CEActorLockFlag::RotationX, RigidBody->LockRotationX);
+		SetLockFlag(CEActorLockFlag::RotationY, RigidBody->LockRotationY);
+		SetLockFlag(CEActorLockFlag::RotationZ, RigidBody->LockRotationZ);
+
+		SetGravityDisabled(RigidBody->DisableGravity);
+
+		RigidActor->is<physx::PxRigidDynamic>()->setSolverIterationCounts(
+			Config.SolverIterations, Config.SolverVelocityIterations);
+		RigidActor->is<physx::PxRigidDynamic>()->setRigidBodyFlag(
+			physx::PxRigidBodyFlag::eENABLE_CCD,
+			RigidBody->CollisionDetection == CERigidBodyComponent::CollisionDetectionType::Continuous
+		);
+		RigidActor->is<physx::PxRigidDynamic>()->setRigidBodyFlag(
+			physx::PxRigidBodyFlag::eENABLE_SPECULATIVE_CCD,
+			RigidBody->CollisionDetection == CERigidBodyComponent::CollisionDetectionType::ContinuousSpeculative
+		);
+
+		SetMass(RigidBody->Mass);
+	}
+
+	if (!PhysicsManager->IsLayerValid(RigidBody->Layer))
+		RigidBody->Layer = 0;
+
+	if (OwningActor->HasComponentOfType<CEColliderBoxComponent>())
+		AddCollider(*OwningActor->GetComponentOfType<CEColliderBoxComponent>(), OwningActor);
+	if (OwningActor->HasComponentOfType<CEColliderSphereComponent>())
+		AddCollider(*OwningActor->GetComponentOfType<CEColliderSphereComponent>(), OwningActor);
+	if (OwningActor->HasComponentOfType<CEColliderCapsuleComponent>())
+		AddCollider(*OwningActor->GetComponentOfType<CEColliderCapsuleComponent>(), OwningActor);
+	if (OwningActor->HasComponentOfType<CEColliderMeshComponent>())
+		AddCollider(*OwningActor->GetComponentOfType<CEColliderMeshComponent>(), OwningActor);
+
+	RigidActor->userData = this;
+
+	//TODO: Check if debug...
+	auto& Name = OwningActor->GetComponentOfType<CETagComponent>()->Tag;
+	RigidActor->setName(Name.c_str());
+}
+
+void CEPhysicsActor::SyncTransform() {
+	CETransformComponent& Transform = *OwningActor->GetComponentOfType<CETransformComponent>();
+	physx::PxTransform ActorPose = RigidActor->getGlobalPose();
+	Transform.Translation = FromPhysXVector(ActorPose.p);
+
+	auto Quat = FromPhysXQuat(ActorPose.q);
+	DirectX::XMFLOAT3 EulerFloat3;
+	XMStoreFloat3(&EulerFloat3, XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat4(&Quat)));
+	Transform.Rotation = EulerFloat3;
 }

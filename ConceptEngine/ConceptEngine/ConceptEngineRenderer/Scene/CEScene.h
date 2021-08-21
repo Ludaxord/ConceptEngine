@@ -28,6 +28,8 @@ public:
 
 	void OnAddedComponent(Component* NewComponent);
 
+	DirectX::XMFLOAT4X4 GetTransformRelativeToParent(Actor* Actor);
+
 	static CEScene* GetSceneByUUID(CEUUID UUID);
 
 	template <typename TComponent>

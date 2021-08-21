@@ -38,11 +38,12 @@ public:
 	bool CreateScene() override;
 	void ReleaseScene() override;
 	void CreateActors(CEScene* Scene) override;
-	CEPhysicsActor* CreateActor(Actor* InActor) override;
 
 	bool CreateConfig() override;
 	bool CreateDebugger();
 	bool CreateCookingFactory();
+
+	CEPhysicsActor* CreateActor(Actor* InActor) override;
 
 	static physx::PxFoundation& GetFoundation();
 	static physx::PxPhysics& GetPhysXSDK();
@@ -59,8 +60,7 @@ public:
 
 private:
 	bool CreatePhysXInternals();
-
-// private:
+	// private:
 	// CEPhysXManager* PhysicsManager = nullptr;
 	// CEPhysXDebugger* PhysicsDebugger = nullptr;
 	// CECookingFactory* CookingFactory = nullptr;
