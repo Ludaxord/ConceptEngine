@@ -8,4 +8,13 @@ public:
 	CEColliderBoxComponent(Actor* InOwningActor): Component(InOwningActor) {
 		CORE_OBJECT_INIT();
 	}
+
+	DirectX::XMFLOAT3 Size = {};
+	DirectX::XMFLOAT3 Offset = {};
+
+	bool IsTrigger = false;
+
+	TSharedPtr<class CEPhysicsMaterial> Material;
+	TSharedPtr<class Mesh> DebugMesh;
+
 };

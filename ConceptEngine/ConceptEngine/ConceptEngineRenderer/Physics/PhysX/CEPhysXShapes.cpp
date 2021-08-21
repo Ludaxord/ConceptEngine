@@ -5,6 +5,7 @@
 #include <extensions/PxRigidActorExt.h>
 
 #include "Physics/CEPhysicsActor.h"
+#include "Physics/CEPhysicsMaterial.h"
 #include "Scene/Components/CETransformComponent.h"
 
 void CEColliderShape::SetMaterial(CEPhysicsMaterial* PhysicsMaterial) {
@@ -24,7 +25,7 @@ CEBoxColliderShape::CEBoxColliderShape(CEColliderBoxComponent& Component,
                                        Actor* OwningActor,
                                        const DirectX::XMFLOAT3& Offset): CEColliderShape(CECollisionType::Box),
                                                                          Component(Component) {
-	SetMaterial(Component.Material);
+	SetMaterial(Component.Material.Get());
 
 	DirectX::XMFLOAT3 ColliderSize = OwningActor->GetComponentOfType<CETransformComponent>()->Scale * Component.Size;
 	physx::PxBoxGeometry Geometry = physx::PxBoxGeometry(ColliderSize.x / 2.0f,
