@@ -2,8 +2,10 @@
 #include <PxFiltering.h>
 #include <PxMaterial.h>
 
-#include "Physics/CEPhysicsActor.h"
 #include "Scene/Components/CEColliderBoxComponent.h"
+#include "Scene/Components/CEColliderCapsuleComponent.h"
+#include "Scene/Components/CEColliderMeshComponent.h"
+#include "Scene/Components/CEColliderSphereComponent.h"
 
 enum class CECollisionType {
 	Box,
@@ -57,6 +59,8 @@ protected:
 	physx::PxMaterial* Material;
 
 };
+
+class CEPhysicsActor;
 
 class CEBoxColliderShape : public CEColliderShape {
 	CORE_OBJECT(CEBoxColliderShape, CEColliderShape);
@@ -117,6 +121,10 @@ public:
 	void SetFilter(const physx::PxFilterData& filterData) override;
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
+private:
+	CEColliderSphereComponent& Component;
+	physx::PxShape* Shape;
+
 };
 
 class CECapsuleColliderShape : public CEColliderShape {
@@ -143,6 +151,9 @@ public:
 	void SetFilter(const physx::PxFilterData& filterData) override;
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
+private:
+	CEColliderCapsuleComponent& Component;
+	physx::PxShape* Shape;
 };
 
 class CEConvexMeshShape : public CEColliderShape {
@@ -169,6 +180,9 @@ public:
 	void SetFilter(const physx::PxFilterData& filterData) override;
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
+private:
+	CEColliderMeshComponent& Component;
+	physx::PxShape* Shape;
 };
 
 class CETriangleMeshShape : public CEColliderShape {
@@ -195,4 +209,7 @@ public:
 	void SetFilter(const physx::PxFilterData& filterData) override;
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
+private:
+	CEColliderMeshComponent& Component;
+	physx::PxShape* Shape;
 };
