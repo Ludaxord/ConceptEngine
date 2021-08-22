@@ -319,22 +319,18 @@ const CETransformComponent& CEPhysicsActor::GetTransform() const {
 	return *OwningActor->GetComponentOfType<CETransformComponent>();
 }
 
-//TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderBoxComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
 	Colliders.PushBack(CEBoxColliderShape::Instance(Collider, Actor, OwningActor, Offset));
 }
 
-//TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderSphereComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
 	Colliders.PushBack(CESphereColliderShape::Instance(Collider, Actor, OwningActor, Offset));
 }
 
-//TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderCapsuleComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
 	Colliders.PushBack(CECapsuleColliderShape::Instance(Collider, Actor, OwningActor, Offset));
 }
 
-//TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderMeshComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
 	if (Collider.IsConvex) {
 		Colliders.PushBack(CEConvexMeshShape::Instance(Collider, Actor, OwningActor, Offset));

@@ -5,10 +5,12 @@
 #include <extensions/PxRigidActorExt.h>
 
 #include "Physics/CEPhysicsActor.h"
+#include "Physics/CEPhysicsManagers.h"
 #include "Physics/CEPhysicsMaterial.h"
 #include "Scene/Components/CETransformComponent.h"
 
 #include "Rendering/Resources/Mesh.h"
+
 
 void CEColliderShape::SetMaterial(CEPhysicsMaterial* PhysicsMaterial) {
 	if (!PhysicsMaterial)
@@ -26,8 +28,8 @@ CEBoxColliderShape::CEBoxColliderShape(CEColliderBoxComponent& Component,
                                        const CEPhysicsActor& PActor,
                                        Actor* OwningActor,
                                        const DirectX::XMFLOAT3& Offset): CEColliderShape(CECollisionType::Box),
-                                                                         Component(Component) {
-	SetMaterial(Component.Material.Get());
+                                                                         MainComponent(Component) {
+	SetMaterial(MainComponent.Material.Get());
 
 	DirectX::XMFLOAT3 ColliderSize = OwningActor->GetComponentOfType<CETransformComponent>()->Scale * Component.Size;
 	physx::PxBoxGeometry Geometry = physx::PxBoxGeometry(ColliderSize.x / 2.0f,
@@ -51,22 +53,22 @@ CEBoxColliderShape* CEBoxColliderShape::Instance(CEColliderBoxComponent& Compone
 }
 
 const DirectX::XMFLOAT3& CEBoxColliderShape::GetOffset() const {
-	return Component.Offset;
+	return MainComponent.Offset;
 }
 
 void CEBoxColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 	Shape->setLocalPose(ToPhysXTransform(Offset, XMFLOAT3(0.0f, 0.0f, 0.0f)));
-	Component.Offset = Offset;
+	MainComponent.Offset = Offset;
 }
 
 bool CEBoxColliderShape::IsTrigger() const {
-	return Component.IsTrigger;
+	return MainComponent.IsTrigger;
 }
 
 void CEBoxColliderShape::SetTrigger(bool IsTrigger) {
 	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !IsTrigger);
 	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, IsTrigger);
-	Component.IsTrigger = IsTrigger;
+	MainComponent.IsTrigger = IsTrigger;
 }
 
 void CEBoxColliderShape::SetFilter(const physx::PxFilterData& FilterData) {
@@ -82,8 +84,8 @@ CESphereColliderShape::CESphereColliderShape(CEColliderSphereComponent& Componen
                                              Actor* OwningActor,
                                              const DirectX::XMFLOAT3& Offset) :
 	CEColliderShape(CECollisionType::Sphere),
-	Component(Component) {
-	SetMaterial(Component.Material.Get());
+	MainComponent(Component) {
+	SetMaterial(MainComponent.Material.Get());
 
 	auto& ActorScale = OwningActor->GetComponentOfType<CETransformComponent>()->Scale;
 	float LargestComponent = Math::Max(ActorScale.x, Math::Max(ActorScale.y, ActorScale.z));
@@ -94,12 +96,10 @@ CESphereColliderShape::CESphereColliderShape(CEColliderSphereComponent& Componen
 	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, Component.IsTrigger);
 }
 
-//TODO: Implement..
 CESphereColliderShape::~CESphereColliderShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
-//TODO: Implement..
 CESphereColliderShape* CESphereColliderShape::Instance(CEColliderSphereComponent& Component,
                                                        const CEPhysicsActor& PActor,
                                                        Actor* OwningActor,
@@ -108,27 +108,30 @@ CESphereColliderShape* CESphereColliderShape::Instance(CEColliderSphereComponent
 }
 
 const DirectX::XMFLOAT3& CESphereColliderShape::GetOffset() const {
-	return Component.Offset;
+	return MainComponent.Offset;
 }
 
-//TODO: Implement..
 void CESphereColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
+	Shape->setLocalPose(ToPhysXTransform(Offset, DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	MainComponent.Offset = Offset;
 }
 
 bool CESphereColliderShape::IsTrigger() const {
-	return Component.IsTrigger;
+	return MainComponent.IsTrigger;
 }
 
-//TODO: Implement..
 void CESphereColliderShape::SetTrigger(bool IsTrigger) {
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !IsTrigger);
+	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, IsTrigger);
+	MainComponent.IsTrigger = IsTrigger;
 }
 
-//TODO: Implement..
 void CESphereColliderShape::SetFilter(const physx::PxFilterData& filterData) {
+	Shape->setSimulationFilterData(filterData);
 }
 
-//TODO: Implement..
 void CESphereColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
+	Actor->detachShape(*Shape);
 }
 
 //TODO: Implement..
@@ -137,15 +140,24 @@ CECapsuleColliderShape::CECapsuleColliderShape(CEColliderCapsuleComponent& Compo
                                                Actor* OwningActor,
                                                const DirectX::XMFLOAT3& Offset) : CEColliderShape(
 		CECollisionType::Capsule),
-	Component(Component) {
+	MainComponent(Component) {
+	SetMaterial(MainComponent.Material.Get());
+
+	auto& ActorScale = OwningActor->GetComponentOfType<CETransformComponent>()->Scale;
+	float RadiusScale = Math::Max(ActorScale.x, Math::Max(ActorScale.y, ActorScale.z));
+
+	physx::PxCapsuleGeometry Geometry = physx::PxCapsuleGeometry(Component.Radius * RadiusScale,
+	                                                             (Component.Height / 2.0f) * ActorScale.y);
+	Shape = physx::PxRigidActorExt::createExclusiveShape(*PActor.GetPhysXActor(), Geometry, *Material);
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !Component.IsTrigger);
+	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, Component.IsTrigger);
+	Shape->setLocalPose(ToPhysXTransform(Offset + Component.Offset, XMFLOAT3(0.0f, 0.0f, Math::HALF_PI)));
 }
 
-//TODO: Implement..
 CECapsuleColliderShape::~CECapsuleColliderShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
-//TODO: Implement..
 CECapsuleColliderShape* CECapsuleColliderShape::Instance(CEColliderCapsuleComponent& Component,
                                                          const CEPhysicsActor& PActor, Actor* OwningActor,
                                                          const DirectX::XMFLOAT3& Offset) {
@@ -153,36 +165,85 @@ CECapsuleColliderShape* CECapsuleColliderShape::Instance(CEColliderCapsuleCompon
 }
 
 const DirectX::XMFLOAT3& CECapsuleColliderShape::GetOffset() const {
-	return Component.Offset;
+	return MainComponent.Offset;
 }
 
-//TODO: Implement..
 void CECapsuleColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
+	Shape->setLocalPose(ToPhysXTransform(Offset, DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	MainComponent.Offset = Offset;
 }
 
 bool CECapsuleColliderShape::IsTrigger() const {
-	return Component.IsTrigger;
+	return MainComponent.IsTrigger;
 }
 
-//TODO: Implement..
 void CECapsuleColliderShape::SetTrigger(bool IsTrigger) {
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !IsTrigger);
+	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, IsTrigger);
+	MainComponent.IsTrigger = IsTrigger;
 }
 
-//TODO: Implement..
 void CECapsuleColliderShape::SetFilter(const physx::PxFilterData& filterData) {
+	Shape->setSimulationFilterData(filterData);
 }
 
-//TODO: Implement..
 void CECapsuleColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
+	Actor->detachShape(*Shape);
 }
 
-//TODO: Implement..
 CEConvexMeshShape::CEConvexMeshShape(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                      Actor* OwningActor, const DirectX::XMFLOAT3& Offset) :
-	CEColliderShape(CECollisionType::ConvexMesh), Component(Component) {
+	CEColliderShape(CECollisionType::ConvexMesh), MainComponent(Component) {
+	Assert(Component.IsConvex);
+
+	SetMaterial(MainComponent.Material.Get());
+
+	CEArray<CEMeshColliderData> CookedData;
+	CookedData.Reserve(Component.CollisionMesh->VertexCount);
+	CECookingResult Result = CookingFactory->CookMesh(Component, CookedData, false);
+	Assert(CookedData.Size() > 0);
+
+	if (Result != CECookingResult::Success)
+		return;
+
+	for (auto& ColliderData : CookedData) {
+		XMVECTOR SubmeshTranslation;
+		XMVECTOR SubmeshRotation;
+		XMVECTOR SubmeshScale;
+
+		DirectX::XMMatrixDecompose(&SubmeshScale, &SubmeshRotation, &SubmeshTranslation,
+		                           XMLoadFloat4x4(&ColliderData.Transform));
+
+		physx::PxDefaultMemoryInputData Input(ColliderData.Data, ColliderData.Size);
+		physx::PxConvexMesh* ConvexMesh = CEPhysX::GetPhysXSDK().createConvexMesh(Input);
+		XMFLOAT3 FloatSubmeshScale;
+		XMStoreFloat3(&FloatSubmeshScale, SubmeshScale);
+
+		physx::PxConvexMeshGeometry ConvexGeometry = physx::PxConvexMeshGeometry(
+			ConvexMesh, physx::PxMeshScale(
+				ToPhysXVector(FloatSubmeshScale * OwningActor->GetComponentOfType<CETransformComponent>()->Scale)
+			)
+		);
+		ConvexGeometry.meshFlags = physx::PxConvexMeshGeometryFlag::eTIGHT_BOUNDS;
+
+		physx::PxShape* Shape = CEPhysX::GetPhysXSDK().createShape(ConvexGeometry, *Material, true);
+		Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !Component.IsTrigger);
+		Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, Component.IsTrigger);
+		Shape->setLocalPose(ToPhysXTransform(ColliderData.Transform));
+
+		PActor.GetPhysXActor()->attachShape(*Shape);
+
+		Shapes.PushBack(Shape);
+
+		Shape->release();
+		ConvexMesh->release();
+
+		delete[] ColliderData.Data;
+	}
+
+	CookedData.Clear();
 }
 
-//TODO: Implement..
 CEConvexMeshShape::~CEConvexMeshShape() {
 	CEColliderShape::~CEColliderShape();
 }
@@ -201,25 +262,38 @@ void CEConvexMeshShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
 bool CEConvexMeshShape::IsTrigger() const {
-	return Component.IsTrigger;
+	return MainComponent.IsTrigger;
 }
 
-//TODO: Implement..
 void CEConvexMeshShape::SetTrigger(bool IsTrigger) {
+	for (auto Shape : Shapes) {
+		Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !IsTrigger);
+		Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, IsTrigger);
+	}
+
+	MainComponent.IsTrigger = IsTrigger;
 }
 
-//TODO: Implement..
 void CEConvexMeshShape::SetFilter(const physx::PxFilterData& filterData) {
+	for (auto Shape : Shapes)
+		Shape->setSimulationFilterData(filterData);
 }
 
-//TODO: Implement..
 void CEConvexMeshShape::DetachFromActor(physx::PxRigidActor* Actor) {
+	for (auto Shape : Shapes)
+		Actor->detachShape(*Shape);
+
+	Shapes.Clear();
 }
 
 //TODO: Implement..
 CETriangleMeshShape::CETriangleMeshShape(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                          Actor* OwningActor, const DirectX::XMFLOAT3& Offset) : CEColliderShape(
-	CECollisionType::TriangleMesh), Component(Component) {
+	CECollisionType::TriangleMesh), MainComponent(Component) {
+	Assert(!Component.IsConvex);
+
+	SetMaterial(MainComponent.Material.Get());
+
 }
 
 //TODO: Implement..
@@ -241,7 +315,7 @@ void CETriangleMeshShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
 bool CETriangleMeshShape::IsTrigger() const {
-	return Component.IsTrigger;
+	return MainComponent.IsTrigger;
 }
 
 //TODO: Implement..

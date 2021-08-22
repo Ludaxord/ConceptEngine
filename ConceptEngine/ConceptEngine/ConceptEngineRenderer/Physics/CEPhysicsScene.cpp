@@ -3,7 +3,7 @@
 #include "Physics/CEPhysicsMaterial.h"
 #include "Rendering/Resources/Mesh.h"
 
-CEPhysicsActor* CEPhysicsScene::GetActor(Actor* Actor) {
+CEPhysicsActor* CEPhysicsScene::GetActor(Actor* InActor) {
 	for (auto* Actor : Actors) {
 		if (false /*TODO: Check if Actor already exists as PhysicsActor... (Check its settings) */) {
 			return Actor;

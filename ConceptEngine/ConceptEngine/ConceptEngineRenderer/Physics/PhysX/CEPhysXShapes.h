@@ -15,9 +15,6 @@ enum class CECollisionType {
 	TriangleMesh
 };
 
-//TODO: Implement
-class CEPhysicsMaterial;
-
 class CEColliderShape : public CoreObject {
 	CORE_OBJECT(CEColliderShape, CoreObject);
 protected:
@@ -90,7 +87,7 @@ public:
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 private:
-	CEColliderBoxComponent& Component;
+	CEColliderBoxComponent& MainComponent;
 	physx::PxShape* Shape;
 };
 
@@ -122,7 +119,7 @@ public:
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 private:
-	CEColliderSphereComponent& Component;
+	CEColliderSphereComponent& MainComponent;
 	physx::PxShape* Shape;
 
 };
@@ -152,7 +149,7 @@ public:
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 private:
-	CEColliderCapsuleComponent& Component;
+	CEColliderCapsuleComponent& MainComponent;
 	physx::PxShape* Shape;
 };
 
@@ -181,8 +178,8 @@ public:
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 private:
-	CEColliderMeshComponent& Component;
-	physx::PxShape* Shape;
+	CEColliderMeshComponent& MainComponent;
+	CEArray<physx::PxShape*> Shapes;
 };
 
 class CETriangleMeshShape : public CEColliderShape {
@@ -210,6 +207,6 @@ public:
 	void DetachFromActor(physx::PxRigidActor* Actor) override;
 
 private:
-	CEColliderMeshComponent& Component;
-	physx::PxShape* Shape;
+	CEColliderMeshComponent& MainComponent;
+	CEArray<physx::PxShape*> Shapes;
 };
