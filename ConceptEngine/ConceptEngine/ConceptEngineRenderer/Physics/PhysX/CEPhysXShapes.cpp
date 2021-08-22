@@ -248,7 +248,6 @@ CEConvexMeshShape::~CEConvexMeshShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
-//TODO: Implement..
 CEConvexMeshShape* CEConvexMeshShape::Instance(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                                Actor* OwningActor, const DirectX::XMFLOAT3& Offset) {
 	return DBG_NEW CEConvexMeshShape(Component, PActor, OwningActor, Offset);
@@ -286,7 +285,6 @@ void CEConvexMeshShape::DetachFromActor(physx::PxRigidActor* Actor) {
 	Shapes.Clear();
 }
 
-//TODO: Implement..
 CETriangleMeshShape::CETriangleMeshShape(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                          Actor* OwningActor, const DirectX::XMFLOAT3& Offset) : CEColliderShape(
 	CECollisionType::TriangleMesh), MainComponent(Component) {
@@ -294,14 +292,56 @@ CETriangleMeshShape::CETriangleMeshShape(CEColliderMeshComponent& Component, con
 
 	SetMaterial(MainComponent.Material.Get());
 
+	CEArray<CEMeshColliderData> CookedData;
+	CookedData.Reserve(Component.CollisionMesh->VertexCount);
+	CECookingResult Result = CookingFactory->CookMesh(Component, CookedData, false);
+	Assert(CookedData.Size() > 0);
+
+	if (Result != CECookingResult::Success)
+		return;
+
+	for (auto& ColliderData : CookedData) {
+		XMVECTOR SubmeshTranslation;
+		XMVECTOR SubmeshRotation;
+		XMVECTOR SubmeshScale;
+
+		DirectX::XMMatrixDecompose(&SubmeshScale, &SubmeshRotation, &SubmeshTranslation,
+		                           XMLoadFloat4x4(&ColliderData.Transform));
+
+		physx::PxDefaultMemoryInputData Input(ColliderData.Data, ColliderData.Size);
+		physx::PxTriangleMesh* TriangleMesh = CEPhysX::GetPhysXSDK().createTriangleMesh(Input);
+		XMFLOAT3 FloatSubmeshScale;
+		XMStoreFloat3(&FloatSubmeshScale, SubmeshScale);
+
+		physx::PxTriangleMeshGeometry TriangleGeometry = physx::PxTriangleMeshGeometry(
+			TriangleMesh,
+			physx::PxMeshScale(
+				ToPhysXVector(FloatSubmeshScale * OwningActor->GetComponentOfType<CETransformComponent>()->Scale)
+			)
+		);
+
+		physx::PxShape* Shape = CEPhysX::GetPhysXSDK().createShape(TriangleGeometry, *Material, true);
+		Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !Component.IsTrigger);
+		Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, Component.IsTrigger);
+		Shape->setLocalPose(ToPhysXTransform(ColliderData.Transform));
+
+		PActor.GetPhysXActor()->attachShape(*Shape);
+
+		Shapes.PushBack(Shape);
+
+		Shape->release();
+		TriangleMesh->release();
+
+		delete[] ColliderData.Data;
+	}
+
+	CookedData.Clear();
 }
 
-//TODO: Implement..
 CETriangleMeshShape::~CETriangleMeshShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
-//TODO: Implement..
 CETriangleMeshShape* CETriangleMeshShape::Instance(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                                    Actor* OwningActor, const DirectX::XMFLOAT3& Offset) {
 	return DBG_NEW CETriangleMeshShape(Component, PActor, OwningActor, Offset);
@@ -318,14 +358,23 @@ bool CETriangleMeshShape::IsTrigger() const {
 	return MainComponent.IsTrigger;
 }
 
-//TODO: Implement..
 void CETriangleMeshShape::SetTrigger(bool IsTrigger) {
+	for (auto Shape : Shapes) {
+		Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !IsTrigger);
+		Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, IsTrigger);
+	}
+
+	MainComponent.IsTrigger = IsTrigger;
 }
 
-//TODO: Implement..
 void CETriangleMeshShape::SetFilter(const physx::PxFilterData& filterData) {
+	for (auto Shape : Shapes)
+		Shape->setSimulationFilterData(filterData);
 }
 
-//TODO: Implement..
 void CETriangleMeshShape::DetachFromActor(physx::PxRigidActor* Actor) {
+	for (auto Shape : Shapes)
+		Actor->detachShape(*Shape);
+
+	Shapes.Clear();
 }
