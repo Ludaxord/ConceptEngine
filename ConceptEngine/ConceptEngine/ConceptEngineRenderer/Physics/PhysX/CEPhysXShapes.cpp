@@ -49,23 +49,30 @@ CEBoxColliderShape* CEBoxColliderShape::Instance(CEColliderBoxComponent& Compone
 }
 
 const DirectX::XMFLOAT3& CEBoxColliderShape::GetOffset() const {
+	return Component.Offset;
 }
 
+//TODO: Implement..
 void CEBoxColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
 bool CEBoxColliderShape::IsTrigger() const {
+	return Component.IsTrigger;
 }
 
+//TODO: Implement..
 void CEBoxColliderShape::SetTrigger(bool IsTrigger) {
 }
 
+//TODO: Implement..
 void CEBoxColliderShape::SetFilter(const physx::PxFilterData& filterData) {
 }
 
+//TODO: Implement..
 void CEBoxColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
 }
 
+//TODO: Implement..
 CESphereColliderShape::CESphereColliderShape(CEColliderSphereComponent& Component,
                                              const CEPhysicsActor& PActor,
                                              Actor* OwningActor,
@@ -74,10 +81,12 @@ CESphereColliderShape::CESphereColliderShape(CEColliderSphereComponent& Componen
 	Component(Component) {
 }
 
+//TODO: Implement..
 CESphereColliderShape::~CESphereColliderShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
+//TODO: Implement..
 CESphereColliderShape* CESphereColliderShape::Instance(CEColliderSphereComponent& Component,
                                                        const CEPhysicsActor& PActor,
                                                        Actor* OwningActor,
@@ -85,24 +94,31 @@ CESphereColliderShape* CESphereColliderShape::Instance(CEColliderSphereComponent
 	return DBG_NEW CESphereColliderShape(Component, PActor, OwningActor, Offset);
 }
 
+//TODO: Implement..
 const DirectX::XMFLOAT3& CESphereColliderShape::GetOffset() const {
 }
 
+//TODO: Implement..
 void CESphereColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
+//TODO: Implement..
 bool CESphereColliderShape::IsTrigger() const {
 }
 
+//TODO: Implement..
 void CESphereColliderShape::SetTrigger(bool IsTrigger) {
 }
 
+//TODO: Implement..
 void CESphereColliderShape::SetFilter(const physx::PxFilterData& filterData) {
 }
 
+//TODO: Implement..
 void CESphereColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
 }
 
+//TODO: Implement..
 CECapsuleColliderShape::CECapsuleColliderShape(CEColliderCapsuleComponent& Component,
                                                const CEPhysicsActor& PActor,
                                                Actor* OwningActor,
@@ -111,94 +127,120 @@ CECapsuleColliderShape::CECapsuleColliderShape(CEColliderCapsuleComponent& Compo
 	Component(Component) {
 }
 
+//TODO: Implement..
 CECapsuleColliderShape::~CECapsuleColliderShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
+//TODO: Implement..
 CECapsuleColliderShape* CECapsuleColliderShape::Instance(CEColliderCapsuleComponent& Component,
                                                          const CEPhysicsActor& PActor, Actor* OwningActor,
                                                          const DirectX::XMFLOAT3& Offset) {
 	return DBG_NEW CECapsuleColliderShape(Component, PActor, OwningActor, Offset);
 }
 
+//TODO: Implement..
 const DirectX::XMFLOAT3& CECapsuleColliderShape::GetOffset() const {
 }
 
+//TODO: Implement..
 void CECapsuleColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
+//TODO: Implement..
 bool CECapsuleColliderShape::IsTrigger() const {
 }
 
+//TODO: Implement..
 void CECapsuleColliderShape::SetTrigger(bool IsTrigger) {
 }
 
+//TODO: Implement..
 void CECapsuleColliderShape::SetFilter(const physx::PxFilterData& filterData) {
 }
 
+//TODO: Implement..
 void CECapsuleColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
 }
 
+//TODO: Implement..
 CEConvexMeshShape::CEConvexMeshShape(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                      Actor* OwningActor, const DirectX::XMFLOAT3& Offset) :
 	CEColliderShape(CECollisionType::ConvexMesh), Component(Component) {
 }
 
+//TODO: Implement..
 CEConvexMeshShape::~CEConvexMeshShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
+//TODO: Implement..
 CEConvexMeshShape* CEConvexMeshShape::Instance(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                                Actor* OwningActor, const DirectX::XMFLOAT3& Offset) {
 	return DBG_NEW CEConvexMeshShape(Component, PActor, OwningActor, Offset);
 }
 
+//TODO: Implement..
 const DirectX::XMFLOAT3& CEConvexMeshShape::GetOffset() const {
 }
 
+//TODO: Implement..
 void CEConvexMeshShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
+//TODO: Implement..
 bool CEConvexMeshShape::IsTrigger() const {
 }
 
+//TODO: Implement..
 void CEConvexMeshShape::SetTrigger(bool IsTrigger) {
 }
 
+//TODO: Implement..
 void CEConvexMeshShape::SetFilter(const physx::PxFilterData& filterData) {
 }
 
+//TODO: Implement..
 void CEConvexMeshShape::DetachFromActor(physx::PxRigidActor* Actor) {
 }
 
+//TODO: Implement..
 CETriangleMeshShape::CETriangleMeshShape(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                          Actor* OwningActor, const DirectX::XMFLOAT3& Offset) : CEColliderShape(
 	CECollisionType::TriangleMesh), Component(Component) {
 }
 
+//TODO: Implement..
 CETriangleMeshShape::~CETriangleMeshShape() {
 	CEColliderShape::~CEColliderShape();
 }
 
+//TODO: Implement..
 CETriangleMeshShape* CETriangleMeshShape::Instance(CEColliderMeshComponent& Component, const CEPhysicsActor& PActor,
                                                    Actor* OwningActor, const DirectX::XMFLOAT3& Offset) {
 	return DBG_NEW CETriangleMeshShape(Component, PActor, OwningActor, Offset);
 }
 
+//TODO: Implement..
 const DirectX::XMFLOAT3& CETriangleMeshShape::GetOffset() const {
 }
 
+//TODO: Implement..
 void CETriangleMeshShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
+//TODO: Implement..
 bool CETriangleMeshShape::IsTrigger() const {
 }
 
+//TODO: Implement..
 void CETriangleMeshShape::SetTrigger(bool IsTrigger) {
 }
 
+//TODO: Implement..
 void CETriangleMeshShape::SetFilter(const physx::PxFilterData& filterData) {
 }
 
+//TODO: Implement..
 void CETriangleMeshShape::DetachFromActor(physx::PxRigidActor* Actor) {
 }
