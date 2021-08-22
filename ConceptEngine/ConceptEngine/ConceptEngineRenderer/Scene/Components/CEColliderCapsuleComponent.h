@@ -5,7 +5,7 @@ class CEColliderCapsuleComponent : public Component {
 	CORE_OBJECT(CEColliderCapsuleComponent, Component);
 
 public:
-	CEColliderCapsuleComponent(Actor* InOwningActor): Component(InOwningActor) {
+	CEColliderCapsuleComponent(Actor* InOwningActor): Component(InOwningActor), Material(nullptr), DebugMesh(nullptr) {
 		CORE_OBJECT_INIT();
 	}
 

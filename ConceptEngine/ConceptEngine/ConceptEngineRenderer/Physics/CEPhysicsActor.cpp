@@ -6,6 +6,8 @@
 #include "PhysX/CEPhysXManager.h"
 #include "Scene/CEScene.h"
 #include "Scene/Components/CETagComponent.h"
+#include "Physics/CEPhysicsMaterial.h"
+#include "Rendering/Resources/Mesh.h"
 
 
 CEPhysicsActor::CEPhysicsActor(Actor* InActor): OwningActor(InActor),
@@ -319,23 +321,23 @@ const CETransformComponent& CEPhysicsActor::GetTransform() const {
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderBoxComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
-	Colliders.PushBack(CEBoxColliderShape::Instance());
+	Colliders.PushBack(CEBoxColliderShape::Instance(Collider, Actor, OwningActor, Offset));
 }
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderSphereComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
-	Colliders.PushBack(CESphereColliderShape::Instance());
+	Colliders.PushBack(CESphereColliderShape::Instance(Collider, Actor, OwningActor, Offset));
 }
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderCapsuleComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
-	Colliders.PushBack(CECapsuleColliderShape::Instance());
+	Colliders.PushBack(CECapsuleColliderShape::Instance(Collider, Actor, OwningActor, Offset));
 }
 
 //TODO: Implement...
 void CEPhysicsActor::AddCollider(CEColliderMeshComponent& Collider, Actor* Actor, const XMFLOAT3& Offset) {
 	if (Collider.IsConvex) {
-		Colliders.PushBack(CECapsuleColliderShape::Instance());
+		Colliders.PushBack(CEConvexMeshShape::Instance(Collider, Actor, OwningActor, Offset));
 	}
 	else {
 		if (IsDynamic() && !IsKinematic()) {
@@ -343,21 +345,21 @@ void CEPhysicsActor::AddCollider(CEColliderMeshComponent& Collider, Actor* Actor
 				"[CEPhysicsActor]: Cannot have a non-convex MeshColliderComponent for a non-kinematic dynamic RigidBodyComponent!")
 		}
 
-		Colliders.PushBack(CETriangleMeshShape::Instance());
+		Colliders.PushBack(CETriangleMeshShape::Instance(Collider, Actor, OwningActor, Offset));
 	}
 }
 
 void CEPhysicsActor::CreateRigidActor() {
 	auto& SDK = CEPhysX::GetPhysXSDK();
 
-	auto Scene = CEScene::GetSceneByUUID(OwningActor->GetSceneUUID());
-	DirectX::XMFLOAT4X4 Transform = Scene->GetTransformRelativeToParent(OwningActor);
+	auto UUIDScene = CEScene::GetSceneByUUID(OwningActor->GetSceneUUID());
+	DirectX::XMFLOAT4X4 ParentTransform = UUIDScene->GetTransformRelativeToParent(OwningActor);
 	if (RigidBody->BodyType == CERigidBodyComponent::Type::Static) {
-		RigidActor = SDK.createRigidStatic(ToPhysXTransform(Transform));
+		RigidActor = SDK.createRigidStatic(ToPhysXTransform(ParentTransform));
 	}
 	else {
 		const CEPhysicsConfig& Config = CECore::GetPhysics()->GetConfig();
-		RigidActor = SDK.createRigidDynamic(ToPhysXTransform(Transform));
+		RigidActor = SDK.createRigidDynamic(ToPhysXTransform(ParentTransform));
 
 		SetLinearDrag(RigidBody->LinearDrag);
 		SetAngularDrag(RigidBody->AngularDrag);
@@ -403,17 +405,17 @@ void CEPhysicsActor::CreateRigidActor() {
 	RigidActor->userData = this;
 
 	//TODO: Check if debug...
-	auto& Name = OwningActor->GetComponentOfType<CETagComponent>()->Tag;
-	RigidActor->setName(Name.c_str());
+	auto& ActorName = OwningActor->GetComponentOfType<CETagComponent>()->Tag;
+	RigidActor->setName(ActorName.c_str());
 }
 
 void CEPhysicsActor::SyncTransform() {
-	CETransformComponent& Transform = *OwningActor->GetComponentOfType<CETransformComponent>();
+	CETransformComponent& TransformComponent = *OwningActor->GetComponentOfType<CETransformComponent>();
 	physx::PxTransform ActorPose = RigidActor->getGlobalPose();
-	Transform.Translation = FromPhysXVector(ActorPose.p);
+	TransformComponent.Translation = FromPhysXVector(ActorPose.p);
 
 	auto Quat = FromPhysXQuat(ActorPose.q);
 	DirectX::XMFLOAT3 EulerFloat3;
 	XMStoreFloat3(&EulerFloat3, XMQuaternionRotationRollPitchYawFromVector(XMLoadFloat4(&Quat)));
-	Transform.Rotation = EulerFloat3;
+	TransformComponent.Rotation = EulerFloat3;
 }

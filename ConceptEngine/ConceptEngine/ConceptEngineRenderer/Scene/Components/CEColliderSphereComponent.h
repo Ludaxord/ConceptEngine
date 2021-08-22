@@ -6,7 +6,7 @@ class CEColliderSphereComponent : public Component {
 	CORE_OBJECT(CEColliderSphereComponent, Component);
 
 public:
-	CEColliderSphereComponent(Actor* InOwningActor): Component(InOwningActor) {
+	CEColliderSphereComponent(Actor* InOwningActor): Component(InOwningActor), Material(nullptr), DebugMesh(nullptr) {
 		CORE_OBJECT_INIT();
 
 	}

@@ -5,7 +5,7 @@ class CEColliderBoxComponent : public Component {
 	CORE_OBJECT(CEColliderBoxComponent, Component);
 
 public:
-	CEColliderBoxComponent(Actor* InOwningActor): Component(InOwningActor) {
+	CEColliderBoxComponent(Actor* InOwningActor): Component(InOwningActor), Material(nullptr), DebugMesh(nullptr) {
 		CORE_OBJECT_INIT();
 	}
 

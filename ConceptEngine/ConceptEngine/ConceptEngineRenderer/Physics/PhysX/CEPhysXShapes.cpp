@@ -8,6 +8,8 @@
 #include "Physics/CEPhysicsMaterial.h"
 #include "Scene/Components/CETransformComponent.h"
 
+#include "Rendering/Resources/Mesh.h"
+
 void CEColliderShape::SetMaterial(CEPhysicsMaterial* PhysicsMaterial) {
 	if (!PhysicsMaterial)
 		PhysicsMaterial = DBG_NEW CEPhysicsMaterial(0.6f, 0.6f, 0.6f);
@@ -81,7 +83,7 @@ CESphereColliderShape::CESphereColliderShape(CEColliderSphereComponent& Componen
                                              const DirectX::XMFLOAT3& Offset) :
 	CEColliderShape(CECollisionType::Sphere),
 	Component(Component) {
-	SetMaterial(Component.Material);
+	SetMaterial(Component.Material.Get());
 
 	auto& ActorScale = OwningActor->GetComponentOfType<CETransformComponent>()->Scale;
 	float LargestComponent = Math::Max(ActorScale.x, Math::Max(ActorScale.y, ActorScale.z));
@@ -105,16 +107,16 @@ CESphereColliderShape* CESphereColliderShape::Instance(CEColliderSphereComponent
 	return DBG_NEW CESphereColliderShape(Component, PActor, OwningActor, Offset);
 }
 
-//TODO: Implement..
 const DirectX::XMFLOAT3& CESphereColliderShape::GetOffset() const {
+	return Component.Offset;
 }
 
 //TODO: Implement..
 void CESphereColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
-//TODO: Implement..
 bool CESphereColliderShape::IsTrigger() const {
+	return Component.IsTrigger;
 }
 
 //TODO: Implement..
@@ -150,16 +152,16 @@ CECapsuleColliderShape* CECapsuleColliderShape::Instance(CEColliderCapsuleCompon
 	return DBG_NEW CECapsuleColliderShape(Component, PActor, OwningActor, Offset);
 }
 
-//TODO: Implement..
 const DirectX::XMFLOAT3& CECapsuleColliderShape::GetOffset() const {
+	return Component.Offset;
 }
 
 //TODO: Implement..
 void CECapsuleColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
-//TODO: Implement..
 bool CECapsuleColliderShape::IsTrigger() const {
+	return Component.IsTrigger;
 }
 
 //TODO: Implement..
@@ -191,16 +193,15 @@ CEConvexMeshShape* CEConvexMeshShape::Instance(CEColliderMeshComponent& Componen
 	return DBG_NEW CEConvexMeshShape(Component, PActor, OwningActor, Offset);
 }
 
-//TODO: Implement..
 const DirectX::XMFLOAT3& CEConvexMeshShape::GetOffset() const {
+	return XMFLOAT3(0.0f, 0.0f, 0.0f);
 }
 
-//TODO: Implement..
 void CEConvexMeshShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
-//TODO: Implement..
 bool CEConvexMeshShape::IsTrigger() const {
+	return Component.IsTrigger;
 }
 
 //TODO: Implement..
@@ -232,16 +233,15 @@ CETriangleMeshShape* CETriangleMeshShape::Instance(CEColliderMeshComponent& Comp
 	return DBG_NEW CETriangleMeshShape(Component, PActor, OwningActor, Offset);
 }
 
-//TODO: Implement..
 const DirectX::XMFLOAT3& CETriangleMeshShape::GetOffset() const {
+	return XMFLOAT3(0.0f, 0.0f, 0.0f);
 }
 
-//TODO: Implement..
 void CETriangleMeshShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
 }
 
-//TODO: Implement..
 bool CETriangleMeshShape::IsTrigger() const {
+	return Component.IsTrigger;
 }
 
 //TODO: Implement..

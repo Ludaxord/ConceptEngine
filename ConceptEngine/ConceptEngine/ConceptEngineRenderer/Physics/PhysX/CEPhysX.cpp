@@ -22,6 +22,8 @@
 #include "Scene/Components/CERigidBodyComponent.h"
 #include "Scene/Components/CETransformComponent.h"
 #include "Utilities/DirectoryUtilities.h"
+#include "Physics/CEPhysicsMaterial.h"
+#include "Rendering/Resources/Mesh.h"
 
 struct CEPhysXInternals {
 	physx::PxFoundation* PhysXFoundation;
@@ -182,9 +184,10 @@ void CEPhysX::CreateActors(CEScene* Scene) {
 			if (Actor->HasComponentOfType<CERigidBodyComponent>())
 				continue;
 
-			if (Actor->HasAny<CEColliderBoxComponent, CEColliderSphereComponent, CEColliderCapsuleComponent,
-			                  CEColliderMeshComponent>())
-				continue;
+			//TODO: Fix...
+			// if (Actor->HasAny<CEColliderBoxComponent, CEColliderSphereComponent, CEColliderCapsuleComponent,
+			//                   CEColliderMeshComponent>())
+			// 	continue;
 
 			bool ParentWithRigidBody = false;
 

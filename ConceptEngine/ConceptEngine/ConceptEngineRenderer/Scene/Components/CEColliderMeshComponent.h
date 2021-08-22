@@ -5,7 +5,7 @@ class CEColliderMeshComponent : public Component {
 	CORE_OBJECT(CEColliderMeshComponent, Component);
 
 public:
-	CEColliderMeshComponent(Actor* InOwningActor): Component(InOwningActor) {
+	CEColliderMeshComponent(Actor* InOwningActor): Component(InOwningActor), Material(nullptr), CollisionMesh(nullptr) {
 		CORE_OBJECT_INIT();
 	}
 
