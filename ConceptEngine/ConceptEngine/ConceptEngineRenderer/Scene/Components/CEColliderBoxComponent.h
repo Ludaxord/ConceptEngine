@@ -9,8 +9,8 @@ public:
 		CORE_OBJECT_INIT();
 	}
 
-	DirectX::XMFLOAT2 Size = {};
-	DirectX::XMFLOAT2 Offset = {};
+	DirectX::XMFLOAT3 Size = {1.0f, 1.0f, 1.0f};
+	DirectX::XMFLOAT3 Offset = {0.0f, 0.0f, 0.0f};
 
 	bool IsTrigger = false;
 
