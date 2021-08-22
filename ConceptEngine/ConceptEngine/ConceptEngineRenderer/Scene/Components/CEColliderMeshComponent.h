@@ -6,8 +6,17 @@ class CEColliderMeshComponent : public Component {
 
 public:
 	CEColliderMeshComponent(Actor* InOwningActor): Component(InOwningActor) {
-				CORE_OBJECT_INIT();
+		CORE_OBJECT_INIT();
 	}
 
 	bool IsConvex = false;
+	bool IsTrigger = false;
+	bool OverrideMesh = false;
+
+	TSharedPtr<class Mesh> CollisionMesh;
+	TSharedPtr<class CEPhysicsMaterial> Material;
+
+	operator TSharedPtr<Mesh>() {
+		return CollisionMesh;
+	}
 };

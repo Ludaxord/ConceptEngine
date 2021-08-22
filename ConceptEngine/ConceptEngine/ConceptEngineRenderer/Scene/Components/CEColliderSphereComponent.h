@@ -10,4 +10,11 @@ public:
 		CORE_OBJECT_INIT();
 
 	}
+
+	float Radius = 0.5f;
+	DirectX::XMFLOAT3 Offset = {0.0f, 0.0f, 0.0f};
+	bool IsTrigger = false;
+
+	TSharedPtr<class CEPhysicsMaterial> Material;
+	TSharedPtr<class Mesh> DebugMesh;
 };
