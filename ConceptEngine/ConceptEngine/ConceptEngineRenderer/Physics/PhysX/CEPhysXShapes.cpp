@@ -52,33 +52,44 @@ const DirectX::XMFLOAT3& CEBoxColliderShape::GetOffset() const {
 	return Component.Offset;
 }
 
-//TODO: Implement..
 void CEBoxColliderShape::SetOffset(const DirectX::XMFLOAT3& Offset) {
+	Shape->setLocalPose(ToPhysXTransform(Offset, XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	Component.Offset = Offset;
 }
 
 bool CEBoxColliderShape::IsTrigger() const {
 	return Component.IsTrigger;
 }
 
-//TODO: Implement..
 void CEBoxColliderShape::SetTrigger(bool IsTrigger) {
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !IsTrigger);
+	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, IsTrigger);
+	Component.IsTrigger = IsTrigger;
 }
 
-//TODO: Implement..
-void CEBoxColliderShape::SetFilter(const physx::PxFilterData& filterData) {
+void CEBoxColliderShape::SetFilter(const physx::PxFilterData& FilterData) {
+	Shape->setSimulationFilterData(FilterData);
 }
 
-//TODO: Implement..
 void CEBoxColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
+	Actor->detachShape(*Shape);
 }
 
-//TODO: Implement..
 CESphereColliderShape::CESphereColliderShape(CEColliderSphereComponent& Component,
                                              const CEPhysicsActor& PActor,
                                              Actor* OwningActor,
                                              const DirectX::XMFLOAT3& Offset) :
 	CEColliderShape(CECollisionType::Sphere),
 	Component(Component) {
+	SetMaterial(Component.Material);
+
+	auto& ActorScale = OwningActor->GetComponentOfType<CETransformComponent>()->Scale;
+	float LargestComponent = Math::Max(ActorScale.x, Math::Max(ActorScale.y, ActorScale.z));
+
+	physx::PxSphereGeometry Geometry = physx::PxSphereGeometry(LargestComponent * Component.Radius);
+	Shape = physx::PxRigidActorExt::createExclusiveShape(*PActor.GetPhysXActor(), Geometry, *Material);
+	Shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !Component.IsTrigger);
+	Shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, Component.IsTrigger);
 }
 
 //TODO: Implement..
