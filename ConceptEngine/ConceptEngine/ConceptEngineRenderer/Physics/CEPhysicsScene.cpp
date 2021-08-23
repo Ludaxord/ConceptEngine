@@ -115,7 +115,6 @@ bool CEPhysicsScene::OverlapCapsule(XMFLOAT3& Origin,
 	return OverlapGeometry(Origin, physx::PxCapsuleGeometry(Radius, HalfHeight), Buffer, Count);
 }
 
-//TODO: Implement...
 bool CEPhysicsScene::OverlapSphere(XMFLOAT3& Origin,
                                    float Radius,
                                    CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer,
