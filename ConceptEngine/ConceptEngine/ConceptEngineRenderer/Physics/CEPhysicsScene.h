@@ -33,7 +33,7 @@ public:
 	}
 
 	bool Raycast(const XMFLOAT3& Origin, const XMFLOAT3& Direction, float MaxDistance, CERayCastHit* OutHit);
-	bool OverlapBox( XMFLOAT3& Origin,
+	bool OverlapBox(XMFLOAT3& Origin,
 	                const XMFLOAT3& HalfSize,
 	                CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer,
 	                uint32& Count);
