@@ -5,6 +5,7 @@
 class CEPhysXDebugger {
 public:
 	bool Create();
+
 	physx::PxPvd* GetDebugger() {
 		return nullptr;
 	}

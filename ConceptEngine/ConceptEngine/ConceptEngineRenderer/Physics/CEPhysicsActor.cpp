@@ -44,8 +44,14 @@ void CEPhysicsActor::SetPhysicsRotation(const XMFLOAT3& Rotation, bool AutoWake)
 	RigidActor->setGlobalPose(PhysicsTransform, AutoWake);
 }
 
-//TODO: Implement
 void CEPhysicsActor::Rotate(const XMFLOAT3& Rotation, bool AutoWake) {
+	physx::PxTransform PhysicsTransform = RigidActor->getGlobalPose();
+	PhysicsTransform.q *= (
+		physx::PxQuat(XMConvertToRadians(Rotation.x), {1.0f, 0.0f, 0.0f})
+		* physx::PxQuat(XMConvertToRadians(Rotation.y), {0.0f, 1.0f, 0.0f})
+		* physx::PxQuat(XMConvertToRadians(Rotation.z), {0.0f, 0.0f, 1.0f})
+	);
+	RigidActor->setGlobalPose(PhysicsTransform, AutoWake);
 }
 
 void CEPhysicsActor::WakeUp() {
@@ -96,7 +102,6 @@ void CEPhysicsActor::AddTorque(const XMFLOAT3& Torque, CEForceMode ForceMode) {
 	RigidDynamic->addTorque(ToPhysXVector(Torque), (physx::PxForceMode::Enum)ForceMode);
 }
 
-//TODO: Implement...
 XMFLOAT3 CEPhysicsActor::GetLinearVelocity() const {
 	if (!IsDynamic()) {
 		CE_LOG_WARNING("[CEPhysicsActor]: Cannot get velocity of non-dynamic PhysicsActor");
@@ -303,7 +308,7 @@ void CEPhysicsActor::SetLockFlag(CEActorLockFlag Flag, bool FlagValue) {
 	RigidActor->is<physx::PxRigidDynamic>()->setRigidDynamicLockFlag(ToPhysXActorLockFlag(Flag), FlagValue);
 }
 
-//TODO: Implement...
+//TODO: Implement... Add Scripting method to manipulate physics actions on update
 void CEPhysicsActor::OnFixedUpdate(CETimestamp FixedDeltaTime) {
 }
 
