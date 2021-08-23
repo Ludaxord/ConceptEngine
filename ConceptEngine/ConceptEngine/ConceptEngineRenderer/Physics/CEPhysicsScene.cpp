@@ -58,7 +58,6 @@ void CEPhysicsScene::Simulate(CETimestamp TS, bool CallFixedUpdate) {
 	}
 }
 
-//TODO: Implement...
 void CEPhysicsScene::RemoveActor(CEPhysicsActor* PhysicsActor) {
 	if (!PhysicsActor)
 		return;
@@ -80,24 +79,48 @@ void CEPhysicsScene::RemoveActor(CEPhysicsActor* PhysicsActor) {
 	}
 }
 
-//TODO: Implement...
-bool CEPhysicsScene::Raycast(const XMFLOAT3& Origin, const XMFLOAT3& Direction, float MaxDistance,
+bool CEPhysicsScene::Raycast(const XMFLOAT3& Origin,
+                             const XMFLOAT3& Direction,
+                             float MaxDistance,
                              CERayCastHit* OutHit) {
+	physx::PxRaycastBuffer HitInfo;
+
+	XMFLOAT3 NormalizeDirection;
+	XMStoreFloat3(&NormalizeDirection, DirectX::XMVector3Normalize(XMLoadFloat3(&Direction)));
+
+	bool Result = PhysXScene->raycast(ToPhysXVector(Origin), ToPhysXVector(NormalizeDirection), MaxDistance, HitInfo);
+	if (Result) {
+		CEPhysicsActor* Actor = (CEPhysicsActor*)HitInfo.block.actor->userData;
+		OutHit->HitEntity = Actor->GetOwningActor()->GetUUID();
+		OutHit->Position = FromPhysXVector(HitInfo.block.position);
+		OutHit->Normal = FromPhysXVector(HitInfo.block.normal);
+		OutHit->Distance = HitInfo.block.distance;
+	}
+
+	return Result;
+}
+
+bool CEPhysicsScene::OverlapBox(XMFLOAT3& Origin,
+                                const XMFLOAT3& HalfSize,
+                                CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer,
+                                uint32& Count) {
+	return OverlapGeometry(Origin, physx::PxBoxGeometry(HalfSize.x, HalfSize.y, HalfSize.z), Buffer, Count);
+}
+
+bool CEPhysicsScene::OverlapCapsule(XMFLOAT3& Origin,
+                                    float Radius,
+                                    float HalfHeight,
+                                    CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer,
+                                    uint32& Count) {
+	return OverlapGeometry(Origin, physx::PxCapsuleGeometry(Radius, HalfHeight), Buffer, Count);
 }
 
 //TODO: Implement...
-bool CEPhysicsScene::OverlapBox(const XMFLOAT3& Origin, const XMFLOAT3& HalfSize,
-                                CEStaticArray<physx::PxOverlapHit, 10>& Buffer, uint32& Count) {
-}
-
-//TODO: Implement...
-bool CEPhysicsScene::OverlapCapsule(const XMFLOAT3& Origin, float Radius, float HalfHeight,
-                                    CEStaticArray<physx::PxOverlapHit, 10>& Buffer, uint32& Count) {
-}
-
-//TODO: Implement...
-bool CEPhysicsScene::OverlapSphere(const XMFLOAT3& Origin, float Radius, CEStaticArray<physx::PxOverlapHit, 10>& Buffer,
+bool CEPhysicsScene::OverlapSphere(XMFLOAT3& Origin,
+                                   float Radius,
+                                   CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer,
                                    uint32& Count) {
+	return OverlapGeometry(Origin, physx::PxSphereGeometry(Radius), Buffer, Count);
 }
 
 //TODO: Implement...
@@ -114,7 +137,7 @@ void CEPhysicsScene::SubStepStrategy(CETimestamp TS) {
 
 //TODO: Implement...
 bool CEPhysicsScene::OverlapGeometry(DirectX::XMFLOAT3& Origin, const physx::PxGeometry& Geometry,
-                                     CEStaticArray<physx::PxOverlapHit, 10>& Buffer, uint32& Count) {
+                                     CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer, uint32& Count) {
 }
 
 CEPhysicsActor* CEPhysicsScene::GetActor(Actor* InActor) {
