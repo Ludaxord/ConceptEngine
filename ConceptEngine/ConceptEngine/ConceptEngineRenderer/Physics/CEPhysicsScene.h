@@ -13,13 +13,12 @@ struct CERayCastHit {
 
 class CEPhysicsScene {
 public:
-	CEPhysicsScene() {
-	};
-	virtual ~CEPhysicsScene() = default;
+	CEPhysicsScene(const CEPhysicsConfig& Config);
+	virtual ~CEPhysicsScene();
 
 	virtual void Release();
 
-	void Simulate(float TS, bool CallFixedUpdate = true);
+	void Simulate(CETimestamp TS, bool CallFixedUpdate = true);
 
 	CEPhysicsActor* GetActor(Actor* Actor);
 	CEPhysicsActor* CreateActor(Actor* Actor);
@@ -70,7 +69,7 @@ private:
 
 	CEArray<CEPhysicsActor*> Actors;
 
-	float SubStepSize;
+	CETimestamp SubStepSize;
 	float Accumulator = 0.0f;
 	uint32 NumSubSteps = 0;
 	const uint32 MaxSubSteps = 8;
