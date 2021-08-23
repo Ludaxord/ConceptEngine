@@ -60,6 +60,24 @@ void CEPhysicsScene::Simulate(CETimestamp TS, bool CallFixedUpdate) {
 
 //TODO: Implement...
 void CEPhysicsScene::RemoveActor(CEPhysicsActor* PhysicsActor) {
+	if (!PhysicsActor)
+		return;
+
+	for (auto& Collider : PhysicsActor->Colliders) {
+		Collider->DetachFromActor(PhysicsActor->RigidActor);
+		Collider->Release();
+	}
+
+	PhysXScene->removeActor(*PhysicsActor->RigidActor);
+	PhysicsActor->RigidActor->release();
+	PhysicsActor->RigidActor = nullptr;
+
+	for (auto A = Actors.Begin(); A != Actors.End(); A++) {
+		if ((*A)->GetOwningActor()->GetUUID() == PhysicsActor->GetOwningActor()->GetUUID()) {
+			Actors.Erase(A);
+			break;
+		}
+	}
 }
 
 //TODO: Implement...
