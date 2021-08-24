@@ -1,5 +1,6 @@
 #include "CEPhysicsScene.h"
 
+#include "Boot/CECore.h"
 #include "Physics/CEPhysicsMaterial.h"
 #include "PhysX/CEContactCallback.h"
 #include "PhysX/CEPhysX.h"
@@ -122,8 +123,21 @@ bool CEPhysicsScene::OverlapSphere(XMFLOAT3& Origin,
 	return OverlapGeometry(Origin, physx::PxSphereGeometry(Radius), Buffer, Count);
 }
 
-//TODO: Implement...
 void CEPhysicsScene::CreateRegions() {
+	const CEPhysicsConfig& Config = CECore::GetPhysics()->GetConfig();
+	if (Config.BroadPhaseAlgorithm != PhysicsBroadPhaseType::AutomaticBoxPrune) {
+		physx::PxBounds3* RegionBounds = new physx::PxBounds3[(size_t)Config.WorldBoundsSubdivisions * Config.
+			WorldBoundsSubdivisions];
+		physx::PxBounds3 GlobalBounds(ToPhysXVector(Config.WorldBoundsMin), ToPhysXVector(Config.WorldBoundsMax));
+		uint32 RegionCount = physx::PxBroadPhaseExt::createRegionsFromWorldBounds(
+			RegionBounds, GlobalBounds, Config.WorldBoundsSubdivisions);
+
+		for (uint32 i = 0; i < RegionCount; i++) {
+			physx::PxBroadPhaseRegion Region;
+			Region.bounds = RegionBounds[i];
+			PhysXScene->addBroadPhaseRegion(Region);
+		}
+	}
 }
 
 //TODO: Implement...
