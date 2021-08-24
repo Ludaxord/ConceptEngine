@@ -5,6 +5,7 @@
 #include <cooking/PxCooking.h>
 
 #include "CEPhysX.h"
+#include "Utilities/DirectoryUtilities.h"
 
 struct CECookingData {
 	CECookingData(const physx::PxTolerancesScale& Scale) : CookingSDK(nullptr), CookingParameters(Scale) {
@@ -34,6 +35,10 @@ bool CECookingFactory::Create() {
 //TODO: Implement
 CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, CEArray<CEMeshColliderData>& OutData,
                                            bool InvalidateOld) {
+	CreateCacheDirectory("Colliders");
+
+	//TODO: Create Meta Data Creator;
+
 	return {};
 }
 

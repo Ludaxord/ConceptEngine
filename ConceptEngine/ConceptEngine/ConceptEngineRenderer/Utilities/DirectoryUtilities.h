@@ -29,3 +29,14 @@ inline std::string GetGraphicsContentDirectory(std::string path) {
 inline std::string GetEngineSourceDirectory(std::string path) {
 	return GetMainDirectory() + "\\ConceptEngineRenderer\\" + path;
 }
+
+
+inline std::filesystem::path GetCacheDirectory() {
+	return std::filesystem::path(GetMainDirectory()) / "Cache";
+}
+
+inline void CreateCacheDirectory(std::string Path) {
+	std::filesystem::path CacheDirectory = GetCacheDirectory() / Path;
+	if (!std::filesystem::exists(CacheDirectory))
+		std::filesystem::create_directories(CacheDirectory);
+}
