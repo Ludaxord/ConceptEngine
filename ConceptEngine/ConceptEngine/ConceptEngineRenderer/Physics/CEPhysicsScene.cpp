@@ -34,7 +34,6 @@ CEPhysicsScene::CEPhysicsScene(const CEPhysicsConfig& Config) : SubStepSize(Conf
 CEPhysicsScene::~CEPhysicsScene() {
 }
 
-//TODO: Implement...
 void CEPhysicsScene::Release() {
 	Assert(PhysXScene);
 

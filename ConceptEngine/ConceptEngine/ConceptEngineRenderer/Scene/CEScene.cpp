@@ -48,6 +48,8 @@ bool CEScene::Create() {
 
 	LoadedScenes[UUID] = this;
 
+
+
 	return true;
 }
 

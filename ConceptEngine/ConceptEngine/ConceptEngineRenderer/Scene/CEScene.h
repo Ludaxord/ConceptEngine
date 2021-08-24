@@ -94,6 +94,10 @@ public:
 		return UUID;
 	}
 
+	bool IsPlaying() const {
+		return IsCurrentPlaying;
+	}
+
 	static CEScene* LoadFromFile(const std::string& Filepath);
 
 private:
@@ -106,4 +110,6 @@ private:
 	Camera* CurrentCamera = nullptr;
 
 	CEUUID UUID;
+
+	bool IsCurrentPlaying = false;
 };
