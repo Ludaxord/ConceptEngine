@@ -140,12 +140,40 @@ void CEPhysicsScene::CreateRegions() {
 	}
 }
 
-//TODO: Implement...
 bool CEPhysicsScene::Advance(CETimestamp TS) {
+	SubStepStrategy(TS);
+
+	if (NumSubSteps == 0)
+		return false;
+
+	CE_LOG_DEBUG(
+		"[CEPhysicsScene] Sub Steps: " + std::to_string(NumSubSteps) + " Sub Step Size: " + std::to_string(SubStepSize.
+			AsSeconds()
+		)
+	);
+
+	for (uint32 i = 0; i < NumSubSteps; i++) {
+		PhysXScene->simulate(SubStepSize.AsNanoSeconds());
+		PhysXScene->fetchResults(true);
+	}
+
+	return true;
 }
 
-//TODO: Implement...
 void CEPhysicsScene::SubStepStrategy(CETimestamp TS) {
+	if (Accumulator > SubStepSize)
+		Accumulator = 0.0f;
+
+	Accumulator += TS;
+	if (Accumulator < SubStepSize) {
+		NumSubSteps = 0;
+		return;
+	}
+
+	NumSubSteps = Math::Min((uint32)(Accumulator / SubStepSize).AsNanoSeconds(), MaxSubSteps);
+
+	Accumulator -= NumSubSteps * SubStepSize;
+
 }
 
 //TODO: Implement...

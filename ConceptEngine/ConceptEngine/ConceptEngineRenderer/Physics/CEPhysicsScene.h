@@ -70,7 +70,7 @@ private:
 	CEArray<CEPhysicsActor*> Actors;
 
 	CETimestamp SubStepSize;
-	float Accumulator = 0.0f;
+	CETimestamp Accumulator = 0.0f;
 	uint32 NumSubSteps = 0;
 	const uint32 MaxSubSteps = 8;
 
