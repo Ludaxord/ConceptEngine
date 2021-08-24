@@ -36,6 +36,14 @@ CEPhysicsScene::~CEPhysicsScene() {
 
 //TODO: Implement...
 void CEPhysicsScene::Release() {
+	Assert(PhysXScene);
+
+	for (auto& Actor : Actors)
+		RemoveActor(Actor);
+
+	Actors.Clear();
+	PhysXScene->release();
+	PhysXScene = nullptr;
 }
 
 void CEPhysicsScene::Simulate(CETimestamp TS, bool CallFixedUpdate) {
@@ -176,9 +184,24 @@ void CEPhysicsScene::SubStepStrategy(CETimestamp TS) {
 
 }
 
-//TODO: Implement...
-bool CEPhysicsScene::OverlapGeometry(DirectX::XMFLOAT3& Origin, const physx::PxGeometry& Geometry,
-                                     CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer, uint32& Count) {
+bool CEPhysicsScene::OverlapGeometry(DirectX::XMFLOAT3& Origin,
+                                     const physx::PxGeometry& Geometry,
+                                     CEStaticArray<physx::PxOverlapHit, OVERLAP_MAX_COLLISION>& Buffer,
+                                     uint32& Count) {
+	physx::PxOverlapBuffer Buf(Buffer.Data(), OVERLAP_MAX_COLLISION);
+
+	XMFLOAT4X4 PoseTranslation;
+	XMStoreFloat4x4(&PoseTranslation, DirectX::XMMatrixTranslationFromVector(XMLoadFloat3(&Origin)));
+	physx::PxTransform Pose = ToPhysXTransform(PoseTranslation);
+
+	const bool Result = PhysXScene->overlap(Geometry, Pose, Buf);
+
+	if (Result) {
+		memcpy(Buffer.Data(), Buf.touches, Buf.nbTouches * sizeof(physx::PxOverlapHit));
+		Count = Buf.nbTouches;
+	}
+
+	return Result;
 }
 
 CEPhysicsActor* CEPhysicsScene::GetActor(Actor* InActor) {
