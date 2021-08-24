@@ -37,8 +37,8 @@ void CEContactCallback::onContact(const physx::PxContactPairHeader& PairHeader,
 	auto RemovedActorA = PairHeader.flags & physx::PxContactPairHeaderFlag::eREMOVED_ACTOR_0;
 	auto RemovedActorB = PairHeader.flags & physx::PxContactPairHeaderFlag::eREMOVED_ACTOR_1;
 
-	CEPhysicsActor* ActorA;
-	CEPhysicsActor* ActorB;
+	CEPhysicsActor* ActorA = nullptr;
+	CEPhysicsActor* ActorB = nullptr;
 
 	if (!RemovedActorA)
 		ActorA = (CEPhysicsActor*)PairHeader.actors[0]->userData;
@@ -58,11 +58,33 @@ void CEContactCallback::onContact(const physx::PxContactPairHeader& PairHeader,
 	}
 }
 
-//TODO: Implement
-void CEContactCallback::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) {
+void CEContactCallback::onTrigger(physx::PxTriggerPair* Pairs, physx::PxU32 Count) {
+	auto RemovedTrigger = Pairs->flags & physx::PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER;
+	auto RemovedOther = Pairs->flags & physx::PxTriggerPairFlag::eREMOVED_SHAPE_OTHER;
+
+	CEPhysicsActor* TriggerActor = nullptr;
+	CEPhysicsActor* OtherActor = nullptr;
+	if (!RemovedTrigger)
+		TriggerActor = (CEPhysicsActor*)Pairs->triggerActor->userData;
+
+	if (!RemovedOther)
+		OtherActor = (CEPhysicsActor*)Pairs->otherActor->userData;
+
+	CEPhysicsActor* ValidActor = TriggerActor ? TriggerActor : OtherActor;
+	if (!ValidActor || !CEScene::GetSceneByUUID(ValidActor->GetOwningActor()->GetSceneUUID())->IsPlaying())
+		return;
+
+	if (Pairs->status == physx::PxPairFlag::eNOTIFY_TOUCH_FOUND) {
+		//TODO: Create Scripting Engine...
+	}
+	else if (Pairs->status == physx::PxPairFlag::eNOTIFY_TOUCH_LOST) {
+		//TODO: Create Scripting Engine...
+	}
 }
 
-//TODO: Implement
 void CEContactCallback::onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer,
                                   const physx::PxU32 count) {
+	PX_UNUSED(bodyBuffer);
+	PX_UNUSED(poseBuffer);
+	PX_UNUSED(count);
 }
