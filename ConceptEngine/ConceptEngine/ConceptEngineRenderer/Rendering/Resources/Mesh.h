@@ -7,6 +7,7 @@
 #include "../../RenderLayer/CommandList.h"
 
 #include "../../Scene/AABB.h"
+#include "Core/Containers/CEUUID.h"
 
 struct MeshData;
 
@@ -37,4 +38,6 @@ public:
     float ShadowOffset = 0.0f;
 
     AABB BoundingBox;
+ 
+    CEUUID ID = 0; 
 };

@@ -38,6 +38,7 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 	CreateCacheDirectory("Colliders");
 
 	//TODO: Create Meta Data Creator;
+	std::filesystem::path FilePath = GetCacheDirectory() / "Colliders" / std::to_string(Component.CollisionMesh->ID) / ( + Component.IsConvex ? "_convex.pxm" : "_tri.pxm");
 
 	return {};
 }
@@ -56,7 +57,6 @@ CECookingResult CECookingFactory::CookTriangleMesh(const Mesh& Mesh, CEArray<CEM
 void CECookingFactory::GenerateDebugMesh(CEColliderMeshComponent& Component, const CEMeshColliderData& ColliderData) {
 }
 
-//TODO: Implement
 void CECookingFactory::Release() {
 	CookingData->CookingSDK->release();
 	CookingData->CookingSDK = nullptr;
