@@ -13,6 +13,7 @@ public:
 	bool IsTrigger = false;
 	bool OverrideMesh = false;
 
+	CEArray<TSharedPtr<class Mesh>> ProcessedMeshes;
 	TSharedPtr<class Mesh> CollisionMesh;
 	TSharedPtr<class CEPhysicsMaterial> Material;
 

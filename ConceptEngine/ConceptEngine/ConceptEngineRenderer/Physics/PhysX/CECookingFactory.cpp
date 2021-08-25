@@ -38,9 +38,36 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 	CreateCacheDirectory("Colliders");
 
 	//TODO: Create Meta Data Creator;
-	std::filesystem::path FilePath = GetCacheDirectory() / "Colliders" / std::to_string(Component.CollisionMesh->ID) / ( + Component.IsConvex ? "_convex.pxm" : "_tri.pxm");
+	std::filesystem::path FilePath = GetCacheDirectory() / "Colliders" / std::to_string(Component.CollisionMesh->ID) / (
+		+ Component.IsConvex ? "_convex.pxm" : "_tri.pxm");
+	CECookingResult Result = CECookingResult::Failure;
 
-	return {};
+	if (InvalidateOld) {
+		Component.ProcessedMeshes.Clear();
+		bool RemovedCached = std::filesystem::remove(FilePath);
+		if (!RemovedCached)
+			CE_LOG_WARNING("[CECookingFactory]: Could not remove cached collider data for " + FilePath.string());
+	}
+
+	if (!std::filesystem::exists(FilePath)) {
+		Result = Component.IsConvex
+			         ? CookConvexMesh(*Component.CollisionMesh.Get(), OutData)
+			         : CookTriangleMesh(*Component.CollisionMesh.Get(), OutData);
+
+		if (Result == CECookingResult::Success) {
+
+		}
+	}
+	else {
+
+	}
+
+	if (Result == CECookingResult::Success && Component.ProcessedMeshes.Size() == 0) {
+		for (const auto& ColliderData : OutData)
+			GenerateDebugMesh(Component, ColliderData);
+	}
+
+	return Result;
 }
 
 //TODO: Implement
