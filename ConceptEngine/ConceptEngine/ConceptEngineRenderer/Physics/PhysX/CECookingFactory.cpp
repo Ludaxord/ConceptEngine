@@ -55,7 +55,15 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 			         : CookTriangleMesh(*Component.CollisionMesh.Get(), OutData);
 
 		if (Result == CECookingResult::Success) {
+			uint32 BufferSize = 0;
+			uint32 Offset = 0;
 
+			for (const auto& ColliderData : OutData) {
+				BufferSize += sizeof(uint32);
+				BufferSize += ColliderData.Size;
+			}
+
+			//TODO: Create File Writer..
 		}
 	}
 	else {
