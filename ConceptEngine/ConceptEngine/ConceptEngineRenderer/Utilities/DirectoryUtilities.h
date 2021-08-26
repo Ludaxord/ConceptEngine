@@ -59,3 +59,20 @@ inline bool WriteBytes(const std::filesystem::path& FilePath, const CEFileBuffer
 
 	return true;
 }
+
+inline CEFileBuffer ReadBytes(const std::filesystem::path& FilePath) {
+	CEFileBuffer Buffer;
+
+	std::ifstream Stream(FilePath, std::ios::binary | std::ios::ate);
+	Assert(Stream);
+
+	std::streampos End = Stream.tellg();
+	Stream.seekg(0, std::ios::beg);
+	uint32 Size = End - Stream.tellg();
+	Assert(Size != 0);
+
+	Buffer.Allocate(Size);
+	Stream.read((char*)Buffer.Data, Buffer.Size);
+
+	return Buffer;
+}

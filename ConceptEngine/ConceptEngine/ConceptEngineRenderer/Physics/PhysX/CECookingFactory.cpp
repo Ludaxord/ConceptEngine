@@ -92,13 +92,13 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 			const auto& Submeshes = Component.CollisionMesh->MainMeshData;
 
 			for (const auto& Submesh : Submeshes.Vertices) {
-				CEMeshColliderData Data = OutData.EmplaceBack();
+				CEMeshColliderData& Data = OutData.EmplaceBack();
 
 				Data.Size = ColliderBuffer.Read<uint32>(Offset);
 				Offset += sizeof(uint32);
 				Data.Data = ColliderBuffer.ReadBytes(Data.Size, Offset);
 				Offset += Data.Size;
-				Data.Transform = Submesh.;
+				Data.Transform = Submeshes.Transform;
 			}
 
 			ColliderBuffer.Release();
