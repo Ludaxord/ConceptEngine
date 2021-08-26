@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../Graphics/Generic/Managers/CEMeshManager.h"
+#include "Utilities/MatrixUtilities.h"
 
 struct Vertex {
 	XMFLOAT3 Position;
@@ -33,6 +34,7 @@ struct VertexHasher {
 struct MeshData {
 	CEArray<Vertex> Vertices;
 	CEArray<uint32> Indices;
+	XMFLOAT4X4 Transform = SetFloat4X4(1.0f);
 };
 
 class CEDX12MeshManager : public CEMeshManager {
@@ -40,9 +42,9 @@ public:
 	CEDX12MeshManager();
 	~CEDX12MeshManager();
 	MeshData CreateFromFile(const std::string& Filename, bool MergeMeshes = true,
-	                               bool LeftHanded = true) noexcept override;
-	 MeshData CreateCube(float Width = 1.0f, float Height = 1.0f, float Depth = 1.0f) noexcept override;
-	 MeshData CreatePlane(uint32 Width = 1, uint32 Height = 1) noexcept override;
+	                        bool LeftHanded = true) noexcept override;
+	MeshData CreateCube(float Width = 1.0f, float Height = 1.0f, float Depth = 1.0f) noexcept override;
+	MeshData CreatePlane(uint32 Width = 1, uint32 Height = 1) noexcept override;
 	MeshData CreateSphere(uint32 Subdivisions = 0, float Radius = 0.5f) noexcept override;
 	MeshData CreateCone(uint32 Sides = 5, float Radius = 0.5f, float Height = 1.0f) noexcept override;
 	//static MeshData createTorus() noexcept;

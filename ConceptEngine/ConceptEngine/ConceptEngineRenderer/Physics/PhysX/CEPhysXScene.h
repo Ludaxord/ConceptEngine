@@ -3,6 +3,6 @@
 
 class CEPhysXScene : public CEPhysicsScene {
 public:
-	CEPhysXScene();
+	CEPhysXScene(const CEPhysicsConfig& Config);
 	void Release() override;
 };

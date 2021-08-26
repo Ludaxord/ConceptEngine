@@ -150,7 +150,7 @@ void CEPhysX::ReleaseScene() {
 }
 
 bool CEPhysX::CreateScene() {
-	PScene = DBG_NEW CEPhysXScene();
+	PScene = DBG_NEW CEPhysXScene(PhysicsConfig);
 
 	//TODO: Check if debugging mode...
 	if (PhysicsConfig.DebugOnPlay && !PhysicsDebugger->IsDebugging()) {

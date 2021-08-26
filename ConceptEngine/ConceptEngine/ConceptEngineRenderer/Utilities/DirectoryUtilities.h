@@ -1,8 +1,12 @@
 #pragma once
 #include <direct.h>
 #include <filesystem>
+#include <fstream>
 #include <stdio.h>  /* defines FILENAME_MAX */
 
+#include "Platform/Generic/FileSystem/CEFileBuffer.h"
+
+//TODO: Move all methods to CEFileSystem class...
 inline std::string GetProjectDirectory() {
 	char cCurrentPath[FILENAME_MAX];
 #define GET_CURRENT_DIR _getcwd
@@ -39,4 +43,19 @@ inline void CreateCacheDirectory(std::string Path) {
 	std::filesystem::path CacheDirectory = GetCacheDirectory() / Path;
 	if (!std::filesystem::exists(CacheDirectory))
 		std::filesystem::create_directories(CacheDirectory);
+}
+
+//NOTE: Temporary method for creating file...
+inline bool WriteBytes(const std::filesystem::path& FilePath, const CEFileBuffer Buffer) {
+	std::ofstream Stream(FilePath, std::ios::binary | std::ios::trunc);
+
+	if (!Stream) {
+		Stream.close();
+		return false;
+	}
+
+	Stream.write((char*)Buffer.Data, Buffer.Size);
+	Stream.close();
+
+	return true;
 }

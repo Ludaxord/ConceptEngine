@@ -8,36 +8,38 @@
 
 #include "../../Scene/AABB.h"
 #include "Core/Containers/CEUUID.h"
+#include "Graphics/D3D12/Managers/CEDX12MeshManager.h"
 
 struct MeshData;
 
-class Mesh
-{
+class Mesh {
 public:
-    Mesh()  = default;
-    ~Mesh() = default;
+	Mesh() = default;
+	~Mesh() = default;
 
-    bool Init(const MeshData& Data);
-    
-    bool BuildAccelerationStructure(CommandList& CmdList);
+	bool Init(const MeshData& Data);
 
-    static TSharedPtr<Mesh> Make(const MeshData& Data);
+	bool BuildAccelerationStructure(CommandList& CmdList);
+
+	static TSharedPtr<Mesh> Make(const MeshData& Data);
 
 public:
-    void CreateBoundingBox(const MeshData& Data);
+	void CreateBoundingBox(const MeshData& Data);
 
-    CERef<VertexBuffer>       VertexBuffer;
-    CERef<ShaderResourceView> VertexBufferSRV;
-    CERef<IndexBuffer>        IndexBuffer;
-    CERef<ShaderResourceView> IndexBufferSRV;
-    CERef<RayTracingGeometry> RTGeometry;
-    
-    uint32 VertexCount = 0;
-    uint32 IndexCount  = 0;
+	CERef<VertexBuffer> VertexBuffer;
+	CERef<ShaderResourceView> VertexBufferSRV;
+	CERef<IndexBuffer> IndexBuffer;
+	CERef<ShaderResourceView> IndexBufferSRV;
+	CERef<RayTracingGeometry> RTGeometry;
 
-    float ShadowOffset = 0.0f;
+	uint32 VertexCount = 0;
+	uint32 IndexCount = 0;
 
-    AABB BoundingBox;
- 
-    CEUUID ID = 0; 
+	float ShadowOffset = 0.0f;
+
+	AABB BoundingBox;
+
+	CEUUID ID = 0;
+
+	MeshData MainMeshData;
 };

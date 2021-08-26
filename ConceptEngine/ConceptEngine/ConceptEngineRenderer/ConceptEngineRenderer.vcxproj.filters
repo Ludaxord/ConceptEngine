@@ -714,6 +714,18 @@
     <ClInclude Include="Physics\CEPhysicsMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Platform\Windows\FileSystem\CEWindowsFileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Generic\FileSystem\CEFileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Generic\FileSystem\CEFileBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\MatrixUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">

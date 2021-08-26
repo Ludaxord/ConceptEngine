@@ -183,11 +183,14 @@
     <ClInclude Include="Platform\Android\CEAndroid.h" />
     <ClInclude Include="Platform\CEPlatform.h" />
     <ClInclude Include="Platform\Generic\Console\CETypedConsole.h" />
+    <ClInclude Include="Platform\Generic\FileSystem\CEFileBuffer.h" />
+    <ClInclude Include="Platform\Generic\FileSystem\CEFileSystem.h" />
     <ClInclude Include="Platform\iOS\CEiOS.h" />
     <ClInclude Include="Platform\Linux\CELinux.h" />
     <ClInclude Include="Platform\Mac\CEMac.h" />
     <ClInclude Include="Platform\Windows\CEWindows.h" />
     <ClInclude Include="Platform\Windows\Console\CEWindowsCommandConsole.h" />
+    <ClInclude Include="Platform\Windows\FileSystem\CEWindowsFileSystem.h" />
     <ClInclude Include="PreCompiled.h" />
     <ClInclude Include="Project\CEPlayground.h" />
     <ClInclude Include="Rendering\DebugUI.h" />
@@ -250,6 +253,7 @@
     <ClInclude Include="Time\Windows\WindowsTime.h" />
     <ClInclude Include="Utilities\DirectoryUtilities.h" />
     <ClInclude Include="Utilities\HashUtilities.h" />
+    <ClInclude Include="Utilities\MatrixUtilities.h" />
     <ClInclude Include="Utilities\StringUtilities.h" />
     <ClInclude Include="Windows\Windows.h" />
   </ItemGroup>

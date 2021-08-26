@@ -64,10 +64,47 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 			}
 
 			//TODO: Create File Writer..
+			CEFileBuffer ColliderBuffer;
+			ColliderBuffer.Allocate(BufferSize);
+
+			for (auto& ColliderData : OutData) {
+				ColliderBuffer.Write((void*)&ColliderData.Size, sizeof(uint32), Offset);
+				Offset += sizeof(uint32);
+				ColliderBuffer.Write(ColliderData.Data, ColliderData.Size, Offset);
+				Offset += ColliderData.Size;
+			}
+
+			if (!WriteBytes(FilePath, ColliderBuffer)) {
+				CE_LOG_ERROR("[CECookingFactory]: Failed to Write Collider to " + FilePath.string());
+				return CECookingResult::Failure;
+			}
+
+			ColliderBuffer.Release();
 		}
 	}
 	else {
+		CEFileBuffer ColliderBuffer = ReadBytes(FilePath);
 
+		if (ColliderBuffer.Size > 0) {
+			uint32 Offset = 0;
+
+			//TODO: Add Submeshes...
+			const auto& Submeshes = Component.CollisionMesh->MainMeshData;
+
+			for (const auto& Submesh : Submeshes.Vertices) {
+				CEMeshColliderData Data = OutData.EmplaceBack();
+
+				Data.Size = ColliderBuffer.Read<uint32>(Offset);
+				Offset += sizeof(uint32);
+				Data.Data = ColliderBuffer.ReadBytes(Data.Size, Offset);
+				Offset += Data.Size;
+				Data.Transform = Submesh.;
+			}
+
+			ColliderBuffer.Release();
+
+			Result = CECookingResult::Success;
+		}
 	}
 
 	if (Result == CECookingResult::Success && Component.ProcessedMeshes.Size() == 0) {
