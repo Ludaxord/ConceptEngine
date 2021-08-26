@@ -3,6 +3,7 @@
 #include <foundation/PxMat44.h>
 #include <foundation/PxVec3.h>
 #include <foundation/PxVec4.h>
+#include <cooking/PxCooking.h>
 
 #include "Scene/Components/CETransformComponent.h"
 
@@ -56,6 +57,17 @@ inline DirectX::XMFLOAT4 FromPhysXVector(const physx::PxVec4& Vector) {
 
 inline DirectX::XMFLOAT4 FromPhysXQuat(const physx::PxQuat& Quat) {
 	return XMFLOAT4(Quat.x, Quat.y, Quat.z, Quat.w);
+}
+
+inline CECookingResult FromPhysXCookingResult(physx::PxConvexMeshCookingResult::Enum CookingResult) {
+	switch (CookingResult) {
+	case physx::PxConvexMeshCookingResult::eSUCCESS: return CECookingResult::Success;
+	case physx::PxConvexMeshCookingResult::eZERO_AREA_TEST_FAILED: return CECookingResult::ZeroAreaTestFailed;
+	case physx::PxConvexMeshCookingResult::ePOLYGONS_LIMIT_REACHED: return CECookingResult::PolygonLimitReached;
+	case physx::PxConvexMeshCookingResult::eFAILURE: return CECookingResult::Failure;
+	}
+
+	return CECookingResult::Failure;
 }
 
 inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT3& Translation, const DirectX::XMFLOAT3 Rotation) {

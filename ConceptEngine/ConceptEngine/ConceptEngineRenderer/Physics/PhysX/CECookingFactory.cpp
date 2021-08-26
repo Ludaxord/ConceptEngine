@@ -7,6 +7,8 @@
 #include "CEPhysX.h"
 #include "Utilities/DirectoryUtilities.h"
 
+#include <extensions/PxDefaultStreams.h>
+
 struct CECookingData {
 	CECookingData(const physx::PxTolerancesScale& Scale) : CookingSDK(nullptr), CookingParameters(Scale) {
 
@@ -18,7 +20,6 @@ struct CECookingData {
 
 inline static CECookingData* CookingData = nullptr;
 
-//TODO: Implement
 bool CECookingFactory::Create() {
 	CookingData = new CECookingData(CEPhysX::GetPhysXSDK().getTolerancesScale());
 	CookingData->CookingParameters.meshWeldTolerance = 0.1f;
@@ -32,7 +33,6 @@ bool CECookingFactory::Create() {
 	return true;
 }
 
-//TODO: Implement
 CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, CEArray<CEMeshColliderData>& OutData,
                                            bool InvalidateOld) {
 	CreateCacheDirectory("Colliders");
@@ -88,7 +88,7 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 		if (ColliderBuffer.Size > 0) {
 			uint32 Offset = 0;
 
-			//TODO: Add Submeshes...
+			//TODO: Add Submeshes... NOTE: To add submeshes, need to add loading object from files not creating base objects...
 			const auto& Submeshes = Component.CollisionMesh->MainMeshData;
 
 			for (const auto& Submesh : Submeshes.Vertices) {
@@ -115,14 +115,43 @@ CECookingResult CECookingFactory::CookMesh(CEColliderMeshComponent& Component, C
 	return Result;
 }
 
-//TODO: Implement
 CECookingResult CECookingFactory::CookConvexMesh(const Mesh& Mesh, CEArray<CEMeshColliderData>& OutData) {
-	return {};
+	const auto& Vertices = Mesh.MainMeshData.Vertices;
+	const auto& Indices = Mesh.MainMeshData.Indices;
+
+	for (int i = 0; i < Vertices.Size(); i++) {
+		physx::PxConvexMeshDesc ConvexDesc;
+		ConvexDesc.points.count = Mesh.VertexCount;
+		ConvexDesc.points.stride = sizeof(Vertex);
+		ConvexDesc.points.data = &Vertices[i];
+		ConvexDesc.indices.count = Mesh.IndexCount / 3;
+		ConvexDesc.indices.data = &Indices[i / 3];
+		ConvexDesc.indices.stride = sizeof(uint32);
+		ConvexDesc.flags = physx::PxConvexFlag::eCOMPUTE_CONVEX | physx::PxConvexFlag::eSHIFT_VERTICES;
+
+		physx::PxDefaultMemoryOutputStream Buffer;
+		physx::PxConvexMeshCookingResult::Enum Result;
+		if (!CookingData->CookingSDK->cookConvexMesh(ConvexDesc, Buffer, &Result)) {
+			CE_LOG_ERROR("[CECookingFactory]: Failed to Cook ConvexMesh " + Mesh.ID)
+			OutData.Clear();
+			return FromPhysXCookingResult(Result);
+		}
+
+		CEMeshColliderData& Data = OutData.EmplaceBack();
+		Data.Size = Buffer.getSize();
+		Data.Data = new byte[Data.Size];
+		Data.Transform = Mesh.MainMeshData.Transform;
+		memcpy(Data.Data, Buffer.getData(), Data.Size);
+	}
+
+	return CECookingResult::Success;
 }
 
 //TODO: Implement
 CECookingResult CECookingFactory::CookTriangleMesh(const Mesh& Mesh, CEArray<CEMeshColliderData>& OutData) {
-	return {};
+
+
+	return CECookingResult::Success;
 }
 
 //TODO: Implement

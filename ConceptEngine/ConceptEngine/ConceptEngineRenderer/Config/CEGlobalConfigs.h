@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
 
+#include "../Time/CETimestamp.h"
+
 enum class EngineBoot {
 	Runtime,
 	DebugRuntime,

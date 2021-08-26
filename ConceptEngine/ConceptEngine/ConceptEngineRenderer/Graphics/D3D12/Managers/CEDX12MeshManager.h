@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../Graphics/Generic/Managers/CEMeshManager.h"
-#include "Utilities/MatrixUtilities.h"
+#include "../../../Utilities/MatrixUtilities.h"
 
 struct Vertex {
 	XMFLOAT3 Position;

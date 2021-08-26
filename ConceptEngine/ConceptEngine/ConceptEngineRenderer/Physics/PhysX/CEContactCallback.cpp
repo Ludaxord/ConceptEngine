@@ -1,6 +1,8 @@
 #include "CEContactCallback.h"
 
 #include "Physics/CEPhysicsActor.h"
+#include "Physics/CEPhysicsMaterial.h"
+#include "Rendering/Resources/Mesh.h"
 #include "Scene/CEScene.h"
 #include "Scene/Components/CETagComponent.h"
 

@@ -7,8 +7,8 @@
 #include "../../RenderLayer/CommandList.h"
 
 #include "../../Scene/AABB.h"
-#include "Core/Containers/CEUUID.h"
-#include "Graphics/D3D12/Managers/CEDX12MeshManager.h"
+#include "../../Core/Containers/CEUUID.h"
+#include "../../Graphics/D3D12/Managers/CEDX12MeshManager.h"
 
 struct MeshData;
 
