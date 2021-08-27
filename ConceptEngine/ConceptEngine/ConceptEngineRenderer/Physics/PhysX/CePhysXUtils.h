@@ -70,6 +70,16 @@ inline CECookingResult FromPhysXCookingResult(physx::PxConvexMeshCookingResult::
 	return CECookingResult::Failure;
 }
 
+inline CECookingResult FromPhysXCookingResult(physx::PxTriangleMeshCookingResult::Enum CookingResult) {
+	switch (CookingResult) {
+	case physx::PxTriangleMeshCookingResult::eSUCCESS: return CECookingResult::Success;
+	case physx::PxTriangleMeshCookingResult::eLARGE_TRIANGLE: return CECookingResult::LargeTriangle;
+	case physx::PxTriangleMeshCookingResult::eFAILURE: return CECookingResult::Failure;
+	}
+
+	return CECookingResult::Failure;
+}
+
 inline physx::PxTransform ToPhysXTransform(const DirectX::XMFLOAT3& Translation, const DirectX::XMFLOAT3 Rotation) {
 	return physx::PxTransform(ToPhysXVector(Translation),
 	                          ToPhysXQuat(DirectX::XMFLOAT4(Rotation.x, Rotation.y, Rotation.z, 0.0f))
