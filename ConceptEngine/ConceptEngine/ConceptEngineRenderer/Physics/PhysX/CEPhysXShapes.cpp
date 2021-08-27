@@ -134,7 +134,6 @@ void CESphereColliderShape::DetachFromActor(physx::PxRigidActor* Actor) {
 	Actor->detachShape(*Shape);
 }
 
-//TODO: Implement..
 CECapsuleColliderShape::CECapsuleColliderShape(CEColliderCapsuleComponent& Component,
                                                const CEPhysicsActor& PActor,
                                                Actor* OwningActor,
