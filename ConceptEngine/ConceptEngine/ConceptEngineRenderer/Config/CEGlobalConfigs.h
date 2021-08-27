@@ -136,7 +136,7 @@ struct CEPhysicsConfig {
 	XMFLOAT3 WorldBoundsMin = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	XMFLOAT3 WorldBoundsMax = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	uint32 WorldBoundsSubdivisions = 2;
-	PhysicsFrictionType FrctionModel = PhysicsFrictionType::Patch;
+	PhysicsFrictionType FrictionModel = PhysicsFrictionType::Patch;
 	uint32 SolverIterations = 6;
 	uint32 SolverVelocityIterations = 1;
 	bool DebugOnPlay = true;

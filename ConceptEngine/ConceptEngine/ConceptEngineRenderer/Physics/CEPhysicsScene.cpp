@@ -23,7 +23,7 @@ CEPhysicsScene::CEPhysicsScene(const CEPhysicsConfig& Config) : SubStepSize(Conf
 	SceneDesc.cpuDispatcher = &CEPhysX::GetCPUDispatcher();
 	SceneDesc.filterShader = (physx::PxSimulationFilterShader)CEPhysX::FilterShader;
 	SceneDesc.simulationEventCallback = &ContactCallback;
-	SceneDesc.frictionType = CEPhysX::GetPhysXFrictionType(Config.FrctionModel);
+	SceneDesc.frictionType = CEPhysX::GetPhysXFrictionType(Config.FrictionModel);
 
 	Assert(SceneDesc.isValid());
 
