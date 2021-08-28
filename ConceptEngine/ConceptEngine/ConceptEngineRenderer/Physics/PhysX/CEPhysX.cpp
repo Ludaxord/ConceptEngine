@@ -260,6 +260,10 @@ CEPhysicsActor* CEPhysX::CreateActor(Actor* InActor) {
 
 bool CEPhysX::CreateDebugger() {
 	PhysicsDebugger = new CEPhysXDebugger();
+	if (!PhysicsDebugger->Create()) {
+		CE_LOG_WARNING("[CEPhysX]: Failed to Create PhysX Debugger...");
+		return false;
+	}
 
 	return true;
 }
