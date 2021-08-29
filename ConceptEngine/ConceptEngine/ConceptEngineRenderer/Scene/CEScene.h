@@ -26,6 +26,8 @@ public:
 	void AddActor(Actor* InActor);
 	void AddLight(Light* InLight);
 
+	void AddPhysicsActors();
+
 	void OnAddedComponent(Component* NewComponent);
 
 	DirectX::XMFLOAT4X4 GetTransformRelativeToParent(Actor* Actor);

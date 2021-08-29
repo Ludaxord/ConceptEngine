@@ -68,7 +68,10 @@ bool CECore::Create() {
 		return false;
 	}
 
-	OpenProject();
+	if (!OpenProject()) {
+		CEPlatformMisc::MessageBox("Error", "Failed to Open Project...");
+		return false;
+	}
 
 	//TODO: Open Project && Call parsed members in Playground && Create Playgrounds based on Type of App like. Editor/Runtime/DebugRuntime etc... 
 	if (GPlayground == nullptr) {
@@ -84,6 +87,7 @@ bool CECore::Create() {
 		return false;
 	}
 
+	//TODO: Move Renderer before Playground Create
 	if (!Renderer->Create()) {
 		CEPlatformMisc::MessageBox("Error", "Failed to Create Renderer");
 		return false;

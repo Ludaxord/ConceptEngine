@@ -48,8 +48,6 @@ bool CEScene::Create() {
 
 	LoadedScenes[UUID] = this;
 
-
-
 	return true;
 }
 
@@ -89,13 +87,15 @@ void CEScene::AddActor(Actor* InActor) {
 	if (Component) {
 		AddMeshComponent(Component);
 	}
-
-	//TODO: Add RigidComponent
 }
 
 void CEScene::AddLight(Light* InLight) {
 	Assert(InLight != nullptr);
 	Lights.EmplaceBack(InLight);
+}
+
+void CEScene::AddPhysicsActors() {
+	CECore::GetPhysics()->CreateActors(this);
 }
 
 void CEScene::OnAddedComponent(Component* NewComponent) {

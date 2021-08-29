@@ -327,6 +327,9 @@ bool Sandbox::Create() {
 	Light4->SetIntensity(10.0f);
 	Scene->AddLight(Light4);
 
+	//TODO: Create Actors before Creating Scene, make sure that call AddPhysicsActors after Actors are added to Scene.
+	Scene->AddPhysicsActors();
+
 	return true;
 }
 
