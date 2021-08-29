@@ -8,4 +8,5 @@ public:
 
 	bool Create() override;
 	void Update(CETimestamp DeltaTime) override;
+	bool OpenProject() override;
 };

@@ -4,6 +4,8 @@
 #include "Graphics/CEGraphics.h"
 #include "Platform/CEPlatform.h"
 #include "Platform/Generic/Console/CETypedConsole.h"
+#include "Project/CEProject.h"
+#include "Project/CEProjectSerializer.h"
 
 CEDebugRuntime::CEDebugRuntime(CEEngineConfig& EConfig): CEDebugRuntime(EConfig, nullptr) {
 }
@@ -40,3 +42,19 @@ void CEDebugRuntime::Update(CETimestamp DeltaTime) {
 		CEProfiler::Update();
 	});
 }
+
+bool CEDebugRuntime::OpenProject() {
+	CEProject* Project = DBG_NEW CEProject();
+	CEProjectSerializer Serializer(Project);
+	if (!Serializer.Deserialize(ProjectPath)) {
+		CE_LOG_ERROR("[CERuntime]: Failed to Serialize Project");
+		return false;
+	}
+
+	CEProject::SetActive(Project);
+
+	//TODO: Create Scripting Engine and Load Assembly from loaded project file...
+
+	//TODO: Load Scene from project file...
+
+	return true;}

@@ -68,6 +68,9 @@ bool CECore::Create() {
 		return false;
 	}
 
+	OpenProject();
+
+	//TODO: Open Project && Call parsed members in Playground && Create Playgrounds based on Type of App like. Editor/Runtime/DebugRuntime etc... 
 	if (GPlayground == nullptr) {
 		GPlayground = CreatePlayground();
 	}

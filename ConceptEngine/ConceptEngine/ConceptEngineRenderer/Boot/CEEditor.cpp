@@ -64,3 +64,7 @@ bool CEEditor::Release() {
 	}
 
 	return true;}
+
+bool CEEditor::OpenProject() {
+	return false;
+}

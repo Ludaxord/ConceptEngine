@@ -12,6 +12,7 @@ public:
 	void Run() override;
 	void Update(CETimestamp DeltaTime) override;
 	bool Release() override;
+	bool OpenProject() override;
 
 private:
 	CETimer Timer;

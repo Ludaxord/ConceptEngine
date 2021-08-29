@@ -61,8 +61,12 @@ inline int EngineExec(ConceptEngine* Engine) {
 	return 0;
 }
 
-inline int Exec(const std::wstring& Name, GraphicsAPI GApi, PlatformBoot PBoot, ScriptingLanguage SLanguage,
-                EngineBoot EBoot, PhysicsLibrary PLibrary) {
+inline int Exec(const std::wstring& Name,
+                GraphicsAPI GApi,
+                PlatformBoot PBoot,
+                ScriptingLanguage SLanguage,
+                EngineBoot EBoot,
+                PhysicsLibrary PLibrary) {
 
 	auto Engine = new ConceptEngine(Name, GApi, PBoot, SLanguage, EBoot, PLibrary);
 	switch (GEngineConfig.EngineBoot) {

@@ -21,12 +21,14 @@ public:
 	virtual void Update(CETimestamp DeltaTime) = 0;
 	virtual bool Release() = 0;
 
+	virtual bool OpenProject() = 0;
+
 	static CEGraphics* GetGraphics();
 	static CECompiler* GetCompiler();
 	static CEPlatform* GetPlatform();
 	static CEPhysics* GetPhysics();
 	static CEPlayground* GetPlayground();
-	
+
 	inline static bool bIsRunning = false;
 	inline static bool bEnableDebug = false;
 
@@ -36,11 +38,12 @@ protected:
 	inline static CEPlatform* GPlatform;
 	inline static CEPhysics* GPhysics;
 
+	//TODO: Implement
+	std::string ProjectPath = "";
 private:
 	CEGraphics* SetGraphicsAPI(GraphicsAPI GApi);
 	CECompiler* SetLanguageCompiler(ScriptingLanguage SLanguage);
 	CEPlatform* SetPlatform(PlatformBoot PBoot);
 	CEPhysics* SetPhysics(PhysicsLibrary PLibrary);
-
 
 };
