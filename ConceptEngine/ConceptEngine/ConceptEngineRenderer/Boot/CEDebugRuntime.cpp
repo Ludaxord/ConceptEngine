@@ -7,6 +7,8 @@
 #include "Project/CEProject.h"
 #include "Project/CEProjectSerializer.h"
 
+#define TEST_RUNTIME 1
+
 CEDebugRuntime::CEDebugRuntime(CEEngineConfig& EConfig): CEDebugRuntime(EConfig, nullptr) {
 }
 
@@ -44,6 +46,10 @@ void CEDebugRuntime::Update(CETimestamp DeltaTime) {
 }
 
 bool CEDebugRuntime::OpenProject() {
+#if defined(TEST_RUNTIME)
+	return true;
+#endif
+
 	CEProject* Project = DBG_NEW CEProject();
 	CEProjectSerializer Serializer(Project);
 	if (!Serializer.Deserialize(ProjectPath)) {
@@ -57,4 +63,6 @@ bool CEDebugRuntime::OpenProject() {
 
 	//TODO: Load Scene from project file...
 
-	return true;}
+
+	return true;
+}
