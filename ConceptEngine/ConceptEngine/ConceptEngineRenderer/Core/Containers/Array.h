@@ -4,6 +4,7 @@
 #include "Allocator.h"
 
 #include <initializer_list>
+#include <vector>
 
 // CEArray - Dynamic Array similar to std::vector
 

@@ -25,7 +25,7 @@ bool CEProjectSerializer::Deserialize(const std::string& FilePath) {
 	if (!RootNode["Name"])
 		return false;
 
-	CEProjectConfig& Config = CurrentProject->Config;
+	auto& Config = CurrentProject->Config;
 	Config.Name = RootNode["Name"].as<std::string>();
 
 	Config.AssetDirectory = RootNode["AssetDirectory"].as<std::string>();

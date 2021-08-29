@@ -193,6 +193,8 @@
     <ClInclude Include="Platform\Windows\FileSystem\CEWindowsFileSystem.h" />
     <ClInclude Include="PreCompiled.h" />
     <ClInclude Include="Project\CEPlayground.h" />
+    <ClInclude Include="Project\CEProject.h" />
+    <ClInclude Include="Project\CEProjectSerializer.h" />
     <ClInclude Include="Rendering\DebugUI.h" />
     <ClInclude Include="Rendering\DeferredRenderer.h" />
     <ClInclude Include="Rendering\ForwardRenderer.h" />
@@ -364,6 +366,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Project\CEPlayground.cpp" />
+    <ClCompile Include="Project\CEProject.cpp" />
+    <ClCompile Include="Project\CEProjectSerializer.cpp" />
     <ClCompile Include="Rendering\DebugUI.cpp" />
     <ClCompile Include="Rendering\DeferredRenderer.cpp" />
     <ClCompile Include="Rendering\ForwardRenderer.cpp" />
@@ -501,7 +505,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;DEBUG_BUILD;COMPILER_VISUAL_STUDIO;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;DEBUG_BUILD;COMPILER_VISUAL_STUDIO;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;PLATFORM_WINDOWS;PX_DEBUG=1;PX_CHECKED=1;PX_NVTX=0;PX_SUPPORT_PVD=1;CMAKE_INTDIR="debug";_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PreCompiled.h</PrecompiledHeaderFile>

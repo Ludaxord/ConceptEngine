@@ -726,6 +726,12 @@
     <ClInclude Include="Utilities\MatrixUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Project\CEProject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\CEProjectSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">
@@ -1104,6 +1110,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Containers\CEUUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\CEProject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\CEProjectSerializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
