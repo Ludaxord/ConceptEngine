@@ -63,13 +63,13 @@ bool CEWindowsWindow::RegisterWindowClass() {
 	wndClass.cbSize = sizeof(WNDCLASSEX);
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
 	wndClass.lpfnWndProc = &CEWindows::MessageProc;
-	wndClass.hInstance = CEPlatform::ProjectConfig.PInstance;
+	wndClass.hInstance = CEPlatform::PlatformConfig.PInstance;
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wndClass.hIcon = static_cast<HICON>(LoadImage(CEPlatform::ProjectConfig.PInstance, nullptr, IMAGE_ICON, 32, 32, 0));
+	wndClass.hIcon = static_cast<HICON>(LoadImage(CEPlatform::PlatformConfig.PInstance, nullptr, IMAGE_ICON, 32, 32, 0));
     wndClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
 	wndClass.lpszMenuName = nullptr;
 	wndClass.lpszClassName = CEWindows::GetWindowClassName();
-	wndClass.hIconSm = static_cast<HICON>(LoadImage(CEPlatform::ProjectConfig.PInstance, nullptr, IMAGE_ICON, 16, 16, 0));
+	wndClass.hIconSm = static_cast<HICON>(LoadImage(CEPlatform::PlatformConfig.PInstance, nullptr, IMAGE_ICON, 16, 16, 0));
 
 	if (!RegisterClassExW(&wndClass)) {
 		CE_LOG_ERROR("[CEWindowsWindow]: Unable to register window class.\n")
@@ -138,7 +138,7 @@ bool CEWindowsWindow::Create(const std::wstring& InTitle, uint32 InWidth, uint32
 	                           InHeight,
 	                           NULL,
 	                           NULL,
-	                           CEPlatform::ProjectConfig.PInstance,
+	                           CEPlatform::PlatformConfig.PInstance,
 	                           NULL);
 
 	if (Window == NULL) {

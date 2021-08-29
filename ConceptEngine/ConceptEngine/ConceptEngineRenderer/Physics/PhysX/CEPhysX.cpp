@@ -89,8 +89,6 @@ void CEPhysXAssertHandler::operator()(const char* exp, const char* file, int lin
 }
 
 CEPhysX::CEPhysX() {
-	PhysicsManager = new CEPhysXManager();
-	PhysicsDebugger = new CEPhysXDebugger();
 }
 
 CEPhysX::~CEPhysX() {
@@ -109,6 +107,7 @@ bool CEPhysX::Create() {
 		return false;
 	}
 
+	PhysicsManager = new CEPhysXManager();
 	if (!PhysicsManager->Create()) {
 		CE_LOG_ERROR("[CEPhysX]: Failed to Create PhysXManager");
 		CEDebug::DebugBreak();
@@ -270,6 +269,10 @@ bool CEPhysX::CreateDebugger() {
 
 bool CEPhysX::CreateCookingFactory() {
 	CookingFactory = new CECookingFactory();
+	if (!CookingFactory->Create()) {
+		CE_LOG_ERROR("[CEPhysX]: Failed to create Cooking Factory");
+		return false;
+	}
 
 	return true;
 }

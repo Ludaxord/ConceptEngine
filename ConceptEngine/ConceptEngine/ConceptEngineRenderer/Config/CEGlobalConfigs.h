@@ -99,7 +99,7 @@ struct CEEngineConfig {
 	bool ShowConsole = false;
 };
 
-struct CEProjectConfig {
+struct CEPlatformConfig {
 public:
 	std::wstring PTitle;
 	HINSTANCE PInstance = NULL;
@@ -110,6 +110,17 @@ public:
 	std::string GetStringTitle() {
 		return std::string(PTitle.begin(), PTitle.end());
 	}
+};
+
+struct CEProjectConfig {
+	std::string Name;
+	std::string AssetDirectory;
+	std::string AssetRegistryPath;
+	std::string MeshPath;
+	std::string MeshSourcePath;
+	std::string ScriptModulePath;
+	std::string StartScene;
+	std::string ProjectDirectory;
 };
 
 enum class PhysicsFrictionType {

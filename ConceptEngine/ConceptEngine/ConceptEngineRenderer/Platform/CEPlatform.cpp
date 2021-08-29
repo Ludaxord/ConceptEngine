@@ -1,7 +1,7 @@
 #include "CEPlatform.h"
 
 bool CEPlatform::Create() {
-	ProjectConfig.PTitle = GEngineConfig.InstanceName;
+	PlatformConfig.PTitle = GEngineConfig.InstanceName;
 	return true;
 }
 

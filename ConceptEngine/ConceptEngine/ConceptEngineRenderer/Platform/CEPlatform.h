@@ -56,7 +56,7 @@ private:
 	virtual bool CreateInputManager() = 0;
 
 public:
-	inline static CEProjectConfig ProjectConfig;
+	inline static CEPlatformConfig ProjectConfig;
 	
 	inline static CEConsole* Console;
 	inline static CEInputManager* InputManager;
