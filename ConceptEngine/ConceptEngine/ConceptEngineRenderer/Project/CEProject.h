@@ -62,6 +62,7 @@ public:
 private:
 	void OnDeserialized();
 
+	friend class CEProjectSerializer;
 	CEProjectConfig Config;
 
 	inline static CEProject* ActiveProject = nullptr;

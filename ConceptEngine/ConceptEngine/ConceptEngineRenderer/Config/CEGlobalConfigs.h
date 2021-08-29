@@ -121,6 +121,8 @@ struct CEProjectConfig {
 	std::string ScriptModulePath;
 	std::string StartScene;
 	std::string ProjectDirectory;
+
+	CEArray<std::string> Scenes;
 };
 
 enum class PhysicsFrictionType {

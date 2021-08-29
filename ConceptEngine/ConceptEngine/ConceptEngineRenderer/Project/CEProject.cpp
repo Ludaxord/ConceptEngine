@@ -6,6 +6,7 @@ CEProject::CEProject() {
 CEProject::~CEProject() {
 }
 
+//TODO: Implement..
 void CEProject::SetActive(CEProject* Project) {
 
 	//TODO: Create Manager of Assets (To modify project file)
@@ -17,5 +18,6 @@ void CEProject::SetActive(CEProject* Project) {
 
 }
 
+//TODO: Implement..
 void CEProject::OnDeserialized() {
 }

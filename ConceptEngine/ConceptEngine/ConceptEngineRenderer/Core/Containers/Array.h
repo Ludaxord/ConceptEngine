@@ -56,6 +56,14 @@ public:
 		InternalConstruct(List.begin(), List.end());
 	}
 
+	CEArray(std::vector<T> Vector) noexcept
+		: Array(nullptr),
+		  ArraySize(0),
+		  ArrayCapacity(0),
+		  Allocator() {
+		InternalConstruct(Vector.begin(), Vector.end());
+	}
+
 	CEArray(const CEArray& Other) noexcept
 		: Array(nullptr)
 		  , ArraySize(0)

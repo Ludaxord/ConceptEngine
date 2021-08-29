@@ -51,3 +51,5 @@
 // Memory
 #include "Memory/CEMemory.h"
 #include "Memory/New.h"
+
+#include "yaml-cpp/yaml.h"
