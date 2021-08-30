@@ -27,7 +27,7 @@
     <ClInclude Include="Boot\CERuntime.h" />
     <ClInclude Include="Compiler\CECompiler.h" />
     <ClInclude Include="Compiler\CECppCompiler.h" />
-    <ClInclude Include="Compiler\CECSharpCompiler.h" />
+    <ClInclude Include="Compiler\CEMonoCompiler.h" />
     <ClInclude Include="Compiler\CEGraphsCompiler.h" />
     <ClInclude Include="Compiler\CEJSCompiler.h" />
     <ClInclude Include="Compiler\CEPyCompiler.h" />

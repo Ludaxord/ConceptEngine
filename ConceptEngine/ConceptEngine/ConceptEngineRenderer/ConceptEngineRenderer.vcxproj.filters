@@ -537,7 +537,7 @@
     <ClInclude Include="Compiler\CEPyCompiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Compiler\CECSharpCompiler.h">
+    <ClInclude Include="Compiler\CEMonoCompiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Compiler\CEJSCompiler.h">
