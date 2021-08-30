@@ -1,8 +1,7 @@
 #pragma once
 #include "CECompiler.h"
 
-
-class CEGraphsCompiler : public CECompiler {
+class CEMonoCompiler : public CECompiler {
 public:
 	void Create(const std::string& SourcePath) override;
 	void Release() override;

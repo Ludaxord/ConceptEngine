@@ -2,7 +2,7 @@
 
 #include "Callbacks/CEEngineController.h"
 #include "Compiler/CECppCompiler.h"
-#include "Compiler/CECSharpCompiler.h"
+#include "Compiler/CEMonoCompiler.h"
 #include "Compiler/CEGraphsCompiler.h"
 #include "Compiler/CEJSCompiler.h"
 #include "Compiler/CEPyCompiler.h"
@@ -142,7 +142,7 @@ CEGraphics* CECore::SetGraphicsAPI(GraphicsAPI GApi) {
 CECompiler* CECore::SetLanguageCompiler(ScriptingLanguage SLanguage) {
 	switch (SLanguage) {
 	case ScriptingLanguage::CSharp:
-		return new CECSharpCompiler();
+		return new CEMonoCompiler();
 	case ScriptingLanguage::Cpp:
 		return new CECppCompiler();
 	case ScriptingLanguage::Graphs:
