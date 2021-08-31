@@ -12,7 +12,7 @@ struct CESceneActorInstanceData {
 
 class CECompiler {
 public:
-	virtual void Create(const std::string& SourcePath) = 0;
+	virtual bool Create(const std::string& SourcePath) = 0;
 	virtual void Release() = 0;
 
 	virtual void OnSceneDestruct(CEUUID SceneID) = 0;

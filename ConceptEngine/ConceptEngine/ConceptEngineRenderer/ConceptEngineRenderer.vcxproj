@@ -270,6 +270,11 @@
     <ClCompile Include="Boot\CEDebugRuntime.cpp" />
     <ClCompile Include="Boot\CEEditor.cpp" />
     <ClCompile Include="Boot\CERuntime.cpp" />
+    <ClCompile Include="Compiler\CECppCompiler.cpp" />
+    <ClCompile Include="Compiler\CEGraphsCompiler.cpp" />
+    <ClCompile Include="Compiler\CEJSCompiler.cpp" />
+    <ClCompile Include="Compiler\CEMonoCompiler.cpp" />
+    <ClCompile Include="Compiler\CEPyCompiler.cpp" />
     <ClCompile Include="ConceptEngine.cpp" />
     <ClCompile Include="Config\CEGlobalConfigs.cpp" />
     <ClCompile Include="Core\Application\Application.cpp" />

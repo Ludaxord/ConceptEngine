@@ -4,7 +4,7 @@
 
 class CEGraphsCompiler : public CECompiler {
 public:
-	void Create(const std::string& SourcePath) override;
+	bool Create(const std::string& SourcePath) override;
 	void Release() override;
 	void OnSceneDestruct(CEUUID SceneID) override;
 	bool LoadRuntimeScript(const std::string& ScriptPath) override;
