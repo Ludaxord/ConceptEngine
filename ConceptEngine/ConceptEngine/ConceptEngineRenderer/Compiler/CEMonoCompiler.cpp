@@ -1,5 +1,21 @@
 #include "CEMonoCompiler.h"
 
+#include <mono/metadata/object-forward.h>
+#include <mono/utils/mono-forward.h>
+
+static MonoDomain* CurrentMonoDomain = nullptr;
+static MonoDomain* NewMonoDomain = nullptr;
+static std::string CoreAssemblyPath;
+static CEScene* SceneContext;
+
+MonoImage* AppAssemblyImage = nullptr;
+MonoImage* CoreAssemblyImage = nullptr;
+
+static MonoMethod* GetMethod(MonoImage* Image, const std::string* MethodDesc);
+
+static MonoMethod* ExceptionMethod = nullptr;
+static MonoClass* EntityClass = nullptr;
+
 //TODO: Implement...
 bool CEMonoCompiler::Create(const std::string& SourcePath) {
 	return false;
