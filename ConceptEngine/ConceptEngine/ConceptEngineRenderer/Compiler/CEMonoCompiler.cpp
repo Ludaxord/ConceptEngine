@@ -11,10 +11,45 @@ static CEScene* SceneContext;
 MonoImage* AppAssemblyImage = nullptr;
 MonoImage* CoreAssemblyImage = nullptr;
 
-static MonoMethod* GetMethod(MonoImage* Image, const std::string* MethodDesc);
+static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc);
 
 static MonoMethod* ExceptionMethod = nullptr;
 static MonoClass* EntityClass = nullptr;
+
+struct CEMonoScriptClass {
+	std::string FullName;
+	std::string ClassName;
+	std::string NamespaceName;
+
+	MonoClass* Class = nullptr;
+	MonoMethod* Constructor = nullptr;
+	MonoMethod* OnCreate = nullptr;
+	MonoMethod* OnRelease = nullptr;
+	MonoMethod* OnUpdate = nullptr;
+	MonoMethod* OnPhysicsUpdate = nullptr;
+
+	MonoMethod* OnCollisionBegin = nullptr;
+	MonoMethod* OnCollisionEnd = nullptr;
+	MonoMethod* OnTriggerBegin = nullptr;
+	MonoMethod* OnTriggerEnd = nullptr;
+	MonoMethod* OnCollision2DBegin = nullptr;
+	MonoMethod* OnCollision2DEnd = nullptr;
+
+	void CreateClassMethods(MonoImage* Image) {
+		Constructor = GetMethod(CoreAssemblyImage, "");
+		OnCreate = GetMethod(Image, "");
+		OnRelease = GetMethod(Image, "");
+		OnUpdate = GetMethod(Image, "");
+		OnPhysicsUpdate = GetMethod(Image, "");
+
+		OnCollisionBegin = GetMethod(CoreAssemblyImage, "");
+		OnCollisionEnd = GetMethod(CoreAssemblyImage, "");
+		OnTriggerBegin = GetMethod(CoreAssemblyImage, "");
+		OnTriggerEnd = GetMethod(CoreAssemblyImage, "");
+		OnCollision2DBegin = GetMethod(CoreAssemblyImage, "");
+		OnCollision2DEnd = GetMethod(CoreAssemblyImage, "");
+	}
+};
 
 //TODO: Implement...
 bool CEMonoCompiler::Create(const std::string& SourcePath) {
