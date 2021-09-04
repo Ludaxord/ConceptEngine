@@ -16,7 +16,7 @@ static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc);
 static MonoMethod* ExceptionMethod = nullptr;
 static MonoClass* EntityClass = nullptr;
 
-struct CEMonoScriptClass {
+struct CEMonoActorClass {
 	std::string FullName;
 	std::string ClassName;
 	std::string NamespaceName;
@@ -36,18 +36,18 @@ struct CEMonoScriptClass {
 	MonoMethod* OnCollision2DEnd = nullptr;
 
 	void CreateClassMethods(MonoImage* Image) {
-		Constructor = GetMethod(CoreAssemblyImage, "");
-		OnCreate = GetMethod(Image, "");
-		OnRelease = GetMethod(Image, "");
-		OnUpdate = GetMethod(Image, "");
-		OnPhysicsUpdate = GetMethod(Image, "");
+		Constructor = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:.ctr(ulong)");
+		OnCreate = GetMethod(Image, ":OnCreate()");
+		OnRelease = GetMethod(Image, ":OnRelease()");
+		OnUpdate = GetMethod(Image, ":OnUpdate(Single)");
+		OnPhysicsUpdate = GetMethod(Image, ":OnPhysicsUpdate(Single)");
 
-		OnCollisionBegin = GetMethod(CoreAssemblyImage, "");
-		OnCollisionEnd = GetMethod(CoreAssemblyImage, "");
-		OnTriggerBegin = GetMethod(CoreAssemblyImage, "");
-		OnTriggerEnd = GetMethod(CoreAssemblyImage, "");
-		OnCollision2DBegin = GetMethod(CoreAssemblyImage, "");
-		OnCollision2DEnd = GetMethod(CoreAssemblyImage, "");
+		OnCollisionBegin = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnCollisionBegin(Single)");
+		OnCollisionEnd = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnCollisionEnd(Single)");
+		OnTriggerBegin = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnTriggerBegin(Single)");
+		OnTriggerEnd = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnTriggerEnd(Single)");
+		OnCollision2DBegin = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnCollision2DBegin(Single)");
+		OnCollision2DEnd = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnCollision2DEnd(Single)");
 	}
 };
 
