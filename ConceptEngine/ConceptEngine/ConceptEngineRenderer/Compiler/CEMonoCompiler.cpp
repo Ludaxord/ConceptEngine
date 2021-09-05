@@ -16,7 +16,7 @@ static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc);
 static MonoMethod* ExceptionMethod = nullptr;
 static MonoClass* EntityClass = nullptr;
 
-struct CEMonoActorClass {
+struct CEMonoScriptClass {
 	std::string FullName;
 	std::string ClassName;
 	std::string NamespaceName;
@@ -157,4 +157,57 @@ void CEMonoCompiler::InstanceActorClass(Actor* in_actor) {
 //TODO: Implement...
 void CEMonoCompiler::OnEditorRender() {
 	CECompiler::OnEditorRender();
+}
+
+//TODO: Implement...
+CEMonoPublicField::CEMonoPublicField(const std::string& InName, const std::string& InTypeName,
+                                     CEMonoFieldType InFieldType) {
+}
+
+//TODO: Implement...
+CEMonoPublicField::CEMonoPublicField(const CEMonoPublicField& PublicField) {
+}
+
+//TODO: Implement...
+CEMonoPublicField::CEMonoPublicField(CEMonoPublicField&& PublicField) {
+}
+
+//TODO: Implement...
+CEMonoPublicField::~CEMonoPublicField() {
+}
+
+//TODO: Implement...
+CEMonoPublicField& CEMonoPublicField::operator=(const CEMonoPublicField& PublicField) {
+}
+
+//TODO: Implement...
+void CEMonoPublicField::CopyStoredValueToRuntime(CEActorInstance& Instance) {
+}
+
+//TODO: Implement...
+bool CEMonoPublicField::IsRuntimeAvailable() const {
+}
+
+//TODO: Implement...
+void CEMonoPublicField::SetStoredValueRaw(void* Src) {
+}
+
+//TODO: Implement...
+uint8* CEMonoPublicField::AllocateBuffer(CEMonoFieldType Type) {
+}
+
+//TODO: Implement...
+void CEMonoPublicField::SetStoredValueInternal(void* Value) const {
+}
+
+//TODO: Implement...
+void CEMonoPublicField::GetStoredValueInternal(void* OutValue) const {
+}
+
+//TODO: Implement...
+void CEMonoPublicField::SetRuntimeValueInternal(CEActorInstance& Instance, void* Value) const {
+}
+
+//TODO: Implement...
+void CEMonoPublicField::GetRuntimeValueInternal(CEActorInstance& Instance, void* OutValue) const {
 }

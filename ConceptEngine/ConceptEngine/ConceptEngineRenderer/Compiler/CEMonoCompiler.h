@@ -1,5 +1,32 @@
 #pragma once
 #include "CECompiler.h"
+#include "CEMonoScriptModuleField.h"
+
+struct CEMonoScriptClass;
+
+extern "C" {
+typedef struct _MonoObject MonoObject;
+typedef struct _MonoClassField MonoClassField;
+typedef struct _MonoClass MonoClass;
+}
+
+struct CEActorInstance {
+	CEMonoScriptClass* ScriptClass = nullptr;
+
+	uint32 Handle = 0;
+	CEScene* SceneInstance = nullptr;
+
+	MonoObject* GetInstance();
+
+	bool IsRuntimeAvailable() const;
+};
+
+struct CEInstanceData {
+	CEActorInstance Instance;
+	CEMonoScriptModuleFieldMap ModuleFieldMap;
+};
+
+using CEActorInstanceMap = std::unordered_map<CEUUID, std::unordered_map<CEUUID, CEInstanceData>>;
 
 class CEMonoCompiler : public CECompiler {
 public:
