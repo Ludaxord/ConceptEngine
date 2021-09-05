@@ -1,6 +1,8 @@
 #include "CEMonoCompiler.h"
 
+#include <mono/metadata/image.h>
 #include <mono/metadata/object-forward.h>
+#include <mono/metadata/object.h>
 #include <mono/utils/mono-forward.h>
 
 static MonoDomain* CurrentMonoDomain = nullptr;
@@ -15,6 +17,11 @@ static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc);
 
 static MonoMethod* ExceptionMethod = nullptr;
 static MonoClass* EntityClass = nullptr;
+
+static MonoAssembly* AppAssembly = nullptr;
+static MonoAssembly* CoreAssembly = nullptr;
+
+static bool PostLoadCleanup = false;
 
 struct CEMonoScriptClass {
 	std::string FullName;
@@ -50,6 +57,72 @@ struct CEMonoScriptClass {
 		OnCollision2DEnd = GetMethod(CoreAssemblyImage, "ConceptEngine.CEActor:OnCollision2DEnd(Single)");
 	}
 };
+
+static std::unordered_map<std::string, CEMonoScriptClass> ScriptClassMap;
+
+//TODO: Implement...
+MonoAssembly* LoadAssemblyFromFile(const char* FilePath) {
+
+	return nullptr;
+}
+
+//TODO: Implement...
+static void CreateMono() {
+
+}
+
+//TODO: Implement...
+static void ReleaseMono() {
+
+}
+
+//TODO: Implement...
+static MonoAssembly* LoadAssembly(const std::string& Path) {
+
+}
+
+//TODO: Implement...
+static MonoImage* GetAssemblyImage(MonoAssembly* Assembly) {
+
+}
+
+//TODO: Implement...
+static MonoClass* GetClass(MonoImage* Image, const CEMonoScriptClass& ScriptClass) {
+
+}
+
+//TODO: Implement...
+static uint32 Instantiate(CEMonoScriptClass& ScriptClass) {
+
+}
+
+//TODO: Implement...
+static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc) {
+
+}
+
+//TODO: Implement...
+static std::string GetStringProperty(const char* PropertyName, MonoClass* ClassType, MonoObject* Object) {
+
+}
+
+//TODO: Implement...
+static MonoObject* CallMethod(MonoObject* Object, MonoMethod* Method, void** Params = nullptr) {
+
+}
+
+//TODO: Implement...
+static MonoString* GetName() {
+
+}
+
+//TODO: Implement...
+MonoObject* CEActorInstance::GetInstance() {
+}
+
+//TODO: Implement...
+bool CEActorInstance::IsRuntimeAvailable() const {
+}
 
 //TODO: Implement...
 bool CEMonoCompiler::Create(const std::string& SourcePath) {
