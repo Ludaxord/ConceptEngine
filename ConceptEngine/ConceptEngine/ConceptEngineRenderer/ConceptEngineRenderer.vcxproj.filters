@@ -732,6 +732,9 @@
     <ClInclude Include="Project\CEProjectSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Compiler\CEMonoScriptModuleField.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Windows\Windows.inl">

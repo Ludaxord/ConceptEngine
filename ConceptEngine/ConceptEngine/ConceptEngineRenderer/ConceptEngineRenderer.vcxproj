@@ -30,6 +30,7 @@
     <ClInclude Include="Compiler\CEMonoCompiler.h" />
     <ClInclude Include="Compiler\CEGraphsCompiler.h" />
     <ClInclude Include="Compiler\CEJSCompiler.h" />
+    <ClInclude Include="Compiler\CEMonoScriptModuleField.h" />
     <ClInclude Include="Compiler\CEPyCompiler.h" />
     <ClInclude Include="ConceptEngine.h" />
     <ClInclude Include="Config\CEGlobalConfigs.h" />

@@ -94,5 +94,4 @@ private:
 	friend class CEMonoCompiler;
 };
 
-
 using CEMonoScriptModuleFieldMap = std::unordered_map<std::string, std::unordered_map<std::string, CEMonoPublicField>>;
