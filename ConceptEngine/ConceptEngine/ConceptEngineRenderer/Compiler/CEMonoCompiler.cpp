@@ -118,10 +118,13 @@ static MonoString* GetName() {
 
 //TODO: Implement...
 MonoObject* CEActorInstance::GetInstance() {
+	Assert(Handle);
+	return mono_gchandle_get_target(Handle);
 }
 
 //TODO: Implement...
 bool CEActorInstance::IsRuntimeAvailable() const {
+	return Handle != 0;
 }
 
 //TODO: Implement...
