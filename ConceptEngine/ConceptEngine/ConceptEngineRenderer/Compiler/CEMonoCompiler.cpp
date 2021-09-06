@@ -201,13 +201,11 @@ static MonoString* GetName() {
 	return mono_string_new(CurrentMonoDomain, "Concept Engine...");
 }
 
-//TODO: Implement...
 MonoObject* CEActorInstance::GetInstance() {
 	Assert(Handle);
 	return mono_gchandle_get_target(Handle);
 }
 
-//TODO: Implement...
 bool CEActorInstance::IsRuntimeAvailable() const {
 	return Handle != 0;
 }
