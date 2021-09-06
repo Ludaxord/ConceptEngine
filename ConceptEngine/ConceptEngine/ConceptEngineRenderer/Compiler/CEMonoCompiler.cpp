@@ -159,7 +159,6 @@ static uint32 Instantiate(CEMonoScriptClass& ScriptClass) {
 	return Handle;
 }
 
-//TODO: Implement...
 static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc) {
 	MonoMethodDesc* Desc = mono_method_desc_new(MethodDesc.c_str(), NULL);
 	if (!Desc)
@@ -172,19 +171,34 @@ static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc) {
 	return Method;
 }
 
-//TODO: Implement...
 static std::string GetStringProperty(const char* PropertyName, MonoClass* ClassType, MonoObject* Object) {
-
+	MonoProperty* Property = mono_class_get_property_from_name(ClassType, PropertyName);
+	MonoMethod* GetterMethod = mono_property_get_get_method(Property);
+	MonoString* String = (MonoString*)mono_runtime_invoke(GetterMethod, Object, NULL, NULL);
+	return String != nullptr ? std::string(mono_string_to_utf8(String)) : "";
 }
 
-//TODO: Implement...
 static MonoObject* CallMethod(MonoObject* Object, MonoMethod* Method, void** Params = nullptr) {
+	MonoObject* Exception = nullptr;
+	MonoObject* Result = mono_runtime_invoke(Method, Object, Params, &Exception);
+	if (Exception) {
+		MonoClass* ExceptionClass = mono_object_get_class(Exception);
+		MonoType* ExceptionType = mono_class_get_type(ExceptionClass);
+		const char* TypeName = mono_type_get_name(ExceptionType);
+		std::string Message = GetStringProperty("Message", ExceptionClass, Exception);
+		std::string StackTrace = GetStringProperty("StackTrace", ExceptionClass, Exception);
 
+		CE_LOG_ERROR(std::string(TypeName) + " :" + Message + ". Stack Trace: " + StackTrace);
+
+		void* Args[] = {Exception};
+		Result = mono_runtime_invoke(ExceptionMethod, nullptr, Args, nullptr);
+	}
+
+	return Result;
 }
 
-//TODO: Implement...
 static MonoString* GetName() {
-
+	return mono_string_new(CurrentMonoDomain, "Concept Engine...");
 }
 
 //TODO: Implement...
