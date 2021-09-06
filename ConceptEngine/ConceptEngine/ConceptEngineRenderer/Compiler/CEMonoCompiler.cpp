@@ -5,6 +5,14 @@
 #include <mono/metadata/object.h>
 #include <mono/utils/mono-forward.h>
 
+#include <Windows.h>
+#include <winioctl.h>
+#include <mono/jit/jit.h>
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/debug-helpers.h>
+
+#include "RenderLayer/Buffer.h"
+
 static MonoDomain* CurrentMonoDomain = nullptr;
 static MonoDomain* NewMonoDomain = nullptr;
 static std::string CoreAssemblyPath;
@@ -60,45 +68,108 @@ struct CEMonoScriptClass {
 
 static std::unordered_map<std::string, CEMonoScriptClass> ScriptClassMap;
 
-//TODO: Implement...
 MonoAssembly* LoadAssemblyFromFile(const char* FilePath) {
+	if (FilePath == NULL) {
+		return NULL;
+	}
 
-	return nullptr;
+	HANDLE File = CreateFileA(FilePath, FILE_READ_ACCESS, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (File == INVALID_HANDLE_VALUE) {
+		return NULL;
+	}
+
+	DWORD FileSize = GetFileSize(File, NULL);
+	if (FileSize == INVALID_FILE_SIZE) {
+		CloseHandle(File);
+		return NULL;
+	}
+
+	void* FileData = malloc(FileSize);
+	if (FileData == NULL) {
+		CloseHandle(File);
+		return NULL;
+	}
+
+	DWORD Read = 0;
+	ReadFile(File, FileData, FileSize, &Read, NULL);
+	if (FileSize != Read) {
+		free(FileData);
+		CloseHandle(File);
+		return NULL;
+	}
+
+	MonoImageOpenStatus Status;
+	MonoImage* Image = mono_image_open_from_data_full(reinterpret_cast<char*>(FileData), FileSize, 1, &Status, 0);
+	if (Status != MONO_IMAGE_OK) {
+		return NULL;
+	}
+
+	auto Assembly = mono_assembly_load_from_full(Image, FilePath, &Status, 0);
+	free(FileData);
+	CloseHandle(File);
+	mono_image_close(Image);
+
+	return Assembly;
 }
 
-//TODO: Implement...
 static void CreateMono() {
-
+	Assert(!CurrentMonoDomain);
+	mono_set_assemblies_path("mono/lib");
+	auto Domain = mono_jit_init("ConceptEngine");
 }
 
 //TODO: Implement...
 static void ReleaseMono() {
-
 }
 
-//TODO: Implement...
 static MonoAssembly* LoadAssembly(const std::string& Path) {
+	MonoAssembly* Assembly = LoadAssemblyFromFile(Path.c_str());
+	if (!Assembly)
+		CE_LOG_ERROR("[CEMonoCompiler]: Could not load Assembly: " + Path)
+	else
+		CE_LOG_INFO("[CEMonoCompiler]: Successfully loaded Assembly: " + Path)
 
+	return Assembly;
 }
 
-//TODO: Implement...
 static MonoImage* GetAssemblyImage(MonoAssembly* Assembly) {
+	MonoImage* Image = mono_assembly_get_image(Assembly);
+	if (!Image)
+		CE_LOG_ERROR("[CEMonoCompiler]: mono_assembly_get_image Failed");
 
+	return Image;
 }
 
-//TODO: Implement...
 static MonoClass* GetClass(MonoImage* Image, const CEMonoScriptClass& ScriptClass) {
+	MonoClass* MonoClass =
+		mono_class_from_name(Image, ScriptClass.NamespaceName.c_str(), ScriptClass.ClassName.c_str());
+	if (!MonoClass)
+		CE_LOG_ERROR("[CEMonoCompiler]: mono_class_from_name Failed");
 
+	return MonoClass;
 }
 
-//TODO: Implement...
 static uint32 Instantiate(CEMonoScriptClass& ScriptClass) {
+	MonoObject* Instance = mono_object_new(CurrentMonoDomain, ScriptClass.Class);
+	if (!Instance)
+		CE_LOG_ERROR("[CEMonoCompiler]: mono_object_new Failed");
 
+	mono_runtime_object_init(Instance);
+	uint32 Handle = mono_gchandle_new(Instance, false);
+	return Handle;
 }
 
 //TODO: Implement...
 static MonoMethod* GetMethod(MonoImage* Image, const std::string& MethodDesc) {
+	MonoMethodDesc* Desc = mono_method_desc_new(MethodDesc.c_str(), NULL);
+	if (!Desc)
+		CE_LOG_ERROR("[CEMonoCompiler]: mono_method_desc_new Failed "+ MethodDesc);
 
+	MonoMethod* Method = mono_method_desc_search_in_image(Desc, Image);
+	if (!Method)
+		CE_LOG_WARNING("[CEMonoCompiler]: mono_method_desc_search_in_image Failed " + MethodDesc)
+
+	return Method;
 }
 
 //TODO: Implement...
