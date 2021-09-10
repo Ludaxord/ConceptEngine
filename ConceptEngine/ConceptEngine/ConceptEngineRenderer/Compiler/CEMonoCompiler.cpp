@@ -118,8 +118,8 @@ static void CreateMono() {
 	auto Domain = mono_jit_init("ConceptEngine");
 }
 
-//TODO: Implement...
 static void ReleaseMono() {
+	// mono_jit_cleanup(MonoDomain);
 }
 
 static MonoAssembly* LoadAssembly(const std::string& Path) {
