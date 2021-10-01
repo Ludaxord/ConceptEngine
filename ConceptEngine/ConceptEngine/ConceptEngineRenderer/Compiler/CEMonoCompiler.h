@@ -36,11 +36,11 @@ public:
 	bool LoadRuntimeScript(const std::string& ScriptPath) override;
 	bool LoadAppScript(const std::string& ScriptPath) override;
 	bool ReloadScript(const std::string& ScriptPath) override;
-	void SetSceneContext(const CEScene* Scene) override;
+	void SetSceneContext(CEScene* Scene) override;
 	const CEScene* GetCurrentSceneContext() override;
 	void OnCreateActor(Actor* InActor) override;
 	void OnUpdateActor(Actor* InActor, CETimestamp Timestamp) override;
-	void OnPhysicsUpdate(Actor* InActor) override;
+	void OnPhysicsUpdate(Actor* InActor, float FixedTimestamp) override;
 	void OnCollisionBegin(Actor* InActor) override;
 	void OnCollisionEnd(Actor* InActor) override;
 	void OnTriggerBegin(Actor* InActor) override;
@@ -50,6 +50,12 @@ public:
 	bool ModuleExists(const std::string& ModuleName) override;
 	void CreateActorScript(Actor* InActor) override;
 	void ReleaseActorScript(Actor* InActor, const std::string& ModuleName) override;
-	void InstanceActorClass(Actor* InActor) override;
+	void InstantiateActorClass(Actor* InActor) override;
 	void OnEditorRender() override;
+
+	CEActorInstanceMap GetActorInstanceMap();
+	CEInstanceData& GetInstanceData(CEUUID SceneID, CEUUID ActorID);
+
+	MonoObject* Construct(std::string& FullName, bool CalConstructor = true, void** Params = nullptr);
+	MonoClass* GetCoreClass(std::string& FullName);
 };

@@ -21,12 +21,12 @@ public:
 	virtual bool LoadAppScript(const std::string& ScriptPath) = 0;
 	virtual bool ReloadScript(const std::string& ScriptPath) = 0;
 
-	virtual void SetSceneContext(const CEScene* Scene);
+	virtual void SetSceneContext( CEScene* Scene);
 	virtual const CEScene* GetCurrentSceneContext();
 
 	virtual void OnCreateActor(Actor* InActor);
 	virtual void OnUpdateActor(Actor* InActor, CETimestamp Timestamp);
-	virtual void OnPhysicsUpdate(Actor* InActor);
+	virtual void OnPhysicsUpdate(Actor* InActor, float FixedTimestamp);
 
 	virtual void OnCollisionBegin(Actor* InActor);
 	virtual void OnCollisionEnd(Actor* InActor);
@@ -41,7 +41,7 @@ public:
 	virtual bool ModuleExists(const std::string& ModuleName);
 	virtual void CreateActorScript(Actor* InActor);
 	virtual void ReleaseActorScript(Actor* InActor, const std::string& ModuleName);
-	virtual void InstanceActorClass(Actor* InActor);
+	virtual void InstantiateActorClass(Actor* InActor);
 
 	virtual void OnEditorRender();
 };

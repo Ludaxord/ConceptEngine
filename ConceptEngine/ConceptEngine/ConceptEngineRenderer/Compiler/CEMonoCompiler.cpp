@@ -29,6 +29,8 @@ static MonoClass* EntityClass = nullptr;
 static MonoAssembly* AppAssembly = nullptr;
 static MonoAssembly* CoreAssembly = nullptr;
 
+static CEActorInstanceMap ActorInstanceMap;
+
 static bool PostLoadCleanup = false;
 
 struct CEMonoScriptClass {
@@ -210,17 +212,26 @@ bool CEActorInstance::IsRuntimeAvailable() const {
 	return Handle != 0;
 }
 
-//TODO: Implement...
 bool CEMonoCompiler::Create(const std::string& SourcePath) {
-	return false;
+	CreateMono();
+	if (!LoadRuntimeScript(SourcePath)) {
+		return false;
+	}
+
+	return true;
 }
 
-//TODO: Implement...
 void CEMonoCompiler::Release() {
+	ReleaseMono();
+	SceneContext = nullptr;
+	ActorInstanceMap.clear();
 }
 
-//TODO: Implement...
 void CEMonoCompiler::OnSceneDestruct(CEUUID SceneID) {
+	if (ActorInstanceMap.find(SceneID) != ActorInstanceMap.end()) {
+		ActorInstanceMap.at(SceneID).clear();
+		ActorInstanceMap.erase(SceneID);
+	}
 }
 
 //TODO: Implement...
@@ -238,49 +249,121 @@ bool CEMonoCompiler::ReloadScript(const std::string& ScriptPath) {
 	return false;
 }
 
-//TODO: Implement...
-void CEMonoCompiler::SetSceneContext(const CEScene* scene) {
+static std::unordered_map<std::string, MonoClass*> Classes;
+
+void CEMonoCompiler::SetSceneContext(CEScene* scene) {
 	CECompiler::SetSceneContext(scene);
+	Classes.clear();
+	SceneContext = scene;
 }
 
-//TODO: Implement...
 const CEScene* CEMonoCompiler::GetCurrentSceneContext() {
-	return CECompiler::GetCurrentSceneContext();
+	return SceneContext;
+}
+
+void CEMonoCompiler::OnCreateActor(Actor* InActor) {
+	CECompiler::OnCreateActor(InActor);
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	if (ActorInstance.ScriptClass->OnCreate)
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnCreate);
+}
+
+void CEMonoCompiler::OnUpdateActor(Actor* InActor, CETimestamp Timestamp) {
+	CECompiler::OnUpdateActor(InActor, Timestamp);
+	//TODO: Add Profiler
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	//TODO: Profiler Scope
+	if (ActorInstance.ScriptClass->OnUpdate) {
+		void* Args[] = {&Timestamp};
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnUpdate, Args);
+	}
+
+}
+
+void CEMonoCompiler::OnPhysicsUpdate(Actor* InActor, float FixedTimestamp) {
+	CECompiler::OnPhysicsUpdate(InActor, FixedTimestamp);
+	//TODO: Add Profiler
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	if (ActorInstance.ScriptClass->OnPhysicsUpdate) {
+		void* Args[] = {&FixedTimestamp};
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnPhysicsUpdate, Args);
+	}
+}
+
+void CEMonoCompiler::OnCollisionBegin(Actor* InActor) {
+	CECompiler::OnCollisionBegin(InActor);
+	//TODO: Add Profiler
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	if (ActorInstance.ScriptClass->OnCollisionBegin) {
+		float Value = 5.0f;
+		void* Args[] = {&Value};
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnCollisionBegin, Args);
+	}
+}
+
+void CEMonoCompiler::OnCollisionEnd(Actor* InActor) {
+	CECompiler::OnCollisionEnd(InActor);
+	//TODO: Add Profiler
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	if (ActorInstance.ScriptClass->OnCollisionEnd) {
+		float Value = 5.0f;
+		void* Args[] = {&Value};
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnCollisionEnd, Args);
+	}
+}
+
+void CEMonoCompiler::OnTriggerBegin(Actor* InActor) {
+	CECompiler::OnTriggerBegin(InActor);
+	//TODO: Add Profiler
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	if (ActorInstance.ScriptClass->OnTriggerBegin) {
+		float Value = 5.0f;
+		void* Args[] = {&Value};
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnTriggerBegin, Args);
+	}
+}
+
+void CEMonoCompiler::OnTriggerEnd(Actor* InActor) {
+	CECompiler::OnTriggerEnd(InActor);
+	//TODO: Add Profiler
+	CEActorInstance& ActorInstance = GetInstanceData(InActor->GetSceneUUID(), InActor->GetUUID()).Instance;
+	if (ActorInstance.ScriptClass->OnTriggerEnd) {
+		float Value = 5.0f;
+		void* Args[] = {&Value};
+		CallMethod(ActorInstance.GetInstance(), ActorInstance.ScriptClass->OnTriggerEnd, Args);
+	}
+}
+
+MonoObject* CEMonoCompiler::Construct(std::string& FullName, bool CallConstructor, void** Params) {
+	std::string NamespaceName;
+	std::string ClassName;
+	std::string ParameterList;
+
+	if (FullName.find(".") != std::string::npos) {
+		NamespaceName = FullName.substr(0, FullName.find_first_of('.'));
+		ClassName = FullName.substr(FullName.find_first_of(".") + 1,
+		                            (FullName.find_first_of(":") - FullName.find_first_of('.')) - 1);
+	}
+
+	if (FullName.find(":") != std::string::npos) {
+		ParameterList = FullName.substr(FullName.find_first_of(":"));
+	}
+
+	MonoClass* MClass = mono_class_from_name(CoreAssemblyImage, NamespaceName.c_str(), ClassName.c_str());
+	MonoObject* MObject = mono_object_new(mono_domain_get(), MClass);
+
+	if (CallConstructor) {
+		MonoMethodDesc* Desc = mono_method_desc_new(ParameterList.c_str(), NULL);
+		MonoMethod* Constructor = mono_method_desc_search_in_class(Desc, MClass);
+		MonoObject* Exception = nullptr;
+		mono_runtime_invoke(Constructor, MObject, Params, &Exception);
+	}
+
+	return MObject;
 }
 
 //TODO: Implement...
-void CEMonoCompiler::OnCreateActor(Actor* in_actor) {
-	CECompiler::OnCreateActor(in_actor);
-}
-
-//TODO: Implement...
-void CEMonoCompiler::OnUpdateActor(Actor* in_actor, CETimestamp timestamp) {
-	CECompiler::OnUpdateActor(in_actor, timestamp);
-}
-
-//TODO: Implement...
-void CEMonoCompiler::OnPhysicsUpdate(Actor* in_actor) {
-	CECompiler::OnPhysicsUpdate(in_actor);
-}
-
-//TODO: Implement...
-void CEMonoCompiler::OnCollisionBegin(Actor* in_actor) {
-	CECompiler::OnCollisionBegin(in_actor);
-}
-
-//TODO: Implement...
-void CEMonoCompiler::OnCollisionEnd(Actor* in_actor) {
-	CECompiler::OnCollisionEnd(in_actor);
-}
-
-//TODO: Implement...
-void CEMonoCompiler::OnTriggerBegin(Actor* in_actor) {
-	CECompiler::OnTriggerBegin(in_actor);
-}
-
-//TODO: Implement...
-void CEMonoCompiler::OnTriggerEnd(Actor* in_actor) {
-	CECompiler::OnTriggerEnd(in_actor);
+MonoClass* CEMonoCompiler::GetCoreClass(std::string& FullName) {
 }
 
 //TODO: Implement...
@@ -299,8 +382,8 @@ bool CEMonoCompiler::ModuleExists(const std::string& module_name) {
 }
 
 //TODO: Implement...
-void CEMonoCompiler::CreateActorScript(Actor* in_actor) {
-	CECompiler::CreateActorScript(in_actor);
+void CEMonoCompiler::CreateActorScript(Actor* InActor) {
+	CECompiler::CreateActorScript(InActor);
 }
 
 //TODO: Implement...
@@ -309,14 +392,29 @@ void CEMonoCompiler::ReleaseActorScript(Actor* in_actor, const std::string& modu
 }
 
 //TODO: Implement...
-void CEMonoCompiler::InstanceActorClass(Actor* in_actor) {
-	CECompiler::InstanceActorClass(in_actor);
+void CEMonoCompiler::InstantiateActorClass(Actor* InActor) {
+	CECompiler::InstantiateActorClass(InActor);
 }
 
 //TODO: Implement...
 void CEMonoCompiler::OnEditorRender() {
 	CECompiler::OnEditorRender();
 }
+
+CEActorInstanceMap CEMonoCompiler::GetActorInstanceMap() {
+	return ActorInstanceMap;
+}
+
+CEInstanceData& CEMonoCompiler::GetInstanceData(CEUUID SceneID, CEUUID ActorID) {
+	Assert(ActorInstanceMap.find(SceneID) != ActorInstanceMap.end());
+	auto& ActorIDMap = ActorInstanceMap.at(SceneID);
+
+	if (ActorIDMap.find(ActorID) == ActorIDMap.end())
+		CreateActorScript(SceneContext->GetActorByUUID(ActorID));
+
+	return ActorIDMap.at(ActorID);
+}
+
 
 //TODO: Implement...
 CEMonoPublicField::CEMonoPublicField(const std::string& InName, const std::string& InTypeName,
