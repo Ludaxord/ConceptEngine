@@ -1,5 +1,7 @@
 # Concept Engine (View Engine)
 
+TODO: Reimagine all project, make it more cappable of usage open world environment, for now make it only for windows and focus on gameplay environemnts, add editor, easy skeleton + meshes mapping. Meshes and textures managers. Visual editor for Montages, Blendspaces, visual effects, and AI.
+
 Game engine project, focused on develop cross-platform games and implements many types of AI used in game development.  
 
 # Platforms
